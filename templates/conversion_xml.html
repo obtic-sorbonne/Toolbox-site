@@ -1,0 +1,82 @@
+{% extends "layouts/corpus.html" %}
+{% block navigation %} {{ super() }} {% endblock %}
+{% block content %} {{ super() }} {% endblock %}
+
+{% block tool %}
+    <div class="outil" id="t3">
+      <h3>Conversion XML-TEI</h3>
+      <p>L'outil ci-dessous permet de transformer un texte brut en format XML-TEI. Il est nécessaire de spécifier les métadonnées dans le formulaire ci-dessous. Se référer au manuel TEI (<a href="https://tei-c.org/release/doc/tei-p5-doc/fr/html/ref-fileDesc.html#:~:text=Il%20fournit%20le%20titre%20et,dans%20l'en%2Dt%C3%AAte." target="_blank">section fileDesc</a>) pour plus d'information sur les différents champs de l'en-tête.</p>
+      <p>Le téléchargement du fichier XML-TEI généré démarrera automatiquement.</p>
+      <div id="divform">
+
+        <form action="{{ url_for('xmlconverter') }}" id="metadata-form" method="post" enctype="multipart/form-data">
+        <div id="div-metadata" class="column">
+          <fieldset>
+          <legend>Métadonnées</legend>
+          <p>Champ  titleStmt</p>
+          <label for="title" style="display:inline-block;width:102px;">title *</label>
+          <input type="text" name="title" id="title" required></p>
+
+          <label for="author" style="display:inline-block;width:102px;">author</label>
+          <input type="text" name="author" id="author">
+
+          <p>Champ respStmt</p>
+          <label for="nameresp" style="margin-left:12px;display:inline-block;width:90px;">name</label>
+          <input type="text" name="nameresp" id="nameresp">
+          <br/>
+          <label for="resp" style="margin-left:12px;display:inline-block;width:90px;">resp</label>
+          <input type="text" name="resp" id="resp">
+          <br/>
+          <label for="pubStmt">Champ publicationStmt *</label>
+          <p style="font-size:8px;">Entrer les noms des éditeurs séparés par un retour à la ligne</p>
+          <textarea cols="25" rows="3" id="pubStmt" name="pubStmt" placeholder="Publié par..." required></textarea>
+          <br/>
+          <label for="sourceDesc">Champ sourceDesc *</legend>
+          <textarea cols="25" rows="3" id="sourceDesc" name="sourceDesc" placeholder="Description bibliographique de la source" required></textarea>
+          </fieldset>
+        </div>
+
+        <div id="div-upload" class="column">
+          <fieldset style="padding:15px;">
+          <legend>Chargement du fichier</legend>
+          <input type="file" id="raw-text-file" name="file" accept=".txt">
+          </fieldset>
+          <button style="display:block;margin:auto;margin-top:20px;">Convertir en XML-TEI</button>
+        </div>
+          </form>
+      </div>
+    </div>
+<div class="outil" id="TM1">
+  <h3>Convertir output Brat à CSV</h3>
+  <p>Ce script prend les annotations dans le format standard BIOS et les met en corrélation par jeton de sorte que l'accord inter-annotateur puisse être calculé. Pour calculer l'accord inter-annotateur, voir la section "Détection des entités nommées" sous "Fouille de texte".</p>
+  <p>Le téléchargement du fichier CSV généré démarrera automatiquement.</p>
+  <div id="divform">
+    <form action="{{ url_for('bios_converter') }}" id="metadata-form" method="post" enctype="multipart/form-data">
+      <div id="div-metadata" class="column">
+      <fieldset>
+	      <legend>Annotateur A</legend>
+    	  <p>Saisissez le nom ou une étiquette pour l'ensemble de balises du premier annotateur.</p>
+		  <label for="annotator_a" style="display:inline-block;width:102px;">Annotator A étiquette</label>
+			<input type="text" name="annotator_a" id="annotator_a" required></p>
+    	  <label for="annotator_a" style="display:inline-block;width:102px;">Chargement du fichier A</label>
+	      <input type="file" id="raw-text-file" name="file1" accept=".tsv">
+      </fieldset>
+      </div>
+
+      <div id="div-metadata" class="column">
+      <fieldset>
+	      <legend>Annotateur B</legend>
+    	  <p>Saisissez le nom ou une étiquette pour l'ensemble de balises du deuxieme annotateur.</p>
+		  <label for="annotator_b" style="display:inline-block;width:102px;">Annotator B étiquette</label>
+			<input type="text" name="annotator_b" id="annotator_b" required></p>
+    	  <label for="annotator_b" style="display:inline-block;width:102px;">Chargement du fichier B</label>
+	      <input type="file" id="raw-text-file" name="file2" accept=".tsv">
+      </fieldset>
+      </div>
+  </div>
+          <button style="display:block;margin:auto;margin-top:20px;">Convertir en CSV</button>
+</form>
+</div>
+
+  </div><!--fin CORPUS-->
+{% endblock %}

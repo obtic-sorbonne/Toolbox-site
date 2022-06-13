@@ -1,0 +1,21 @@
+{% extends "layouts/main.html" %}
+{% block navigation %}
+  <nav>
+  <ul>
+    <li><a href="{{ url_for('outils_corpus') }}"><i class="fas fa-book-open"></i> <em>Corpus</em></a></li>
+    <li><a href="{{ url_for('outils_fouille') }}" class="active"><i class="fa-solid fa-magnifying-glass"></i> <em>Fouille de texte</em></a></li>
+    <li><a href="{{ url_for('outils_visualisation') }}"><i class="fa-solid fa-chart-column"></i> <em>Visualisation</em></a></li>
+  </ul>
+  </nav>
+{% endblock %}
+
+{% block content %}
+  <h2>Fouille de texte</h2>
+  <div class="tools">
+  <ul>
+    <li><i class="fa-solid fa-address-card"></i><a href="{{ url_for('entites_nommees') }}">Détection des entités nommées</a></li>
+  </ul>
+  </div>
+
+  {% block tool %}{% endblock %}
+{% endblock %}

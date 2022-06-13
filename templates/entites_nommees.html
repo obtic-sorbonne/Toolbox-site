@@ -1,0 +1,44 @@
+{% extends "layouts/fouille_de_texte.html" %}
+{% block navigation %} {{ super() }} {% endblock %}
+{% block content %} {{ super() }} {% endblock %}
+
+{% block tool %}
+<div class="outil" id="TM1">
+  <h3>Détection des entités nommées</h3>
+  <p>Annote un fichier XML-TEI avec un moteur de reconnaissance d'entités nommées. Par défaut, parcourt les balises &lt;p&gt; à l'intérieur de la balise &lt;text&gt; pour récupérer le contenu textuel du fichier. Les mentions trouvées seront entourées par des balises &lt;Entity&gt;, le type de l'entité sera écrit dans l'attribut <i>annotation</i>.</p>
+  <p>L'utilisation de cette balise &lt;Entity&gt; rend utilisable le XML en sortie dans la plateforme <a href="https://obvil.huma-num.fr/ariane">Ariane</a>.</p>
+  <p><b>ATTENTION :</b> ce script détruit la structuration et le formattage à l'intérieur des balises parcourues.</p>
+  <p>Le téléchargement du fichier XML-TEI généré démarrera automatiquement.</p>
+  <div id="divform">
+    <form action="{{ url_for('named_entity_recognition') }}" id="metadata-form" method="post" enctype="multipart/form-data">
+      <fieldset>
+      <legend>Configuration</legend>
+      <p>XML</p>
+      <label for="balise_racine" style="display:inline-block;width:110px;">balise racine</label>
+      <input type="text" name="balise_racine" id="balise_racine" value="text" required></p>
+      <label for="balise_parcours" style="display:inline-block;width:110px;">balises à parcourir</label>
+      <input type="text" name="balise_parcours" id="balise_parcours" value="p" required></p>
+      <label for="encodage" style="display:inline-block;width:110px;">encodage</label>
+      <input type="text" name="encodage" id="encodage" value="UTF-8" required></p>
+
+      <p>Reconnaissance des entités nommées</p>
+      <label for="moteur_REN" style="display:inline-block;width:110px;">moteur de REN</label>
+      <select name="moteur_REN" id="moteur_REN">
+        <option value="spacy" selected="true">SpaCy</option>
+        <option value="flair">Flair</option>
+      </select>
+      <br />
+      <label for="modele_REN" style="display:inline-block;width:110px;">Modèle à utiliser</label>
+      <input type="text" name="modele_REN" id="modele_REN" value="fr_core_news_md" required></p>
+  </div>
+
+  <div id="div-upload" class="column">
+      <fieldset style="padding:15px;">
+      <legend>Chargement du fichier</legend>
+      <input type="file" id="raw-xml-file" name="file" accept=".xml">
+      </fieldset>
+      <button style="display:block;margin:auto;margin-top:20px;">Annoter en entités nommées</button>
+  </div>
+</form>
+</div>
+{% endblock %}

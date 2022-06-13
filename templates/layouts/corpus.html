@@ -1,0 +1,24 @@
+{% extends "layouts/main.html" %}
+{% block navigation %}
+  <nav>
+  <ul>
+    <li><a href="{{ url_for('outils_corpus') }}" class="active"><i class="fas fa-book-open"></i> <em>Corpus</em></a></li>
+    <li><a href="{{ url_for('outils_fouille') }}"><i class="fa-solid fa-magnifying-glass"></i> <em>Fouille de texte</em></a></li>
+    <li><a href="{{ url_for('outils_visualisation') }}"><i class="fa-solid fa-chart-column"></i> <em>Visualisation</em></a></li>
+  </ul>
+  </nav>
+{% endblock %}
+
+{% block content %}
+  <h2>Corpus</h2>
+  <div class="tools">
+    <ul>
+      <li><i class="fa-solid fa-file-image"></i><a href="{{ url_for('numeriser') }}">Numériser (OCR)</a></li>
+      <li><i class="fa-solid fa-file-circle-plus"></i><a href="{{ url_for('creer_corpus') }}">Créer un corpus (Wikisource)</a></li>
+      <li><i class="fa-solid fa-file-code"></i><a href="{{ url_for('conversion_xml') }}">Conversion XML-TEI</a></li>
+      <li><i class="fa-solid fa-spell-check"></i><a href="{{ url_for('correction_erreur') }}">Correction d'erreur</a></li>
+    </ul>
+  </div>
+
+  {% block tool %}{% endblock %}
+{% endblock %}

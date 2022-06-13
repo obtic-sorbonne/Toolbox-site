@@ -1,0 +1,38 @@
+{% extends "layouts/corpus.html" %}
+{% block navigation %}
+  <nav>
+  <ul>
+    <li><a href="{{ url_for('outils_corpus') }}" class="active"><i class="fas fa-book-open"></i> <em>Corpus</em></a></li>
+    <li><a href="{{ url_for('outils_fouille') }}"><i class="fa-solid fa-magnifying-glass"></i> <em>Fouille de texte</em></a></li>
+    <li><a href="{{ url_for('outils_visualisation') }}"><i class="fa-solid fa-chart-column"></i> <em>Visualisation</em></a></li>
+  </ul>
+  </nav>
+{% endblock %}
+
+{% block content %} {{ super() }} {% endblock %}
+
+
+{% block tool %}
+<div class="outil">
+<h3>Numériser (OCR/HTR)</h3>
+
+    <h4>Tesseract</h4>
+    <p>L'outil Tesseract permet de numériser des fichiers imprimés.</p>
+    <p>Formats possibles pour les fichiers d'entrée : PNG, JPG, TIFF, PDF.</p>
+    <div id="tess-form">
+    <fieldset><legend>Tesseract</legend>
+    <form action="{{ url_for('run_tesseract') }}" id="tesseract-form" method="post" enctype="multipart/form-data">
+      <label for="model">Modèle</label>
+      <select name="tessmodel" id="tessmodel">
+        <option value="fra">Français (fra)</option>
+        <option value="eng">Anglais (eng)</option>
+        <option value="frk">Fraktur (frk)</option>
+	<option value="spa_old">Espagnol ancien (spa_old)</option>
+      </select>
+      <input type="file" name="tessfiles" accept="image/jpeg,image/png,application/pdf,image/tif,image/tiff" multiple/>
+      </fieldset>
+      <button style="display:block;margin:auto;">Numériser</button>
+    </form>
+    </div>
+</div>
+{% endblock %}

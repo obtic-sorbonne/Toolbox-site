@@ -1,0 +1,25 @@
+{% extends "layouts/main.html" %}
+{% block navigation %}
+  <nav>
+  <ul>
+    <li><a href="{{ url_for('outils_corpus') }}"><i class="fas fa-book-open"></i> <em>Corpus</em></a></li>
+    <li><a href="{{ url_for('outils_fouille') }}"><i class="fa-solid fa-magnifying-glass"></i> <em>Fouille de texte</em></a></li>
+    <li><a href="{{ url_for('outils_visualisation') }}" class="active"><i class="fa-solid fa-chart-column"></i> <em>Visualisation</em></a></li>
+  </ul>
+  </nav>
+{% endblock %}
+
+{% block content %}
+  <h2>Visualisation</h2>
+  <div class="tools" style="width:900px">
+    <ul>
+      <li><i class="fa-solid fa-map-location-dot"></i><a href="https://obtic.sorbonne-universite.fr/tanagra/map" target="_blank">Tanagra</a></li>
+      <li><i class="fa-solid fa-magnifying-glass-chart"></i><a href="https://obvil.huma-num.fr/ariane/" target="_blank">Ariane</a></li>
+    </ul>
+
+    <h3>Tanagra</h3>
+    <p>Tanagra détecte les noms de lieux dans du texte et les place sur une carte. Langues supportées : français, anglais et allemand. </p>
+    <h3>Ariane</h3>
+    <p>Ariane est un outil d'analyse de corpus TEI qui permet de détecter et visualiser les sentiments selon une classification fine et avec la possibilité de filtrer les segments selon leur polarité et/ou leurs étiquettes.</p>
+  </div>
+{% endblock %}

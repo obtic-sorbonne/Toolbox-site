@@ -1,0 +1,290 @@
+* {
+  margin: 0;
+  padding: 0;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+em {
+   font-weight: bold;
+   font-style: normal;
+}
+
+html{
+  height: 100%;
+}
+body{
+  height: 100%;
+  overflow: hidden;
+}
+nav {
+  top: 10%;
+  text-align: center;
+  background-color: #25170e;
+  position: fixed;
+  z-index: 100;
+  height: 90%;
+  left: 0;
+  width: 15%;
+  font-weight: 400;
+}
+nav em {
+	font-size: 16px;
+	font-style:normal;
+	font-weight: normal;
+	/*text-transform: uppercase;*/
+	display: block;
+	margin-top: 15px;
+	color: #fff;
+}
+
+nav ul li a {
+	text-align: center;
+}
+
+nav ul {
+	position: relative;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+	text-align: left;
+	list-style-type: none;
+	height: 70%;
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-orient: vertical;
+	-webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+	-ms-flex-pack: distribute;
+  justify-content: space-around;
+}
+nav ul li {
+	text-align: center;
+	margin: 5px 0px;
+}
+nav a, nav a:visited, nav a:active {
+  color: #fff;
+}
+nav a {
+	text-decoration: none;
+	display: inline-block;
+	width: 80%;
+	padding: 15px 0px;
+	position: relative;
+	z-index: 0;
+	transition: all .5s;
+}
+nav a.active {
+  background-color: rgba(0,0,0,0.8);
+  border: 1px solid #132743;
+}
+
+nav a:hover{
+  background-color: rgba(0,0,0,0.8);
+  color:#fff;
+}
+
+nav a::before {
+  content: "";
+  position: absolute;
+  height: 0%;
+  width: 0%;
+  bottom: 0;
+  left: 0;
+  opacity: 1;
+  z-index: -1;
+}
+.logo {
+  margin-top: 0px;
+  top: 0;
+  left: 0;
+  z-index: 999;
+  position: fixed;
+  display: inline-block;
+  text-align: center;
+  background-color: #111C2D; /*faf5b2*/
+  height: 10%;
+  width: 100%;
+}
+.logo img{
+  position:absolute;
+  top:5px;
+  left:30px;
+  width:55px;
+}
+.logo h1 {
+  font-size: 28px;
+  /*text-transform: uppercase;*/
+  font-weight: 900;
+  color: #fff; /*#111;*/
+  top: 50%;
+  left: 160px;
+  position: absolute;
+  transform: translate(-50%, -50%);
+}
+.content{
+position: fixed;
+top:10%;
+height: 90%;
+width:100%;
+margin-left:15%;
+background-color:#c6b09e;
+display: block;
+overflow: scroll;
+}
+
+.content h2{
+  margin-left: 6%;
+  margin-top: 3%;
+  margin-bottom:12px;
+  color:#fff;
+  font-size: 30px;
+}
+
+.presentation{
+ width:70%;
+ margin:35px;	
+}
+
+.presentation p{
+  padding:8px 22px;
+}
+
+.tools{
+  margin-left: 10%;
+  margin-top:30px;
+}
+
+.tools ul{
+  list-style-type: none;
+}
+
+.tools ul li{
+  margin:8px 0px;
+  padding:18px;
+  background-color: #F3D5BD;
+  width:410px;
+  border-radius: 3px;
+  text-align:center;
+}
+.tools ul li:hover {
+  cursor:pointer;
+}
+
+.tools ul li a{
+  text-decoration: none;
+  padding:18px;
+  font-size:16px;
+  color:#111C2D;
+}
+.tools ul li i{
+  font-size:20px;
+  margin-right: 10px;
+  float:left;
+}
+
+.outil{
+  margin-right: 30%;
+  margin-left: 10%;
+  margin-top:50px;
+  font-size: 13px;
+}
+.outil h3{
+  text-align: center;
+  font-size: 30px;
+  font-family: 'Roboto', sans-serif;
+  margin:15px 0;
+  padding:25px;
+}
+.outil h4{
+  margin-top:30px;
+  margin-bottom: 10px;
+}
+
+input[type=text]{
+  padding:2px 3px;
+}
+
+#wikiscraper{
+  font-family: 'Roboto', sans-serif;
+}
+#wikiscraper label{
+  padding:20px;
+}
+#wikiscraper button{
+  margin:12px;
+}
+
+button{
+  background-color: #008CBA;
+  border: none;
+  color: white;
+  padding: 12px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+  border-radius: 4px;
+}
+
+button:hover{
+  cursor: pointer;
+}
+
+#urlform textarea{
+  width:70%;
+  padding:3px 5px;
+}
+
+#urlform input[type=text]{
+	margin:8px;
+	width:60%;
+}
+#urlform .addbutton{
+  padding:8px;
+  background-color:#111C2D;
+  color:#fff;
+  border-radius:3px;
+  display:inline-block;
+  margin:8px;
+}
+.addbutton:hover{
+  cursor:pointer;
+}
+
+#t2{
+  height:700px;
+}
+
+#divform{
+  font-size:11px;
+  display: flex;
+}
+
+.column {
+  float: left;
+  width: 50%;
+}
+
+/* Clear floats after the columns */
+#divform:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+#divform input[type=text]{
+  width:52%;
+  margin: 4px 0;
+}
+
+fieldset{
+	margin:8px;
+	padding:4px 8px;
+}
+
+textarea{
+  padding:2px 3px;
+}

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <title>Toolbox</title>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="{{ url_for('static', filename= 'main.css') }}">
+
+  <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js" integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
+</head>
+<body>
+  <div class="logo">
+      <a href="{{ url_for('index') }}"><img alt="ObTIC" src="{{url_for('static', filename='img/ObTIC-logo-white.png')}}"/>
+      <h1>Toolbox</h1></a>
+  </div>
+  {% block navigation %}
+  <nav>
+    <ul>
+      <li><a href="{{ url_for('outils_corpus') }}" class="active"><i class="fas fa-book-open"></i> <em>Corpus</em></a></li>
+      <li><a href="{{ url_for('outils_fouille') }}"><i class="fa-solid fa-magnifying-glass"></i> <em>Fouille de texte</em></a></li>
+      <li><a href="{{ url_for('outils_visualisation') }}"><i class="fa-solid fa-chart-column"></i> <em>Visualisation</em></a></li>
+    </ul>
+  </nav>
+  {% endblock %}
+
+  <div class="content">
+      {% block content %}{% endblock %}
+  </div>
+</body>
+</html>
