@@ -57,6 +57,9 @@ def outils_visualisation():
 def numeriser():
 	return render_template('layouts/numeriser.html')
 
+@app.route('/normalisation')
+def normalisation():
+    return render_template('normalisation.html')
 #-----------------------------------------------------------------
 # NUMERISATION TESSERACT
 #-----------------------------------------------------------------

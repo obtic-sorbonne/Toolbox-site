@@ -10,6 +10,11 @@ em {
    font-style: normal;
 }
 
+@font-face {
+    font-family: 'Comprehension';
+    src: url("font/Comprehension-SemiBold.otf") format("opentype");
+}
+
 html{
   height: 100%;
 }
@@ -136,7 +141,7 @@ overflow: scroll;
 }
 
 .content h2{
-  margin-left: 6%;
+  margin-left: 4%;
   margin-top: 3%;
   margin-bottom:12px;
   color:#fff;
@@ -148,8 +153,12 @@ overflow: scroll;
  margin:35px;	
 }
 
-.presentation p{
-  padding:8px 22px;
+.rubrique{
+  padding:8px 32px;
+}
+
+.rubrique li{
+  padding:6px;
 }
 
 .tools{
