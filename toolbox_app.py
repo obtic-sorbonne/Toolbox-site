@@ -18,6 +18,7 @@ import shutil
 import subprocess
 import glob
 from pathlib import Path
+import jamspell
 
 UPLOAD_FOLDER = 'uploads'
 ROOT_FOLDER = Path(__file__).parent.absolute()
@@ -39,7 +40,7 @@ app.add_url_rule("/uploads/<name>", endpoint="download_file", build_only=True)
 @app.route('/')
 @app.route('/index')
 def index():
-    return render_template('index.html')
+	return render_template('index.html')
 
 @app.route('/outils_corpus')
 def outils_corpus():
@@ -59,7 +60,7 @@ def numeriser():
 
 @app.route('/normalisation')
 def normalisation():
-    return render_template('normalisation.html')
+	return render_template('normalisation.html')
 #-----------------------------------------------------------------
 # NUMERISATION TESSERACT
 #-----------------------------------------------------------------
@@ -77,8 +78,6 @@ def run_tesseract():
 
 		for f in uploaded_files:
 			filename, file_extension = os.path.splitext(f.filename)
-			print(filename)
-			print(file_extension)
 			output_name = filename + '.txt'
 			#------------------------------------------------------
 			# Fichier pdf
@@ -219,11 +218,58 @@ def xmlconverter():
 
 	return render_template("/conversion_xml")
 
-# Change if using middleware or HTTP server
-#@app.route('/uploads/<name>')
-#def download_file(name):
-#    return send_from_directory(app.config["UPLOAD_FOLDER"], name)
+@app.route('/autocorrect', methods=["GET", "POST"])
+@stream_with_context
+def autocorrect():
+	if request.method == 'POST':
+		uploaded_files = request.files.getlist("uploaded_files")
 
+		# Initialisation du correcteur
+		jsp = jamspell.TSpellCorrector()
+		assert jsp.LoadLangModel('fr.bin') # modèle de langue
+
+		# Nom de dossier aléatoire pour le résultat de la requête
+		rand_name =  'autocorrect_' + ''.join((random.choice(string.ascii_lowercase) for x in range(5)))
+		result_path = ROOT_FOLDER / os.path.join(app.config['UPLOAD_FOLDER'], rand_name)
+		os.mkdir(result_path)
+		print(result_path)
+
+		for f in uploaded_files:
+			filename, file_extension = os.path.splitext(f.filename)
+			output_name = filename + '_OK.txt'             # Texte corrigé
+			#tabfile_name = filename + '_corrections.tsv'   # Liste des corrections
+
+			byte_str = f.read()
+			f.close()
+
+			# Prétraitements du texte d'entrée
+			texte = byte_str.decode('UTF-8')
+			texte = re.sub(" +", " ", texte) # Suppression espaces multiples
+			texte = texte.replace("'", "’") # Guillemet français
+			phrases = sentencizer(texte)
+
+			with open(ROOT_FOLDER / os.path.join(result_path, output_name), 'a+', encoding="utf-8") as out:
+				for sent in phrases:
+					correction = jsp.FixFragment(sent)
+					out.write(correction)
+
+		# ZIP le dossier résultat
+		shutil.make_archive(result_path, 'zip', result_path)
+		output_stream = BytesIO()
+		with open(str(result_path) + '.zip', 'rb') as res:
+			content = res.read()
+		output_stream.write(content)
+		response = Response(output_stream.getvalue(), mimetype='application/zip',
+								headers={"Content-disposition": "attachment; filename=" + rand_name + '.zip'})
+		output_stream.seek(0)
+		output_stream.truncate(0)
+
+		# Nettoie le dossier de travail
+		shutil.rmtree(result_path)
+		
+		return response
+
+	return render_template('/correction_erreur.html')
 
 #-----------------------------------------------------------------
 # FONCTIONS de traitement
@@ -377,88 +423,103 @@ def named_entity_recognition():
 @app.route('/bios_converter', methods=["GET", "POST"])
 @stream_with_context
 def bios_converter():
-    fields = {}
-    if request.method == 'POST':
-        biosfile_a = request.files['file1']
-        biosfile_b = request.files['file2']
-        fields['annotator_a'] = request.form['annotator_a']
-        fields['annotator_b'] = request.form['annotator_b']
-        map_tag = {
-            'PER': 0,
-            'LOC': 1,
-            'MISC': 2,
-            'O': 4
-        }
-        #print('This is error output', file=sys.stderr)
-        annotations = []
-        csv_header = ['token']
-        csv_header.append(fields['annotator_a'])
-        csv_header.append(fields['annotator_b'])
-        annotation = []
-        filename_extensions = ("_a", "_b")
-        extension_address = 0
-        for f in [biosfile_a, biosfile_b]:
+	fields = {}
+	if request.method == 'POST':
+		biosfile_a = request.files['file1']
+		biosfile_b = request.files['file2']
+		fields['annotator_a'] = request.form['annotator_a']
+		fields['annotator_b'] = request.form['annotator_b']
+		map_tag = {
+			'PER': 0,
+			'LOC': 1,
+			'MISC': 2,
+			'O': 4
+		}
+		#print('This is error output', file=sys.stderr)
+		annotations = []
+		csv_header = ['token']
+		csv_header.append(fields['annotator_a'])
+		csv_header.append(fields['annotator_b'])
+		annotation = []
+		filename_extensions = ("_a", "_b")
+		extension_address = 0
+		for f in [biosfile_a, biosfile_b]:
 
 
-            filename = secure_filename(f.filename)
-            filename.replace(".tsv", "")
-            filename = filename + filename_extensions[extension_address] + ".tsv"
+			filename = secure_filename(f.filename)
+			filename.replace(".tsv", "")
+			filename = filename + filename_extensions[extension_address] + ".tsv"
 
-            path_to_file = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-            extension_address = extension_address + 1
-            f.save(path_to_file)
+			path_to_file = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+			extension_address = extension_address + 1
+			f.save(path_to_file)
 
 
-            with open(path_to_file, "r") as fin:
-                #print(path_to_file, file=sys.stderr)
-                for line in fin:
+			with open(path_to_file, "r") as fin:
+				#print(path_to_file, file=sys.stderr)
+				for line in fin:
 
-                    line = line.strip()
-                    if not line:
-                        continue
+					line = line.strip()
+					if not line:
+						continue
 
-                    annotation.append(line.split('\t'))
-                annotations.append(annotation)
+					annotation.append(line.split('\t'))
+				annotations.append(annotation)
 
-        output = []
-        for i in range(0, len(annotations[1])):
+		output = []
+		for i in range(0, len(annotations[1])):
 
-            line = []
-            for y in range(0, len(annotations)):
-                if y == 0:
-                    # on ajoute le token une seule fois
-                    line.append(annotations[y][i][0])
+			line = []
+			for y in range(0, len(annotations)):
+				if y == 0:
+					# on ajoute le token une seule fois
+					line.append(annotations[y][i][0])
 
-                # ajout du tag
-                tag = re.sub('[BIES]-', '', annotations[y][i][1])
-                line.append(map_tag[tag])
-            output.append(line)
+				# ajout du tag
+				tag = re.sub('[BIES]-', '', annotations[y][i][1])
+				line.append(map_tag[tag])
+			output.append(line)
 
-        fout = StringIO()
-        csv_writer = csv.writer(fout, delimiter=';')
-        csv_writer.writerow(csv_header)
-        csv_writer.writerows(output)
-        response = Response(fout.getvalue(), mimetype='application/xml',
-                            headers={"Content-disposition": "attachment; filename=outfile.tsv"})
-        fout.seek(0)
-        fout.truncate(0)
+		fout = StringIO()
+		csv_writer = csv.writer(fout, delimiter=';')
+		csv_writer.writerow(csv_header)
+		csv_writer.writerows(output)
+		response = Response(fout.getvalue(), mimetype='application/xml',
+							headers={"Content-disposition": "attachment; filename=outfile.tsv"})
+		fout.seek(0)
+		fout.truncate(0)
 
-        return response
+		return response
 
-    return render_template("/conversion_xml")
+	return render_template("/conversion_xml")
 
 
 #-----------------------------------------------------------------
 # Utils
 #-----------------------------------------------------------------
-"""from PIL import Image
+def sentencizer(text):
+	# Marqueurs de fin de phrase
+	split_regex=['\.{1,}','\!+','\?+']
+	delimiter_token='<SPLIT>'
 
-def isImg(filename):
-	try:
-    	im = Image.open(filename)
-    	return True
-    except IOError:
-    	return False"""
+	# Escape acronyms or abbreviations
+	regex_abbr = re.compile(r"\b(?:[a-zA-Z]\.){1,}")
+	abbr_list = re.findall(regex_abbr, text)
+	for i, abbr in enumerate(abbr_list):
+		text = text.replace(abbr, '<ABBR'+str(i)+'>')
+
+	# Find sentence delimiters
+	for regex in split_regex:
+		text = re.sub(regex, lambda x:x.group(0)+""+delimiter_token, text)
+
+	# Restore acronyms
+	text = re.sub(r"<ABBR([0-9]+)>", lambda x: abbr_list[int(x.group(1))], text)
+
+	# Phrases
+	sentences = [x for x in text.split(delimiter_token) if x !='']
+
+	return sentences
+
 
 if __name__ == "__main__":
 	app.run()

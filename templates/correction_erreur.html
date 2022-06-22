@@ -6,5 +6,16 @@
 <!-- CREATION CORPUS -->
   <div class="outil">
       <h3>Correction d'erreur</h3>
+      <p>Cet outil permet d'appliquer le correcteur orthographique <a href="https://jamspell.com/">JamSpell</a> sur des corpus bruités.</p>
+      <p>Format d'entrée supporté : texte brut (.txt) </p>
+      <p>Encodage : UTF-8</p>
+      <div style="margin:15px;">
+        <fieldset>
+        <legend>Correction d'erreurs</legend>
+        <form action="{{ url_for('autocorrect') }}" id="correction-form" method="post" enctype="multipart/form-data">
+          <input type="file" name="uploaded_files" accept="text/plain" multiple/><button style="display:inline-block;">Corriger</button>
+        </form>
+        </fieldset>
+      </div>
   </div>
 {% endblock %}

@@ -7,7 +7,7 @@
   <h3>Détection des entités nommées</h3>
   <p>Annote un fichier XML-TEI avec un moteur de reconnaissance d'entités nommées. Par défaut, parcourt les balises &lt;p&gt; à l'intérieur de la balise &lt;text&gt; pour récupérer le contenu textuel du fichier. Les mentions trouvées seront entourées par des balises &lt;Entity&gt;, le type de l'entité sera écrit dans l'attribut <i>annotation</i>.</p>
   <p>L'utilisation de cette balise &lt;Entity&gt; rend utilisable le XML en sortie dans la plateforme <a href="https://obvil.huma-num.fr/ariane">Ariane</a>.</p>
-  <p><b>ATTENTION :</b> ce script détruit la structuration et le formattage à l'intérieur des balises parcourues.</p>
+  <p><b>ATTENTION :</b> ce script détruit la structuration et le formatage à l'intérieur des balises parcourues.</p>
   <p>Le téléchargement du fichier XML-TEI généré démarrera automatiquement.</p>
   <div id="divform">
     <form action="{{ url_for('named_entity_recognition') }}" id="metadata-form" method="post" enctype="multipart/form-data">
