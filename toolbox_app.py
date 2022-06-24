@@ -234,8 +234,9 @@ def autocorrect():
 		uploaded_files = request.files.getlist("uploaded_files")
 
 		# Initialisation du correcteur
+		modelpath = str(ROOT_FOLDER) + url_for("static", filename="models/fr.bin")
 		jsp = jamspell.TSpellCorrector()
-		assert jsp.LoadLangModel('fr.bin') # modèle de langue
+		assert jsp.LoadLangModel(modelpath) # modèle de langue
 
 		# Nom de dossier aléatoire pour le résultat de la requête
 		rand_name =  'autocorrect_' + ''.join((random.choice(string.ascii_lowercase) for x in range(5)))
@@ -275,7 +276,7 @@ def autocorrect():
 
 		# Nettoie le dossier de travail
 		shutil.rmtree(result_path)
-		
+
 		return response
 
 	return render_template('/correction_erreur.html')
@@ -457,36 +458,51 @@ def named_entity_recognition():
 def bios_converter():
 	fields = {}
 	if request.method == 'POST':
+		# Read form parameters
 		biosfile_a = request.files['file1']
 		biosfile_b = request.files['file2']
-		fields['annotator_a'] = request.form['annotator_a']
-		fields['annotator_b'] = request.form['annotator_b']
-		map_tag = {
-			'PER': 0,
-			'LOC': 1,
-			'MISC': 2,
-			'O': 4
-		}
-		#print('This is error output', file=sys.stderr)
+		annotator_a = request.form.get('annotator_a')
+		annotator_b = request.form.get('annotator_b')
+		if not annotator_a:
+			annotator_a = 'A'
+			annotator_b = 'B'
+
+		# Parse both files to find all tags
+		pattern = re.compile("[BIES]-(.*)")
+		tagset = set()
+
+
 		annotations = []
-		csv_header = ['token']
-		csv_header.append(fields['annotator_a'])
-		csv_header.append(fields['annotator_b'])
+		csv_header = ['token', annotator_a, annotator_b]
 		annotation = []
 		filename_extensions = ("_a", "_b")
 		extension_address = 0
+		filenames = []
+
+		# Save files (BytesIO -> StringIO)
 		for f in [biosfile_a, biosfile_b]:
-
-
-			filename = secure_filename(f.filename)
-			filename.replace(".tsv", "")
+			filename, file_extension = os.path.splitext(secure_filename(f.filename))
 			filename = filename + filename_extensions[extension_address] + ".tsv"
-
 			path_to_file = os.path.join(app.config['UPLOAD_FOLDER'], filename)
 			extension_address = extension_address + 1
 			f.save(path_to_file)
+			filenames.append(path_to_file)
+
+			# Parse file to find all tags
+			with open(path_to_file, 'r') as f:
+				tsv = csv.reader(f, delimiter="\t")
+				for row in tsv:
+					m = pattern.match(row[1])
+					if m != None:
+						tagset.add(m.group(1))
+
+		# Map tag to number
+		map_tag = {"O" : 0}
+		for i, x in enumerate(tagset):
+			map_tag[x] = i + 1
 
 
+		for path_to_file in filenames:
 			with open(path_to_file, "r") as fin:
 				#print(path_to_file, file=sys.stderr)
 				for line in fin:
@@ -497,6 +513,8 @@ def bios_converter():
 
 					annotation.append(line.split('\t'))
 				annotations.append(annotation)
+
+			os.remove(path_to_file)
 
 		output = []
 		for i in range(0, len(annotations[1])):

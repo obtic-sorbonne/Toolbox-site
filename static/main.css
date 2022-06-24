@@ -34,7 +34,7 @@ nav {
   font-weight: 400;
 }
 nav em {
-	font-size: 16px;
+	font-size: 18px;
 	font-style:normal;
 	font-weight: normal;
 	/*text-transform: uppercase;*/
@@ -115,12 +115,12 @@ nav a::before {
 }
 .logo img{
   position:absolute;
-  top:5px;
+  top:8px;
   left:30px;
   width:55px;
 }
 .logo h1 {
-  font-size: 28px;
+  font-size: 34px;
   /*text-transform: uppercase;*/
   font-weight: 900;
   color: #fff; /*#111;*/
@@ -154,10 +154,12 @@ overflow: scroll;
 }
 
 .rubrique{
-  padding:8px 32px;
+  margin:35px;
+  padding:8px;
 }
 
 .rubrique li{
+  margin-left:5px;
   padding:6px;
 }
 
@@ -296,4 +298,41 @@ fieldset{
 
 textarea{
   padding:2px 3px;
+}
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black;
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  background-color: #fff;
+  color: #25170e;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  top: -5px;
+  left: 105%;
+
+  /* Position the tooltip */
+  position: absolute;
+  z-index: 1;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}
+
+.info{
+  margin:12px;
+  padding:8px;
+  background-color:rgba(255, 255, 255, .5);
+  border-radius:4px;
+}
+
+table td{
+  padding-right:4px;
 }
