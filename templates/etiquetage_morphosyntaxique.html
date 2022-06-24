@@ -1,0 +1,34 @@
+{% extends "layouts/fouille_de_texte.html" %}
+{% block navigation %} {{ super() }} {% endblock %}
+{% block content %} {{ super() }} {% endblock %}
+
+{% block tool %}
+<div class="outil" id="TM1">
+  <h3>Étiquetage morphosyntaxique</h3>
+
+  <p>Annote un fichier texte avec l'outil <a href="https://github.com/YoannDupont/SEM">SEM</a>.</p>
+  <p>Le document renvoyé est au format <a href="https://aclanthology.org/W03-0419/">CoNLL 2003</a> avec deux colonnes : une pour le mot et une pour l'étiquette morphosyntaxique.</p>
+  <br />
+  <p>La phrase suivante :</p>
+  <pre style="padding-left:30px">Le petit chat dort.</pre>
+  <br />
+  <p>Donnera la sortie :</p>
+  <table style="padding-left:30px">
+    <tr><td>Le</td><td>DET</td></tr>
+    <tr><td>petit</td><td>ADJ</td></tr>
+    <tr><td>chat</td><td>NC</td></tr>
+    <tr><td>dort</td><td>V</td></tr>
+    <tr><td>.</td><td>PONCT</td></tr>
+  </table>
+
+<form action="{{ url_for('pos_tagging') }}" id="metadata-form" method="post" enctype="multipart/form-data">
+  <div id="div-upload" class="column">
+      <fieldset style="padding:15px;">
+      <legend>Chargement du fichier</legend>
+      <input type="file" id="raw-text-file" name="file" accept=".txt">
+      </fieldset>
+      <button style="display:block;margin:auto;margin-top:20px;">Étiqueter en morphosyntaxe (.txt)</button>
+  </div>
+</form>
+</div>
+{% endblock %}

@@ -20,6 +20,11 @@ import glob
 from pathlib import Path
 import jamspell
 
+import sem
+import sem.storage
+import sem.exporters
+
+
 UPLOAD_FOLDER = 'uploads'
 ROOT_FOLDER = Path(__file__).parent.absolute()
 
@@ -150,6 +155,10 @@ def correction_erreur():
 @app.route('/entites_nommees')
 def entites_nommees():
 	return render_template('entites_nommees.html')
+
+@app.route('/etiquetage_morphosyntaxique')
+def etiquetage_morphosyntaxique():
+	return render_template('etiquetage_morphosyntaxique.html')
 
 @app.route('/generate_corpus',  methods=["GET","POST"])
 @stream_with_context
@@ -391,6 +400,29 @@ def generate_random_corpus(nb):
 
 	return all_texts
 #-----------------------------------------------------------------
+
+
+@app.route('/pos_tagging', methods=["POST"])
+@stream_with_context
+def pos_tagging():
+	path = str(ROOT_FOLDER) + url_for("static", filename="models/sem_pos")
+	pipeline = sem.load(path)
+	conllexporter = sem.exporters.CoNLLExporter()
+	f = request.files['file']
+	try:
+		contenu = f.read()
+	finally: # ensure file is closed
+		f.close()
+	document = pipeline.process_text(contenu.decode("utf-8"))
+	# Writing in stream
+	output_stream = BytesIO()
+	output = f.filename
+	output_stream.write(conllexporter.document_to_string(document, couples={"pos": "POS"}).encode("utf-8"))
+	response = Response(output_stream.getvalue(), mimetype='text/plain',
+						headers={"Content-disposition": "attachment; filename=" + output})
+	output_stream.seek(0)
+	output_stream.truncate(0)
+	return response
 
 
 @app.route('/named_entity_recognition', methods=["POST"])
