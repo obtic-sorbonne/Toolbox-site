@@ -1,13 +1,5 @@
 {% extends "layouts/main.html" %}
-{% block navigation %}
-  <nav>
-  <ul>
-    <li><a href="{{ url_for('outils_corpus') }}"><i class="fas fa-book-open"></i> <em>Corpus</em></a></li>
-    <li><a href="{{ url_for('outils_fouille') }}" class="active"><i class="fa-solid fa-pen-to-square"> <em>Annotation automatique</em></a></li>
-    <li><a href="{{ url_for('outils_visualisation') }}"><i class="fa-solid fa-chart-column"></i> <em>Visualisation</em></a></li>
-  </ul>
-  </nav>
-{% endblock %}
+{% block navigation %} {{ super() }} {% endblock %}
 
 {% block content %}
   <h2>Annotation automatique</h2>
