@@ -110,7 +110,7 @@ nav a::before {
   display: inline-block;
   text-align: center;
   background-color: #111C2D; /*faf5b2*/
-  height: 70px;
+  height: 85px;
   width: 100%;
 }
 .logo img{
@@ -131,7 +131,7 @@ nav a::before {
 }
 .content{
 position: fixed;
-top:10%;
+top:85px;
 height: 90%;
 width:100%;
 margin-left:15%;
