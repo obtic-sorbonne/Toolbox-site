@@ -3,14 +3,14 @@
   <nav>
   <ul>
     <li><a href="{{ url_for('outils_corpus') }}"><i class="fas fa-book-open"></i> <em>Corpus</em></a></li>
-    <li><a href="{{ url_for('outils_fouille') }}" class="active"><i class="fa-solid fa-magnifying-glass"></i> <em>Fouille de texte</em></a></li>
+    <li><a href="{{ url_for('outils_fouille') }}" class="active"><i class="fa-solid fa-pen-to-square"> <em>Annotation automatique</em></a></li>
     <li><a href="{{ url_for('outils_visualisation') }}"><i class="fa-solid fa-chart-column"></i> <em>Visualisation</em></a></li>
   </ul>
   </nav>
 {% endblock %}
 
 {% block content %}
-  <h2>Fouille de texte</h2>
+  <h2>Annotation automatique</h2>
   <div class="tools">
   <ul>
     <li><i class="fa-solid fa-tags"></i><a href="{{ url_for('etiquetage_morphosyntaxique') }}">Étiquetage morphosyntaxique</a></li>
