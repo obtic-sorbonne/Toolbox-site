@@ -23,7 +23,7 @@ body{
   overflow: hidden;
 }
 nav {
-  top: 10%;
+  top: 85px;
   text-align: center;
   background-color: #25170e;
   position: fixed;
