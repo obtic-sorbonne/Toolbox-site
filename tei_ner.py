@@ -27,6 +27,7 @@ from lxml import etree
 from io import BytesIO
 
 import spacy
+import fr_core_news_md
 
 from flair.data import Sentence as FlairSentence
 from flair.models import SequenceTagger
@@ -82,7 +83,11 @@ def tei_ner_params(contenu, racine, balise, moteur, modele, encodage="utf-8"):
 
     pipeline = loader(modele)
     label_function = get_label_function(moteur, pipeline)
-    tree = etree.parse(BytesIO(contenu))
+    try:
+        tree = etree.parse(BytesIO(contenu))
+    except XMLSyntaxError:
+        print("Erreur de syntaxe dans le fichier XML.")
+        pass
     return tei_ner(tree, racine, balise, label_function, iterator, encodage=encodage)
 
 
