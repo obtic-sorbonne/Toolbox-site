@@ -24,8 +24,8 @@ import sem
 import sem.storage
 import sem.exporters
 
-
 UPLOAD_FOLDER = 'uploads'
+MODEL_FOLDER = 'static/models'
 ROOT_FOLDER = Path(__file__).parent.absolute()
 
 app = Flask(__name__)
@@ -36,7 +36,7 @@ app.config['SESSION_TYPE'] = 'filesystem'
 
 app.config['MAX_CONTENT_LENGTH'] = 3 * 1024 * 1024 # Limit file upload to 3MB
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-
+app.config['MODEL_FOLDER'] = MODEL_FOLDER
 app.add_url_rule("/uploads/<name>", endpoint="download_file", build_only=True)
 
 #-----------------------------------------------------------------
@@ -66,6 +66,12 @@ def numeriser():
 @app.route('/normalisation')
 def normalisation():
 	return render_template('normalisation.html')
+
+
+@app.errorhandler(500)
+def internal_server_error(e):
+    return render_template('500.html'), 500
+
 #-----------------------------------------------------------------
 # NUMERISATION TESSERACT
 #-----------------------------------------------------------------
@@ -234,7 +240,7 @@ def autocorrect():
 		uploaded_files = request.files.getlist("uploaded_files")
 
 		# Initialisation du correcteur
-		modelpath = str(ROOT_FOLDER) + url_for("static", filename="models/fr.bin")
+		modelpath = str(ROOT_FOLDER / os.path.join(app.config['MODEL_FOLDER'], 'fr.bin'))
 		jsp = jamspell.TSpellCorrector()
 		assert jsp.LoadLangModel(modelpath) # modèle de langue
 
@@ -406,7 +412,7 @@ def generate_random_corpus(nb):
 @app.route('/pos_tagging', methods=["POST"])
 @stream_with_context
 def pos_tagging():
-	path = str(ROOT_FOLDER) + url_for("static", filename="models/sem_pos")
+	path = str(ROOT_FOLDER / os.path.join(app.config['MODEL_FOLDER'], 'sem_pos'))
 	pipeline = sem.load(path)
 	conllexporter = sem.exporters.CoNLLExporter()
 	f = request.files['file']

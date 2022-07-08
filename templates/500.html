@@ -1,0 +1,15 @@
+{% extends "index.html" %}
+{% block navigation %} {{ super() }} {% endblock %}
+{% block content %}
+<div class="content">
+<h2>Erreur 500</h2>
+<p style="margin-left:80px">Oups, une erreur est survenue sur notre serveur.</p>
+<br/>
+<div style="margin-left:25%;margin-top:30px;">
+<figure>
+<img src="{{url_for('static', filename='img/estampe_Vallotton.jpg')}}" alt="Estampe chats Félix Vallotton" style="width:250px;"/>
+<figcaption style="font-size:0.6em;font-style:italic;">Gravure sur bois, Félix Vallotton, 1893 (détail). <br/>Consultable sur <a href="https://gallica.bnf.fr/ark:/12148/btv1b69516686.item" target="_blank">Gallica</a>.</figcaption>
+</figure>
+<div>
+</div>
+{% endblock %}

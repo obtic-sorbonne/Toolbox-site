@@ -7,6 +7,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
 
   <title>Toolbox</title>
 
@@ -27,7 +28,8 @@
       <li><a href="{{ url_for('outils_visualisation') }}"><i class="fa-solid fa-chart-column"></i> <em>Visualisation</em></a></li>
     </ul>
   </nav>
-
+  
+  {% block content %}
   <div class="content">
   <div class="presentation">
   <h2 style="font-family:'Comprehension', serif;font-size:32px;">Le projet</h2>
@@ -55,5 +57,6 @@ pour les humanités numériques</i>, Démo TALN-RECITAL (à paraître)</li></ul>
   </div>
 </div>
   </div><!-- end content-->
+  {% endblock %}
 </body>
 </html>
