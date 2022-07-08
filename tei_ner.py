@@ -85,10 +85,10 @@ def tei_ner_params(contenu, racine, balise, moteur, modele, encodage="utf-8"):
 	label_function = get_label_function(moteur, pipeline)
 	try:
 		tree = etree.parse(BytesIO(contenu))
-	except XMLSyntaxError:
+        return tei_ner(tree, racine, balise, label_function, iterator, encodage=encodage)
+	except etree.XMLSyntaxError:
 		print("Erreur de syntaxe dans le fichier XML.")
 		pass
-	return tei_ner(tree, racine, balise, label_function, iterator, encodage=encodage)
 
 
 def tei_ner(arbre, racine, balise, annotateur, iterateur, encodage="utf-8"):
@@ -184,7 +184,7 @@ def main(
 			output_stream.write(
 				etree.tostring(tree, pretty_print=True, encoding="utf-8").decode("utf-8")
 			)
-	except XMLSyntaxError:
+	except etree.XMLSyntaxError:
 		pass
 
 
