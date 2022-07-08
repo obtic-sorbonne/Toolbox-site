@@ -179,14 +179,15 @@ def main(
 	label_function = get_label_function(annotateur, pipeline)
 	try:
 		tree = etree.parse(fichier)
+		tree = tei_ner(tree, racine, balise, label_function, iterator, encodage=encodage)
+		with open(sortie, "w", encoding="utf-8") as output_stream:
+			output_stream.write(
+				etree.tostring(tree, pretty_print=True, encoding="utf-8").decode("utf-8")
+			)
 	except XMLSyntaxError:
 		pass
-	tree = tei_ner(tree, racine, balise, label_function, iterator, encodage=encodage)
 
-	with open(sortie, "w", encoding="utf-8") as output_stream:
-		output_stream.write(
-			etree.tostring(tree, pretty_print=True, encoding="utf-8").decode("utf-8")
-		)
+
 
 
 if __name__ == "__main__":
