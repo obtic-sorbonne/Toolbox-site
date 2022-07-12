@@ -55,7 +55,10 @@ def spacy_iterate(doc):
 
 def flair_iterate(doc):
     for entity in doc.get_spans('ner'):
-        yield (entity.tag, entity.start_pos, entity.end_pos)
+        try:
+            yield (entity.tag, entity.start_position, entity.end_position)
+        except AttributeError:
+            yield (entity.tag, entity.start_pos, entity.end_pos)
 
 
 loaders = {
