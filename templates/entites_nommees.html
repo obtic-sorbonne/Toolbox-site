@@ -23,13 +23,18 @@
 
       <p>Reconnaissance des entités nommées</p>
       <label for="moteur_REN" style="display:inline-block;width:110px;">moteur de REN</label>
-      <select name="moteur_REN" id="moteur_REN">
+      <select name="moteur_REN" id="moteur_REN" onchange="detectChangeMoteur(this)">
         <option value="spacy" selected="true">SpaCy</option>
         <option value="flair">Flair</option>
       </select>
       <br />
       <label for="modele_REN" style="display:inline-block;width:110px;">Modèle à utiliser</label>
-      <input type="text" name="modele_REN" id="modele_REN" value="fr_core_news_md" required></p>
+      <select name="modele_REN" id="modele_REN" onchange="detectChange(this)">
+        <option value="fr_core_news_sm">fr_core_news_sm</option>
+        <option value="fr_core_news_md" selected="true">fr_core_news_md</option>
+        <option value="fr_core_news_lg">fr_core_news_lg</option>
+      </select>
+      <br />
   </div>
 
   <div id="div-upload" class="column">
@@ -41,4 +46,18 @@
   </div>
 </form>
 </div>
+
+<script type="text/javascript">
+function detectChangeMoteur(moteurREN) {
+    var modeleREN = document.getElementById("modele_REN");
+    if (moteurREN.value === "spacy") {
+        modeleREN.innerHTML = `
+        <option value="fr_core_news_sm">fr_core_news_sm</option>
+        <option value="fr_core_news_md" selected="true">fr_core_news_md</option>
+        <option value="fr_core_news_lg">fr_core_news_lg</option>`;
+    } else if (moteurREN.value === "flair") {
+        modeleREN.innerHTML = '<option value="flair/ner-french" selected="true">flair/ner-french</option>';
+    }
+}
+</script>
 {% endblock %}
