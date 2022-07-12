@@ -158,7 +158,7 @@ def run_tesseract():
 				os.remove(path_to_file)
 
 			else:
-				return render_template('layouts/numeriser', erreur="L'extension du fichier n'est pas reconnue.")
+				return render_template('layouts/numeriser.html', erreur="L'extension du fichier n'est pas reconnue.")
 
 		# ZIP le dossier résultat
 		shutil.make_archive(result_path, 'zip', result_path)
