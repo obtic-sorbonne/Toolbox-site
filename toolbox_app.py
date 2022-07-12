@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding:utf-8 -*-
 
-from flask import Flask, request, render_template, url_for, redirect, send_from_directory, Response, stream_with_context
+from flask import Flask, request, render_template, url_for, redirect, send_from_directory, Response, stream_with_context, session
 from werkzeug.utils import secure_filename
+from werkzeug.exceptions import HTTPException
 import os
 from io import StringIO, BytesIO
 import string
@@ -32,7 +33,7 @@ app = Flask(__name__)
 
 # App config
 app.config['SESSION_TYPE'] = 'filesystem'
-#app.config['SECRET_KEY'] = 'pakisqa'
+app.config['SECRET_KEY'] = 'pakisqa'
 
 app.config['MAX_CONTENT_LENGTH'] = 8 * 1024 * 1024 # Limit file upload to 8MB
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -77,6 +78,15 @@ def internal_server_error(e):
 @app.errorhandler(413)
 def file_too_big(e):
     return render_template('413.html'), 413
+
+@app.errorhandler(Exception)
+def handle_exception(e):
+    # pass through HTTP errors
+    if isinstance(e, HTTPException):
+        return e
+
+    # now you're handling non-HTTP exceptions only
+    return render_template("500_custom.html", e=e), 500
 
 #-----------------------------------------------------------------
 # NUMERISATION TESSERACT
@@ -130,7 +140,10 @@ def run_tesseract():
 
 				for png_file in png_list:
 					output_txt = os.path.splitext(png_file)[0]
-					subprocess.run(['tesseract', '-l', model, png_file, output_txt])
+					try:
+						subprocess.run(['tesseract', '-l', model, png_file, output_txt])
+					except:
+						raise Exception("Tesseract a rencontré un problème lors de la lecture du fichier {}".format(filename))
 
 					with open(output_txt + '.txt', 'r', encoding="utf-8") as ftxt:
 						final_output += ftxt.read()
@@ -147,18 +160,17 @@ def run_tesseract():
 				# Sauvegarde de l'image
 				path_to_file = ROOT_FOLDER / os.path.join(app.config['UPLOAD_FOLDER'], secure_filename(f.filename))
 				f.save(path_to_file)
-				print(path_to_file)
 
 				# Tesseract
 				output_txt = os.path.join(result_path, os.path.splitext(f.filename)[0])
-				print(output_txt)
 				subprocess.run(['tesseract', '-l', model, path_to_file, output_txt])
 
 				# Nettoyage de l'image
 				os.remove(path_to_file)
 
 			else:
-				return render_template('layouts/numeriser.html', erreur="L'extension du fichier n'est pas reconnue.")
+				raise Exception("Le fichier {} n'a pas d'extension ou a une extension invalide.".format(filename))
+
 
 		# ZIP le dossier résultat
 		shutil.make_archive(result_path, 'zip', result_path)
@@ -174,12 +186,13 @@ def run_tesseract():
 		output_stream.truncate(0)
 
 		# Nettoie le dossier de travail
-		if directory_path:
+		if directory_path != '':
 			shutil.rmtree(directory_path)
 		shutil.rmtree(result_path)
+
 		return response
 
-	return render_template('layouts/numeriser.html')
+	return render_template('layouts/numeriser.html', erreur=erreur)
 
 @app.route('/creer_corpus')
 def creer_corpus():

@@ -1,0 +1,10 @@
+{% extends "index.html" %}
+{% block navigation %} {{ super() }} {% endblock %}
+{% block content %}
+<div class="content">
+<h2>Erreur</h2>
+<p style="margin-left:80px">Oups, il y a un problème !</p>
+<p style="margin-left:80px"> {{ e }} </p>
+<br/>
+</div>
+{% endblock %}

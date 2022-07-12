@@ -7,7 +7,7 @@
 <div class="outil">
 <h3>Numériser (OCR/HTR)</h3>
 
-    <h4>Tesseract</h4>
+    <h4>Tesseract OCR</h4>
     <p>L'outil Tesseract permet de numériser des fichiers imprimés.</p>
     <p>Formats possibles pour les fichiers d'entrée : PNG, JPG, TIFF, PDF.</p>
     <div id="tess-form">
@@ -21,7 +21,6 @@
 	<option value="spa_old">Espagnol ancien (spa_old)</option>
       </select>
       <input type="file" name="tessfiles" accept="image/jpeg,image/png,application/pdf,image/tif,image/tiff" multiple required/>
-      <p style="margin:auto">{{ erreur }}</p>
       </fieldset>
       <button style="display:block;margin:auto;">Numériser</button>
     </form>
@@ -34,5 +33,8 @@
 	</div></div>
 	</div>
 	<!--end div loader-->
+	
+	<!--<h4>Kraken</h4>-->
+	
 </div>
 {% endblock %}
