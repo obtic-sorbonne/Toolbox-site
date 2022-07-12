@@ -2,8 +2,8 @@
 {% block navigation %} {{ super() }} {% endblock %}
 {% block content %} {{ super() }} {% endblock %}
 
-
 {% block tool %}
+
 <div class="outil">
 <h3>Numériser (OCR/HTR)</h3>
 
@@ -12,7 +12,7 @@
     <p>Formats possibles pour les fichiers d'entrée : PNG, JPG, TIFF, PDF.</p>
     <div id="tess-form">
     <fieldset><legend>Tesseract</legend>
-    <form action="{{ url_for('run_tesseract') }}" id="tesseract-form" method="post" enctype="multipart/form-data">
+    <form action="{{ url_for('run_tesseract') }}" id="tesseract-form" method="post" enctype="multipart/form-data" onsubmit="showloader('tessloader')">
       <label for="model">Modèle</label>
       <select name="tessmodel" id="tessmodel">
         <option value="fra">Français (fra)</option>
@@ -20,10 +20,19 @@
         <option value="frk">Fraktur (frk)</option>
 	<option value="spa_old">Espagnol ancien (spa_old)</option>
       </select>
-      <input type="file" name="tessfiles" accept="image/jpeg,image/png,application/pdf,image/tif,image/tiff" multiple/>
+      <input type="file" name="tessfiles" accept="image/jpeg,image/png,application/pdf,image/tif,image/tiff" multiple required/>
+      <p style="margin:auto">{{ erreur }}</p>
       </fieldset>
       <button style="display:block;margin:auto;">Numériser</button>
     </form>
     </div>
+    <!-- Loader -->
+    <div id="tessloader">
+    <p>Traitement en cours...</p>
+	<div class="loadingio-spinner-ball-205vl2x7f7n"><div class="ldio-b8p5li8dt1u">
+	<div></div>
+	</div></div>
+	</div>
+	<!--end div loader-->
 </div>
 {% endblock %}

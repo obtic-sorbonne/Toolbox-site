@@ -34,7 +34,7 @@ app = Flask(__name__)
 app.config['SESSION_TYPE'] = 'filesystem'
 #app.config['SECRET_KEY'] = 'pakisqa'
 
-app.config['MAX_CONTENT_LENGTH'] = 3 * 1024 * 1024 # Limit file upload to 3MB
+app.config['MAX_CONTENT_LENGTH'] = 8 * 1024 * 1024 # Limit file upload to 8MB
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['MODEL_FOLDER'] = MODEL_FOLDER
 app.add_url_rule("/uploads/<name>", endpoint="download_file", build_only=True)
@@ -67,10 +67,16 @@ def numeriser():
 def normalisation():
 	return render_template('normalisation.html')
 
-
+#-----------------------------------------------------------------
+# ERROR HANDLERS
+#-----------------------------------------------------------------
 @app.errorhandler(500)
 def internal_server_error(e):
     return render_template('500.html'), 500
+
+@app.errorhandler(413)
+def file_too_big(e):
+    return render_template('413.html'), 413
 
 #-----------------------------------------------------------------
 # NUMERISATION TESSERACT
@@ -83,9 +89,14 @@ def run_tesseract():
 		model = request.form['tessmodel']
 
 		# Nom de dossier aléatoire pour le résultat de la requête
-		rand_name =  'ocr_' + ''.join((random.choice(string.ascii_lowercase) for x in range(5)))
+		rand_name =  'ocr_' + ''.join((random.choice(string.ascii_lowercase) for x in range(8)))
 		result_path = ROOT_FOLDER / os.path.join(app.config['UPLOAD_FOLDER'], rand_name)
 		os.mkdir(result_path)
+
+		# Répertoire de travail pour les fichiers pdf
+		directory_path = ''
+
+		extensions = ['.jpg', '.jpeg', '.png', '.tiff', '.tif']
 
 		for f in uploaded_files:
 			filename, file_extension = os.path.splitext(f.filename)
@@ -94,7 +105,7 @@ def run_tesseract():
 			# Fichier pdf
 			#------------------------------------------------------
 			# A FAIRE : le traitement des gros fichiers doit être parallélisé
-			if file_extension == ".pdf":
+			if file_extension.lower() == ".pdf":
 				# Créer un dossier pour stocker l'ensemble des images
 				directory = filename + '_temp'
 				directory_path = ROOT_FOLDER / os.path.join(app.config['UPLOAD_FOLDER'], directory)
@@ -129,6 +140,26 @@ def run_tesseract():
 				with open(ROOT_FOLDER / os.path.join(result_path, filename + '.txt'), 'w', encoding="utf-8") as out:
 					out.write(final_output)
 
+			#------------------------------------------------------
+			# Fichier image
+			#------------------------------------------------------
+			elif file_extension.lower() in extensions:
+				# Sauvegarde de l'image
+				path_to_file = ROOT_FOLDER / os.path.join(app.config['UPLOAD_FOLDER'], secure_filename(f.filename))
+				f.save(path_to_file)
+				print(path_to_file)
+
+				# Tesseract
+				output_txt = os.path.join(result_path, os.path.splitext(f.filename)[0])
+				print(output_txt)
+				subprocess.run(['tesseract', '-l', model, path_to_file, output_txt])
+
+				# Nettoyage de l'image
+				os.remove(path_to_file)
+
+			else:
+				return render_template('layouts/numeriser', erreur="L'extension du fichier n'est pas reconnue.")
+
 		# ZIP le dossier résultat
 		shutil.make_archive(result_path, 'zip', result_path)
 
@@ -143,9 +174,9 @@ def run_tesseract():
 		output_stream.truncate(0)
 
 		# Nettoie le dossier de travail
-		shutil.rmtree(directory_path)
+		if directory_path:
+			shutil.rmtree(directory_path)
 		shutil.rmtree(result_path)
-
 		return response
 
 	return render_template('layouts/numeriser.html')
