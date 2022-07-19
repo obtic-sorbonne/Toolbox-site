@@ -33,7 +33,7 @@ app = Flask(__name__)
 
 # App config
 app.config['SESSION_TYPE'] = 'filesystem'
-app.config['SECRET_KEY'] = 'pakisqa'
+#app.config['SECRET_KEY'] = 'pakisqa'
 
 app.config['MAX_CONTENT_LENGTH'] = 8 * 1024 * 1024 # Limit file upload to 8MB
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -250,7 +250,7 @@ def xmlconverter():
 		fields['sourceDesc'] = request.form['sourceDesc'] # required
 
 		filename = secure_filename(f.filename)
-		path_to_file = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+		path_to_file = ROOT_FOLDER / os.path.join(app.config['UPLOAD_FOLDER'], filename)
 		f.save(path_to_file)
 		# Validating file format
 		try:
