@@ -32,7 +32,7 @@
     <form id="urlform"  method="POST" action="{{ url_for('corpus_from_url') }}">
     <input type="hidden" value="1" id="nb_inputs">
     <div id="new_inputs"></div>
-    <input type="text" name="url_1"></input> <input type="checkbox" name="s1"><label for="s1">Sommaire</label></input>
+    <input type="text" name="url_1" required></input> <input type="checkbox" name="s1"><label for="s1">Sommaire</label></input>
     <span class="addbutton" onclick="addInput()"><i class="fa-solid fa-circle-plus" style="margin-right:3px;"></i>Ajouter URL</span>
     <button type="submit" class="button" style="display:block;margin:auto;">Collecter corpus</button>
     </form>

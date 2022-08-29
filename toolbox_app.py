@@ -11,6 +11,7 @@ import random
 from bs4 import BeautifulSoup
 import urllib
 import urllib.request
+from urllib.parse import urlparse
 import re
 from lxml import etree
 import csv
@@ -73,20 +74,20 @@ def normalisation():
 #-----------------------------------------------------------------
 @app.errorhandler(500)
 def internal_server_error(e):
-    return render_template('500.html'), 500
+	return render_template('500.html'), 500
 
 @app.errorhandler(413)
 def file_too_big(e):
-    return render_template('413.html'), 413
+	return render_template('413.html'), 413
 
 @app.errorhandler(Exception)
 def handle_exception(e):
-    # pass through HTTP errors
-    if isinstance(e, HTTPException):
-        return e
+	# pass through HTTP errors
+	if isinstance(e, HTTPException):
+		return e
 
-    # now you're handling non-HTTP exceptions only
-    return render_template("500_custom.html", e=e), 500
+	# now you're handling non-HTTP exceptions only
+	return render_template("500_custom.html", e=e), 500
 
 #-----------------------------------------------------------------
 # NUMERISATION TESSERACT
@@ -99,9 +100,7 @@ def run_tesseract():
 		model = request.form['tessmodel']
 
 		# Nom de dossier aléatoire pour le résultat de la requête
-		rand_name =  'ocr_' + ''.join((random.choice(string.ascii_lowercase) for x in range(8)))
-		result_path = ROOT_FOLDER / os.path.join(app.config['UPLOAD_FOLDER'], rand_name)
-		os.mkdir(result_path)
+		result_path, rand_name = createRandomDir('ocr_', 8)
 
 		# Répertoire de travail pour les fichiers pdf
 		directory_path = ''
@@ -228,6 +227,83 @@ def generate_corpus():
 @app.route('/corpus_from_url',  methods=["GET","POST"])
 @stream_with_context
 def corpus_from_url():
+	if request.method == 'POST':
+		keys = request.form.keys()
+		urls = [k for k in keys if k.startswith('url')]
+		urls = sorted(urls)
+
+		result_path, rand_name = createRandomDir('wiki_', 8)
+
+		# PARCOURS DES URLS UTILISATEUR
+		for url_name in urls:
+			url = request.form.get(url_name)
+			n = url_name.split('_')[1]
+			s = 's' + n
+			path_elems = urlparse(url).path.split('/')
+
+			# L'URL pointe vers un sommaire
+			if path_elems[-1] != 'Texte_entier' and request.form.get(s) == 'on':
+				try:
+					index_page = urllib.request.urlopen(url)
+					index_soup = BeautifulSoup(index_page, 'html.parser')
+					nodes = index_soup.select('div.prp-pages-output div[class="tableItem"] a')
+					for a in nodes:
+						link = 'https://fr.wikisource.org' + a['href']
+						name = a['title']
+						text = getWikiPage(link)
+						if text != -1:
+							if not name:
+								name = path_elems[-1]
+							with open(os.path.join(result_path, name), 'w') as output:
+								output.write(text)
+
+				except urllib.error.HTTPError:
+					print(" ".join(["The page", url, "cannot be opened."]))
+					continue
+
+				filename = urllib.parse.unquote(path_elems[-1])
+
+			# URL vers texte intégral
+			else:
+				try:
+					page = urllib.request.urlopen(url)
+					soup = BeautifulSoup(page, 'html.parser')
+					text = soup.findAll("div", attrs={'class': 'prp-pages-output'})
+					if len(text) == 0:
+						print("This does not appear to be part of the text (no prp-pages-output tag at this location).")
+						with open('pb_url.log', 'a') as err_log:
+							err_log.write(text_url)
+					else:
+						# Remove end of line inside sentence
+						clean_text = re.sub("[^\.:!?»[A-Z]]\n", ' ', text[0].text)
+						if path_elems[-1] != 'Texte_entier':
+							filename = urllib.parse.unquote(path_elems[-1])
+						else:
+							filename = urllib.parse.unquote(path_elems[-2])
+
+						with open(result_path + filename, 'w') as output:
+							output.write(clean_text)
+
+				except Exception as e:
+					print("Erreur sur l'URL {}".format(url))
+					continue
+
+
+		# ZIP le dossier résultat
+		if len(os.listdir(result_path)) > 0:
+			shutil.make_archive(result_path, 'zip', result_path)
+			output_stream = BytesIO()
+			with open(str(result_path) + '.zip', 'rb') as res:
+				content = res.read()
+			output_stream.write(content)
+			response = Response(output_stream.getvalue(), mimetype='application/zip',
+									headers={"Content-disposition": "attachment; filename=" + rand_name + '.zip'})
+			output_stream.seek(0)
+			output_stream.truncate(0)
+			return response
+		else:
+			os.remove(result_path)
+
 	return render_template('creer_corpus.html')
 
 
@@ -437,7 +513,6 @@ def generate_random_corpus(nb):
 			continue
 
 		soup = BeautifulSoup(page, 'html.parser')
-		print(location)
 		text = soup.findAll("div", attrs={'class': 'prp-pages-output'})
 
 		if len(text) == 0:
@@ -620,6 +695,24 @@ def sentencizer(text):
 
 	return sentences
 
+def createRandomDir(prefix, length):
+	rand_name =  prefix + ''.join((random.choice(string.ascii_lowercase) for x in range(length)))
+	result_path = ROOT_FOLDER / os.path.join(app.config['UPLOAD_FOLDER'], rand_name)
+	os.mkdir(result_path)
+	return (result_path, rand_name)
+
+def getWikiPage(url):
+# Renvoie le contenu d'un texte wikisource à partir de son url, -1 en cas d'erreur
+	page = urllib.request.urlopen(url)
+	soup = BeautifulSoup(page, 'html.parser')
+	text = soup.findAll("div", attrs={'class': 'prp-pages-output'})
+	if len(text) == 0:
+		print("This does not appear to be part of the text (no prp-pages-output tag at this location).")
+		return -1
+	else:
+		# Remove end of line inside sentence
+		clean_text = re.sub("[^\.:!?»[A-Z]]\n", ' ', text[0].text)
+		return clean_text
 
 if __name__ == "__main__":
 	app.run()
