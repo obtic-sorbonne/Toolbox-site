@@ -285,7 +285,7 @@ def corpus_from_url():
 						else:
 							filename = urllib.parse.unquote(path_elems[-2])
 
-						with open(result_path + filename, 'w') as output:
+						with open(os.path.join(result_path, filename), 'w') as output:
 							output.write(clean_text)
 
 				except Exception as e:
