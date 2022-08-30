@@ -245,8 +245,8 @@ def corpus_from_url():
 			if path_elems[-1] != 'Texte_entier' and request.form.get(s) == 'on':
 				# Escape URL if not already escaped
 				url_temp = url.replace("https://fr.wikisource.org/wiki/", "")
-    			if not '%' in url_temp:
-        			url = "".join(["https://fr.wikisource.org/wiki/", urllib.parse.quote(url_temp)])
+				if not '%' in url_temp:
+					url = "".join(["https://fr.wikisource.org/wiki/", urllib.parse.quote(url_temp)])
 				try:
 					index_page = urllib.request.urlopen(url)
 					index_soup = BeautifulSoup(index_page, 'html.parser')
