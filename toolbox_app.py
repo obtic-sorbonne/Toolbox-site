@@ -270,16 +270,11 @@ def corpus_from_url():
 			# URL vers texte intégral
 			else:
 				try:
-					page = urllib.request.urlopen(url)
-					soup = BeautifulSoup(page, 'html.parser')
-					text = soup.findAll("div", attrs={'class': 'prp-pages-output'})
-					if len(text) == 0:
-						print("This does not appear to be part of the text (no prp-pages-output tag at this location).")
-						with open('pb_url.log', 'a') as err_log:
-							err_log.write(text_url)
+					clean_text = getWikiPage(url)
+					if clean_text == -1:
+						print("Erreur lors de la lecture de la page {}".format(url))
+
 					else:
-						# Remove end of line inside sentence
-						clean_text = re.sub("[^\.:!?»[A-Z]]\n", ' ', text[0].text)
 						if path_elems[-1] != 'Texte_entier':
 							filename = urllib.parse.unquote(path_elems[-1])
 						else:
@@ -716,6 +711,7 @@ def getWikiPage(url):
 	else:
 		# Remove end of line inside sentence
 		clean_text = re.sub("[^\.:!?»[A-Z]]\n", ' ', text[0].text)
+		clean_text = clean_text.replace('\\xa0', ' ')
 		return clean_text
 
 if __name__ == "__main__":
