@@ -146,10 +146,14 @@ nav a::before {
   padding:3px;
 }
 
+.contact a:visited, .contact a:active {
+  color: #fff;
+}
+
 .content{
 position: fixed;
 top:85px;
-height: 90%;
+height: 100%;
 width:100%;
 margin-left:15%;
 background-color:#c6b09e;
