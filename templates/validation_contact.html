@@ -1,0 +1,14 @@
+{% extends "index.html" %}
+{% block navigation %} {{ super() }} {% endblock %}
+{% block content %}
+<div class="content">
+<h2>Contact</h2>
+<p style="margin-left:80px">Votre message a bien été envoyé. Merci !</p>
+<div style="margin-left:80px;margin-top:30px;">
+<figure>
+<img src="{{url_for('static', filename='img/bookworms.jpg')}}" alt="" style="width:350px;"/>
+<figcaption style="font-size:0.6em;font-style:italic;">Samuel Vince reading in his rooms at Sidney Sussex College.<br/>R. C. Chilton, 1784.<br/>Domaine Public.</figcaption>
+</figure>
+</div>
+</div>
+{% endblock %}

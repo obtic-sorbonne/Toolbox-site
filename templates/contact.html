@@ -7,34 +7,52 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
 
   <title>Toolbox</title>
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="{{ url_for('static', filename= 'main.css') }}">
-  <link rel="stylesheet" href="{{ url_for('static', filename= 'css/loader.css') }}">
 
   <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js" integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
-  <script src="{{url_for('static', filename='js/loader.js')}}"></script>
 </head>
 <body>
   <div class="logo">
-     <img alt="ObTIC" src="{{url_for('static', filename='img/ObTIC-logo-white.png')}}"/>
-     <h1>Toolbox</h1>
-     <span class="contact"><i class="fa-solid fa-envelope"></i><a href="{{ url_for('contact')}}">Contact</a></span>
+   <img alt="ObTIC" src="{{url_for('static', filename='img/ObTIC-logo-white.png')}}"/>
+   <h1>Toolbox</h1>
+   <span class="contact"><i class="fa-solid fa-envelope"></i><a href="{{ url_for('contact')}}">Contact</a></span>
   </div>
-  {% block navigation %}
   <nav>
     <ul>
-      <li><a href="{{ url_for('outils_corpus') }}" class="active"><i class="fas fa-book-open"></i> <em>Corpus</em></a></li>
+      <li><a href="{{ url_for('outils_corpus') }}"><i class="fas fa-book-open"></i> <em>Corpus</em></a></li>
       <li><a href="{{ url_for('outils_fouille') }}"><i class="fa-solid fa-pen-to-square"></i> <em>Annotation automatique</em></a></li>
       <li><a href="{{ url_for('outils_visualisation') }}"><i class="fa-solid fa-chart-column"></i> <em>Visualisation</em></a></li>
     </ul>
   </nav>
-  {% endblock %}
 
+  {% block content %}
   <div class="content">
-      {% block content %}{% endblock %}
-  </div>
+    <h2>Contact</h2>
+    <div class="contact-wrapper">
+      <form id="contact-form" action="{{ url_for('send_msg') }}" method="POST">
+        {{ form.csrf_token }}
+        <div class="contact-form-item">
+        <label for="name">Nom</label>
+        <input type="text" name="name" placeholder="Nom">
+        </div>
+        <div class="contact-form-item">
+          <label for="email">Email *</label>
+          <input type="email" name="email" placeholder="Email" required>
+        </div>
+        <div class="contact-form-item">
+          <label for="message">Message *</label>
+          <textarea name="message" rows="8" placeholder="Message..." required></textarea>
+        </div>
+        <input id="csrf_token" name="csrf_token" type="hidden" value="CSRF_TOKEN_STRING">
+        <button>Envoyer</button>
+      </form>
+    </div>
+  </div><!-- end content-->
+  {% endblock %}
 </body>
 </html>

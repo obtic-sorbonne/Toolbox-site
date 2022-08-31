@@ -4,6 +4,8 @@
 from flask import Flask, request, render_template, url_for, redirect, send_from_directory, Response, stream_with_context, session
 from werkzeug.utils import secure_filename
 from werkzeug.exceptions import HTTPException
+from forms import ContactForm
+from flask_wtf.csrf import CSRFProtect
 import os
 from io import StringIO, BytesIO
 import string
@@ -22,6 +24,8 @@ import glob
 from pathlib import Path
 import jamspell
 
+import pandas as pd
+
 import sem
 import sem.storage
 import sem.exporters
@@ -30,16 +34,20 @@ UPLOAD_FOLDER = 'uploads'
 MODEL_FOLDER = 'static/models'
 ROOT_FOLDER = Path(__file__).parent.absolute()
 
+csrf = CSRFProtect()
+SECRET_KEY = os.urandom(32)
+
 app = Flask(__name__)
 
 # App config
 app.config['SESSION_TYPE'] = 'filesystem'
-#app.config['SECRET_KEY'] = 'pakisqa'
+app.config['SECRET_KEY'] = SECRET_KEY
 
 app.config['MAX_CONTENT_LENGTH'] = 8 * 1024 * 1024 # Limit file upload to 8MB
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['MODEL_FOLDER'] = MODEL_FOLDER
 app.add_url_rule("/uploads/<name>", endpoint="download_file", build_only=True)
+csrf.init_app(app)
 
 #-----------------------------------------------------------------
 # ROUTES
@@ -48,6 +56,11 @@ app.add_url_rule("/uploads/<name>", endpoint="download_file", build_only=True)
 @app.route('/index')
 def index():
 	return render_template('index.html')
+
+@app.route('/contact')
+def contact():
+	form = ContactForm()
+	return render_template('contact.html', form=form)
 
 @app.route('/outils_corpus')
 def outils_corpus():
@@ -90,8 +103,21 @@ def handle_exception(e):
 	return render_template("500_custom.html", e=e), 500
 
 #-----------------------------------------------------------------
-# NUMERISATION TESSERACT
+# FONCTIONS
 #-----------------------------------------------------------------
+@app.route('/send_msg',  methods=["GET","POST"])
+def send_msg():
+	if request.method == 'POST':
+		name =  request.form["name"]
+		email = request.form["email"]
+		message = request.form["message"]
+		res = pd.DataFrame({'name':name, 'email':email,'message':message}, index=[0])
+		res.to_csv('./contactMsg.csv')
+		return render_template('validation_contact.html')
+	return render_template('contact.html', form=form)
+
+
+#   NUMERISATION TESSERACT
 @app.route('/run_tesseract',  methods=["GET","POST"])
 @stream_with_context
 def run_tesseract():

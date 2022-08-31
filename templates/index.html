@@ -13,13 +13,14 @@
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="{{ url_for('static', filename= 'main.css') }}">
-  
+
   <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js" integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
 </head>
 <body>
   <div class="logo">
    <img alt="ObTIC" src="{{url_for('static', filename='img/ObTIC-logo-white.png')}}"/>
    <h1>Toolbox</h1>
+   <span class="contact"><i class="fa-solid fa-envelope"></i><a href="{{ url_for('contact')}}">Contact</a></span>
   </div>
   <nav>
     <ul>
@@ -28,7 +29,7 @@
       <li><a href="{{ url_for('outils_visualisation') }}"><i class="fa-solid fa-chart-column"></i> <em>Visualisation</em></a></li>
     </ul>
   </nav>
-  
+
   {% block content %}
   <div class="content">
   <div class="presentation">
@@ -52,8 +53,7 @@
 </div>
   <h2 style="font-family:'Comprehension', serif;font-size:32px;">Publications</h2>
   <div class="rubrique">
-    <ul><li><i>Toolbox : une chaîne de traitement de corpus
-pour les humanités numériques</i>, Démo TALN-RECITAL (à paraître)</li></ul>
+    <ul><li>Johanna Mayra Cordova, Yoann Dupont, Ljudmila Petkovic, James Gawley, Motasem Alrahabi, et al.. Toolbox : une chaîne de traitement de corpus pour les humanités numériques. <i>Traitement Automatique des Langues Naturelles</i>, 2022, Avignon, France. pp.11-13. ⟨<a href="https://hal.archives-ouvertes.fr/TALN-RECITAL2022/hal-03701464" target="_blank">hal-03701464</a>⟩</li></ul>
   </div>
 </div>
   </div><!-- end content-->

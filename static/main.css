@@ -20,7 +20,8 @@ html{
 }
 body{
   height: 100%;
-  overflow: hidden;
+  /*overflow: hidden;*/
+  overflow-x: hidden;
 }
 nav {
   top: 85px;
@@ -28,7 +29,7 @@ nav {
   background-color: #25170e;
   position: fixed;
   z-index: 100;
-  height: 90%;
+  height: 95%;
   left: 0;
   width: 15%;
   font-weight: 400;
@@ -129,6 +130,22 @@ nav a::before {
   position: absolute;
   transform: translate(-50%, -50%);
 }
+
+.contact{
+  text-align:right;
+  position:absolute;
+  top:40%;
+  right:40px;
+  color:#fff;
+}
+.contact i{
+  margin-right:5px;
+}
+.contact a{
+  text-decoration: none;
+  padding:3px;
+}
+
 .content{
 position: fixed;
 top:85px;
@@ -146,6 +163,44 @@ overflow: scroll;
   margin-bottom:12px;
   color:#fff;
   font-size: 30px;
+}
+
+.contact-wrapper{
+  width:55%;
+  display:block;
+  margin-top:35px;
+}
+
+.contact-wrapper form{
+  margin:auto;
+  width:80%;
+}
+
+.contact-wrapper label{
+  display:inline-block;
+  width:95px;
+  float:left;
+}
+
+.contact-wrapper input{
+  display:inline-block;
+  height:36px;
+  padding:2px;
+  width:70%;
+}
+
+.contact-wrapper textarea{
+  display:inline-block;
+  width:70%;
+}
+
+.contact-wrapper button{
+  display:block;
+  margin:auto;
+}
+
+.contact-form-item{
+  margin:5px 0 5px 0;
 }
 
 .presentation{
