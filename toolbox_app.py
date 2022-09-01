@@ -82,6 +82,10 @@ def numeriser():
 def normalisation():
 	return render_template('normalisation.html')
 
+@app.route('/categories_semantiques')
+def categories_semantiques():
+	return render_template('categories_semantiques.html')
+
 #-----------------------------------------------------------------
 # ERROR HANDLERS
 #-----------------------------------------------------------------

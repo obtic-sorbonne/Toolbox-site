@@ -18,8 +18,8 @@
 </head>
 <body>
   <div class="logo">
-   <img alt="ObTIC" src="{{url_for('static', filename='img/ObTIC-logo-white.png')}}"/>
-   <h1>Toolbox</h1>
+   <a href="{{ url_for('index') }}"><img alt="ObTIC" src="{{url_for('static', filename='img/ObTIC-logo-white.png')}}"/>
+   <h1>Toolbox</h1></a>
    <span class="contact"><i class="fa-solid fa-envelope"></i><a href="{{ url_for('contact')}}">Contact</a></span>
   </div>
   <nav>
