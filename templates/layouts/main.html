@@ -16,11 +16,18 @@
 
   <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js" integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
   <script src="{{url_for('static', filename='js/loader.js')}}"></script>
+
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
+  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css"></link>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css"></link>
+  <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster-src.js"></script>
+
 </head>
 <body>
   <div class="logo">
-     <img alt="ObTIC" src="{{url_for('static', filename='img/ObTIC-logo-white.png')}}"/>
-     <h1>Toolbox</h1>
+     <a href="{{ url_for('index') }}"><img alt="ObTIC" src="{{url_for('static', filename='img/ObTIC-logo-white.png')}}"/>
+     <h1>Toolbox</h1></a>
      <span class="contact"><i class="fa-solid fa-envelope"></i><a href="{{ url_for('contact')}}">Contact</a></span>
   </div>
   {% block navigation %}
@@ -29,6 +36,7 @@
       <li><a href="{{ url_for('outils_corpus') }}" class="active"><i class="fas fa-book-open"></i> <em>Corpus</em></a></li>
       <li><a href="{{ url_for('outils_fouille') }}"><i class="fa-solid fa-pen-to-square"></i> <em>Annotation automatique</em></a></li>
       <li><a href="{{ url_for('outils_visualisation') }}"><i class="fa-solid fa-chart-column"></i> <em>Visualisation</em></a></li>
+      <li><a href="{{ url_for('outils_pipeline') }}"><i class="fa-solid fa-chart-column"></i> <em>Chaîne de traitement</em></a></li>
     </ul>
   </nav>
   {% endblock %}

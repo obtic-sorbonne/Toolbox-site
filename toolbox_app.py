@@ -86,6 +86,18 @@ def normalisation():
 def categories_semantiques():
 	return render_template('categories_semantiques.html')
 
+@app.route('/outils_pipeline')
+def outils_pipeline():
+	return render_template('layouts/pipeline.html')
+
+@app.route('/ocr_ner')
+def ocr_ner():
+	return render_template('ocr_ner.html')
+
+@app.route('/ocr_map')
+def ocr_map():
+	return render_template('ocr_map.html')
+
 #-----------------------------------------------------------------
 # ERROR HANDLERS
 #-----------------------------------------------------------------
@@ -129,6 +141,16 @@ def run_tesseract():
 		uploaded_files = request.files.getlist("tessfiles")
 		model = request.form['tessmodel']
 
+		up_folder = app.config['UPLOAD_FOLDER']
+		rand_name =  'ocr_' + ''.join((random.choice(string.ascii_lowercase) for x in range(8)))
+
+		text = ocr.tesseract_to_txt(uploaded_files, model, rand_name, ROOT_FOLDER, up_folder)
+		response = Response(text, mimetype='text/plain',
+							headers={"Content-disposition": "attachment; filename=" + rand_name + '.txt'})
+
+		return response
+	return render_template('layouts/numeriser.html', erreur=erreur)
+"""
 		# Nom de dossier aléatoire pour le résultat de la requête
 		result_path, rand_name = createRandomDir('ocr_', 8)
 
@@ -222,7 +244,7 @@ def run_tesseract():
 		return response
 
 	return render_template('layouts/numeriser.html', erreur=erreur)
-
+"""
 @app.route('/creer_corpus')
 def creer_corpus():
 	return render_template('creer_corpus.html')
@@ -743,6 +765,213 @@ def getWikiPage(url):
 		clean_text = re.sub("[^\.:!?»[A-Z]]\n", ' ', text[0].text)
 		clean_text = clean_text.replace('\\xa0', ' ')
 		return clean_text
+
+
+#-----------------------------------------------------------------
+# chaînes de traitement
+#-----------------------------------------------------------------
+
+@app.route("/run_ocr_ner", methods=["POST"])
+@stream_with_context
+def run_ocr_ner():
+	from txt_ner import txt_ner_params
+
+	# paramètres globaux
+	uploaded_files = request.files.getlist("inputfiles")
+	# paramètres OCR
+	ocr_model = request.form['tessmodel']
+	# paramètres NER
+	up_folder = app.config['UPLOAD_FOLDER']
+	encodage = request.form['encodage']
+	moteur_REN = request.form['moteur_REN']
+	modele_REN = request.form['modele_REN']
+
+	rand_name =  'ocr_ner_' + ''.join((random.choice(string.ascii_lowercase) for x in range(8)))
+	if ocr_model != "raw_text":
+		contenu = ocr.tesseract_to_txt(uploaded_files, ocr_model, rand_name, ROOT_FOLDER, up_folder)
+	else:
+		print(uploaded_files)
+		liste_contenus = []
+		for uploaded_file in uploaded_files:
+			try:
+
+				liste_contenus.append(uploaded_file.read().decode(encodage))
+				print(type(liste_contenus[-1]))
+			finally: # ensure file is closed
+				uploaded_file.close()
+		contenu = "\n\n".join(liste_contenus)
+
+		del liste_contenus
+
+	entities = txt_ner_params(contenu, moteur_REN, modele_REN, encodage=encodage)
+	# Writing in stream
+	output_stream = StringIO()
+	output = rand_name + ".ann"
+	writer = csv.writer(output_stream, delimiter="\t")
+	for nth, entity in enumerate(entities, 1):
+		ne_type, start, end, text = entity
+		row = [f"T{nth}", f"{ne_type} {start} {end}", f"{text}"]
+		writer.writerow(row)
+	response = Response(
+		output_stream.getvalue(),
+		mimetype='text/plain',
+		headers={"Content-disposition": "attachment; filename=" + output}
+	)
+	output_stream.seek(0)
+	output_stream.truncate(0)
+
+	return response
+
+#--------------------------
+#OCR2MAP
+#--------------------------
+
+def to_geoJSON_point(coordinates, name):
+	return {
+		"type": "Feature",
+		"geometry": {
+			"type": "Point",
+			"coordinates": [coordinates.longitude, coordinates.latitude]
+		},
+		"properties": {
+			"name": name
+		},
+	}
+
+
+@app.route("/run_ocr_map", methods=["POST"])
+def run_ocr_map():
+	print("1")
+	from txt_ner import txt_ner_params
+	from geopy.geocoders import Nominatim
+	geolocator = Nominatim(user_agent="http")
+
+	# paramètres globaux
+	uploaded_files = request.files.getlist("inputfiles")
+	# paramètres OCR
+	ocr_model = request.form['tessmodel']
+	# paramètres NER
+	up_folder = app.config['UPLOAD_FOLDER']
+	encodage = request.form['encodage']
+	moteur_REN = request.form['moteur_REN']
+	modele_REN = request.form['modele_REN']
+
+	rand_name =  'ocr_ner_' + ''.join((random.choice(string.ascii_lowercase) for x in range(8)))
+	if ocr_model != "raw_text":
+		contenu = ocr.tesseract_to_txt(uploaded_files, ocr_model, rand_name, ROOT_FOLDER, up_folder)
+	else:
+		liste_contenus = []
+		for uploaded_file in uploaded_files:
+			try:
+
+				liste_contenus.append(uploaded_file.read().decode(encodage))
+			finally: # ensure file is closed
+				uploaded_file.close()
+		contenu = "\n\n".join(liste_contenus)
+
+		del liste_contenus
+
+	entities = txt_ner_params(contenu, moteur_REN, modele_REN, encodage=encodage)
+	ensemble_mentions = set(text for label, start, end, text in entities if label == "LOC")
+	coordonnees = []
+	for texte in ensemble_mentions:
+		location = geolocator.geocode(texte, timeout=30)
+		if location:
+			coordonnees.append(to_geoJSON_point(location, texte))
+
+	return {"points": coordonnees}
+
+#---------------------------------------------------------
+#AFFICHAGE MAP des résultats pour plusieurs outils de NER
+#---------------------------------------------------------
+
+@app.route("/run_ocr_map_intersection", methods=["POST"])
+def run_ocr_map_intersection():
+	from txt_ner import txt_ner_params
+	from geopy.geocoders import Nominatim
+	geolocator = Nominatim(user_agent="http")
+
+	# paramètres globaux
+	uploaded_files = request.files.getlist("inputfiles")
+	# paramètres OCR
+	ocr_model = request.form['tessmodel']
+	# paramètres NER
+	up_folder = app.config['UPLOAD_FOLDER']
+	encodage = request.form['encodage']
+	moteur_REN1 = request.form['moteur_REN1']
+	modele_REN1 = request.form['modele_REN1']
+	moteur_REN2 = request.form['moteur_REN2']
+	modele_REN2 = request.form['modele_REN2']
+
+	rand_name =  'ocr_ner_' + ''.join((random.choice(string.ascii_lowercase) for x in range(8)))
+	if ocr_model != "raw_text":
+		contenu = ocr.tesseract_to_txt(uploaded_files, ocr_model, rand_name, ROOT_FOLDER, up_folder)
+	else:
+		liste_contenus = []
+		for uploaded_file in uploaded_files:
+			try:
+
+				liste_contenus.append(uploaded_file.read().decode(encodage))
+			finally: # ensure file is closed
+				uploaded_file.close()
+		contenu = "\n\n".join(liste_contenus)
+
+		del liste_contenus
+
+	entities_1 = txt_ner_params(contenu, moteur_REN1, modele_REN1, encodage=encodage)
+	ensemble_mentions_1 = set(text for label, start, end, text in entities_1 if label == "LOC")
+
+	if moteur_REN2 != "aucun":
+		entities_2 = txt_ner_params(contenu, moteur_REN2, modele_REN2, encodage=encodage)
+		ensemble_mentions_2 = set(text for label, start, end, text in entities_2 if label == "LOC")
+	else:
+		entities_2 = ()
+		ensemble_mentions_2 = set()
+
+	ensemble_mentions_commun = ensemble_mentions_1 & ensemble_mentions_2
+	ensemble_mentions_1 -= ensemble_mentions_commun
+	ensemble_mentions_2 -= ensemble_mentions_commun
+
+	liste_keys = ["commun", "outil 1", "outil 2"]
+	liste_ensemble_mention = [ensemble_mentions_commun, ensemble_mentions_1, ensemble_mentions_2]
+	dico_mention_marker = {key: [] for key in liste_keys}
+	for key, ensemble in zip(liste_keys, liste_ensemble_mention):
+		for texte in ensemble:
+			location = geolocator.geocode(texte, timeout=30)
+			if location:
+				dico_mention_marker[key].append((location.latitude, location.longitude, texte))
+
+	for key, value in dico_mention_marker.items():
+		print(key, value)
+
+	return dico_mention_marker
+
+
+@app.route("/nermap_to_csv", methods=["POST"])
+@stream_with_context
+def nermap_to_csv():
+    input_json_str = request.data
+    print(input_json_str)
+    input_json = json.loads(input_json_str)
+    print(input_json)
+    keys = ["nom", "latitude", "longitude", "outil"]
+    output_stream = StringIO()
+    writer = csv.DictWriter(output_stream, fieldnames=keys, delimiter="\t")
+    writer.writeheader()
+    for point in input_json["data"]:
+        row = {
+            "latitude" : point[0],
+            "longitude" : point[1],
+            "nom" : point[2],
+            "outil" : point[3],
+        }
+        writer.writerow(row)
+    # name not useful, will be handled in javascript
+    response = Response(output_stream.getvalue(), mimetype='text/csv', headers={"Content-disposition": "attachment; filename=export.csv"})
+    output_stream.seek(0)
+    output_stream.truncate(0)
+    return response
+
 
 if __name__ == "__main__":
 	app.run()
