@@ -13,6 +13,7 @@
     <div id="tess-form">
     <fieldset><legend>Tesseract</legend>
     <form action="{{ url_for('run_tesseract') }}" id="tesseract-form" method="post" enctype="multipart/form-data" onsubmit="showloader('tessloader')">
+      {{ form.csrf_token }}
       <label for="model">Modèle</label>
       <select name="tessmodel" id="tessmodel">
         <option value="fra">Français (fra)</option>
@@ -22,6 +23,7 @@
       </select>
       <input type="file" name="tessfiles" accept="image/jpeg,image/png,application/pdf,image/tif,image/tiff" multiple required/>
       </fieldset>
+      <input id="csrf_token" name="csrf_token" type="hidden" value="CSRF_TOKEN_STRING">
       <button style="display:block;margin:auto;">Numériser</button>
     </form>
     </div>
@@ -34,7 +36,7 @@
 	</div>
 	<!--end div loader-->
 
-	<h4>Kraken</h4>
-	<p></p>
+	<!--<h4>Kraken</h4>
+	<p></p>-->
 </div>
 {% endblock %}

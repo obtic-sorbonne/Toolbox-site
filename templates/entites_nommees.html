@@ -11,6 +11,7 @@
   <p>Le téléchargement du fichier XML-TEI généré démarrera automatiquement.</p>
   <div id="divform">
     <form action="{{ url_for('named_entity_recognition') }}" id="metadata-form" method="post" enctype="multipart/form-data">
+      {{ form.csrf_token }}
       <fieldset>
       <legend>Configuration</legend>
       <p>XML</p>
@@ -42,6 +43,7 @@
       <legend>Chargement du fichier</legend>
       <input type="file" id="raw-xml-file" name="file" accept=".xml" required>
       </fieldset>
+      <input id="csrf_token" name="csrf_token" type="hidden" value="CSRF_TOKEN_STRING">
       <button style="display:block;margin:auto;margin-top:20px;">Annoter en entités nommées</button>
   </div>
 </form>

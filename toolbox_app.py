@@ -5,6 +5,7 @@ from flask import Flask, request, render_template, url_for, redirect, send_from_
 from werkzeug.utils import secure_filename
 from werkzeug.exceptions import HTTPException
 from forms import ContactForm
+from flask_wtf import FlaskForm
 from flask_wtf.csrf import CSRFProtect
 import os
 from io import StringIO, BytesIO
@@ -76,7 +77,8 @@ def outils_visualisation():
 
 @app.route('/numeriser')
 def numeriser():
-	return render_template('layouts/numeriser.html')
+	form = FlaskForm()
+	return render_template('layouts/numeriser.html', form=form)
 
 @app.route('/normalisation')
 def normalisation():
@@ -92,11 +94,13 @@ def outils_pipeline():
 
 @app.route('/ocr_ner')
 def ocr_ner():
-	return render_template('ocr_ner.html')
+	form = FlaskForm()
+	return render_template('ocr_ner.html', form=form)
 
 @app.route('/ocr_map')
 def ocr_map():
-	return render_template('ocr_map.html')
+	form = FlaskForm()
+	return render_template('ocr_map.html', form=form)
 
 #-----------------------------------------------------------------
 # ERROR HANDLERS
@@ -150,116 +154,26 @@ def run_tesseract():
 
 		return response
 	return render_template('layouts/numeriser.html', erreur=erreur)
-"""
-		# Nom de dossier aléatoire pour le résultat de la requête
-		result_path, rand_name = createRandomDir('ocr_', 8)
 
-		# Répertoire de travail pour les fichiers pdf
-		directory_path = ''
-
-		extensions = ['.jpg', '.jpeg', '.png', '.tiff', '.tif']
-
-		for f in uploaded_files:
-			filename, file_extension = os.path.splitext(f.filename)
-			output_name = filename + '.txt'
-			#------------------------------------------------------
-			# Fichier pdf
-			#------------------------------------------------------
-			# A FAIRE : le traitement des gros fichiers doit être parallélisé
-			if file_extension.lower() == ".pdf":
-				# Créer un dossier pour stocker l'ensemble des images
-				directory = filename + '_temp'
-				directory_path = ROOT_FOLDER / os.path.join(app.config['UPLOAD_FOLDER'], directory)
-				try:
-					os.mkdir(directory_path)
-				except FileExistsError:
-					pass
-
-				# Sauvegarde du PDF
-				path_to_file = ROOT_FOLDER / os.path.join(directory_path, secure_filename(f.filename))
-				f.save(path_to_file)
-
-				# Conversion en PNG
-				subprocess.run(['pdftoppm', '-r', '180', path_to_file, os.path.join(directory_path, filename), '-png'])	# Bash : pdftoppm -r 180 fichier.pdf fichier -png
-
-				# OCRisation
-				png_list = glob.glob(str(directory_path) + '/*.png')
-				final_output = ""
-
-				if len(png_list) > 1:
-					png_list.sort(key=lambda f: int(re.sub('\D', '', f)))
-
-				for png_file in png_list:
-					output_txt = os.path.splitext(png_file)[0]
-					try:
-						subprocess.run(['tesseract', '-l', model, png_file, output_txt])
-					except:
-						raise Exception("Tesseract a rencontré un problème lors de la lecture du fichier {}".format(filename))
-
-					with open(output_txt + '.txt', 'r', encoding="utf-8") as ftxt:
-						final_output += ftxt.read()
-						final_output += '\n\n'
-
-				# Ecriture du résultat
-				with open(ROOT_FOLDER / os.path.join(result_path, filename + '.txt'), 'w', encoding="utf-8") as out:
-					out.write(final_output)
-
-			#------------------------------------------------------
-			# Fichier image
-			#------------------------------------------------------
-			elif file_extension.lower() in extensions:
-				# Sauvegarde de l'image
-				path_to_file = ROOT_FOLDER / os.path.join(app.config['UPLOAD_FOLDER'], secure_filename(f.filename))
-				f.save(path_to_file)
-
-				# Tesseract
-				output_txt = os.path.join(result_path, os.path.splitext(f.filename)[0])
-				subprocess.run(['tesseract', '-l', model, path_to_file, output_txt])
-
-				# Nettoyage de l'image
-				os.remove(path_to_file)
-
-			else:
-				raise Exception("Le fichier {} n'a pas d'extension ou a une extension invalide.".format(filename))
-
-
-		# ZIP le dossier résultat
-		shutil.make_archive(result_path, 'zip', result_path)
-
-		output_stream = BytesIO()
-		with open(str(result_path) + '.zip', 'rb') as res:
-			content = res.read()
-
-		output_stream.write(content)
-		response = Response(output_stream.getvalue(), mimetype='application/zip',
-							headers={"Content-disposition": "attachment; filename=" + rand_name + '.zip'})
-		output_stream.seek(0)
-		output_stream.truncate(0)
-
-		# Nettoie le dossier de travail
-		if directory_path != '':
-			shutil.rmtree(directory_path)
-		shutil.rmtree(result_path)
-
-		return response
-
-	return render_template('layouts/numeriser.html', erreur=erreur)
-"""
 @app.route('/creer_corpus')
 def creer_corpus():
-	return render_template('creer_corpus.html')
+	form = FlaskForm()
+	return render_template('creer_corpus.html', form=form)
 
 @app.route('/correction_erreur')
 def correction_erreur():
-	return render_template('correction_erreur.html')
+	form = FlaskForm()
+	return render_template('correction_erreur.html', form=form)
 
 @app.route('/entites_nommees')
 def entites_nommees():
-	return render_template('entites_nommees.html')
+	form = FlaskForm()
+	return render_template('entites_nommees.html', form=form)
 
 @app.route('/etiquetage_morphosyntaxique')
 def etiquetage_morphosyntaxique():
-	return render_template('etiquetage_morphosyntaxique.html')
+	form = FlaskForm()
+	return render_template('etiquetage_morphosyntaxique.html', form=form)
 
 @app.route('/generate_corpus',  methods=["GET","POST"])
 @stream_with_context
@@ -360,7 +274,8 @@ def corpus_from_url():
 
 @app.route('/conversion_xml')
 def conversion_xml():
-	return render_template('conversion_xml.html')
+	form = FlaskForm()
+	return render_template('conversion_xml.html', form=form)
 
 @app.route('/xmlconverter', methods=["GET", "POST"])
 @stream_with_context
@@ -794,9 +709,8 @@ def run_ocr_ner():
 		liste_contenus = []
 		for uploaded_file in uploaded_files:
 			try:
-
 				liste_contenus.append(uploaded_file.read().decode(encodage))
-				print(type(liste_contenus[-1]))
+
 			finally: # ensure file is closed
 				uploaded_file.close()
 		contenu = "\n\n".join(liste_contenus)

@@ -16,6 +16,7 @@
       <legend>Tesseract</legend>
       <form action="{{ url_for('run_ocr_ner') }}" id="tesseract-form" method="post" enctype="multipart/form-data"
         onsubmit="showloader('tessloader')">
+        {{ form.csrf_token }}
         <label for="model">Modèle</label>
         <select name="tessmodel" id="tessmodel">
           <option value="raw_text">Pas de numérisation</option>
@@ -28,7 +29,7 @@
     <fieldset>
       <legend>Configuration NER</legend>
       <label for="encodage" style="display:inline-block;width:110px;">Encodage</label>
-      <input type="text" name="encodage" id="encodage" value="UTF-8" required></p>
+      <input type="text" name="encodage" id="encodage" value="UTF-8" required>
       <label for="moteur_REN" style="display:inline-block;width:110px;">Moteur de REN</label>
       <select name="moteur_REN" id="moteur_REN" onchange="detectChangeMoteur(this)">
         <option value="spacy" selected="true">SpaCy</option>
@@ -49,6 +50,7 @@
         required />
       <br />
     </fieldset>
+    <input id="csrf_token" name="csrf_token" type="hidden" value="CSRF_TOKEN_STRING">
     <button style="display:block;margin:auto;">Traiter</button>
     </form>
   </div>

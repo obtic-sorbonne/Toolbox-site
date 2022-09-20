@@ -13,7 +13,10 @@
         <fieldset>
         <legend>Correction d'erreurs</legend>
         <form action="{{ url_for('autocorrect') }}" id="correction-form" method="post" enctype="multipart/form-data">
-          <input type="file" name="uploaded_files" accept="text/plain" multiple/><button style="display:inline-block;">Corriger</button>
+            {{ form.csrf_token }}
+          <input type="file" name="uploaded_files" accept="text/plain" multiple/>
+          <input id="csrf_token" name="csrf_token" type="hidden" value="CSRF_TOKEN_STRING">
+          <button style="display:inline-block;">Corriger</button>
         </form>
         </fieldset>
       </div>

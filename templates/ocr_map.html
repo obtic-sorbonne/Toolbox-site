@@ -4,6 +4,7 @@
 
 {% block tool %}
 
+<script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
 <style>
 /* Grille CSS */
 .parent {
@@ -39,6 +40,7 @@
     <p>Formats possibles pour les textes bruts : TXT.</p>
     <div id="tess-form">
         <form id="ocrmap-form" method="post" enctype="multipart/form-data" onsubmit="showloader('tessloader')">
+          {{ form.csrf_token }}
       <fieldset>
         <legend>Tesseract</legend>
           <label for="model">Modèle</label>
@@ -94,6 +96,7 @@
           required />
         <br />
       </fieldset>
+      <input id="csrf_token" name="csrf_token" type="hidden" value="CSRF_TOKEN_STRING">
       <button id="ocrmap-button" style="display:block;margin:auto;margin-bottom:5px;">Cartographier</button>
       <button id="ocrmap-csv" style="display:block;margin:auto;margin-bottom:50px;">Télécharger</button>
       </form>
