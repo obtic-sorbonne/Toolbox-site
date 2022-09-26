@@ -122,6 +122,8 @@ dependencies:
     - future==0.18.2
     - gdown==4.4.0
     - gensim==4.2.0
+    - geographiclib==1.52
+    - geopy==2.2.0
     - huggingface-hub==0.9.1
     - hyperopt==0.2.7
     - importlib-metadata==3.10.1

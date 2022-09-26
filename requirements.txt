@@ -33,6 +33,7 @@ ftfy==6.1.1
 future==0.18.2
 gdown==4.4.0
 gensim==4.2.0
+geopy==2.2.0
 huggingface-hub==0.9.1
 hyperopt==0.2.7
 idna==3.3
