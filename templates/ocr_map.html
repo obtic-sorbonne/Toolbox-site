@@ -122,6 +122,7 @@
 
 
     <script>
+
         var previous = [];
         var dataPoints = {};
         //~ var dataNilPoints = {};
@@ -236,19 +237,20 @@ var intersection_icon = {
     </script>
 
     <script type="text/javascript">
-const ocrmap_button = document.querySelector('#ocrmap-button');
-ocrmap_button.onclick = (event) => {
-    event.preventDefault();
-    var form_data = new FormData($('#ocrmap-form').get(0));
-    $.ajax({
-        type: 'POST',
-        url: "{{ url_for('run_ocr_map_intersection') }}",
-        data: form_data,
-        processData: false,
-        contentType: false,
-        success: function (response) {
-            event.preventDefault();
-            updateOverlays(response);
+
+      const ocrmap_button = document.querySelector('#ocrmap-button');
+      ocrmap_button.onclick = (event) => {
+          event.preventDefault();
+          var form_data = new FormData($('#ocrmap-form').get(0));
+          $.ajax({
+            type: 'POST',
+            url: "{{ url_for('run_ocr_map_intersection') }}",
+            data: form_data,
+            processData: false,
+            contentType: false,
+            success: function (response) {
+              event.preventDefault();
+              updateOverlays(response);
             //~ if (response.points.length > 0) {
                 //~ updatePoints(response.points);
             //~ } else {
