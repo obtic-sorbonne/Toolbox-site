@@ -126,7 +126,7 @@ nav a::before {
   font-weight: 900;
   color: #fff; /*#111;*/
   top: 50%;
-  left: 160px;
+  left: 250px;
   position: absolute;
   transform: translate(-50%, -50%);
 }

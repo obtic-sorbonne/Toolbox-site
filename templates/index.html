@@ -9,7 +9,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
   <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
 
-  <title>Toolbox</title>
+  <title>Pandore toolbox</title>
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="{{ url_for('static', filename= 'main.css') }}">
@@ -19,7 +19,7 @@
 <body>
   <div class="logo">
    <a href="{{ url_for('index') }}"><img alt="ObTIC" src="{{url_for('static', filename='img/ObTIC-logo-white.png')}}"/>
-   <h1>Toolbox</h1></a>
+   <h1>Pandore toolbox</h1></a>
    <span class="contact"><i class="fa-solid fa-envelope"></i><a href="{{ url_for('contact')}}">Contact</a></span>
   </div>
   <nav>
@@ -57,7 +57,11 @@
     <ul><li>Johanna Mayra Cordova, Yoann Dupont, Ljudmila Petkovic, James Gawley, Motasem Alrahabi, et al.. Toolbox : une chaîne de traitement de corpus pour les humanités numériques. <i>Traitement Automatique des Langues Naturelles</i>, 2022, Avignon, France. pp.11-13. ⟨<a href="https://hal.archives-ouvertes.fr/TALN-RECITAL2022/hal-03701464" target="_blank">hal-03701464</a>⟩</li></ul>
   </div>
 </div>
-  </div><!-- end content-->
+<div style="height:250px;margin-left:20%;display: flex;justify-content: left;">
+  <a href="https://www.sorbonne-universite.fr/" target="_blank"><img src="{{ url_for('static', filename='img/ObTIC-logo-blue-1-1.svg') }}" height="100px" style="margin:15px;"/></a>
+  <a href="https://obtic.sorbonne-universite.fr/" target="_blank"><img src="{{ url_for('static', filename='img/Lettres_su_logo_transparent.png')}}" height="100px" style="margin:15px;"/></a>
+</div>
+</div><!-- end content-->
   {% endblock %}
 </body>
 </html>

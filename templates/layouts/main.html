@@ -8,7 +8,7 @@
   <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
 
-  <title>Toolbox</title>
+  <title> Pandore toolbox</title>
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="{{ url_for('static', filename= 'main.css') }}">
@@ -27,7 +27,7 @@
 <body>
   <div class="logo">
      <a href="{{ url_for('index') }}"><img alt="ObTIC" src="{{url_for('static', filename='img/ObTIC-logo-white.png')}}"/>
-     <h1>Toolbox</h1></a>
+     <h1>Pandore toolbox</h1></a>
      <span class="contact"><i class="fa-solid fa-envelope"></i><a href="{{ url_for('contact')}}">Contact</a></span>
   </div>
   {% block navigation %}
