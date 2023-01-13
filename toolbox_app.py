@@ -31,6 +31,8 @@ import sem
 import sem.storage
 import sem.exporters
 
+import ocr
+
 UPLOAD_FOLDER = 'uploads'
 MODEL_FOLDER = 'static/models'
 ROOT_FOLDER = Path(__file__).parent.absolute()
@@ -755,7 +757,6 @@ def to_geoJSON_point(coordinates, name):
 
 @app.route("/run_ocr_map", methods=["POST"])
 def run_ocr_map():
-	print("1")
 	from txt_ner import txt_ner_params
 	from geopy.geocoders import Nominatim
 	geolocator = Nominatim(user_agent="http")
