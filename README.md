@@ -38,8 +38,8 @@ Ouvrir le lien http://127.0.0.1:5000 dans un navigateur pour accéder à l'inter
 
 ## Version en ligne
 
-Une version de démonstration est disponible en ligne (nous contacter pour obtenir le lien).
-Une version publique est en cours de déploiement.
+Une [version de démonstration](http://pp-obtic.sorbonne-universite.fr/toolbox/) est disponible en ligne.
+Une nouvelle version pour diffusion plus large est en cours de conception.
 
 ____
 
@@ -47,8 +47,9 @@ ____
 
 # Bibliographie
 
-Johanna Cordova, Yoann Dupont, Ljudmila Petkovic, James Gawley, Motasem Alrahabi, et al.. Toolbox : une chaîne de traitement de corpus pour les humanités numériques. *Traitement Automatique des Langues Naturelles*, 2022, Avignon, France. pp.11-13. ⟨[hal-03701464](https://hal.archives-ouvertes.fr/TALN-RECITAL2022/hal-03701464)⟩
+Motasem ALRAHABI, Valentina FEDCHENKO, Ljudmila PETKOVIC, Glenn ROE. Pandore: a toolbox for digital humanities text-based workflows. [soumission acceptée [DH2023](https://dh2023.adho.org/?page_id=390)]
 
+Johanna Cordova, Yoann Dupont, Ljudmila Petkovic, James Gawley, Motasem Alrahabi, et al.. Toolbox : une chaîne de traitement de corpus pour les humanités numériques. *Traitement Automatique des Langues Naturelles*, 2022, Avignon, France. pp.11-13. ⟨[hal-03701464](https://hal.archives-ouvertes.fr/TALN-RECITAL2022/hal-03701464)⟩
 
 
 # Mentions légales

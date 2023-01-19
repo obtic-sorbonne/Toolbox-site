@@ -157,10 +157,10 @@ def run_tesseract():
 		return response
 	return render_template('layouts/numeriser.html', erreur=erreur)
 
-@app.route('/creer_corpus')
-def creer_corpus():
+@app.route('/collecter_corpus')
+def collecter_corpus():
 	form = FlaskForm()
-	return render_template('creer_corpus.html', form=form)
+	return render_template('collecter_corpus.html', form=form)
 
 @app.route('/correction_erreur')
 def correction_erreur():
