@@ -24,6 +24,7 @@ import subprocess
 import glob
 from pathlib import Path
 import jamspell
+import json
 
 import pandas as pd
 
@@ -862,7 +863,7 @@ def run_ocr_map_intersection():
 	return dico_mention_marker
 
 
-@app.route("/nermap_to_csv", methods=["POST"])
+@app.route("/nermap_to_csv", methods=['GET', "POST"])
 @stream_with_context
 def nermap_to_csv():
     input_json_str = request.data
