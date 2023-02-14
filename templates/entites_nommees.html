@@ -38,7 +38,7 @@
       <br />
   </div>
 
-  <div id="div-upload" class="column">
+  <div id="div-upload" class="column" style="width:100%;">
       <fieldset style="padding:15px;">
       <legend>Chargement du fichier</legend>
       <input type="file" id="raw-xml-file" name="file" accept=".xml" required>
@@ -47,6 +47,21 @@
       <button style="display:block;margin:auto;margin-top:20px;margin-bottom:60px">Annoter en entités nommées</button>
   </div>
 </form>
+
+<div id="div-camembert-ner" style="display:block;min-height:520px;">
+  <h3>Camembert NER</h3>
+  <p>Utilise le modèle préentraîné camembert-ner pour l'analyse d'un texte en format txt.</p>
+  <form action="{{ url_for('ner_camembert') }}" id="metadata-form" method="post" enctype="multipart/form-data">
+    {{ form.csrf_token }}
+    <fieldset>
+      <legend>Chargement du fichier</legend>
+      <input type="file" name="camembertfiles" accept="text/plain" multiple required>
+      <input id="csrf_token" name="csrf_token" type="hidden" value="CSRF_TOKEN_STRING">
+      <button>Annoter</button>
+    </fieldset>
+  </form>
+</div>
+
 </div>
 
 <script type="text/javascript">

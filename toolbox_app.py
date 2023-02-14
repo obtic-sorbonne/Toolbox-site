@@ -25,6 +25,7 @@ import glob
 from pathlib import Path
 import jamspell
 import json
+#from txt_ner import txt_ner_params
 
 import pandas as pd
 
@@ -546,6 +547,60 @@ def named_entity_recognition():
 	output_stream.truncate(0)
 	return response
 
+@app.route('/ner_camembert', methods=["POST"])
+@stream_with_context
+def ner_camembert():
+	if request.method == 'POST':
+		uploaded_files = request.files.getlist("camembertfiles")
+		if uploaded_files == []:
+			abort(400)
+
+		from transformers import AutoTokenizer, AutoModelForTokenClassification
+		tokenizer = AutoTokenizer.from_pretrained("Jean-Baptiste/camembert-ner")
+		model = AutoModelForTokenClassification.from_pretrained("Jean-Baptiste/camembert-ner")
+		from transformers import pipeline
+		nlp = pipeline('ner', model=model, tokenizer=tokenizer, aggregation_strategy="simple")
+
+		# Prépare le dossier résultat
+		rand_name =  'ner_camembert_' + ''.join((random.choice(string.ascii_lowercase) for x in range(8)))
+		result_path = ROOT_FOLDER / os.path.join(UPLOAD_FOLDER, rand_name)
+		os.mkdir(result_path)
+
+		for f in uploaded_files:
+			text = f.read().decode("utf-8")
+			paragraphs = text.split('\n')
+			text_lines = [x for x in paragraphs if x != '']
+			res_ner = []
+			for line in text_lines:
+				res_ner += nlp(line)
+
+			filename, file_extension = os.path.splitext(f.filename)
+			output_name = os.path.join(result_path, filename + '.csv')
+
+			fields = ['word', 'entity_group', 'start', 'end', 'score']
+
+			with open(output_name, 'w', newline='') as f_out:
+				writer = csv.DictWriter(f_out, fieldnames = fields)
+				writer.writeheader()
+				writer.writerows(res_ner)
+
+		# ZIP le dossier résultat
+		if len(os.listdir(result_path)) > 0:
+			shutil.make_archive(result_path, 'zip', result_path)
+			output_stream = BytesIO()
+			with open(str(result_path) + '.zip', 'rb') as res:
+				content = res.read()
+			output_stream.write(content)
+			response = Response(output_stream.getvalue(), mimetype='application/zip',
+									headers={"Content-disposition": "attachment; filename=" + rand_name + '.zip'})
+			output_stream.seek(0)
+			output_stream.truncate(0)
+			return response
+		else:
+			os.remove(result_path)
+	return render_template('entites_nommees.html', erreur=erreur)
+
+
 #-----------------------------------------------------------------
 @app.route('/bios_converter', methods=["GET", "POST"])
 @stream_with_context
@@ -806,7 +861,7 @@ def run_ocr_map_intersection():
 	from txt_ner import txt_ner_params
 	from geopy.geocoders import Nominatim
 	geolocator = Nominatim(user_agent="http")
-
+	print("Entrée dans run intersection")
 	# paramètres globaux
 	uploaded_files = request.files.getlist("inputfiles")
 	# paramètres OCR
@@ -820,11 +875,13 @@ def run_ocr_map_intersection():
 	modele_REN2 = request.form['modele_REN2']
 
 	rand_name =  'ocr_ner_' + ''.join((random.choice(string.ascii_lowercase) for x in range(8)))
+
 	if ocr_model != "raw_text":
 		contenu = ocr.tesseract_to_txt(uploaded_files, ocr_model, rand_name, ROOT_FOLDER, up_folder)
 	else:
 		liste_contenus = []
 		for uploaded_file in uploaded_files:
+			print(uploaded_file)
 			try:
 
 				liste_contenus.append(uploaded_file.read().decode(encodage))

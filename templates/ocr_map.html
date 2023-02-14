@@ -146,6 +146,21 @@
 
 
     <script type="text/javascript">
+    /* Gère les tokens CSRF à chaque requête */
+          var csrf_token = "{{ csrf_token() }}";
+
+          $.ajaxSetup({
+              beforeSend: function(xhr, settings) {
+                  if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type) && !this.crossDomain) {
+                      xhr.setRequestHeader("X-CSRFToken", csrf_token);
+                  }
+              }
+          });
+    </script>
+
+
+
+    <script type="text/javascript">
         function onEachFeature(feature, layer) {
             var popupContent = "<p>" + feature.properties.name + "</p>";
             layer.bindPopup(popupContent);
@@ -266,38 +281,28 @@ var intersection_icon = {
 
     <script type="text/javascript">
 
-          var csrf_token = "{{ csrf_token() }}";
-
-          $.ajaxSetup({
-              beforeSend: function(xhr, settings) {
-                  if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type) && !this.crossDomain) {
-                      xhr.setRequestHeader("X-CSRFToken", csrf_token);
-                  }
-              }
-          });
-
-const download_data_button = document.querySelector('#ocrmap-csv');
-download_data_button.onclick = (event) => {
-    event.preventDefault();
-    let items = {"data": mapped_ner_tools};
-    $.ajax({
-        type: 'POST',
-        url: "{{ url_for('nermap_to_csv') }}",
-        data: JSON.stringify(items),
-        processData: false,
-        contentType: "application/json; charset=UTF-8",
-        success: function (response) {
-            event.preventDefault();
-            let data_export = "data:text/csv;charset=utf-8," + encodeURIComponent(response);
-            let downloadAnchorNode = document.createElement('a');
-            downloadAnchorNode.setAttribute("href",     data_export);
-            downloadAnchorNode.setAttribute("download", "ner2map-export.tsv");
-            document.body.appendChild(downloadAnchorNode);
-            downloadAnchorNode.click();
-            downloadAnchorNode.remove();
-        }
-    });
-};
+    const download_data_button = document.querySelector('#ocrmap-csv');
+    download_data_button.onclick = (event) => {
+        event.preventDefault();
+        let items = {"data": mapped_ner_tools};
+        $.ajax({
+            type: 'POST',
+            url: "{{ url_for('nermap_to_csv') }}",
+            data: JSON.stringify(items),
+            processData: false,
+            contentType: "application/json; charset=UTF-8",
+            success: function (response) {
+                event.preventDefault();
+                let data_export = "data:text/csv;charset=utf-8," + encodeURIComponent(response);
+                let downloadAnchorNode = document.createElement('a');
+                downloadAnchorNode.setAttribute("href",     data_export);
+                downloadAnchorNode.setAttribute("download", "ner2map-export.tsv");
+                document.body.appendChild(downloadAnchorNode);
+                downloadAnchorNode.click();
+                downloadAnchorNode.remove();
+            }
+        });
+    };
     </script>
 
 <script type="text/javascript">

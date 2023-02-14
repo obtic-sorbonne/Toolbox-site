@@ -55,7 +55,7 @@ entity_iterators = {
 }
 
 
-def txt_ner_params(texte, moteur, modele, encodage="utf-8"): 
+def txt_ner_params(texte, moteur, modele, encodage="utf-8"):
     moteur = moteur.lower()
     loader = loaders.get(moteur)
     iterator = entity_iterators.get(moteur)
@@ -104,7 +104,6 @@ def txt_ner(texte, annotateur, iterateur, encodage="utf-8"):
     entities = []
     for label, start, end in iterateur(annotateur(texte)):
         entities.append([label, start, end, texte[start:end]])
-
     return entities
 
 
