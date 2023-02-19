@@ -1,42 +1,62 @@
-{% extends "layouts/corpus.html" %}
-{% block navigation %} {{ super() }} {% endblock %}
-{% block content %} {{ super() }} {% endblock %}
+{% extends "index.html" %}
+{% block header %} {{ super() }} {% endblock %}
 
-{% block tool %}
+{% block content %}
 
 <div class="outil">
-<h3>Numériser (OCR/HTR)</h3>
-
+<h2 style="font-family:'Comprehension', serif;">Numériser (OCR/HTR)</h2>
+<div class="tool-box">
     <h4>Tesseract OCR</h4>
-    <p>L'outil Tesseract permet de numériser des fichiers imprimés.</p>
+    <p>L'outil <em><a href="https://tesseract-ocr.github.io/tessdoc/" target="_blank">Tesseract</a></em> permet de numériser des imprimés. Cet outil d'OCR est basé sur la technologie LSTM. Les <a href="https://github.com/tesseract-ocr/tessdata" target="_blank">modèles préentraînés</a> disponibles avec l'outil couvrent un large éventail de polices et sont disponibles pour de très nombreuses langues.</p>
     <p>Formats possibles pour les fichiers d'entrée : PNG, JPG, TIFF, PDF.</p>
     <div id="tess-form">
-    <fieldset><legend>Tesseract</legend>
     <form action="{{ url_for('run_tesseract') }}" id="tesseract-form" method="post" enctype="multipart/form-data" onsubmit="showloader('tessloader')">
       {{ form.csrf_token }}
       <label for="model">Modèle</label>
-      <select name="tessmodel" id="tessmodel">
+      <select name="tessmodel" id="tessmodel" class="sel sel--black-panther">
         <option value="fra">Français (fra)</option>
         <option value="eng">Anglais (eng)</option>
         <option value="frk">Fraktur (frk)</option>
-	<option value="spa_old">Espagnol ancien (spa_old)</option>
+	      <option value="spa_old">Espagnol ancien (spa_old)</option>
       </select>
       <input type="file" name="tessfiles" accept="image/jpeg,image/png,application/pdf,image/tif,image/tiff" multiple required/>
-      </fieldset>
       <input id="csrf_token" name="csrf_token" type="hidden" value="CSRF_TOKEN_STRING">
-      <button style="display:block;margin:auto;">Numériser</button>
+      <button>Numériser</button>
     </form>
     </div>
     <!-- Loader -->
     <div id="tessloader">
     <p>Traitement en cours...</p>
+    <p>Vos fichiers apparaîtront une fois le traitement terminé.</p>
 	<div class="loadingio-spinner-ball-205vl2x7f7n"><div class="ldio-b8p5li8dt1u">
 	<div></div>
 	</div></div>
 	</div>
 	<!--end div loader-->
-
+</div><!-- end div tool-box-->
 	<!--<h4>Kraken</h4>
 	<p></p>-->
+
+  <div class="next-task">
+    <h3>Tâches suivantes</h3>
+    <div class="bandeau-outils">
+      <div class="container">
+        <div class="box-next-task">
+          <div class="box-icon"><i class="fa-solid fa-file-code"></i></div>
+          <span class="box-title" style="margin-top:10px;"><p>Convertir en XML-TEI</p></span>
+        </div>
+        <div class="box-next-task">
+          <div class="box-icon"><i class="fa-solid fa-address-card"></i></div>
+          <span class="box-title"><p>NER</p></span>
+          <span class="box-text"><p>Reconnaissance d'entités nommées (Spacy, Flair, Camembert)</p></span>
+        </div>
+        <div class="box-next-task">
+          <div class="box-icon"><i class="fa-solid fa-tags"></i></div>
+          <span class="box-title"><p>Étiquetage morphosyntaxique</p></span>
+          <span class="box-text"><p>Outil SEM</p></span>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 {% endblock %}

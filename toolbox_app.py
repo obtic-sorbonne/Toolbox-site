@@ -62,6 +62,10 @@ csrf.init_app(app)
 def index():
 	return render_template('index.html')
 
+@app.route('/projet')
+def projet():
+	return render_template('projet.html')
+
 @app.route('/contact')
 def contact():
 	form = ContactForm()
@@ -192,7 +196,7 @@ def generate_corpus():
 		output_stream.seek(0)
 		output_stream.truncate(0)
 		return response
-	return render_template('/creer_corpus.html')
+	return render_template('/collecter_corpus.html')
 
 @app.route('/corpus_from_url',  methods=["GET","POST"])
 @stream_with_context
@@ -273,7 +277,7 @@ def corpus_from_url():
 		else:
 			os.remove(result_path)
 
-	return render_template('creer_corpus.html')
+	return render_template('collecter_corpus.html')
 
 
 @app.route('/conversion_xml')

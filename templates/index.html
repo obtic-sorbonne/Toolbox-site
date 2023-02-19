@@ -3,7 +3,8 @@
 <head>
 
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <!--<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">-->
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
@@ -13,58 +14,65 @@
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="{{ url_for('static', filename= 'css/main.css') }}">
-
+  <link rel="stylesheet" href="{{ url_for('static', filename= 'css/loader.css') }}">
+  <script src="{{url_for('static', filename='js/loader.js')}}"></script>
   <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js" integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
 </head>
 <body>
+{% block header %}
   <div class="logo">
    <a href="{{ url_for('index') }}"><img alt="ObTIC" src="{{url_for('static', filename='img/ObTIC-logo-white.png')}}"/>
-   <h1>Pandore toolbox</h1></a>
-   <span class="contact"><i class="fa-solid fa-envelope"></i><a href="{{ url_for('contact')}}">Contact</a></span>
-  </div>
-  <nav>
-    <ul>
-      <li><a href="{{ url_for('outils_corpus') }}"><i class="fas fa-book-open"></i> <em>Corpus</em></a></li>
-      <li><a href="{{ url_for('outils_fouille') }}"><i class="fa-solid fa-pen-to-square"></i> <em>Annotation automatique</em></a></li>
-      <li><a href="{{ url_for('outils_visualisation') }}"><i class="fa-solid fa-chart-column"></i> <em>Visualisation</em></a></li>
-      <li><a href="{{ url_for('outils_pipeline') }}"><i class="fa-solid fa-timeline"></i> <em>Chaînes de traitement</em></a></li>
+   <h1 style="font-family:'Comprehension', serif;">Pandore toolbox</h1></a>
+   <nav>
+     <ul>
+       <li><a href="{{ url_for('projet') }}" id="menu_projet">Projet</a></li>
+       <li><a href="#">Outils</a></li>
+       <li><a href="#">Documentation</a></li>
     </ul>
   </nav>
-
-  {% block content %}
-  <div class="content">
-  <div class="presentation">
-  <h2 style="font-family:'Comprehension', serif;font-size:32px;">Le projet</h2>
-  <div class="rubrique">
-     <p>La Toolbox a été conçue par les membres de <em>l'équipe-projet <a href="https://obtic.sorbonne-universite.fr/" target="_blank">ObTIC</a></em> (SCAI - Sorbonne Université).<br/>
-       Il s'agit d'une interface qui permet d'utiliser en ligne un ensemble d'outils de manipulation et de traitement de corpus textuels. Les tâches couvertes sont les tâches essentielles le plus souvent réalisées dans les études de corpus : la numérisation (OCR/HTR), la conversion entre différents formats de données (notamment XML-TEI), l'analyse automatique du texte (reconnaissance d'entités nommées) et la visualisation des données.</p>
-     <p>Les fonctionnalités implémentées sont basées soit sur des outils externes donnant des résultats état de l'art dans les tâches concernés (Tesseract, Spacy, Flair, etc), soit sur des scripts ou applications développés par l'équipe ObTIC (Ariane, Tanagra, etc).</p>
   </div>
-  <h2 style="font-family:'Comprehension', serif;font-size:32px;">L'équipe</h2>
-  <div class="rubrique">
-  <ul>
-  <li><em>Glenn Roe</em>, professeur, Sorbonne Université (responsable du projet, conception)</li>
-  <li><em>Motasem Alrahabi</em>, ingénieur de recherche, Sorbonne Université (conception, développement)</li>
-  <li><em>Johanna Cordova</em>, ingénieure d'étude, Sorbonne Université (conception, développement)</li>
-  <li><em>Yoann Dupont</em>, ancien membre ObTIC post-doctorant (conception, développement)</li>
-  <li><em>Ljudmila Petković</em>, doctorante, Sorbonne Université (développement)</li>
-  <li><em>Caroline Parfait</em>, doctorante, Sorbonne Université (développement)</li>
-  <li><em>James Gawley</em>, post-doctorant, Sorbonne Université (développement)</li>
-</ul>
-</div>
-  <h2 style="font-family:'Comprehension', serif;font-size:32px;">Publications</h2>
-  <div class="rubrique">
-    <ul>
-      <li>Motasem ALRAHABI, Valentina FEDCHENKO, Ljudmila PETKOVIC, Glenn ROE. Pandore: a toolbox for digital humanities text-based workflows. [soumission acceptée <a href="https://dh2023.adho.org/?page_id=390" target="_blank">DH2023</a>]
-      <li>Johanna Mayra Cordova, Yoann Dupont, Ljudmila Petkovic, James Gawley, Motasem Alrahabi, et al.. Toolbox : une chaîne de traitement de corpus pour les humanités numériques. <i>Traitement Automatique des Langues Naturelles</i>, 2022, Avignon, France. pp.11-13. ⟨<a href="https://hal.archives-ouvertes.fr/TALN-RECITAL2022/hal-03701464" target="_blank">hal-03701464</a>⟩</li>
-    </ul>
+  <div class="spacer">
+    &nbsp;
+  </div>
+{% endblock %}
+{% block content %}
+<div class="main">
+<h2 style="font-family:'Comprehension', serif;">Pandore : une boîte à outil pour les humanités numériques</h2>
+  <div class="bandeau-accueil">
+    <h3 style="font-family:'Comprehension', serif;">Projet</h3>
+    <div class="box-1">
+      <p>Pandore offre un ensemble de modules permettant d'effectuer automatiquement les
+  tâches les plus courantes liées au traitement de corpus pour la recherche en humanités
+  numériques. Des chaînes de traitement permettant d'automatiser un ensemble de
+  tâches sont également proposées.</p>
+    </div>
+    <button>Voir la démo</button>
+  </div>
+  <div class="bandeau-outils">
+    <div class="container">
+      <div class="box-outil-accueil shadow" onclick="window.location.href='{{ url_for('numeriser') }}';">
+        <div class="rubrique-icon"><img alt="OCR/HTR" src="{{url_for('static', filename='img/ocr_icon.png')}}"></div>
+        <span class="rubrique-title"><h3>OCR/HTR</h3></span>
+        <span class="rubrique-text"><p>Conversion d'images en texte</p></span>
+      </div>
+      <div class="box-outil-accueil shadow">
+        <div class="rubrique-icon"><img alt="Collecte de corpus" src="{{url_for('static', filename='img/wiki-scraping-icon.png')}}"></div>
+        <span class="rubrique-title"><h3>Collecte de corpus</h3></span>
+        <span class="rubrique-text"><p>Scraping personnalisé des corpus Wikisource</p></span>
+      </div>
+      <div class="box-outil-accueil shadow">
+        <div class="rubrique-icon"><img alt="Fouille et annotation de texte" src="{{url_for('static', filename='img/ner-icon.png')}}"></div>
+        <span class="rubrique-title"><h3>Fouille et annotation de texte</h3></span>
+        <span class="rubrique-text"><p>Reconnaissance d'entités nommées, étiquetage morphosyntaxique, analyse de sentiments</p></span>
+      </div>
+      <div class="box-outil-accueil shadow">
+        <div class="rubrique-icon"><img alt="Visualisation" src="{{url_for('static', filename='img/network-icon.png')}}"></div>
+        <span class="rubrique-title"><h3>Visualisation</h3></span>
+        <span class="rubrique-text"><p>Tanagra (entités de lieux sur carte)<br/>Minerva (réseaux de cooccurrences)<br/>Ariane (polarités textuelles)</p></span>
+      </div>
+    </div>
   </div>
 </div>
-<div style="height:250px;margin-left:20%;display: flex;justify-content: left;">
-  <a href="https://www.sorbonne-universite.fr/" target="_blank"><img src="{{ url_for('static', filename='img/ObTIC-logo-blue-1-1.svg') }}" height="100px" style="margin:15px;"/></a>
-  <a href="https://obtic.sorbonne-universite.fr/" target="_blank"><img src="{{ url_for('static', filename='img/Lettres_su_logo_transparent.png')}}" height="100px" style="margin:15px;"/></a>
-</div>
-</div><!-- end content-->
-  {% endblock %}
+{% endblock %}
 </body>
 </html>
