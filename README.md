@@ -10,7 +10,7 @@
 
 - Créer et activer un environnement virtuel (Python 3.6 et au-dessus) :
 
-`python3 -m env toolbox-env`
+`python3 -m venv toolbox-env`
 
 `source toolbox-env/bin/activate`
 

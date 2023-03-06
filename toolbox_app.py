@@ -861,7 +861,6 @@ def run_ocr_map_intersection():
 	from txt_ner import txt_ner_params
 	from geopy.geocoders import Nominatim
 	geolocator = Nominatim(user_agent="http")
-	print("Entrée dans run intersection")
 	# paramètres globaux
 	uploaded_files = request.files.getlist("inputfiles")
 	# paramètres OCR
@@ -883,7 +882,6 @@ def run_ocr_map_intersection():
 		for uploaded_file in uploaded_files:
 			print(uploaded_file)
 			try:
-
 				liste_contenus.append(uploaded_file.read().decode(encodage))
 			finally: # ensure file is closed
 				uploaded_file.close()
@@ -893,6 +891,8 @@ def run_ocr_map_intersection():
 
 	entities_1 = txt_ner_params(contenu, moteur_REN1, modele_REN1, encodage=encodage)
 	ensemble_mentions_1 = set(text for label, start, end, text in entities_1 if label == "LOC")
+	print("Nb d'entités de lieu modèle 1 : ")
+	print(len(ensemble_mentions_1))
 
 	if moteur_REN2 != "aucun":
 		entities_2 = txt_ner_params(contenu, moteur_REN2, modele_REN2, encodage=encodage)
@@ -911,6 +911,7 @@ def run_ocr_map_intersection():
 	for key, ensemble in zip(liste_keys, liste_ensemble_mention):
 		for texte in ensemble:
 			location = geolocator.geocode(texte, timeout=30)
+			print(location)
 			if location:
 				dico_mention_marker[key].append((location.latitude, location.longitude, texte))
 

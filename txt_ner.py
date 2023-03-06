@@ -66,12 +66,15 @@ def txt_ner_params(texte, moteur, modele, encodage="utf-8"):
     if iterator is None:
         raise ValueError(f"Pas d'itérateur d'entités pour {moteur}")
 
+    print(loader)
     pipeline = loader(modele)
+    print(pipeline)
     label_function = get_label_function(moteur, pipeline)
     try:
         contenu = texte.decode(encodage)
     except AttributeError:
         contenu = texte
+        print("Erreur dans la spécification de l'encodage.")
     return txt_ner(contenu, label_function, iterator, encodage=encodage)
 
 
@@ -133,9 +136,17 @@ def main(
 
     pipeline = loader(modele)
     label_function = get_label_function(annotateur, pipeline)
+    print(label_function)
 
-    with open(fichier) as input_stream:
-        contenu = input_stream.read()
+    """with open(fichier) as input_stream:
+        contenu = input_stream.read()"""
+    try:
+        input_stream = open(fichier, 'r')
+    except IOError:
+        print('Erreur en lisant le fichier à analyser.')
+    else:
+        with input_stream:
+            contenu = input_stream.read()
 
     with open(sortie, "w", encoding="utf-8") as output_stream:
         writer = csv.writer(output_stream, delimiter="\t")
