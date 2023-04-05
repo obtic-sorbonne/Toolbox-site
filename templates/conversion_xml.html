@@ -1,8 +1,8 @@
-{% extends "layouts/corpus.html" %}
-{% block navigation %} {{ super() }} {% endblock %}
-{% block content %} {{ super() }} {% endblock %}
+{% extends "index.html" %}
+{% block header %} {{ super() }} {% endblock %}
 
-{% block tool %}
+{% block content %}
+
     <div class="outil" id="t3">
       <h3>Conversion XML-TEI</h3>
       <h4>Outil Teinte</h4>
@@ -52,55 +52,4 @@
           </form>
       </div>
     </div>
-<div class="outil" id="TM1">
-  <h3>Calcul d'accord inter-annotateur</h3>
-
-  <div><p>Cet outil lit des annotations dans le format standard BIOES*, et les met en corrélation de sorte qu'un accord inter-annotateur puisse être calculé. A noter que l'outil ne permet d'aligner que des annotations simples sous forme d'étiquettes (pas de chevauchement, pas de relations).</p>
-    <div class="info" style="width:300px">
-      <p><i class="fa-solid fa-circle-info" style="margin-right:5px;"></i> Format des fichiers d'entrée : .tsv </p>
-      <div class="tooltip">* format BIOES<span class="tooltiptext"> <table style="font-size:0.7em">
-            <tr><td>Sa</td><td>B-FAC</td></tr>
-            <tr><td>rue</td><td>E-FAC</td></tr>
-            <tr><td>descendait</td><td>O</td></tr>
-            <tr><td>jusqu'</td><td>O</td></tr>
-            <tr><td>à</td><td>O</td></tr>
-            <tr><td>la</td><td>B-LOC</td></tr>
-            <tr><td>Marne</td><td>E-LOC</td></tr>
-          </table></span></div>
-    </div>
-  </div>
-
-  <div id="divform">
-    <form action="{{ url_for('bios_converter') }}" id="metadata-form" method="post" enctype="multipart/form-data">
-        {{ form.csrf_token }}
-      <div id="div-metadata" class="column">
-      <fieldset>
-	      <legend>Annotations A</legend>
-    	  <p>Saisissez une dénomination pour l'ensemble des annotations du premier annotateur.</p>
-		    <label for="annotator_a" style="display:inline-block;width:102px;">Annotateur A</label>
-			  <input type="text" name="annotator_a" id="annotator_a" placeholder="A">
-        <br/>
-        <label for="annotator_a" style="display:inline-block;width:102px;">Chargement du fichier A</label>
-	      <input type="file" id="raw-text-file" name="file1" accept=".tsv" required>
-      </fieldset>
-      </div>
-
-      <div id="div-metadata" class="column">
-      <fieldset>
-	      <legend>Annotations B</legend>
-    	  <p>Saisissez une dénomination pour l'ensemble des annotations du deuxieme annotateur.</p>
-        <label for="annotator_b" style="display:inline-block;width:102px;">Annotateur B</label>
-			  <input type="text" name="annotator_b" id="annotator_b" placeholder="B">
-        <br/>
-        <label for="annotator_b" style="display:inline-block;width:102px;">Chargement du fichier B</label>
-	      <input type="file" id="raw-text-file" name="file2" accept=".tsv" required>
-      </fieldset>
-      </div>
-  </div>
-  <input id="csrf_token" name="csrf_token" type="hidden" value="CSRF_TOKEN_STRING">
-  <button style="display:block;margin:auto;margin-top:20px;">Aligner les annotations</button>
-</form>
-</div>
-
-  </div><!--fin CORPUS-->
 {% endblock %}

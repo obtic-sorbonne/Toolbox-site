@@ -128,9 +128,10 @@ nav li:hover{
 
 .container{
   display:flex;
+  flex-wrap:wrap;
   align-items:stretch;
   gap:20px;
-  width:70%;
+  width:75%;
   margin:auto;
   margin-top:25px;
 }
@@ -138,7 +139,7 @@ nav li:hover{
 .box-outil-accueil{
   background-color:#f6f6f6;
   min-width:290px;
-  flex: 1 1 0px;
+  flex: 0 0 0px;
   display:flex;
   flex-direction:column;
   cursor:pointer;
@@ -346,7 +347,7 @@ overflow: scroll;
 }
 
 .next-task{
-  margin-top:8%;
+  margin-top:60px;
   width:100%;
 }
 
@@ -356,7 +357,7 @@ overflow: scroll;
 }
 
 .box-next-task{
-  background-color:rgba(255, 196, 130, .2);
+  background-color:rgba(221, 201, 180, .3);
   min-width:120px;
   flex: 1 1 0px;
   display:flex;
@@ -365,6 +366,7 @@ overflow: scroll;
   text-align:center;
   padding:12px;
   border-radius:8px;
+  margin-bottom:15px;
 }
 
 .box-icon{
@@ -378,12 +380,12 @@ overflow: scroll;
 }
 
 .box-title p{
-	font-size:1.3em;
+	font-size:1.1em;
 }
 
 .box-text p{
 	font-style:italic;
-	font-size:1em;
+	font-size:0.9em;
 	color:#2a3d45ff;
 }
 

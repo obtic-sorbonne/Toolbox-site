@@ -1,17 +1,9 @@
-{% extends "layouts/main.html" %}
-{% block navigation %}
-  <nav>
-  <ul>
-    <li><a href="{{ url_for('outils_corpus') }}"><i class="fas fa-book-open"></i> <em>Corpus</em></a></li>
-    <li><a href="{{ url_for('outils_fouille') }}"><i class="fa-solid fa-pen-to-square"></i> <em>Annotation automatique</em></a></li>
-    <li><a href="{{ url_for('outils_visualisation') }}" class="active"><i class="fa-solid fa-chart-column"></i> <em>Visualisation</em></a></li>
-    <li><a href="{{ url_for('outils_pipeline') }}"><i class="fa-solid fa-timeline"></i> <em>Chaînes de traitement</em></a></li>
-  </ul>
-  </nav>
-{% endblock %}
+{% extends "index.html" %}
+{% block header %} {{ super() }} {% endblock %}
 
 {% block content %}
-  <h2>Visualisation</h2>
+<div class="outil">
+  <h2 style="font-family:'Comprehension', serif;">Visualisation</h2>
   <div class="tools" style="width:900px">
     <ul>
       <li><i class="fa-solid fa-map-location-dot"></i><a href="https://obtic.sorbonne-universite.fr/tanagra/map" target="_blank">Tanagra</a></li>
@@ -26,4 +18,5 @@
     </ul>
     <p>Ariane est une interface web pour l'exploration et la visualisation de corpus annotés. Elle permet de rechercher des mots au sein de passages annotés selon une ontologie linguistique (sentiments, opinions, etc.). L'interface propose des statistiques et des visualisations autour des résultats, ainsi que des fonctionnalités de filtrage et de lecture synthétique.</p>
   </div>
+</div>
 {% endblock %}
