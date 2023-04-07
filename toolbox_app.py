@@ -25,6 +25,7 @@ import glob
 from pathlib import Path
 import jamspell
 import json
+import collections
 #from txt_ner import txt_ner_params
 
 import pandas as pd
@@ -872,6 +873,7 @@ def run_ocr_map_intersection():
 	modele_REN1 = request.form['modele_REN1']
 	moteur_REN2 = request.form['moteur_REN2']
 	modele_REN2 = request.form['modele_REN2']
+	frequences = collections.Counter()
 
 	rand_name =  'ocr_ner_' + ''.join((random.choice(string.ascii_lowercase) for x in range(8)))
 
@@ -891,12 +893,12 @@ def run_ocr_map_intersection():
 
 	entities_1 = txt_ner_params(contenu, moteur_REN1, modele_REN1, encodage=encodage)
 	ensemble_mentions_1 = set(text for label, start, end, text in entities_1 if label == "LOC")
-	print("Nb d'entités de lieu modèle 1 : ")
-	print(len(ensemble_mentions_1))
+	ensemble_positions = set((text, start, end) for label, start, end, text in entities_1 if label == "LOC")
 
 	if moteur_REN2 != "aucun":
 		entities_2 = txt_ner_params(contenu, moteur_REN2, modele_REN2, encodage=encodage)
 		ensemble_mentions_2 = set(text for label, start, end, text in entities_2 if label == "LOC")
+		ensemble_positions |= set((text, start, end) for label, start, end, text in entities_2 if label == "LOC")
 	else:
 		entities_2 = ()
 		ensemble_mentions_2 = set()
@@ -904,6 +906,9 @@ def run_ocr_map_intersection():
 	ensemble_mentions_commun = ensemble_mentions_1 & ensemble_mentions_2
 	ensemble_mentions_1 -= ensemble_mentions_commun
 	ensemble_mentions_2 -= ensemble_mentions_commun
+
+	for text, start, end in ensemble_positions:
+		frequences[text] += 1
 
 	liste_keys = ["commun", "outil 1", "outil 2"]
 	liste_ensemble_mention = [ensemble_mentions_commun, ensemble_mentions_1, ensemble_mentions_2]
@@ -913,7 +918,7 @@ def run_ocr_map_intersection():
 			location = geolocator.geocode(texte, timeout=30)
 			print(location)
 			if location:
-				dico_mention_marker[key].append((location.latitude, location.longitude, texte))
+				dico_mention_marker[key].append((location.latitude, location.longitude, texte, frequences[texte]))
 
 	for key, value in dico_mention_marker.items():
 		print(key, value)
@@ -928,7 +933,7 @@ def nermap_to_csv():
     print(input_json_str)
     input_json = json.loads(input_json_str)
     print(input_json)
-    keys = ["nom", "latitude", "longitude", "outil"]
+    keys = ["nom", "latitude", "longitude", "outil", "fréquence"]
     output_stream = StringIO()
     writer = csv.DictWriter(output_stream, fieldnames=keys, delimiter="\t")
     writer.writeheader()
@@ -938,6 +943,7 @@ def nermap_to_csv():
             "longitude" : point[1],
             "nom" : point[2],
             "outil" : point[3],
+            "fréquence" : point[4],
         }
         writer.writerow(row)
     # name not useful, will be handled in javascript

@@ -208,7 +208,7 @@
                 // alert(key);
                 for (const item of value) {
                     markers.push(L.marker([item[0], item[1]], {icon: current_icon}).bindPopup(item[2]));
-                    mapped_ner_tools.push([item[0], item[1], item[2], key]);
+                    mapped_ner_tools.push([item[0], item[1], item[2], key, item[3]]);
                 }
                 layer_groups[key] = L.layerGroup(markers);
                 layerControl.addOverlay(layer_groups[key], key);
