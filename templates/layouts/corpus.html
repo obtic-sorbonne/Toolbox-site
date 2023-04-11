@@ -1,26 +1,20 @@
-{% extends "layouts/main.html" %}
-{% block navigation %}
-  <nav>
-  <ul>
-    <li><a href="{{ url_for('outils_corpus') }}" class="active"><i class="fas fa-book-open"></i> <em>Corpus</em></a></li>
-    <li><a href="{{ url_for('outils_fouille') }}"><i class="fa-solid fa-pen-to-square"></i> <em>Annotation automatique</em></a></li>
-    <li><a href="{{ url_for('outils_visualisation') }}"><i class="fa-solid fa-chart-column"></i> <em>Visualisation</em></a></li>
-    <li><a href="{{ url_for('outils_pipeline') }}"><i class="fa-solid fa-timeline"></i> <em>Chaînes de traitement</em></a></li>
-  </ul>
-  </nav>
-{% endblock %}
-
+{% extends "index.html" %}
+{% block header %} {{ super() }} {% endblock %}
 {% block content %}
-  <h2>Corpus</h2>
-  <div class="tools">
-    <ul>
-      <li><i class="fa-solid fa-file-image"></i><a href="{{ url_for('numeriser') }}">Numériser (OCR)</a></li>
-      <li><i class="fa-solid fa-file-circle-plus"></i><a href="{{ url_for('collecter_corpus') }}">Collecter un corpus (Wikisource)</a></li>
-      <li><i class="fa-solid fa-file-code"></i><a href="{{ url_for('conversion_xml') }}">Conversion XML-TEI</a></li>
-      <li><i class="fa-solid fa-spell-check"></i><a href="{{ url_for('correction_erreur') }}">Correction d'erreurs</a></li>
-      <li><i class="fa-solid fa-feather-pointed"></i><a href="{{ url_for('normalisation')}}">Normalisation de graphies anciennes</a></li>
-    </ul>
+<div class="selection">
+  <h2>Correction de la graphie</h2>
+  <div class="container">
+    <div class="box-outil-accueil" onclick="window.location.href='{{ url_for('normalisation') }}'">
+      <div class="rubrique-icon"></div>
+      <span class="rubrique-title"><h3>Normalisation de graphie ancienne</h3></span>
+      <span class="rubrique-text"><p>Uniformisation des variations graphiques et équivalences en français moderne.</p></span>
+    </div>
+    <div class="box-outil-accueil" onclick="window.location.href='{{ url_for('correction_erreur') }}'">
+      <div class="rubrique-icon"></div>
+      <span class="rubrique-title"><h3>Correction d'erreurs</h3></span>
+      <span class="rubrique-text"><p>Post traitement des sorties d'OCR ou amélioration de corpus bruités.</p></span>
+    </div>
   </div>
-
-  {% block tool %}{% endblock %}
+</div>
 {% endblock %}
+{% block footer %} {{ super() }} {% endblock %}

@@ -1,10 +1,10 @@
-{% extends "layouts/fouille_de_texte.html" %}
-{% block navigation %} {{ super() }} {% endblock %}
-{% block content %} {{ super() }} {% endblock %}
+{% extends "index.html" %}
+{% block header %} {{ super() }} {% endblock %}
 
-{% block tool %}
+{% block content %}
 <div class="outil" id="TM1">
-  <h3>Étiquetage morphosyntaxique</h3>
+
+  <h2>Étiquetage morphosyntaxique</h2>
 
   <p>Annote un fichier texte avec l'outil <a href="https://github.com/YoannDupont/SEM">SEM</a>.</p>
   <p>Le document renvoyé est au format <a href="https://aclanthology.org/W03-0419/">CoNLL 2003</a> avec deux colonnes : une pour le mot et une pour l'étiquette morphosyntaxique.</p>
@@ -34,3 +34,6 @@
 </form>
 </div>
 {% endblock %}
+
+{% block footer %} {{ super() }} {% endblock %}
+

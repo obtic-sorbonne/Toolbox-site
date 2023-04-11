@@ -1,8 +1,7 @@
-{% extends "layouts/fouille_de_texte.html" %}
-{% block navigation %} {{ super() }} {% endblock %}
-{% block content %} {{ super() }} {% endblock %}
+{% extends "index.html" %}
+{% block header %} {{ super() }} {% endblock %}
 
-{% block tool %}
+{% block content %}
 <div class="outil" id="TM1">
   <h3>Détection des entités nommées</h3>
   <p>Annote un fichier XML-TEI avec un moteur de reconnaissance d'entités nommées. Par défaut, parcourt les balises &lt;p&gt; à l'intérieur de la balise &lt;text&gt; pour récupérer le contenu textuel du fichier. Les mentions trouvées seront entourées par des balises &lt;Entity&gt;, le type de l'entité sera écrit dans l'attribut <i>annotation</i>.</p>
@@ -78,3 +77,4 @@ function detectChangeMoteur(moteurREN) {
 }
 </script>
 {% endblock %}
+{% block footer %} {{ super() }} {% endblock %}

@@ -1,23 +1,20 @@
-{% extends "layouts/main.html" %}
-{% block navigation %}
-  <nav>
-  <ul>
-    <li><a href="{{ url_for('outils_corpus') }}"><i class="fas fa-book-open"></i> <em>Corpus</em></a></li>
-    <li><a href="{{ url_for('outils_fouille') }}"><i class="fa-solid fa-pen-to-square"></i> <em>Annotation automatique</em></a></li>
-    <li><a href="{{ url_for('outils_visualisation') }}"><i class="fa-solid fa-chart-column"></i> <em>Visualisation</em></a></li>
-    <li><a href="{{ url_for('outils_pipeline') }}" class="active"><i class="fa-solid fa-timeline"></i> <em>Chaînes de traitement</em></a></li>
-  </ul>
-  </nav>
-{% endblock %}
-
+{% extends "index.html" %}
+{% block header %} {{ super() }} {% endblock %}
 {% block content %}
+<div class="selection">
   <h2>Chaînes de traitement</h2>
-  <div class="tools">
-    <ul>
-      <li><i class="fa-solid fa-file-image"></i><a href="{{ url_for('ocr_ner') }}">OCR -> NER</a></li>
-      <li><i class="fa-solid fa-file-image"></i><a href="{{ url_for('ocr_map') }}">OCR -> MAP</a></li>
-    </ul>
+  <div class="container">
+    <div class="box-outil-accueil" onclick="window.location.href='{{ url_for('ocr_ner') }}'">
+      <div class="rubrique-icon"></div>
+      <span class="rubrique-title"><h3>OCR -> NER</h3></span>
+      <span class="rubrique-text"><p>Entrée : textes non numérisés <br>Sortie : textes annotés</p></span>
+    </div>
+    <div class="box-outil-accueil" onclick="window.location.href='{{ url_for('ocr_map') }}'">
+      <div class="rubrique-icon"></div>
+      <span class="rubrique-title"><h3>OCR -> MAP</h3></span>
+      <span class="rubrique-text"><p>Entrée : textes numérisés ou non<br>Sortie : coordonnées géographiques des entités de lieux et leur visualisation sur une carte.</p></span>
+    </div>
   </div>
-
-  {% block tool %}{% endblock %}
+</div>
 {% endblock %}
+{% block footer %} {{ super() }} {% endblock %}

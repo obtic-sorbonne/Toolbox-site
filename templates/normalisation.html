@@ -1,8 +1,7 @@
-{% extends "layouts/corpus.html" %}
-{% block navigation %} {{ super() }} {% endblock %}
-{% block content %} {{ super() }} {% endblock %}
+{% extends "index.html" %}
+{% block header %} {{ super() }} {% endblock %}
 
-{% block tool %}
+{% block content %}
 <div class="outil">
 
 <h3>Normalisation de graphies anciennes</h3>
@@ -18,3 +17,4 @@
 </div>-->
 </div>
 {% endblock %}
+{% block footer %} {{ super() }} {% endblock %}

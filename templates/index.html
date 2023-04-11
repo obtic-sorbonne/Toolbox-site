@@ -60,7 +60,7 @@
         <span class="rubrique-title"><h3>Conversion de formats</h3></span>
         <span class="rubrique-text"><p>Formatage XML-TEI, conversion de divers formats de fichiers avec Teinte.</p></span>
       </div>
-      <div class="box-outil-accueil shadow">
+      <div class="box-outil-accueil shadow" onclick="window.location.href='{{ url_for('outils_fouille') }}';">
         <div class="rubrique-icon"><img alt="Fouille et annotation de texte" src="{{url_for('static', filename='img/ner-icon.png')}}"></div>
         <span class="rubrique-title"><h3>Fouille et annotation de texte</h3></span>
         <span class="rubrique-text"><p>Reconnaissance d'entités nommées, étiquetage morphosyntaxique, analyse de sentiments</p></span>
@@ -75,8 +75,25 @@
         <span class="rubrique-title"><h3>Collecte de corpus</h3></span>
         <span class="rubrique-text"><p>Scraping personnalisé des corpus Wikisource</p></span>
       </div>
+      <div class="box-outil-accueil shadow" onclick="window.location.href='{{ url_for('outils_corpus') }}';">
+        <div class="rubrique-icon"><img alt="Correction textuelle" src="{{ url_for('static', filename='img/spellcheck-icon.png') }}"></div>
+        <span class="rubrique-title"><h3>Correction textuelle</h3></span>
+        <span class="rubrique-text"><p>Correction d'erreurs et normalisation pour corpus à la graphie non standard</p></span>
+      </div>
+      <div class="box-outil-accueil shadow" onclick="window.location.href='{{ url_for('outils_pipeline') }}';">
+        <div class="rubrique-icon"><img alt="Chaînes de traitement" src="{{url_for('static', filename='img/pipeline-icon.png')}}"></div>
+        <span class="rubrique-title"><h3>Chaînes de traitement</h3></span>
+        <span class="rubrique-text"><p>Traitement automatique depuis l'OCR jusqu'à la reconnaissance d'entités et leur visualisation.</p></span>
+      </div>
     </div>
   </div>
+</div>
+{% endblock %}
+{% block footer %}
+<div class="footer">
+  <p><a href="https://github.com/obtic-scai/Toolbox-site"><i class="fa-brands fa-github"></i> Code source</a></p>
+  <p>Site développé par l'équipe ObTIC et hébergé par Sorbonne Université. Ce site ne dépose pas de cookies.</p>  
+  <p>© 2022-2023 <a href="https://obtic.sorbonne-universite.fr/" target="_blank">ObTIC</a></p>
 </div>
 {% endblock %}
 </body>

@@ -1,24 +1,27 @@
-{% extends "layouts/main.html" %}
-{% block navigation %}
-<nav>
-  <ul>
-    <li><a href="{{ url_for('outils_corpus') }}"><i class="fas fa-book-open"></i> <em>Corpus</em></a></li>
-    <li><a href="{{ url_for('outils_fouille') }}" class="active"><i class="fa-solid fa-pen-to-square"></i> <em>Annotation automatique</em></a></li>
-    <li><a href="{{ url_for('outils_visualisation') }}"><i class="fa-solid fa-chart-column"></i> <em>Visualisation</em></a></li>
-    <li><a href="{{ url_for('outils_pipeline') }}"><i class="fa-solid fa-timeline"></i> <em>Chaînes de traitement</em></a></li>
-  </ul>
-</nav>
-{% endblock %}
+{% extends "index.html" %}
+{% block header %} {{ super() }} {% endblock %}
 
 {% block content %}
-  <h2>Annotation automatique</h2>
-  <div class="tools">
-  <ul>
-    <li><i class="fa-solid fa-tags"></i><a href="{{ url_for('etiquetage_morphosyntaxique') }}">Étiquetage morphosyntaxique</a></li>
-    <li><i class="fa-solid fa-address-card"></i><a href="{{ url_for('entites_nommees') }}">Détection des entités nommées</a></li>
-    <li><i class="fa-solid fa-circle-nodes"></i><a href="{{ url_for('categories_semantiques')}}">Catégories sémantiques</a></li>
-  </ul>
+  <div class="selection">
+    <h2 style="font-family:'Comprehension', serif;">Tâches d'annotation automatique</h2>
+    <div class="container">
+      <div class="box-outil-accueil" onclick="window.location.href='{{ url_for('etiquetage_morphosyntaxique') }}'">
+        <div class="rubrique-icon"></div>
+        <span class="rubrique-title"><h3>Étiquetage morphosyntaxique</h3></span>
+        <span class="rubrique-text"><p>Annotation en parties du discours avec SEM</p></span>
+      </div>
+      <div class="box-outil-accueil" onclick="window.location.href='{{ url_for('entites_nommees') }}'">
+        <div class="rubrique-icon"></div>
+        <span class="rubrique-title"><h3>Reconnaissance d'entités nommées</h3></span>
+        <span class="rubrique-text"><p>Spacy, Flair, Camembert</p></span>
+      </div>
+      <div class="box-outil-accueil" onclick="window.location.href='{{ url_for('categories_semantiques') }}'">
+        <div class="rubrique-icon"></div>
+        <span class="rubrique-title"><h3>Catégories sémantiques</h3></span>
+        <span class="rubrique-text"><p>Outil Textolab</p></span>
+      </div>
+    </div>
   </div>
-
-  {% block tool %}{% endblock %}
 {% endblock %}
+
+{% block footer %} {{ super() }} {% endblock %}
