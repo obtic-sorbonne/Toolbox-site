@@ -8,6 +8,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css"></link>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css"></link>
   <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
 
   <title>Pandore toolbox</title>
@@ -17,6 +20,9 @@
   <link rel="stylesheet" href="{{ url_for('static', filename= 'css/loader.css') }}">
   <script src="{{url_for('static', filename='js/loader.js')}}"></script>
   <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js" integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
+  <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster-src.js"></script>
+
 </head>
 <body>
 {% block header %}
@@ -92,7 +98,7 @@
 {% block footer %}
 <div class="footer">
   <p><a href="https://github.com/obtic-scai/Toolbox-site"><i class="fa-brands fa-github"></i> Code source</a></p>
-  <p>Site développé par l'équipe ObTIC et hébergé par Sorbonne Université. Ce site ne dépose pas de cookies.</p>  
+  <p>Site développé par l'équipe ObTIC et hébergé par Sorbonne Université. Ce site ne dépose pas de cookies.</p>
   <p>© 2022-2023 <a href="https://obtic.sorbonne-universite.fr/" target="_blank">ObTIC</a></p>
 </div>
 {% endblock %}

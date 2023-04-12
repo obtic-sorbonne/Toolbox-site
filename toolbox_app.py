@@ -73,20 +73,20 @@ def contact():
 
 @app.route('/outils_corpus')
 def outils_corpus():
-	return render_template('layouts/corpus.html')
+	return render_template('corpus.html')
 
 @app.route('/outils_fouille')
 def outils_fouille():
-	return render_template('layouts/fouille_de_texte.html')
+	return render_template('fouille_de_texte.html')
 
 @app.route('/outils_visualisation')
 def outils_visualisation():
-	return render_template('layouts/visualisation.html')
+	return render_template('visualisation.html')
 
 @app.route('/numeriser')
 def numeriser():
 	form = FlaskForm()
-	return render_template('layouts/numeriser.html', form=form)
+	return render_template('numeriser.html', form=form)
 
 @app.route('/normalisation')
 def normalisation():
@@ -98,7 +98,7 @@ def categories_semantiques():
 
 @app.route('/outils_pipeline')
 def outils_pipeline():
-	return render_template('layouts/pipeline.html')
+	return render_template('pipeline.html')
 
 @app.route('/ocr_ner')
 def ocr_ner():
@@ -161,7 +161,7 @@ def run_tesseract():
 							headers={"Content-disposition": "attachment; filename=" + rand_name + '.txt'})
 
 		return response
-	return render_template('layouts/numeriser.html', erreur=erreur)
+	return render_template('numeriser.html', erreur=erreur)
 
 @app.route('/collecter_corpus')
 def collecter_corpus():
