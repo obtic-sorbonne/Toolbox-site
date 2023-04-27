@@ -31,9 +31,11 @@
    <h1 style="font-family:'Comprehension', serif;">Pandore toolbox</h1></a>
    <nav>
      <ul>
-       <li><a href="{{ url_for('projet') }}" id="menu_projet">Projet</a></li>
+       <li><a href="{{ url_for('pandore')}}"><i class="fa-solid fa-box" style="margin-right:8px;"></i>Pandore</a></li>
        <li><a href="{{ url_for('outils') }}">Outils</a></li>
+       <li><a href="{{ url_for('projet') }}" id="menu_projet">Projet</a></li>
        <li><a href="#">Documentation</a></li>
+       
     </ul>
   </nav>
   </div>
@@ -54,6 +56,7 @@
     </div>
     <button>Voir la démo</button>
   </div>
+  {% block mosaique %}
   <div class="bandeau-outils">
     <div class="container">
       <div class="box-outil-accueil shadow" onclick="window.location.href='{{ url_for('numeriser') }}';">
@@ -93,6 +96,7 @@
       </div>
     </div>
   </div>
+  {% endblock %}
 </div>
 {% endblock %}
 {% block footer %}

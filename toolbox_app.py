@@ -62,6 +62,10 @@ csrf.init_app(app)
 def index():
 	return render_template('index.html')
 
+@app.route('/pandore')
+def pandore():
+	return render_template('pandore.html')
+
 @app.route('/projet')
 def projet():
 	return render_template('projet.html')

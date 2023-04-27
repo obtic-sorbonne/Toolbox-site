@@ -1,0 +1,12 @@
+{% extends "index.html" %}
+{% block header %} {{ super() }} {% endblock %}
+
+{% block content %}
+<div class="mosaique">
+<h2 style="font-family:'Comprehension', serif;">Pandore</h2>
+
+{% block mosaique %} {{ super() }} {% endblock %}
+
+</div>
+{% endblock %}
+{% block footer %} {{ super() }} {% endblock %}
