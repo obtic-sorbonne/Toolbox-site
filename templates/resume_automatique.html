@@ -1,0 +1,21 @@
+{% extends "index.html" %}
+{% block header %} {{ super() }} {% endblock %}
+
+{% block content %}
+<div class="outil">
+    <div class="fil"><a href="{{ url_for('pandore')}}"><< Retour aux outils</a></div>
+    <h2 style="font-family:'Comprehension', serif;">Résumé automatique</h2>
+    <div class="tool-box">
+        <h4>Summarizer</h4>
+        <div class="two-columns-container">
+            <div style="min-width:48%">
+                <p>L'outil <a href="https://obtic.sorbonne-universite.fr/summary/">Summarizer</a> permet de résumer automatiquement des documents aux formats texte brut ou XML.</p>
+            </div>
+            <div style="min-width:48%">
+                <a href="https://obtic.sorbonne-universite.fr/summary/"><img style="width:100%;" src="{{ url_for('static', filename='img/summarizer.png') }}"></a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block footer %} {{ super() }} {% endblock %}

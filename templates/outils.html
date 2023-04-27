@@ -21,13 +21,15 @@
                 <li><a href="{{ url_for('ocr_map')}}">Entités de lieu</a></li>
                 <li><a href="https://obtic.sorbonne-universite.fr/tanagra/map">Entités de lieu (Tanagra)</a></li>
                 <li><a href="{{ url_for('etiquetage_morphosyntaxique')}}">Étiquetage morphosyntaxique (POS-tagging)</a></li>
-                <li><a href="#">Extraction automatique de mots-clés</a></li>
+                <li><a href="{{ url_for('extraction_mots_cles')}}">Extraction automatique de mots-clés</a></li>
                 <li><a href="{{ url_for('numeriser') }}">HTR (reconnaissance de texte manuscrit)</a></li>
-                <li><a href="#">Lecture distante</a></li>
+                <!--<li><a href="#">Lecture distante</a></li>-->
                 <li><a href="{{ url_for('normalisation') }}">Normalisation de graphie ancienne</a></li>
                 <li><a href="{{ url_for('numeriser') }}">OCR (reconnaissance optique de caractères)</a></li>
                 <li><a href="{{ url_for('entites_nommees') }}">Reconnaissance d'entités nommées (REN)</a></li>
                 <li><a href="{{ url_for('outils_visualisation') }}">Réseaux de cooccurrences</a></li>
+                <li><a href="{{ url_for('resume_automatique') }}">Résumé automatique</a></li>
+                <li><a href="{{ url_for('topic_modelling') }}">Topic modelling (modèle thématique)</a></li>
                 <li><a href="{{ url_for('outils_visualisation') }}">Visualisation</a></li>
             </ul>
         </div>
@@ -36,13 +38,14 @@
             <ul id="tool-list">
                 <li><a href="{{ url_for('entites_nommees') }}">Camembert NER</a></li>
                 <li><a href="{{ url_for('correction_erreur') }}">Jamspell</a></li>
-                <li><a href="#">KeyBERT</a></li>
+                <li><a href="{{ url_for('extraction_mots_cles') }}">KeyBERT</a></li>
                 <!--<li><a href="#">Kraken</a></li>-->
                 <li><a href="{{ url_for('entites_nommees') }}">Flair (NER)</a></li>
                 <li><a href="{{ url_for('ocr_map') }}">GeoPy</a></li>
                 <li><a href="{{ url_for('etiquetage_morphosyntaxique') }}">SEM</a></li>
                 <li><a href="#">Sklearn</a></li>
                 <li><a href="{{ url_for('entites_nommees') }}">Spacy (NER)</a></li>
+                <li><a href="https://obtic.sorbonne-universite.fr/summary/">Summarizer</a></li>
                 <li><a href="https://obtic.sorbonne-universite.fr/tanagra/map">Tanagra</a></li>
                 <li><a href="https://obtic.huma-num.fr/teinte/">Teinte</a></li>
                 <li><a href="{{ url_for('numeriser') }}">Tesseract OCR</a></li>

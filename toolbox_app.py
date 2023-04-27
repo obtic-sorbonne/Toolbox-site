@@ -105,6 +105,18 @@ def normalisation():
 def categories_semantiques():
 	return render_template('categories_semantiques.html')
 
+@app.route('/resume_automatique')
+def resume_automatique():
+	return render_template('resume_automatique.html')
+
+@app.route('/extraction_mots_cles')
+def extraction_mots_cles():
+	return render_template('extraction_mots_cles.html')
+
+@app.route('/topic_modelling')
+def topic_modelling():
+	return render_template('topic_modelling.html')
+
 @app.route('/outils_pipeline')
 def outils_pipeline():
 	return render_template('pipeline.html')

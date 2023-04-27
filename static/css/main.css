@@ -168,6 +168,7 @@ nav li:hover{
 .rubrique-title h3{
 	margin:5px;
 	text-align:center;
+  font-weight:500;
 }
 
 .rubrique-text p{
