@@ -1,0 +1,85 @@
+{% extends "index.html" %}
+{% block header %} {{ super() }} {% endblock %}
+
+{% block content %}
+<div class="outil">
+    <h2 style="font-family:'Comprehension', serif;">Tâches et outils</h2>
+    <div class="div-search-form">
+        <input type="text" name="searchField" id="searchField" onkeyup="searchTask()" />
+        <button class="search-button"><i class="fa-solid fa-magnifying-glass"></i></button>
+    </div>
+
+    <div class="two-columns-container">
+        <div class="col-list">
+            <h3 style="padding:5px">Tâches</h3>
+            <ul id="task-list">
+                <li><a href="{{ url_for('categories_semantiques') }}">Analyse d'opinion</a></li>
+                <li><a href="{{ url_for('categories_semantiques') }}">Analyse de sentiments</a></li>
+                <li><a href="{{ url_for('collecter_corpus') }}">Collecte de corpus (scraping)</a></li>
+                <li><a href="{{ url_for('conversion_xml') }}">Conversion de formats de fichiers</a></li>
+                <li><a href="{{ url_for('correction_erreur')}}">Correction de corpus bruités</a></li>
+                <li><a href="{{ url_for('ocr_map')}}">Entités de lieu</a></li>
+                <li><a href="https://obtic.sorbonne-universite.fr/tanagra/map">Entités de lieu (Tanagra)</a></li>
+                <li><a href="{{ url_for('etiquetage_morphosyntaxique')}}">Étiquetage morphosyntaxique (POS-tagging)</a></li>
+                <li><a href="#">Extraction automatique de mots-clés</a></li>
+                <li><a href="{{ url_for('numeriser') }}">HTR (reconnaissance de texte manuscrit)</a></li>
+                <li><a href="#">Lecture distante</a></li>
+                <li><a href="{{ url_for('normalisation') }}">Normalisation de graphie ancienne</a></li>
+                <li><a href="{{ url_for('numeriser') }}">OCR (reconnaissance optique de caractères)</a></li>
+                <li><a href="{{ url_for('entites_nommees') }}">Reconnaissance d'entités nommées (REN)</a></li>
+                <li><a href="{{ url_for('outils_visualisation') }}">Réseaux de cooccurrences</a></li>
+                <li><a href="{{ url_for('outils_visualisation') }}">Visualisation</a></li>
+            </ul>
+        </div>
+        <div class="col-list">
+            <h3 style="padding:5px">Outils</h3>
+            <ul id="tool-list">
+                <li><a href="{{ url_for('entites_nommees') }}">Camembert NER</a></li>
+                <li><a href="{{ url_for('correction_erreur') }}">Jamspell</a></li>
+                <li><a href="#">KeyBERT</a></li>
+                <!--<li><a href="#">Kraken</a></li>-->
+                <li><a href="{{ url_for('entites_nommees') }}">Flair (NER)</a></li>
+                <li><a href="{{ url_for('ocr_map') }}">GeoPy</a></li>
+                <li><a href="{{ url_for('etiquetage_morphosyntaxique') }}">SEM</a></li>
+                <li><a href="#">Sklearn</a></li>
+                <li><a href="{{ url_for('entites_nommees') }}">Spacy (NER)</a></li>
+                <li><a href="https://obtic.sorbonne-universite.fr/tanagra/map">Tanagra</a></li>
+                <li><a href="https://obtic.huma-num.fr/teinte/">Teinte</a></li>
+                <li><a href="{{ url_for('numeriser') }}">Tesseract OCR</a></li>
+                <li><a href="{{ url_for('categories_semantiques')}}">Textolab</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<script>
+    function searchTask() {
+        var input, filter, ul_task, li_task, ul_tool, li_tool, a, i, txtValue;
+        input = document.getElementById('searchField');
+        filter = input.value.toUpperCase();
+        ul_task = document.getElementById('task-list');
+        ul_tool = document.getElementById('tool-list');
+        li_task = ul_task.getElementsByTagName('li');
+        li_tool = ul_tool.getElementsByTagName('li');
+
+        for (i=0; i < li_task.length; i++){
+            a = li_task[i].getElementsByTagName('a')[0];
+            txtValue = a.textContent || a.innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                li_task[i].style.display = "";
+            } else {
+                li_task[i].style.display = "none";
+            }
+        }
+        for (i=0; i < li_tool.length; i++){
+            a = li_tool[i].getElementsByTagName('a')[0];
+            txtValue = a.textContent || a.innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                li_tool[i].style.display = "";
+            } else {
+                li_tool[i].style.display = "none";
+            }
+        }
+    }
+</script>
+{% endblock %}
+{% block footer %} {{ super() }} {% endblock %}

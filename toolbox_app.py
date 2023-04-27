@@ -4,7 +4,7 @@
 from flask import Flask, request, render_template, url_for, redirect, send_from_directory, Response, stream_with_context, session
 from werkzeug.utils import secure_filename
 from werkzeug.exceptions import HTTPException
-from forms import ContactForm
+from forms import ContactForm, SearchForm
 from flask_wtf import FlaskForm
 from flask_wtf.csrf import CSRFProtect
 import os
@@ -65,6 +65,11 @@ def index():
 @app.route('/projet')
 def projet():
 	return render_template('projet.html')
+
+@app.route('/outils')
+def outils():
+	form = SearchForm()
+	return render_template('outils.html', form=form)
 
 @app.route('/contact')
 def contact():

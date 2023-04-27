@@ -265,6 +265,79 @@ nav li:hover{
   color:#1ABC9C;
 }
 
+.div-search-form{
+  min-width:65%;
+  margin: auto;
+  padding:30px;
+  text-align: center;
+}
+.div-search-form input[type=text]{
+  padding:8px;
+  border-radius: 16px;
+  min-width: 320px;
+  font-size: medium;
+}
+.div-search-form .search-button{
+  background-color: #496a81;
+  font-size: 16px;
+  border-radius: 50%;
+  padding:12px 16px;
+}
+
+/* Page OUTILS */
+.two-columns-container{
+  display: flex;
+  justify-content:center;
+  column-gap: 18px;
+  min-width:75%;
+  margin:20px;
+}
+
+.two-columns-container h3{
+  color:#496a81;
+  font-weight: normal;
+}
+
+.col-list{
+  min-width:48%;
+  border: 1px solid #79707D;
+  border-radius: 12px;
+}
+.col-list ul{
+  padding:20px;
+  margin:10px 30px;
+}
+
+.col-list ul li{
+  list-style-type: square;
+  color:#e2e0d5;
+  padding:3px;
+}
+
+.col-list ul li a{
+  color:#2B3A67;
+  padding:3px 20px;
+  border-radius: 8px;
+  display: block;
+  width:100%;
+}
+.col-list ul li a:hover{
+  background-color: #e2e0d5;
+}
+
+#tool-list{
+  margin-left:60px;
+}
+
+.fil{
+  padding:20px;
+  width:210px;
+}
+
+/*.fil:hover{
+
+}*/
+
 /* ------------- OLD -------------------*/
 .contact{
   text-align:right;
