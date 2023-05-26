@@ -339,6 +339,106 @@ nav li:hover{
 
 }*/
 
+/*.col_2{
+
+}*/
+
+.tool-box{
+  margin-bottom:50px;
+}
+
+
+/* DRAG AND DROP FORM */
+.drop-zone{
+position:relative;
+width: 500px;
+height: 200px;
+border: 4px dashed #496a81;
+}
+
+.drop-zone p{
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  line-height: 170px;
+  color: #111C2D;
+}
+
+.drop-zone input{  
+  position:absolute;
+  top:0;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  outline: none;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.drag-drop-form button{
+  width: 500px;
+  margin-top:12px;
+  margin-left:-3px;
+}
+
+.container_two_columns{
+  display: flex;
+  align-items: stretch;
+}
+.item{
+  width:100%;
+}
+
+.form_opt{
+  width: 500px;
+}
+
+.item h3{
+  font-family: 'Roboto', sans-serif;
+  font-weight: 300;
+  color:#111C2D;
+  text-align: center;
+}
+
+.doc-box{
+  padding: 20px;
+  background-color: #f6f6f6;
+  cursor: pointer;
+  width: 70%;
+}
+.doc-box p{
+  font-family: 'Roboto', sans-serif;
+  font-weight: 200;
+  font-size: 16px;
+}
+
+.local-doc{
+  width:70%;
+  margin-bottom: 20px;
+  padding:5px 20px 20px 20px;
+  background-color: #f6f6f6;
+  font-size: 14px;
+  display: none;
+}
+.local-doc ul{
+  padding: 2px 20px;
+}
+.lil-arrow::before{
+  content: '\2304';
+  color: grey;
+  float:right;
+}
+
+.item table{
+  margin:auto;
+  border-collapse: collapse;
+}
+.item table td, .item table th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
 /* ------------- OLD -------------------*/
 .contact{
   text-align:right;
@@ -442,7 +542,7 @@ nav li:hover{
 
 .outil{
   min-height: 700px;
-  width:65%;
+  width:62%;
   font-size: 1em;
   margin: auto;
   margin-bottom:15px;
@@ -476,7 +576,7 @@ nav li:hover{
 	padding:12px;
 	margin:8px;
 	border:0;
-	background-color:rgba(255, 196, 130, .2);
+	background-color:#fff;
 }
 
 .outil select:focus {
@@ -491,6 +591,49 @@ nav li:hover{
   background-color:rgba(221, 201, 180, .3);
 
 }
+
+/* Panneau latéral */
+.sidepanel {
+  min-height: calc(100vh - 85px);
+  width: 0; /* change with JavaScript */
+  position: fixed;
+  z-index: 1;
+  top: 85px;
+  right: 0;
+  background-color: #e2e0d5; 
+  overflow-x: hidden;
+  padding-top: 60px;
+  transition: 0.5s;
+}
+
+/* Position and style the close button (top right corner) */
+.sidepanel .closebtn {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px;
+}
+
+.closebtn{
+  color:gray;
+  cursor:pointer;
+}
+
+.sidepanel h3{
+  color:#2B3A67;
+  text-align:center;
+}
+
+.trigger-panel{
+  position:fixed;
+  top:120px;
+  right:0;
+  padding:10px;
+  cursor:pointer;
+}
+
+/*------------------*/
 
 .next-task{
   margin-top:60px;
@@ -564,6 +707,8 @@ button{
 
 button:hover{
   cursor: pointer;
+  background-color: #1ABC9C;
+  transition: all .2s ease;
 }
 
 #urlform textarea{

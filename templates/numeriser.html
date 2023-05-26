@@ -2,7 +2,6 @@
 {% block header %} {{ super() }} {% endblock %}
 
 {% block content %}
-
 <div class="outil">
 <h2 style="font-family:'Comprehension', serif;">Numériser (OCR/HTR)</h2>
 <div class="tool-box">
@@ -28,37 +27,40 @@
     <div id="tessloader">
     <p>Traitement en cours...</p>
     <p>Vos fichiers apparaîtront une fois le traitement terminé.</p>
-	<div class="loadingio-spinner-ball-205vl2x7f7n"><div class="ldio-b8p5li8dt1u">
-	<div></div>
-	</div></div>
-	</div>
-	<!--end div loader-->
-</div><!-- end div tool-box-->
-	<!--<h4>Kraken</h4>
-	<p></p>-->
-
-  <div class="next-task">
-    <h3>Tâches suivantes</h3>
-    <div class="bandeau-outils">
-      <div class="container">
-        <div class="box-next-task" onclick="window.location.href='{{ url_for('conversion_xml') }}';">
-          <div class="box-icon"><i class="fa-solid fa-file-code"></i></div>
-          <span class="box-title" style="margin-top:10px;"><p>Convertir en XML-TEI</p></span>
-        </div>
-        <div class="box-next-task" onclick="window.location.href='{{ url_for('entites_nommees') }}';">
-          <div class="box-icon"><i class="fa-solid fa-address-card"></i></div>
-          <span class="box-title"><p>NER</p></span>
-          <span class="box-text"><p>Reconnaissance d'entités nommées (Spacy, Flair, Camembert)</p></span>
-        </div>
-        <div class="box-next-task" onclick="window.location.href='{{ url_for('etiquetage_morphosyntaxique') }}';">
-          <div class="box-icon"><i class="fa-solid fa-tags"></i></div>
-          <span class="box-title"><p>Étiquetage morphosyntaxique</p></span>
-          <span class="box-text"><p>Outil SEM</p></span>
-        </div>
-      </div>
-    </div>
+	  <div class="loadingio-spinner-ball-205vl2x7f7n"><div class="ldio-b8p5li8dt1u"><div></div></div></div>
+	  </div>
+	  <!--end div loader-->
+  </div><!-- end div tool-box-->
+  <div class="tool-box">
+    <h4>eScriptorium (HTR)</h4>
+    <p>Une instance eScriptorium hébergée par le <a href="https://scai.sorbonne-universite.fr/">SCAI</a> à l'initiative d'ObTIC est disponible à <a href="https://escriptorium.isir.upmc.fr/">cette adresse</a>. Merci de remplir le formulaire de contact pour demander la création d'un compte.</p>
+  </div>
+  <div class="tool-box">
+    <h4>Transkribus</h4>
+    <p>L'outil <a href="https://readcoop.eu/transkribus/">Transkribus</a> est une excellente alternative pour les tâches d'HTR. Payant au-delà d'un certain nombre de pages à numériser, il permet néanmoins d'entraîner rapidement des modèles performants. Une intéressante sélection de modèles pré-entraînés est également disponible.</p>
   </div>
 </div>
+
+<span class="trigger-panel" onclick="openNav()">Tâches suivantes  <i class="fa-solid fa-angles-right"></i></span>
+
+<div id="task-panel-ocr" class="sidepanel">
+  <span class="closebtn" onclick="closeNav()">&times;</span>
+  <h3 style="font-family: 'Comprehension', serif;">Tâches suivantes</h3>
+  <div><a href="{{ url_for('conversion_xml') }}">Convertir en XML-TEI</a></div>
+  <div><a href="{{ url_for('entites_nommees') }}">Extraire les entités nommées</a></div>
+  <div><a href="{{ url_for('etiquetage_morphosyntaxique') }}">Étiqueter en parties du discours</a></div>
+</div>
+
+<script>
+  function openNav() {
+    document.getElementById("task-panel-ocr").style.width = "250px";
+  }
+  
+  /* Set the width of the sidebar to 0 (hide it) */
+  function closeNav() {
+    document.getElementById("task-panel-ocr").style.width = "0";
+  }
+  </script>
 {% endblock %}
 
 {% block footer %} {{ super() }} {% endblock %}

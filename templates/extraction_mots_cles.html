@@ -2,10 +2,91 @@
 {% block header %} {{ super() }} {% endblock %}
 
 {% block content %}
+<script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
 <div class="outil">
-    <div class="fil"><a href="{{ url_for('pandore')}}"><< Retour aux outils</a></div>
+    <!--<div class="fil"><a href="{{ url_for('pandore')}}"><< Retour aux outils</a></div>-->
     <h2 style="font-family:'Comprehension', serif;">Extraction de mots-clés</h2>
-    <p>[ Bientôt disponible ]</p>
+    <h4>Modèle KeyBERT</h4>
+    <div class="doc-box"><p>Documentation <span class="lil-arrow"></span></p></div>
+    <div class="local-doc">
+        <p>Le texte est encodé au niveau de la phrase. Le modèle utilisé pour les transformers de phrases dans l'outil ci-dessous est <a href="https://www.sbert.net/docs/pretrained_models.html#multi-lingual-models">distiluse-base-multilingual-cased-v1</a>, qui prend en charge 15 langues.
+        Pour diversifier les mots-clés, ils est possible d'appliquer deux algorithmes :</p>
+        <ul>
+            <li>Maximal marginal relevance (MMR) : permet de filtrer les mots-clés candidats selon leur taux de diversité. Un taux de diversité élevé évitera les redondances ; un taux de diversité faible pourra par exemple permettre de cibler des nuances autour de thèmes principaux.</li>
+            <li>Maximal sum similarity (MSS) : sélectionne les mots-clés qui ont le taux de similarité deux à deux le plus faible possible.</li>
+        </ul>
+    </div>
+    <div class="container_two_columns">
+        <div class="item">
+            <form action="{{ url_for('keyword_extraction') }}" method="post" enctype="multipart/form-data" class="drag-drop-form">
+                {{ form.csrf_token }}
+                <div class="form_opt">
+                <fieldset>
+                    <legend>Méthode de calcul des mots-clés</legend>
+                    <input type="checkbox" name="extraction-method" value="default" id="def" checked><label for="default">Par défaut</label>
+                    <input type="checkbox" name="extraction-method" value="mmr" id="mmr"><label for="mmr">MMR</label>
+                    <input type="checkbox" name="extraction-method" value="mss" id=""mss><label for="mss">MMS</label>
+
+                    <div id="diversity_opt" style="display:none;padding:5px;"><input type="range" name="diversity" min="0" max="10" value="7"><label for="diversity">Diversité</label></div>
+                </fieldset>
+                </div>
+                <div class="drop-zone">
+                <input type="file" name="keywd-extract" accept="text/plain" multiple>
+                <p>Déposer le(s) fichier(s) ou cliquer ici.</p>
+                </div>
+                <input id="csrf_token" name="csrf_token" type="hidden" value="CSRF_TOKEN_STRING">
+                <button type="submit">Envoyer</button>
+            </form>
+        </div>
+        <div class="item">
+            <h3>Résultats</h3>
+            <table>
+                <tr>
+                    <th id="th_default">KeyBERT défaut</th>
+                    <th id="th_mmr">Filtrage MMR</th>
+                    <th id="th_mss">Filtrage MSS</th>
+                </tr>
+                {% for fname, methods in res.items() %}
+                <tr><td colspan="3" style="background-color: #496a81;text-align: center;"> {{ fname }} </td></tr>
+                <tr>
+                    <td>{% if 'default' in methods %}{% for kw in methods.default %}{{ kw }}<br>{% endfor %}{% endif %}</td>
+                    <td>{% if 'mmr' in methods %}{% for kw in methods.mmr %}{{ kw }}<br>{% endfor %}{% endif %}</td>
+                    <td>{% if 'mss' in methods %}{% for kw in methods.mss %}{{ kw }}<br>{% endfor %}{% endif %}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+
+
+<script>
+    /* MAJ de la zone de glisser-déposer */ 
+    $(document).ready(function(){
+        $('form input').change(function () {
+        $('form p').text(this.files.length + " fichiers(s) selectionnés");
+        });
+
+        /* Affichage des options du formulaire */
+
+        $('#mmr').click(function(){
+            $("#diversity_opt").toggle();
+        });
+
+    });
+
+    /* Affichage de la documentation */
+    $(function () {$(".doc-box").click(function () {
+            if($( ".local-doc" ).css( "display" ) == 'none'){
+                $( ".local-doc" ).css( "display", "block" );
+            }
+            else{
+                $( ".local-doc" ).css( "display", "none" );
+            }
+        });
+    });
+    
+        
+</script>
 </div>
 {% endblock %}
 {% block footer %} {{ super() }} {% endblock %}
