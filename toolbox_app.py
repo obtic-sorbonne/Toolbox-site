@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
 # -*- coding:utf-8 -*-
 
-from flask import Flask, request, render_template, url_for, redirect, send_from_directory, Response, stream_with_context, session
+from flask import Flask, abort, request, render_template, url_for, redirect, send_from_directory, Response, stream_with_context, session
 from werkzeug.utils import secure_filename
 from werkzeug.exceptions import HTTPException
 from forms import ContactForm, SearchForm
 from flask_wtf import FlaskForm
 from flask_wtf.csrf import CSRFProtect
+from flask_babel import Babel, _
 import os
 from io import StringIO, BytesIO
 import string
@@ -25,7 +26,6 @@ import glob
 from pathlib import Path
 import jamspell
 import json
-#from txt_ner import txt_ner_params
 
 import pandas as pd
 
@@ -43,6 +43,7 @@ csrf = CSRFProtect()
 SECRET_KEY = os.urandom(32)
 
 app = Flask(__name__)
+babel = Babel(app)
 
 # App config
 app.config['SESSION_TYPE'] = 'filesystem'
@@ -51,8 +52,28 @@ app.config['SECRET_KEY'] = SECRET_KEY
 app.config['MAX_CONTENT_LENGTH'] = 8 * 1024 * 1024 # Limit file upload to 8MB
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['MODEL_FOLDER'] = MODEL_FOLDER
+app.config['LANGUAGES'] = ['fr', 'en']
 app.add_url_rule("/uploads/<name>", endpoint="download_file", build_only=True)
 csrf.init_app(app)
+
+
+#-----------------------------------------------------------------
+# BABEL
+#-----------------------------------------------------------------
+@babel.localeselector
+def get_locale():
+    if request.args.get('language'):
+        session['language'] = request.args.get('language')
+    return session.get('language', 'fr')
+
+@app.context_processor
+def inject_conf_var():
+	return dict(AVAILABLE_LANGUAGES=app.config['LANGUAGES'], CURRENT_LANGUAGE=session.get('language', request.accept_languages.best_match(app.config['LANGUAGES'])))
+
+@app.route('/language=<language>')
+def set_language(language=None):
+    session['language'] = language
+    return redirect(url_for('index'))
 
 #-----------------------------------------------------------------
 # ROUTES
@@ -74,6 +95,10 @@ def projet():
 def outils():
 	form = SearchForm()
 	return render_template('outils.html', form=form)
+
+@app.route('/documentation')
+def documentation():
+	return render_template('documentation.html')
 
 @app.route('/contact')
 def contact():
@@ -111,7 +136,8 @@ def resume_automatique():
 
 @app.route('/extraction_mots_cles')
 def extraction_mots_cles():
-	return render_template('extraction_mots_cles.html')
+	form = FlaskForm()
+	return render_template('extraction_mots_cles.html', form=form, res={})
 
 @app.route('/topic_modelling')
 def topic_modelling():
@@ -532,7 +558,7 @@ def pos_tagging():
 	f = request.files['file']
 	try:
 		contenu = f.read()
-	finally: # ensure file is closed
+	finally:
 		f.close()
 	document = pipeline.process_text(contenu.decode("utf-8"))
 	# Writing in stream
@@ -624,6 +650,49 @@ def ner_camembert():
 		else:
 			os.remove(result_path)
 	return render_template('entites_nommees.html', erreur=erreur)
+
+
+@app.route('/keyword_extraction', methods=["POST"])
+@stream_with_context
+def keyword_extraction():
+	form = FlaskForm()
+	if request.method == 'POST':
+		uploaded_files = request.files.getlist("keywd-extract")
+		if uploaded_files == []:
+			abort(400)
+
+		from keybert import KeyBERT
+		from sentence_transformers import SentenceTransformer
+
+		# Chargement du modèle
+		sentence_model = SentenceTransformer("distiluse-base-multilingual-cased-v1")
+		kw_model = KeyBERT(model=sentence_model)
+
+		# Le résultat est stocké dans un dictionnaire. 
+		# Clé : nom du fichier (string)
+		# Valeur : dictionnaire dont la clé est la méthode d'extraction et la valeur une liste de mots-clés
+		res = {}
+		for f in uploaded_files:
+			fname = f.filename
+			print(fname)
+			res[fname] = {}
+			text = f.read().decode("utf-8")
+			methods = request.form.getlist('extraction-method')
+			if 'default' in methods:
+				keywords_def = kw_model.extract_keywords(text)
+				res[fname]['default'] = keywords_def
+
+			if 'mmr' in methods:
+				print(request.form.get('diversity'))
+				diversity = int(request.form.get('diversity')) / 10
+				keywords_mmr = kw_model.extract_keywords(text, use_mmr=True, diversity=diversity)
+				res[fname]['mmr'] = keywords_mmr
+
+			if 'mss' in methods:
+				keywords_mss = kw_model.extract_keywords(text, keyphrase_ngram_range=(1, 3), use_maxsum=True, nr_candidates=10, top_n=3)
+				res[fname]['mss'] = keywords_mss
+
+	return render_template('extraction_mots_cles.html', form=form, res=res)
 
 
 #-----------------------------------------------------------------
