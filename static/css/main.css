@@ -349,22 +349,24 @@ nav li:hover{
 
 
 /* DRAG AND DROP FORM */
-.drop-zone{
+.dropzone{
 position:relative;
 width: 500px;
 height: 200px;
 border: 4px dashed #496a81;
+display: table;
 }
 
-.drop-zone p{
+.dropzone p{
   width: 100%;
   height: 100%;
   text-align: center;
-  line-height: 170px;
   color: #111C2D;
+  display: table-cell;
+  vertical-align: middle;
 }
 
-.drop-zone input{  
+.dropzone input{  
   position:absolute;
   top:0;
   margin: 0;
@@ -374,6 +376,10 @@ border: 4px dashed #496a81;
   outline: none;
   opacity: 0;
   cursor: pointer;
+}
+
+.filename_preview{
+  font-size: small;
 }
 
 .drag-drop-form button{
@@ -437,6 +443,11 @@ border: 4px dashed #496a81;
 .item table td, .item table th {
   border: 1px solid #ddd;
   padding: 8px;
+}
+
+.download-button{
+  margin:10px auto;
+  display: block;
 }
 
 /* ------------- OLD -------------------*/
