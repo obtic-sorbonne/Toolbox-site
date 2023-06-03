@@ -45,83 +45,88 @@ msgid ""
 "  tâches les plus courantes liées au traitement de corpus pour la "
 "recherche en humanités\n"
 "  numériques."
-msgstr ""
+msgstr "Pandore offers a set of modules allowing to facilitate \n"
+"the most common corpus processing tasks for "
+"digital humanities research.\n"
+""
 
 #: templates/index.html:53
 msgid ""
 "Des chaînes de traitement permettant d'automatiser un ensemble de\n"
 "  tâches sont également proposées."
-msgstr ""
+msgstr "Automatic pipelines for a set of tasks are also available."
 
 #: templates/index.html:63
 msgid "Voir la démo"
-msgstr ""
+msgstr "See the demo"
 
 #: templates/index.html:64
 msgid "Conversion d'images en texte"
-msgstr ""
+msgstr "Image to text conversion"
 
 #: templates/index.html:68
 msgid "Conversion de formats"
-msgstr ""
+msgstr "Format conversion"
 
 #: templates/index.html:69
 msgid "Formatage XML-TEI"
-msgstr ""
+msgstr "XML-TEI encoding"
 
 #: templates/index.html:69
-msgid "conversion de divers formats de fichiers"
-msgstr ""
+msgid "conversion de divers formats de fichiers avec Teinte."
+msgstr "conversion of various file formats with Teinte."
 
 #: templates/index.html:73
 msgid "Fouille et annotation de texte"
-msgstr ""
+msgstr "Text mining and annotation"
 
 #: templates/index.html:74
 msgid "Reconnaissance d'entités nommées"
-msgstr ""
+msgstr "Named entity recognition"
 
 #: templates/index.html:74
 msgid "étiquetage morphosyntaxique"
-msgstr ""
+msgstr "POS tagging"
 
 #: templates/index.html:74
 msgid "analyse de sentiments"
-msgstr ""
+msgstr "sentiment analysis"
 
 #: templates/index.html:79
 msgid "entités de lieux sur carte"
-msgstr ""
+msgstr "geolocation and mapping of place names"
 
 #: templates/index.html:79
 msgid "réseaux de cooccurrences"
-msgstr ""
+msgstr "co-occurrences networks"
 
 #: templates/index.html:83
 msgid "Collecte de corpus"
-msgstr ""
+msgstr "Corpus harvesting"
 
 #: templates/index.html:84
 msgid "Scraping personnalisé des corpus Wikisource"
-msgstr ""
+msgstr "Customized scraping of Wikisource corpora"
 
 #: templates/index.html:88
 msgid "Correction textuelle"
-msgstr ""
+msgstr "Text correction"
 
 #: templates/index.html:89
 msgid ""
 "Correction d'erreurs et normalisation pour corpus à la graphie non "
 "standard"
-msgstr ""
+msgstr "Error correction and orthographic normalization of corpora with non-standard "
+"spellings"
 
 #: templates/index.html:93
 msgid "Chaînes de traitement"
-msgstr ""
+msgstr "Pipelines"
 
 #: templates/index.html:94
 msgid ""
 "Traitement automatique depuis l'OCR jusqu'à la reconnaissance d'entités "
 "et leur visualisation."
-msgstr ""
+msgstr "Automatic processing from OCR to entity recognition "
+"and visualization"
 

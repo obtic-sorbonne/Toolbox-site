@@ -391,6 +391,7 @@ display: table;
 .container_two_columns{
   display: flex;
   align-items: stretch;
+  margin-bottom: 20px;
 }
 .item{
   width:100%;
@@ -447,7 +448,7 @@ display: table;
 
 .download-button{
   margin:10px auto;
-  display: block;
+  display: none;
 }
 
 /* ------------- OLD -------------------*/

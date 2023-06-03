@@ -5,8 +5,132 @@
 <div class="outil">
     <div class="fil"><a href="{{ url_for('pandore')}}"><< Retour aux outils</a></div>
     <h2 style="font-family:'Comprehension', serif;">Topic Modelling</h2>
-    <p>[ Bientôt disponible ]</p>
+    <p>[documentation à rédiger]</p>
+    <div class="container_two_columns">
+        <div class="item">
+            <h3>Chargement des fichiers</h3>
+            <form action="{{ url_for('topic_extraction') }}" method="post" enctype="multipart/form-data" class="drag-drop-form" id="tm_form">
+                {{ form.csrf_token }}
+                <div class="form_opt">
+                <fieldset>
+                    <legend>Méthode de calcul des thématiques</legend>
+                    <input type="checkbox" name="modelling-method" value="nmf" id="nmf" checked><label for="nmf">NMF</label>
+                    <input type="checkbox" name="modelling-method" value="lda" id="lda" checked><label for="lda">LDA</label>
+                </fieldset>
+                </div>
+                <div class="dropzone">
+                <input type="file" name="topic_model" accept="text/plain" multiple required>
+                <p id="form_msg">Déposer le(s) fichier(s) ou cliquer ici.</p>
+                </div>
+                <input id="csrf_token" name="csrf_token" type="hidden" value="CSRF_TOKEN_STRING">
+                <button type="submit">Envoyer</button>
+            </form>
+        </div>
+        <div class="item">
+            <h3>Résultats</h3>
+            {% if msg != "" %}
+            <p>{{ msg }}</p>
+            {% endif %}
+            <table>
+                <tr>
+                    {% for method in res.keys() %}
+                    <th>{{ method|upper }}</th>
+                    {% endfor %}
+                </tr>
+                <tr>
+                    {% for method, topics in res.items() %}
+                    <td>{% for id, terms in topics.items() %}{{ terms }}<br>{% endfor %}</td>
+                    {% endfor %}
+                </tr>
+            </table>
+            <button class="download-button" id="download_btn" onclick="download_res({{ res }})"><i class="fa-solid fa-download"></i> Télécharger</button>
+        </div>
+    </div>
+
+
+    <script>
+    /* MAJ de la zone de glisser-déposer */ 
+    $(document).ready(function(){
+        $('form input').change(function () {
+
+            var nb_files = this.files.length;
+            $('form #form_msg').text(nb_files + " fichier(s) selectionné(s)");
+
+            /* Prévisualisation des fichiers chargés (max 3 visibles) */
+            if(nb_files > 3){
+                var num = nb_files - 3;
+                for(i=0; i < 3; i++){
+                    $("#form_msg").append('<br/><span class="filename_preview">' + this.files[i].name + '</span>');
+                }
+                $("#form_msg").append('<span class="filename_preview"> et ' + num + ' autres.</span>');
+            }
+            else{
+                for(i=0; i < nb_files; i++){
+                    $("#form_msg").append('<br/><span class="filename_preview">' + this.files[i].name + '</span>');
+                }
+            }
+        });
+
+        $("#tm_form").submit(function(){
+            var checked = $("#tm_form input:checked").length > 0;
+            if (!checked){
+                alert("Choisir une méthode d'extraction.");
+                return false;
+        }
+        });
+    });
+
+    function receiveFlask(vars) {
+        return vars
+    }
+
+    var res = receiveFlask({{res|tojson}})
+
+    if (Object.keys(res).length > 0){
+        $( "#download_btn" ).css( "display", "block" );
+    }
+
+    function download_res(res){
+        console.log(res)
+        var file_content = "";
+
+        if(res.hasOwnProperty("nmf")){
+            var header = "cluster_id\tNMF\n";
+            var content = "";
+            var terms = res['nmf'];
+            for(var id in terms){
+                content += id + '\t' + terms[id] + '\n';
+            }
+            file_content += header + content;
+        }
+
+        if(res.hasOwnProperty("lda")){
+            var terms_lda = res['lda'];
+            var header_lda = "cluster_id\tLDA\n";
+            var content_lda = "";
+
+            for(var id_lda in terms_lda){
+                content_lda += id_lda + '\t' + terms_lda[id_lda] + '\n';
+            }
+
+            file_content += header_lda + content_lda;
+        }
+        
+        /* Génère le lien de téléchargement */
+        var a = window.document.createElement('a');
+        a.href = window.URL.createObjectURL(new Blob([file_content], {type: 'text/csv'}));
+        a.download = 'topics.csv';
+
+        // Append anchor to body.
+        document.body.appendChild(a);
+        a.click();
+
+        // Remove anchor from body
+        document.body.removeChild(a);
+    }
+
+    </script>
 </div>
+
 {% endblock %}
 {% block footer %} {{ super() }} {% endblock %}
-

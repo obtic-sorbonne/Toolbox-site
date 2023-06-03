@@ -22,7 +22,7 @@
     <div class="container_two_columns">
         <div class="item">
             <h3>Chargement des fichiers</h3>
-            <form action="{{ url_for('keyword_extraction') }}" method="post" enctype="multipart/form-data" class="drag-drop-form">
+            <form action="{{ url_for('keyword_extraction') }}" method="post" enctype="multipart/form-data" class="drag-drop-form" id="kw_form">
                 {{ form.csrf_token }}
                 <div class="form_opt">
                 <fieldset>
@@ -35,7 +35,7 @@
                 </fieldset>
                 </div>
                 <div class="dropzone" id="kw_dropzone">
-                <input type="file" name="keywd-extract" accept="text/plain" multiple>
+                <input type="file" name="keywd-extract" accept="text/plain" multiple required>
                 <p id="form_msg">Déposer le(s) fichier(s) ou cliquer ici.</p>
                 </div>
                 <input id="csrf_token" name="csrf_token" type="hidden" value="CSRF_TOKEN_STRING">
@@ -46,20 +46,20 @@
             <h3>Résultats</h3>
             <table>
                 <tr>
-                    <th id="th_default">KeyBERT défaut</th>
-                    <th id="th_mmr">Filtrage MMR</th>
-                    <th id="th_mss">Filtrage MSS</th>
+                    <th>KeyBERT défaut</th>
+                    <th>Filtrage MMR</th>
+                    <th>Filtrage MSS</th>
                 </tr>
                 {% for fname, methods in res.items() %}
                 <tr><td colspan="3" style="background-color: #496a81;text-align: center;color:#fff"> {{ fname }} </td></tr>
                 <tr>
-                    <td class="kw_res_default">{% if 'default' in methods %}{% for kw in methods.default %}{{ kw }}<br>{% endfor %}{% endif %}</td>
-                    <td class="kw_res_mmr">{% if 'mmr' in methods %}{% for kw in methods.mmr %}{{ kw }}<br>{% endfor %}{% endif %}</td>
-                    <td class="kw_res_mss">{% if 'mss' in methods %}{% for kw in methods.mss %}{{ kw }}<br>{% endfor %}{% endif %}</td>
+                    <td class="kw_res_default" id="{{ fname }}_def">{% if 'default' in methods %}{% for kw in methods.default %}{{ kw }}<br>{% endfor %}{% endif %}</td>
+                    <td class="kw_res_mmr" id="{{ fname }}_mmr">{% if 'mmr' in methods %}{% for kw in methods.mmr %}{{ kw }}<br>{% endfor %}{% endif %}</td>
+                    <td class="kw_res_mss" id="{{ fname }}_mss">{% if 'mss' in methods %}{% for kw in methods.mss %}{{ kw }}<br>{% endfor %}{% endif %}</td>
                 </tr>
                 {% endfor %}
             </table>
-            <button class="download-button" id="download_btn"><i class="fa-solid fa-download"></i> Télécharger</button>
+            <button class="download-button" id="download_btn" onclick="download_res({{ res }})"><i class="fa-solid fa-download"></i> Télécharger</button>
         </div>
     </div>
 
@@ -107,31 +107,39 @@
         });
     });
 
+    $("#kw_form").submit(function(){
+        var checked = $("#kw_form input:checked").length > 0;
+        if (!checked){
+            alert("Choisir une méthode d'extraction.");
+            return false;
+        }
+    });
 
-    $("#download_btn").click(function (e) {
-        e.preventDefault();
-
-        /* Récupération des résultats */
-        var def = $(".kw_res_default").text();
-        var mmr = $(".kw_res_mmr").text();
-        var mss = $(".kw_res_mss").text();
-
-        var header = "";
-        var file_content = "";
+    /* Téléchargement des résultats */
+    function download_res(content){
         
-        if(def != ""){
-            header = "Default\t";
-            file_content = def + '\t';
-        }
-        if(mmr != ""){
-            header += "Filtrage MMR\t";
-            file_content += mmr + '\t';
-        }
-        if(mss != ""){
-            header += "Filtrage MSS";
-            file_content += mss;
-        }
+        var header = "Filename\t";
+        if($(".kw_res_default").text() != ""){ header += "Default\t"}
+        if($(".kw_res_mmr").text() != ""){ header += "MMR\t"}
+        if($(".kw_res_mss").text() != ""){ header += "MSS"}
         header += '\n';
+
+        var file_content = "";
+
+        for (let f in content){
+            console.log("f : " + f);
+            file_content += f + '\t';
+
+            var txt_def = $("#" + f + '_def').text();
+            var txt_mmr = $("#" + f + '_mmr').text();
+            var txt_mss = $("#" + f + '_mss').text();
+
+            if( txt_def != ""){ file_content += txt_def + '\t'; }
+            if( txt_mmr != ""){ file_content += txt_mmr + '\t'; }
+            if( txt_mss != ""){ file_content += txt_mss; }
+
+            file_content += '\n';
+        }
 
         /* Génère le lien de téléchargement */
         var a = window.document.createElement('a');
@@ -144,7 +152,8 @@
 
         // Remove anchor from body
         document.body.removeChild(a);
-    });
+    }
+
 </script>
 </div>
 {% endblock %}

@@ -37,6 +37,7 @@ import ocr
 
 UPLOAD_FOLDER = 'uploads'
 MODEL_FOLDER = 'static/models'
+UTILS_FOLDER = 'static/utils'
 ROOT_FOLDER = Path(__file__).parent.absolute()
 
 csrf = CSRFProtect()
@@ -52,6 +53,7 @@ app.config['SECRET_KEY'] = SECRET_KEY
 app.config['MAX_CONTENT_LENGTH'] = 8 * 1024 * 1024 # Limit file upload to 8MB
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['MODEL_FOLDER'] = MODEL_FOLDER
+app.config['UTILS_FOLDER'] = UTILS_FOLDER
 app.config['LANGUAGES'] = ['fr', 'en']
 app.add_url_rule("/uploads/<name>", endpoint="download_file", build_only=True)
 csrf.init_app(app)
@@ -141,7 +143,8 @@ def extraction_mots_cles():
 
 @app.route('/topic_modelling')
 def topic_modelling():
-	return render_template('topic_modelling.html')
+	form = FlaskForm()
+	return render_template('topic_modelling.html', form=form, res={})
 
 @app.route('/outils_pipeline')
 def outils_pipeline():
@@ -663,6 +666,7 @@ def keyword_extraction():
 
 		from keybert import KeyBERT
 		from sentence_transformers import SentenceTransformer
+		from pathlib import Path
 
 		# Chargement du modèle
 		sentence_model = SentenceTransformer("distiluse-base-multilingual-cased-v1")
@@ -673,8 +677,11 @@ def keyword_extraction():
 		# Valeur : dictionnaire dont la clé est la méthode d'extraction et la valeur une liste de mots-clés
 		res = {}
 		for f in uploaded_files:
-			fname = f.filename
-			print(fname)
+			fname = Path(f.filename).stem
+			fname = fname.replace(' ', '_')
+			fname = fname.strip()
+			fname = "".join(x for x in fname if (x.isalnum() or x == '_'))
+			
 			res[fname] = {}
 			text = f.read().decode("utf-8")
 			methods = request.form.getlist('extraction-method')
@@ -694,6 +701,100 @@ def keyword_extraction():
 
 	return render_template('extraction_mots_cles.html', form=form, res=res)
 
+
+@app.route('/topic_extraction', methods=["POST"])
+@stream_with_context
+def topic_extraction():
+	form = FlaskForm()
+	msg = ""
+	res = {}
+	if request.method == 'POST':
+		uploaded_files = request.files.getlist("topic_model")
+		if uploaded_files == []:
+			abort(400)
+		if len(uploaded_files) == 1:
+			text = uploaded_files[0].read().decode("utf-8")
+			if len(text) < 4500:
+				return render_template('topic_modelling.html', form=form, res={}, msg="Le texte est trop court, merci de charger un corpus plus grand pour des résultats significatifs. A défaut, vous pouvez utiliser l'outil d'extraction de mot-clés.")
+
+		# Topic modelling
+		from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer
+		from sklearn.decomposition import NMF, LatentDirichletAllocation
+		from pathlib import Path
+		import numpy as np
+
+		# Loading stop words
+		with open(os.path.join(app.config['UTILS_FOLDER'], "stop_words_fr.txt"), 'r') as sw :
+			stop_words_fr = sw.read().splitlines()
+		
+		# Methods
+		methods = request.form.getlist('modelling-method')
+
+		# Loading corpus
+		corpus = []
+		max_f = 0
+
+		if len(uploaded_files) == 1:
+			sents = sentencizer(text)
+			chunks = [x.tolist() for x in np.array_split(sents, 3)]
+			for l in chunks:
+				txt_part = "\n".join(l)
+				corpus.append(txt_part)
+				
+				# Compute corpus size
+				tokens = set(txt_part.split(' '))
+				max_f += len(tokens)
+			
+			# Number of topics when corpus xxs
+			no_topics = 2
+			
+		else:
+			
+			for f in uploaded_files:
+				text = f.read().decode("utf-8")
+				corpus.append(text)
+
+				# Compute corpus size
+				tokens = set(text.split(' '))
+				max_f += len(tokens)
+				
+				# Number of topics
+				if max_f < 800:
+					no_topics = 2
+				elif max_f < 1500:
+					no_topics = 3
+				else:
+					no_topics = 5
+
+		# Number of terms included in the bag of word matrix
+		no_features = int(max_f - (10 * max_f / 100))
+		
+		no_top_words = 5
+
+		# Topic extraction
+		if 'nmf' in methods:
+			tfidf_vectorizer = TfidfVectorizer(max_df=0.95, min_df=1, max_features=no_features, stop_words=stop_words_fr)
+			tfidf = tfidf_vectorizer.fit_transform(corpus)
+			tfidf_feature_names = tfidf_vectorizer.get_feature_names()
+
+			# Parameter: nndsvda for less sparsity ; else nndsvd
+			nmf = NMF(n_components=no_topics, random_state=1, alpha=.1, l1_ratio=.5, init='nndsvda').fit(tfidf)
+			
+			res_nmf = display_topics(nmf, tfidf_feature_names, no_top_words)
+			res['nmf'] = res_nmf
+
+
+		if 'lda' in methods:
+			tf_vectorizer = CountVectorizer(max_df=0.95, min_df=1, max_features=no_features, stop_words=stop_words_fr)
+			tf = tf_vectorizer.fit_transform(corpus)
+			tf_feature_names = tf_vectorizer.get_feature_names()
+
+			lda = LatentDirichletAllocation(n_components=no_topics, max_iter=5, learning_method='online', learning_offset=50.,random_state=0).fit(tf)
+			
+			res_lda = display_topics(lda, tf_feature_names, no_top_words)
+			res['lda'] = res_lda
+
+	return render_template('topic_modelling.html', form=form, res=res, msg=msg)
 
 #-----------------------------------------------------------------
 @app.route('/bios_converter', methods=["GET", "POST"])
@@ -833,6 +934,13 @@ def getWikiPage(url):
 		clean_text = clean_text.replace('\\xa0', ' ')
 		return clean_text
 
+# Extrait les thématiques calculées avec NMF et LDA
+# Clé : id, Valeur : liste de termes
+def display_topics(model, feature_names, no_top_words):
+	res = {}
+	for topic_idx, topic in enumerate(model.components_):
+		res[topic_idx] = [feature_names[i] for i in topic.argsort()[:-no_top_words - 1:-1]]
+	return res
 
 #-----------------------------------------------------------------
 # chaînes de traitement
