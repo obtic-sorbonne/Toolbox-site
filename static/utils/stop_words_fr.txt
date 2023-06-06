@@ -1,6 +1,7 @@
 —
 a
 à
+ah
 ai
 ainsi
 ailleurs
@@ -106,6 +107,7 @@ ni
 non
 nos
 nous
+oh
 on
 ont
 or
@@ -151,6 +153,7 @@ toutes
 travers
 très
 trois
+tu
 un
 une
 vers

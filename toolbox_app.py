@@ -727,44 +727,54 @@ def topic_extraction():
 		with open(os.path.join(app.config['UTILS_FOLDER'], "stop_words_fr.txt"), 'r') as sw :
 			stop_words_fr = sw.read().splitlines()
 		
-		# Methods
+		# Form options
 		methods = request.form.getlist('modelling-method')
+		lemma_state = request.form.getlist('lemma-opt')
 
 		# Loading corpus
 		corpus = []
 		max_f = 0
 
+		# If one file is uploaded, we split it in 3 chunks to be able to retrieve more than 1 topic cluster.
 		if len(uploaded_files) == 1:
 			sents = sentencizer(text)
 			chunks = [x.tolist() for x in np.array_split(sents, 3)]
+			total_tokens = set()
 			for l in chunks:
-				txt_part = "\n".join(l)
+				if lemma_state:
+					txt_part = spacy_lemmatizer("\n".join(l))
+				else:
+					txt_part = "\n".join(l)
+				
 				corpus.append(txt_part)
 				
 				# Compute corpus size
-				tokens = set(txt_part.split(' '))
-				max_f += len(tokens)
+				total_tokens.update(set(txt_part.split(' ')))
 			
 			# Number of topics when corpus xxs
 			no_topics = 2
 			
 		else:
-			
+			total_tokens = set()
 			for f in uploaded_files:
 				text = f.read().decode("utf-8")
+				if lemma_state:
+					text = spacy_lemmatizer(text)
+				
 				corpus.append(text)
 
 				# Compute corpus size
-				tokens = set(text.split(' '))
-				max_f += len(tokens)
-				
-				# Number of topics
-				if max_f < 800:
-					no_topics = 2
-				elif max_f < 1500:
-					no_topics = 3
+				total_tokens.update(set(text.split(' ')))
+
+				# Nb topics = nb fichiers
+				if len(uploaded_files) > 8:
+					no_topics = 8
 				else:
-					no_topics = 5
+					no_topics = len(uploaded_files)
+				
+		# Taille du corpus
+		max_f = len(total_tokens)
+		print("Nb types : ".format(max_f))
 
 		# Number of terms included in the bag of word matrix
 		no_features = int(max_f - (10 * max_f / 100))
@@ -913,6 +923,17 @@ def sentencizer(text):
 	sentences = [x for x in text.split(delimiter_token) if x !='']
 
 	return sentences
+
+def spacy_lemmatizer(text):
+# Input : raw text
+# Ouput : lemmatized text
+	import spacy
+	nlp = spacy.load('fr_core_news_md')
+	doc = nlp(text)
+	result = []
+	for d in doc:
+		result.append(d.lemma_)
+	return " ".join(result)
 
 def createRandomDir(prefix, length):
 	rand_name =  prefix + ''.join((random.choice(string.ascii_lowercase) for x in range(length)))

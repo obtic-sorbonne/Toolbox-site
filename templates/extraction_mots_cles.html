@@ -107,6 +107,7 @@
         });
     });
 
+    /* Vérifier si une méthode est bien cochée */
     $("#kw_form").submit(function(){
         var checked = $("#kw_form input:checked").length > 0;
         if (!checked){
@@ -114,6 +115,11 @@
             return false;
         }
     });
+
+    /* Affichage du bouton de téléchargement */
+    if (Object.keys(res).length > 0){
+        $( "#download_btn" ).css( "display", "block" );
+    }
 
     /* Téléchargement des résultats */
     function download_res(content){

@@ -72,6 +72,7 @@ nav li:hover{
   color:#fff;
   height: 85px;
   width: 100%;
+  z-index: 20;
 }
 
 .logo img{
@@ -448,6 +449,12 @@ display: table;
 
 .download-button{
   margin:10px auto;
+  display: none;
+}
+
+.loader{
+  text-align: center;
+  float:center;
   display: none;
 }
 
