@@ -10,8 +10,8 @@
     <div class="local-doc">
         <p>La modélisation de thématiques consiste à identifier dans un corpus les groupes de termes représentatifs des thèmes de celui-ci. Pour extraire ces informations, il existe plusieurs méthodes de calcul, détaillées ci-dessous. Leur efficacité respective dépendra du type de corpus et du type d'information recherchée. Globalement, NMF est plus performant sur les textes courts [<a href="https://www.sciencedirect.com/science/article/pii/S0950705118304076" target="_blank">réf</a>].</p>
         <ul>
-            <li>Factorisation par matrices non négatives (NMF)</li>
-            <li>Allocation de Dirichlet latente (LDA)</li>
+            <li>Factorisation par matrices non négatives (NMF) : calcule en observant la fréquence et la répartition des termes dans chaque document par rapport au corpus global.</li>
+            <li>Allocation de Dirichlet latente (LDA) : calcule en se basant sur des hypothèses statistiques de présence de thématiques par document.</li>
         </ul>
         <div>
             <p>Format d'entrée : ensemble de fichiers au format texte (.txt)</p>
