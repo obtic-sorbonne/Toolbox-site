@@ -724,7 +724,7 @@ def topic_extraction():
 		import numpy as np
 
 		# Loading stop words
-		with open(os.path.join(app.config['UTILS_FOLDER'], "stop_words_fr.txt"), 'r') as sw :
+		with open(os.path.join(ROOT_FOLDER / app.config['UTILS_FOLDER'], "stop_words_fr.txt"), 'r') as sw :
 			stop_words_fr = sw.read().splitlines()
 		
 		# Form options
