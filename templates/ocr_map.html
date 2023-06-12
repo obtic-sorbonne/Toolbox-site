@@ -21,12 +21,71 @@
 }
 </style>
 
+
+
+<style>
+    /* The Modal (background) */
+    .modal {
+      display: none; /* Hidden by default */
+      position: fixed; /* Stay in place */
+      z-index: 1000; /* Sit on top */
+      right: 0;
+      top: 0;
+      width: 90%; /* Full width */
+      height: 100%; /* Full height */
+      overflow: auto; /* Enable scroll if needed */
+      background-color: rgb(0,0,0); /* Fallback color */
+      background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    }
+    
+    /* Modal Content/Box */
+    .modal-content {
+      background-color: #fefefe;
+      margin: 15% auto; /* 15% from the top and centered */
+      padding: 20px;
+      border: 1px solid #888;
+      width: 80%; /* Could be more or less, depending on screen size */
+    }
+    
+    /* The Close Button */
+    .close {
+      color: #aaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+    }
+    
+    .close:hover,
+    .close:focus {
+      color: black;
+      text-decoration: none;
+      cursor: pointer;
+    }
+            </style>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nestablejs@latest/dist/nestable.css">
+<script src="https://cdn.jsdelivr.net/npm/nestablejs@latest/dist/nestable.js"></script>
+
+
+
 <div class="outil">
 
   <h3>Épiméthée</h3>
 
   <div class="parent">
     <div class="col_1">
+
+<!-- see: https://www.w3schools.com/howto/howto_css_modals.asp -->
+<div id="modal-clusters" class="modal">
+  <div class="modal-content">
+    <span id="clusters-close">&times;</span>
+    <p>Some text in the Modal..</p>
+    <div id="cluster-checkboxes"></div>
+  </div>
+</div>
+
+
+
     <p>Cette chaîne de traitement permet d'analyser les entités nommées de lieu dans un texte (numérisé ou non) et de cartographier ces lieux. Cette chaîne se base sur les trois outils suivants:</p>
     <ul style="padding-left: 10%;">
         <li>Tesseract</li>
@@ -97,6 +156,7 @@
       <input id="csrf_token" name="csrf_token" type="hidden" value="CSRF_TOKEN_STRING">
       <button id="ocrmap-button" style="display:block;margin:auto;margin-bottom:5px;">Cartographier</button>
       <button id="ocrmap-csv" style="display:block;margin:auto;margin-bottom:50px;">Télécharger</button>
+      <button id="ocrmap-showclusters" style="display:block;margin:auto;margin-bottom:50px;">Afficher les clusters</button>
       </form>
       <!-- Loader -->
       <div id="tessloader">
@@ -111,7 +171,8 @@
     </div>
     </div><!-- end div col_1-->
     <div class="col_2">
-    <div id="map" style="height:60vh; width:45vw;display:inline-block;"></div>
+        <div id="map" style="height:60vh; width:45vw;display:inline-block;"></div>
+        <div id="clusters" style="height:60vh; width:45vw;display:inline-block;"></div>
     </div>
   </div>
 </div>
@@ -200,18 +261,86 @@
             cleanMap();
             var markers = [];
             let index = 0;
+            let nth = 0;
             for (const [key, value] of Object.entries(new_overlays)) {
                 markers.length = 0;
-                var current_icon = intersection_icon[key];
+                var current_icon = intersection_icon[key] ?? icons[nth++];
                 // alert(key);
                 for (const item of value) {
                     markers.push(L.marker([item[0], item[1]], {icon: current_icon}).bindPopup(item[2]));
-                    mapped_ner_tools.push([item[0], item[1], item[2], key]);
+                    mapped_ner_tools.push([item[0], item[1], item[2], key, item[3], item[4][0]]);
                 }
                 layer_groups[key] = L.layerGroup(markers);
                 layerControl.addOverlay(layer_groups[key], key);
             }
             alert("Mise à jour de la carte effectuée !");
+            // updateModal(new_overlays);
+        }
+
+        var nestable;
+        var nestables = [null, null, null];
+        function updateModal(new_overlays) {
+            // let div = document.getElementsById("cluster-checkboxes");
+            let div = document.getElementById("clusters");
+            div.innerHTML = "";
+            let innerHTML = "";
+            innerHTML += "<ul>";
+            let nth = 0;
+            for (const [tool, clusters] of Object.entries(new_overlays)) {
+                innerHTML += "<li>" + tool;
+                innerHTML += '<ol id="clusters-' + nth + '">';
+                for (const cluster of clusters) {
+                    let nom = cluster[2];
+                    let forms = cluster[cluster.length - 1];
+                    innerHTML += "<li>" + nom + " / " + cluster[0] + "," + cluster[1];
+                    innerHTML += '<ol>';
+                    for(const [form, coords, freq] of forms) {
+                        innerHTML += '<li>' + form + ' / ' + coords + '</li>';
+                    }
+                    innerHTML += "</ol>";
+                    innerHTML += "</li>";
+                }
+                innerHTML += "</ol>";
+                innerHTML += "</li>";
+                nth += 1;
+            }
+            innerHTML += "</ul>";
+            div.innerHTML = innerHTML;
+
+            nth = 0;
+            for (const [tool, clusters] of Object.entries(new_overlays)) {
+                if (clusters.length > 0) {
+                    nestable = new Nestable("#clusters-" + nth);
+                }
+                nth += 1;
+            }
+            /*let ul1 = document.createElement("ul");
+            //let li1, ol2, li2, ol3, li3;
+            for (const [tool, clusters] of Object.entries(new_overlays)) {
+                let li1 = ul1.appendChild(document.createElement("li"));
+                let ol2 = ul1.appendChild(document.createElement("ol"));
+                li1.innerText = tool;
+                ol2.style.marginLeft = "20px";
+                //console.log(tool);
+                for (const cluster of clusters) {
+                    let nom = cluster[2];
+                    let forms = cluster[cluster.length - 1];
+                    //console.log("===>" + nom + " - " + forms);
+                    let li2 = ol2.appendChild(document.createElement("li"));
+                    let ol3 = li2.appendChild(document.createElement("ol"));
+                    li2.innerText = nom;
+                    //console.log(li2);
+                    ol3.style.marginLeft = "40px";
+                    for(const form of forms.split(" / ")) {
+                        //console.log("=======>" + form);
+                        let li3 = ol3.appendChild(document.createElement("li"));
+                        let input3 = li3.appendChild(document.createElement("input"));
+                        input3.setAttribute("type", "checkbox");
+                        li3.innerText = form;
+                    }
+                }
+            }
+            div.appendChild(ul1);*/
         }
     </script>
 
@@ -247,6 +376,7 @@ var intersection_icon = {
     "outil 1" : redIcon,
     "outil 2" : blueIcon
 }
+var icons = [redIcon, blueIcon];
     </script>
 
     <script type="text/javascript">
@@ -264,6 +394,7 @@ var intersection_icon = {
             success: function (response) {
               event.preventDefault();
               updateOverlays(response);
+              updateModal(response);
             //~ if (response.points.length > 0) {
                 //~ updatePoints(response.points);
             //~ } else {
@@ -330,4 +461,28 @@ var intersection_icon = {
       }
   }
   </script>
+
+<script>
+    var modal = document.getElementById('modal-clusters');
+    const clusters_button = document.getElementById('ocrmap-showclusters');
+    // Get the <span> element that closes the modal
+    var clusters_close_button = document.getElementById("clusters-close");
+
+    // When the user clicks on the button, open the modal
+    clusters_button.onclick = function() {
+        modal.style.display = "block";
+    }
+
+    // When the user clicks on <span> (x), close the modal
+    clusters_close_button.onclick = function() {
+        modal.style.display = "none";
+    }
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+</script>
 {% endblock %}

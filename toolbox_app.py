@@ -26,6 +26,8 @@ import glob
 from pathlib import Path
 import jamspell
 import json
+import collections
+#from txt_ner import txt_ner_params
 
 import pandas as pd
 
@@ -34,6 +36,8 @@ import sem.storage
 import sem.exporters
 
 import ocr
+
+from cluster import freqs2clustering
 
 UPLOAD_FOLDER = 'uploads'
 MODEL_FOLDER = 'static/models'
@@ -1078,12 +1082,11 @@ def run_ocr_map():
 #AFFICHAGE MAP des résultats pour plusieurs outils de NER
 #---------------------------------------------------------
 
-@app.route("/run_ocr_map_intersection", methods=["POST"])
+@app.route("/run_ocr_map_intersection", methods=["GET", "POST"])
 def run_ocr_map_intersection():
 	from txt_ner import txt_ner_params
 	from geopy.geocoders import Nominatim
 	geolocator = Nominatim(user_agent="http")
-	print("Entrée dans run intersection")
 	# paramètres globaux
 	uploaded_files = request.files.getlist("inputfiles")
 	# paramètres OCR
@@ -1095,6 +1098,13 @@ def run_ocr_map_intersection():
 	modele_REN1 = request.form['modele_REN1']
 	moteur_REN2 = request.form['moteur_REN2']
 	modele_REN2 = request.form['modele_REN2']
+	frequences_1 = collections.Counter()
+	frequences_2 = collections.Counter()
+	frequences = collections.Counter()
+	outil_1 = f"{moteur_REN1}/{modele_REN1}"
+	outil_2 = (f"{moteur_REN2}/{modele_REN2}" if moteur_REN2 != "aucun" else "aucun")
+
+	# print(moteur_REN1, moteur_REN2)
 
 	rand_name =  'ocr_ner_' + ''.join((random.choice(string.ascii_lowercase) for x in range(8)))
 
@@ -1103,9 +1113,8 @@ def run_ocr_map_intersection():
 	else:
 		liste_contenus = []
 		for uploaded_file in uploaded_files:
-			print(uploaded_file)
+			# print(uploaded_file, file=sys.stderr)
 			try:
-
 				liste_contenus.append(uploaded_file.read().decode(encodage))
 			finally: # ensure file is closed
 				uploaded_file.close()
@@ -1113,31 +1122,104 @@ def run_ocr_map_intersection():
 
 		del liste_contenus
 
+	# TODO: ajout cumul
 	entities_1 = txt_ner_params(contenu, moteur_REN1, modele_REN1, encodage=encodage)
 	ensemble_mentions_1 = set(text for label, start, end, text in entities_1 if label == "LOC")
+	ensemble_positions_1 = set((text, start, end) for label, start, end, text in entities_1 if label == "LOC")
+	ensemble_positions = set((text, start, end) for label, start, end, text in entities_1 if label == "LOC")
 
+	# TODO: ajout cumul
 	if moteur_REN2 != "aucun":
 		entities_2 = txt_ner_params(contenu, moteur_REN2, modele_REN2, encodage=encodage)
 		ensemble_mentions_2 = set(text for label, start, end, text in entities_2 if label == "LOC")
+		ensemble_positions_2 = set((text, start, end) for label, start, end, text in entities_2 if label == "LOC")
+		ensemble_positions |= set((text, start, end) for label, start, end, text in entities_2 if label == "LOC")
 	else:
 		entities_2 = ()
+		ensemble_positions_2 = set()
 		ensemble_mentions_2 = set()
 
 	ensemble_mentions_commun = ensemble_mentions_1 & ensemble_mentions_2
 	ensemble_mentions_1 -= ensemble_mentions_commun
 	ensemble_mentions_2 -= ensemble_mentions_commun
 
-	liste_keys = ["commun", "outil 1", "outil 2"]
+	for text, start, end in ensemble_positions_1:
+		frequences_1[text] += 1
+	for text, start, end in ensemble_positions_2:
+		frequences_2[text] += 1
+	for text, start, end in ensemble_positions:
+		frequences[text] += 1
+
+	# print("TEST1")
+
+	text2coord = {}
+	for text in set(p[0] for p in ensemble_positions):
+		text2coord[text] = geolocator.geocode(text, timeout=30) # check for everyone
+
+	# TODO: faire clustering pour cumul + outil 1 / outil 2 / commun
+	clusters_1 = freqs2clustering(frequences_1)
+	clusters_2 = freqs2clustering(frequences_2)
+	clusters = freqs2clustering(frequences)
+
+	# print("TEST2")
+	frequences_cumul_1 = {}
+	for centroid in clusters_1:
+		frequences_cumul_1[centroid] = 0
+		for forme_equivalente in clusters_1[centroid]["Termes"]:
+			frequences_cumul_1[centroid] += frequences_1[forme_equivalente]
+	frequences_cumul_2 = {}
+	for centroid in clusters_2:
+		frequences_cumul_2[centroid] = 0
+		for forme_equivalente in clusters_2[centroid]["Termes"]:
+			frequences_cumul_2[centroid] += frequences_2[forme_equivalente]
+	frequences_cumul = {}
+	for centroid in clusters:
+		frequences_cumul[centroid] = 0
+		for forme_equivalente in clusters[centroid]["Termes"]:
+			frequences_cumul[centroid] += frequences[forme_equivalente]
+
+	# print("TEST3")
+
+	# TODO: ajout cumul
+	liste_keys = ["commun", outil_1, outil_2]
 	liste_ensemble_mention = [ensemble_mentions_commun, ensemble_mentions_1, ensemble_mentions_2]
 	dico_mention_marker = {key: [] for key in liste_keys}
 	for key, ensemble in zip(liste_keys, liste_ensemble_mention):
-		for texte in ensemble:
-			location = geolocator.geocode(texte, timeout=30)
+		if key == "commun":
+			my_clusters = clusters
+			my_frequences = frequences_cumul
+		elif key == outil_1:
+			my_clusters = clusters_1
+			my_frequences = frequences_cumul_1
+		elif key == outil_2:
+			my_clusters = clusters_2
+			my_frequences = frequences_cumul_2
+		sous_ensemble = [texte for texte in my_frequences if texte in ensemble]
+		for texte in sous_ensemble:
+			# forms = (" / ".join(my_clusters[texte]["Termes"]) if my_clusters else "")
+			#SAVE forms = [(form, [0, 0]) for form in my_clusters[texte]["Termes"]]
+			forms = []
+			for form in my_clusters[texte]["Termes"]:
+				coords = text2coord[form]
+				if coords:
+					coords = [text2coord[form].latitude, text2coord[form].longitude]
+				else:
+					coords = [0.0, 0.0]
+				forms.append([form, coords])
+			# location = geolocator.geocode(texte, timeout=30) # déjà fait avant
+			location = text2coord[texte]
+			# print(location, file=sys.stderr)
 			if location:
-				dico_mention_marker[key].append((location.latitude, location.longitude, texte))
+				dico_mention_marker[key].append((
+					location.latitude,
+					location.longitude,
+					texte,
+					my_frequences[texte],
+					forms
+				))
 
-	for key, value in dico_mention_marker.items():
-		print(key, value)
+	# for key, value in dico_mention_marker.items():
+	# 	print(key, value, file=sys.stderr)
 
 	return dico_mention_marker
 
@@ -1149,7 +1231,7 @@ def nermap_to_csv():
     print(input_json_str)
     input_json = json.loads(input_json_str)
     print(input_json)
-    keys = ["nom", "latitude", "longitude", "outil"]
+    keys = ["nom", "latitude", "longitude", "outil", "fréquence", "cluster"]
     output_stream = StringIO()
     writer = csv.DictWriter(output_stream, fieldnames=keys, delimiter="\t")
     writer.writeheader()
@@ -1159,6 +1241,8 @@ def nermap_to_csv():
             "longitude" : point[1],
             "nom" : point[2],
             "outil" : point[3],
+            "fréquence" : point[4],
+            "cluster" : point[5],
         }
         writer.writerow(row)
     # name not useful, will be handled in javascript
