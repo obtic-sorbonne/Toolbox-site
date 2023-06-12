@@ -690,7 +690,6 @@ def keyword_extraction():
 				res[fname]['default'] = keywords_def
 
 			if 'mmr' in methods:
-				print(request.form.get('diversity'))
 				diversity = int(request.form.get('diversity')) / 10
 				keywords_mmr = kw_model.extract_keywords(text, use_mmr=True, diversity=diversity)
 				res[fname]['mmr'] = keywords_mmr
@@ -724,7 +723,7 @@ def topic_extraction():
 		import numpy as np
 
 		# Loading stop words
-		with open(ROOT_FOLDER / os.path.join(app.config['UTILS_FOLDER'], "stop_words_fr.txt"), 'r') as sw :
+		with open(ROOT_FOLDER / os.path.join(app.config['UTILS_FOLDER'], "stop_words_fr.txt"), 'r', encoding="utf-8") as sw :
 			stop_words_fr = sw.read().splitlines()
 		
 		# Form options
@@ -737,7 +736,7 @@ def topic_extraction():
 
 		# If one file is uploaded, we split it in 3 chunks to be able to retrieve more than 1 topic cluster.
 		if len(uploaded_files) == 1:
-			sents = sentencizer(text.decode("utf-8"))
+			sents = sentencizer(text)
 			chunks = [x.tolist() for x in np.array_split(sents, 3)]
 			total_tokens = set()
 			for l in chunks:

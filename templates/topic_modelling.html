@@ -33,9 +33,10 @@
                     </div>
                         <label class="switch">
                             <span style="margin-left:72px;cursor: pointer;">Lemmatisation</span>
-                            <input type="checkbox" name="lemma-opt">
+                            <input type="checkbox" name="lemma-opt" id="lemma_opt" onchange="optChanged()">
                             <span class="slider round"></span>
                         </label>
+                        <span class="time_alert"><i class="fa-solid fa-triangle-exclamation"></i> Le traitement peut être très long.</span>
                 </fieldset>
                 </div>
                 <div class="dropzone">
@@ -117,8 +118,16 @@
             }
             });
         });
-
     });
+
+    /* Affichage de l'alerte de temps pour l'option lemmatisation */
+    function optChanged()
+    {
+        if($('#lemma_opt').is(":checked"))   
+            $(".time_alert").css("display", "inline-block");
+        else
+            $(".time_alert").css("display", "none");
+    }
 
     function receiveFlask(vars) {
         return vars

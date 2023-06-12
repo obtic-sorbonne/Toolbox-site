@@ -458,6 +458,11 @@ display: table;
   display: none;
 }
 
+.time_alert{
+  font-size: smaller;
+  color:gray;
+  display: none;
+}
 /* ------------- OLD -------------------*/
 .contact{
   text-align:right;
