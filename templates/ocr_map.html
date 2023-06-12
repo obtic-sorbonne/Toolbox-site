@@ -159,7 +159,7 @@
       <button id="ocrmap-showclusters" style="display:block;margin:auto;margin-bottom:50px;">Afficher les clusters</button>
       </form>
       <!-- Loader -->
-      <div id="tessloader">
+      <div class="loader">
         <p>Traitement en cours...</p>
         <div class="loadingio-spinner-ball-205vl2x7f7n">
           <div class="ldio-b8p5li8dt1u">
@@ -385,6 +385,7 @@ var icons = [redIcon, blueIcon];
       ocrmap_button.onclick = (event) => {
           event.preventDefault();
           var form_data = new FormData($('#ocrmap-form').get(0));
+          $(".loader").css("display", "block");
           $.ajax({
             type: 'POST',
             url: "{{ url_for('run_ocr_map_intersection') }}",
