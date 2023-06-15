@@ -66,12 +66,12 @@ csrf.init_app(app)
 #-----------------------------------------------------------------
 # BABEL
 #-----------------------------------------------------------------
-@babel.localeselector
+"""@babel.localeselector
 def get_locale():
     if request.args.get('language'):
         session['language'] = request.args.get('language')
     return session.get('language', 'fr')
-
+"""
 @app.context_processor
 def inject_conf_var():
 	return dict(AVAILABLE_LANGUAGES=app.config['LANGUAGES'], CURRENT_LANGUAGE=session.get('language', request.accept_languages.best_match(app.config['LANGUAGES'])))
@@ -163,6 +163,11 @@ def ocr_ner():
 def ocr_map():
 	form = FlaskForm()
 	return render_template('ocr_map.html', form=form)
+
+@app.route('/extraction_gallica')
+def extraction_gallica():
+	form = FlaskForm()
+	return render_template('extraction_gallica.html', form=form)
 
 #-----------------------------------------------------------------
 # ERROR HANDLERS

@@ -384,8 +384,8 @@ var icons = [redIcon, blueIcon];
       const ocrmap_button = document.querySelector('#ocrmap-button');
       ocrmap_button.onclick = (event) => {
           event.preventDefault();
-          var form_data = new FormData($('#ocrmap-form').get(0));
           $(".loader").css("display", "block");
+          var form_data = new FormData($('#ocrmap-form').get(0));
           $.ajax({
             type: 'POST',
             url: "{{ url_for('run_ocr_map_intersection') }}",
@@ -396,6 +396,7 @@ var icons = [redIcon, blueIcon];
               event.preventDefault();
               updateOverlays(response);
               updateModal(response);
+              $(".loader").css("display", "none");
             //~ if (response.points.length > 0) {
                 //~ updatePoints(response.points);
             //~ } else {
