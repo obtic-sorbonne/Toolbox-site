@@ -691,6 +691,7 @@ def keyword_extraction():
 		# Valeur : dictionnaire dont la clé est la méthode d'extraction et la valeur une liste de mots-clés
 		res = {}
 		for f in uploaded_files:
+			print("Lecture fichiers")
 			fname = Path(f.filename).stem
 			fname = fname.replace(' ', '_')
 			fname = fname.strip()
@@ -702,6 +703,7 @@ def keyword_extraction():
 			if 'default' in methods:
 				keywords_def = kw_model.extract_keywords(text)
 				res[fname]['default'] = keywords_def
+				print(keywords_def)
 
 			if 'mmr' in methods:
 				diversity = int(request.form.get('diversity')) / 10
@@ -711,6 +713,8 @@ def keyword_extraction():
 			if 'mss' in methods:
 				keywords_mss = kw_model.extract_keywords(text, keyphrase_ngram_range=(1, 3), use_maxsum=True, nr_candidates=10, top_n=3)
 				res[fname]['mss'] = keywords_mss
+				
+				return render_template('extraction_mots_cles.html', form=form, res=res)
 
 	return render_template('extraction_mots_cles.html', form=form, res=res)
 
