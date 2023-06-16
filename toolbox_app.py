@@ -669,7 +669,7 @@ def ner_camembert():
 	return render_template('entites_nommees.html', erreur=erreur)
 
 
-@app.route('/keyword_extraction', methods=["POST"])
+@app.route('/keyword_extraction', methods=['GET','POST'])
 @stream_with_context
 def keyword_extraction():
 	form = FlaskForm()
@@ -705,7 +705,6 @@ def keyword_extraction():
 			if 'default' in methods:
 				keywords_def = kw_model.extract_keywords(text)
 				res[fname]['default'] = keywords_def
-				print(keywords_def)
 
 			if 'mmr' in methods:
 				diversity = int(request.form.get('diversity')) / 10
@@ -716,7 +715,7 @@ def keyword_extraction():
 				keywords_mss = kw_model.extract_keywords(text, keyphrase_ngram_range=(1, 3), use_maxsum=True, nr_candidates=10, top_n=3)
 				res[fname]['mss'] = keywords_mss
 		
-		return render_template('extraction_mots_cles.html', form=form, res=res)
+		return res
 		
 	return render_template('extraction_mots_cles.html', form=form, res=res)
 
