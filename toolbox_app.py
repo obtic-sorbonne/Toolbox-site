@@ -733,7 +733,7 @@ def topic_extraction():
 		if len(uploaded_files) == 1:
 			text = uploaded_files[0].read().decode("utf-8")
 			if len(text) < 4500:
-				return render_template('topic_modelling.html', form=form, res={}, msg="Le texte est trop court, merci de charger un corpus plus grand pour des résultats significatifs. A défaut, vous pouvez utiliser l'outil d'extraction de mot-clés.")
+				return Response(response=render_template('topic_modelling.html', form=form, res=res, msg="Le texte est trop court, merci de charger un corpus plus grand pour des résultats significatifs. A défaut, vous pouvez utiliser l'outil d'extraction de mot-clés.")
 
 		# Topic modelling
 		from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer
@@ -821,6 +821,8 @@ def topic_extraction():
 			
 			res_lda = display_topics(lda, tf_feature_names, no_top_words)
 			res['lda'] = res_lda
+		
+		return Response(response=render_template('topic_modelling.html', form=form, res=res, msg=msg)
 
 	return render_template('topic_modelling.html', form=form, res=res, msg=msg)
 
