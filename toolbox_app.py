@@ -675,6 +675,9 @@ def keyword_extraction():
 	form = FlaskForm()
 	if request.method == 'POST':
 		uploaded_files = request.files.getlist("keywd-extract")
+		methods = request.form.getlist('extraction-method')
+		res = {}
+		
 		if uploaded_files == []:
 			abort(400)
 
@@ -689,9 +692,8 @@ def keyword_extraction():
 		# Le résultat est stocké dans un dictionnaire. 
 		# Clé : nom du fichier (string)
 		# Valeur : dictionnaire dont la clé est la méthode d'extraction et la valeur une liste de mots-clés
-		res = {}
+		
 		for f in uploaded_files:
-			print("Lecture fichiers")
 			fname = Path(f.filename).stem
 			fname = fname.replace(' ', '_')
 			fname = fname.strip()
@@ -699,7 +701,7 @@ def keyword_extraction():
 			
 			res[fname] = {}
 			text = f.read().decode("utf-8")
-			methods = request.form.getlist('extraction-method')
+			
 			if 'default' in methods:
 				keywords_def = kw_model.extract_keywords(text)
 				res[fname]['default'] = keywords_def
@@ -713,9 +715,9 @@ def keyword_extraction():
 			if 'mss' in methods:
 				keywords_mss = kw_model.extract_keywords(text, keyphrase_ngram_range=(1, 3), use_maxsum=True, nr_candidates=10, top_n=3)
 				res[fname]['mss'] = keywords_mss
-				
-				return render_template('extraction_mots_cles.html', form=form, res=res)
-
+		
+		return render_template('extraction_mots_cles.html', form=form, res=res)
+		
 	return render_template('extraction_mots_cles.html', form=form, res=res)
 
 
