@@ -29,7 +29,7 @@
                     <legend>Méthode de calcul des mots-clés</legend>
                     <input type="checkbox" name="extraction-method" value="default" id="def" checked><label for="default">Par défaut</label>
                     <input type="checkbox" name="extraction-method" value="mmr" id="mmr"><label for="mmr">MMR</label>
-                    <input type="checkbox" name="extraction-method" value="mss" id="mss"><label for="mss">MMS</label>
+                    <input type="checkbox" name="extraction-method" value="mss" id="mss"><label for="mss">MSS</label>
 
                     <div id="diversity_opt" style="display:none;padding:5px;"><input type="range" name="diversity" min="0" max="10" value="7"><label for="diversity">Diversité</label></div>
                 </fieldset>
@@ -116,6 +116,13 @@
         }
     });
 
+
+    function receiveFlask(vars) {
+        return vars
+    }
+
+    var res = receiveFlask({{res|tojson}})
+    
     /* Affichage du bouton de téléchargement */
     if (Object.keys(res).length > 0){
         $( "#download_btn" ).css( "display", "block" );

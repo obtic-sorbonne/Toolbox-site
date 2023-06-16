@@ -7,7 +7,7 @@ from werkzeug.exceptions import HTTPException
 from forms import ContactForm, SearchForm
 from flask_wtf import FlaskForm
 from flask_wtf.csrf import CSRFProtect
-from flask_babel import Babel, _
+from flask_babel import Babel, get_locale, gettext
 import os
 from io import StringIO, BytesIO
 import string
@@ -48,7 +48,11 @@ csrf = CSRFProtect()
 SECRET_KEY = os.urandom(32)
 
 app = Flask(__name__)
-babel = Babel(app)
+
+# Babel config
+def get_locale():
+    return request.accept_languages.best_match(['fr', 'en'])
+babel = Babel(app, locale_selector=get_locale)
 
 # App config
 app.config['SESSION_TYPE'] = 'filesystem'
