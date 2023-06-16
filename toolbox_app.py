@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding:utf-8 -*-
 
-from flask import Flask, abort, request, render_template, url_for, redirect, send_from_directory, Response, stream_with_context, session
+from flask import Flask, abort, request, render_template, url_for, redirect, send_from_directory, Response, stream_with_context, session, jsonify
 from werkzeug.utils import secure_filename
 from werkzeug.exceptions import HTTPException
 from forms import ContactForm, SearchForm
@@ -669,7 +669,7 @@ def ner_camembert():
 	return render_template('entites_nommees.html', erreur=erreur)
 
 
-@app.route('/keyword_extraction', methods=['GET','POST'])
+@app.route('/keyword_extraction', methods=['POST'])
 @stream_with_context
 def keyword_extraction():
 	form = FlaskForm()
@@ -715,7 +715,7 @@ def keyword_extraction():
 				keywords_mss = kw_model.extract_keywords(text, keyphrase_ngram_range=(1, 3), use_maxsum=True, nr_candidates=10, top_n=3)
 				res[fname]['mss'] = keywords_mss
 		
-		return res
+		return Response(response=render_template('extraction_mots_cles.html', form=form, res=res))
 		
 	return render_template('extraction_mots_cles.html', form=form, res=res)
 
