@@ -1,0 +1,69 @@
+{% extends "index.html" %}
+{% block header %} {{ super() }} {% endblock %}
+
+{% block content %}
+<style>
+	form{
+		display: block;
+		text-align:center;
+		margin-top:20px;
+	}
+	button{
+		display: block;
+		margin:auto;
+		margin-top:8px;
+	}
+	textarea{
+		display: block;
+		margin:auto;
+	}
+	label{
+		display: block;
+		margin: 7px;
+	}
+</style>
+<div class="outil">
+<h2>API Gallica</h2>
+<p>Les documents consultables dans Gallica sont identifiés selon un système normalisé, ARK (pour <span style="font-style:italic">Archival Resource Key</span>) qui permet de garantir la pérennité des URL. Voir la <a href="https://www.bnf.fr/fr/lidentifiant-ark-archival-resource-key#bnf-ark-qu-est-ce-que-c-est-" target="_blank">notice sur ARK</a> sur le site de la BnF.</p>
+<form action="{{ url_for('extract_gallica') }}" method="POST" enctype="multipart/form-data">
+{{ form.csrf_token }}
+	<label for="ark_input">Liste des ARK des documents à extraire</label>
+	<span id="error_msg_ark"></span>
+	<textarea name="ark_input" id="arks" cols="15" rows="10" required placeholder="Copier les ARK ici, séparés par un retour à la ligne."></textarea>
+	<input id="csrf_token" name="csrf_token" type="hidden" value="CSRF_TOKEN_STRING">
+	<button type="submit" id="submitArk">Envoyer</button>
+</form>
+
+<div class="loader" style="margin-top:10px">
+	<p>Interrogation de Gallica en cours...</p>
+	<div class="loadingio-spinner-ball-205vl2x7f7n">
+	  <div class="ldio-b8p5li8dt1u">
+		<div></div>
+	  </div>
+	</div>
+</div>
+
+<script>
+
+	/*Validation dynamique des arks */
+	$('#arks').keyup(validateArks);
+	function validateArks() {
+    	var regex = /[.\/\%\-\"]/;
+    	var val = $("#arks").val();
+    
+    	if (regex.test(val)) {
+        	$("#error_msg_ark").text('<i class="fa-solid fa-triangle-exclamation"></i> Caractère invalide');                       
+    	} else {
+        	$("#error_msg_ark").text('');              
+    	}   
+	}
+
+	/* Affichage du loader */
+	$('#submitArk').click(function(){
+        $(this).attr('disabled','disabled');
+		$(".loader").css("display", "block");
+	});
+</script>
+
+</div>
+{% endblock %}
