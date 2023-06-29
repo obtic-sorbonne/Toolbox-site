@@ -1,12 +1,12 @@
-function showloader(iddiv) {
-	var elem = document.getElementById(iddiv)
-	elem.style.display = "block";
-	elem.scrollIntoView();
-	hideLoadingDiv(iddiv);
+function showloader(cl) {
+	var loader = document.getElementsByClassName(cl)
+	loader[0].style.display = "block";
+	loader[0].scrollIntoView();
+	hideLoadingDiv(loader[0]);
 }
 
-function hideLoadingDiv(iddiv) {
+function hideLoadingDiv(elem) {
   setTimeout(function(){
-    document.getElementById(iddiv).style.display = 'none';
+    elem.style.display = 'none';
   }, 4000)
 }

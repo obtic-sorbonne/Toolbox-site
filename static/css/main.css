@@ -463,6 +463,21 @@ display: table;
   color:gray;
   display: none;
 }
+
+.infos_outil{
+  padding: 20px;
+  border-radius: 12px;
+  width:360px;
+  background-color: rgba(221, 201, 180, .3);
+  margin-top: 8px;
+  color:#343434;
+}
+
+.infos_outil p:first-of-type{
+  color:#8A824C;
+  font-style: italic;
+}
+
 /* ------------- OLD -------------------*/
 .contact{
   text-align:right;
@@ -609,12 +624,7 @@ display: table;
   outline:0px;
 }
 
-#tess-form{
-  padding:40px;
-  margin:20px 0;
-  background-color:rgba(221, 201, 180, .3);
 
-}
 
 /* Panneau latéral */
 .sidepanel {
@@ -647,6 +657,23 @@ display: table;
 .sidepanel h3{
   color:#2B3A67;
   text-align:center;
+  margin-bottom: 30px;
+}
+
+.sidepanel a{
+  text-decoration: none;
+  color:#111C2D;
+}
+
+.side-item{
+  margin:5px;
+  padding:12px;
+  background-color: rgba(255, 255, 255, .3);
+  border-radius:12px;
+}
+.side-item:hover{
+  cursor: pointer;
+  background-color: rgba(255, 255, 255, .7);;
 }
 
 .trigger-panel{
@@ -655,6 +682,23 @@ display: table;
   right:0;
   padding:10px;
   cursor:pointer;
+}
+
+.entree_manuel{
+  width:70%;
+  margin:auto;
+}
+.entree_manuel h3{
+  font-weight: 400;
+  padding:20px;
+  border-bottom:2px solid #2B3A67;
+  color: #2B3A67;
+}
+.entree_manuel p{
+  margin:10px;
+}
+.entree_manuel ul{
+  margin-left:15px;
 }
 
 /*------------------*/

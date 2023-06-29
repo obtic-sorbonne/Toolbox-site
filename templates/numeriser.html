@@ -2,29 +2,60 @@
 {% block header %} {{ super() }} {% endblock %}
 
 {% block content %}
+<style>
+  #tess-form{
+  padding:35px;
+  margin:20px auto;
+  /*background-color:rgba(221, 201, 180, .3);*/
+  width:800px;
+  text-align: center;
+}
+  .dropzone{
+    margin:auto;
+    margin-top: 8px;
+  }
+
+  button{
+    display: block;
+    margin:auto;
+    margin-top: 8px;
+  }
+</style>
+
+<link rel="stylesheet" href="{{ url_for('static', filename= 'css/elements.css') }}">
 <div class="outil">
 <h2 style="font-family:'Comprehension', serif;">Numériser (OCR/HTR)</h2>
 <div class="tool-box">
     <h4>Tesseract OCR</h4>
     <p>L'outil <em><a href="https://tesseract-ocr.github.io/tessdoc/" target="_blank">Tesseract</a></em> permet de numériser des imprimés. Cet outil d'OCR est basé sur la technologie LSTM. Les <a href="https://github.com/tesseract-ocr/tessdata" target="_blank">modèles préentraînés</a> disponibles avec l'outil couvrent un large éventail de polices et sont disponibles pour de très nombreuses langues.</p>
-    <p>Formats possibles pour les fichiers d'entrée : PNG, JPG, TIFF, PDF.</p>
+    <!--<p>Formats possibles pour les fichiers d'entrée : PNG, JPG, TIFF, PDF.</p>-->
+    <div class="infos_outil">
+      <p><i class="fa-solid fa-circle-info"></i> Informations sur l'outil</p>
+      <p>Format d'entrée : <i class="fa-regular fa-image"></i> PNG, JPG, TIFF, PDF</p>
+      <p>Format généré : <i class="fa-regular fa-file-lines"></i> fichier TXT</p>
+    </div>
     <div id="tess-form">
-    <form action="{{ url_for('run_tesseract') }}" id="tesseract-form" method="post" enctype="multipart/form-data" onsubmit="showloader('tessloader')">
+    <form action="{{ url_for('run_tesseract') }}" id="tesseract-form" method="post" enctype="multipart/form-data" onsubmit="showloader('loader')">
       {{ form.csrf_token }}
       <label for="model">Modèle</label>
       <select name="tessmodel" id="tessmodel" class="sel sel--black-panther">
         <option value="fra">Français (fra)</option>
         <option value="eng">Anglais (eng)</option>
         <option value="frk">Fraktur (frk)</option>
+        <option value="spa">Espagnol (spa)</option>
 	      <option value="spa_old">Espagnol ancien (spa_old)</option>
       </select>
-      <input type="file" name="tessfiles" accept="image/jpeg,image/png,application/pdf,image/tif,image/tiff" multiple required/>
+      <!--<input type="file" name="tessfiles" accept="image/jpeg,image/png,application/pdf,image/tif,image/tiff" multiple required/>-->
+      <div class="dropzone">
+        <input type="file" name="tessfiles" accept="image/jpeg,image/png,application/pdf,image/tif,image/tiff" multiple required>
+        <p id="form_msg">Déposer le(s) fichier(s) ou cliquer ici.</p>
+      </div>
       <input id="csrf_token" name="csrf_token" type="hidden" value="CSRF_TOKEN_STRING">
       <button>Numériser</button>
     </form>
     </div>
     <!-- Loader -->
-    <div id="tessloader">
+    <div class="loader">
     <p>Traitement en cours...</p>
     <p>Vos fichiers apparaîtront une fois le traitement terminé.</p>
 	  <div class="loadingio-spinner-ball-205vl2x7f7n"><div class="ldio-b8p5li8dt1u"><div></div></div></div>
@@ -46,20 +77,41 @@
 <div id="task-panel-ocr" class="sidepanel">
   <span class="closebtn" onclick="closeNav()">&times;</span>
   <h3 style="font-family: 'Comprehension', serif;">Tâches suivantes</h3>
-  <div><a href="{{ url_for('conversion_xml') }}">Convertir en XML-TEI</a></div>
-  <div><a href="{{ url_for('entites_nommees') }}">Extraire les entités nommées</a></div>
-  <div><a href="{{ url_for('etiquetage_morphosyntaxique') }}">Étiqueter en parties du discours</a></div>
+  <div class="side-item"><a href="{{ url_for('conversion_xml') }}">Convertir en XML-TEI</a></div>
+  <div class="side-item"><a href="{{ url_for('entites_nommees') }}">Extraire les entités nommées</a></div>
+  <div class="side-item"><a href="{{ url_for('etiquetage_morphosyntaxique') }}">Étiqueter en parties du discours</a></div>
 </div>
 
 <script>
   function openNav() {
-    document.getElementById("task-panel-ocr").style.width = "250px";
+    document.getElementById("task-panel-ocr").style.width = "300px";
   }
   
   /* Set the width of the sidebar to 0 (hide it) */
   function closeNav() {
     document.getElementById("task-panel-ocr").style.width = "0";
   }
+
+  /* MAJ de la zone de glisser-déposer */ 
+  $('form input').change(function () {
+
+  var nb_files = this.files.length;
+  $('form #form_msg').text(nb_files + " fichier(s) selectionné(s)");
+
+  /* Prévisualisation des fichiers chargés (max 3 visibles) */
+  if(nb_files > 3){
+      var num = nb_files - 3;
+      for(i=0; i < 3; i++){
+          $("#form_msg").append('<br/><span class="filename_preview">' + this.files[i].name + '</span>');
+      }
+      $("#form_msg").append('<span class="filename_preview"> et ' + num + ' autres.</span>');
+  }
+  else{
+      for(i=0; i < nb_files; i++){
+          $("#form_msg").append('<br/><span class="filename_preview">' + this.files[i].name + '</span>');
+      }
+  }
+});
   </script>
 {% endblock %}
 
