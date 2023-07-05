@@ -1,7 +1,21 @@
 {% extends "index.html" %}
 {% block header %} {{ super() }} {% endblock %}
-
 {% block content %}
+<style>
+	.instruction{
+		padding:18px;
+		background-color:rgb(250,235,215,0.3);
+		margin:15px 8px;
+	}
+	.instruction img{
+		display: block;
+		margin-top: 12px;
+	}
+	.instruction p span:first-child{
+		font-size: 1.2em;
+	}
+	
+</style>
 <div class="outil">
 	<h2 style="font-family:'Comprehension', serif;">Documentation</h2>
 	<p>La boîte à outils Pandore a été conçue de manière à prendre en entrée un corpus, quel qu'il soit, et de fournir directement le résultat des traitements de ce corpus.
@@ -13,26 +27,30 @@
 		<p>L'OCR, pour <span style="font-style:italic">Optical Character Recognition</span> (reconnaissance optique de caractères) permet d'extraire le texte d'une image de manière à obtenir ce texte en format numérique.</p>
 		<p>L'HTR, pour <span style="font-style:italic">Handwritten Text Recognition</span> (reconnaissance de texte manuscrit), permet d'extraire de la même façon de l'écriture manuelle.</p>
 		<p style="font-family: 'Bree Serif', serif; margin-top:30px;color:#8A824C;font-style:italic;font-weight: 300;font-size:1.2em;">Comment ça marche ?</p>
-		<p>La reconnaissance de caractères s'effectue en 2 étapes. D'abord, le système doit identifier où se trouve le texte dans l'image (les zones de texte), et identifier les différentes lignes qui composent ce texte. C'est la phase de <em>segmentation</em>. Une fois les zones et les lignes de texte déterminées, le système doit reconnaître chacun des caractères qui composent ces lignes. C'est la phase de <em>reconnaissance de caractères</em>. Les systèmes d'OCR réalisent généralement ces deux opérations en même temps, tandis que les outils d'HTR permettent d'intervenir sur la segmentation, souvent plus complexe lorsqu'il s'agit d'écriture manuscrite.</p>
+		<p>La reconnaissance de caractères s'effectue en 2 étapes. D'abord, le système doit identifier où se trouve le texte dans l'image (les zones de texte), et identifier les différentes lignes qui composent ce texte. C'est la phase de <em>segmentation</em>. Une fois les zones et les lignes de texte déterminées, le système doit reconnaître chacun des caractères qui composent ces lignes. C'est la phase de <em>reconnaissance de caractères</em>. Les systèmes d'OCR réalisent généralement ces deux opérations en même temps, tandis que les outils d'HTR permettent d'intervenir manuellement sur la segmentation, souvent plus complexe lorsqu'il s'agit d'écriture manuscrite.</p>
 		<p>Pour que la reconnaissance du texte soit optimale, les images données à l'outil doivent présenter un texte le plus lisible possible : elles ne doivent pas être floues, le texte doit ressortir clairement par rapport au fond, et les lignes de textes doivent être le plus droites possible.</p>
 		<p>Le taux de reconnaissance des textes imprimés par les logiciels de l'état de l'art est généralement très haut pour les langues écrite en caractères latins (>90%).</p>
 		<h4>L'OCR sur Pandore</h4>
 		<p>Nous proposons une numérisation de vos documents avec l'outil Tesseract. Vous pouvez extraire du texte depuis plusieurs formats d'images (png, jpg, tiff, pdf).</p>
-		<p>1. Sélectionnez la langue de votre texte. <img style="display:block" src="{{ url_for('static', filename='img/capture_modele_ocr.png') }}"></p>
-		<p>2. Déposez vos fichiers dans la zone de téléchargement. Vous pouvez poster des fichiers aux formats indiqués sur l'outil ; il est possible de mélanger les différents formats. Si vous postez un fichier PDF de plusieurs pages, chacune des pages sera traitée, et un fichier texte contenant l'ensemble du PDF sera généré. <img src="{{ url_for('static', filename='img/capture_formulaire_ocr.png') }}"></p>
-		<p>3. Cliquez sur "Numériser". Selon le nombre d'images fournies, le traitement peut être long. Dès que l'outil aura traité vos documents, le téléchargement commencera. Vous recevrez un dossier compressé (ZIP) contenant vos textes numérisés. <img src="{{ url_for('static', filename='img/capture_enregistrement.png')}}"></p>
-		<h4>Références</h4>
+		<div class="instruction">
+			<p><span>1. Sélectionnez la langue de votre texte.</span> <img src="{{ url_for('static', filename='img/capture_modele_ocr.png') }}"></p>
+		</div>
+		<div class="instruction">
+			<p><span>2. Déposez vos fichiers dans la zone de téléchargement.</span> Vous pouvez poster des fichiers aux formats indiqués sur l'outil ; il est possible de mélanger les différents formats. Si vous postez un fichier PDF de plusieurs pages, chacune des pages sera traitée, et un fichier texte contenant l'ensemble du PDF sera généré. <img src="{{ url_for('static', filename='img/capture_formulaire_ocr.png') }}"></p>
+		</div>
+		<div class="instruction">
+			<p><span>3. Cliquez sur "Numériser".</span> Selon le nombre d'images fournies, le traitement peut être long. Dès que l'outil aura traité vos documents, le téléchargement commencera. Vous recevrez un dossier compressé (ZIP) contenant vos textes numérisés (ou directement le fichier texte si vous n'avez posté qu'une seule image). <img src="{{ url_for('static', filename='img/capture_enregistrement.png')}}"></p>
+		</div>
+			<h4>Références</h4>
 		<ul>
 			<li>Liste exhaustive des logiciels et systèmes d'OCR : <a href="https://github.com/kba/awesome-ocr" target="_blank">https://github.com/kba/awesome-ocr </a></li>
 		</ul>
 	</div>
 	<div class="entree_manuel" id="doc_postag">
 		<h3>Étiquetage morphosyntaxique</h3>
-		<p>La phrase suivante :</p>
-		<pre style="padding-left:30px">Le petit chat dort.</pre>
-		<br />
-		<p>Donnera la sortie :</p>
-		<table style="padding-left:30px">
+		<p>L'étiquetage morphosyntaxique a lieu en deux étapes : le texte est d'abord tokénisé, c'est-à-dire divisé en unités analysables (ici, en mots). A chaque mot est ensuite attribué sa catégorie grammaticale.</p>
+		<p>Par exemple, le texte <span style="padding:10px; font-family: 'Courier New', Courier, monospace;">Le petit chat dort.</span> sera analysé par l'outil de cette façon :</p>
+		<table style="padding-left:30px;"">
 		  <tr><td>Le</td><td>DET</td></tr>
 		  <tr><td>petit</td><td>ADJ</td></tr>
 		  <tr><td>chat</td><td>NC</td></tr>

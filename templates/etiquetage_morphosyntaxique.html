@@ -4,13 +4,13 @@
 {% block content %}
 <div class="outil" id="TM1">
 
-  <h2>Étiquetage morphosyntaxique</h2>
+  <h2>{{ _('Étiquetage morphosyntaxique') }}</h2>
 
-  <p>Cette section permet de tokéniser un texte et annoter la catégorie grammaticale de chaque token avec l'outil <a href="https://github.com/YoannDupont/SEM">SEM</a>. La liste des étiquettes est définie <a href="https://www.lattice.cnrs.fr/sites/itellier/SEM.html">ici</a>. Le document renvoyé est au format <a href="https://aclanthology.org/W03-0419/">CoNLL 2003</a> avec deux colonnes : une pour le mot et une pour l'étiquette morphosyntaxique.</p>
+  <p>Cette section permet d'annoter la catégorie grammaticale de chaque mot d'un texte avec l'outil <a href="https://github.com/YoannDupont/SEM">SEM</a>. La liste des étiquettes est définie <a href="https://www.lattice.cnrs.fr/sites/itellier/SEM.html">ici</a>. Le document renvoyé est au format <a href="https://aclanthology.org/W03-0419/">CoNLL 2003</a> avec deux colonnes : une pour le mot et une pour l'étiquette morphosyntaxique.</p>
   <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation', _anchor='doc_postag') }}">Voir la documentation complète</a></p>
   <div class="infos_outil" style="width:380px">
     <p><i class="fa-solid fa-circle-info"></i> Informations sur l'outil</p>
-    <p>Format d'entrée : <i class="fa-regular fa-file-lines"></i> fichier TXT</p>
+    <p>Format d'entrée : <i class="fa-regular fa-file-lines"></i> fichier texte (.txt)</p>
     <p>Format généré : <i class="fa-solid fa-file-excel"></i> fichier tabulaire (.conll)</p>
   </div>
 

@@ -7,37 +7,37 @@
     <div class="container">
       <div class="box-outil-accueil" onclick="window.location.href='{{ url_for('etiquetage_morphosyntaxique') }}'">
         <div class="rubrique-icon"></div>
-        <span class="rubrique-title"><h3>Étiquetage morphosyntaxique</h3></span>
-        <span class="rubrique-text"><p>Annotation en parties du discours avec SEM</p></span>
+        <span class="rubrique-title"><h3>{{ _('Étiquetage morphosyntaxique') }}</h3></span>
+        <span class="rubrique-text"><p>SEM</p></span>
       </div>
       <div class="box-outil-accueil" onclick="window.location.href='{{ url_for('entites_nommees') }}'">
         <div class="rubrique-icon"></div>
-        <span class="rubrique-title"><h3>Reconnaissance d'entités nommées</h3></span>
+        <span class="rubrique-title"><h3>{{ _('Reconnaissance d'entités nommées') }}</h3></span>
         <span class="rubrique-text"><p>Spacy, Flair, Camembert</p></span>
       </div>
       <div class="box-outil-accueil" onclick="window.location.href='{{ url_for('categories_semantiques') }}'">
         <div class="rubrique-icon"></div>
-        <span class="rubrique-title"><h3>Catégories sémantiques</h3></span>
-        <span class="rubrique-text"><p>Outil Textolab</p></span>
+        <span class="rubrique-title"><h3>{{ _('Catégories sémantiques') }}</h3></span>
+        <span class="rubrique-text"><p>Textolab</p></span>
       </div>
     </div>
   </div>
   <div class="selection">
-    <h2 style="font-family:'Comprehension', serif;">Extraction d'information</h2>
+    <h2 style="font-family:'Comprehension', serif;">{{ _('Extraction d'information') }}</h2>
     <div class="container">
     <div class="box-outil-accueil" onclick="window.location.href='{{ url_for('extraction_mots_cles') }}'">
       <div class="rubrique-icon"></div>
-      <span class="rubrique-title"><h3>Extraction de mots-clés</h3></span>
+      <span class="rubrique-title"><h3>{{ _('Extraction de mots-clés') }}</h3></span>
       <span class="rubrique-text"><p>KeyBERT</p></span>
     </div>
     <div class="box-outil-accueil" onclick="window.location.href='{{ url_for('topic_modelling') }}'">
       <div class="rubrique-icon"></div>
-      <span class="rubrique-title"><h3>Topic Modelling</h3></span>
+      <span class="rubrique-title"><h3>{{ _('Topic Modelling') }}</h3></span>
       <span class="rubrique-text"><p>BERTopic, sklearn LDA</p></span>
     </div>
     <div class="box-outil-accueil" onclick="window.location.href='{{ url_for('resume_automatique') }}'">
       <div class="rubrique-icon"></div>
-      <span class="rubrique-title"><h3>Résumé automatique</h3></span>
+      <span class="rubrique-title"><h3>{{ _('Résumé automatique') }}</h3></span>
       <span class="rubrique-text"><p>Bart, T5, Pegasus</p></span>
     </div>
   </div>
