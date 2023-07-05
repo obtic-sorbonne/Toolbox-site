@@ -687,6 +687,7 @@ display: table;
 .entree_manuel{
   width:70%;
   margin:auto;
+  margin-bottom: 60px;
 }
 .entree_manuel h3{
   font-weight: 400;
@@ -695,7 +696,7 @@ display: table;
   color: #2B3A67;
 }
 .entree_manuel p{
-  margin:10px;
+  margin:15px;
 }
 .entree_manuel ul{
   margin-left:15px;

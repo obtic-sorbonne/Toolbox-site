@@ -20,13 +20,21 @@ def tesseract_to_txt(uploaded_files, model, rand_name, ROOT_FOLDER, UPLOAD_FOLDE
     extensions = ['.jpg', '.jpeg', '.png', '.tiff', '.tif']
 
     output_stream = StringIO()
+
+    #print("Result path : {}".format(result_path))
+    #print(uploaded_files)
+
     for f in uploaded_files:
+        
         filename, file_extension = os.path.splitext(f.filename)
-        output_name = filename + '.txt'
+
+        #print("Filename : {}".format(filename))
+        #print("Extension : {}".format(file_extension))
+        
         #------------------------------------------------------
         # Fichier pdf
         #------------------------------------------------------
-        # A FAIRE : le traitement des gros fichiers doit être parallélisé
+ 
         if file_extension.lower() == ".pdf":
             # Créer un dossier pour stocker l'ensemble des images
             directory = filename + '_temp'
@@ -64,21 +72,24 @@ def tesseract_to_txt(uploaded_files, model, rand_name, ROOT_FOLDER, UPLOAD_FOLDE
         # Fichier image
         #------------------------------------------------------
         elif file_extension.lower() in extensions:
+            print("Traitement de l'image...")
             # Sauvegarde de l'image
             path_to_file = ROOT_FOLDER / os.path.join(UPLOAD_FOLDER, secure_filename(f.filename))
             f.save(path_to_file)
 
             # Tesseract
             output_txt = os.path.join(result_path, os.path.splitext(f.filename)[0])
-            subprocess.run(['tesseract', '-l', model, path_to_file, output_txt])
-
-            with open(output_txt + '.txt', 'r', encoding="utf-8") as ftxt:
-                output_stream.write(ftxt.read())
-                output_stream.write('\n\n')
-
-            # Nettoyage de l'image
-            os.remove(path_to_file)
-            os.remove(output_txt+".txt")
+            try:
+                subprocess.run(['tesseract', '-l', model, path_to_file, output_txt])
+                with open(output_txt + '.txt', 'r', encoding="utf-8") as ftxt:
+                    output_stream.write(ftxt.read())
+                    output_stream.write('\n\n')
+                
+                # Nettoyage de l'image
+                #os.remove(path_to_file)
+                #os.remove(output_txt+".txt")
+            except:
+                raise Exception("Tesseract a rencontré un problème lors de la lecture du fichier {}".format(filename))
 
         else:
             raise Exception("Le fichier {} n'a pas d'extension ou a une extension invalide.".format(filename))
@@ -86,10 +97,5 @@ def tesseract_to_txt(uploaded_files, model, rand_name, ROOT_FOLDER, UPLOAD_FOLDE
     final_text = output_stream.getvalue()
     output_stream.seek(0)
     output_stream.truncate(0)
-
-    # Nettoie le dossier de travail
-    if directory_path != '':
-        shutil.rmtree(directory_path)
-    shutil.rmtree(result_path)
 
     return final_text

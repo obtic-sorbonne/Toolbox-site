@@ -245,7 +245,8 @@ def entites_nommees():
 @app.route('/etiquetage_morphosyntaxique')
 def etiquetage_morphosyntaxique():
 	form = FlaskForm()
-	return render_template('etiquetage_morphosyntaxique.html', form=form)
+	err = ""
+	return render_template('etiquetage_morphosyntaxique.html', form=form, err=err)
 
 @app.route('/generate_corpus',  methods=["GET","POST"])
 @stream_with_context
@@ -569,24 +570,49 @@ def generate_random_corpus(nb):
 @app.route('/pos_tagging', methods=["POST"])
 @stream_with_context
 def pos_tagging():
-	path = str(ROOT_FOLDER / os.path.join(app.config['MODEL_FOLDER'], 'sem_pos'))
-	pipeline = sem.load(path)
+	form = FlaskForm()
+	model_path = str(ROOT_FOLDER / os.path.join(app.config['MODEL_FOLDER'], 'sem_pos'))
+	pipeline = sem.load(model_path)
 	conllexporter = sem.exporters.CoNLLExporter()
-	f = request.files['file']
-	try:
-		contenu = f.read()
-	finally:
-		f.close()
-	document = pipeline.process_text(contenu.decode("utf-8"))
+	
+	uploaded_files = request.files.getlist("uploaded_files")
+	rand_name =  'postagging_' + ''.join((random.choice(string.ascii_lowercase) for x in range(5)))
+	result_path = ROOT_FOLDER / os.path.join(app.config['UPLOAD_FOLDER'], rand_name)
+	os.mkdir(result_path)
+
+	#f = request.files['file']
+	for f in uploaded_files:
+		try:
+			contenu = f.read()
+			document = pipeline.process_text(contenu.decode("utf-8"))
+			filename, file_extension = os.path.splitext(f.filename)
+			output_name = filename + '_tokens.txt'  
+
+			with open(ROOT_FOLDER / os.path.join(result_path, output_name), 'w', encoding="utf-8") as out:
+				out.write(conllexporter.document_to_string(document, couples={"pos": "POS"}))
+		finally:
+			f.close()
+	
+	# ZIP le dossier résultat
+	if len(os.listdir(result_path)) > 0:
+		shutil.make_archive(result_path, 'zip', result_path)
+		output_stream = BytesIO()
+		with open(str(result_path) + '.zip', 'rb') as res:
+			content = res.read()
+		output_stream.write(content)
+		response = Response(output_stream.getvalue(), mimetype='application/zip',
+									headers={"Content-disposition": "attachment; filename=" + rand_name + '.zip'})
+		output_stream.seek(0)
+		output_stream.truncate(0)
+		return response
+	
+	return render_template('etiquetage_morphosyntaxique.html', form=form, err="Une erreur est survenue dans le traitement des fichiers.")
 	# Writing in stream
-	output_stream = BytesIO()
-	output = f.filename
-	output_stream.write(conllexporter.document_to_string(document, couples={"pos": "POS"}).encode("utf-8"))
-	response = Response(output_stream.getvalue(), mimetype='text/plain',
-						headers={"Content-disposition": "attachment; filename=" + output})
-	output_stream.seek(0)
-	output_stream.truncate(0)
-	return response
+	#output_stream = BytesIO()
+	#output = f.filename
+	#output_stream.write(conllexporter.document_to_string(document, couples={"pos": "POS"}).encode("utf-8"))
+	#response = Response(output_stream.getvalue(), mimetype='text/plain', headers={"Content-disposition": "attachment; filename=" + output})
+
 
 
 @app.route('/named_entity_recognition', methods=["POST"])

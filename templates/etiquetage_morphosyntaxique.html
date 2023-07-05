@@ -6,33 +6,52 @@
 
   <h2>Étiquetage morphosyntaxique</h2>
 
-  <p>Annote un fichier texte avec l'outil <a href="https://github.com/YoannDupont/SEM">SEM</a>.</p>
-  <p>Le document renvoyé est au format <a href="https://aclanthology.org/W03-0419/">CoNLL 2003</a> avec deux colonnes : une pour le mot et une pour l'étiquette morphosyntaxique.</p>
-  <br />
-  <p>La phrase suivante :</p>
-  <pre style="padding-left:30px">Le petit chat dort.</pre>
-  <br />
-  <p>Donnera la sortie :</p>
-  <table style="padding-left:30px">
-    <tr><td>Le</td><td>DET</td></tr>
-    <tr><td>petit</td><td>ADJ</td></tr>
-    <tr><td>chat</td><td>NC</td></tr>
-    <tr><td>dort</td><td>V</td></tr>
-    <tr><td>.</td><td>PONCT</td></tr>
-  </table>
-
-<form action="{{ url_for('pos_tagging') }}" id="metadata-form" method="post" enctype="multipart/form-data">
-  {{ form.csrf_token }}
-  <div id="div-upload" class="column">
-      <fieldset style="padding:15px;">
-      <legend>Chargement du fichier</legend>
-      <input type="file" id="raw-text-file" name="file" accept=".txt" required>
-      </fieldset>
-      <input id="csrf_token" name="csrf_token" type="hidden" value="CSRF_TOKEN_STRING">
-      <button style="display:block;margin:auto;margin-top:20px;">Étiqueter en morphosyntaxe (.txt)</button>
+  <p>Cette section permet de tokéniser un texte et annoter la catégorie grammaticale de chaque token avec l'outil <a href="https://github.com/YoannDupont/SEM">SEM</a>. La liste des étiquettes est définie <a href="https://www.lattice.cnrs.fr/sites/itellier/SEM.html">ici</a>. Le document renvoyé est au format <a href="https://aclanthology.org/W03-0419/">CoNLL 2003</a> avec deux colonnes : une pour le mot et une pour l'étiquette morphosyntaxique.</p>
+  <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation', _anchor='doc_postag') }}">Voir la documentation complète</a></p>
+  <div class="infos_outil" style="width:380px">
+    <p><i class="fa-solid fa-circle-info"></i> Informations sur l'outil</p>
+    <p>Format d'entrée : <i class="fa-regular fa-file-lines"></i> fichier TXT</p>
+    <p>Format généré : <i class="fa-solid fa-file-excel"></i> fichier tabulaire (.conll)</p>
   </div>
+
+<form action="{{ url_for('pos_tagging') }}" id="metadata-form" method="post" enctype="multipart/form-data" onsubmit="showloader('loader')">
+  {{ form.csrf_token }}
+  
+      <div class="dropzone" style="margin:25px auto;">
+        <input type="file" id="raw-text-file" name="uploaded_files" accept="text/plain" multiple required>
+        <p id="form_msg">Déposer le(s) fichier(s) ou cliquer ici.</p>
+      </div>
+      <input id="csrf_token" name="csrf_token" type="hidden" value="CSRF_TOKEN_STRING">
+      <button style="display:block;margin:auto;margin-top:20px;">Étiqueter en morphosyntaxe</button>
+  
 </form>
+{% if msg != "" %}
+<div> <p>{{ msg }}</p></div>
+{% endif %}
+<div class="loader"><div class="loadingio-spinner-ball-205vl2x7f7n"><div class="ldio-b8p5li8dt1u"><div></div></div></div><p>Traitement en cours...</p></div>
 </div>
+<script>
+    /* MAJ de la zone de glisser-déposer */ 
+    $('form input').change(function () {
+
+var nb_files = this.files.length;
+$('form #form_msg').text(nb_files + " fichier(s) selectionné(s)");
+
+/* Prévisualisation des fichiers chargés (max 3 visibles) */
+if(nb_files > 3){
+    var num = nb_files - 3;
+    for(i=0; i < 3; i++){
+        $("#form_msg").append('<br/><span class="filename_preview">' + this.files[i].name + '</span>');
+    }
+    $("#form_msg").append('<span class="filename_preview"> et ' + num + ' autres.</span>');
+}
+else{
+    for(i=0; i < nb_files; i++){
+        $("#form_msg").append('<br/><span class="filename_preview">' + this.files[i].name + '</span>');
+    }
+}
+});
+</script>
 {% endblock %}
 
 {% block footer %} {{ super() }} {% endblock %}
