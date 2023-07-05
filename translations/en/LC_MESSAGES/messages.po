@@ -18,9 +18,37 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.12.1\n"
 
+#: templates/etiquetage_morphosyntaxique.html:7
+msgid "Étiquetage morphosyntaxique"
+msgstr "Part-of-speech tagging"
+
 #: templates/extraction_mots_cles.html:10
 msgid "Extraction de mots-clés"
 msgstr "Keyword extraction"
+
+#: templates/fouille_de_texte.html:6
+msgid "Tâches d'annotation automatique"
+msgstr "Automatic annotation tasks"
+
+#: templates/fouille_de_texte.html:15 templates/index.html:74
+msgid "Reconnaissance d'entités nommées"
+msgstr "Named entity recognition"
+
+#: templates/fouille_de_texte.html:20
+msgid "Catégories sémantiques"
+msgstr "Semantic categories"
+
+#: templates/fouille_de_texte.html:26
+msgid "Extraction d'information"
+msgstr "Data mining"
+
+#: templates/fouille_de_texte.html:35
+msgid "Topic Modelling"
+msgstr ""
+
+#: templates/fouille_de_texte.html:40
+msgid "Résumé automatique"
+msgstr "Automatic summarization"
 
 #: templates/index.html:35
 msgid "Outils"
@@ -80,9 +108,6 @@ msgstr "conversion of various file formats with Teinte."
 msgid "Fouille et annotation de texte"
 msgstr "Text mining and annotation"
 
-#: templates/index.html:74
-msgid "Reconnaissance d'entités nommées"
-msgstr "Named entity recognition"
 
 #: templates/index.html:74
 msgid "étiquetage morphosyntaxique"
