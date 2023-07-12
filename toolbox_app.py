@@ -174,6 +174,9 @@ def extraction_gallica():
 	form = FlaskForm()
 	return render_template('extraction_gallica.html', form=form)
 
+@app.route('/tanagra')
+def tanagra():
+	return render_template('tanagra.html')
 #-----------------------------------------------------------------
 # ERROR HANDLERS
 #-----------------------------------------------------------------

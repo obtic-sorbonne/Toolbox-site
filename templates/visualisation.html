@@ -6,8 +6,8 @@
   <h2 style="font-family:'Comprehension', serif;">Visualisation</h2>
   <div class="container-visu">
     <div class="box-outil-visu">
-      <div class="visu-img"><a href="https://obtic.sorbonne-universite.fr/tanagra/map" target="_blank"><img alt="visualisation Tanagra" src="{{ url_for('static', filename='img/tanagra_BCH_1877_2.png')}}"></a></div>
-      <span class="visu-title"><a href="https://obtic.sorbonne-universite.fr/tanagra/map" target="_blank"><h3 style="font-family:'Comprehension', serif;">Tanagra</h3></a></span>
+      <div class="visu-img"><a href="{{ url_for('tanagra') }}" target="_blank"><img alt="visualisation Tanagra" src="{{ url_for('static', filename='img/tanagra_BCH_1877_2.png')}}"></a></div>
+      <span class="visu-title"><a href="{{ url_for('tanagra') }}" target="_blank"><h3 style="font-family:'Comprehension', serif;">Tanagra</h3></a></span>
       <span class="visu-text"><p>Tanagra détecte les <em>noms de lieux</em> dans du texte et les place sur une carte. <br/>Langues supportées : français, anglais et allemand.</p></span>
     </div>
   

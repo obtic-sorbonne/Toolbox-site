@@ -1,0 +1,24 @@
+{% extends "index.html" %}
+{% block header %} {{ super() }} {% endblock %}
+
+{% block content %}
+<style>
+	.outil ul{
+		width:580px;
+		margin:auto;
+	}
+	.outil li{
+		padding:20px;
+	}
+</style>
+<div class="outil">
+	<h2>Tanagra</h2>
+	<p>Tanagra est un outil de cartographie des lieux dans les textes. Il existe deux versions de l'outil : la première est une interface qui permet uniquement d'identifier et de cartographier les lieux mentionnés dans un texte.
+		La seconde version est enrichie de l'analyse de sentiments et permet d'identifier la polarité associée aux lieux mentionnés.
+	</p>
+	<ul>
+		<li>Tanagra v1 : Cartographie des lieux dans les textes <a href="https://obtic.sorbonne-universite.fr/tanagra/map">[ interface ]</a>  <a href="https://github.com/obtic-sorbonne/Tanagra"><i class="fa-brands fa-github"></i></a></li>
+		<li>Tanagra v2 : Analyse de sentiments et cartographie des lieux dans les textes <a href="https://github.com/obtic-sorbonne/Tanagra2/blob/main/Tanagra.ipynb">[ notebook ]</a>  <a href="https://github.com/obtic-sorbonne/Tanagra2"><i class="fa-brands fa-github"></i></a></li>
+	</ul>
+</div>
+{% endblock %}
