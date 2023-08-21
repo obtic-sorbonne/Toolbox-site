@@ -38,6 +38,12 @@ h2{
 	text-align:center;
 }
 
+nav{
+  display: flex;
+  justify-content:flex-end;
+}
+
+
 nav ul{
 	display:flex;
 	justify-content:flex-end;
@@ -51,7 +57,7 @@ nav ul li{
 	width:190px;
 }
 
-nav a{
+nav ul a{
 	display:block;
 	text-decoration:none;
 	text-align:center;
@@ -64,6 +70,27 @@ nav a{
 nav li:hover{
 	background-color:#1ABC9C;
 }
+
+.lang-menu {
+  width: 60px;
+  padding:20px;
+}
+
+.lang-menu .selected-lang{
+  font-weight: 500;
+  cursor: default;
+}
+
+.lang-menu a{
+  text-decoration-line: underline;
+  cursor: pointer;
+  text-align: center;
+  font-weight: 300;
+}
+.lang-menu a:hover{
+  background-color: #1ABC9C;
+}
+
 
 .logo {
   position:fixed;

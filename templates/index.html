@@ -36,6 +36,15 @@
        <li><a href="{{ url_for('projet') }}" id="menu_projet">{{ _('Projet') }}</a></li>
        <li><a href="{{ url_for('documentation') }}">{{ _('Documentation') }}</a></li>
     </ul>
+    <div class="lang-menu">
+        {% for language in AVAILABLE_LANGUAGES.items() %}
+        {% if CURRENT_LANGUAGE == language[0] %}
+             <p class="selected-lang">{{ language[1] }}</p>
+         {% else %}
+             <p><a href="{{ url_for('set_language', language=language[0]) }}" >{{ language[1] }}</a></p>
+         {%  endif %}
+     {% endfor %}
+    </div>
   </nav>
   </div>
   <div class="spacer">

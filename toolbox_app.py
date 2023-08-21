@@ -63,7 +63,10 @@ app.config['MAX_CONTENT_LENGTH'] = 8 * 1024 * 1024 # Limit file upload to 8MB
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['MODEL_FOLDER'] = MODEL_FOLDER
 app.config['UTILS_FOLDER'] = UTILS_FOLDER
-app.config['LANGUAGES'] = ['fr', 'en']
+app.config['LANGUAGES'] = {
+    'fr': 'FR',
+    'en': 'EN',
+}
 app.add_url_rule("/uploads/<name>", endpoint="download_file", build_only=True)
 csrf.init_app(app)
 
@@ -71,20 +74,22 @@ csrf.init_app(app)
 #-----------------------------------------------------------------
 # BABEL
 #-----------------------------------------------------------------
-"""@babel.localeselector
-def get_locale():
-    if request.args.get('language'):
-        session['language'] = request.args.get('language')
-    return session.get('language', 'fr')
-"""
-@app.context_processor
-def inject_conf_var():
-	return dict(AVAILABLE_LANGUAGES=app.config['LANGUAGES'], CURRENT_LANGUAGE=session.get('language', request.accept_languages.best_match(app.config['LANGUAGES'])))
-
 @app.route('/language=<language>')
 def set_language(language=None):
     session['language'] = language
     return redirect(url_for('index'))
+
+def get_locale():
+    if request.args.get('language'):
+        session['language'] = request.args.get('language')
+    return session.get('language', 'fr')
+
+babel.init_app(app, locale_selector=get_locale)
+
+@app.context_processor
+def inject_conf_var():
+	return dict(AVAILABLE_LANGUAGES=app.config['LANGUAGES'], CURRENT_LANGUAGE=session.get('language', request.accept_languages.best_match(app.config['LANGUAGES'])))
+
 
 #-----------------------------------------------------------------
 # ROUTES
