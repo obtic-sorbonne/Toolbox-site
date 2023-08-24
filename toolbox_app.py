@@ -496,7 +496,7 @@ def txt_to_xml(filename, fields):
 		name.text = fields['respStmt_name']
 		respStmt.append(name)
 
-		if fields['resp']:
+		if fields['respStmt_resp']:
 			resp = etree.Element("resp")
 			resp.text = fields['respStmt_resp']
 			respStmt.append(resp)
