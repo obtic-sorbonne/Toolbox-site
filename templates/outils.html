@@ -8,6 +8,7 @@
         <input type="text" name="searchField" id="searchField" onkeyup="searchTask()" />
         <button class="search-button"><i class="fa-solid fa-magnifying-glass"></i></button>
     </div>
+    <div><p class="filter-box" id="obtic_filter_button" onclick="filterObtic(this)">Outils ObTIC</p></div>
 
     <div class="two-columns-container">
         <div class="col-list">
@@ -16,21 +17,22 @@
                 <li><a href="{{ url_for('categories_semantiques') }}">Analyse d'opinion</a></li>
                 <li><a href="{{ url_for('categories_semantiques') }}">Analyse de sentiments</a></li>
                 <li><a href="{{ url_for('collecter_corpus') }}">Collecte de corpus (scraping)</a></li>
-                <li><a href="{{ url_for('conversion_xml') }}">Conversion de formats de fichiers (XML-TEI)</a></li>
+                <li class="obtic-tool"><a href="{{ url_for('conversion_xml') }}">Conversion de formats de fichiers</a></li>
+                <li class="obtic-tool"><a href="{{ url_for('conversion_xml') }}">Conversion XML-TEI</a></li>
                 <li><a href="{{ url_for('correction_erreur')}}">Correction de corpus bruités</a></li>
-                <li><a href="{{ url_for('ocr_map')}}">Entités de lieu</a></li>
-                <li><a href="https://obtic.sorbonne-universite.fr/tanagra/map">Entités de lieu (Tanagra)</a></li>
+                <li class="obtic-tool"><a href="{{ url_for('ocr_map')}}">Entités de lieu</a></li>
+                <li class="obtic-tool"><a href="https://obtic.sorbonne-universite.fr/tanagra/map">Entités de lieu (Tanagra)</a></li>
                 <li><a href="{{ url_for('etiquetage_morphosyntaxique')}}">Étiquetage morphosyntaxique (POS-tagging)</a></li>
                 <li><a href="{{ url_for('extraction_mots_cles')}}">Extraction automatique de mots-clés</a></li>
                 <li><a href="{{ url_for('numeriser') }}">HTR (reconnaissance de texte manuscrit)</a></li>
                 <!--<li><a href="#">Lecture distante</a></li>-->
-                <li><a href="{{ url_for('normalisation') }}">Normalisation de graphie ancienne</a></li>
+                <li class="obtic-tool"><a href="{{ url_for('normalisation') }}">Normalisation de graphie ancienne</a></li>
                 <li><a href="{{ url_for('numeriser') }}">OCR (reconnaissance optique de caractères)</a></li>
                 <li><a href="{{ url_for('entites_nommees') }}">Reconnaissance d'entités nommées (REN)</a></li>
-                <li><a href="{{ url_for('outils_visualisation') }}">Réseaux de cooccurrences</a></li>
-                <li><a href="{{ url_for('resume_automatique') }}">Résumé automatique</a></li>
+                <li class="obtic-tool"><a href="{{ url_for('outils_visualisation') }}">Réseaux de cooccurrences</a></li>
+                <li class="obtic-tool"><a href="{{ url_for('resume_automatique') }}">Résumé automatique</a></li>
                 <li><a href="{{ url_for('topic_modelling') }}">Topic modelling (modèle thématique)</a></li>
-                <li><a href="{{ url_for('outils_visualisation') }}">Visualisation</a></li>
+                <li class="obtic-tool"><a href="{{ url_for('outils_visualisation') }}">Visualisation</a></li>
             </ul>
         </div>
         <div class="col-list">
@@ -40,17 +42,17 @@
                 <li><a href="{{ url_for('correction_erreur') }}">Jamspell</a></li>
                 <li><a href="{{ url_for('extraction_mots_cles') }}">KeyBERT</a></li>
                 <!--<li><a href="#">Kraken</a></li>-->
-                <li><a href="{{ url_for('ocr_map')}}">Épiméthée</a></li>
+                <li class="obtic-tool"><a href="{{ url_for('ocr_map')}}">Épiméthée</a></li>
                 <li><a href="{{ url_for('entites_nommees') }}">Flair (NER)</a></li>
                 <li><a href="{{ url_for('ocr_map') }}">GeoPy</a></li>
                 <li><a href="{{ url_for('etiquetage_morphosyntaxique') }}">SEM</a></li>
                 <li><a href="#">Sklearn</a></li>
                 <li><a href="{{ url_for('entites_nommees') }}">Spacy (NER)</a></li>
-                <li><a href="https://obtic.sorbonne-universite.fr/summary/">Summarizer</a></li>
-                <li><a href="https://obtic.sorbonne-universite.fr/tanagra/map">Tanagra</a></li>
-                <li><a href="https://obtic.huma-num.fr/teinte/">Teinte</a></li>
+                <li class="obtic-tool"><a href="https://obtic.sorbonne-universite.fr/summary/">Summarizer</a></li>
+                <li class="obtic-tool"><a href="https://obtic.sorbonne-universite.fr/tanagra/map">Tanagra</a></li>
+                <li class="obtic-tool"><a href="https://obtic.huma-num.fr/teinte/">Teinte</a></li>
                 <li><a href="{{ url_for('numeriser') }}">Tesseract OCR</a></li>
-                <li><a href="{{ url_for('categories_semantiques')}}">Textolab</a></li>
+                <li class="obtic-tool"><a href="{{ url_for('categories_semantiques')}}">Textolab</a></li>
             </ul>
         </div>
     </div>
@@ -82,6 +84,18 @@
             } else {
                 li_tool[i].style.display = "none";
             }
+        }
+    }
+
+    function filterObtic(elem){
+        if($(elem).hasClass('fselected')){
+            $('li').show();
+            $(elem).removeClass('fselected');
+        }
+        else{
+           /* Show Obtic tools only*/
+            $(elem).addClass('fselected');
+            $('li').show().filter(':not(.obtic-tool)').hide();
         }
     }
 </script>

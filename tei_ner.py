@@ -72,7 +72,7 @@ entity_iterators = {
 }
 
 
-def tei_ner_params(contenu, racine, balise, moteur, modele, encodage="utf-8"):
+def tei_ner_params(contenu, xmlnamespace, racine, balise, moteur, modele, encodage="utf-8"):
     moteur = moteur.lower()
     loader = loaders.get(moteur)
     iterator = entity_iterators.get(moteur)
@@ -87,13 +87,13 @@ def tei_ner_params(contenu, racine, balise, moteur, modele, encodage="utf-8"):
     label_function = get_label_function(moteur, pipeline)
     try:
         tree = etree.parse(BytesIO(contenu))
-        return tei_ner(tree, racine, balise, label_function, iterator, encodage=encodage)
+        return tei_ner(tree, xmlnamespace, racine, balise, label_function, iterator, encodage=encodage)
     except etree.XMLSyntaxError:
         print("Erreur de syntaxe dans le fichier XML.")
         pass
 
 
-def tei_ner(arbre, racine, balise, annotateur, iterateur, encodage="utf-8"):
+def tei_ner(arbre, xmlns, racine, balise, annotateur, iterateur, encodage="utf-8"):
     """Annote un fichier TEI avec un moteur de reconnaissance d'entités nommées.
     Renvoie un objet XML (lxml.etree.ElementTree). Tout formattage du texte
     (ex: italique, gras, etc.) sera perdu au cours du processus.
@@ -120,9 +120,11 @@ def tei_ner(arbre, racine, balise, annotateur, iterateur, encodage="utf-8"):
         moteur.
     """
 
-    xmlns = "http://www.tei-c.org/ns/1.0"
+    #xmlns = "http://www.tei-c.org/ns/1.0"
 
     textnode = next(arbre.iterfind(f".//{{{xmlns}}}{racine}"))
+    textnode.iterfind(f".//{{{xmlns}}}{balise}")
+
     for node in textnode.iterfind(f".//{{{xmlns}}}{balise}"):
         # get all the text content of node. This will remove any existing XML
         # formatting as we will provide annotations for the text and replace the

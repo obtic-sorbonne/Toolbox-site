@@ -2,79 +2,324 @@
 {% block header %} {{ super() }} {% endblock %}
 
 {% block content %}
-<div class="outil" id="TM1">
+<style>
+.opt-wrapper{
+  display: inline-flex;
+  background: #fff;
+  height: 60px;
+  width: 100%;
+  align-items: center;
+  justify-content:center;
+  padding: 10px;
+}
+.opt-wrapper p{
+  width:max-content;
+}
+.opt-wrapper .option{
+  background: #fff;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  margin: 0 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 0 12px;
+  border: 2px solid lightgrey;
+  transition: all 0.3s ease;
+}
+.opt-wrapper .option .dot{
+  height: 20px;
+  width: 20px;
+  background: #d9d9d9;
+  border-radius: 50%;
+  position: relative;
+}
+.opt-wrapper .option .dot::before{
+  position: absolute;
+  content: "";
+  top: 4px;
+  left: 4px;
+  width: 12px;
+  height: 12px;
+  background: #008CBA;
+  border-radius: 50%;
+  opacity: 0;
+  transform: scale(1.5);
+  transition: all 0.3s ease;
+}
+input[type="radio"]{
+  display: none;
+}
+#option-1:checked:checked ~ .option-1,
+#option-2:checked:checked ~ .option-2{
+  border-color: #008CBA;
+  background: #008CBA;
+}
+
+.opt-wrapper .option span{
+  color: grey;
+  margin-left: 5px;
+}
+
+#option-1:checked:checked ~ .option-1 span,
+#option-2:checked:checked ~ .option-2 span{
+  color: #fff;
+}
+
+#option-1:checked:checked ~ .option-1 i,
+#option-2:checked:checked ~ .option-2 i{
+  color: #fff;
+}
+
+#opt-spacy:checked:checked ~ .opt-spacy,
+#opt-flair:checked:checked ~ .opt-flair,
+#opt-camembert:checked:checked ~ .opt-camembert{
+  border-color: #008CBA;
+  background: #008CBA;
+}
+#opt-spacy:checked:checked ~ .opt-spacy .dot,
+#opt-flair:checked:checked ~ .opt-flair .dot,
+#opt-camembert:checked:checked ~ .opt-camembert .dot{
+  background: #fff;
+}
+#opt-spacy:checked:checked ~ .opt-spacy .dot::before,
+#opt-flair:checked:checked ~ .opt-flair .dot::before,
+#opt-camembert:checked:checked ~ .opt-camembert .dot::before{
+  opacity: 1;
+  transform: scale(1);
+}
+
+#opt-spacy:checked:checked ~ .opt-spacy span,
+#opt-flair:checked:checked ~ .opt-flair span,
+#opt-camembert:checked:checked ~ .opt-camembert span{
+  color: #fff;
+}
+
+form p{
+  text-align: center;
+  margin-bottom:15px;
+  color:#8A824C;
+  font-size: medium;
+}
+
+hr{
+  background-color:#8A824C;
+  width:50%;
+  margin:20px auto;
+  font-weight: 400;
+}
+
+#modeldiv, #xmlparams{
+  width: max-content;
+  margin:20px auto;
+}
+#modeldiv label{
+  display: block;
+  text-align: center;
+}
+
+#xmlparams div{
+  margin:20px;
+}
+
+#xmlparams label{
+  font-size: small;
+  color:#8A824C;
+}
+
+.centerElem{
+  display: block;
+  margin:auto;
+  width:max-content;
+}
+
+#modeldiv i{
+  padding:15px;
+}
+
+#inf-box-spacy-models{
+  display: block;
+  background-color: #e2e0d5;
+  padding:8px;
+  border-radius: 4px;
+}
+#inf-box-spacy-models p{
+  color:#111C2D;
+  font-size:smaller;
+  text-align: left;
+}
+
+</style>
+<div class="outil">
   <h3>Détection des entités nommées</h3>
-  <p>Annote un fichier XML-TEI avec un moteur de reconnaissance d'entités nommées. Par défaut, parcourt les balises &lt;p&gt; à l'intérieur de la balise &lt;text&gt; pour récupérer le contenu textuel du fichier. Les mentions trouvées seront entourées par des balises &lt;Entity&gt;, le type de l'entité sera écrit dans l'attribut <i>annotation</i>.</p>
-  <p>L'utilisation de cette balise &lt;Entity&gt; rend utilisable le XML en sortie dans la plateforme <a href="https://obvil.huma-num.fr/ariane">Ariane</a>.</p>
-  <p><b>ATTENTION :</b> ce script détruit la structuration et le formatage à l'intérieur des balises parcourues.</p>
-  <p>Le téléchargement du fichier XML-TEI généré démarrera automatiquement.</p>
-  <div id="divform">
+  <div class="language-selection">
+    <label for="toollang"><i class="fa-solid fa-flag"></i>Dans quelle langue est votre texte ?</label>
+    <select name="toollang" id="toollang" class="sel sel--black-panther">
+      <option value="fra">Français</option>
+      <option value="eng">Anglais</option>
+      <option value="spa">Espagnol</option>
+    </select>
+  </div>
+<p>Cet outil permet d'identifier les entités nommées d'un corpus en utilisant au choix trois modèles : Spacy, Flair, ou un modèle Bert. Le corpus peut être au format texte ou au format XML-TEI. Dans ce derniers cas, les entités seront annotées directement dans le texte avec la balise &lt;Entity&gt; avec leur type en attribut annotation. A noter que ce processus ne conserve pas la structuration et le formatage à l'intérieur des balises parcourues ; tous les formatages à l'extérieur de ces balises sont en revanche restitués.</p>
+<p>L'utilisation de cette balise &lt;Entity&gt; rend utilisable le XML en sortie dans la plateforme <a href="https://obvil.huma-num.fr/ariane">Ariane</a>.</p>
+  <div id="lang_fr">
+    <h4>Entités nommées du français</h4>
     <form action="{{ url_for('named_entity_recognition') }}" id="metadata-form" method="post" enctype="multipart/form-data">
       {{ form.csrf_token }}
-      <fieldset>
-      <legend>Configuration</legend>
-      <p>XML</p>
-      <label for="balise_racine" style="display:inline-block;width:110px;">balise racine</label>
-      <input type="text" name="balise_racine" id="balise_racine" value="text" required></p>
-      <label for="balise_parcours" style="display:inline-block;width:110px;">balises à parcourir</label>
-      <input type="text" name="balise_parcours" id="balise_parcours" value="p" required></p>
-      <label for="encodage" style="display:inline-block;width:110px;">encodage</label>
-      <input type="text" name="encodage" id="encodage" value="UTF-8" required></p>
+      <!-- Input format selection -->
+      <p>Format de votre corpus</p>
+      <div class="opt-wrapper">
+      <input type="radio" name="input_format" id="option-1" value="txt" checked>
+        <label for="option-1" class="option option-1">
+           <i class="fa-solid fa-file-lines"></i><span style="font-size: small;"> Texte</span>
+           </label>
+      <input type="radio" name="input_format" id="option-2" value="xml">
+        <label for="option-2" class="option option-2">
+           <i class="fa-regular fa-file-code"></i><span style="font-size: small;"> XML-TEI</span>
+        </label>
+      </div>
 
-      <p>Reconnaissance des entités nommées</p>
-      <label for="moteur_REN" style="display:inline-block;width:110px;">moteur de REN</label>
-      <select name="moteur_REN" id="moteur_REN" onchange="detectChangeMoteur(this)">
-        <option value="spacy" selected="true">SpaCy</option>
-        <option value="flair">Flair</option>
-      </select>
-      <br />
-      <label for="modele_REN" style="display:inline-block;width:110px;">Modèle à utiliser</label>
-      <select name="modele_REN" id="modele_REN" onchange="detectChange(this)">
-        <option value="fr_core_news_sm">fr_core_news_sm</option>
-        <option value="fr_core_news_md" selected="true">fr_core_news_md</option>
-        <option value="fr_core_news_lg">fr_core_news_lg</option>
-      </select>
-      <br />
-  </div>
+      <div id="xmlparams">
+          <p>Structure du document XML</p>
+          <div>
+            <label for="xmlnamespace">nom de domaine</label>
+            <input type="text" name="xmlnamespace" id="xmlnamespace" value="http://www.tei-c.org/ns/1.0">
+          </div>
+          <div>
+            <label for="balise_racine">balise racine</label>
+            <input type="text" name="balise_racine" id="balise_racine" value="text" required>
+          </div>
+          <div>
+            <label for="balise_parcours">balises à parcourir</label>
+            <input type="text" name="balise_parcours" id="balise_parcours" value="p" required>
+          </div>
+          <div>
+            <label for="encodage">encodage</label>
+            <input type="text" name="encodage" id="encodage" value="UTF-8" required>
+         </div>
+      </div>
+      <hr>
 
-  <div id="div-upload" class="column" style="width:100%;">
-      <fieldset style="padding:15px;">
-      <legend>Chargement du fichier</legend>
-      <input type="file" id="raw-xml-file" name="file" accept=".xml" required>
-      </fieldset>
+      <!-- Select engine -->
+      <p>Moteur de REN</p>
+      <div class="opt-wrapper" id="divNerEngine">
+        <input type="radio" name="moteur_REN" id="opt-spacy" value="spacy" checked>
+        <input type="radio" name="moteur_REN" id="opt-flair" value="flair">
+        <input type="radio" name="moteur_REN" id="opt-camembert" value="camembert">
+          <label for="opt-spacy" class="option opt-spacy">
+            <div class="dot"></div>
+             <span>SpaCy</span>
+             </label>
+          <label for="opt-flair" class="option opt-flair">
+            <div class="dot"></div>
+             <span>Flair</span>
+          </label>
+          <label for="opt-camembert" class="option opt-camembert" id="label-camembert">
+            <div class="dot"></div>
+             <span>Camembert</span>
+          </label>
+      </div>
+      <!-- Select model -->
+      <div id="modeldiv">
+        <label for="modele_REN">Modèle à utiliser</label>
+        <select name="modele_REN" id="modele_REN">
+          <option value="fr_core_news_sm">fr_core_news_sm</option>
+          <option value="fr_core_news_md" selected="true">fr_core_news_md</option>
+          <option value="fr_core_news_lg">fr_core_news_lg</option>
+        </select>
+          <i class="fa-solid fa-circle-question"></i>
+          <div id="inf-box-spacy-models">
+            <p>sm <i>(small)</i> : rapide, fiabilité 81 %<br>
+              md <i>(medium)</i> : moyen, fiabilité 83 %<br>
+              lg <i>(large)</i> : lent, fiabilité 84 %</p>
+          </div>
+      </div>
+      <hr>
+    <!-- Drop zone -->
+    <div class="centerElem">
+      {% if erreur != "" %}
+        <p>{{ erreur }}</p>
+      {% endif %}
+      <div class="dropzone" id="dropzoneEnt">
+        <input type="file" name="entityfiles" accept="text/plain,text/xml" multiple required>
+        <p id="form_msg">Déposer le(s) fichier(s) ou cliquer ici.</p>
+      </div>
       <input id="csrf_token" name="csrf_token" type="hidden" value="CSRF_TOKEN_STRING">
-      <button style="display:block;margin:auto;margin-top:20px;margin-bottom:60px">Annoter en entités nommées</button>
-  </div>
-</form>
-
-<div id="div-camembert-ner" style="display:block;min-height:520px;">
-  <h3>Camembert NER</h3>
-  <p>Utilise le modèle préentraîné camembert-ner pour l'analyse d'un texte en format txt.</p>
-  <form action="{{ url_for('ner_camembert') }}" id="metadata-form" method="post" enctype="multipart/form-data">
-    {{ form.csrf_token }}
-    <fieldset>
-      <legend>Chargement du fichier</legend>
-      <input type="file" name="camembertfiles" accept="text/plain" multiple required>
-      <input id="csrf_token" name="csrf_token" type="hidden" value="CSRF_TOKEN_STRING">
-      <button>Annoter</button>
-    </fieldset>
+      <button type="submit" class="centerElem" style="margin-top: 8px;">Envoyer</button>
+    </div>
   </form>
-</div>
-
+</div><!-- fin div FR-->
+<div class="loader"><div class="loadingio-spinner-ball-205vl2x7f7n"><div class="ldio-b8p5li8dt1u"><div></div></div></div><p>Traitement en cours...</p></div>
 </div>
 
 <script type="text/javascript">
-function detectChangeMoteur(moteurREN) {
-    var modeleREN = document.getElementById("modele_REN");
-    if (moteurREN.value === "spacy") {
-        modeleREN.innerHTML = `
+$('#xmlparams').hide();
+$('#inf-box-spacy-models').hide();
+
+$('input[type=radio][name=input_format]').change(function() {
+  if (this.value == 'xml'){
+    $('#xmlparams').show();
+    $('#label-camembert').hide();
+    /*$('html, body').scrollTop($("#xmlparams").offset().top);*/
+    $('html, body').animate({scrollTop: $('#xmlparams').offset().top -85 }, 'slow');
+  }
+  else{
+    $('#xmlparams').hide();
+    $('#label-camembert').show();
+  }
+});
+
+/* Show available models according to selected NER engine */
+$('input[type=radio][name=moteur_REN]').change(function() {
+    if (this.value == 'spacy') {
+        $("#modele_REN").html(`
         <option value="fr_core_news_sm">fr_core_news_sm</option>
         <option value="fr_core_news_md" selected="true">fr_core_news_md</option>
-        <option value="fr_core_news_lg">fr_core_news_lg</option>`;
-    } else if (moteurREN.value === "flair") {
-        modeleREN.innerHTML = '<option value="flair/ner-french" selected="true">flair/ner-french</option>';
+        <option value="fr_core_news_lg">fr_core_news_lg</option>`);
+        $("#modeldiv").show();
+        $("#modeldiv i").show();
     }
-}
+    else if (this.value == 'flair') {
+        $("#modele_REN").html('<option value="flair/ner-french" selected="true">flair/ner-french</option>');
+        $("#modeldiv").show();
+        $("#modeldiv i").hide();
+    }
+    else if (this.value == 'camembert'){
+      $("#modeldiv").hide();
+    }
+});
+
+/* MAJ de la zone de glisser-déposer */ 
+$('#dropzoneEnt input').change(function () {
+
+  var nb_files = this.files.length;
+
+  $('#form_msg').text(nb_files + " fichier(s) selectionné(s)");
+
+  /* Prévisualisation des fichiers chargés (max 3 visibles) */
+  if(nb_files > 3){
+      var num = nb_files - 3;
+      for(i=0; i < 3; i++){
+          $("#form_msg").append('<br/><span class="filename_preview">' + this.files[i].name + '</span>');
+      }
+      $("#form_msg").append('<span class="filename_preview"> et ' + num + ' autres.</span>');
+  }
+  else{
+      for(i=0; i < nb_files; i++){
+          $("#form_msg").append('<br/><span class="filename_preview">' + this.files[i].name + '</span>');
+      }
+  }
+});
+
+/* Show models info on hover */
+$('#modeldiv i')
+    .on("mouseenter", function () {
+        $("#inf-box-spacy-models").show();            
+    })
+    .on("mouseleave", function () {
+        $("#inf-box-spacy-models").hide();
+    });
 </script>
 {% endblock %}
 {% block footer %} {{ super() }} {% endblock %}

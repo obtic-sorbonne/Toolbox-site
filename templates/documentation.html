@@ -14,22 +14,30 @@
 	.instruction p span:first-child{
 		font-size: 1.2em;
 	}
+
+	#doc_ocr h3{
+		background-image: linear-gradient(to bottom, rgba(245, 246, 252, 0.52), rgb(250,235,215,0.45)), url("{{ url_for('static', filename='img/manuscrit.jpg')}}");
+		background-repeat: no-repeat;
+		background-size: cover;
+	}
 	
 </style>
 <div class="outil">
+	<div class="doc-intro">
 	<h2 style="font-family:'Comprehension', serif;">Documentation</h2>
 	<p>La boîte à outils Pandore a été conçue de manière à prendre en entrée un corpus, quel qu'il soit, et de fournir directement le résultat des traitements de ce corpus.
-		Ainsi, la plupart des outils se composent d'un champ de soumission de fichiers, et d'éventuelles options à cocher. La manipulation des outils devrait donc être relativement intuitive.</p>
-	<p>Les sections suivantes détaillent les utilisations possibles pour chaque outil de Pandore.</p>
+		Ainsi, la plupart des outils se composent d'un champ de soumission de fichiers, et d'éventuelles options à cocher pour rendre la manipulation de ces outils très intuitive.<br>
+		Les sections suivantes détaillent les utilisations possibles pour chaque outil de Pandore.</p>
+	</div>
 
 	<div class="entree_manuel" id="doc_ocr">
-		<h3>OCR / HTR</h3>
-		<p>L'OCR, pour <span style="font-style:italic">Optical Character Recognition</span> (reconnaissance optique de caractères) permet d'extraire le texte d'une image de manière à obtenir ce texte en format numérique.</p>
-		<p>L'HTR, pour <span style="font-style:italic">Handwritten Text Recognition</span> (reconnaissance de texte manuscrit), permet d'extraire de la même façon de l'écriture manuelle.</p>
+		<h3 style="font-family:'Comprehension', serif;">OCR / HTR</h3>
+		<p style="text-align: justify;"><i class="fa-solid fa-caret-right"></i> L'OCR, pour <span style="font-style:italic">Optical Character Recognition</span> (reconnaissance optique de caractères) permet d'extraire le texte d'une image de manière à obtenir ce texte en format numérique.</p>
+		<p style="text-align: justify;"><i class="fa-solid fa-caret-right"></i> L'HTR, pour <span style="font-style:italic">Handwritten Text Recognition</span> (reconnaissance de texte manuscrit), permet d'extraire de la même façon de l'écriture manuelle.</p>
 		<p style="font-family: 'Bree Serif', serif; margin-top:30px;color:#8A824C;font-style:italic;font-weight: 300;font-size:1.2em;">Comment ça marche ?</p>
-		<p>La reconnaissance de caractères s'effectue en 2 étapes. D'abord, le système doit identifier où se trouve le texte dans l'image (les zones de texte), et identifier les différentes lignes qui composent ce texte. C'est la phase de <em>segmentation</em>. Une fois les zones et les lignes de texte déterminées, le système doit reconnaître chacun des caractères qui composent ces lignes. C'est la phase de <em>reconnaissance de caractères</em>. Les systèmes d'OCR réalisent généralement ces deux opérations en même temps, tandis que les outils d'HTR permettent d'intervenir manuellement sur la segmentation, souvent plus complexe lorsqu'il s'agit d'écriture manuscrite.</p>
-		<p>Pour que la reconnaissance du texte soit optimale, les images données à l'outil doivent présenter un texte le plus lisible possible : elles ne doivent pas être floues, le texte doit ressortir clairement par rapport au fond, et les lignes de textes doivent être le plus droites possible.</p>
-		<p>Le taux de reconnaissance des textes imprimés par les logiciels de l'état de l'art est généralement très haut pour les langues écrite en caractères latins (>90%).</p>
+		<p style="text-align: justify;line-height: 1.7;">La reconnaissance de caractères s'effectue en 2 étapes. D'abord, le système doit identifier où se trouve le texte dans l'image (les zones de texte), et identifier les différentes lignes qui composent ce texte. C'est la phase de <em>segmentation</em>. Une fois les zones et les lignes de texte déterminées, le système doit reconnaître chacun des caractères qui composent ces lignes. C'est la phase de <em>reconnaissance de caractères</em>. Les systèmes d'OCR réalisent généralement ces deux opérations en même temps, tandis que les outils d'HTR permettent d'intervenir manuellement sur la segmentation, souvent plus complexe lorsqu'il s'agit d'écriture manuscrite.</p>
+		<p style="text-align: justify;line-height: 1.7;">Pour que la reconnaissance du texte soit optimale, les images données à l'outil doivent présenter un texte le plus lisible possible : elles ne doivent pas être floues, le texte doit ressortir clairement par rapport au fond, et les lignes de textes doivent être le plus droites possible.</p>
+		<p style="text-align: justify;line-height: 1.7;">Le taux de reconnaissance des textes imprimés par les logiciels de l'état de l'art est généralement très haut pour les langues écrite en caractères latins (>90%).</p>
 		<h4>L'OCR sur Pandore</h4>
 		<p>Nous proposons une numérisation de vos documents avec l'outil Tesseract. Vous pouvez extraire du texte depuis plusieurs formats d'images (png, jpg, tiff, pdf).</p>
 		<div class="instruction">

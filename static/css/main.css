@@ -280,7 +280,7 @@ nav li:hover{
 }
 
 .presentation{
-  width:60%;
+  width:55%;
   margin:50px auto;
  }
 
@@ -711,6 +711,39 @@ display: table;
   cursor:pointer;
 }
 
+.doc-intro{
+  line-height: 1.7;
+  margin-bottom: 50px;
+}
+.doc-intro p{
+  width:70%;
+  margin:auto;
+}
+.doc-intro h2 + p::first-letter {
+  background-color: rgba(221, 201, 180, .3);
+  border-radius: 2px;
+  font-size: 250%;
+  padding: 5px 10px;
+  margin-right: 6px;
+  float: left;
+}
+
+.rubrique p:first-child{
+  background-color: rgba(221, 201, 180, .3);
+  padding:30px;
+  text-align: justify;
+  box-shadow: 2px 2px 2px #ddd;
+}
+.rubrique p:first-child::first-letter {
+  background-color: #fff;
+  border-radius: 2px;
+  font-size: 250%;
+  padding: 5px 10px;
+  margin-right: 6px;
+  float: left;
+  color: #2B3A67;
+}
+
 .entree_manuel{
   width:70%;
   margin:auto;
@@ -719,7 +752,7 @@ display: table;
 .entree_manuel h3{
   font-weight: 400;
   padding:20px;
-  border-bottom:2px solid #2B3A67;
+  border-bottom:1px solid #2B3A67;
   color: #2B3A67;
 }
 .entree_manuel p{
@@ -898,4 +931,34 @@ textarea{
 
 table td{
   padding-right:4px;
+}
+
+.filter-box{
+  border:1px solid #dadce0;
+  border-radius: 20px;
+  width: 115px;
+  padding:7px;
+  text-align: center;
+  margin:auto;
+}
+
+.filter-box:hover{
+  background-color: #008CBA;
+  color:#fff;
+  cursor: pointer;
+}
+
+.fselected{
+  background-color: #008CBA;
+  color:#fff;
+}
+
+.language-selection{
+  display: block;
+  text-align: center;
+  margin-bottom: 20px;
+  border:1px solid #a5bfc8;
+}
+.language-selection i{
+  margin-right:8px;
 }

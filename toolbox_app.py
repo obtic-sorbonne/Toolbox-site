@@ -628,80 +628,86 @@ def pos_tagging():
 def named_entity_recognition():
 	from tei_ner import tei_ner_params
 	from lxml import etree
-	f = request.files['file']
-	balise_racine = request.form['balise_racine']
-	balise_parcours = request.form['balise_parcours']
-	encodage = request.form['encodage']
+
+	uploaded_files = request.files.getlist("entityfiles")
+	if uploaded_files == []:
+			print("Outil REN : aucun fichier fourni")
+			abort(400)
+	
+	# Prépare le dossier résultat
+	rand_name =  'ner_' + ''.join((random.choice(string.ascii_lowercase) for x in range(8)))
+	result_path = ROOT_FOLDER / os.path.join(UPLOAD_FOLDER, rand_name)
+	os.mkdir(result_path)
+
+	# Paramètres généraux
+	input_format = request.form['input_format']
 	moteur_REN = request.form['moteur_REN']
 	modele_REN = request.form['modele_REN']
-	try:
-		contenu = f.read()
-	finally: # ensure file is closed
-		f.close()
-	root = tei_ner_params(contenu, balise_racine, balise_parcours, moteur_REN, modele_REN, encodage=encodage)
-	# Writing in stream
-	output_stream = BytesIO()
-	output = f.filename
-	root.write(output_stream, pretty_print=True, xml_declaration=True, encoding="utf-8")
-	response = Response(output_stream.getvalue(), mimetype='application/xml',
-						headers={"Content-disposition": "attachment; filename=" + output})
-	output_stream.seek(0)
-	output_stream.truncate(0)
-	return response
 
-@app.route('/ner_camembert', methods=["POST"])
-@stream_with_context
-def ner_camembert():
-	if request.method == 'POST':
-		uploaded_files = request.files.getlist("camembertfiles")
-		if uploaded_files == []:
-			abort(400)
+	for f in uploaded_files:
+		filename, file_extension = os.path.splitext(f.filename)
+		try:
+			contenu = f.read()
+			
+			#-------------------------------------
+			# Case 1 : xml -> Spacy or Flair
+			#-------------------------------------
+			if input_format == 'xml':
+				#print("XML détecté")
+				output_name = os.path.join(result_path, f.filename)
+				xmlnamespace = request.form['xmlnamespace']
+				balise_racine = request.form['balise_racine']
+				balise_parcours = request.form['balise_parcours']
+				encodage = request.form['encodage']
 
-		from transformers import AutoTokenizer, AutoModelForTokenClassification
-		tokenizer = AutoTokenizer.from_pretrained("Jean-Baptiste/camembert-ner")
-		model = AutoModelForTokenClassification.from_pretrained("Jean-Baptiste/camembert-ner")
-		from transformers import pipeline
-		nlp = pipeline('ner', model=model, tokenizer=tokenizer, aggregation_strategy="simple")
+				try:
+					etree.fromstring(contenu)
+					#print("Le XML est valide")
+				except etree.ParseError as err:
+					erreur = "Le fichier XML est invalide. \n {}".format(err)
 
-		# Prépare le dossier résultat
-		rand_name =  'ner_camembert_' + ''.join((random.choice(string.ascii_lowercase) for x in range(8)))
-		result_path = ROOT_FOLDER / os.path.join(UPLOAD_FOLDER, rand_name)
-		os.mkdir(result_path)
+				root = tei_ner_params(contenu, xmlnamespace, balise_racine, balise_parcours, moteur_REN, modele_REN, encodage=encodage)
+				
+				root.write(output_name, pretty_print=True, xml_declaration=True, encoding="utf-8")
 
-		for f in uploaded_files:
-			text = f.read().decode("utf-8")
-			paragraphs = text.split('\n')
-			text_lines = [x for x in paragraphs if x != '']
-			res_ner = []
-			for line in text_lines:
-				res_ner += nlp(line)
+			#-------------------------------------
+			# Case 2 : txt -> Spacy, Flair, Camembert
+			#-------------------------------------
+			else:
+				if moteur_REN == 'spacy' or moteur_REN == 'flair':
+					from txt_ner import txt_ner_params
+					entities = txt_ner_params(contenu, moteur_REN, modele_REN, encodage=encodage)
+					output_name = os.path.join(result_path, filename + ".ann")
+					writer = csv.writer(output_name, delimiter="\t")
+					for nth, entity in enumerate(entities, 1):
+						ne_type, start, end, text = entity
+						row = [f"T{nth}", f"{ne_type} {start} {end}", f"{text}"]
+						writer.writerow(row)
+				
+				elif moteur_REN == 'camembert':
+					from ner_camembert import ner_camembert
+					output_name = os.path.join(result_path, filename + '.csv')
+					ner_camembert(contenu.decode("utf-8"), output_name)
+	
+		finally: # ensure file is closed
+			f.close()
 
-			filename, file_extension = os.path.splitext(f.filename)
-			output_name = os.path.join(result_path, filename + '.csv')
-
-			fields = ['word', 'entity_group', 'start', 'end', 'score']
-
-			with open(output_name, 'w', newline='') as f_out:
-				writer = csv.DictWriter(f_out, fieldnames = fields)
-				writer.writeheader()
-				writer.writerows(res_ner)
-
-		# ZIP le dossier résultat
-		if len(os.listdir(result_path)) > 0:
-			shutil.make_archive(result_path, 'zip', result_path)
-			output_stream = BytesIO()
-			with open(str(result_path) + '.zip', 'rb') as res:
-				content = res.read()
-			output_stream.write(content)
-			response = Response(output_stream.getvalue(), mimetype='application/zip',
+	# ZIP le dossier résultat
+	if len(os.listdir(result_path)) > 0:
+		shutil.make_archive(result_path, 'zip', result_path)
+		output_stream = BytesIO()
+		with open(str(result_path) + '.zip', 'rb') as res:
+			content = res.read()
+		output_stream.write(content)
+		response = Response(output_stream.getvalue(), mimetype='application/zip',
 									headers={"Content-disposition": "attachment; filename=" + rand_name + '.zip'})
-			output_stream.seek(0)
-			output_stream.truncate(0)
-			return response
-		else:
-			os.remove(result_path)
-	return render_template('entites_nommees.html', erreur=erreur)
+		output_stream.seek(0)
+		output_stream.truncate(0)
+		return response
+	else:
+		os.remove(result_path)
 
+	render_template('entites_nommees.html', erreur=erreur)
 
 @app.route('/keyword_extraction', methods=['POST'])
 @stream_with_context
