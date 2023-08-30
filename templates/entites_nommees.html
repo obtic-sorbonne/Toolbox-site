@@ -138,25 +138,13 @@ hr{
   padding:15px;
 }
 
-#inf-box-spacy-models{
-  display: block;
-  background-color: #e2e0d5;
-  padding:8px;
-  border-radius: 4px;
-}
-#inf-box-spacy-models p{
-  color:#111C2D;
-  font-size:smaller;
-  text-align: left;
-}
-
 </style>
 <div class="outil">
   <h3>Détection des entités nommées</h3>
   <div class="language-selection">
     <label for="toollang"><i class="fa-solid fa-flag"></i>Dans quelle langue est votre texte ?</label>
     <select name="toollang" id="toollang" class="sel sel--black-panther">
-      <option value="fra">Français</option>
+      <option value="fra" selected="true">Français</option>
       <option value="eng">Anglais</option>
       <option value="spa">Espagnol</option>
     </select>
@@ -164,7 +152,7 @@ hr{
 <p>Cet outil permet d'identifier les entités nommées d'un corpus en utilisant au choix trois modèles : Spacy, Flair, ou un modèle Bert. Le corpus peut être au format texte ou au format XML-TEI. Dans ce derniers cas, les entités seront annotées directement dans le texte avec la balise &lt;Entity&gt; avec leur type en attribut annotation. A noter que ce processus ne conserve pas la structuration et le formatage à l'intérieur des balises parcourues ; tous les formatages à l'extérieur de ces balises sont en revanche restitués.</p>
 <p>L'utilisation de cette balise &lt;Entity&gt; rend utilisable le XML en sortie dans la plateforme <a href="https://obvil.huma-num.fr/ariane">Ariane</a>.</p>
   <div id="lang_fr">
-    <h4>Entités nommées du français</h4>
+    <h4>Entités nommées (<span id="ner_title">fra</span>)</h4>
     <form action="{{ url_for('named_entity_recognition') }}" id="metadata-form" method="post" enctype="multipart/form-data">
       {{ form.csrf_token }}
       <!-- Input format selection -->
@@ -217,7 +205,7 @@ hr{
           </label>
           <label for="opt-camembert" class="option opt-camembert" id="label-camembert">
             <div class="dot"></div>
-             <span>Camembert</span>
+             <span>Bert</span>
           </label>
       </div>
       <!-- Select model -->
@@ -228,12 +216,6 @@ hr{
           <option value="fr_core_news_md" selected="true">fr_core_news_md</option>
           <option value="fr_core_news_lg">fr_core_news_lg</option>
         </select>
-          <i class="fa-solid fa-circle-question"></i>
-          <div id="inf-box-spacy-models">
-            <p>sm <i>(small)</i> : rapide, fiabilité 81 %<br>
-              md <i>(medium)</i> : moyen, fiabilité 83 %<br>
-              lg <i>(large)</i> : lent, fiabilité 84 %</p>
-          </div>
       </div>
       <hr>
     <!-- Drop zone -->
@@ -254,9 +236,69 @@ hr{
 </div>
 
 <script type="text/javascript">
+/* Hide custom parameters*/
 $('#xmlparams').hide();
 $('#inf-box-spacy-models').hide();
 
+/* Store language */
+$('#toollang').change(function(){
+  var lang = $('#toollang').val();
+  localStorage.setItem('ner_lang', lang);
+
+  var html_options_spacy = availableSpacyModels(lang);
+  $("#modele_REN").html(html_options_spacy);
+  $("#ner_title").html(lang);
+});
+
+function availableSpacyModels(lang){
+  var html_options; 
+  if (lang == 'fra'){
+    html_options = `<option value="fr_core_news_sm">fr_core_news_sm</option>
+     <option value="fr_core_news_md" selected="true">fr_core_news_md</option>
+     <option value="fr_core_news_lg">fr_core_news_lg</option>`;
+  }
+  else if (lang == 'eng'){
+    html_options = `<option value="en_core_web_sm">en_core_web_sm</option>
+    <option value="en_core_web_md">en_core_web_md</option>
+    <option value="en_core_web_lg">en_core_web_lg</option>`;
+  }
+  else if (lang == 'spa'){
+    html_options = `<option value="es_core_news_sm">es_core_news_sm</option>
+    <option value="es_core_news_md">es_core_news_md</option>
+    <option value="es_core_news_lg">es_core_news_lg</option>`;
+  }
+  return html_options;
+}
+
+function availableFlairModels(lang){
+  var html_options;
+  if (lang =='fra'){
+    html_options = `<option value="flair/ner-french" selected="true">flair/ner-french</option>`;
+  }
+  else if (lang == 'eng'){
+    html_options = `<option value="flair/ner-english" selected="true">flair/ner-english</option>`;
+  }
+  else if (lang == 'spa'){
+    html_options = `<option value="flair/ner-spanish-large selected="true">flair/ner-spanish-large</option>`;
+  }
+  return html_options;
+}
+
+function availableBertModels(lang){
+  var html_options;
+  if (lang =='fra'){
+    html_options = `<option value="Jean-Baptiste/camembert-ner" selected="true">Jean-Baptiste/camembert-ner</option>`;
+  }
+  else if (lang == 'eng'){
+    html_options = `<option value="dslim/bert-base-NER" selected="true">dslim/bert-base-NER</option>`;
+  }
+  else if (lang == 'spa'){
+    html_options = `<option value="mrm8488/bert-spanish-cased-finetuned-ner" selected="true">mrm8488/bert-spanish-cased-finetuned-ner</option>`;
+  }
+  return html_options;
+}
+
+/* Hide Camembert option when input file is XML */
 $('input[type=radio][name=input_format]').change(function() {
   if (this.value == 'xml'){
     $('#xmlparams').show();
@@ -272,21 +314,19 @@ $('input[type=radio][name=input_format]').change(function() {
 
 /* Show available models according to selected NER engine */
 $('input[type=radio][name=moteur_REN]').change(function() {
+    var lang = localStorage.getItem('ner_lang');
+    
     if (this.value == 'spacy') {
-        $("#modele_REN").html(`
-        <option value="fr_core_news_sm">fr_core_news_sm</option>
-        <option value="fr_core_news_md" selected="true">fr_core_news_md</option>
-        <option value="fr_core_news_lg">fr_core_news_lg</option>`);
-        $("#modeldiv").show();
-        $("#modeldiv i").show();
+      var html_options_spacy = availableSpacyModels(lang);
+      $("#modele_REN").html(html_options_spacy);
     }
     else if (this.value == 'flair') {
-        $("#modele_REN").html('<option value="flair/ner-french" selected="true">flair/ner-french</option>');
-        $("#modeldiv").show();
-        $("#modeldiv i").hide();
+      var html_options_flair = availableFlairModels(lang);
+      $("#modele_REN").html(html_options_flair);
     }
     else if (this.value == 'camembert'){
-      $("#modeldiv").hide();
+      var html_options_bert = availableBertModels(lang);
+      $("#modele_REN").html(html_options_bert);
     }
 });
 

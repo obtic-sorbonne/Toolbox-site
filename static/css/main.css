@@ -955,6 +955,9 @@ table td{
   margin-bottom: 20px;
   border:1px solid #a5bfc8;
 }
+.language-selection:hover{
+  box-shadow: 0 0 3px 1px #1ABC9C;
+}
 .language-selection i{
   margin-right:8px;
 }

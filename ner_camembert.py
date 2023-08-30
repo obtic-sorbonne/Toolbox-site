@@ -1,12 +1,15 @@
 import csv
 from transformers import AutoTokenizer, AutoModelForTokenClassification
-tokenizer = AutoTokenizer.from_pretrained("Jean-Baptiste/camembert-ner")
-model = AutoModelForTokenClassification.from_pretrained("Jean-Baptiste/camembert-ner")
-
 from transformers import pipeline
-nlp = pipeline('ner', model=model, tokenizer=tokenizer, aggregation_strategy="simple")
 
-def ner_camembert(text, output_name):
+
+def ner_camembert(text, output_name, modele_REN):
+	
+	tokenizer = AutoTokenizer.from_pretrained(modele_REN)
+	model = AutoModelForTokenClassification.from_pretrained(modele_REN)
+	
+	nlp = pipeline('ner', model=model, tokenizer=tokenizer, aggregation_strategy="simple")
+		
 	paragraphs = text.split('\n')
 	text_lines = [x for x in paragraphs if x != '']
 	res_ner = []

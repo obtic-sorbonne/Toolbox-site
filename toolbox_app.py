@@ -687,7 +687,7 @@ def named_entity_recognition():
 				elif moteur_REN == 'camembert':
 					from ner_camembert import ner_camembert
 					output_name = os.path.join(result_path, filename + '.csv')
-					ner_camembert(contenu.decode("utf-8"), output_name)
+					ner_camembert(contenu.decode("utf-8"), output_name, modele_REN)
 	
 		finally: # ensure file is closed
 			f.close()
