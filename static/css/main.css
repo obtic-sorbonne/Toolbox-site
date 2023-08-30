@@ -861,10 +861,6 @@ button:hover{
   cursor:pointer;
 }
 
-#t2{
-  height:700px;
-}
-
 #divform{
   font-size:11px;
   display: flex;
