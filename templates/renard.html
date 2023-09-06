@@ -1,0 +1,58 @@
+{% extends "index.html" %}
+{% block header %} {{ super() }} {% endblock %}
+
+{% block content %}
+<style>
+	#renard_visu{
+		width: 100%;
+	}
+	#renard_visu img{
+		margin:auto;
+	}
+</style>
+<div class="outil">
+	<h2>Renard</h2>
+	<div>
+		<form action="{{ url_for('run_renard') }}" id="renard-form" method="post" enctype="multipart/form-data">
+		{{ form.csrf_token }}
+		 <div class="container" id="renard_container">
+			<div class="dropzone">
+				<input type="file" id="renard_upload" name="renard_upload" accept="text/plain">
+				<p id="form_msg"><span style="font-size: 2em;color: #c0c0c0;"><i class="fa-solid fa-arrow-up-from-bracket"></i></span><br>Déposer un fichier ou cliquer ici.</p>
+			</div>
+			<textarea name="renard_txt_input" style="width:500px" placeholder="Coller votre texte ici"></textarea>
+			<input id="csrf_token" name="csrf_token" type="hidden" value="CSRF_TOKEN_STRING">
+		 </div>
+			<button type="submit" style="display:block;margin:auto;margin-top:15px;">Envoyer</button>
+		</form>
+		<div class="loader"><div class="loadingio-spinner-ball-205vl2x7f7n"><div class="ldio-b8p5li8dt1u"><div></div></div></div><p>Traitement en cours...</p></div>
+	</div>
+
+	{% if graph != "" %}
+	<div id="renard_visu">
+		<img src="{{ graph }}" alt="graphe" height="700px"/>
+	</div>
+	{% endif %}
+</div>
+
+<script type="text/javascript">
+	/* Vérification input */
+	$("#renard-form").submit(function(){
+		var fileName = $("#renard_upload").val();
+		if(!fileName){
+			alert("Sélectionner un fichier ou copier le texte.");
+			return false;
+		}
+		else{
+			$(".loader").css("display", "block");
+		}
+	});
+
+	/* MAJ de la zone de glisser-déposer */ 
+	$('form input').change(function (e) {
+		var fileName = e.target.files[0].name;
+		$('form #form_msg').text("Fichier sélectionné : " + fileName);
+	});
+
+</script>
+{% endblock %}

@@ -246,6 +246,7 @@ $('#toollang').change(function(){
   localStorage.setItem('ner_lang', lang);
 
   var html_options_spacy = availableSpacyModels(lang);
+  $("#opt-spacy").prop("checked", true);
   $("#modele_REN").html(html_options_spacy);
   $("#ner_title").html(lang);
 });
@@ -352,14 +353,6 @@ $('#dropzoneEnt input').change(function () {
   }
 });
 
-/* Show models info on hover */
-$('#modeldiv i')
-    .on("mouseenter", function () {
-        $("#inf-box-spacy-models").show();            
-    })
-    .on("mouseleave", function () {
-        $("#inf-box-spacy-models").hide();
-    });
 </script>
 {% endblock %}
 {% block footer %} {{ super() }} {% endblock %}

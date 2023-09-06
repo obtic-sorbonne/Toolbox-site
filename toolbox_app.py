@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 # -*- coding:utf-8 -*-
 
-from flask import Flask, abort, request, render_template, url_for, redirect, send_from_directory, Response, stream_with_context, session, jsonify
+from flask import Flask, abort, request, render_template, url_for, redirect, send_file, Response, stream_with_context, session
 from werkzeug.utils import secure_filename
 from werkzeug.exceptions import HTTPException
 from forms import ContactForm, SearchForm
 from flask_wtf import FlaskForm
 from flask_wtf.csrf import CSRFProtect
-from flask_babel import Babel, get_locale, gettext
+from flask_babel import Babel, get_locale
 import os
 from io import StringIO, BytesIO
 import string
@@ -19,10 +19,7 @@ from urllib.parse import urlparse
 import re
 from lxml import etree
 import csv
-import sys
 import shutil
-import subprocess
-import glob
 from pathlib import Path
 import jamspell
 import json
@@ -179,9 +176,19 @@ def extraction_gallica():
 	form = FlaskForm()
 	return render_template('extraction_gallica.html', form=form)
 
+@app.route('/extraction_wikisource')
+def extraction_wikisource():
+	form = FlaskForm()
+	return render_template('extraction_wikisource.html', form=form)
+
 @app.route('/tanagra')
 def tanagra():
 	return render_template('tanagra.html')
+
+@app.route('/renard')
+def renard():
+	form = FlaskForm()
+	return render_template('renard.html', form=form, graph="")
 #-----------------------------------------------------------------
 # ERROR HANDLERS
 #-----------------------------------------------------------------
@@ -237,8 +244,7 @@ def run_tesseract():
 
 @app.route('/collecter_corpus')
 def collecter_corpus():
-	form = FlaskForm()
-	return render_template('collecter_corpus.html', form=form)
+	return render_template('collecter_corpus.html')
 
 @app.route('/correction_erreur')
 def correction_erreur():
@@ -1363,6 +1369,63 @@ def nermap_to_csv():
     output_stream.truncate(0)
     return response
 
+@app.route("/run_renard",  methods=["GET", "POST"])
+@stream_with_context
+def run_renard():
+	form = FlaskForm()
+	if request.method == 'POST':
+		if request.files['renard_upload'].filename != '':
+			f = request.files['renard_upload']
+
+			text = f.read()
+		else:
+			text = request.form['renard_txt_input']
+		
+		rand_name =  'renard_graph_' + ''.join((random.choice(string.ascii_lowercase) for x in range(8))) + '.png'
+		result_path = ROOT_FOLDER / os.path.join(app.config['UPLOAD_FOLDER'], rand_name)
+		
+		from renard.pipeline import Pipeline
+		from renard.pipeline.tokenization import NLTKTokenizer
+		from renard.pipeline.ner import NLTKNamedEntityRecognizer
+		from renard.pipeline.characters_extraction import NaiveCharactersExtractor
+		from renard.pipeline.graph_extraction import CoOccurrencesGraphExtractor
+		import matplotlib.pyplot as plt
+		import networkx as nx
+		from base64 import b64encode
+		from PIL import Image
+		import io
+		import numpy as np
+		import cv2
+
+		pipeline = Pipeline(
+		[
+			NLTKTokenizer(),
+			NLTKNamedEntityRecognizer(),
+			NaiveCharactersExtractor(),
+			CoOccurrencesGraphExtractor(co_occurences_dist=35)
+		])
+
+		out = pipeline(text.decode('utf-8'))
+		#out.export_graph_to_gexf(result_path)
+		
+		out.plot_graph()
+		plt.savefig(result_path)
+		with open(result_path, 'rb') as local_img:
+			f = local_img.read()
+		
+		npimg = np.fromstring(f,np.uint8)
+		img = cv2.imdecode(npimg,cv2.IMREAD_COLOR)
+		img = Image.fromarray(img.astype("uint8"))
+		rawBytes = io.BytesIO()
+		img.save(rawBytes, "PNG")
+		rawBytes.seek(0)
+		img_base64 = b64encode(rawBytes.getvalue()).decode('ascii')
+		mime = "image/png"
+		uri = "data:%s;base64,%s"%(mime, img_base64)
+		
+		return render_template('renard.html', form=form, graph=uri)
+
+	return render_template('renard.html', form=form, graph="")
 
 if __name__ == "__main__":
 	app.run()

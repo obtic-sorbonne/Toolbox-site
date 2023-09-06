@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-05-30 16:51+0200\n"
+"POT-Creation-Date: 2023-09-05 11:18+0200\n"
 "PO-Revision-Date: 2023-05-30 16:53+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -19,10 +19,11 @@ msgstr ""
 "Generated-By: Babel 2.12.1\n"
 
 #: templates/etiquetage_morphosyntaxique.html:7
+#: templates/fouille_de_texte.html:10
 msgid "Étiquetage morphosyntaxique"
 msgstr "Part-of-speech tagging"
 
-#: templates/extraction_mots_cles.html:10
+#: templates/extraction_mots_cles.html:10 templates/fouille_de_texte.html:30
 msgid "Extraction de mots-clés"
 msgstr "Keyword extraction"
 
@@ -30,7 +31,7 @@ msgstr "Keyword extraction"
 msgid "Tâches d'annotation automatique"
 msgstr "Automatic annotation tasks"
 
-#: templates/fouille_de_texte.html:15 templates/index.html:74
+#: templates/fouille_de_texte.html:15 templates/index.html:84
 msgid "Reconnaissance d'entités nommées"
 msgstr "Named entity recognition"
 
@@ -46,112 +47,289 @@ msgstr "Data mining"
 msgid "Topic Modelling"
 msgstr ""
 
-#: templates/fouille_de_texte.html:40
+#: templates/fouille_de_texte.html:40 templates/outils.html:33
 msgid "Résumé automatique"
 msgstr "Automatic summarization"
 
-#: templates/index.html:35
+#: templates/index.html:36 templates/outils.html:39
 msgid "Outils"
 msgstr "Tools"
 
-#: templates/index.html:36 templates/index.html:56
+#: templates/index.html:37 templates/index.html:59
 msgid "Projet"
 msgstr "Project"
 
-#: templates/index.html:37
+#: templates/index.html:38
 msgid "Documentation"
 msgstr "Documentation"
 
-#: templates/index.html:54
+#: templates/index.html:57
 msgid "Pandore : une boîte à outil pour les humanités numériques"
 msgstr "Pandore: a toolbox for digital humanities"
 
-#: templates/index.html:51
+#: templates/index.html:61
 msgid ""
 "Pandore offre un ensemble de modules permettant d'effectuer "
 "automatiquement les\n"
 "  tâches les plus courantes liées au traitement de corpus pour la "
 "recherche en humanités\n"
 "  numériques."
-msgstr "Pandore offers a set of modules allowing to facilitate \n"
-"the most common corpus processing tasks for "
-"digital humanities research.\n"
-""
+msgstr ""
+"Pandore offers a set of modules allowing to facilitate \n"
+"the most common corpus processing tasks for digital humanities research.\n"
 
-#: templates/index.html:53
+#: templates/index.html:63
 msgid ""
 "Des chaînes de traitement permettant d'automatiser un ensemble de\n"
 "  tâches sont également proposées."
 msgstr "Automatic pipelines for a set of tasks are also available."
 
-#: templates/index.html:63
+#: templates/index.html:66
 msgid "Voir la démo"
 msgstr "See the demo"
 
-#: templates/index.html:64
+#: templates/index.html:74
 msgid "Conversion d'images en texte"
 msgstr "Image to text conversion"
 
-#: templates/index.html:68
+#: templates/index.html:78
 msgid "Conversion de formats"
 msgstr "Format conversion"
 
-#: templates/index.html:69
+#: templates/index.html:79
 msgid "Formatage XML-TEI"
 msgstr "XML-TEI encoding"
 
-#: templates/index.html:69
-msgid "conversion de divers formats de fichiers avec Teinte."
+#: templates/index.html:79
+#, fuzzy
+msgid "conversion de divers formats de fichiers"
 msgstr "conversion of various file formats with Teinte."
 
-#: templates/index.html:73
+#: templates/index.html:83
 msgid "Fouille et annotation de texte"
 msgstr "Text mining and annotation"
 
-
-#: templates/index.html:74
+#: templates/index.html:84
 msgid "étiquetage morphosyntaxique"
 msgstr "POS tagging"
 
-#: templates/index.html:74
+#: templates/index.html:84
 msgid "analyse de sentiments"
 msgstr "sentiment analysis"
 
-#: templates/index.html:79
+#: templates/index.html:89
 msgid "entités de lieux sur carte"
 msgstr "geolocation and mapping of place names"
 
-#: templates/index.html:79
+#: templates/index.html:89
 msgid "réseaux de cooccurrences"
 msgstr "co-occurrences networks"
 
-#: templates/index.html:83
+#: templates/index.html:89
+msgid "polarités textuelles"
+msgstr "textual polarities"
+
+#: templates/index.html:93
 msgid "Collecte de corpus"
 msgstr "Corpus harvesting"
 
-#: templates/index.html:84
+#: templates/index.html:94
 msgid "Scraping personnalisé des corpus Wikisource"
 msgstr "Customized scraping of Wikisource corpora"
 
-#: templates/index.html:88
+#: templates/index.html:98
 msgid "Correction textuelle"
 msgstr "Text correction"
 
-#: templates/index.html:89
+#: templates/index.html:99
 msgid ""
 "Correction d'erreurs et normalisation pour corpus à la graphie non "
 "standard"
-msgstr "Error correction and orthographic normalization of corpora with non-standard "
-"spellings"
+msgstr ""
+"Error correction and orthographic normalization of corpora with non-"
+"standard spellings"
 
-#: templates/index.html:93
+#: templates/index.html:103
 msgid "Chaînes de traitement"
 msgstr "Pipelines"
 
-#: templates/index.html:94
+#: templates/index.html:104
 msgid ""
 "Traitement automatique depuis l'OCR jusqu'à la reconnaissance d'entités "
 "et leur visualisation."
-msgstr "Automatic processing from OCR to entity recognition "
-"and visualization"
+msgstr "Automatic processing from OCR to entity recognition and visualization"
+
+#: templates/numeriser.html:27 templates/numeriser.html:55
+msgid "Numériser"
+msgstr "Digitisation"
+
+#: templates/numeriser.html:30
+msgid "L'outil Tesseract"
+msgstr "Tesseract tool"
+
+#: templates/numeriser.html:30
+msgid "permet de numériser des imprimés"
+msgstr "allows to digitise printed matters"
+
+#: templates/numeriser.html:30
+msgid "Les modèles préentraînés"
+msgstr "Pretrained models"
+
+#: templates/numeriser.html:30
+msgid "liste ici"
+msgstr "list here"
+
+#: templates/numeriser.html:30
+msgid ""
+"disponibles avec l'outil couvrent un large éventail de polices et sont "
+"disponibles pour de très nombreuses langues"
+msgstr "are available for many languages and fonts"
+
+#: templates/numeriser.html:31
+msgid "Voir la documentation complète"
+msgstr "See full documentation"
+
+#: templates/numeriser.html:33
+msgid "Informations sur l'outil"
+msgstr "Tool information"
+
+#: templates/numeriser.html:35
+msgid "Format d'entrée :"
+msgstr "Input format:"
+
+#: templates/numeriser.html:36
+msgid "Format généré :"
+msgstr "Output format:"
+
+#: templates/numeriser.html:36
+msgid "fichier TXT"
+msgstr "TXT file"
+
+#: templates/numeriser.html:41
+msgid "Modèle"
+msgstr "Model"
+
+#: templates/numeriser.html:43
+msgid "Français"
+msgstr "French"
+
+#: templates/numeriser.html:44
+msgid "Anglais"
+msgstr "English"
+
+#: templates/numeriser.html:45
+msgid "Fraktur"
+msgstr "Fraktur"
+
+#: templates/numeriser.html:46
+msgid "Espagnol"
+msgstr "Spanish"
+
+#: templates/numeriser.html:47
+msgid "Espagnol ancien"
+msgstr "Old Spanish"
+
+#: templates/numeriser.html:52
+msgid "Déposer le(s) fichier(s) ou cliquer ici."
+msgstr "Drop the file(s) or click here."
+
+#: templates/numeriser.html:60
+msgid "Traitement en cours..."
+msgstr "Processing file(s)..."
+
+#: templates/numeriser.html:61
+msgid "Vos fichiers apparaîtront une fois le traitement terminé."
+msgstr "Your files will appear once processing is complete."
+
+#: templates/numeriser.html:80
+msgid "Tâches suivantes"
+msgstr "Next tasks"
+
+#: templates/numeriser.html:81
+msgid "Convertir en XML-TEI"
+msgstr "Convert to XML-TEI"
+
+#: templates/numeriser.html:82
+msgid "Extraire les entités nommées"
+msgstr "Extract named entities"
+
+#: templates/numeriser.html:83
+msgid "Étiqueter en parties du discours"
+msgstr "Part-of-speech tagging"
+
+#: templates/outils.html:6
+msgid "Tâches et outils"
+msgstr "Tasks and tools"
+
+#: templates/outils.html:11
+msgid "Outils ObTIC"
+msgstr "ObTIC tools"
+
+#: templates/outils.html:15
+msgid "Tâches"
+msgstr "Tasks"
+
+#: templates/outils.html:17
+msgid "Analyse d'opinion"
+msgstr "Opinion mining"
+
+#: templates/outils.html:18
+msgid "Analyse de sentiments"
+msgstr "Sentiment analysis"
+
+#: templates/outils.html:19
+msgid "Collecte de corpus (scraping)"
+msgstr "Corpus harvesting (scraping)"
+
+#: templates/outils.html:20
+msgid "Conversion de formats de fichiers"
+msgstr "File format conversion"
+
+#: templates/outils.html:21
+msgid "Conversion XML-TEI"
+msgstr "XML-TEI conversion"
+
+#: templates/outils.html:22
+msgid "Correction de corpus bruités"
+msgstr "Correction of noisy corpora"
+
+#: templates/outils.html:23
+msgid "Entités de lieu"
+msgstr "Location entities"
+
+#: templates/outils.html:25
+msgid "Étiquetage morphosyntaxique (POS-tagging)"
+msgstr "Part-of-speech tagging"
+
+#: templates/outils.html:26
+msgid "Extraction automatique de mots-clés"
+msgstr "Automatic keyword extraction"
+
+#: templates/outils.html:27
+msgid "HTR (reconnaissance de texte manuscrit)"
+msgstr "HTR (handwritten text recognition)"
+
+#: templates/outils.html:29
+msgid "Normalisation de graphie ancienne"
+msgstr "Standardisation of old spelling"
+
+#: templates/outils.html:30
+msgid "reconnaissance optique de caractères"
+msgstr "optical character recognition"
+
+#: templates/outils.html:31
+msgid "Reconnaissance d'entités nommées (REN)"
+msgstr "Named entity recognition (NER)"
+
+#: templates/outils.html:32
+msgid "Réseaux de cooccurrences"
+msgstr "Co-occurrences networks"
+
+#: templates/outils.html:34
+msgid "(modèle thématique)"
+msgstr ""
+
+#: templates/outils.html:41
+msgid "Camembert NER"
+msgstr "Bert-base NER"
 

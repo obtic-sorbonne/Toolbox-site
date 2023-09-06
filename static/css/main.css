@@ -10,10 +10,10 @@ em {
    font-style: normal;
 }
 
-/*@font-face {
+@font-face {
     font-family: 'Comprehension';
     src: local("Comprehension"), url("font/Comprehension-SemiBold.otf") format("opentype");
-}*/
+}
 
 @font-face {
     font-family: 'Bree Serif';
@@ -32,6 +32,7 @@ body{
 }
 
 h2{
+  font-family:'Comprehension', serif;
 	font-size:2em;
 	font-weight:500;
 	color:#8A824C;
@@ -174,6 +175,10 @@ nav li:hover{
   width:70%;
   margin:auto;
   margin-top:35px;
+}
+
+#renard_container{
+  width:100%;
 }
 
 .box-outil-accueil{
@@ -363,18 +368,9 @@ nav li:hover{
   width:210px;
 }
 
-/*.fil:hover{
-
-}*/
-
-/*.col_2{
-
-}*/
-
 .tool-box{
   margin-bottom:50px;
 }
-
 
 /* DRAG AND DROP FORM */
 .dropzone{

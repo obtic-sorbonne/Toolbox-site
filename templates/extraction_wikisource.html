@@ -1,0 +1,66 @@
+{% extends "index.html" %}
+{% block header %} {{ super() }} {% endblock %}
+
+{% block content %}
+<!-- CREATION CORPUS -->
+  <div class="outil">
+    <h2>Extraction Wikisource</h2>
+    <p>La plateforme collaborative <a href="https://fr.wikisource.org/wiki/Wikisource:Accueil" target="_blank">Wikisource</a> contient de très nombreux textes littéraires libres de droits.
+      L'outil ci-dessous permet de constituer un corpus à partir de ces textes, en renseignant leur URL.
+      <!--Plusieurs modes d'utilisation sont possibles :
+      <ul style="margin-left:20px;">
+        <li>Extraction de texte intégral (par défaut)</li>
+        <li>Extraction d'échantillons</li>
+      </ul>-->
+    </p>
+
+    <h4>Création rapide</h4>
+    <p>Cette option permet de générer un corpus aléatoire parmi les œuvres en français de Wikisource.</p>
+
+    <form id="wikiscraper" method="POST" action="{{ url_for('generate_corpus') }}">
+        {{ form.csrf_token }}
+      <fieldset>
+        <label for="nbtext">Nombre de textes</label>
+        <span id="rangeValue" name="rangeValue">1</span>
+        <input class="range" type="range" name="nbtext" value="0" min="1" max="8" onChange="rangeSlide(this.value)" onmousemove="rangeSlide(this.value)"></input>
+        <input id="csrf_token" name="csrf_token" type="hidden" value="CSRF_TOKEN_STRING">
+        <button class="button">Génerer corpus aléatoire</button>
+      </fieldset>
+    </form>
+
+    <div>
+    <h4>A partir d'URL(s)</h4>
+    <p>Copier ici les URLs des textes à collecter. Il est possible de collecter un texte intégral à partir d'un sommaire [<a href="https://fr.wikisource.org/wiki/Valserine_et_autres_nouvelles" target="_blank">exemple</a>]. Dans ce cas, cocher la case Sommaire en face de l'Url indiquée.</p>
+    <form id="urlform"  method="POST" action="{{ url_for('corpus_from_url') }}">
+      {{ form.csrf_token }}
+    <input type="hidden" value="1" id="nb_inputs">
+    <div id="new_inputs"></div>
+    <input type="text" name="url_1" required></input> <input type="checkbox" name="s1"><label for="s1">Sommaire</label></input>
+    <span class="addbutton" onclick="addInput()"><i class="fa-solid fa-circle-plus" style="margin-right:3px;"></i>Ajouter URL</span>
+    <input id="csrf_token" name="csrf_token" type="hidden" value="CSRF_TOKEN_STRING">
+    <button type="submit" class="button" style="display:block;margin:auto;">Collecter corpus</button>
+    </form>
+    </div>
+  </div>
+
+
+  <script type="text/javascript">
+      // Range button
+      function rangeSlide(value) {
+          document.getElementById('rangeValue').innerHTML = value;
+      }
+
+      function addInput(){
+        var nb_input = document.getElementById('nb_inputs').value + 1;
+        var new_input = '<input type="text" name="url_"' + nb_input + '">';
+        var new_check = '<input type="checkbox" name="s"' + nb_input + '">';
+        var new_label = '<label for="s"' + nb_input + '">Sommaire</label>';
+
+        document.getElementById('new_inputs').innerHTML += new_input;
+        document.getElementById('new_inputs').innerHTML += new_check;
+        document.getElementById('new_inputs').innerHTML += new_label;
+        document.getElementById('nb_inputs').value = nb_input;
+      }
+  </script>
+{% endblock %}
+
