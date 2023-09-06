@@ -140,13 +140,13 @@ hr{
 
 </style>
 <div class="outil">
-  <h3>Détection des entités nommées</h3>
+  <h3>{{ _("Détection des entités nommées") }}</h3>
   <div class="language-selection">
-    <label for="toollang"><i class="fa-solid fa-flag"></i>Dans quelle langue est votre texte ?</label>
+    <label for="toollang"><i class="fa-solid fa-flag"></i>{{ _("Dans quelle langue est votre texte ?") }}</label>
     <select name="toollang" id="toollang" class="sel sel--black-panther">
-      <option value="fra" selected="true">Français</option>
-      <option value="eng">Anglais</option>
-      <option value="spa">Espagnol</option>
+      <option value="fra" selected="true">{{ _('Français') }}</option>
+      <option value="eng">{{ _('Anglais') }}</option>
+      <option value="spa">{{ _('Espagnol') }}</option>
     </select>
   </div>
 <p>Cet outil permet d'identifier les entités nommées d'un corpus en utilisant au choix trois modèles : Spacy, Flair, ou un modèle Bert. Le corpus peut être au format texte ou au format XML-TEI. Dans ce derniers cas, les entités seront annotées directement dans le texte avec la balise &lt;Entity&gt; avec leur type en attribut annotation. A noter que ce processus ne conserve pas la structuration et le formatage à l'intérieur des balises parcourues ; tous les formatages à l'extérieur de ces balises sont en revanche restitués.</p>
@@ -156,11 +156,11 @@ hr{
     <form action="{{ url_for('named_entity_recognition') }}" id="metadata-form" method="post" enctype="multipart/form-data">
       {{ form.csrf_token }}
       <!-- Input format selection -->
-      <p>Format de votre corpus</p>
+      <p>{{ _("Format de votre corpus") }}</p>
       <div class="opt-wrapper">
       <input type="radio" name="input_format" id="option-1" value="txt" checked>
         <label for="option-1" class="option option-1">
-           <i class="fa-solid fa-file-lines"></i><span style="font-size: small;"> Texte</span>
+           <i class="fa-solid fa-file-lines"></i><span style="font-size: small;"> {{ _('Texte') }}</span>
            </label>
       <input type="radio" name="input_format" id="option-2" value="xml">
         <label for="option-2" class="option option-2">
@@ -169,28 +169,28 @@ hr{
       </div>
 
       <div id="xmlparams">
-          <p>Structure du document XML</p>
+          <p>{{ _("Structure du document XML") }}</p>
           <div>
-            <label for="xmlnamespace">nom de domaine</label>
+            <label for="xmlnamespace">{{ _("nom de domaine") }}</label>
             <input type="text" name="xmlnamespace" id="xmlnamespace" value="http://www.tei-c.org/ns/1.0">
           </div>
           <div>
-            <label for="balise_racine">balise racine</label>
+            <label for="balise_racine">{{ _("balise racine") }}</label>
             <input type="text" name="balise_racine" id="balise_racine" value="text" required>
           </div>
           <div>
-            <label for="balise_parcours">balises à parcourir</label>
+            <label for="balise_parcours">{{ _("balises à parcourir") }}</label>
             <input type="text" name="balise_parcours" id="balise_parcours" value="p" required>
           </div>
           <div>
-            <label for="encodage">encodage</label>
+            <label for="encodage">{{ _("encodage") }}</label>
             <input type="text" name="encodage" id="encodage" value="UTF-8" required>
          </div>
       </div>
       <hr>
 
       <!-- Select engine -->
-      <p>Moteur de REN</p>
+      <p>{{ _("Moteur de REN") }}</p>
       <div class="opt-wrapper" id="divNerEngine">
         <input type="radio" name="moteur_REN" id="opt-spacy" value="spacy" checked>
         <input type="radio" name="moteur_REN" id="opt-flair" value="flair">
@@ -210,7 +210,7 @@ hr{
       </div>
       <!-- Select model -->
       <div id="modeldiv">
-        <label for="modele_REN">Modèle à utiliser</label>
+        <label for="modele_REN">{{ _("Modèle à utiliser") }}</label>
         <select name="modele_REN" id="modele_REN">
           <option value="fr_core_news_sm">fr_core_news_sm</option>
           <option value="fr_core_news_md" selected="true">fr_core_news_md</option>
@@ -225,14 +225,14 @@ hr{
       {% endif %}
       <div class="dropzone" id="dropzoneEnt">
         <input type="file" name="entityfiles" accept="text/plain,text/xml" multiple required>
-        <p id="form_msg">Déposer le(s) fichier(s) ou cliquer ici.</p>
+        <p id="form_msg">{{ ("Déposer le(s) fichier(s) ou cliquer ici.") }}</p>
       </div>
       <input id="csrf_token" name="csrf_token" type="hidden" value="CSRF_TOKEN_STRING">
-      <button type="submit" class="centerElem" style="margin-top: 8px;">Envoyer</button>
+      <button type="submit" class="centerElem" style="margin-top: 8px;">{{ _('Envoyer') }}</button>
     </div>
   </form>
 </div><!-- fin div FR-->
-<div class="loader"><div class="loadingio-spinner-ball-205vl2x7f7n"><div class="ldio-b8p5li8dt1u"><div></div></div></div><p>Traitement en cours...</p></div>
+<div class="loader"><div class="loadingio-spinner-ball-205vl2x7f7n"><div class="ldio-b8p5li8dt1u"><div></div></div></div><p> {{ _('Traitement en cours...') }}</p></div>
 </div>
 
 <script type="text/javascript">

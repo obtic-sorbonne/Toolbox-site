@@ -12,6 +12,7 @@
 </style>
 <div class="outil">
 	<h2>Renard</h2>
+	<p>L'outil <a href="https://compnet.github.io/Renard/introduction.html" target="_blank">Renard <i class="fa-arrow-up-right-from-square"></i></a> (pour <span style="font-style:italic">Relationships Extraction from NARrative Documents</span>) permet d'extraire les entités de personnes d'un texte littéraire et visualiser les réseaux de personnages sous forme de graphes.</p>
 	<div>
 		<form action="{{ url_for('run_renard') }}" id="renard-form" method="post" enctype="multipart/form-data">
 		{{ form.csrf_token }}
@@ -33,6 +34,13 @@
 		<img src="{{ graph }}" alt="graphe" height="700px"/>
 	</div>
 	{% endif %}
+
+	<div class="bibliography">
+		<h4>Bibliographie</h4>
+		<ul>
+			<li>Labatut, V., & Bost, X. (2019). Extraction and analysis of fictional character networks: A survey. <span style="font-style: italic;">ACM Computing Surveys (CSUR)</span>, 52(5), 1-40.</li>
+		</ul>
+	</div>
 </div>
 
 <script type="text/javascript">

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-09-05 11:18+0200\n"
+"POT-Creation-Date: 2023-09-06 20:23+0200\n"
 "PO-Revision-Date: 2023-05-30 16:53+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -17,6 +17,80 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.12.1\n"
+
+#: templates/conversion_xml.html:7 templates/index.html:78
+msgid "Conversion de formats"
+msgstr "Format conversion"
+
+#: templates/conversion_xml.html:12
+msgid ""
+"permet de convertir de nombreux formats de fichiers vers les formats les "
+"plus couramment utilisés dans les humanités numériques"
+msgstr "converts many file formats to the most commonly used formats in digital humanities."
+
+#: templates/entites_nommees.html:143
+msgid "Détection des entités nommées"
+msgstr "Named entities recognition"
+
+#: templates/entites_nommees.html:145
+msgid "Dans quelle langue est votre texte ?"
+msgstr "What language is your text in?"
+
+#: templates/entites_nommees.html:147 templates/numeriser.html:44
+msgid "Français"
+msgstr "French"
+
+#: templates/entites_nommees.html:148 templates/numeriser.html:45
+msgid "Anglais"
+msgstr "English"
+
+#: templates/entites_nommees.html:149 templates/numeriser.html:47
+msgid "Espagnol"
+msgstr "Spanish"
+
+#: templates/entites_nommees.html:159
+msgid "Format de votre corpus"
+msgstr "Format of your corpus"
+
+#: templates/entites_nommees.html:163
+msgid "Texte"
+msgstr "Plain text"
+
+#: templates/entites_nommees.html:172
+msgid "Structure du document XML"
+msgstr "Structure of the XML document"
+
+#: templates/entites_nommees.html:174
+msgid "nom de domaine"
+msgstr "namespace"
+
+#: templates/entites_nommees.html:178
+msgid "balise racine"
+msgstr "root tag"
+
+#: templates/entites_nommees.html:182
+msgid "balises à parcourir"
+msgstr "tag to parse"
+
+#: templates/entites_nommees.html:186
+msgid "encodage"
+msgstr "encoding"
+
+#: templates/entites_nommees.html:193
+msgid "Moteur de REN"
+msgstr "NER engine"
+
+#: templates/entites_nommees.html:213
+msgid "Modèle à utiliser"
+msgstr "Model"
+
+#: templates/entites_nommees.html:231
+msgid "Envoyer"
+msgstr "Send"
+
+#: templates/entites_nommees.html:235 templates/numeriser.html:61
+msgid "Traitement en cours..."
+msgstr "Processing file(s)..."
 
 #: templates/etiquetage_morphosyntaxique.html:7
 #: templates/fouille_de_texte.html:10
@@ -92,18 +166,13 @@ msgstr "See the demo"
 msgid "Conversion d'images en texte"
 msgstr "Image to text conversion"
 
-#: templates/index.html:78
-msgid "Conversion de formats"
-msgstr "Format conversion"
-
 #: templates/index.html:79
 msgid "Formatage XML-TEI"
 msgstr "XML-TEI encoding"
 
 #: templates/index.html:79
-#, fuzzy
 msgid "conversion de divers formats de fichiers"
-msgstr "conversion of various file formats with Teinte."
+msgstr "conversion of various file formats"
 
 #: templates/index.html:83
 msgid "Fouille et annotation de texte"
@@ -159,101 +228,97 @@ msgid ""
 "et leur visualisation."
 msgstr "Automatic processing from OCR to entity recognition and visualization"
 
-#: templates/numeriser.html:27 templates/numeriser.html:55
+#: templates/index.html:113
+msgid "Code source"
+msgstr ""
+
+#: templates/index.html:114
+msgid "Site développé par l'équipe ObTIC et hébergé par Sorbonne Université"
+msgstr ""
+
+#: templates/index.html:114
+msgid "Ce site ne dépose pas de cookies"
+msgstr ""
+
+#: templates/numeriser.html:27 templates/numeriser.html:56
 msgid "Numériser"
 msgstr "Digitisation"
 
-#: templates/numeriser.html:30
+#: templates/numeriser.html:31
 msgid "L'outil Tesseract"
 msgstr "Tesseract tool"
 
-#: templates/numeriser.html:30
+#: templates/numeriser.html:31
 msgid "permet de numériser des imprimés"
 msgstr "allows to digitise printed matters"
 
-#: templates/numeriser.html:30
+#: templates/numeriser.html:31
 msgid "Les modèles préentraînés"
 msgstr "Pretrained models"
 
-#: templates/numeriser.html:30
+#: templates/numeriser.html:31
 msgid "liste ici"
 msgstr "list here"
 
-#: templates/numeriser.html:30
+#: templates/numeriser.html:31
 msgid ""
 "disponibles avec l'outil couvrent un large éventail de polices et sont "
 "disponibles pour de très nombreuses langues"
 msgstr "are available for many languages and fonts"
 
-#: templates/numeriser.html:31
+#: templates/numeriser.html:32
 msgid "Voir la documentation complète"
 msgstr "See full documentation"
 
-#: templates/numeriser.html:33
+#: templates/numeriser.html:34
 msgid "Informations sur l'outil"
 msgstr "Tool information"
 
-#: templates/numeriser.html:35
+#: templates/numeriser.html:36
 msgid "Format d'entrée :"
 msgstr "Input format:"
 
-#: templates/numeriser.html:36
+#: templates/numeriser.html:37
 msgid "Format généré :"
 msgstr "Output format:"
 
-#: templates/numeriser.html:36
+#: templates/numeriser.html:37
 msgid "fichier TXT"
 msgstr "TXT file"
 
-#: templates/numeriser.html:41
+#: templates/numeriser.html:42
 msgid "Modèle"
 msgstr "Model"
 
-#: templates/numeriser.html:43
-msgid "Français"
-msgstr "French"
-
-#: templates/numeriser.html:44
-msgid "Anglais"
-msgstr "English"
-
-#: templates/numeriser.html:45
+#: templates/numeriser.html:46
 msgid "Fraktur"
 msgstr "Fraktur"
 
-#: templates/numeriser.html:46
-msgid "Espagnol"
-msgstr "Spanish"
-
-#: templates/numeriser.html:47
+#: templates/numeriser.html:48
 msgid "Espagnol ancien"
 msgstr "Old Spanish"
 
-#: templates/numeriser.html:52
+#: templates/numeriser.html:53
 msgid "Déposer le(s) fichier(s) ou cliquer ici."
 msgstr "Drop the file(s) or click here."
 
-#: templates/numeriser.html:60
-msgid "Traitement en cours..."
-msgstr "Processing file(s)..."
-
-#: templates/numeriser.html:61
+#: templates/numeriser.html:62
 msgid "Vos fichiers apparaîtront une fois le traitement terminé."
 msgstr "Your files will appear once processing is complete."
 
-#: templates/numeriser.html:80
+#: templates/numeriser.html:77 templates/numeriser.html:81
 msgid "Tâches suivantes"
 msgstr "Next tasks"
 
-#: templates/numeriser.html:81
+#: templates/numeriser.html:82
 msgid "Convertir en XML-TEI"
 msgstr "Convert to XML-TEI"
 
-#: templates/numeriser.html:82
+#: templates/numeriser.html:83
 msgid "Extraire les entités nommées"
 msgstr "Extract named entities"
 
-#: templates/numeriser.html:83
+#: templates/numeriser.html:84
 msgid "Étiqueter en parties du discours"
 msgstr "Part-of-speech tagging"
 
@@ -293,7 +358,7 @@ msgstr "XML-TEI conversion"
 msgid "Correction de corpus bruités"
 msgstr "Correction of noisy corpora"
 
-#: templates/outils.html:23
+#: templates/outils.html:23 templates/outils.html:24
 msgid "Entités de lieu"
 msgstr "Location entities"
 
@@ -326,10 +391,13 @@ msgid "Réseaux de cooccurrences"
 msgstr "Co-occurrences networks"
 
 #: templates/outils.html:34
-msgid "(modèle thématique)"
+msgid "Modèle thématique (topic modelling)"
 msgstr ""
 
 #: templates/outils.html:41
 msgid "Camembert NER"
 msgstr "Bert-base NER"
+
+#~ msgid "(modèle thématique)"
+#~ msgstr ""
 
