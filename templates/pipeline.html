@@ -3,7 +3,7 @@
 {% block content %}
 <div class="selection">
   <h2>Chaînes de traitement</h2>
-  <div class="container">
+  <div class="container-visu">
     <div class="box-outil-accueil" onclick="window.location.href='{{ url_for('ocr_ner') }}'">
       <div class="rubrique-icon"></div>
       <span class="rubrique-title"><h3>OCR -> NER</h3></span>
@@ -15,6 +15,11 @@
       <span class="rubrique-text"><p>OCR -> Map<br>Entrée : textes numérisés ou non<br>Sortie : coordonnées géographiques des entités de lieux et leur visualisation sur une carte.</p></span>
     </div>
   </div>
+  <!--<div class="box-outil-visu">
+    <div class="visu-img"><a href="{{ url_for('ocr_map') }}"></a></div>
+    <span class="visu-title"><a href="{{ url_for('ocr_map') }}"><h3 style="font-family:'Comprehension', serif;">Épiméthée</h3></a></span>
+    <span class="visu-text"><p>OCR -> Map<br>Permet de visualiser les entités de lieu d'un texte de façon interactive.</p></span>
+  </div>-->
 </div>
 {% endblock %}
 {% block footer %} {{ super() }} {% endblock %}

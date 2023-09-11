@@ -56,7 +56,7 @@ babel = Babel(app)
 app.config['SESSION_TYPE'] = 'filesystem'
 app.config['SECRET_KEY'] = SECRET_KEY
 
-app.config['MAX_CONTENT_LENGTH'] = 8 * 1024 * 1024 # Limit file upload to 8MB
+app.config['MAX_CONTENT_LENGTH'] = 35 * 1024 * 1024 # Limit file upload to 35MB
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['MODEL_FOLDER'] = MODEL_FOLDER
 app.config['UTILS_FOLDER'] = UTILS_FOLDER
@@ -1178,7 +1178,6 @@ def run_ocr_map():
 		liste_contenus = []
 		for uploaded_file in uploaded_files:
 			try:
-
 				liste_contenus.append(uploaded_file.read().decode(encodage))
 			finally: # ensure file is closed
 				uploaded_file.close()
@@ -1207,6 +1206,7 @@ def run_ocr_map_intersection():
 	geolocator = Nominatim(user_agent="http")
 	# paramètres globaux
 	uploaded_files = request.files.getlist("inputfiles")
+	#print(uploaded_files)
 	# paramètres OCR
 	ocr_model = request.form['tessmodel']
 	# paramètres NER
@@ -1224,16 +1224,18 @@ def run_ocr_map_intersection():
 
 	# print(moteur_REN1, moteur_REN2)
 
-	rand_name =  'ocr_ner_' + ''.join((random.choice(string.ascii_lowercase) for x in range(8)))
-
 	if ocr_model != "raw_text":
+		rand_name =  'ocr_ner_' + ''.join((random.choice(string.ascii_lowercase) for x in range(8)))
 		contenu = ocr.tesseract_to_txt(uploaded_files, ocr_model, rand_name, ROOT_FOLDER, up_folder)
+		print("Numérisation en cours...")
 	else:
 		liste_contenus = []
 		for uploaded_file in uploaded_files:
-			# print(uploaded_file, file=sys.stderr)
+			#print(uploaded_file)
 			try:
-				liste_contenus.append(uploaded_file.read().decode(encodage))
+				f = uploaded_file.read()
+				liste_contenus.append(f.decode(encodage))
+				#print(liste_contenus)
 			finally: # ensure file is closed
 				uploaded_file.close()
 		contenu = "\n\n".join(liste_contenus)

@@ -61,7 +61,14 @@
       text-decoration: none;
       cursor: pointer;
     }
-            </style>
+
+    form p{
+      text-align: center;
+      margin:15px auto;
+      color:#8A824C;
+      font-size: medium;
+    }
+</style>
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nestablejs@latest/dist/nestable.css">
 <script src="https://cdn.jsdelivr.net/npm/nestablejs@latest/dist/nestable.js"></script>
@@ -71,8 +78,9 @@
 <div class="outil">
 
   <h3>Épiméthée</h3>
-
-  <div class="parent">
+  <p>{{ _("Cette chaîne de traitement permet d'extraire les entités nommées de lieu dans un texte (numérisé ou non), puis de récupérer leurs coordonnées géographiques (Geopy) afin de les cartographier")}}.</p>
+  
+  <div class="parent" style="margin-top: 40px;">
     <div class="col_1">
 
 <!-- see: https://www.w3schools.com/howto/howto_css_modals.asp -->
@@ -84,45 +92,52 @@
   </div>
 </div>
 
+    <div class="infos_outil" style="display: block;margin: 0 auto 15px auto;">
+        <input id="show" type=checkbox><label for="show" class="infos_title"><i class="fa-solid fa-circle-info"></i> {{ _("Informations sur l'outil") }}<i class="fa-solid fa-angle-right" style="float:right;margin-top:5px;margin-left:15px;cursor: pointer;"></i></label></p>
+        <div class="info_popped"><p>{{ _("Formats d'entrée :") }}</p>
+            <ul style="list-style-position: inside;list-style-type: '- ';">
+                <li>{{ _("pour les fichiers à OCRiser :") }} <i class="fa-regular fa-image"></i> PNG, JPG, TIFF, PDF</p></li>
+                <li>{{ _("pour les corpus numérisés :") }} <i class="fa-regular fa-file-lines"></i> TXT</li>
+            </ul>
+        <p>{{ _("Format de sortie :") }}</p>
+            <ul style="list-style-position: inside;list-style-type: '- ';">
+                <li>{{ _("Visualisation interactive") }} <i class="fa-solid fa-map-location-dot"></i></li>
+                <li>{{ _("Fichier TSV des entités de lieu et leurs coordonnées") }} <i class="fa-solid fa-file-csv"></i></li>
+            </ul></div>
+    </div>
 
-
-    <p>Cette chaîne de traitement permet d'analyser les entités nommées de lieu dans un texte (numérisé ou non) et de cartographier ces lieux. Cette chaîne se base sur les trois outils suivants:</p>
-    <ul style="padding-left: 10%;">
-        <li>Tesseract</li>
-        <li>SpaCy</li>
-        <li>geopy</li>
-    </ul>
-
-    <p>Formats possibles pour les fichiers à OCRiser : PNG, JPG, TIFF, PDF.</p>
-    <p>Formats possibles pour les textes bruts : TXT.</p>
     <div id="tess-form">
-        <form id="ocrmap-form" method="post" enctype="multipart/form-data" onsubmit="showloader('tessloader')">
+        <form id="ocrmap-form" method="post" enctype="multipart/form-data">
           {{ form.csrf_token }}
-      <fieldset>
-        <legend>Tesseract</legend>
-          <label for="model">Modèle</label>
+        
+        <div class="box-step-form" id="step_1">{{ _("Étape 1 :") }} {{ _('numérisation') }}<i class="fa-solid fa-angle-right" style="float:right;margin-top:5px;margin-left:15px;cursor: pointer;"></i></div>
+        <div class="centerElem" id="tess_opt">
+          <label for="tessmodel">{{ _('Modèle') }} (Tesseract)</label>
           <select name="tessmodel" id="tessmodel">
-            <option value="raw_text">Pas de numérisation</option>
-            <option value="fra">Français (fra)</option>
-            <option value="eng">Anglais (eng)</option>
-            <option value="frk">Fraktur (frk)</option>
-            <option value="spa_old">Espagnol ancien (spa_old)</option>
+            <option value="raw_text">{{ _("Pas de numérisation") }}</option>
+            <option value="fra">{{ _('Français') }} (fra)</option>
+            <option value="eng">{{ _('Anglais') }} (eng)</option>
+            <option value="spa">{{ _('Espagnol') }} (spa)</option>
+              <option value="spa_old">{{ _('Espagnol ancien') }} (spa_old)</option>
+            <option value="frk">{{ _('Fraktur') }} (frk)</option>
+            <option value="por">{{ _('Portugais') }} (por)</option>
           </select>
-      </fieldset>
+        </div>
 
-      <fieldset>
-          <legend>Configuration NER</legend>
-          <label for="encodage" style="display:inline-block;width:110px;">Encodage</label>
+        <div class="box-step-form" id="step_2">{{ _("Étape 2 :") }} {{ _("configuration de l'extraction d'entités") }}<i class="fa-solid fa-angle-right" style="float:right;margin-top:5px;margin-left:15px;cursor: pointer;"></i></div>
+        <div class="centerElem" id="ner_opt">
+          <p>Configuration NER</p>
+          <label for="encodage" style="display:inline-block;width:110px;">{{ _('Encodage') }}</label>
           <input type="text" name="encodage" id="encodage" value="UTF-8" required>
           <fieldset>
-              <legend>Configuration outil 1</legend>
-              <label for="moteur_REN1" style="display:inline-block;width:110px;">Moteur de REN</label>
+              <legend>{{ _("Configuration outil") }} 1</legend>
+              <label for="moteur_REN1" style="display:inline-block;width:120px;">{{ _('Moteur de REN') }}</label>
               <select name="moteur_REN1" id="moteur_REN1" onchange="detectChangeMoteur1(this)">
               <option value="spacy" selected="true">SpaCy</option>
               <option value="flair">Flair</option>
               </select>
               <br />
-              <label for="modele_REN1" style="display:inline-block;width:110px;">Modèle à utiliser</label>
+              <label for="modele_REN1" style="display:inline-block;width:120px;">{{ _('Modèle') }}</label>
               <select name="modele_REN1" id="modele_REN1">
               <option value="fr_core_news_sm">fr_core_news_sm</option>
               <option value="fr_core_news_md">fr_core_news_md</option>
@@ -131,36 +146,40 @@
               <br />
           </fieldset>
           <fieldset>
-              <legend>Configuration outil 2</legend>
-              <label for="moteur_REN2" style="display:inline-block;width:110px;">Moteur de REN</label>
+              <legend>{{ _("Configuration outil") }} 2</legend>
+              <label for="moteur_REN2" style="display:inline-block;width:120px;">{{ _('Moteur de REN') }}</label>
               <select name="moteur_REN2" id="moteur_REN2" onchange="detectChangeMoteur2(this)">
-              <option value="aucun" selected="true">aucun</option>
+              <option value="aucun" selected="true">{{ _('aucun') }}</option>
               <option value="spacy">SpaCy</option>
               <option value="flair">Flair</option>
               </select>
               <br />
-              <label for="modele_REN2" style="display:inline-block;width:110px;">Modèle à utiliser</label>
+              <label for="modele_REN2" style="display:inline-block;width:120px;">{{ _('Modèle') }}</label>
               <select name="modele_REN2" id="modele_REN2">
-              <option value="aucun" selected="true">aucun</option>
+              <option value="aucun" selected="true">{{ _('aucun') }}</option>
               </select>
               <br />
           </fieldset>
-      </fieldset>
+        </div>
 
-      <fieldset>
-        <legend>Entrée</legend>
-        <input type="file" name="inputfiles" accept="image/jpeg,image/png,application/pdf,image/tif,image/tiff,text/plain" multiple
-          required />
-        <br />
-      </fieldset>
+      <div class="centerElem">
+        <p>{{ _('Entrée') }}</p>
+        <div class="dropzone">
+        <input type="file" id="file-input" name="inputfiles" accept="image/jpeg,image/png,application/pdf,image/tif,image/tiff,text/plain" multiple required />
+          <p id="form_msg"><i class="fa-solid fa-upload"></i><br>{{ _('Déposer le(s) fichier(s) ou cliquer ici.' )}}</p>
+        </div>
+      </div>
       <input id="csrf_token" name="csrf_token" type="hidden" value="CSRF_TOKEN_STRING">
-      <button id="ocrmap-button" style="display:block;margin:auto;margin-bottom:5px;">Cartographier</button>
-      <button id="ocrmap-csv" style="display:block;margin:auto;margin-bottom:50px;">Télécharger</button>
-      <button id="ocrmap-showclusters" style="display:block;margin:auto;margin-bottom:50px;">Afficher les clusters</button>
+      <button id="ocrmap-button" style="display:block;margin:auto;margin-top:8px;">{{ _('Cartographier') }}</button>
       </form>
+    </div>
+    </div><!-- end div col_1-->
+    <div class="col_2">
+     <div id="map" style="height:60vh; width:45vw;display:block;"></div>
       <!-- Loader -->
+      <div style="width:45vw;">
       <div class="loader">
-        <p>Traitement en cours...</p>
+        <p>{{ _("Traitement en cours...") }}</p>
         <div class="loadingio-spinner-ball-205vl2x7f7n">
           <div class="ldio-b8p5li8dt1u">
             <div></div>
@@ -168,16 +187,40 @@
         </div>
       </div>
       <!--end div loader-->
+        <div id="clusters" style="height:max-content; width:45vw;display:inline-block;"></div>
+        <button id="ocrmap-csv" style="display:block;margin:auto;"><i class="fa-solid fa-download"></i> {{ _("Télécharger") }}</button>
     </div>
-    </div><!-- end div col_1-->
-    <div class="col_2">
-        <div id="map" style="height:60vh; width:45vw;display:inline-block;"></div>
-        <div id="clusters" style="height:60vh; width:45vw;display:inline-block;"></div>
     </div>
-  </div>
+  </div><!-- end div parent-->
 </div>
 
+<script>
+    /* Navigation formulaire */
+    $("#tess_opt").hide();
+    $("#step_1").on( "click", function() { $("#tess_opt").toggle() } );
+    $("#step_2").on( "click", function() { $("#ner_opt").toggle() } );
+    
+    /* MAJ de la zone de glisser-déposer */ 
+  $('form input').change(function () {
 
+    var nb_files = this.files.length;
+    $('form #form_msg').text(nb_files + " fichier(s) selectionné(s)");
+
+    /* Prévisualisation des fichiers chargés (max 3 visibles) */
+    if(nb_files > 3){
+        var num = nb_files - 3;
+        for(i=0; i < 3; i++){
+            $("#form_msg").append('<br/><span class="filename_preview">' + this.files[i].name + '</span>');
+        }
+        $("#form_msg").append('<span class="filename_preview"> et ' + num + ' autres.</span>');
+    }
+    else{
+        for(i=0; i < nb_files; i++){
+            $("#form_msg").append('<br/><span class="filename_preview">' + this.files[i].name + '</span>');
+        }
+    }
+    });
+</script>
 
 
     <script>
@@ -216,8 +259,6 @@
               }
           });
     </script>
-
-
 
     <script type="text/javascript">
         function onEachFeature(feature, layer) {
@@ -379,39 +420,46 @@ var intersection_icon = {
 var icons = [redIcon, blueIcon];
     </script>
 
-    <script type="text/javascript">
-
-      const ocrmap_button = document.querySelector('#ocrmap-button');
-      ocrmap_button.onclick = (event) => {
-          event.preventDefault();
-          $(".loader").css("display", "block");
-          var form_data = new FormData($('#ocrmap-form').get(0));
-          $.ajax({
-            type: 'POST',
-            url: "{{ url_for('run_ocr_map_intersection') }}",
-            data: form_data,
-            processData: false,
-            contentType: false,
-            success: function (response) {
-              event.preventDefault();
-              updateOverlays(response);
-              updateModal(response);
-              $(".loader").css("display", "none");
-            //~ if (response.points.length > 0) {
-                //~ updatePoints(response.points);
-            //~ } else {
-                //~ alert("Aucun lieu trouvé / aucun lieu trouvé dans la base");
-            //~ }
-        },
-        error: function (XMLHttpRequest, textStatus, errorThrown) {
-            alert(textStatus + "\n" + "status: "+XMLHttpRequest.status + "\n" + "message: "+errorThrown);
+<script type="text/javascript">
+    $("#ocrmap-csv").hide()
+    const ocrmap_button = document.querySelector('#ocrmap-button');
+    ocrmap_button.onclick = (event) => {
+        event.preventDefault();
+        if ($("#file-input")[0].checkValidity()){
+            $(".loader").css("display", "block");
+            var form_data = new FormData($('#ocrmap-form').get(0));
+            $.ajax({
+                type: 'POST',
+                url: "{{ url_for('run_ocr_map_intersection') }}",
+                data: form_data,
+                processData: false,
+                contentType: false,
+                success: function (response) {
+                event.preventDefault();
+                updateOverlays(response);
+                updateModal(response);
+                $(".loader").css("display", "none");
+                $("#ocrmap-csv").show()
+                //~ if (response.points.length > 0) {
+                    //~ updatePoints(response.points);
+                //~ } else {
+                    //~ alert("Aucun lieu trouvé / aucun lieu trouvé dans la base");
+                //~ }
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert(textStatus + "\n" + "status: "+XMLHttpRequest.status + "\n" + "message: "+errorThrown);
+            }
+            });
         }
-    });
-};
-    </script>
+        else{
+            $("#file-input")[0].reportValidity()
+        }
+};   
+
+</script>
 
     <script type="text/javascript">
-
+    
     const download_data_button = document.querySelector('#ocrmap-csv');
     download_data_button.onclick = (event) => {
         event.preventDefault();

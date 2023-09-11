@@ -31,9 +31,9 @@
     <p>{{ _ ("L'outil Tesseract") }} <a href="https://tesseract-ocr.github.io/tessdoc/" target="_blank"><i class="fa-solid fa-arrow-up-right-from-square"></i></a> {{ _('permet de numériser des imprimés')}}. {{ _('Les modèles préentraînés') }} <a href="https://github.com/tesseract-ocr/tessdata" target="_blank"> ({{ _('liste ici')}} <i class="fa-solid fa-arrow-up-right-from-square"></i>)</a> {{ _("disponibles avec l'outil couvrent un large éventail de polices et sont disponibles pour de très nombreuses langues")}}.</p>
     <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation', _anchor='doc_ocr') }}">{{ _('Voir la documentation complète') }}</a></p>
     <div class="infos_outil">
-      <p><i class="fa-solid fa-circle-info"></i> {{ _("Informations sur l'outil") }}</p>
+      <p class="infos_title"><i class="fa-solid fa-circle-info"></i> {{ _("Informations sur l'outil") }}</p>
       <p>Tesseract version 4.0.0</p>
-      <p>{{ _("Format d'entrée :")}} <i class="fa-regular fa-image"></i> PNG, JPG, TIFF, PDF</p>
+      <p>{{ _("Formats d'entrée :")}} <i class="fa-regular fa-image"></i> PNG, JPG, TIFF, PDF</p>
       <p>{{ _('Format généré :')}} <i class="fa-regular fa-file-lines"></i> {{ _('fichier TXT') }}</p>
     </div>
     <div id="tess-form">
@@ -43,9 +43,10 @@
       <select name="tessmodel" id="tessmodel" class="sel sel--black-panther">
         <option value="fra">{{ _('Français') }} (fra)</option>
         <option value="eng">{{ _('Anglais') }} (eng)</option>
-        <option value="frk">{{ _('Fraktur') }} (frk)</option>
         <option value="spa">{{ _('Espagnol') }} (spa)</option>
 	      <option value="spa_old">{{ _('Espagnol ancien') }} (spa_old)</option>
+        <option value="frk">{{ _('Fraktur') }} (frk)</option>
+        <option value="por">{{ _('Portugais') }} (por)</option>
       </select>
       <!--<input type="file" name="tessfiles" accept="image/jpeg,image/png,application/pdf,image/tif,image/tiff" multiple required/>-->
       <div class="dropzone">

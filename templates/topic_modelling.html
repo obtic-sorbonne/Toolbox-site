@@ -8,26 +8,26 @@
     <h2>Topic Modelling</h2>
     <div class="doc-box"><p>Documentation <span class="lil-arrow"></span></p></div>
     <div class="local-doc">
-        <p>La modélisation de thématiques consiste à identifier dans un corpus les groupes de termes représentatifs des thèmes de celui-ci. Pour extraire ces informations, il existe plusieurs méthodes de calcul, détaillées ci-dessous. Leur efficacité respective dépendra du type de corpus et du type d'information recherchée. Globalement, NMF est plus performant sur les textes courts [<a href="https://www.sciencedirect.com/science/article/pii/S0950705118304076" target="_blank">réf</a>].</p>
+        <p>{{ _("La modélisation de thématiques consiste à identifier dans un corpus les groupes de termes représentatifs des thèmes de celui-ci. Pour extraire ces informations, il existe plusieurs méthodes de calcul, détaillées ci-dessous. Leur efficacité respective dépendra du type de corpus et du type d'information recherchée. Globalement, NMF est plus performant sur les textes courts")}} [<a href="https://www.sciencedirect.com/science/article/pii/S0950705118304076" target="_blank">{{ _("réf") }}</a>].</p>
         <ul>
-            <li>Factorisation par matrices non négatives (NMF) : calcule en observant la fréquence et la répartition des termes dans chaque document par rapport au corpus global.</li>
-            <li>Allocation de Dirichlet latente (LDA) : calcule en se basant sur des hypothèses statistiques de présence de thématiques par document.</li>
+            <li>{{ _("Factorisation par matrices non négatives (NMF) : calcule en observant la fréquence et la répartition des termes dans chaque document par rapport au corpus global.")}}</li>
+            <li>{{ _("Allocation de Dirichlet latente (LDA) : calcule en se basant sur des hypothèses statistiques de présence de thématiques par document.")}}</li>
         </ul>
         <div>
-            <p>Format d'entrée : ensemble de fichiers au format texte (.txt)</p>
-            <p>Format de sortie : fichier CSV contenant les ensembles de mots-clés formant les thématiques détectées. Le nombre de thématiques dépend du nombre de document présents dans le corpus, mais est plafonné à 8.</p>
+            <p>{{ _("Format d'entrée :")}} {{ _("ensemble de fichiers au format texte") }} (.txt)</p>
+            <p>{{ _("Format de sortie :")}} {{ _("fichier CSV contenant les ensembles de mots-clés formant les thématiques détectées. Le nombre de thématiques dépend du nombre de document présents dans le corpus, mais est plafonné à 8.")}}</p>
         </div>
     </div>
     <div class="container_two_columns">
         <div class="item">
-            <h3>Chargement des fichiers</h3>
+            <h3>{{ _("Chargement des fichiers") }}</h3>
             <form action="{{ url_for('topic_extraction') }}" method="post" enctype="multipart/form-data" class="drag-drop-form" id="tm_form">
                 {{ form.csrf_token }}
                 <div class="form_opt">
                 <fieldset>
                     <legend>Options</legend>
                     <div style="padding:5px;">
-                        <span>Méthodes de calcul des thématiques : </span>
+                        <span>{{ _("Méthodes de calcul des thématiques :") }} </span>
                         <input type="checkbox" name="modelling-method" value="nmf" id="nmf" checked><label for="nmf">NMF</label>
                         <input type="checkbox" name="modelling-method" value="lda" id="lda" checked><label for="lda">LDA</label>
                     </div>
@@ -36,20 +36,20 @@
                             <input type="checkbox" name="lemma-opt" id="lemma_opt" onchange="optChanged()">
                             <span class="slider round"></span>
                         </label>
-                        <span class="time_alert"><i class="fa-solid fa-triangle-exclamation"></i> Le traitement peut être très long.</span>
+                        <span class="time_alert"><i class="fa-solid fa-triangle-exclamation"></i> {{ _("Le traitement peut être très long.")}}</span>
                 </fieldset>
                 </div>
                 <div class="dropzone">
                 <input type="file" name="topic_model" accept="text/plain" multiple required>
-                <p id="form_msg">Déposer le(s) fichier(s) ou cliquer ici.</p>
+                <p id="form_msg">{{ _("Déposer le(s) fichier(s) ou cliquer ici.")}}</p>
                 </div>
                 <input id="csrf_token" name="csrf_token" type="hidden" value="CSRF_TOKEN_STRING">
-                <button type="submit">Envoyer</button>
+                <button type="submit">{{ _("Envoyer") }}</button>
             </form>
         </div>
         <div class="item">
-            <h3>Résultats</h3>
-            <div class="loader"><div class="loadingio-spinner-ball-205vl2x7f7n"><div class="ldio-b8p5li8dt1u"><div></div></div></div><p>Traitement en cours...</p></div>
+            <h3>{{ _("Résultats") }}</h3>
+            <div class="loader"><div class="loadingio-spinner-ball-205vl2x7f7n"><div class="ldio-b8p5li8dt1u"><div></div></div></div><p>{{ _("Traitement en cours...") }}</p></div>
             {% if msg != "" %}
             <p>{{ msg }}</p>
             {% endif %}
@@ -65,7 +65,7 @@
                     {% endfor %}
                 </tr>
             </table>
-            <button class="download-button" id="download_btn" onclick="download_res({{ res }})"><i class="fa-solid fa-download"></i> Télécharger</button>
+            <button class="download-button" id="download_btn" onclick="download_res({{ res }})"><i class="fa-solid fa-download"></i> {{ _("Télécharger") }}</button>
         </div>
     </div>
 

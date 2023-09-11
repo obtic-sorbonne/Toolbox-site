@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-09-06 20:23+0200\n"
+"POT-Creation-Date: 2023-09-11 17:09+0200\n"
 "PO-Revision-Date: 2023-05-30 16:53+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -18,6 +18,16 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.12.1\n"
 
+#: templates/categories_semantiques.html:6 templates/fouille_de_texte.html:20
+msgid "Catégories sémantiques"
+msgstr "Semantic categories"
+
+#: templates/categories_semantiques.html:8
+msgid ""
+"Textolab est un outil à base de règles pour l'annotation automatique de "
+"textes"
+msgstr "Textolab is a rule-based tool for automatic annotation of texts"
+
 #: templates/conversion_xml.html:7 templates/index.html:78
 msgid "Conversion de formats"
 msgstr "Format conversion"
@@ -26,69 +36,175 @@ msgstr "Format conversion"
 msgid ""
 "permet de convertir de nombreux formats de fichiers vers les formats les "
 "plus couramment utilisés dans les humanités numériques"
-msgstr "converts many file formats to the most commonly used formats in digital humanities."
+msgstr ""
+"converts many file formats to the most commonly used formats in digital "
+"humanities."
 
-#: templates/entites_nommees.html:143
+#: templates/conversion_xml.html:14
+msgid "Outil Pandore"
+msgstr "Pandore tool"
+
+#: templates/conversion_xml.html:15
+msgid "L'outil ci-dessous permet de transformer un texte brut en format XML-TEI"
+msgstr "The tool below is used to transform plain text into XML-TEI format."
+
+#: templates/conversion_xml.html:15
+msgid ""
+"Il est nécessaire de spécifier les métadonnées dans le formulaire ci-"
+"dessous"
+msgstr "It is necessary to specify metadata in the form below"
+
+#: templates/conversion_xml.html:15
+msgid "Se référer au manuel TEI"
+msgstr "Refer to the TEI manual"
+
+#: templates/conversion_xml.html:15
+msgid "section fileDesc"
+msgstr "fileDesc section"
+
+#: templates/conversion_xml.html:15
+msgid "pour plus d'information sur les différents champs de l'en-tête"
+msgstr "for more information on the different header fields"
+
+#: templates/conversion_xml.html:22
+msgid "Métadonnées"
+msgstr "Metadata"
+
+#: templates/conversion_xml.html:23 templates/conversion_xml.html:30
+#: templates/conversion_xml.html:37 templates/conversion_xml.html:41
+msgid "Champ"
+msgstr "Field"
+
+#: templates/conversion_xml.html:38
+msgid "Entrer les noms des éditeurs séparés par un retour à la ligne"
+msgstr "Enter the names of the publishers separated by a newline"
+
+#: templates/conversion_xml.html:49
+msgid "Déposer le fichier ou cliquer ici."
+msgstr "Drop the file or click here."
+
+#: templates/conversion_xml.html:52 templates/numeriser.html:83
+msgid "Convertir en XML-TEI"
+msgstr "Convert to XML-TEI"
+
+#: templates/entites_nommees.html:130
 msgid "Détection des entités nommées"
 msgstr "Named entities recognition"
 
-#: templates/entites_nommees.html:145
+#: templates/entites_nommees.html:132
 msgid "Dans quelle langue est votre texte ?"
 msgstr "What language is your text in?"
 
-#: templates/entites_nommees.html:147 templates/numeriser.html:44
+#: templates/entites_nommees.html:134 templates/numeriser.html:44
+#: templates/ocr_map.html:118
 msgid "Français"
 msgstr "French"
 
-#: templates/entites_nommees.html:148 templates/numeriser.html:45
+#: templates/entites_nommees.html:135 templates/numeriser.html:45
+#: templates/ocr_map.html:119
 msgid "Anglais"
 msgstr "English"
 
-#: templates/entites_nommees.html:149 templates/numeriser.html:47
+#: templates/entites_nommees.html:136 templates/numeriser.html:46
+#: templates/ocr_map.html:120
 msgid "Espagnol"
 msgstr "Spanish"
 
-#: templates/entites_nommees.html:159
+#: templates/entites_nommees.html:139
+msgid ""
+"Cet outil permet d'identifier les entités nommées d'un corpus en "
+"utilisant au choix trois modèles : Spacy, Flair, ou un modèle Bert"
+msgstr ""
+"This tool extracts named entities from a corpus by using a choice of "
+"three models: Spacy, Flair or a Bert-based model"
+
+#: templates/entites_nommees.html:139
+msgid "Le corpus peut être au format texte ou au format XML-TEI"
+msgstr "The corpus can be in plain text or in XML-TEI format"
+
+#: templates/entites_nommees.html:139
+msgid ""
+"Dans ce dernier cas, les entités seront annotées directement dans le "
+"texte avec la balise"
+msgstr ""
+"In the latter case, the entities will be annotated directly in the "
+"textwith the"
+
+#: templates/entites_nommees.html:139
+msgid "avec leur type en attribut annotation"
+msgstr "tag, with their type in the annotation attribute"
+
+#: templates/entites_nommees.html:139
+msgid ""
+"A noter que ce processus ne conserve pas la structuration et le formatage"
+" à l'intérieur des balises parcourues ; tous les formatages à l'extérieur"
+" de ces balises sont en revanche restitués"
+msgstr ""
+"Note that this process does not preserve the structuring and formatting "
+"inside the tags it travels"
+
+#: templates/entites_nommees.html:140
+msgid ""
+"L'utilisation de cette balise &lt;Entity&gt; rend utilisable le XML en "
+"sortie dans la plateforme"
+msgstr "Using the &lt;Entity&gt; tag makes the XML output usable in"
+
+#: templates/entites_nommees.html:142
+msgid "Entités nommées"
+msgstr "Named entities"
+
+#: templates/entites_nommees.html:146
 msgid "Format de votre corpus"
 msgstr "Format of your corpus"
 
-#: templates/entites_nommees.html:163
+#: templates/entites_nommees.html:150
 msgid "Texte"
 msgstr "Plain text"
 
-#: templates/entites_nommees.html:172
+#: templates/entites_nommees.html:159
 msgid "Structure du document XML"
 msgstr "Structure of the XML document"
 
-#: templates/entites_nommees.html:174
+#: templates/entites_nommees.html:161
 msgid "nom de domaine"
 msgstr "namespace"
 
-#: templates/entites_nommees.html:178
+#: templates/entites_nommees.html:165
 msgid "balise racine"
 msgstr "root tag"
 
-#: templates/entites_nommees.html:182
+#: templates/entites_nommees.html:169
 msgid "balises à parcourir"
 msgstr "tag to parse"
 
-#: templates/entites_nommees.html:186
+#: templates/entites_nommees.html:173
 msgid "encodage"
 msgstr "encoding"
 
-#: templates/entites_nommees.html:193
+#: templates/entites_nommees.html:180 templates/ocr_map.html:134
+#: templates/ocr_map.html:150
 msgid "Moteur de REN"
 msgstr "NER engine"
 
-#: templates/entites_nommees.html:213
+#: templates/entites_nommees.html:200
 msgid "Modèle à utiliser"
 msgstr "Model"
 
-#: templates/entites_nommees.html:231
+#: templates/entites_nommees.html:215
+#: templates/etiquetage_morphosyntaxique.html:22
+#: templates/extraction_mots_cles.html:39 templates/numeriser.html:54
+#: templates/ocr_map.html:169 templates/topic_modelling.html:44
+msgid "Déposer le(s) fichier(s) ou cliquer ici."
+msgstr "Drop the file(s) or click here."
+
+#: templates/entites_nommees.html:218 templates/extraction_mots_cles.html:42
+#: templates/topic_modelling.html:47
 msgid "Envoyer"
 msgstr "Send"
 
-#: templates/entites_nommees.html:235 templates/numeriser.html:61
+#: templates/entites_nommees.html:222
+#: templates/etiquetage_morphosyntaxique.html:31 templates/numeriser.html:62
+#: templates/ocr_map.html:182 templates/topic_modelling.html:52
 msgid "Traitement en cours..."
 msgstr "Processing file(s)..."
 
@@ -97,9 +213,155 @@ msgstr "Processing file(s)..."
 msgid "Étiquetage morphosyntaxique"
 msgstr "Part-of-speech tagging"
 
+#: templates/etiquetage_morphosyntaxique.html:9
+msgid ""
+"Cette section permet d'annoter la catégorie grammaticale de chaque mot "
+"d'un texte avec"
+msgstr ""
+"This section allows you to annotate the grammatical category of each word"
+" in a text with"
+
+#: templates/etiquetage_morphosyntaxique.html:9
+msgid "l'outil SEM"
+msgstr "the SEM tool"
+
+#: templates/etiquetage_morphosyntaxique.html:9
+msgid "La liste des étiquettes est définie"
+msgstr "The tags are defined"
+
+#: templates/etiquetage_morphosyntaxique.html:9
+msgid "ici"
+msgstr "here"
+
+#: templates/etiquetage_morphosyntaxique.html:9
+msgid "Le document renvoyé est au format"
+msgstr "Output document is in"
+
+#: templates/etiquetage_morphosyntaxique.html:9
+msgid ""
+"avec deux colonnes : une pour le mot et une pour l'étiquette "
+"morphosyntaxique"
+msgstr "format with two columns: one for the word and the other for the POS tag"
+
+#: templates/etiquetage_morphosyntaxique.html:10 templates/numeriser.html:32
+msgid "Voir la documentation complète"
+msgstr "See full documentation"
+
+#: templates/etiquetage_morphosyntaxique.html:12 templates/numeriser.html:34
+#: templates/ocr_map.html:96
+msgid "Informations sur l'outil"
+msgstr "Tool information"
+
+#: templates/etiquetage_morphosyntaxique.html:13
+#: templates/topic_modelling.html:17
+msgid "Format d'entrée :"
+msgstr "Input format:"
+
+#: templates/etiquetage_morphosyntaxique.html:13
+msgid "fichier texte"
+msgstr "Text file"
+
+#: templates/etiquetage_morphosyntaxique.html:14 templates/numeriser.html:37
+msgid "Format généré :"
+msgstr "Output format:"
+
+#: templates/etiquetage_morphosyntaxique.html:14
+msgid "fichier tabulaire"
+msgstr "tabular file"
+
+#: templates/etiquetage_morphosyntaxique.html:25
+msgid "Étiqueter en morphosyntaxe"
+msgstr "Run POS tagging"
+
 #: templates/extraction_mots_cles.html:10 templates/fouille_de_texte.html:30
 msgid "Extraction de mots-clés"
 msgstr "Keyword extraction"
+
+#: templates/extraction_mots_cles.html:11
+msgid "Modèle KeyBERT"
+msgstr "KeyBERT model"
+
+#: templates/extraction_mots_cles.html:14
+msgid "Cet outil utilise le"
+msgstr "This tool uses"
+
+#: templates/extraction_mots_cles.html:14
+msgid "modèle KeyBERT"
+msgstr "KeyBERT model"
+
+#: templates/extraction_mots_cles.html:15
+msgid ""
+"Le texte est encodé au niveau de la phrase. Le modèle utilisé pour les "
+"transformers de phrases dans l'outil ci-dessous est"
+msgstr ""
+"The text is encoded at the sentence level. The model used for the "
+"sentence transformers in the tool below is"
+
+#: templates/extraction_mots_cles.html:15
+msgid "qui prend en charge 15 langues"
+msgstr "which supports 15 languages"
+
+#: templates/extraction_mots_cles.html:16
+msgid ""
+"Pour diversifier les mots-clés, ils est possible d'appliquer deux "
+"algorithmes :"
+msgstr "To diversify keywords, two algorithms can be applied:"
+
+#: templates/extraction_mots_cles.html:18
+msgid ""
+" : permet de filtrer les mots-clés candidats selon leur taux de "
+"diversité. Un taux de diversité élevé évitera les redondances ; un taux "
+"de diversité faible pourra par exemple permettre de cibler des nuances "
+"autour de thèmes principaux"
+msgstr ""
+": filters candidate keywords according to their diversity rate. A high "
+"diversity rate will avoid redundancies; a low diversity rate could, for "
+"example, target nuances surrounding major themes"
+
+#: templates/extraction_mots_cles.html:19
+msgid ""
+" : sélectionne les mots-clés qui ont le taux de similarité deux à deux le"
+" plus faible possible"
+msgstr ""
+": selects keywords that have the lowest possible two-by-two similarity "
+"rate"
+
+#: templates/extraction_mots_cles.html:24 templates/topic_modelling.html:23
+msgid "Chargement des fichiers"
+msgstr "Files upload"
+
+#: templates/extraction_mots_cles.html:29
+msgid "Méthode de calcul des mots-clés"
+msgstr "Keyword Calculation Method"
+
+#: templates/extraction_mots_cles.html:30
+msgid "Par défaut"
+msgstr "Default"
+
+#: templates/extraction_mots_cles.html:34
+msgid "Diversité"
+msgstr "Diversity"
+
+#: templates/extraction_mots_cles.html:46 templates/topic_modelling.html:51
+msgid "Résultats"
+msgstr "Results"
+
+#: templates/extraction_mots_cles.html:49
+msgid "KeyBERT défaut"
+msgstr "Default KeyBERT"
+
+#: templates/extraction_mots_cles.html:50
+msgid "Filtrage MMR"
+msgstr "MMR filtering"
+
+#: templates/extraction_mots_cles.html:51
+msgid "Filtrage MSS"
+msgstr "MSS filtering"
+
+#: templates/extraction_mots_cles.html:62 templates/ocr_map.html:191
+#: templates/topic_modelling.html:68
+msgid "Télécharger"
+msgstr "Download"
 
 #: templates/fouille_de_texte.html:6
 msgid "Tâches d'annotation automatique"
@@ -108,10 +370,6 @@ msgstr "Automatic annotation tasks"
 #: templates/fouille_de_texte.html:15 templates/index.html:84
 msgid "Reconnaissance d'entités nommées"
 msgstr "Named entity recognition"
-
-#: templates/fouille_de_texte.html:20
-msgid "Catégories sémantiques"
-msgstr "Semantic categories"
 
 #: templates/fouille_de_texte.html:26
 msgid "Extraction d'information"
@@ -122,6 +380,7 @@ msgid "Topic Modelling"
 msgstr ""
 
 #: templates/fouille_de_texte.html:40 templates/outils.html:33
+#: templates/resume_automatique.html:7
 msgid "Résumé automatique"
 msgstr "Automatic summarization"
 
@@ -230,17 +489,19 @@ msgstr "Automatic processing from OCR to entity recognition and visualization"
 
 #: templates/index.html:113
 msgid "Code source"
-msgstr ""
+msgstr "Source code"
 
 #: templates/index.html:114
 msgid "Site développé par l'équipe ObTIC et hébergé par Sorbonne Université"
 msgstr ""
+"This website is developed by the ObTIC team and hosted by Sorbonne "
+"University"
 
 #: templates/index.html:114
 msgid "Ce site ne dépose pas de cookies"
-msgstr ""
+msgstr "This site does not use cookies"
 
-#: templates/numeriser.html:27 templates/numeriser.html:56
+#: templates/numeriser.html:27 templates/numeriser.html:57
 msgid "Numériser"
 msgstr "Digitisation"
 
@@ -266,61 +527,116 @@ msgid ""
 "disponibles pour de très nombreuses langues"
 msgstr "are available for many languages and fonts"
 
-#: templates/numeriser.html:32
-msgid "Voir la documentation complète"
-msgstr "See full documentation"
-
-#: templates/numeriser.html:34
-msgid "Informations sur l'outil"
-msgstr "Tool information"
-
-#: templates/numeriser.html:36
-msgid "Format d'entrée :"
-msgstr "Input format:"
-
-#: templates/numeriser.html:37
-msgid "Format généré :"
-msgstr "Output format:"
+#: templates/numeriser.html:36 templates/ocr_map.html:97
+msgid "Formats d'entrée :"
+msgstr "Input formats:"
 
 #: templates/numeriser.html:37
 msgid "fichier TXT"
 msgstr "TXT file"
 
-#: templates/numeriser.html:42
+#: templates/numeriser.html:42 templates/ocr_map.html:115
+#: templates/ocr_map.html:140 templates/ocr_map.html:157
 msgid "Modèle"
 msgstr "Model"
 
-#: templates/numeriser.html:46
-msgid "Fraktur"
-msgstr "Fraktur"
-
-#: templates/numeriser.html:48
+#: templates/numeriser.html:47 templates/ocr_map.html:121
 msgid "Espagnol ancien"
 msgstr "Old Spanish"
 
-#: templates/numeriser.html:53
-msgid "Déposer le(s) fichier(s) ou cliquer ici."
-msgstr "Drop the file(s) or click here."
+#: templates/numeriser.html:48 templates/ocr_map.html:122
+msgid "Fraktur"
+msgstr "Fraktur"
 
-#: templates/numeriser.html:62
+#: templates/numeriser.html:49 templates/ocr_map.html:123
+msgid "Portugais"
+msgstr "Portuguese"
+
+#: templates/numeriser.html:63
 msgid "Vos fichiers apparaîtront une fois le traitement terminé."
 msgstr "Your files will appear once processing is complete."
 
-#: templates/numeriser.html:77 templates/numeriser.html:81
+#: templates/numeriser.html:78 templates/numeriser.html:82
 msgid "Tâches suivantes"
 msgstr "Next tasks"
 
-#: templates/numeriser.html:82
-msgid "Convertir en XML-TEI"
-msgstr "Convert to XML-TEI"
-
-#: templates/numeriser.html:83
+#: templates/numeriser.html:84
 msgid "Extraire les entités nommées"
 msgstr "Extract named entities"
 
-#: templates/numeriser.html:84
+#: templates/numeriser.html:85
 msgid "Étiqueter en parties du discours"
 msgstr "Part-of-speech tagging"
+
+#: templates/ocr_map.html:81
+msgid ""
+"Cette chaîne de traitement permet d'extraire les entités nommées de lieu "
+"dans un texte (numérisé ou non), puis de récupérer leurs coordonnées "
+"géographiques (Geopy) afin de les cartographier"
+msgstr ""
+"This pipeline extracts location entities from a text (digitised or not) "
+"and retrieve their geographic coordinates with Geopy before mapping them "
+"on this page"
+
+#: templates/ocr_map.html:99
+msgid "pour les fichiers à OCRiser :"
+msgstr "for files to be digitised:"
+
+#: templates/ocr_map.html:100
+msgid "pour les corpus numérisés :"
+msgstr "for digitised corpora:"
+
+#: templates/ocr_map.html:102 templates/topic_modelling.html:18
+msgid "Format de sortie :"
+msgstr "Output format:"
+
+#: templates/ocr_map.html:104
+msgid "Visualisation interactive"
+msgstr "Interactive visualisation"
+
+#: templates/ocr_map.html:105
+msgid "Fichier TSV des entités de lieu et leurs coordonnées"
+msgstr "TSV file of location entities with their coordinates"
+
+#: templates/ocr_map.html:113
+msgid "Étape 1 :"
+msgstr "Step 1:"
+
+#: templates/ocr_map.html:113
+msgid "numérisation"
+msgstr "digitisation"
+
+#: templates/ocr_map.html:117
+msgid "Pas de numérisation"
+msgstr "No digitisation"
+
+#: templates/ocr_map.html:127
+msgid "Étape 2 :"
+msgstr "Step 2:"
+
+#: templates/ocr_map.html:127
+msgid "configuration de l'extraction d'entités"
+msgstr "configure entities extraction"
+
+#: templates/ocr_map.html:130
+msgid "Encodage"
+msgstr "Encoding"
+
+#: templates/ocr_map.html:133 templates/ocr_map.html:149
+msgid "Configuration outil"
+msgstr "Configuration tool"
+
+#: templates/ocr_map.html:152 templates/ocr_map.html:159
+msgid "aucun"
+msgstr "none"
+
+#: templates/ocr_map.html:166
+msgid "Entrée"
+msgstr "Input"
+
+#: templates/ocr_map.html:173
+msgid "Cartographier"
+msgstr "Map entities"
 
 #: templates/outils.html:6
 msgid "Tâches et outils"
@@ -392,11 +708,74 @@ msgstr "Co-occurrences networks"
 
 #: templates/outils.html:34
 msgid "Modèle thématique (topic modelling)"
-msgstr ""
+msgstr "Topic modelling"
 
 #: templates/outils.html:41
 msgid "Camembert NER"
 msgstr "Bert-base NER"
+
+#: templates/resume_automatique.html:6
+msgid "Retour aux outils"
+msgstr "Back to tools"
+
+#: templates/topic_modelling.html:11
+msgid ""
+"La modélisation de thématiques consiste à identifier dans un corpus les "
+"groupes de termes représentatifs des thèmes de celui-ci. Pour extraire "
+"ces informations, il existe plusieurs méthodes de calcul, détaillées ci-"
+"dessous. Leur efficacité respective dépendra du type de corpus et du type"
+" d'information recherchée. Globalement, NMF est plus performant sur les "
+"textes courts"
+msgstr ""
+"Topic modelling consists in identifying, in a corpus, the groups of terms"
+" representative of the corpus. To extract this information, several "
+"calculation methods can be used (see below). Their effectiveness will "
+"depend on the corpus type and the type of information sought after. "
+"Overall, NMF is more effective on shorter texts"
+
+#: templates/topic_modelling.html:11
+msgid "réf"
+msgstr "ref"
+
+#: templates/topic_modelling.html:13
+msgid ""
+"Factorisation par matrices non négatives (NMF) : calcule en observant la "
+"fréquence et la répartition des termes dans chaque document par rapport "
+"au corpus global."
+msgstr ""
+"Non-negative matrix factorization (NMF): a calculation which takes into "
+"account the frequency and the distribution of terms in individual "
+"documents versus the entire corpus."
+
+#: templates/topic_modelling.html:14
+msgid ""
+"Allocation de Dirichlet latente (LDA) : calcule en se basant sur des "
+"hypothèses statistiques de présence de thématiques par document."
+msgstr ""
+"Latent Dirichlet Allocation (LDA): a calculation based on statistical "
+"hypotheses of the presence of certain themes per document."
+
+#: templates/topic_modelling.html:17
+msgid "ensemble de fichiers au format texte"
+msgstr "set of files in plain text"
+
+#: templates/topic_modelling.html:18
+msgid ""
+"fichier CSV contenant les ensembles de mots-clés formant les thématiques "
+"détectées. Le nombre de thématiques dépend du nombre de document présents"
+" dans le corpus, mais est plafonné à 8."
+msgstr ""
+"CSV file containing collections of keywords which consist of the detected"
+" themes. The number of themes depends on the number of documents in the "
+"corpus, but is limited to 8."
+
+#: templates/topic_modelling.html:30
+msgid "Méthodes de calcul des thématiques :"
+msgstr "Method of topic modelling:"
+
+#: templates/topic_modelling.html:39
+msgid "Le traitement peut être très long."
+msgstr "Processing can be time-consuming"
 
 #~ msgid "(modèle thématique)"
 #~ msgstr ""

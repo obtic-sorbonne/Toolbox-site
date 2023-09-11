@@ -103,13 +103,6 @@ form p{
   font-size: medium;
 }
 
-hr{
-  background-color:#8A824C;
-  width:50%;
-  margin:20px auto;
-  font-weight: 400;
-}
-
 #modeldiv, #xmlparams{
   width: max-content;
   margin:20px auto;
@@ -128,12 +121,6 @@ hr{
   color:#8A824C;
 }
 
-.centerElem{
-  display: block;
-  margin:auto;
-  width:max-content;
-}
-
 #modeldiv i{
   padding:15px;
 }
@@ -149,10 +136,10 @@ hr{
       <option value="spa">{{ _('Espagnol') }}</option>
     </select>
   </div>
-<p>Cet outil permet d'identifier les entités nommées d'un corpus en utilisant au choix trois modèles : Spacy, Flair, ou un modèle Bert. Le corpus peut être au format texte ou au format XML-TEI. Dans ce derniers cas, les entités seront annotées directement dans le texte avec la balise &lt;Entity&gt; avec leur type en attribut annotation. A noter que ce processus ne conserve pas la structuration et le formatage à l'intérieur des balises parcourues ; tous les formatages à l'extérieur de ces balises sont en revanche restitués.</p>
-<p>L'utilisation de cette balise &lt;Entity&gt; rend utilisable le XML en sortie dans la plateforme <a href="https://obvil.huma-num.fr/ariane">Ariane</a>.</p>
+<p>{{ _("Cet outil permet d'identifier les entités nommées d'un corpus en utilisant au choix trois modèles : Spacy, Flair, ou un modèle Bert") }}. {{ _("Le corpus peut être au format texte ou au format XML-TEI") }}. {{ _("Dans ce dernier cas, les entités seront annotées directement dans le texte avec la balise")}} &lt;Entity&gt; {{ _("avec leur type en attribut annotation") }}. {{ _("A noter que ce processus ne conserve pas la structuration et le formatage à l'intérieur des balises parcourues ; tous les formatages à l'extérieur de ces balises sont en revanche restitués") }}.</p>
+<p>{{ _("L'utilisation de cette balise &lt;Entity&gt; rend utilisable le XML en sortie dans la plateforme") }} <a href="https://obvil.huma-num.fr/ariane">Ariane</a>.</p>
   <div id="lang_fr">
-    <h4>Entités nommées (<span id="ner_title">fra</span>)</h4>
+    <h4>{{ _("Entités nommées") }} (<span id="ner_title">fra</span>)</h4>
     <form action="{{ url_for('named_entity_recognition') }}" id="metadata-form" method="post" enctype="multipart/form-data">
       {{ form.csrf_token }}
       <!-- Input format selection -->
@@ -225,7 +212,7 @@ hr{
       {% endif %}
       <div class="dropzone" id="dropzoneEnt">
         <input type="file" name="entityfiles" accept="text/plain,text/xml" multiple required>
-        <p id="form_msg">{{ ("Déposer le(s) fichier(s) ou cliquer ici.") }}</p>
+        <p id="form_msg">{{ _("Déposer le(s) fichier(s) ou cliquer ici.") }}</p>
       </div>
       <input id="csrf_token" name="csrf_token" type="hidden" value="CSRF_TOKEN_STRING">
       <button type="submit" class="centerElem" style="margin-top: 8px;">{{ _('Envoyer') }}</button>
