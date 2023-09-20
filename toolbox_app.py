@@ -21,7 +21,7 @@ from lxml import etree
 import csv
 import shutil
 from pathlib import Path
-import jamspell
+#import jamspell
 import json
 import collections
 #from txt_ner import txt_ner_params
@@ -405,7 +405,7 @@ def xmlconverter():
 		return response
 
 	return render_template("/conversion_xml")
-
+"""
 @app.route('/autocorrect', methods=["GET", "POST"])
 @stream_with_context
 def autocorrect():
@@ -459,7 +459,7 @@ def autocorrect():
 		return response
 
 	return render_template('/correction_erreur.html')
-
+"""
 #-----------------------------------------------------------------
 # FONCTIONS de traitement
 #-----------------------------------------------------------------
@@ -1430,4 +1430,4 @@ def run_renard():
 	return render_template('renard.html', form=form, graph="")
 
 if __name__ == "__main__":
-	app.run()
+	app.run(host='0.0.0.0')
