@@ -245,6 +245,7 @@ hr{
   margin:auto;
   margin-bottom: 32px;
   justify-content:center;
+  overflow-x: auto;
 }
 
 .box-outil-visu{

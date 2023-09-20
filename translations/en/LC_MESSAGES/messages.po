@@ -511,7 +511,7 @@ msgstr "Tesseract tool"
 
 #: templates/numeriser.html:31
 msgid "permet de numériser des imprimés"
-msgstr "allows to digitise printed matters"
+msgstr "facilitate digitisation of printed sources"
 
 #: templates/numeriser.html:31
 msgid "Les modèles préentraînés"
