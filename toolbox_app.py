@@ -879,7 +879,7 @@ def extract_gallica():
 	arks_list = request.form['ark_input'].split('\n')
 	res_ok = ""
 	res_err = ""
-
+	print(arks_list)
 	# Prépare le dossier résultat
 	rand_name =  'corpus_gallica_' + ''.join((random.choice(string.ascii_lowercase) for x in range(8)))
 	result_path = ROOT_FOLDER / os.path.join(UPLOAD_FOLDER, rand_name)
@@ -901,7 +901,7 @@ def extract_gallica():
 			#print('\nFAILURE - download ({}) - Exception raised: {}'.format(url, exc))
 			res_err += url + '\n'
 		
-		with open(os.path.join(result_path, 'download_report.txt'), 'wb') as report:
+		with open(os.path.join(result_path, 'download_report.txt'), 'w') as report:
 			if res_err != "":
 				report.write("Erreur de téléchargement pour : \n {}".format(res_err))
 			else:
