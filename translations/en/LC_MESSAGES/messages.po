@@ -77,7 +77,7 @@ msgstr "Field"
 
 #: templates/conversion_xml.html:38
 msgid "Entrer les noms des éditeurs séparés par un retour à la ligne"
-msgstr "Enter the names of the publishers separated by a newline"
+msgstr "Enter the names of the publishers separated by a new line"
 
 #: templates/conversion_xml.html:49
 msgid "Déposer le fichier ou cliquer ici."
@@ -141,7 +141,7 @@ msgid ""
 " de ces balises sont en revanche restitués"
 msgstr ""
 "Note that this process does not preserve the structuring and formatting "
-"inside the tags it travels"
+"inside the parsed tags"
 
 #: templates/entites_nommees.html:140
 msgid ""
@@ -408,7 +408,7 @@ msgid ""
 "recherche en humanités\n"
 "  numériques."
 msgstr ""
-"Pandore offers a set of modules allowing to facilitate \n"
+"Pandore offers a set of tools that facilitate \n"
 "the most common corpus processing tasks for digital humanities research.\n"
 
 #: templates/index.html:63
@@ -511,7 +511,7 @@ msgstr "Tesseract tool"
 
 #: templates/numeriser.html:31
 msgid "permet de numériser des imprimés"
-msgstr "allows to digitise printed matters"
+msgstr "facilitate digitisation of printed sources"
 
 #: templates/numeriser.html:31
 msgid "Les modèles préentraînés"
@@ -575,7 +575,7 @@ msgid ""
 "géographiques (Geopy) afin de les cartographier"
 msgstr ""
 "This pipeline extracts location entities from a text (digitised or not) "
-"and retrieve their geographic coordinates with Geopy before mapping them "
+"and retrieves their geographic coordinates with Geopy before mapping them "
 "on this page"
 
 #: templates/ocr_map.html:99
@@ -727,7 +727,7 @@ msgid ""
 " d'information recherchée. Globalement, NMF est plus performant sur les "
 "textes courts"
 msgstr ""
-"Topic modelling consists in identifying, in a corpus, the groups of terms"
+"Topic modelling consists of identifying, in a corpus, the groups of terms"
 " representative of the corpus. To extract this information, several "
 "calculation methods can be used (see below). Their effectiveness will "
 "depend on the corpus type and the type of information sought after. "

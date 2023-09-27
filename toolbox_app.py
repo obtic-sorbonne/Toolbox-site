@@ -92,7 +92,6 @@ def inject_conf_var():
 # ROUTES
 #-----------------------------------------------------------------
 @app.route('/')
-@app.route('/index')
 def index():
 	return render_template('index.html')
 
@@ -877,37 +876,83 @@ def topic_extraction():
 @stream_with_context
 def extract_gallica():
 	form = FlaskForm()
-	arks_list = request.form['ark_input'].split('\n')
+	input_format = request.form['input_format']
 	res_ok = ""
 	res_err = ""
+
+	# Arks dans fichier
+	if request.files['ark_upload'].filename != '':
+		f = request.files['ark_upload']
+		text = f.read()
+		arks_list = re.split(r"[~\r\n]+", text)
+	# Arks dans textarea
+	else:
+		arks_list = re.split(r"[~\r\n]+", request.form['ark_input'])
 
 	# Prépare le dossier résultat
 	rand_name =  'corpus_gallica_' + ''.join((random.choice(string.ascii_lowercase) for x in range(8)))
 	result_path = ROOT_FOLDER / os.path.join(UPLOAD_FOLDER, rand_name)
 	os.mkdir(result_path)
+
 	
-	# Parcours la liste des ARK et télécharge le fichier sur Gallica
-	for arkName in arks_list:
-		arkName = arkName.strip('\n')
-		print(arkName)
-		url = 'https://gallica.bnf.fr/ark:/12148/{}.texteBrut'.format(arkName)
-		outfile = arkName + '.txt'
-		print(outfile)
+	for arkEntry in arks_list:
+		# Vérifie si une plage de pages est indiquée
+		arkEntry = arkEntry.strip()
+		arkEntry = arkEntry.replace(' ', '\t')
+		elems = arkEntry.split('\t')
+
+		# Cas 1 : une plage est précisée
+		if len(elems) == 3:
+			arkName = elems[0]
+			debut = elems[1]
+			nb_p = elems[2]
+			suffixe = '/f' + debut + 'n' + nb_p
+
+			print("Ark et plages détectés : {}\t{}".format(arkName, suffixe))
 		
-		try:
-			with urllib.request.urlopen(url) as response, open(os.path.join(result_path, outfile), 'wb') as out_file:
-				shutil.copyfileobj(response, out_file)
-			res_ok += url + '\n'
-		except Exception as exc:
-			#print('\nFAILURE - download ({}) - Exception raised: {}'.format(url, exc))
-			res_err += url + '\n'
+		# Cas 2 : on télécharge tout le document
+		else:
+			arkName = elems[0].strip()
+			debut = 1
+			nb_p = 0
+			suffixe = ''
+			print(arkName)
+
+		if input_format == 'txt':
+			url = 'https://gallica.bnf.fr/ark:/12148/{}{}.texteBrut'.format(arkName, suffixe)
+			outfile = arkName + '.txt'
+			path_file = os.path.join(result_path, outfile)
+			
 		
-		with open(os.path.join(result_path, 'download_report.txt'), 'wb') as report:
-			if res_err != "":
-				report.write("Erreur de téléchargement pour : \n {}".format(res_err))
-			else:
-				report.write("{} documents ont bien été téléchargés.\n".format(len(arks_list)))
-				report.write(res_ok)
+		elif input_format == 'img':
+			# Parcours des pages à télécharger
+			for i in range(int(debut), int(debut) + int(nb_p)):
+				taille = get_size(arkName, i)
+				largeur = taille["width"]
+				hauteur = taille["height"]
+				url = "https://gallica.bnf.fr/iiif/ark:/12148/{}/f{}/{},{},{},{}/full/0/native.jpg".format(arkName, i, 0, 0, largeur, hauteur)
+				outfile = "{}_{:04}.jpg".format(arkName, i)
+				path_file = os.path.join(result_path, outfile)
+
+		else:
+			print("Erreur de paramètre")
+			abort(400)
+	
+	try:
+		with urllib.request.urlopen(url) as response, open(os.path.join(result_path, outfile), 'wb') as out_file:
+			shutil.copyfileobj(response, out_file)
+			
+		res_ok += url + '\n'
+	except Exception as exc:
+		#print('\nFAILURE - download ({}) - Exception raised: {}'.format(url, exc))
+		res_err += url + '\n'
+	
+	with open(os.path.join(result_path, 'download_report.txt'), 'w') as report:
+		if res_err != "":
+			report.write("Erreur de téléchargement pour : \n {}".format(res_err))
+		else:
+			report.write("{} documents ont bien été téléchargés.\n".format(len(arks_list)))
+			report.write(res_ok)
 
 	# ZIP le dossier résultat
 	if len(os.listdir(result_path)) > 0:
@@ -926,6 +971,15 @@ def extract_gallica():
 		os.remove(result_path)
 
 	return render_template('extraction_gallica', form=form)
+
+def get_size(ark, i):
+    url = "https://gallica.bnf.fr/iiif/ark:/12148/{}/f{}/info.json".format(ark, i)
+    try:
+        with urllib.request.urlopen(url) as f:
+            return json.loads(f.read())
+    except urllib.error.HTTPError as exc:
+        print("Erreur {} en récupérant {}".format(exc, url))
+        return None
 
 #-----------------------------------------------------------------
 @app.route('/bios_converter', methods=["GET", "POST"])
