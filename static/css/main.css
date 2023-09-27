@@ -6,7 +6,7 @@
   font-family: 'Poppins', sans-serif;
 }
 em {
-   font-weight: bold;
+   font-weight: 500;
    font-style: normal;
 }
 
@@ -188,6 +188,11 @@ hr{
   width:70%;
   margin:auto;
   margin-top:35px;
+}
+
+.textarea_w_msg{
+  display: flex;
+  flex-direction: column;
 }
 
 #renard_container{
@@ -536,59 +541,16 @@ display: table;
   cursor: pointer;
 }
 
-/* ------------- OLD -------------------*/
-.contact{
-  text-align:right;
-  position:absolute;
-  top:40%;
-  right:40px;
-}
-.contact i{
-  margin-right:5px;
-}
-.contact a{
-  text-decoration: none;
-  padding:3px;
+.how{
+  font-family: 'Bree Serif', serif;
+  margin:15px 0;
+  color:#8A824C;
+  font-style:italic;
+  font-weight: 300;
+  font-size:1.2em;
 }
 
-.contact-wrapper{
-  width:55%;
-  display:block;
-  margin-top:35px;
-}
-
-.contact-wrapper form{
-  margin:auto;
-  width:80%;
-}
-
-.contact-wrapper label{
-  display:inline-block;
-  width:95px;
-  float:left;
-}
-
-.contact-wrapper input{
-  display:inline-block;
-  height:36px;
-  padding:2px;
-  width:70%;
-}
-
-.contact-wrapper textarea{
-  display:inline-block;
-  width:70%;
-}
-
-.contact-wrapper button{
-  display:block;
-  margin:auto;
-}
-
-.contact-form-item{
-  margin:5px 0 5px 0;
-}
-
+/* OLD */
 .rubrique{
   margin:35px;
   padding:8px;

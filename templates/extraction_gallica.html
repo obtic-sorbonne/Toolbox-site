@@ -7,31 +7,135 @@
 		display: block;
 		text-align:center;
 		margin-top:20px;
+		margin-bottom: 40px;
 	}
 	button{
 		display: block;
 		margin:auto;
 		margin-top:8px;
 	}
-	textarea{
-		display: block;
-		margin:auto;
+	fieldset{
+		border: none;
 	}
-	label{
-		display: block;
-		margin: 7px;
+	legend{
+		color:#8A824C;
 	}
+	h3{
+		font-weight: 500;
+		color:#2B3A67;
+	}
+	.opt-wrapper{
+  display: inline-flex;
+  background: #fff;
+  height: 60px;
+  width: 100%;
+  align-items: center;
+  justify-content:center;
+  padding: 10px;
+}
+.opt-wrapper p{
+  width:max-content;
+}
+.opt-wrapper .option{
+  background: #fff;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  margin: 0 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 0 12px;
+  border: 2px solid lightgrey;
+  transition: all 0.3s ease;
+}
+.opt-wrapper .option .dot{
+  height: 20px;
+  width: 20px;
+  background: #d9d9d9;
+  border-radius: 50%;
+  position: relative;
+}
+.opt-wrapper .option .dot::before{
+  position: absolute;
+  content: "";
+  top: 4px;
+  left: 4px;
+  width: 12px;
+  height: 12px;
+  background: #008CBA;
+  border-radius: 50%;
+  opacity: 0;
+  transform: scale(1.5);
+  transition: all 0.3s ease;
+}
+input[type="radio"]{
+  display: none;
+}
+#option-1:checked:checked ~ .option-1,
+#option-2:checked:checked ~ .option-2{
+  border-color: #008CBA;
+  background: #008CBA;
+}
+
+.opt-wrapper .option span{
+  color: grey;
+  margin-left: 5px;
+}
+
+#option-1:checked:checked ~ .option-1 span,
+#option-2:checked:checked ~ .option-2 span{
+  color: #fff;
+}
+
+#option-1:checked:checked ~ .option-1 i,
+#option-2:checked:checked ~ .option-2 i{
+  color: #fff;
+}
+
 </style>
+
 <div class="outil">
 <h2>API Gallica</h2>
-<p>Les documents consultables dans Gallica sont identifiés selon un système normalisé, ARK (pour <span style="font-style:italic">Archival Resource Key</span>) qui permet de garantir la pérennité des URL. Voir la <a href="https://www.bnf.fr/fr/lidentifiant-ark-archival-resource-key#bnf-ark-qu-est-ce-que-c-est-" target="_blank">notice sur ARK</a> sur le site de la BnF.</p>
-<form action="{{ url_for('extract_gallica') }}" method="POST" enctype="multipart/form-data">
+<p>Les documents consultables dans Gallica sont identifiés selon un système normalisé, ARK (pour <span style="font-style:italic">Archival Resource Key</span>) 
+	qui permet de garantir la pérennité des URL (voir la <a href="https://www.bnf.fr/fr/lidentifiant-ark-archival-resource-key#bnf-ark-qu-est-ce-que-c-est-" target="_blank">notice sur ARK <i class="fa-solid fa-arrow-up-right-from-square"></i></a> sur le site de la BnF). Ce module permet d'<em>extraire des documents du catalogue Gallica</em> 
+	à partir de leur ARK, soit au <em>format IIIF</em>, soit au <em>format texte</em> lorsque celui-ci est disponible.</p>
+
+<div style="font-size: 0.9em;border:1px solid #8A824C; border-radius: 2px;padding:30px;margin-top: 20px;margin-bottom: 20px;">
+	<p class="how" style="margin-top:0">Comment ça marche ?</p>
+	<p>Vous pouvez charger un fichier contenant une liste d'ARK ou coller directement cette liste dans le formulaire dédié.<br> Il est possible de sélectionner une plage de pages à télécharger en indiquant le numéro de la première page désirée et le nombre de pages après celle-ci, séparés par une tabulation.</p>
+	<p style="border-left:1px solid #008CBA;padding:5px;margin:8px">Exemple :&Tab;<span style="font-family: 'Courier New', Courier, monospace;">bpt6k6138851t&Tab;144&Tab;21</span></p>
+	<p>Cette ligne vous permettra de récupérer le Livre Quatrième (pp 144 à 165) des <span style="font-style:italic">Métamorphoses</span> d'Ovide, référencé sous l'ARK <a href="https://gallica.bnf.fr/ark:/12148/bpt6k6138851t/f144.item">bpt6k6138851t</a>. Pour télécharger l'œuvre intégrale, il suffit d'indiquer uniquement l'ARK.</p>
+</div>
+<div style="margin:30px auto">
+<h3>Extraction de documents Gallica</h3>
+<form action="{{ url_for('extract_gallica') }}" method="POST" enctype="multipart/form-data" id="gallicaform">
 {{ form.csrf_token }}
-	<label for="ark_input">Liste des ARK des documents à extraire</label>
-	<span id="error_msg_ark"></span>
-	<textarea name="ark_input" id="arks" cols="15" rows="10" required placeholder="Copier les ARK ici, séparés par un retour à la ligne."></textarea>
+	<fieldset><legend>Sélection du format</legend>
+	<div class="opt-wrapper">
+		<input type="radio" name="input_format" id="option-1" value="img" checked>
+		  <label for="option-1" class="option option-1">
+			<i class="fa-regular fa-file-image"></i><span style="font-size: small;"> {{ _('Images IIIF') }}</span>
+			 </label>
+		<input type="radio" name="input_format" id="option-2" value="txt">
+		  <label for="option-2" class="option option-2">
+			<i class="fa-solid fa-file-lines"></i><span style="font-size: small;">{{ _('Texte brut') }}</span>
+		  </label>
+	</div>
+	</fieldset>
+	<p style="margin-top:15px;color:#8A824C">Liste des arks correspondant aux documents à télécharger</p>
+	<div class="container" style="width:85%">
+		<div class="dropzone">
+			<input type="file" id="ark_upload" name="ark_upload" accept="text/plain">
+			<p id="form_msg"><span style="font-size: 2em;color: #c0c0c0;"><i class="fa-solid fa-arrow-up-from-bracket"></i></span><br>Déposer un fichier ou cliquer ici.</p>
+		</div>
+		<div class="textarea_w_msg">
+			<span id="error_msg_ark"></span>
+			<textarea name="ark_input" id="arks" cols="17" rows="9" placeholder="... Ou coller les ARK ici, séparés par un retour à la ligne."></textarea>
+		</div>
+	</div>
 	<input id="csrf_token" name="csrf_token" type="hidden" value="CSRF_TOKEN_STRING">
-	<button type="submit" id="submitArk">Envoyer</button>
+	<button type="submit" id="submitArk" style="margin-top: 15px;">Envoyer</button>
 </form>
 
 <div class="loader" style="margin-top:10px">
@@ -41,6 +145,7 @@
 		<div></div>
 	  </div>
 	</div>
+</div>
 </div>
 
 <script>
@@ -52,15 +157,32 @@
     	var val = $("#arks").val();
     
     	if (regex.test(val)) {
-        	$("#error_msg_ark").html('<i class="fa-solid fa-triangle-exclamation"></i> Caractère invalide');                       
+        	$("#error_msg_ark").html('<i class="fa-solid fa-triangle-exclamation"></i> Caractère invalide');
+			$('#submitArk').attr("disabled", true);                       
     	} else {
-        	$("#error_msg_ark").text('');              
+        	$("#error_msg_ark").text(''); 
+			$('#submitArk').attr("disabled", false);             
     	}   
 	}
 
-	/* Affichage du loader */
-	$('#submitArk').click(function(){
-		$(".loader").css("display", "block");
+	/* Vérification input */
+	$("#gallicaform").submit(function(){
+		var fileName = $("#ark_upload").val();
+
+		if(!fileName && $.trim($('#arks').val()).length == 0){
+			$('#arks').val() = '';
+			alert("Sélectionner un fichier ou copier une liste d'arks.");
+			return false;
+		}
+		else{
+			$(".loader").css("display", "block");
+		}
+	});
+
+	/* MAJ de la zone de glisser-déposer */ 
+	$('form input').change(function (e) {
+		var fileName = e.target.files[0].name;
+		$('form #form_msg').text("Fichier sélectionné : " + fileName);
 	});
 </script>
 
