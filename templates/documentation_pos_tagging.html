@@ -1,0 +1,20 @@
+{% extends "index.html" %}
+{% block header %} {{ super() }} {% endblock %}
+{% block content %}
+<div class="outil">
+    <div class="entree_manuel" id="doc_postag">
+		<h3>Étiquetage morphosyntaxique</h3>
+		<p>L'étiquetage morphosyntaxique a lieu en deux étapes : le texte est d'abord tokénisé, c'est-à-dire divisé en unités analysables (ici, en mots). A chaque mot est ensuite attribué sa catégorie grammaticale.</p>
+		<p>Par exemple, le texte <span style="padding:10px; font-family: 'Courier New', Courier, monospace;">Le petit chat dort.</span> sera analysé par l'outil de cette façon :</p>
+		<table style="padding-left:30px;"">
+		  <tr><td>Le</td><td>DET</td></tr>
+		  <tr><td>petit</td><td>ADJ</td></tr>
+		  <tr><td>chat</td><td>NC</td></tr>
+		  <tr><td>dort</td><td>V</td></tr>
+		  <tr><td>.</td><td>PONCT</td></tr>
+		</table>
+	</div>
+</div>
+{% endblock %}
+{% block footer %} {{ super() }} {% endblock %}
+

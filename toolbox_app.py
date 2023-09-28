@@ -112,6 +112,14 @@ def outils():
 def documentation():
 	return render_template('documentation.html')
 
+@app.route('/documentation_ocr')
+def documentation_ocr():
+	return render_template('documentation_ocr.html')
+
+@app.route('/documentation_pos_tagging')
+def documentation_pos_tagging():
+	return render_template('documentation_pos_tagging')
+
 @app.route('/contact')
 def contact():
 	form = ContactForm()
