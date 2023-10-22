@@ -656,6 +656,7 @@ def named_entity_recognition():
 	input_format = request.form['input_format']
 	moteur_REN = request.form['moteur_REN']
 	modele_REN = request.form['modele_REN']
+	encodage = 'UTF-8' # par défaut si non XML
 
 	for f in uploaded_files:
 		filename, file_extension = os.path.splitext(f.filename)
@@ -691,11 +692,12 @@ def named_entity_recognition():
 					from txt_ner import txt_ner_params
 					entities = txt_ner_params(contenu, moteur_REN, modele_REN, encodage=encodage)
 					output_name = os.path.join(result_path, filename + ".ann")
-					writer = csv.writer(output_name, delimiter="\t")
-					for nth, entity in enumerate(entities, 1):
-						ne_type, start, end, text = entity
-						row = [f"T{nth}", f"{ne_type} {start} {end}", f"{text}"]
-						writer.writerow(row)
+					with open(output_name, 'w') as csvfile:
+						writer = csv.writer(csvfile, delimiter="\t")
+						for nth, entity in enumerate(entities, 1):
+							ne_type, start, end, text = entity
+							row = [f"T{nth}", f"{ne_type} {start} {end}", f"{text}"]
+							writer.writerow(row)
 				
 				elif moteur_REN == 'camembert':
 					from ner_camembert import ner_camembert
