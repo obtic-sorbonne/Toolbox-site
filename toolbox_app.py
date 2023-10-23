@@ -114,11 +114,15 @@ def documentation():
 
 @app.route('/documentation_ocr')
 def documentation_ocr():
-	return render_template('documentation_ocr.html')
+	return render_template('documentation/documentation_ocr.html')
 
 @app.route('/documentation_pos_tagging')
 def documentation_pos_tagging():
-	return render_template('documentation_pos_tagging')
+	return render_template('documentation/documentation_pos_tagging.html')
+
+@app.route('/documentation_ren')
+def documentation_ren():
+	return render_template('documentation/documentation_ren.html')
 
 @app.route('/contact')
 def contact():
@@ -703,6 +707,7 @@ def named_entity_recognition():
 					from ner_camembert import ner_camembert
 					output_name = os.path.join(result_path, filename + '.csv')
 					ner_camembert(contenu.decode("utf-8"), output_name, modele_REN)
+
 	
 		finally: # ensure file is closed
 			f.close()
