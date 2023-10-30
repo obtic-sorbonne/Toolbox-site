@@ -4,12 +4,13 @@
 {% block content %}
 <style>
   #tess-form{
-  padding:35px;
-  margin:20px auto;
-  /*background-color:rgba(221, 201, 180, .3);*/
-  width:800px;
-  text-align: center;
-}
+    padding:35px;
+    margin:20px auto;
+    /*background-color:rgba(221, 201, 180, .3);*/
+    width:800px;
+    text-align: center;
+  }
+
   .dropzone{
     margin:auto;
     margin-top: 8px;
@@ -20,6 +21,10 @@
     margin:auto;
     margin-top: 8px;
   }
+  
+  #add_model{
+    cursor:pointer;
+  }
 </style>
 
 <link rel="stylesheet" href="{{ url_for('static', filename= 'css/elements.css') }}">
@@ -28,29 +33,47 @@
 
 <div class="tool-box">
     <h4>Tesseract OCR</h4>
-    <p>{{ _ ("L'outil Tesseract") }} <a href="https://tesseract-ocr.github.io/tessdoc/" target="_blank"><i class="fa-solid fa-arrow-up-right-from-square"></i></a> {{ _('permet de numériser des imprimés')}}. {{ _('Les modèles préentraînés') }} <a href="https://github.com/tesseract-ocr/tessdata" target="_blank"> ({{ _('liste ici')}} <i class="fa-solid fa-arrow-up-right-from-square"></i>)</a> {{ _("disponibles avec l'outil couvrent un large éventail de polices et sont disponibles pour de très nombreuses langues")}}.</p>
+    <p>{{ _ ("L'outil Tesseract") }} <a href="https://tesseract-ocr.github.io/tessdoc/" target="_blank"><i class="fa-solid fa-arrow-up-right-from-square"></i></a> {{ _('permet de numériser des imprimés')}}. {{ _('Les modèles préentraînés') }} <a href="https://github.com/tesseract-ocr/tessdata" target="_blank"> ({{ _('liste ici')}} <i class="fa-solid fa-arrow-up-right-from-square"></i>)</a> {{ _("disponibles avec l'outil couvrent un large éventail de polices et sont disponibles pour de très nombreuses langues")}}. Pour les textes bilingues, il est possible d'utiliser conjointement deux modèles. Les modèles pour le chinois proviennent d'un <a href="https://github.com/gumblex/tessdata_chi" target="_blank">projet externe</a>.</p>
     <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_ocr') }}">{{ _('Voir la documentation complète') }}</a></p>
     <div class="infos_outil">
       <p class="infos_title"><i class="fa-solid fa-circle-info"></i> {{ _("Informations sur l'outil") }}</p>
       <p>Tesseract version 4.0.0</p>
       <p>{{ _("Formats d'entrée :")}} <i class="fa-regular fa-image"></i> PNG, JPG, TIFF, PDF</p>
       <p>{{ _('Format généré :')}} <i class="fa-regular fa-file-lines"></i> {{ _('fichier TXT') }}</p>
+      <p>Limite de taille : 50 Mo</p>
+      </p>
     </div>
     <div id="tess-form">
     <form action="{{ url_for('run_tesseract') }}" id="tesseract-form" method="post" enctype="multipart/form-data" onsubmit="showloader('loader')">
       {{ form.csrf_token }}
-      <label for="model">{{ _('Modèle') }}</label>
+      <label for="tessmodel">{{ _('Modèle') }}</label>
       <select name="tessmodel" id="tessmodel" class="sel sel--black-panther">
-        <option value="fra">{{ _('Français') }} (fra)</option>
+        <option value="fra" selected>{{ _('Français') }} (fra)</option>
         <option value="eng">{{ _('Anglais') }} (eng)</option>
-        <option value="chi_sim">{{ _('Chinois simplifié') }}</option>
-        <option value="chi_tra">{{ _('Chinois traditionnel') }}</option>
+        <option value="chi_sim">{{ _('Chinois simplifié') }} (chi_sim)</option>
+        <option value="chi_tra">{{ _('Chinois traditionnel') }} (chi_tra)</option>
         <option value="spa">{{ _('Espagnol') }} (spa)</option>
 	      <option value="spa_old">{{ _('Espagnol ancien') }} (spa_old)</option>
         <option value="frk">{{ _('Fraktur') }} (frk)</option>
+        <option value="grc">{{ _('Grec ancien') }} (grc)</option>
+        <option value="lat">{{ _('Latin') }} (lat)</option>
         <option value="por">{{ _('Portugais') }} (por)</option>
-      </select>
-      <!--<input type="file" name="tessfiles" accept="image/jpeg,image/png,application/pdf,image/tif,image/tiff" multiple required/>-->
+      </select><span style="padding:10px" id="add_model"><i class="fa-solid fa-circle-plus"></i> Ajouter</span>
+      <div id="divmodel">
+        <label for="model2">{{ _('Modèle') }}</label>
+        <select name="tessmodel" id="model2" class="sel sel--black-panther">
+          <option value="fra">{{ _('Français') }} (fra)</option>
+          <option value="eng">{{ _('Anglais') }} (eng)</option>
+          <option value="chi_sim">{{ _('Chinois simplifié') }} (chi_sim)</option>
+          <option value="chi_tra">{{ _('Chinois traditionnel') }} (chi_tra)</option>
+          <option value="spa">{{ _('Espagnol') }} (spa)</option>
+          <option value="spa_old">{{ _('Espagnol ancien') }} (spa_old)</option>
+          <option value="frk">{{ _('Fraktur') }} (frk)</option>
+          <option value="grc">{{ _('Grec ancien') }} (grc)</option>
+          <option value="lat">{{ _('Latin') }} (lat)</option>
+          <option value="por">{{ _('Portugais') }} (por)</option>
+        </select><span style="padding:10px" id="remove_model"><i class="fa-solid fa-circle-xmark"></i></span>
+      </div>
       <div class="dropzone">
         <input type="file" name="tessfiles" accept="image/jpeg,image/png,application/pdf,image/tif,image/tiff" multiple required>
         <p id="form_msg">{{ _('Déposer le(s) fichier(s) ou cliquer ici.' )}}</p>
@@ -88,6 +111,43 @@
 </div>
 
 <script>
+  $("#divmodel").hide();
+
+  $('#add_model').click(function(){
+    /* Filtrer la langue déjà sélectionnée */
+    var lang_selected = $('#tessmodel').find(":selected").val();
+    $("#divmodel").show();
+    $("#model2 option[value='"+ lang_selected +"']").hide();
+    $("#add_model").hide();
+    
+  });
+
+  $("#tessmodel").change(function(){
+    $("#model2 option").each(function()
+    {
+        $(this).show();
+    });
+    var lang_selected = $('#tessmodel').find(":selected").val();
+    $("#model2 option[value='"+ lang_selected +"']").hide();
+  });
+
+  $("#model2").change(function(){
+    $("#tessmodel option").each(function()
+    {
+        $(this).show();
+    });
+    var lang_selected = $('#model2').find(":selected").val();
+    $("#tessmodel option[value='"+ lang_selected +"']").hide();
+  });
+
+  $('#remove_model').click(function(){
+    var lang_selected = $('#tessmodel').find(":selected").val();
+    $("#model2 option[value='"+ lang_selected +"']").show();
+    $("#divmodel").hide();
+    $("#add_model").show();
+  });
+  
+
   function openNav() {
     document.getElementById("task-panel-ocr").style.width = "300px";
   }
@@ -117,6 +177,8 @@
       }
   }
 });
+
+
   </script>
 {% endblock %}
 

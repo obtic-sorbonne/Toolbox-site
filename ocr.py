@@ -9,7 +9,7 @@ import re
 
 from werkzeug.utils import secure_filename
 
-def tesseract_to_txt(uploaded_files, model, rand_name, ROOT_FOLDER, UPLOAD_FOLDER):
+def tesseract_to_txt(uploaded_files, model, model_bis, rand_name, ROOT_FOLDER, UPLOAD_FOLDER):
     # Nom de dossier aléatoire pour le résultat de la requête
     result_path = ROOT_FOLDER / os.path.join(UPLOAD_FOLDER, rand_name)
     os.mkdir(result_path)
@@ -23,6 +23,9 @@ def tesseract_to_txt(uploaded_files, model, rand_name, ROOT_FOLDER, UPLOAD_FOLDE
 
     #print("Result path : {}".format(result_path))
     #print(uploaded_files)
+    
+    if model_bis:
+    	model=model + '+' + model_bis
 
     for f in uploaded_files:
         

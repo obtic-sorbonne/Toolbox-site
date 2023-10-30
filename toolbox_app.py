@@ -56,7 +56,7 @@ babel = Babel(app)
 app.config['SESSION_TYPE'] = 'filesystem'
 app.config['SECRET_KEY'] = SECRET_KEY
 
-app.config['MAX_CONTENT_LENGTH'] = 35 * 1024 * 1024 # Limit file upload to 35MB
+app.config['MAX_CONTENT_LENGTH'] = 50 * 1024 * 1024 # Limit file upload to 35MB
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['MODEL_FOLDER'] = MODEL_FOLDER
 app.config['UTILS_FOLDER'] = UTILS_FOLDER
@@ -108,6 +108,7 @@ def outils():
 	form = SearchForm()
 	return render_template('outils.html', form=form)
 
+#-------- DOCUMENTATION ----------------------#
 @app.route('/documentation')
 def documentation():
 	return render_template('documentation.html')
@@ -123,6 +124,7 @@ def documentation_pos_tagging():
 @app.route('/documentation_ren')
 def documentation_ren():
 	return render_template('documentation/documentation_ren.html')
+#-------- FIN DOC -----------------------------#
 
 @app.route('/contact')
 def contact():
@@ -242,11 +244,15 @@ def run_tesseract():
 	if request.method == 'POST':
 		uploaded_files = request.files.getlist("tessfiles")
 		model = request.form['tessmodel']
+		if 'model2' in request.form:
+			model_bis = request.form['model2']
+		else:
+			model_bis = ''
 
 		up_folder = app.config['UPLOAD_FOLDER']
 		rand_name =  'ocr_' + ''.join((random.choice(string.ascii_lowercase) for x in range(8)))
 
-		text = ocr.tesseract_to_txt(uploaded_files, model, rand_name, ROOT_FOLDER, up_folder)
+		text = ocr.tesseract_to_txt(uploaded_files, model, model_bis, rand_name, ROOT_FOLDER, up_folder)
 		response = Response(text, mimetype='text/plain',
 							headers={"Content-disposition": "attachment; filename=" + rand_name + '.txt'})
 
@@ -1174,7 +1180,7 @@ def run_ocr_ner():
 
 	rand_name =  'ocr_ner_' + ''.join((random.choice(string.ascii_lowercase) for x in range(8)))
 	if ocr_model != "raw_text":
-		contenu = ocr.tesseract_to_txt(uploaded_files, ocr_model, rand_name, ROOT_FOLDER, up_folder)
+		contenu = ocr.tesseract_to_txt(uploaded_files, ocr_model, '', rand_name, ROOT_FOLDER, up_folder)
 	else:
 		print(uploaded_files)
 		liste_contenus = []
@@ -1242,7 +1248,7 @@ def run_ocr_map():
 
 	rand_name =  'ocr_ner_' + ''.join((random.choice(string.ascii_lowercase) for x in range(8)))
 	if ocr_model != "raw_text":
-		contenu = ocr.tesseract_to_txt(uploaded_files, ocr_model, rand_name, ROOT_FOLDER, up_folder)
+		contenu = ocr.tesseract_to_txt(uploaded_files, ocr_model, '', rand_name, ROOT_FOLDER, up_folder)
 	else:
 		liste_contenus = []
 		for uploaded_file in uploaded_files:
@@ -1295,7 +1301,7 @@ def run_ocr_map_intersection():
 
 	if ocr_model != "raw_text":
 		rand_name =  'ocr_ner_' + ''.join((random.choice(string.ascii_lowercase) for x in range(8)))
-		contenu = ocr.tesseract_to_txt(uploaded_files, ocr_model, rand_name, ROOT_FOLDER, up_folder)
+		contenu = ocr.tesseract_to_txt(uploaded_files, ocr_model, '', rand_name, ROOT_FOLDER, up_folder)
 		print("Numérisation en cours...")
 	else:
 		liste_contenus = []
