@@ -9,8 +9,9 @@
       <p>Cet outil permet d'appliquer le correcteur orthographique <a href="https://jamspell.com/">JamSpell</a> sur des corpus bruités.</p>
       <p>Format d'entrée supporté : texte brut (.txt) </p>
       <p>Encodage : UTF-8</p>
+      <p style="text-align: center;font-size: large;"><i class="fa-solid fa-triangle-exclamation"></i> Cet outil est en maintenance et est temporairement indisponible.</p>
       <div style="margin:15px;margin-bottom:100px;">
-        <fieldset>
+        <fieldset disabled>
         <legend>Correction d'erreurs</legend>
         <form action="{{ url_for('autocorrect') }}" id="correction-form" method="post" enctype="multipart/form-data">
             {{ form.csrf_token }}
