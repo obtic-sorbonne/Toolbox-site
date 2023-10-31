@@ -427,6 +427,7 @@ def xmlconverter():
 @app.route('/autocorrect', methods=["GET", "POST"])
 @stream_with_context
 def autocorrect():
+	"""
 	if request.method == 'POST':
 		uploaded_files = request.files.getlist("uploaded_files")
 
@@ -475,9 +476,9 @@ def autocorrect():
 		shutil.rmtree(result_path)
 
 		return response
-
+		"""
 	return render_template('/correction_erreur.html')
-"""
+
 #-----------------------------------------------------------------
 # FONCTIONS de traitement
 #-----------------------------------------------------------------
