@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding:utf-8 -*-
 
-from flask import Flask, abort, request, render_template, url_for, redirect, send_file, Response, stream_with_context, session
+from flask import Flask, abort, request, render_template, render_template_string, url_for, redirect, send_from_directory, Response, stream_with_context, session
 from werkzeug.utils import secure_filename
 from werkzeug.exceptions import HTTPException
 from forms import ContactForm, SearchForm
@@ -201,7 +201,8 @@ def tanagra():
 @app.route('/renard')
 def renard():
 	form = FlaskForm()
-	return render_template('renard.html', form=form, graph="")
+	return render_template('renard.html', form=form, graph="", fname="")
+
 #-----------------------------------------------------------------
 # ERROR HANDLERS
 #-----------------------------------------------------------------
@@ -1451,58 +1452,56 @@ def nermap_to_csv():
 def run_renard():
 	form = FlaskForm()
 	if request.method == 'POST':
+		min_appearances = int(request.form['min_appearances'])
 		if request.files['renard_upload'].filename != '':
 			f = request.files['renard_upload']
 
 			text = f.read()
+			text = text.decode('utf-8')
 		else:
 			text = request.form['renard_txt_input']
 		
-		rand_name =  'renard_graph_' + ''.join((random.choice(string.ascii_lowercase) for x in range(8))) + '.png'
+		rand_name =  'renard_graph_' + ''.join((random.choice(string.ascii_lowercase) for x in range(8))) + '.gexf'
 		result_path = ROOT_FOLDER / os.path.join(app.config['UPLOAD_FOLDER'], rand_name)
 		
 		from renard.pipeline import Pipeline
 		from renard.pipeline.tokenization import NLTKTokenizer
 		from renard.pipeline.ner import NLTKNamedEntityRecognizer
-		from renard.pipeline.characters_extraction import NaiveCharactersExtractor
+		from renard.pipeline.character_unification import GraphRulesCharacterUnifier
 		from renard.pipeline.graph_extraction import CoOccurrencesGraphExtractor
 		import matplotlib.pyplot as plt
 		import networkx as nx
-		from base64 import b64encode
-		from PIL import Image
-		import io
-		import numpy as np
-		import cv2
+		import base64
+
 
 		pipeline = Pipeline(
 		[
 			NLTKTokenizer(),
 			NLTKNamedEntityRecognizer(),
-			NaiveCharactersExtractor(),
+			GraphRulesCharacterUnifier(min_appearances=min_appearances),
 			CoOccurrencesGraphExtractor(co_occurences_dist=35)
 		])
 
-		out = pipeline(text.decode('utf-8'))
-		#out.export_graph_to_gexf(result_path)
-		
-		out.plot_graph()
-		plt.savefig(result_path)
-		with open(result_path, 'rb') as local_img:
-			f = local_img.read()
-		
-		npimg = np.fromstring(f,np.uint8)
-		img = cv2.imdecode(npimg,cv2.IMREAD_COLOR)
-		img = Image.fromarray(img.astype("uint8"))
-		rawBytes = io.BytesIO()
-		img.save(rawBytes, "PNG")
-		rawBytes.seek(0)
-		img_base64 = b64encode(rawBytes.getvalue()).decode('ascii')
-		mime = "image/png"
-		uri = "data:%s;base64,%s"%(mime, img_base64)
-		
-		return render_template('renard.html', form=form, graph=uri)
+		out = pipeline(text)
 
-	return render_template('renard.html', form=form, graph="")
+		# Save GEXF network
+		out.export_graph_to_gexf(result_path)
+
+		# Networkx to plot
+		nx.draw(out.characters_graph, with_labels = True)
+		img = BytesIO() # file-like object for the image
+		plt.savefig(img, format='png') # save the image to the stream
+		img.seek(0) # writing moved the cursor to the end of the file, reset
+		plt.clf() # clear pyplot
+		figdata_png = base64.b64encode(img.getvalue()).decode('ascii')
+
+		return render_template('renard.html', form=form, graph=figdata_png, fname=str(rand_name))
+
+	return render_template('renard.html', form=form, graph="", fname="")
+
+@app.route("/get_file/<path:filename>")
+def get_file(filename):
+	return send_from_directory(ROOT_FOLDER / app.config['UPLOAD_FOLDER'], filename, as_attachment=True)
 
 if __name__ == "__main__":
 	app.run()
