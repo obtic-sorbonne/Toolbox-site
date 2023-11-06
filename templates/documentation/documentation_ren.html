@@ -1,10 +1,81 @@
-{% extends "index.html" %}
-{% block header %} {{ super() }} {% endblock %}
-{% block content %}
+{% extends "index.html" %} 
 
+{% block header %} 
+  {{ super() }} 
+{% endblock %} 
+
+{% block content %} 
+<style>
+  .instruction {
+    padding: 18px;
+    background-color: rgb(250, 235, 215, 0.3);
+    margin: 15px 8px;
+  }
+
+  .instruction img {
+    display: block;
+    margin-top: 12px;
+  }
+
+  .instruction p span:first-child {
+    font-size: 1.2em;
+  }
+
+  p {
+    text-align: justify;
+  }
+</style>
 <div class="outil">
-<h2>Documentation</h2>
-</div>
-{% endblock %}
-
-{% block footer %} {{ super() }} {% endblock %}
+  <div class="entree_manuel">
+    <h2>Documentation</h2>
+    <h3>Reconnaissance des entités nommées </h3>
+    <p>La détection des entités nommées est un processus en TAL qui extrait de l’information du texte. La reconnaissance des entités nommées (REN) extrait les mentions aux sujets clés d'un texte, par exemple, les noms, les lieux, les événements, les thèmes et les sujets. Un modèle de langage parmi Spacy, Flair et Bert peut être choisi. Il est parfois difficile de savoir quel modèle peut mieux servir aux besoins du projet. Dans cette section les trois modèles utilisés par Pandore sont présentés en plus de détaille afin d’aider dans la sélection.</p>
+    <a href="https://spacy.io/usage" id="Spacy">SpaCy</a>
+    <p id="SpaCy">SpaCy est une bibliothèque Python qui facilite le traitement automatique du langage. Utilisée par plusieurs entreprises, la bibliothèque permet les tâches communes comme la tokenisation, la lemmatisation, la reconnaissance d'entité, l’analyse des dépendances, la reconnaissance de phrases et le marquage d'une partie du discours.</p>
+    <a href="https://github.com/flairNLP/flair">Flair</a>
+    <p>Flair est une bibliothèque open-source pour le traitement automatique du langage, développée par Humboldt Université de Berlin. Elle vous permet d'effectuer de nombreuses tâches comme l’étiquetage morpho-syntaxique et la détection des entités nommées. Flair utilise PyTorch, un framework qui facilite le. Pour en apprendre plus sur PyTorch, ce site est disponible. Flair peut être utile pour les projets qui traitent un petit corpus.</p>
+    <a href="https://camembert-model.fr/">CamemBERT</a>
+    <p>BERT fait référence a Bidirectional Encoder Representations from Transformers, une approche qui permet le modèle d’apprendre le sens d’un mot par l’utilisation du contexte des mots qui l’entoure. CamemBERT est une des déclinaisons de BERT taillées pour prendre spécifiquement en charge le français.</p>
+    <h3>La reconnaissance des entités nommées sur Pandore</h3>
+    <p>Actuellement, Pandore offre un traitement en trois langues; anglais, français et espagnol. Deux formats de texte sont pris en main, le format brut texte et XML-TEI.</p>
+    <div class="instruction">
+      <p>
+        <span>1. Sélectionnez le format de votre texte.</span>
+        <img src="{{ url_for('static', filename='img/capture_format_ren.png') }}">
+      </p>
+      <p>Si votre texte est en texte brut, vous pouvez tout de suite choisir quelle moteur de REN à utiliser entre SpaCy, Flair et CamemBERT, présentées ultérieurement. En plus, SpaCy a trois modèles qui offrent des variations en termes d’efficacité et de précision. </p>
+      <p> Si votre texte est en XML-TEI, il y a quatre options à définir. <img src="{{ url_for('static', filename='img/capture_structure_tei_ren.png') }}">
+      </p>
+      <p> Premièrement, <b>le nom de domaine</b> fait référence à un standard en TEI qui fournit le nom formel de l'espace de noms auquel appartiennent les éléments documentés par ses éléments fils, d’après la documentation TEI. </p>
+      <p>
+        <b>La balise racine</b> fait référence à la structure TEI, qui est structuré avec des balises, où la balise &lt;text&gt; a pour enfant &lt;p&gt; qui sera <b>la balise à parcourir </b> pour l'extraction des entités nommées. Vous pouvez définir ces paramètres selon vos besoins.
+      </p>
+      <p>Finalement UTF-8 est <b>un encodage</b> qui prend en charge les accents et les caractères spéciaux qui peuvent être présents dans votre corpus. </p>
+    </div>
+    <div class="instruction">
+      <p>
+        <span> 2. Choisissez votre moteur de REN </span>
+        <img src="{{ url_for('static', filename='img/capture_moteur_ren.png') }}">
+      </p>
+      <p> SpaCy a trois modèles :
+      <ul>
+        <li style="text-align: justify;">
+          <i class="fa-solid fa-caret-right">fr_core_news_sm</i>
+        </li>
+        <li style="text-align: justify;">
+          <i class="fa-solid fa-caret-right">fr_core_news_md</i>
+        </li>
+        <li style="text-align: justify;">
+          <i class="fa-solid fa-caret-right">fr_core_news_lg</i>
+        </li>
+      </ul>
+      </p>
+    </div>
+    <div class="instruction">
+      <p>
+        <span> 3. Déposer vos fichiers</span>
+        <img src="{{ url_for('static', filename='img/capture_fichiers_ren.png') }}">
+      <p>Vous pouvez déposer directement vos fichiers sur le repositoire ou les cherchez depuis votre ordinateur. </p>
+    </div>
+  </div>
+</div> {% endblock %} {% block footer %} {{ super() }} {% endblock %}

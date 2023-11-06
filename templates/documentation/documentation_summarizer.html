@@ -1,0 +1,60 @@
+{% extends "index.html" %} 
+
+{% block header %} 
+  {{ super() }} 
+{% endblock %} 
+
+{% block content %} 
+ <style>
+  .instruction {
+    padding: 18px;
+    background-color: rgb(250, 235, 215, 0.3);
+    margin: 15px 8px;
+  }
+
+  .instruction img {
+    display: block;
+    margin-top: 12px;
+  }
+
+  .instruction p span:first-child {
+    font-size: 1.2em;
+  }
+
+  p {
+    text-align: justify;
+  }
+</style>
+<div class="outil">
+  <div class="entree_manuel">
+    <h2>Documentation</h2>
+    <h3>Summarizer</h3>
+    <p> Résumer les textes automatiquement peut faciliter la recherche et la saisie des informations clées d'un article ou d'un site web.
+    <h3>Summarizer sur Pandore</h3>
+    <div class="instruction">
+      <p>
+        <span>1. Sélectionnez le modéle</span>
+        <img src="{{ url_for('static', filename='img/capture_summarizer_model.png') }}">
+      </p>
+      <p>Il y a trois modèles à choisir : <br>
+        <a href="https://arxiv.org/abs/1910.13461">1. facebook/bart-large-cnn</a>
+      <p>Ce modèle a été entraîné avec un corpus en anglais.</p>
+      <a href="https://github.com/google-research/pegasus">2. tuner007/pegasus_paraphrase</a>
+      <p>PEGASUS ou <i>Pre-training with Extracted Gap-sentences for Abstractive Summarization</i> est un autre modèle qui fonctionne par cacher les phrases importantes d'un texte pour créer un résumé extractif. Une explication plus détaillée se trouve <a href="https://arxiv.org/abs/1912.08777">ici</a>. </p>
+      <a href="https://github.com/csebuetnlp/xl-sum">3. csebuetnlp/mT5_multilingual_XLSum</a>
+      <p>Ce modèle a été entraîne avec un corpus en plusieurs langues y compris le yoruba et le persan, parmi beaucoup d'autres.</p>
+      </p>
+    </div>
+    <div class="instruction">
+      <p>
+        <span>2. Charger le texte à résumer</span>
+      <p>Une fois le modèle choisi, vous pouvez charger le fichier. Il y a une limite de mots de 400. Le pourcentage du texte à résumer peut être modifié par le slider. </p>
+      <img src="{{ url_for('static', filename='img/capture_summarizer_slider.png') }}" width="700">
+      <p> Vous pouvez trouver des explications plus détaillées <a href="https://github.com/obtic-sorbonne/Summarization">ici sur le GitHub du projet.</a>
+      </p>
+    </div>
+    </p>
+  </div>
+  </p>
+</div>
+</div> {% endblock %} {% block footer %} {{ super() }} {% endblock %}

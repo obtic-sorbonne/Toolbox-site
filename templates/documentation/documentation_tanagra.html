@@ -1,0 +1,69 @@
+{% extends "index.html" %}
+
+{% block header %}
+  {{ super() }}
+{% endblock %}
+
+{% block content %}
+<style>
+  .instruction {
+    padding: 18px;
+    background-color: rgba(250, 235, 215, 0.3);
+    margin: 15px 8px;
+  }
+
+  .instruction img {
+    display: block;
+    margin-top: 12px;
+  }
+
+  .instruction p span:first-child {
+    font-size: 1.2em;
+  }
+
+  p {
+    text-align: justify;
+  }
+</style>
+<div class="outil">
+  <div class="entree_manuel">
+    <h2>Documentation</h2>
+    <h3>Tanagra</h3>
+    <p> Cet outil est destiné aux chercheurs qui voudraient visualiser des lieux géographiques qui se trouvent dans leur corpus. Tanagra extrait les entités nommées géographiques d’un corpus entier ou d’un seul fichier et les cartographie. Cet outil permet la sauvegarde de cette visualisation en format .png. L'utilisateur peut choisir entre une sélection des fonds cartographiques, par exemple un fond avec le terrain physique peut être utile pour un projet qui examine l'évolution des noms utilisés pour décrire l'environnement pour une intervalle des années. Également, les données géographiques extraites du corpus ou du texte peuvent être téléchargées en format .csv. </p>
+    <h3>Tanagra sur Pandore</h3>
+    <p> À partir d’un corpus de textes, l’application permet d’identifier les noms de lieu à l’aide de l'application <a href="{{ url_for('documentation_ren') }}">SpaCy</a>. Ensuite, les lieux reconnus sont géolocalisés en utilisant une base de données, puis projetés sur une carte interactive. Les nouveaux lieux peuvent également être ajoutés à la base de données. Il est possible pour l’utilisateur de filtrer les résultats par métadonnées (titre ou date), et d’exporter les lieux cartographiés au format csv. </p>
+    <div class="instruction">
+      <p>
+        <span>1. Sélectionnez le modèle de SpaCy</span>
+        <img src="{{ url_for('static', filename='img/capture_tanagra_modele.png') }}">
+      </p>
+    </div>
+    <div class="instruction">
+      <p>
+        <span>2. Ajoutez votre fichier</span>
+        <img src="{{ url_for('static', filename='img/capture_tangagra_fichier.png') }}">
+        <br>La visualisation de sortie comprend plusieurs informations importantes. Les lieux géographiques sont affichés en ordre alphabétique. Si plusieurs options sont trouvées, vous pouvez sélectionner les plus pertinents. Par exemple entre Franche-Comté - Franche-Comté - France et Franche-Comté - Bourgogne-Franche-Comté - France. </span>
+      </p>
+      <p>
+        <span>
+          <img src="{{ url_for('static', filename='img/capture_tanagra_choix.png') }}">
+        </span>
+      </p>
+    </div>
+    <div class="instruction">
+      <p>
+        <span>3. Téléchargez des fichiers divers</span>
+      <h3>png</h3>
+      <img src="{{ url_for('static', filename='img/capture_tanagra_png.png') }}" width="600">
+      <br>
+      <h3>csv</h3>
+      <img src="{{ url_for('static', filename='img/capture_tanagra_csv.png') }}">
+      </p>
+    </div>
+  </div>
+
+{% endblock %}
+
+{% block footer %}
+  {{ super() }}
+{% endblock %}

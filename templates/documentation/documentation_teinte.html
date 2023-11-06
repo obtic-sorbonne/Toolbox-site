@@ -1,0 +1,54 @@
+{% extends "index.html" %} 
+
+{% block header %} 
+  {{ super() }} 
+{% endblock %} 
+
+{% block content %} 
+
+<style>
+  .instruction {
+    padding: 18px;
+    background-color: rgb(250, 235, 215, 0.3);
+    margin: 15px 8px;
+  }
+
+  .instruction img {
+    display: block;
+    margin-top: 12px;
+  }
+
+  .instruction p span:first-child {
+    font-size: 1.2em;
+  }
+
+  p {
+    text-align: justify;
+  }
+</style>
+<div class="outil">
+  <div class="entree_manuel">
+    <h2>Documentation</h2>
+    <h3>Teinte</h3>
+    <p> Teinte facilite une tâche souvent nécessaire dans les recherches en humanités numériques : la conversion de formats de fichiers et la conversion XML-TEI. Teinte permet la conversion des documents en formats différents, notamment <b>TEI, DOCX, HTML, EPUB, MARKDOWN.</b>
+    </p>
+    <p>Cet outil sera utile aux chercheurs qui ont besoin de travailler avec les données textuelles structurées. Par exemple, les chercheurs dont le corpus contient des fichiers epubs téléchargés d’un répertoire ouvert comme Internet Archive peuvent utiliser Teinte afin de convertir un fichier zip des epubs en TEI, un standard pour représenter, transférer et pérenniser les textes en format digital qui s'appuie sur le XML (eXtensible Markup Language).</p>
+    <h3> Teinte sur Pandore : </h3>
+    <div class="instruction">
+      <p>Pour utiliser cet outil, il ne faut que déposer vos fichiers dans la boîte ou les rechercher depuis votre ordinateur (cliquer sur “Chercher sur votre disque…”) <img src="{{ url_for('static', filename='img/capture_teinte_input.png') }}">
+      </p>
+      <p> Le fichier sortira en format choisi et peut être téléchargé. <img src="{{ url_for('static', filename='img/capture_teinte_output.png') }}">
+      </p>
+    </div>
+    <h4>Références</h4>
+    <ul>
+      <li>
+        <a href="https://github.com/OBVIL/teinte_obtic">https://github.com/OBVIL/teinte_obtic</a>
+      </li>
+    </ul>
+  </div>
+</div>
+{% endblock %} {% block footer %} {{ super() }} {% endblock %}
+
+
+
