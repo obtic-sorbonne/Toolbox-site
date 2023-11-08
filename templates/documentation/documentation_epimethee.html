@@ -29,5 +29,8 @@
   <div class="entree_manuel">
     <h2>Documentation</h2>
     <h3>Epithémée</h3>
-    <p>Dans les humanités numériques, le traitement des entités de lieu est un centre de recherche très important. Épiméthée permet de visualiser les noms géographiques extraites d’un texte ou d’un corpus. Cet outil peut servir aux chercheurs dont les axes de recherche touche aux représentations géographiques dans la littérature, ou afin de créer un réseau des correspondances reçues et envoyées pendant une intervalle de temps, parmi d’autres emplois.</p>
-    <h3>Épiméthée</h3> L’utilisation d’Épiméthée se fait dans deux étapes. Premièrement, les documents en format PNG, JPG, TIFF, PDF peuvent être numérisés. Le format de sortie est .txt. Quatre langues d’entrée sont possibles : français, anglais, espagnol (moderne et ancien) et portugais. L’écriture fraktur est aussi soutenu par Tesseract. Deuxièmement, vous serez amené.e à configurer de l’extraction d’entités. L’encodage UTF-8 fait référence à l’encodage des caractères spéciaux qui peuvent être présents dans le corpus, comme “ê, ù, α, β, γ”, par exemple. Vous pouvez trouver plus d’informations <a href="{{ url_for('ren') }}">ici</a> sur les Moteur de REN, dont il faut choisir entre SpaCy et Flair. Il faut aussi trouver le modèle. {% endblock %} {% block footer %} {{ super() }} {% endblock %}
+    <p>Épiméthée permet de visualiser sur une carte les noms de lieux extraits d’un texte ou d’un corpus. Cet outil peut par exemple servir recherches portant sur les représentations géographiques dans la littérature, ou pour visualiser un réseau des correspondances reçues et envoyées.</p>
+    <p>La chaîne de traitement Épiméthée permet de travailler avec tout type d'entrées : soit directement avec des données brutes telles que des textes non numérisés (images au format PNG, JPG, TIFF, ou PDF), soit avec des fichiers texte. </p>
+</div>
+{% endblock %}
+{% block footer %} {{ super() }} {% endblock %}
