@@ -1453,6 +1453,8 @@ def run_renard():
 	form = FlaskForm()
 	if request.method == 'POST':
 		min_appearances = int(request.form['min_appearances'])
+		lang = request.form.get('toollang')
+
 		if request.files['renard_upload'].filename != '':
 			f = request.files['renard_upload']
 
@@ -1466,21 +1468,29 @@ def run_renard():
 		
 		from renard.pipeline import Pipeline
 		from renard.pipeline.tokenization import NLTKTokenizer
-		from renard.pipeline.ner import NLTKNamedEntityRecognizer
+		from renard.pipeline.ner import NLTKNamedEntityRecognizer, BertNamedEntityRecognizer
 		from renard.pipeline.character_unification import GraphRulesCharacterUnifier
 		from renard.pipeline.graph_extraction import CoOccurrencesGraphExtractor
+		from renard.graph_utils import graph_with_names
+		from renard.plot_utils import plot_nx_graph_reasonably
 		import matplotlib.pyplot as plt
 		import networkx as nx
 		import base64
 
+		BERT_MODELS = {
+			"fra" : "Jean-Baptiste/camembert-ner",
+			"eng" : "dslim/bert-base-NER",
+			"spa" : "mrm8488/bert-spanish-cased-finetuned-ner"
+		}
+		
 
 		pipeline = Pipeline(
 		[
 			NLTKTokenizer(),
-			NLTKNamedEntityRecognizer(),
+			BertNamedEntityRecognizer(model=BERT_MODELS[lang]), #NLTKNamedEntityRecognizer(),
 			GraphRulesCharacterUnifier(min_appearances=min_appearances),
 			CoOccurrencesGraphExtractor(co_occurences_dist=35)
-		])
+		], lang = lang)
 
 		out = pipeline(text)
 
@@ -1488,7 +1498,8 @@ def run_renard():
 		out.export_graph_to_gexf(result_path)
 
 		# Networkx to plot
-		nx.draw(out.characters_graph, with_labels = True)
+		G = graph_with_names(out.characters_graph)
+		plot_nx_graph_reasonably(G)
 		img = BytesIO() # file-like object for the image
 		plt.savefig(img, format='png') # save the image to the stream
 		img.seek(0) # writing moved the cursor to the end of the file, reset

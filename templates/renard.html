@@ -23,12 +23,28 @@
 </style>
 <div class="outil">
 	<h2>Renard</h2>
-	<p>L'outil <a href="https://compnet.github.io/Renard/introduction.html" target="_blank">Renard <i class="fa-solid fa-arrow-up-right-from-square"></i></a> (pour <span style="font-style:italic">Relationships Extraction from NARrative Documents</span>) permet d'extraire les entités de personnes d'un texte littéraire et visualiser les réseaux de personnages sous forme de graphes.</p>
+	<p>L'outil <a href="https://compnet.github.io/Renard/introduction.html" target="_blank">Renard <i class="fa-solid fa-arrow-up-right-from-square"></i></a> ({{ _('pour') }} <span style="font-style:italic">Relationships Extraction from NARrative Documents</span>) {{ _ ("permet d'extraire les entités de personnes d'un texte littéraire et visualiser les réseaux de personnages sous forme de graphes") }}.</p>
+	<div class="infos_outil">
+		<p class="infos_title"><i class="fa-solid fa-circle-info"></i> {{ _("Informations sur l'outil") }}</p>
+		<p>Renard v.0.3.0</p>
+		<p>{{ _("Format d'entrée :")}} <i class="fa-regular fa-file-lines"></i> {{ _('fichier TXT') }}</p>
+		<p>{{ _('Formats générés :')}} <i class="fa-regular fa-image"></i> graphe PNG et <i class="fa-solid fa-file-code"></i> fichier GEXF</p>
+		<p>Limite de taille : 50 Mo</p>
+		</p>
+	  </div>
+	
 	<div>
 		<form action="{{ url_for('run_renard') }}" id="renard-form" method="post" enctype="multipart/form-data">
 		{{ form.csrf_token }}
 		<div id="parameters">
-			<fieldset><legend>Paramètres</legend>
+			<fieldset><legend>{{ _('Paramètres') }}</legend>
+			<label for="toollang"><i class="fa-regular fa-flag"></i> {{ _("Langue du texte") }}</label>
+			<select name="toollang" id="toollang" class="sel sel--black-panther">
+				<option value="fra" selected="true">{{ _('Français') }}</option>
+				<option value="eng">{{ _('Anglais') }}</option>
+				<option value="spa">{{ _('Espagnol') }}</option>
+			</select>
+			<br>
 			<label for="min_appearances">{{ _('Nombre minimal de mentions du personnage') }}</label>
 			<input type="number" id="min_appearances" name="min_appearances" min="1" max="50" value="10"></fieldset>
 		</div>
@@ -45,20 +61,20 @@
 		<div class="loader"><div class="loadingio-spinner-ball-205vl2x7f7n"><div class="ldio-b8p5li8dt1u"><div></div></div></div><p>Traitement en cours...</p></div>
 	</div>
 
+	{% if graph != "" %}
+	<div id="renard_visu">
+		<img style="display:block;margin:auto" src="data:image/png;base64, {{graph}}" alt="graphe" height="650px"/>
+	</div>
+	{% endif %}
+
 	{% if fname != "" %}
 	<button style="display:block;margin:20px auto;" onclick="window.location.href='{{ url_for('get_file', filename=fname) }}';">Télécharger le graphe (.gexf)</button>
 	{% endif %}
 
-	{% if graph != "" %}
-	<div id="renard_visu">
-		<img src="data:image/png;base64, {{graph}}" alt="graphe" height="500px"/>
-	</div>
-	{% endif %}
-
 	<div class="bibliography">
-		<h4>Références</h4>
+		<h4>{{ _("Références") }}</h4>
 		<ul>
-			<li>Documentation de l'outil Renard <a href="https://compnet.github.io/Renard/index.html"><i class="fa-brands fa-github"></i></a></li>
+			<li>{{ _("Documentation de l'outil Renard")}} <a href="https://compnet.github.io/Renard/index.html"><i class="fa-brands fa-github"></i></a></li>
 			<li>Labatut, V., & Bost, X. (2019). Extraction and analysis of fictional character networks: A survey. <span style="font-style: italic;">ACM Computing Surveys (CSUR)</span>, 52(5), 1-40.</li>
 		</ul>
 	</div>
