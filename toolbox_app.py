@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding:utf-8 -*-
 
-from flask import Flask, abort, request, render_template, url_for, redirect, send_file, Response, stream_with_context, session
+from flask import Flask, abort, request, render_template, url_for, redirect, send_from_directory, Response, stream_with_context, session
 from werkzeug.utils import secure_filename
 from werkzeug.exceptions import HTTPException
 from forms import ContactForm, SearchForm
@@ -1284,8 +1284,10 @@ def run_ocr_map_intersection():
 	# paramètres globaux
 	uploaded_files = request.files.getlist("inputfiles")
 	#print(uploaded_files)
+	lang = request.form.get('toollang')
 	# paramètres OCR
-	ocr_model = request.form['tessmodel']
+	#ocr_model = request.form['tessmodel']
+
 	# paramètres NER
 	up_folder = app.config['UPLOAD_FOLDER']
 	encodage = request.form['encodage']
@@ -1301,9 +1303,9 @@ def run_ocr_map_intersection():
 
 	# print(moteur_REN1, moteur_REN2)
 
-	if ocr_model != "raw_text":
+	if request.form.get("do_ocr"):
 		rand_name =  'ocr_ner_' + ''.join((random.choice(string.ascii_lowercase) for x in range(8)))
-		contenu = ocr.tesseract_to_txt(uploaded_files, ocr_model, '', rand_name, ROOT_FOLDER, up_folder)
+		contenu = ocr.tesseract_to_txt(uploaded_files, lang, '', rand_name, ROOT_FOLDER, up_folder)
 		print("Numérisation en cours...")
 	else:
 		liste_contenus = []
@@ -1454,6 +1456,8 @@ def run_renard():
 	form = FlaskForm()
 	if request.method == 'POST':
 		min_appearances = int(request.form['min_appearances'])
+		lang = request.form.get('toollang')
+
 		if request.files['renard_upload'].filename != '':
 			f = request.files['renard_upload']
 
@@ -1467,21 +1471,29 @@ def run_renard():
 		
 		from renard.pipeline import Pipeline
 		from renard.pipeline.tokenization import NLTKTokenizer
-		from renard.pipeline.ner import NLTKNamedEntityRecognizer
+		from renard.pipeline.ner import NLTKNamedEntityRecognizer, BertNamedEntityRecognizer
 		from renard.pipeline.character_unification import GraphRulesCharacterUnifier
 		from renard.pipeline.graph_extraction import CoOccurrencesGraphExtractor
+		from renard.graph_utils import graph_with_names
+		from renard.plot_utils import plot_nx_graph_reasonably
 		import matplotlib.pyplot as plt
 		import networkx as nx
 		import base64
 
+		BERT_MODELS = {
+			"fra" : "Jean-Baptiste/camembert-ner",
+			"eng" : "dslim/bert-base-NER",
+			"spa" : "mrm8488/bert-spanish-cased-finetuned-ner"
+		}
+		
 
 		pipeline = Pipeline(
 		[
 			NLTKTokenizer(),
-			NLTKNamedEntityRecognizer(),
+			BertNamedEntityRecognizer(model=BERT_MODELS[lang]), #NLTKNamedEntityRecognizer(),
 			GraphRulesCharacterUnifier(min_appearances=min_appearances),
 			CoOccurrencesGraphExtractor(co_occurences_dist=35)
-		])
+		], lang = lang)
 
 		out = pipeline(text)
 
@@ -1489,7 +1501,8 @@ def run_renard():
 		out.export_graph_to_gexf(result_path)
 
 		# Networkx to plot
-		nx.draw(out.characters_graph, with_labels = True)
+		G = graph_with_names(out.characters_graph)
+		plot_nx_graph_reasonably(G)
 		img = BytesIO() # file-like object for the image
 		plt.savefig(img, format='png') # save the image to the stream
 		img.seek(0) # writing moved the cursor to the end of the file, reset
