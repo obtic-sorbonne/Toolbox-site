@@ -109,18 +109,16 @@
     <div id="tess-form">
         <form id="ocrmap-form" method="post" enctype="multipart/form-data">
           {{ form.csrf_token }}
-        
-        <div class="box-step-form" id="step_1">{{ _("Étape 1 :") }} {{ _('numérisation') }}<i class="fa-solid fa-angle-right" style="float:right;margin-top:5px;margin-left:15px;cursor: pointer;"></i></div>
-        <div class="centerElem" id="tess_opt">
-          <label for="tessmodel">{{ _('Modèle') }} (Tesseract)</label>
-          <select name="tessmodel" id="tessmodel">
-            <option value="raw_text">{{ _("Pas de numérisation") }}</option>
-            <option value="fra">{{ _('Français') }} (fra)</option>
-            <option value="eng">{{ _('Anglais') }} (eng)</option>
-            <option value="spa">{{ _('Espagnol') }} (spa)</option>
-            <option value="por">{{ _('Portugais') }} (por)</option>
-          </select>
+        <div class="language-selection">
+        <label for="toollang"><i class="fa-regular fa-flag"></i>{{ _("Dans quelle langue est votre texte ?") }}</label>
+        <select name="toollang" id="toollang" class="sel sel--black-panther">
+            <option value="fra" selected="true">{{ _('Français') }}</option>
+            <option value="eng">{{ _('Anglais') }}</option>
+            <option value="spa">{{ _('Espagnol') }}</option>
+        </select>
         </div>
+        <div class="box-step-form" id="step_1">{{ _("Étape 1 :") }} {{ _('numérisation') }} <span style="font-style:italic">(optionnelle)</span><i class="fa-solid fa-angle-right" style="float:right;margin-top:5px;margin-left:15px;cursor: pointer;"></i></div>
+        <div id="step_ocr" style="text-align: center;margin:15px"><label for="do_ocr">Activer la numérisation</label> <input type="checkbox" id="do_ocr" name="do_ocr"/></div>
 
         <div class="box-step-form" id="step_2">{{ _("Étape 2 :") }} {{ _("configuration de l'extraction d'entités") }}<i class="fa-solid fa-angle-right" style="float:right;margin-top:5px;margin-left:15px;cursor: pointer;"></i></div>
         <div class="centerElem" id="ner_opt">
@@ -130,7 +128,7 @@
           <fieldset>
               <legend>{{ _("Configuration outil") }} 1</legend>
               <label for="moteur_REN1" style="display:inline-block;width:120px;">{{ _('Moteur de REN') }}</label>
-              <select name="moteur_REN1" id="moteur_REN1" onchange="detectChangeMoteur1(this)">
+              <select name="moteur_REN1" id="moteur_REN1" onchange="detectChangeMoteur(this, 'modele_REN1')">
               <option value="spacy" selected="true">SpaCy</option>
               <option value="flair">Flair</option>
               </select>
@@ -146,7 +144,7 @@
           <fieldset>
               <legend>{{ _("Configuration outil") }} 2</legend>
               <label for="moteur_REN2" style="display:inline-block;width:120px;">{{ _('Moteur de REN') }}</label>
-              <select name="moteur_REN2" id="moteur_REN2" onchange="detectChangeMoteur2(this)">
+              <select name="moteur_REN2" id="moteur_REN2" onchange="detectChangeMoteur(this, 'modele_REN2')">
               <option value="aucun" selected="true">{{ _('aucun') }}</option>
               <option value="spacy">SpaCy</option>
               <option value="flair">Flair</option>
@@ -194,10 +192,84 @@
 
 <script>
     /* Navigation formulaire */
-    $("#tess_opt").hide();
-    $("#step_1").on( "click", function() { $("#tess_opt").toggle() } );
+    $("#step_ocr").hide();
+    $("#step_1").on( "click", function() { $("#step_ocr").toggle() } );
     $("#step_2").on( "click", function() { $("#ner_opt").toggle() } );
+    localStorage.setItem('ner_lang', 'fra');
+
+    /* Store language */
+    $('#toollang').change(function(){
+        var lang = $('#toollang').val();
+        localStorage.setItem('ner_lang', lang);
+
+        var selected_option = $('#moteur_REN1 option:selected');
+        if (selected_option === "spacy"){
+            var html_options = availableSpacyModels(lang);
+        }
+        else if (selected_option === "flair"){
+            var html_options = availableFlairModels(lang);
+        }
+        else{
+            $("#moteur_REN1 option[value='spacy']").prop('selected', true);
+            $("#moteur_REN2 option[value='aucun']").prop('selected', true);
+            var html_options = availableSpacyModels(lang);
+        }
+        $("#modele_REN1").html(html_options);
+        $("#modele_REN2").html('<option value="aucun" selected="true">aucun</option>')
+    });
     
+    function availableSpacyModels(lang){
+        var html_options; 
+        if (lang == 'fra'){
+            html_options = `<option value="fr_core_news_sm">fr_core_news_sm</option>
+            <option value="fr_core_news_md">fr_core_news_md</option>
+            <option value="fr_core_news_lg" selected="true">fr_core_news_lg</option>`;
+        }
+        else if (lang == 'eng'){
+            html_options = `<option value="en_core_web_sm">en_core_web_sm</option>
+            <option value="en_core_web_md">en_core_web_md</option>
+            <option value="en_core_web_lg" selected="true">en_core_web_lg</option>`;
+        }
+        else if (lang == 'spa'){
+            html_options = `<option value="es_core_news_sm">es_core_news_sm</option>
+            <option value="es_core_news_md">es_core_news_md</option>
+            <option value="es_core_news_lg" selected="true">es_core_news_lg</option>`;
+        }
+        return html_options;
+    }
+
+    function availableFlairModels(lang){
+        var html_options; 
+        if (lang == 'fra'){
+            html_options = `<option value="flair/ner-french">flair/ner-french</option>`;
+        }
+        else if (lang == 'eng'){
+            html_options = `<option value="flair/ner-english">flair/ner-english</option>`;
+        }
+        else if (lang == 'spa'){
+            html_options = `<option value="flair/ner-spanish-large">flair/ner-spanish-large</option>`;
+        }
+        return html_options;
+    }
+
+    function detectChangeMoteur(moteurREN, modelREN) {
+      var lang = localStorage.getItem('ner_lang');
+      var html_options_spacy = availableSpacyModels(lang);
+      var html_options_flair = availableFlairModels(lang);
+
+      var moteur = moteurREN.value;
+      if (moteur === "spacy") {
+        $('#' + modelREN).html(html_options_spacy);
+      }
+      else if (moteur === "flair") {
+        $('#' + modelREN).html(html_options_flair);
+      }
+      else if (moteur === "aucun"){
+        $('#' + modelREN).html('<option value="aucun" selected="true">aucun</option>');
+      }
+  }
+
+
     /* MAJ de la zone de glisser-déposer */ 
   $('form input').change(function () {
 
@@ -481,34 +553,6 @@ var icons = [redIcon, blueIcon];
         });
     };
     </script>
-
-<script type="text/javascript">
-  function detectChangeMoteur1(moteurREN) {
-      var modeleREN = document.getElementById("modele_REN1");
-      if (moteurREN.value === "spacy") {
-          modeleREN.innerHTML = `
-          <option value="fr_core_news_sm">fr_core_news_sm</option>
-          <option value="fr_core_news_md">fr_core_news_md</option>
-          <option value="fr_core_news_lg" selected="true">fr_core_news_lg</option>`;
-      } else if (moteurREN.value === "flair") {
-          modeleREN.innerHTML = '<option value="flair/ner-french" selected="true">flair/ner-french</option>';
-      }
-  }
-
-  function detectChangeMoteur2(moteurREN) {
-      var modeleREN = document.getElementById("modele_REN2");
-      if (moteurREN.value === "spacy") {
-          modeleREN.innerHTML = `
-          <option value="fr_core_news_sm">fr_core_news_sm</option>
-          <option value="fr_core_news_md">fr_core_news_md</option>
-          <option value="fr_core_news_lg" selected="true">fr_core_news_lg</option>`;
-      } else if (moteurREN.value === "flair") {
-          modeleREN.innerHTML = '<option value="flair/ner-french" selected="true">flair/ner-french</option>';
-      } else if (moteurREN.value === "aucun") {
-          modeleREN.innerHTML = '<option value="aucun" selected="true">aucun</option>';
-      }
-  }
-  </script>
 
 <script>
     var modal = document.getElementById('modal-clusters');

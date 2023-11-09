@@ -1283,8 +1283,10 @@ def run_ocr_map_intersection():
 	# paramètres globaux
 	uploaded_files = request.files.getlist("inputfiles")
 	#print(uploaded_files)
+	lang = request.form.get('toollang')
 	# paramètres OCR
-	ocr_model = request.form['tessmodel']
+	#ocr_model = request.form['tessmodel']
+
 	# paramètres NER
 	up_folder = app.config['UPLOAD_FOLDER']
 	encodage = request.form['encodage']
@@ -1300,9 +1302,9 @@ def run_ocr_map_intersection():
 
 	# print(moteur_REN1, moteur_REN2)
 
-	if ocr_model != "raw_text":
+	if request.form.get("do_ocr"):
 		rand_name =  'ocr_ner_' + ''.join((random.choice(string.ascii_lowercase) for x in range(8)))
-		contenu = ocr.tesseract_to_txt(uploaded_files, ocr_model, '', rand_name, ROOT_FOLDER, up_folder)
+		contenu = ocr.tesseract_to_txt(uploaded_files, lang, '', rand_name, ROOT_FOLDER, up_folder)
 		print("Numérisation en cours...")
 	else:
 		liste_contenus = []
