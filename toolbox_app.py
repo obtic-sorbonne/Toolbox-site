@@ -901,6 +901,7 @@ def extract_gallica():
 	input_format = request.form['input_format']
 	res_ok = ""
 	res_err = ""
+	res = ""
 
 	# Arks dans fichier
 	if request.files['ark_upload'].filename != '':
@@ -929,8 +930,6 @@ def extract_gallica():
 			debut = elems[1]
 			nb_p = elems[2]
 			suffixe = '/f' + debut + 'n' + nb_p
-
-			print("Ark et plages détectés : {}\t{}".format(arkName, suffixe))
 		
 		# Cas 2 : on télécharge tout le document
 		else:
@@ -938,42 +937,57 @@ def extract_gallica():
 			debut = 1
 			nb_p = 0
 			suffixe = ''
-			print(arkName)
 
 		if input_format == 'txt':
 			url = 'https://gallica.bnf.fr/ark:/12148/{}{}.texteBrut'.format(arkName, suffixe)
-			outfile = arkName + '.txt'
+			outfile = arkName + '.html'
 			path_file = os.path.join(result_path, outfile)
-			
+			try:
+				with urllib.request.urlopen(url) as response, open(path_file, 'wb') as out_file:
+					shutil.copyfileobj(response, out_file)
+				res_ok += url + '\n'
+			except Exception as exc:
+				res_err += url + '\n'
 		
 		elif input_format == 'img':
+			# Nb de pages à télécharger : si tout le document, aller chercher l'info dans le service pagination de l'API
+			if nb_p == 0:
+				url_pagination = "https://gallica.bnf.fr/services/Pagination?ark={}".format(arkName)
+				try:
+					with urllib.request.urlopen(url_pagination) as response:
+						soup = BeautifulSoup(response.read().decode('utf-8'), features="xml")
+						nb_p = soup.find('nbVueImages').get_text()
+				except Exception as exc:
+					print(exc)
+
 			# Parcours des pages à télécharger
-			for i in range(int(debut), int(debut) + int(nb_p)):
+			for i in range(int(debut), int(debut) + int(nb_p) + 1):
 				taille = get_size(arkName, i)
 				largeur = taille["width"]
 				hauteur = taille["height"]
 				url = "https://gallica.bnf.fr/iiif/ark:/12148/{}/f{}/{},{},{},{}/full/0/native.jpg".format(arkName, i, 0, 0, largeur, hauteur)
+				print(url)
 				outfile = "{}_{:04}.jpg".format(arkName, i)
 				path_file = os.path.join(result_path, outfile)
+				try:
+					with urllib.request.urlopen(url) as response, open(path_file, 'wb') as out_file:
+						shutil.copyfileobj(response, out_file)
+					res_ok += url + '\n'
+				except Exception as exc:
+					res_err += url + '\n'
 
 		else:
 			print("Erreur de paramètre")
 			abort(400)
 	
-	try:
-		with urllib.request.urlopen(url) as response, open(os.path.join(result_path, outfile), 'wb') as out_file:
-			shutil.copyfileobj(response, out_file)
-			
-		res_ok += url + '\n'
-	except Exception as exc:
-		#print('\nFAILURE - download ({}) - Exception raised: {}'.format(url, exc))
-		res_err += url + '\n'
+
 	
 	with open(os.path.join(result_path, 'download_report.txt'), 'w') as report:
 		if res_err != "":
 			report.write("Erreur de téléchargement pour : \n {}".format(res_err))
 		else:
-			report.write("{} documents ont bien été téléchargés.\n".format(len(arks_list)))
+			res = len(arks_list)
+			report.write("{} documents ont bien été téléchargés.\n".format(res))
 			report.write(res_ok)
 
 	# ZIP le dossier résultat
