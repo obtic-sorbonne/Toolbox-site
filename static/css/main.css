@@ -833,25 +833,27 @@ button:hover{
   transition: all .2s ease;
 }
 
-#urlform textarea{
-  width:70%;
-  padding:3px 5px;
-}
 
 #urlform input[type=text]{
 	margin:8px;
-	width:60%;
+	width:700px;
 }
+#urlform input[type=checkbox]{
+	margin:10px;
+}
+
 #urlform .addbutton{
   padding:8px;
-  background-color:#111C2D;
+  background-color:#2b3a67ff;;
   color:#fff;
   border-radius:3px;
-  display:inline-block;
-  margin:8px;
+  display:block;
+  width: fit-content;
+  margin-left:75%;
 }
-.addbutton:hover{
-  cursor:pointer;
+#urlform .addbutton:hover{
+  cursor: pointer;
+  background-color: #1ABC9C;
 }
 
 #divform{

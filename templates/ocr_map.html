@@ -161,7 +161,7 @@
       <div class="centerElem">
         <p>{{ _('Entrée') }}</p>
         <div class="dropzone">
-        <input type="file" id="file-input" name="inputfiles" accept="image/jpeg,image/png,application/pdf,image/tif,image/tiff,text/plain" multiple required />
+        <input type="file" id="file-input" name="inputfiles" accept="image/jpeg,image/png,application/pdf,image/tif,image/tiff,text/plain" multiple required onchange="fileValidation()"/>
           <p id="form_msg"><i class="fa-solid fa-upload"></i><br>{{ _('Déposer le(s) fichier(s) ou cliquer ici.' )}}</p>
         </div>
       </div>
@@ -290,6 +290,19 @@
         }
     }
     });
+
+    function fileValidation() {
+        var fileInput = document.getElementById('file-input');
+        var filePath = fileInput.value;       
+        // Allowing file type
+        var allowedExtensions = /(\.jpg|\.jpeg|\.|\.pdf|\.tif|\.tiff|\.png|\.txt)$/i;
+             
+        if (!allowedExtensions.exec(filePath)) {
+            alert("Ce type de fichier n'est pas reconnu. Extensions possibles : TXT, PNG, JPG, TIFF, PDF");
+            fileInput.value = '';
+            return false;
+        }
+}
 </script>
 
 

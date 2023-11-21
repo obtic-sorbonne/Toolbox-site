@@ -1,10 +1,15 @@
 {% extends "index.html" %}
 {% block header %} {{ super() }} {% endblock %}
 {% block content %}
+<style>
+	
+</style>
 <div class="outil">
     <div class="entree_manuel" id="doc_postag">
+		<h2>Documentation</h2>
 		<h3>Étiquetage morphosyntaxique</h3>
-		<p>L'étiquetage morphosyntaxique a lieu en deux étapes : le texte est d'abord tokénisé, c'est-à-dire divisé en unités analysables (ici, en mots). A chaque mot est ensuite attribué sa catégorie grammaticale.</p>
+		<img src="{{url_for('static', filename='img/nuage_de_mots_POS.png')}}"/>
+		<p>L'étiquetage morphosyntaxique (en anglais <span style="font-style:italic">part-of-speech tagging</span>) a lieu en deux étapes : le texte est d'abord tokénisé, c'est-à-dire divisé en unités analysables (mots, ponctuation). A chaque unité, on attribue ensuite sa catégorie grammaticale.</p>
 		<p>Par exemple, le texte <span style="padding:10px; font-family: 'Courier New', Courier, monospace;">Le petit chat dort.</span> sera analysé par l'outil de cette façon :</p>
 		<table style="padding-left:30px;"">
 		  <tr><td>Le</td><td>DET</td></tr>

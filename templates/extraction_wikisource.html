@@ -33,34 +33,57 @@
     <p>Copier ici les URLs des textes à collecter. Il est possible de collecter un texte intégral à partir d'un sommaire [<a href="https://fr.wikisource.org/wiki/Valserine_et_autres_nouvelles" target="_blank">exemple</a>]. Dans ce cas, cocher la case Sommaire en face de l'Url indiquée.</p>
     <form id="urlform"  method="POST" action="{{ url_for('corpus_from_url') }}">
       {{ form.csrf_token }}
-    <input type="hidden" value="1" id="nb_inputs">
-    <div id="new_inputs"></div>
-    <input type="text" name="url_1" required></input> <input type="checkbox" name="s1"><label for="s1">Sommaire</label></input>
-    <span class="addbutton" onclick="addInput()"><i class="fa-solid fa-circle-plus" style="margin-right:3px;"></i>Ajouter URL</span>
-    <input id="csrf_token" name="csrf_token" type="hidden" value="CSRF_TOKEN_STRING">
-    <button type="submit" class="button" style="display:block;margin:auto;">Collecter corpus</button>
+      <input type="hidden" value="1" id="nb_inputs">
+      <input type="text" id="url_1" name="url_1" class="wikiurl"> <input type="checkbox" name="s1" id="s1"><label for="s1">Sommaire</label>
+      <div id="new_inputs" style="display:inline-block;"></div>
+      <div class="addbutton" id="addbutton" onclick="addInput()" ><i class="fa-solid fa-circle-plus" style="margin-right:3px;"></i>Ajouter URL</div>
+      <input id="csrf_token" name="csrf_token" type="hidden" value="CSRF_TOKEN_STRING">
+      <button type="submit" class="button" style="display:block;margin:30px auto;">Collecter corpus</button>
     </form>
     </div>
   </div>
 
 
   <script type="text/javascript">
+
       // Range button
       function rangeSlide(value) {
           document.getElementById('rangeValue').innerHTML = value;
       }
 
-      function addInput(){
-        var nb_input = document.getElementById('nb_inputs').value + 1;
-        var new_input = '<input type="text" name="url_"' + nb_input + '">';
-        var new_check = '<input type="checkbox" name="s"' + nb_input + '">';
-        var new_label = '<label for="s"' + nb_input + '">Sommaire</label>';
+      function hasUrl(){
+        var elems = document.getElementsByClassName('wikiurl');
+        for(var i=0; i<elems.length; i++){
+          if(elems[i] && !elems[i].value){
+            return false;
+          }
+        }
+        return true;
+      }
 
-        document.getElementById('new_inputs').innerHTML += new_input;
-        document.getElementById('new_inputs').innerHTML += new_check;
-        document.getElementById('new_inputs').innerHTML += new_label;
+      function addInput(){
+        var div = document.createElement("div");
+        var nb_input = parseInt(document.getElementById('nb_inputs').value) + 1;
+        var new_input = '<input type="text" name="url_' + nb_input + '">';
+        var new_check = '<input type="checkbox" name="s' + nb_input + '" id="s'+ nb_input +'">';
+        var new_label = '<label for="s' + nb_input + '">Sommaire</label>';
+        div.innerHTML = new_input + new_check + new_label;
+
+        var div_input = document.getElementById('new_inputs');
+        div_input.appendChild(div);
         document.getElementById('nb_inputs').value = nb_input;
       }
+
+      $("#urlform").submit(function(){
+		    if(!hasUrl()){
+			    alert("Entrer au moins une URL.");
+			    return false;
+		    }
+        else{
+          $(".loader").css("display", "block");
+        }
+	    });
+
   </script>
 {% endblock %}
 

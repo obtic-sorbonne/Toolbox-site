@@ -75,7 +75,7 @@
         </select><span style="padding:10px" id="remove_model"><i class="fa-solid fa-circle-xmark"></i></span>
       </div>
       <div class="dropzone">
-        <input type="file" name="tessfiles" accept="image/jpeg,image/png,application/pdf,image/tif,image/tiff" multiple required>
+        <input type="file" name="tessfiles" id="tessfiles" accept="image/jpeg,image/png,application/pdf,image/tif,image/tiff" multiple required onchange="fileValidation()">
         <p id="form_msg">{{ _('Déposer le(s) fichier(s) ou cliquer ici.' )}}</p>
       </div>
       <input id="csrf_token" name="csrf_token" type="hidden" value="CSRF_TOKEN_STRING">
@@ -178,8 +178,20 @@
   }
 });
 
+function fileValidation() {
+  var fileInput = document.getElementById('tessfiles');
+  var filePath = fileInput.value;       
+  // Allowing file type
+  var allowedExtensions = /(\.jpg|\.jpeg|\.|\.pdf|\.tif|\.tiff|\.png)$/i;
+             
+  if (!allowedExtensions.exec(filePath)) {
+    alert("Ce type de fichier n'est pas reconnu. Extensions possibles : PNG, JPG, TIFF, PDF");
+    fileInput.value = '';
+                return false;
+    } 
+}
 
-  </script>
+</script>
 {% endblock %}
 
 {% block footer %} {{ super() }} {% endblock %}

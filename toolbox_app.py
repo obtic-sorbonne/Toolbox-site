@@ -301,13 +301,15 @@ def corpus_from_url():
 	if request.method == 'POST':
 		keys = request.form.keys()
 		urls = [k for k in keys if k.startswith('url')]
-		urls = sorted(urls)
+		#urls = sorted(urls)
 
 		result_path, rand_name = createRandomDir('wiki_', 8)
 
 		# PARCOURS DES URLS UTILISATEUR
 		for url_name in urls:
 			url = request.form.get(url_name)
+			if not url:
+				continue
 			n = url_name.split('_')[1]
 			s = 's' + n
 			path_elems = urlparse(url).path.split('/')
@@ -331,9 +333,13 @@ def corpus_from_url():
 								name = path_elems[-1]
 							with open(os.path.join(result_path, name), 'w') as output:
 								output.write(text)
+							with open(os.path.join(result_path, "rapport.txt"), 'a') as rapport:
+								rapport.write(link + '\t' + 'OK\n')
 
 				except urllib.error.HTTPError:
 					print(" ".join(["The page", url, "cannot be opened."]))
+					with open(os.path.join(result_path, "rapport.txt"), 'a') as rapport:
+								rapport.write(url + '\t' + "Erreur : l'URL n'a pas pu être ouverte.\n")
 					continue
 
 				filename = urllib.parse.unquote(path_elems[-1])
@@ -344,6 +350,8 @@ def corpus_from_url():
 					clean_text = getWikiPage(url)
 					if clean_text == -1:
 						print("Erreur lors de la lecture de la page {}".format(url))
+						with open(os.path.join(result_path, "rapport.txt"), 'a') as rapport:
+								rapport.write(url + '\t' + "Erreur : le contenu de la page n'a pas pu être lu.\n")
 
 					else:
 						if path_elems[-1] != 'Texte_entier':
