@@ -2,6 +2,36 @@
 {% block header %} {{ super() }} {% endblock %}
 {% block content %}
 
+<style>
+.item-list {
+    list-style: none;
+    padding: 0;
+}
+
+.item-list li {
+    margin: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.item-list img {
+    max-width: 130px; /* Ajustez la largeur maximale de l'image selon vos besoins */
+    height: auto;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-right: 30px; /* Ajoute un espace entre l'image et le texte */
+}
+
+.item-list p {
+    margin: 5px 0 0;
+}
+.item-list li:hover {
+    color:#8A824C;
+	cursor: pointer;
+}
+
+</style>
+
 <div class="outil">
 	<div class="doc-intro">
 	<h2 style="font-family:'Comprehension', serif;">Documentation</h2>
@@ -10,11 +40,25 @@
 		Les sections suivantes détaillent les utilisations possibles pour chaque outil de Pandore.</p>
 	</div>
 	<h3>Sommaire</h3>
-	<ul>
-		<li><a href="{{ url_for('documentation_ocr') }}">OCR / HTR</a></li>
-		<li><a href="{{ url_for('documentation_pos_tagging') }}">Étiquetage morphosyntaxique</a></li>
-		<li><a href="{{ url_for('documentation_ren') }}">Reconnaissance d'entités nommées</a></li>
-	</ul>
+
+	<ul class="item-list">
+        <li onclick="window.location.href='{{ url_for('documentation_ocr') }}';">
+            <img src="{{ url_for('static', filename='img/manuscript-icon-small.png')}}" alt="OCR">
+            <p>OCR / HTR</p>
+        </li>
+        <li onclick="window.location.href='{{ url_for('documentation_pos_tagging') }}';">
+            <img src="{{ url_for('static', filename='img/nuage_de_mots_POS.png')}}">
+            <p>Étiquetage morphosyntaxique</p>
+        </li>
+        <li onclick="window.location.href='{{ url_for('documentation_ren') }}';">
+            <img src="{{ url_for('static', filename='img/ner.png')}}" alt="REN">
+            <p>Reconnaissance d'entités nommées (REN)</p>
+        </li>
+        <li onclick="window.location.href='{{ url_for('documentation_keywords') }}';">
+			<img src="{{ url_for('static', filename='img/keyword_extraction.png')}}">
+			<p>Extraction de mots-clés</p>
+		</li>
+    </ul>
 </div>
 {% endblock %}
 
