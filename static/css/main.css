@@ -708,7 +708,7 @@ display: table;
   line-height: 1.7;
   margin-bottom: 50px;
 }
-.doc-intro p{
+.doc-intro p, #summary{
   width:70%;
   margin:auto;
 }

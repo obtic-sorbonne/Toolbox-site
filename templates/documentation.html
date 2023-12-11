@@ -41,24 +41,26 @@
 	</div>
 	<h3>Sommaire</h3>
 
-	<ul class="item-list">
-        <li onclick="window.location.href='{{ url_for('documentation_ocr') }}';">
-            <img src="{{ url_for('static', filename='img/manuscript-icon-small.png')}}" alt="OCR">
-            <p>OCR / HTR</p>
-        </li>
-        <li onclick="window.location.href='{{ url_for('documentation_pos_tagging') }}';">
-            <img src="{{ url_for('static', filename='img/nuage_de_mots_POS.png')}}">
-            <p>Étiquetage morphosyntaxique</p>
-        </li>
-        <li onclick="window.location.href='{{ url_for('documentation_ren') }}';">
-            <img src="{{ url_for('static', filename='img/ner.png')}}" alt="REN">
-            <p>Reconnaissance d'entités nommées (REN)</p>
-        </li>
-        <li onclick="window.location.href='{{ url_for('documentation_keywords') }}';">
-			<img src="{{ url_for('static', filename='img/keyword_extraction.png')}}">
-			<p>Extraction de mots-clés</p>
-		</li>
-    </ul>
+	<div id="summary">
+		<ul class="item-list">
+			<li onclick="window.location.href='{{ url_for('documentation_ocr') }}';">
+				<img src="{{ url_for('static', filename='img/manuscript-icon-small.png')}}" alt="OCR">
+				<p>OCR / HTR</p>
+			</li>
+			<li onclick="window.location.href='{{ url_for('documentation_pos_tagging') }}';">
+				<img src="{{ url_for('static', filename='img/nuage_de_pos.png')}}">
+				<p>Étiquetage morphosyntaxique</p>
+			</li>
+			<li onclick="window.location.href='{{ url_for('documentation_ren') }}';">
+				<img src="{{ url_for('static', filename='img/ner.png')}}" alt="REN">
+				<p>Reconnaissance d'entités nommées (REN)</p>
+			</li>
+			<li onclick="window.location.href='{{ url_for('documentation_keywords') }}';">
+				<img src="{{ url_for('static', filename='img/keyword_extraction.png')}}">
+				<p>Extraction de mots-clés</p>
+			</li>
+		</ul>
+	</div>
 </div>
 {% endblock %}
 
