@@ -124,6 +124,10 @@ def documentation_pos_tagging():
 @app.route('/documentation_ren')
 def documentation_ren():
 	return render_template('documentation/documentation_ren.html')
+
+@app.route('/documentation_keywords')
+def documentation_keywords():
+	return render_template('documentation/documentation_keybert.html')
 #-------- FIN DOC -----------------------------#
 
 @app.route('/contact')
@@ -301,13 +305,15 @@ def corpus_from_url():
 	if request.method == 'POST':
 		keys = request.form.keys()
 		urls = [k for k in keys if k.startswith('url')]
-		urls = sorted(urls)
+		#urls = sorted(urls)
 
 		result_path, rand_name = createRandomDir('wiki_', 8)
 
 		# PARCOURS DES URLS UTILISATEUR
 		for url_name in urls:
 			url = request.form.get(url_name)
+			if not url:
+				continue
 			n = url_name.split('_')[1]
 			s = 's' + n
 			path_elems = urlparse(url).path.split('/')
