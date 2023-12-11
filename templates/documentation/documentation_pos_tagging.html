@@ -21,7 +21,7 @@
     font-size: 1.2em;
   }
 
-  p {
+  .instruction p {
     text-align: justify;
   }
 </style>
@@ -29,7 +29,11 @@
   <div class="entree_manuel">
     <h2>Documentation</h2>
     <h3>Étiquetage morphosyntaxique</h3>
-    <p>L'étiquetage morphosyntaxique a lieu en deux étapes : le texte est d'abord tokénisé, c'est-à-dire divisé en unités analysables (ici, en mots). A chaque mot est ensuite attribué sa catégorie grammaticale.</p>
+    <p>L'étiquetage morphosyntaxique (ou <span style="font-style:italic">Part-of-Speech tagging</span>) permet de déterminer les catégories grammaticales de chaque mot d'un texte. Cette tâche a lieu en deux étapes :</p>
+      <ol style="margin-left:30px">
+        <li><em>tokénisation</em> : le texte est d'abord segmenté en unités analysables, qui sont ici les mots ;</li>
+        <li><em>étiquetage</em> : à chaque mot est attribuée sa catégorie grammaticale.</li>
+      </ol>
     <p>Par exemple, le texte <span style="padding:10px; font-family: 'Courier New', Courier, monospace;">Le petit chat dort.</span> sera analysé par l'outil de cette façon : </p>
     <table style="padding-left:30px;">
       <tr>
@@ -53,13 +57,17 @@
         <td>PONCT</td>
       </tr>
     </table>
-    <h3>Segmenteur-Étiqueteur Markovien (SEM)</h3>
-    <p>Cet outil parcourt un document et le segment en ligne, avant d’ajouter une étiquette indiquant sa fonction grammaticale. Ce processus peut être utile aux chercheurs qui voudraient comparer les traductions des éditions ou qui voudraient visualiser les structures arborescentes du texte au niveau grammatical. SEM peut être aussi exploité afin de</p>
+
+    <p class="how">A quoi ça sert ?</p>
+    <p>Cet étiquetage permet une analyse linguistique des textes. Il peut être utile par exemple pour comparer différentes éditions ou traductions d'un texte, ou pour filtrer une certaine catégorie de termes (verbes, nom propres, etc).</p>
+
     <h3> SEM sur Pandore</h3>
+    <p>L'outil implémenté sur Pandore est l'analyseur SEM. <a href="https://github.com/YoannDupont/SEM"><i class="fa-brands fa-github"></i> GitHub du projet</a></p>
     <div class="instruction">
-      <p> Votre document doit être au format de texte brut pour utiliser SEM sur Pandore. Il ne faut que déposer le document sur la boîte ou le cherche depuis votre ordinateur. Le document à télécharger sera au format CoNLL 2003, avec une colonne pour le mot et une pour l'étiquette morphosyntaxique.</p>
-      <p> Voici un exemple du document de sortie : <img src="{{ url_for('static', filename='img/capture_pos_exemple.png') }}">
-      </p>
-      <p> Vous pouvez trouver plus de détailles sur le <a href="https://github.com/YoannDupont/SEM">GitHub</a> du projet.
+      <p> Votre document doit être au format de texte brut. Le document à télécharger sera au format CoNLL 2003 (à ouvrir avec un éditeur de type Excel), avec une colonne pour le mot et une pour l'étiquette morphosyntaxique.</p>
+      <p> Voici un exemple du document de sortie : <img src="{{ url_for('static', filename='img/capture_pos_exemple.png') }}"></p>
     </div>
-  </div> {% endblock %} {% block footer %} {{ super() }} {% endblock %}
+  </div>
+</div>
+  {% endblock %}
+  {% block footer %} {{ super() }} {% endblock %}
