@@ -124,6 +124,10 @@ def documentation_pos_tagging():
 @app.route('/documentation_ren')
 def documentation_ren():
 	return render_template('documentation/documentation_ren.html')
+
+@app.route('/documentation_keywords')
+def documentation_keywords():
+	return render_template('documentation/documentation_keybert.html')
 #-------- FIN DOC -----------------------------#
 
 @app.route('/contact')
