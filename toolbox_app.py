@@ -51,7 +51,7 @@ app = Flask(__name__)
 
 # Babel config
 def get_locale():
-    return request.accept_languages.best_match(['fr', 'en'])
+	return request.accept_languages.best_match(['fr', 'en'])
 babel = Babel(app, locale_selector=get_locale)
 
 # App config
@@ -72,9 +72,9 @@ csrf.init_app(app)
 #-----------------------------------------------------------------
 """@babel.localeselector
 def get_locale():
-    if request.args.get('language'):
-        session['language'] = request.args.get('language')
-    return session.get('language', 'fr')
+	if request.args.get('language'):
+		session['language'] = request.args.get('language')
+	return session.get('language', 'fr')
 """
 @app.context_processor
 def inject_conf_var():
@@ -82,8 +82,8 @@ def inject_conf_var():
 
 @app.route('/language=<language>')
 def set_language(language=None):
-    session['language'] = language
-    return redirect(url_for('index'))
+	session['language'] = language
+	return redirect(url_for('index'))
 
 #-----------------------------------------------------------------
 # ROUTES
@@ -1236,29 +1236,74 @@ def run_ocr_map_intersection():
 @app.route("/nermap_to_csv", methods=['GET', "POST"])
 @stream_with_context
 def nermap_to_csv():
-    input_json_str = request.data
-    print(input_json_str)
-    input_json = json.loads(input_json_str)
-    print(input_json)
-    keys = ["nom", "latitude", "longitude", "outil", "fréquence", "cluster"]
-    output_stream = StringIO()
-    writer = csv.DictWriter(output_stream, fieldnames=keys, delimiter="\t")
-    writer.writeheader()
-    for point in input_json["data"]:
-        row = {
-            "latitude" : point[0],
-            "longitude" : point[1],
-            "nom" : point[2],
-            "outil" : point[3],
-            "fréquence" : point[4],
-            "cluster" : point[5],
-        }
-        writer.writerow(row)
-    # name not useful, will be handled in javascript
-    response = Response(output_stream.getvalue(), mimetype='text/csv', headers={"Content-disposition": "attachment; filename=export.csv"})
-    output_stream.seek(0)
-    output_stream.truncate(0)
-    return response
+	input_json_str = request.data
+	print(input_json_str)
+	input_json = json.loads(input_json_str)
+	print(input_json)
+	keys = ["nom", "latitude", "longitude", "outil", "fréquence", "cluster"]
+	output_stream = StringIO()
+	writer = csv.DictWriter(output_stream, fieldnames=keys, delimiter="\t")
+	writer.writeheader()
+	for point in input_json["data"]:
+		row = {
+			"latitude" : point[0],
+			"longitude" : point[1],
+			"nom" : point[2],
+			"outil" : point[3],
+			"fréquence" : point[4],
+			"cluster" : point[5],
+		}
+		writer.writerow(row)
+	# name not useful, will be handled in javascript
+	response = Response(output_stream.getvalue(), mimetype='text/csv', headers={"Content-disposition": "attachment; filename=export.csv"})
+	output_stream.seek(0)
+	output_stream.truncate(0)
+	return response
+
+
+@app.route("/nermap_to_csv2", methods=['GET', "POST"])
+@stream_with_context
+def nermap_to_csv2():
+	from lxml import etree
+
+	keys = ["nom", "latitude", "longitude", "outil", "cluster"]
+	output_stream = StringIO()
+	writer = csv.DictWriter(output_stream, fieldnames=keys, delimiter="\t")
+	writer.writeheader()
+
+	input_json = json.loads(request.data)
+	html = etree.fromstring(input_json["html"])
+
+	for toolnode in list(html):
+		for item in list(toolnode):
+			tool = item.text.strip()
+			for centroid_node in list(list(item)[0]):
+				centroid = etree.tostring(next(centroid_node.iterfind("div")), method="text", encoding=str).strip()
+				# centroid = centroid_node.text_content().strip()
+				try:
+					data = next(centroid_node.iterfind('ol'))
+				except StopIteration:  # cluster with no children
+					data = []
+				the_cluster = []
+				for cluster_item_node in list(data):
+					try:
+						cluster_item = etree.tostring(cluster_item_node, method="text", encoding=str).strip()
+						the_cluster.append(cluster_item.split(" / ")[0])
+					except Exception:
+						print("\t\tDid not work")
+				writer.writerow({
+					"nom" : centroid.split(' / ')[0],
+					"latitude" : centroid.split(' / ')[1].split(',')[0],
+					"longitude" : centroid.split(' / ')[1].split(',')[1],
+					"outil" : tool,
+					"cluster" : ', '.join(the_cluster),
+				})
+
+	# name not useful, will be handled in javascript
+	response = Response(output_stream.getvalue(), mimetype='text/csv', headers={"Content-disposition": "attachment; filename=export.csv"})
+	output_stream.seek(0)
+	output_stream.truncate(0)
+	return response
 
 
 if __name__ == "__main__":

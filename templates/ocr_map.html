@@ -156,7 +156,8 @@
       <input id="csrf_token" name="csrf_token" type="hidden" value="CSRF_TOKEN_STRING">
       <button id="ocrmap-button" style="display:block;margin:auto;margin-bottom:5px;">Cartographier</button>
       <button id="ocrmap-csv" style="display:block;margin:auto;margin-bottom:50px;">Télécharger</button>
-      <button id="ocrmap-showclusters" style="display:block;margin:auto;margin-bottom:50px;">Afficher les clusters</button>
+      <!-- <button id="ocrmap-showclusters" style="display:block;margin:auto;margin-bottom:50px;">Afficher les clusters</button> -->
+      <button id="ocrmap-sortedclusters" style="display:block;margin:auto;margin-bottom:5px;">Télécharger les clusters triés</button>
       </form>
       <!-- Loader -->
       <div class="loader">
@@ -278,7 +279,7 @@
         }
 
         var nestable;
-        var nestables = [null, null, null];
+        var nestables = null;//[null, null, null];
         function updateModal(new_overlays) {
             // let div = document.getElementsById("cluster-checkboxes");
             let div = document.getElementById("clusters");
@@ -308,9 +309,14 @@
             div.innerHTML = innerHTML;
 
             nth = 0;
+            nestables = new Map();
             for (const [tool, clusters] of Object.entries(new_overlays)) {
                 if (clusters.length > 0) {
-                    nestable = new Nestable("#clusters-" + nth);
+                    // nestable = new Nestable("#clusters-" + nth);
+                    // nestables.push(new Nestable("#clusters-" + nth));
+                    nestables.set(tool, new Nestable("#clusters-" + nth));
+                } else {
+                    nestables.set(tool, null);
                 }
                 nth += 1;
             }
@@ -464,7 +470,7 @@ var icons = [redIcon, blueIcon];
   }
   </script>
 
-<script>
+<!-- <script>
     var modal = document.getElementById('modal-clusters');
     const clusters_button = document.getElementById('ocrmap-showclusters');
     // Get the <span> element that closes the modal
@@ -486,5 +492,32 @@ var icons = [redIcon, blueIcon];
             modal.style.display = "none";
         }
     }
+</script>
+-->
+
+<script>
+    const sorted_clusters_button = document.getElementById('ocrmap-sortedclusters');
+    sorted_clusters_button.onclick = (event) => {
+        event.preventDefault();
+        let element = document.getElementById("clusters");
+        let json_data = JSON.stringify({'html': element.outerHTML});
+        $.ajax({
+            type: 'POST',
+            url: "{{ url_for('nermap_to_csv2') }}",
+            data: json_data,
+            processData: false,
+            contentType: "application/json; charset=UTF-8",
+            success: function (response) {      
+                event.preventDefault();
+                let data_export = "data:text/csv;charset=utf-8," + encodeURIComponent(response);
+                let downloadAnchorNode = document.createElement('a');
+                downloadAnchorNode.setAttribute("href",     data_export);
+                downloadAnchorNode.setAttribute("download", "ner2map-clusters.tsv");
+                document.body.appendChild(downloadAnchorNode);
+                downloadAnchorNode.click();
+                downloadAnchorNode.remove();
+            }
+        });
+    };
 </script>
 {% endblock %}
