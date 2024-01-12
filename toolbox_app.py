@@ -960,6 +960,7 @@ def extract_gallica():
 				res_ok += url + '\n'
 			except Exception as exc:
 				res_err += url + '\n'
+				continue
 		
 		elif input_format == 'img':
 			# Nb de pages à télécharger : si tout le document, aller chercher l'info dans le service pagination de l'API
