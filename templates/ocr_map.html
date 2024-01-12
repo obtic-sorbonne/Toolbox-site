@@ -155,7 +155,7 @@
       </fieldset>
       <input id="csrf_token" name="csrf_token" type="hidden" value="CSRF_TOKEN_STRING">
       <button id="ocrmap-button" style="display:block;margin:auto;margin-bottom:5px;">Cartographier</button>
-      <button id="ocrmap-csv" style="display:block;margin:auto;margin-bottom:50px;">Télécharger</button>
+      <!-- <button id="ocrmap-csv" style="display:block;margin:auto;margin-bottom:50px;">Télécharger</button> -->
       <!-- <button id="ocrmap-showclusters" style="display:block;margin:auto;margin-bottom:50px;">Afficher les clusters</button> -->
       <button id="ocrmap-sortedclusters" style="display:block;margin:auto;margin-bottom:5px;">Télécharger les clusters triés</button>
       </form>
@@ -293,10 +293,10 @@
                 for (const cluster of clusters) {
                     let nom = cluster[2];
                     let forms = cluster[cluster.length - 1];
-                    innerHTML += "<li>" + nom + " / " + cluster[0] + "," + cluster[1];
+                    innerHTML += "<li>" + nom;// + " / " + cluster[0] + "," + cluster[1];
                     innerHTML += '<ol>';
                     for(const [form, coords, freq] of forms) {
-                        innerHTML += '<li>' + form + ' / ' + coords + '</li>';
+                        innerHTML += '<li>' + form + '</li>';// + ' / ' + coords + '</li>';
                     }
                     innerHTML += "</ol>";
                     innerHTML += "</li>";
@@ -386,6 +386,7 @@ var icons = [redIcon, blueIcon];
     </script>
 
     <script type="text/javascript">
+      var TMP_PASDINSPI = null;
 
       const ocrmap_button = document.querySelector('#ocrmap-button');
       ocrmap_button.onclick = (event) => {
@@ -400,6 +401,7 @@ var icons = [redIcon, blueIcon];
             contentType: false,
             success: function (response) {
               event.preventDefault();
+              TMP_PASDINSPI = response;
               updateOverlays(response);
               updateModal(response);
               $(".loader").css("display", "none");
@@ -416,8 +418,9 @@ var icons = [redIcon, blueIcon];
 };
     </script>
 
+    <!--
     <script type="text/javascript">
-
+ 
     const download_data_button = document.querySelector('#ocrmap-csv');
     download_data_button.onclick = (event) => {
         event.preventDefault();
@@ -441,6 +444,7 @@ var icons = [redIcon, blueIcon];
         });
     };
     </script>
+    -->
 
 <script type="text/javascript">
   function detectChangeMoteur1(moteurREN) {
@@ -500,7 +504,8 @@ var icons = [redIcon, blueIcon];
     sorted_clusters_button.onclick = (event) => {
         event.preventDefault();
         let element = document.getElementById("clusters");
-        let json_data = JSON.stringify({'html': element.outerHTML});
+        let json_data = JSON.stringify({'html': element.outerHTML, 'clusters': TMP_PASDINSPI});
+        console.log(TMP_PASDINSPI);
         $.ajax({
             type: 'POST',
             url: "{{ url_for('nermap_to_csv2') }}",

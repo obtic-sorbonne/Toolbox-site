@@ -1273,6 +1273,14 @@ def nermap_to_csv2():
 
 	input_json = json.loads(request.data)
 	html = etree.fromstring(input_json["html"])
+	base_clusters = input_json["clusters"]
+	name2coordinates = {}
+	print(base_clusters)
+	for root_cluster in base_clusters.values():
+		for _, _, _, _, clusters in root_cluster:
+			for txt, coords in clusters:
+				name2coordinates[txt] = coords
+	print(name2coordinates)
 
 	for toolnode in list(html):
 		for item in list(toolnode):
@@ -1291,10 +1299,15 @@ def nermap_to_csv2():
 						the_cluster.append(cluster_item.split(" / ")[0])
 					except Exception:
 						print("\t\tDid not work")
+				nom = centroid#.split(' / ')[0]
+				#  latitude = centroid.split(' / ')[1].split(',')[0],
+				#  longitude = centroid.split(' / ')[1].split(',')[1],
+				print(nom, nom in name2coordinates)
+				latitude, longitude = name2coordinates[nom]
 				writer.writerow({
-					"nom" : centroid.split(' / ')[0],
-					"latitude" : centroid.split(' / ')[1].split(',')[0],
-					"longitude" : centroid.split(' / ')[1].split(',')[1],
+					"nom" : nom,
+					"latitude" : latitude,
+					"longitude" : longitude,
 					"outil" : tool,
 					"cluster" : ', '.join(the_cluster),
 				})
