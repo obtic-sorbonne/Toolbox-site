@@ -21,7 +21,7 @@ from lxml import etree
 import csv
 import shutil
 from pathlib import Path
-import jamspell
+#import jamspell
 import json
 import collections
 #from txt_ner import txt_ner_params
@@ -29,8 +29,8 @@ import collections
 import pandas as pd
 
 import sem
-import sem.storage
-import sem.exporters
+#import sem.storage
+#import sem.exporters
 
 import ocr
 
