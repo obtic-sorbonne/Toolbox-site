@@ -289,24 +289,42 @@ def etiquetage_morphosyntaxique():
 def generate_corpus():
 	if request.method == 'POST':
 		nb = int(request.form['nbtext'])
+		result_path, rand_name = createRandomDir('wiki_', 8)
 		all_texts = generate_random_corpus(nb)
-		output_stream = StringIO()
-		output_stream.write('\n\n\n'.join(all_texts))
-		response = Response(output_stream.getvalue(), mimetype='text/plain',
-							headers={"Content-disposition": "attachment; filename=corpus_wikisource.txt"})
-		output_stream.seek(0)
-		output_stream.truncate(0)
-		return response
+		
+		#Crée les fichiers .txt
+		for clean_text,text_title in all_texts:
+			filename = text_title
+			with open(os.path.join(result_path, filename)+'.txt', 'w', encoding='utf-8') as output:
+				output.write(clean_text)
+
+        # ZIP le dossier résultat
+		if len(os.listdir(result_path)) > 0:
+			shutil.make_archive(result_path, 'zip', result_path)
+			output_stream = BytesIO()
+			with open(str(result_path) + '.zip', 'rb') as res:
+				content = res.read()
+			output_stream.write(content)
+			response = Response(output_stream.getvalue(), mimetype='application/zip',
+                                    headers={"Content-disposition": "attachment; filename=" + rand_name + '.zip'})
+			output_stream.seek(0)
+			output_stream.truncate(0)
+			return response
+		else:
+			os.remove(result_path)
+                
 	return render_template('/collecter_corpus.html')
 
 @app.route('/corpus_from_url',  methods=["GET","POST"])
 @stream_with_context
+
+#Modifiée pour travail local + corrections
 def corpus_from_url():
 	if request.method == 'POST':
 		keys = request.form.keys()
 		urls = [k for k in keys if k.startswith('url')]
-		#urls = sorted(urls)
-
+        #urls = sorted(urls)
+		
 		result_path, rand_name = createRandomDir('wiki_', 8)
 
 		# PARCOURS DES URLS UTILISATEUR
@@ -331,11 +349,13 @@ def corpus_from_url():
 					for a in nodes:
 						link = 'https://fr.wikisource.org' + a['href']
 						name = a['title']
+						if '/' in name:
+							name = name.split('/')[-1]
 						text = getWikiPage(link)
 						if text != -1:
 							if not name:
 								name = path_elems[-1]
-							with open(os.path.join(result_path, name), 'w') as output:
+							with open(os.path.join(result_path, name)+'.txt', 'w', encoding='utf-8') as output:
 								output.write(text)
 							with open(os.path.join(result_path, "rapport.txt"), 'a') as rapport:
 								rapport.write(link + '\t' + 'OK\n')
@@ -363,7 +383,7 @@ def corpus_from_url():
 						else:
 							filename = urllib.parse.unquote(path_elems[-2])
 
-						with open(os.path.join(result_path, filename), 'w') as output:
+						with open(os.path.join(result_path, filename)+'.txt', 'w', encoding='utf-8') as output:
 							output.write(clean_text)
 
 				except Exception as e:
@@ -586,6 +606,11 @@ def generate_random_corpus(nb):
 	all_texts = []
 
 	for text_url in urls:
+		#removes the subsidiary part of the url path ("/Texte_entier" for example) so it does not mess with the filename
+		if(re.search('/',text_url)):
+			text_title = urllib.parse.unquote(text_url.split('/')[0])
+		else:
+			text_title = urllib.parse.unquote(text_url)
 		location = "".join(["https://fr.wikisource.org/wiki/", text_url])
 		try:
 			page = urllib.request.urlopen(location)
@@ -605,9 +630,10 @@ def generate_random_corpus(nb):
 		else:
 			# Remove end of line inside sentence
 			clean_text = re.sub("[^\.:!?»[A-Z]]\n", ' ', text[0].text)
-			all_texts.append(clean_text)
+			all_texts.append((clean_text,text_title))
 
 	return all_texts
+
 #-----------------------------------------------------------------
 
 
@@ -882,10 +908,10 @@ def topic_extraction():
 		if 'nmf' in methods:
 			tfidf_vectorizer = TfidfVectorizer(max_df=0.95, min_df=1, max_features=no_features, stop_words=stop_words_fr)
 			tfidf = tfidf_vectorizer.fit_transform(corpus)
-			tfidf_feature_names = tfidf_vectorizer.get_feature_names()
+			tfidf_feature_names = tfidf_vectorizer.get_feature_names_out()
 
 			# Parameter: nndsvda for less sparsity ; else nndsvd
-			nmf = NMF(n_components=no_topics, random_state=1, alpha=.1, l1_ratio=.5, init='nndsvda').fit(tfidf)
+			nmf = NMF(n_components=no_topics, random_state=1, l1_ratio=.5, init='nndsvda').fit(tfidf)
 			
 			res_nmf = display_topics(nmf, tfidf_feature_names, no_top_words)
 			res['nmf'] = res_nmf
@@ -894,7 +920,7 @@ def topic_extraction():
 		if 'lda' in methods:
 			tf_vectorizer = CountVectorizer(max_df=0.95, min_df=1, max_features=no_features, stop_words=stop_words_fr)
 			tf = tf_vectorizer.fit_transform(corpus)
-			tf_feature_names = tf_vectorizer.get_feature_names()
+			tf_feature_names = tf_vectorizer.get_feature_names_out()
 
 			lda = LatentDirichletAllocation(n_components=no_topics, max_iter=5, learning_method='online', learning_offset=50.,random_state=0).fit(tf)
 			
@@ -1518,7 +1544,7 @@ def run_renard():
 			NLTKTokenizer(),
 			BertNamedEntityRecognizer(model=BERT_MODELS[lang]), #NLTKNamedEntityRecognizer(),
 			GraphRulesCharacterUnifier(min_appearances=min_appearances),
-			CoOccurrencesGraphExtractor(co_occurences_dist=35)
+			CoOccurrencesGraphExtractor(co_occurrences_dist=35)
 		], lang = lang)
 
 		out = pipeline(text)
