@@ -14,7 +14,18 @@
       <h4>{{ _('Outil Pandore') }}</h4>
       <p>{{ _("L'outil ci-dessous permet de transformer un texte brut en format XML-TEI") }}. <br>
         {{ _("La TEI est un format courant en humanitiés numériques qui permet d'encoder les textes. On utilise des balises prédefinies. 
-        <br>Chaque document TEI doit avoir au moins un &lt;teiHeader&gt; qui contient des informations importantes sur le document. Cette balise contient à son tour au minimum  &lt;fileDesc&gt;,   &lt;titleStmt&gt;,  &lt;publicationStmt&gt; et  &lt;sourceDesc&gt;. <br> Il est nécessaire de spécifier les métadonnées dans le formulaire ci-dessous qui serviront à remplir les informations trouvées en &lt;teiHeader&gt; ") }}. {{ _("Se référer au manuel TEI")}} (<a href="https://tei-c.org/release/doc/tei-p5-doc/fr/html/ref-fileDesc.html#:~:text=Il%20fournit%20le%20titre%20et,dans%20l'en%2Dt%C3%AAte." target="_blank">{{ _ ("section fileDesc") }} </a>) {{ _("pour plus d'information sur les différents champs de l'en-tête") }}.</p>
+        <br>Chaque document TEI doit avoir au moins un &lt;teiHeader&gt; qui contient des informations importantes sur le document. Cette balise contient à son tour au minimum  &lt;fileDesc&gt;,   &lt;titleStmt&gt;,  &lt;publicationStmt&gt; et  &lt;sourceDesc&gt;. <br> 
+        Il est nécessaire de spécifier les métadonnées dans le formulaire ci-dessous qui serviront à remplir les informations trouvées en &lt;teiHeader&gt; ") }}. {{ _("Se référer au manuel TEI")}} (<a href="https://tei-c.org/release/doc/tei-p5-doc/fr/html/ref-fileDesc.html#:~:text=Il%20fournit%20le%20titre%20et,dans%20l'en%2Dt%C3%AAte." target="_blank">{{ _ ("section fileDesc") }} </a>) {{ _("pour plus d'information sur les différents champs de l'en-tête") }}.</p>
+
+
+        <div class="infos_outil" style="width:1400px">
+          <h3>Comment remplir les metadonnées ?</h3>
+        <ul>
+          <li>&lt;fileDesc&gt; contient une description bibliographique complète du <b>fichier électronique.</b></li><br>
+          <li>&lt;titleStmt&gt regroupe les informations sur le titre d’une œuvre et les personnes ou institutions responsables de son contenu intellectuel</li><br>
+          <li>&lt;publicationStmt&gt; regroupe des informations concernant la publication ou la diffusion d’un texte électronique ou d’un autre type de texte</li><br>
+          <li>&lt;sourceDesc&gt; décrit la source à partir de laquelle un texte électronique a été dérivé ou produit, habituellement une description bibliographique pour un texte numérisé, ou une expression comme document numérique natif pour un texte qui n'a aucune existence précédente</li>
+        </ul></div>
       <div id="divform">
 
         <form action="{{ url_for('xmlconverter') }}" id="metadata-form" method="post" enctype="multipart/form-data">
