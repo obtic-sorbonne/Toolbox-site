@@ -18,13 +18,18 @@
 
 `cd Toolbox-site`
 
+- Il est nécessaire de [télécharger le paquet Swig](https://sourceforge.net/projects/swig/files/swig/swig-3.0.12/swig-3.0.12.tar.gz/download?use_mirror=netix). Pour l'installer, lancer :
+
+`./swig-3.0.12/configure && make && sudo make install`
+
 - Installer les paquets nécessaires à l'exécution de l'application :
 
 `pip install -r requirements.txt`
 
-Il est également nécessaire de [télécharger le paquet Swig](https://sourceforge.net/projects/swig/files/swig/swig-3.0.12/swig-3.0.12.tar.gz/download?use_mirror=netix). Pour l'installer, lancer :
+- Finalement, il faut lancer :
 
-`./swig-3.0.12/configure && make && sudo make install`
+`chmod +x install.sh` puis `bash install.sh`
+
 
 ### Lancer l'application
 
