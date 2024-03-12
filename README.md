@@ -36,7 +36,7 @@
 Placé dans le dossier Toolbox-site, lancer la commande :
 
 ```bash
-python toolbox_app.py
+python3 toolbox_app.py
 ```
 
 Ouvrir le lien http://127.0.0.1:5000 dans un navigateur pour accéder à l'interface de la Toolbox ObTIC.
