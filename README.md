@@ -30,16 +30,17 @@
 
 `chmod +x install.sh` puis `bash install.sh`
 
-Il se peut que il faille lancer les commandes suivantes : 
+Il se peut qu'il faille lancer les commandes suivantes : 
 
-`pip install -U pip setuptools wheel`
-`pip install -U spacy`
-`python -m spacy download en_core_web_sm`
-`python -m spacy download fr_core_news_sm`
-`python -m spacy download fr_core_news_md`
-`python -m spacy download fr_core_news_lg`
-`python -m spacy download es_core_news_sm`
-
+<ul>
+<li>`pip install -U pip setuptools wheel`</li>
+<li>`pip install -U spacy`</li>
+<li>`python -m spacy download en_core_web_sm`</li>
+<li>`python -m spacy download fr_core_news_sm`</li>
+<li>`python -m spacy download fr_core_news_md`</li>
+<li>`python -m spacy download fr_core_news_lg`</li>
+<li>`python -m spacy download es_core_news_sm`</li>
+</ul>
 ### Lancer l'application
 
 Placé dans le dossier Toolbox-site, lancer la commande :
