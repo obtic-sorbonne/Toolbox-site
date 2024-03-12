@@ -1,11 +1,4 @@
-{% extends "index.html" %} 
-
-{% block header %} 
-  {{ super() }} 
-{% endblock %} 
-
-{% block content %} 
-<style>
+{% extends "index.html" %} {% block header %} {{ super() }} {% endblock %} {% block content %} <style>
   .instruction {
     padding: 18px;
     background-color: rgb(250, 235, 215, 0.3);
@@ -14,13 +7,14 @@
 
   .instruction img {
     display: block;
-    margin:auto;
+    margin: auto;
     margin-top: 12px;
   }
 
   .instruction p span:first-child {
     font-size: 1.2em;
   }
+
   .instruction p {
     text-align: justify;
   }
@@ -28,36 +22,58 @@
 <div class="outil">
   <div class="entree_manuel">
     <h2>Documentation</h2>
-    
     <h3>Extraction de mots-clés</h3>
-    
-    <p>Cette tâche consiste à identifier les <em>termes les plus représentatifs</em> du contenu d'un document ou d'un corpus.
-      Pour cela, les algorithmes produisent une représentation mathématique du document, puis recherchent à l'intérieur de celui-ci des segments (mots ou groupes de mots) qui ont une représentation similaire à celle du document.
-      L’extraction des mots clés est utile essentiellement sur les <em>grand corpus</em>, car elle permet de visualiser rapidement leur contenu.
-    </p>
-    
+    <p>Cette tâche consiste à identifier les <em>termes les plus représentatifs</em> du contenu d'un document ou d'un corpus. Pour cela, les algorithmes produisent une représentation mathématique du document, puis recherchent à l'intérieur de celui-ci des segments (mots ou groupes de mots) qui ont une représentation similaire à celle du document. L’extraction des mots clés est utile essentiellement sur les <em>grand corpus</em>, car elle permet de visualiser rapidement leur contenu. </p>
     <h3>Extraction de mots-clés sur Pandore</h3>
+    <div class="instruction">
+      <p>
+        <span>1. Choisir la méthode de calcul de mots-clés souhaitées. </span>
+      </p>
+      <p>Les trois options peuvent être cochées simultanément afin de comparer les résultats. Pour la méthode MMR, le taux de diversité des mots-clés qu'on souhaite obtenir peut être précisé.</p>
+      <img src="{{ url_for('static', filename='img/capture_keybert_algo.png')}}">
+      <p>
+      <h2>Explication des méthodes de calcul</h2>
+      <h3>MMR (Maximal Marginal Relevance)</h3> <p>Afin de diversifier les résultats, on peut appliquer MMR pour créer des mots-clés/phrases-clées, qui est aussi basé sur la similarité cosine. Si on choisit 'high diversity', les résultats seront peu similaires, en revanche 'low diversity' donnera les résultats qui se ressemblent.</p>
+      <h4>High diversity :</h4>
+      <ul>
+        <li style="list-style-type: none;">[('algorithm generalize training', 0.7727),</li>
+        <li style="list-style-type: none;">('labels unseen instances', 0.1649),</li>
+        <li style="list-style-type: none;">('new examples optimal', 0.4185),</li>
+        <li style="list-style-type: none;">('determine class labels', 0.4774),</li>
+        <li style="list-style-type: none;">('supervised learning algorithm', 0.7502)]</li>
+      </ul>
+      <h4> Low diversity : </h4>
+      <ul>
+        <li style="list-style-type: none;">[('algorithm generalize training', 0.7727),</li>
+        <li style="list-style-type: none;">('supervised learning algorithm', 0.7502),</li>
+        <li style="list-style-type: none;">('learning machine learning', 0.7577),</li>
+        <li style="list-style-type: none;">('learning algorithm analyzes', 0.7587),</li>
+        <li style="list-style-type: none;">('learning algorithm generalize', 0.7514)]</li>
+      </ul><br>
+        <a href="https://github.com/MaartenGr/KeyBERT?tab=readme-ov-file#maximal">Visitez le GitHub du projet pour en lire plus</a>
+        <h3>MSS (Max Summary Similarity)</h3>
+        <p>Pour diversifier les résultats, nous prenons les 2 x top_n mots/phrases les plus similaires au document. Ensuite, nous prenons toutes les top_n combinaisons des 2 x top_n mots et extrayons la combinaison qui est la moins similaire à l'autre par similarité cosinus.</p>
+      <ul>
+        <li style="list-style-type: none;">[('set training examples', 0.7504),</li>
+        <li style="list-style-type: none;">('generalize training data', 0.7727),</li>
+        <li style="list-style-type: none;">('requires learning algorithm', 0.5050),</li>
+        <li style="list-style-type: none;">('supervised learning algorithm', 0.3779),</li>
+        <li style="list-style-type: none;">('learning machine learning', 0.2891)]</li>
+      </ul><br>
+      <a href="https://pypi.org/project/keybert/#maxsum">Visitez le GitHub du projet pour en lire plus</a>
+    </div>
 
-      <div class="instruction">
-        <p><span>1. Choisir la méthode de calcul de mots-clés souhaitées. </span></p>
-        <p>Les trois options peuvent être cochées simultanément afin de comparer les résultats. Pour la méthode MMR, le taux de diversité des mots-clés qu'on souhaite obtenir peut être précisé.</p>
-        <img src="{{ url_for('static', filename='img/capture_keybert_algo.png')}}">
-      </div>
-
-      <div class="instruction">
-        <p>
-          <span>2. Déposer le fichier</span>
-        </p>
-      </div>
-      <div class="instruction">
-        <p>
-          <span>3. Télécharger les résultats</span>
-        </p>
-        <img src="{{ url_for('static', filename='img/capture_keybert_apercu.png')}}">
-        <p> Vous pouvez visualiser un aperçu des résultats et les télécharger dans un tableur (format CSV).</p>
-      </div>
- 
+    <div class="instruction">
+      <p>
+        <span>2. Déposer le fichier</span>
+      </p>
+    </div>
+    <div class="instruction">
+      <p>
+        <span>3. Télécharger les résultats</span>
+      </p>
+      <img src="{{ url_for('static', filename='img/capture_keybert_apercu.png')}}">
+      <p> Vous pouvez visualiser un aperçu des résultats et les télécharger dans un tableur (format CSV).</p>
+    </div>
   </div>
-</div> 
-  {% endblock %} 
-  {% block footer %} {{ super() }} {% endblock %}
+</div> {% endblock %} {% block footer %} {{ super() }} {% endblock %}

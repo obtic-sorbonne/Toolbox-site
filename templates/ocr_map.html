@@ -19,6 +19,12 @@
 .col_2{
   grid-column: 2;
 }
+
+
+.down {
+    transform: rotate(90deg); /* or the necessary rotation to make it point downwards */
+}
+
 </style>
 
 
@@ -117,10 +123,20 @@
             <option value="spa">{{ _('Espagnol') }}</option>
         </select>
         </div>
-        <div class="box-step-form" id="step_1">{{ _("Étape 1 :") }} {{ _('numérisation') }} <span style="font-style:italic">(optionnelle)</span><i class="fa-solid fa-angle-right" style="float:right;margin-top:5px;margin-left:15px;cursor: pointer;"></i></div>
+       <div class="box-step-form" id="step_1" onclick="toggleArrow('arrow-icon-1')">
+    {{ _("Étape 1 :") }} {{ _('numérisation') }} <span style="font-style:italic">(optionnelle)</span>&nbsp;
+    <i class="fa-solid fa-angle-right" id="arrow-icon-1"></i>
+</div>
+
         <div id="step_ocr" style="text-align: center;margin:15px"><label for="do_ocr">Activer la numérisation</label> <input type="checkbox" id="do_ocr" name="do_ocr"/></div>
 
-        <div class="box-step-form" id="step_2">{{ _("Étape 2 :") }} {{ _("configuration de l'extraction d'entités") }}<i class="fa-solid fa-angle-right" style="float:right;margin-top:5px;margin-left:15px;cursor: pointer;"></i></div>
+        <div class="box-step-form" id="step_2" onclick="toggleArrow('arrow-icon-2')">{{ _("Étape 2 :") }} {{ _("configuration de l'extraction d'entités") }}&nbsp;
+    <i class="fa-solid fa-angle-right" id="arrow-icon-2"></i></div>
+
+
+
+
+
         <div class="centerElem" id="ner_opt">
           <p>Configuration NER</p>
           <label for="encodage" style="display:inline-block;width:110px;">{{ _('Encodage') }}</label>
@@ -470,30 +486,30 @@
 
     <script type="text/javascript">
       var blueIcon = new L.Icon({
-	iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png',
-	shadowUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-shadow.png',
-	iconSize: [25, 41],
-	iconAnchor: [12, 41],
-	popupAnchor: [1, -34],
-	shadowSize: [41, 41]
+    iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png',
+    shadowUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-shadow.png',
+    iconSize: [25, 41],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34],
+    shadowSize: [41, 41]
 });
 
 var redIcon = new L.Icon({
-	iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
-	shadowUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-shadow.png',
-	iconSize: [25, 41],
-	iconAnchor: [12, 41],
-	popupAnchor: [1, -34],
-	shadowSize: [41, 41]
+    iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
+    shadowUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-shadow.png',
+    iconSize: [25, 41],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34],
+    shadowSize: [41, 41]
 });
 
 var violetIcon = new L.Icon({
-	iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-violet.png',
-	shadowUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-shadow.png',
-	iconSize: [25, 41],
-	iconAnchor: [12, 41],
-	popupAnchor: [1, -34],
-	shadowSize: [41, 41]
+    iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-violet.png',
+    shadowUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-shadow.png',
+    iconSize: [25, 41],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34],
+    shadowSize: [41, 41]
 });
 var intersection_icon = {
     "commun" : violetIcon,
@@ -589,5 +605,11 @@ var icons = [redIcon, blueIcon];
             modal.style.display = "none";
         }
     }
+</script>
+<script type="text/javascript">
+    function toggleArrow(arrowId) {
+    var arrowIcon = document.getElementById(arrowId);
+    arrowIcon.classList.toggle("down");
+} 
 </script>
 {% endblock %}

@@ -8,14 +8,15 @@
     <h2>Topic Modelling</h2>
     <div class="doc-box"><p>Documentation <span class="lil-arrow"></span></p></div>
     <div class="local-doc">
-        <p>{{ _("La modélisation de thématiques consiste à identifier dans un corpus les groupes de termes représentatifs des thèmes de celui-ci. Pour extraire ces informations, il existe plusieurs méthodes de calcul, détaillées ci-dessous. Leur efficacité respective dépendra du type de corpus et du type d'information recherchée. Globalement, NMF est plus performant sur les textes courts")}} [<a href="https://www.sciencedirect.com/science/article/pii/S0950705118304076" target="_blank">{{ _("réf") }}</a>].</p>
+        <p>{{ _("La modélisation de thématiques consiste à identifier dans un corpus les groupes de termes représentatifs des thèmes de celui-ci. Pour extraire ces informations, il existe plusieurs méthodes de calcul, détaillées ci-dessous. Leur efficacité respective dépendra du type de corpus et du type d'information recherchée. Globalement, NMF est plus performant sur les textes courts.</p>")}} [<a href="https://www.sciencedirect.com/science/article/pii/S0950705118304076" target="_blank">{{ _("réf") }}</a>].</p>
         <ul>
             <li>{{ _("Factorisation par matrices non négatives (NMF) : calcule en observant la fréquence et la répartition des termes dans chaque document par rapport au corpus global.")}}</li>
             <li>{{ _("Allocation de Dirichlet latente (LDA) : calcule en se basant sur des hypothèses statistiques de présence de thématiques par document.")}}</li>
         </ul>
         <div>
             <p>{{ _("Format d'entrée :")}} {{ _("ensemble de fichiers au format texte") }} (.txt)</p>
-            <p>{{ _("Format de sortie :")}} {{ _("fichier CSV contenant les ensembles de mots-clés formant les thématiques détectées. Le nombre de thématiques dépend du nombre de document présents dans le corpus, mais est plafonné à 8.")}}</p>
+            <p>{{ _("Format de sortie :")}} {{ _("fichier CSV contenant les ensembles de mots-clés formant les thématiques détectées. Le nombre de thématiques dépend du nombre de document présents dans le corpus, mais est plafonné à 8.")}}
+             <br><br>En plus, cet outil permet l'utilisateur de choisir la lemmatisation ou non. En gros, la lemmatisation fait référence au procesus ramener un mot portant des marques de flexion à sa forme de référence (par exemple, 'faisait' donnera 'faire'.</p>
         </div>
     </div>
     <div class="container_two_columns">

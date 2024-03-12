@@ -32,10 +32,10 @@
    <h1 style="font-family:'Comprehension', serif;">Pandore toolbox</h1></a>
    <nav>
      <ul>
-       <li><a href="{{ url_for('pandore')}}"><i class="fa-solid fa-box" style="margin-right:8px;"></i>Pandore</a></li>
-       <li><a href="{{ url_for('outils') }}">{{ _('Outils') }}</a></li>
-       <li><a href="{{ url_for('projet') }}" id="menu_projet">{{ _('Projet') }}</a></li>
-       <li><a href="{{ url_for('documentation') }}">{{ _('Documentation') }}</a></li>
+       <li class="obtic-tool"><a href="{{ url_for('pandore')}}"><i class="fa-solid fa-box" style="margin-right:8px;"></i>Pandore</a></li>
+       <li class="obtic-tool"><a href="{{ url_for('outils') }}">{{ _('Outils') }}</a></li>
+       <li class="obtic-tool"><a href="{{ url_for('projet') }}" id="menu_projet">{{ _('Projet') }}</a></li>
+       <li class="obtic-tool"><a href="{{ url_for('documentation') }}">{{ _('Documentation') }}</a></li>
     </ul>
     <div class="lang-menu">
         {% for language in AVAILABLE_LANGUAGES.items() %}
@@ -63,7 +63,6 @@
   numériques.") }} {{ _("Des chaînes de traitement permettant d'automatiser un ensemble de
   tâches sont également proposées.")}}</p>
     </div>
-    <button disabled>{{ _('Voir la démo') }}</button>
   </div>
   {% block mosaique %}
   <div class="bandeau-outils">

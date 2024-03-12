@@ -12,7 +12,9 @@
       <p><a href="https://obtic.huma-num.fr/teinte/" target="_blank">Teinte <i class="fa-solid fa-arrow-up-right-from-square"></i></a> {{ _("permet de convertir de nombreux formats de fichiers vers les formats les plus couramment utilisés dans les humanités numériques") }} : TEI, docx, html, epub, markdown.</p>
 
       <h4>{{ _('Outil Pandore') }}</h4>
-      <p>{{ _("L'outil ci-dessous permet de transformer un texte brut en format XML-TEI") }}. {{ _("Il est nécessaire de spécifier les métadonnées dans le formulaire ci-dessous") }}. {{ _("Se référer au manuel TEI")}} (<a href="https://tei-c.org/release/doc/tei-p5-doc/fr/html/ref-fileDesc.html#:~:text=Il%20fournit%20le%20titre%20et,dans%20l'en%2Dt%C3%AAte." target="_blank">{{ _ ("section fileDesc") }} </a>) {{ _("pour plus d'information sur les différents champs de l'en-tête") }}.</p>
+      <p>{{ _("L'outil ci-dessous permet de transformer un texte brut en format XML-TEI") }}. <br>
+        {{ _("La TEI est un format courant en humanitiés numériques qui permet d'encoder les textes. On utilise des balises prédefinies. 
+        <br>Chaque document TEI doit avoir au moins un &lt;teiHeader&gt; qui contient des informations importantes sur le document. Cette balise contient à son tour au minimum  &lt;fileDesc&gt;,   &lt;titleStmt&gt;,  &lt;publicationStmt&gt; et  &lt;sourceDesc&gt;. <br> Il est nécessaire de spécifier les métadonnées dans le formulaire ci-dessous qui serviront à remplir les informations trouvées en &lt;teiHeader&gt; ") }}. {{ _("Se référer au manuel TEI")}} (<a href="https://tei-c.org/release/doc/tei-p5-doc/fr/html/ref-fileDesc.html#:~:text=Il%20fournit%20le%20titre%20et,dans%20l'en%2Dt%C3%AAte." target="_blank">{{ _ ("section fileDesc") }} </a>) {{ _("pour plus d'information sur les différents champs de l'en-tête") }}.</p>
       <div id="divform">
 
         <form action="{{ url_for('xmlconverter') }}" id="metadata-form" method="post" enctype="multipart/form-data">
@@ -42,7 +44,6 @@
           <textarea cols="25" rows="3" id="sourceDesc" name="sourceDesc" placeholder="Description bibliographique de la source" required></textarea>
           </fieldset>
         </div>
-
         <div id="div-upload" class="column">
           <div class="dropzone">
             <input type="file" id="rax-text-file" name="file" accept=".txt" required />
@@ -53,5 +54,58 @@
         </div>
           </form>
       </div>
+    <span class="trigger-panel" onclick="openNav()">{{ _('Tâches suivantes')}}  <i class="fa-solid fa-angles-right"></i></span>
+
+<div id="task-panel-ocr" class="sidepanel">
+  <span class="closebtn" onclick="closeNav()">&times;</span>
+  <h3 style="font-family: 'Comprehension', serif;">{{ _('Tâches suivantes')}}</h3>
+  <div class="side-item"><a href="{{ url_for('entites_nommees') }}">{{ _('Extraire les entités nommées') }}</a></div>
+  <div class="side-item"><a href="{{ url_for('etiquetage_morphosyntaxique') }}">{{ _('Étiqueter en parties du discours') }}</a></div>
+  <div class="side-item"><a href="{{ url_for('outils_visualisation') }}">{{ _('Visualisation') }}</a></div>
+</div>
     </div>
+    <script type="text/javascript">
+        function openNav() {
+    document.getElementById("task-panel-ocr").style.width = "300px";
+  }
+/* Set the width of the sidebar to 0 (hide it) */
+  function closeNav() {
+    document.getElementById("task-panel-ocr").style.width = "0";
+  }
+
+
+      
+    </script>
+<script>
+    /* MAJ de la zone de glisser-déposer */ 
+    $(document).ready(function(){
+        $('form input').change(function () {
+
+            var nb_files = this.files.length;
+            $('form #form_msg').text(nb_files + " fichier(s) selectionné(s)");
+
+            /* Prévisualisation des fichiers chargés (max 3 visibles) */
+            if(nb_files > 3){
+                var num = nb_files - 3;
+                for(i=0; i < 3; i++){
+                    $("#form_msg").append('<br/><span class="filename_preview">' + this.files[i].name + '</span>');
+                }
+                $("#form_msg").append('<span class="filename_preview"> et ' + num + ' autres.</span>');
+            }
+            else{
+                for(i=0; i < nb_files; i++){
+                    $("#form_msg").append('<br/><span class="filename_preview">' + this.files[i].name + '</span>');
+                }
+            }
+        });
+
+        /* Affichage des options du formulaire */
+
+        $('#mmr').click(function(){
+            $("#diversity_opt").toggle();
+        });
+
+    });
+
+    </script>
 {% endblock %}

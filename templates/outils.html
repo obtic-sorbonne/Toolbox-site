@@ -14,14 +14,14 @@
         <div class="col-list">
             <h3 style="padding:5px">{{ _('Tâches') }}</h3>
             <ul id="task-list">
-                <li class="obtic-tool"><a href="{{ url_for('categories_semantiques') }}">{{ _("Analyse d'opinion") }}</a></li>
-                <li class="obtic-tool"><a href="{{ url_for('categories_semantiques') }}">{{ _("Analyse de sentiments") }}</a></li>
+                <li class="obtic-tool"><a href="{{ url_for('categories_semantiques') }}">{{ _("Analyse d'opinion et de sentiments") }}</a></li>
+                <!--<li class="obtic-tool"><a href="{{ url_for('categories_semantiques') }}">{{ _("Analyse de sentiments") }}</a></li>-->
                 <li><a href="{{ url_for('collecter_corpus') }}">{{ _("Collecte de corpus (scraping)") }}</a></li>
                 <li class="obtic-tool"><a href="{{ url_for('conversion_xml') }}">{{ _("Conversion de formats de fichiers") }}</a></li>
                 <li class="obtic-tool"><a href="{{ url_for('conversion_xml') }}">{{ _("Conversion XML-TEI") }}</a></li>
-                <li><a href="{{ url_for('correction_erreur')}}">{{ _("Correction de corpus bruités")}}</a></li>
+                <!--<li><a href="{{ url_for('correction_erreur')}}">{{ _("Correction de corpus bruités")}}</a></li>-->
                 <li class="obtic-tool"><a href="{{ url_for('ocr_map')}}">{{ _("Entités de lieu") }}</a></li>
-                <li class="obtic-tool"><a href="https://obtic.sorbonne-universite.fr/tanagra/map">{{ _("Entités de lieu") }} (Tanagra)</a></li>
+                <li class="obtic-tool"><a href="https://obtic.sorbonne-universite.fr/tanagra">{{ _("Entités de lieu") }} (Tanagra)</a></li>
                 <li><a href="{{ url_for('etiquetage_morphosyntaxique')}}">{{ _("Étiquetage morphosyntaxique (POS-tagging)") }}</a></li>
                 <li><a href="{{ url_for('extraction_mots_cles')}}">{{ _("Extraction automatique de mots-clés") }}</a></li>
                 <li><a href="{{ url_for('numeriser') }}">{{ _("HTR (reconnaissance de texte manuscrit)") }}</a></li>
@@ -39,17 +39,17 @@
             <h3 style="padding:5px">{{ _('Outils') }}</h3>
             <ul id="tool-list">
                 <li><a href="{{ url_for('entites_nommees') }}">{{ _("Camembert NER") }}</a></li>
-                <li><a href="{{ url_for('correction_erreur') }}">Jamspell</a></li>
+                <!--<li><a href="{{ url_for('correction_erreur') }}">Jamspell</a></li>-->
                 <li><a href="{{ url_for('extraction_mots_cles') }}">KeyBERT</a></li>
                 <!--<li><a href="#">Kraken</a></li>-->
                 <li class="obtic-tool"><a href="{{ url_for('ocr_map')}}">Épiméthée</a></li>
                 <li><a href="{{ url_for('entites_nommees') }}">Flair (NER)</a></li>
-                <li><a href="{{ url_for('ocr_map') }}">GeoPy</a></li>
+                <!--<li><a href="{{ url_for('ocr_map') }}">GeoPy</a></li>-->
+                <li><a href="{{ url_for('renard') }}">Renard</a></li>
                 <li><a href="{{ url_for('etiquetage_morphosyntaxique') }}">SEM</a></li>
-                <li><a href="#">Sklearn</a></li>
                 <li><a href="{{ url_for('entites_nommees') }}">Spacy (NER)</a></li>
                 <li class="obtic-tool"><a href="https://obtic.sorbonne-universite.fr/summary/">Summarizer</a></li>
-                <li class="obtic-tool"><a href="https://obtic.sorbonne-universite.fr/tanagra/map">Tanagra</a></li>
+                <li class="obtic-tool"><a href="https://pandore-toolbox.isir.upmc.fr/tanagra">Tanagra</a></li>
                 <li class="obtic-tool"><a href="https://obtic.huma-num.fr/teinte/">Teinte</a></li>
                 <li><a href="{{ url_for('numeriser') }}">Tesseract OCR</a></li>
                 <li class="obtic-tool"><a href="{{ url_for('categories_semantiques')}}">Textolab</a></li>
@@ -98,6 +98,8 @@
             $('li').show().filter(':not(.obtic-tool)').hide();
         }
     }
+
 </script>
 {% endblock %}
 {% block footer %} {{ super() }} {% endblock %}
+

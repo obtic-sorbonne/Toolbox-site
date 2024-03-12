@@ -18,7 +18,9 @@
             <li>Maximal marginal relevance (MMR){{ _(" : permet de filtrer les mots-clés candidats selon leur taux de diversité. Un taux de diversité élevé évitera les redondances ; un taux de diversité faible pourra par exemple permettre de cibler des nuances autour de thèmes principaux")}}.</li>
             <li>Maximal sum similarity (MSS){{ _(" : sélectionne les mots-clés qui ont le taux de similarité deux à deux le plus faible possible")}}.</li>
         </ul>
+
     </div>
+    <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_keywords', _anchor='doc_words') }}">{{ _("Voir la documentation complète") }}</a></p>
     <div class="container_two_columns">
         <div class="item">
             <h3>{{ _("Chargement des fichiers") }}</h3>
@@ -31,7 +33,7 @@
                     <input type="checkbox" name="extraction-method" value="mmr" id="mmr"><label for="mmr">MMR</label>
                     <input type="checkbox" name="extraction-method" value="mss" id="mss"><label for="mss">MSS</label>
 
-                    <div id="diversity_opt" style="display:none;padding:5px;"><input type="range" name="diversity" min="0" max="10" value="7"><label for="diversity">{{ _("Diversité") }}</label></div>
+                    <div id="diversity_opt" style="display:none;padding:5px;"><input type="range" name="diversity" min="0" max="10" value="7"><label for="diversity">{{ _("Diversité (MMR)") }}</label></div>
                 </fieldset>
                 </div>
                 <div class="dropzone" id="kw_dropzone">
