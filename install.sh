@@ -10,6 +10,9 @@ packages=(
     "pandas"
     "sem"
     "semtagger"
+    "renard"
+    "renard.pipeline"
+    "flair"
 )
 
 for package in "${packages[@]}"; do
