@@ -41,6 +41,7 @@ Il se peut qu'il faille lancer les commandes suivantes :
 <li>`python -m spacy download fr_core_news_lg`</li>
 <li>`python -m spacy download es_core_news_sm`</li>
 </ul>
+
 ### Lancer l'application
 
 Placé dans le dossier Toolbox-site, lancer la commande :
