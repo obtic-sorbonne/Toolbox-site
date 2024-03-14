@@ -340,6 +340,14 @@ def corpus_from_url():
 			if path_elems[-1] != 'Texte_entier' and request.form.get(s) == 'on':
 				# Escape URL if not already escaped
 				url_temp = url.replace("https://fr.wikisource.org/wiki/", "")
+				# Flag that will indicate if the removal of the report for this table of content is needed or not
+				f_delete_report = True
+				# Create a directory to store all chapters differently if there are more than one text that are scrapped
+				if len(urls)>1:
+					result_path_table = os.path.join(result_path,url_temp)
+					os.mkdir(result_path_table)
+				else:
+					result_path_table=result_path
 				if not '%' in url_temp:
 					url = "".join(["https://fr.wikisource.org/wiki/", urllib.parse.quote(url_temp)])
 				try:
@@ -355,18 +363,28 @@ def corpus_from_url():
 						if text != -1:
 							if not name:
 								name = path_elems[-1]
-							with open(os.path.join(result_path, name)+'.txt', 'w', encoding='utf-8') as output:
+							with open(os.path.join(result_path_table, name)+'.txt', 'w', encoding='utf-8') as output:
 								output.write(text)
-							with open(os.path.join(result_path, "rapport.txt"), 'a') as rapport:
+							with open(os.path.join(result_path_table, "rapport.txt"), 'a') as rapport:
 								rapport.write(link + '\t' + 'OK\n')
+						else:
+							if not name:
+								name = path_elems[-1]
+							with open(os.path.join(result_path_table, "rapport.txt"), 'a') as rapport:
+								rapport.write(link + '\t' + 'FAILED\n')
+								f_delete_report=False
 
 				except urllib.error.HTTPError:
 					print(" ".join(["The page", url, "cannot be opened."]))
-					with open(os.path.join(result_path, "rapport.txt"), 'a') as rapport:
+					with open(os.path.join(result_path_table, "rapport.txt"), 'a') as rapport:
 								rapport.write(url + '\t' + "Erreur : l'URL n'a pas pu être ouverte.\n")
 					continue
 
 				filename = urllib.parse.unquote(path_elems[-1])
+
+				#delete the report if all is well :
+				if f_delete_report:
+					os.remove(os.path.join(result_path_table, "rapport.txt"))
 
 			# URL vers texte intégral
 			else:
