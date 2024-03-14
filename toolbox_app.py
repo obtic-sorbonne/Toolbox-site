@@ -606,11 +606,6 @@ def generate_random_corpus(nb):
 	all_texts = []
 
 	for text_url in urls:
-		#removes the subsidiary part of the url path ("/Texte_entier" for example) so it does not mess with the filename
-		if(re.search('/',text_url)):
-			text_title = urllib.parse.unquote(text_url.split('/')[0])
-		else:
-			text_title = urllib.parse.unquote(text_url)
 		location = "".join(["https://fr.wikisource.org/wiki/", text_url])
 		try:
 			page = urllib.request.urlopen(location)
@@ -628,6 +623,24 @@ def generate_random_corpus(nb):
 			with open('pb_url.log', 'a') as err_log:
 				err_log.write(text_url)
 		else:
+			#Preparation of text_title:
+			#removes the subsidiary part of the url path when it is "/Texte_entier" so it does not mess with the filename
+			search_texte_entier = re.search("/Texte_entier", text_url)
+			if search_texte_entier:
+				text_url = text_url[:search_texte_entier.start()] + text_url[search_texte_entier.end():]
+
+			#removes the subsidiary part of the url path when it is "/%C3%89dition_XXXX" where XXXX is a date, so it does not mess with the filename
+			search_edition = re.search("/%C3%89dition_[0-9]{4}", text_url)
+			if search_edition:
+				text_url = text_url[:search_edition.start()] + text_url[search_edition.end():]
+
+			#once all artefacts have been removed, select the subsidiary part of the url path as a title so the slashes does not mess with the filename and the
+			#	infos of the most precise title are retained
+			if(re.search('/',text_url)):
+				text_title = urllib.parse.unquote(text_url.split('/')[0])
+			else:
+				text_title = urllib.parse.unquote(text_url)
+			
 			# Remove end of line inside sentence
 			clean_text = re.sub("[^\.:!?»[A-Z]]\n", ' ', text[0].text)
 			all_texts.append((clean_text,text_title))
