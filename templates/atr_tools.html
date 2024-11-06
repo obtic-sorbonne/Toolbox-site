@@ -1,0 +1,28 @@
+{% extends "index.html" %}
+{% block header %} {{ super() }} {% endblock %}
+
+{% block content %}
+  <div class="selection">
+    <h2>Automatic Text Recognition (ATR) tools</h2>
+    <p style="text-align: center;">Cette page répertorie divers outils qui peuvent être utilisées pour faire de la reconnaissance automatique de textes.</p>
+    <div class="container">
+      <div class="box-outil-accueil" onclick="window.location.href='{{ url_for('numeriser') }}'">
+        <div class="rubrique-icon"><img alt="Tesseract" src="{{url_for('static', filename='img/ocr_icon.png')}}"></div>
+        <span class="rubrique-title"><h3>Tesseract</h3></span>
+        <span class="rubrique-text"><p>Outil Tesseract pour les documents imprimés</p></span>
+      </div>
+      <div class="box-outil-accueil" onclick="window.open('https://escriptorium.isir.upmc.fr/')">
+        <div class="rubrique-icon"><img alt="eScriptorium" src="{{url_for('static', filename='img/escriptorium.png')}}"></div>
+        <span class="rubrique-title"><h3>eScriptorium</h3></span>
+        <span class="rubrique-text"><p>Outil d'ATR</p></span>
+      </div>
+      <div class="box-outil-accueil" onclick="window.open('https://www.transkribus.org/')">
+        <div class="rubrique-icon"><img alt="Transkribus" src="{{url_for('static', filename='img/transkribus.jpg')}}"></div>
+        <span class="rubrique-title"><h3>Transkribus</h3></span>
+        <span class="rubrique-text"><p>Outil d'ATR</p></span>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block footer %} {{ super() }} {% endblock %}

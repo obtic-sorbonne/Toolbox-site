@@ -108,6 +108,10 @@ def outils():
 	form = SearchForm()
 	return render_template('outils.html', form=form)
 
+@app.route('/code_source')
+def code_source():
+	return render_template('code_source.html')
+
 #-------- DOCUMENTATION ----------------------#
 @app.route('/documentation')
 def documentation():
@@ -130,6 +134,30 @@ def documentation_keywords():
 	return render_template('documentation/documentation_keybert.html')
 #-------- FIN DOC -----------------------------#
 
+
+#-------- TUTORIEL ----------------------#
+@app.route('/tutoriel')
+def tutoriel():
+	return render_template('tutoriel.html')
+
+@app.route('/tutoriel_ocr')
+def tutoriel_ocr():
+	return render_template('tutoriel/tutoriel_ocr.html')
+
+@app.route('/tutoriel_pos_tagging')
+def tutoriel_pos_tagging():
+	return render_template('tutoriel/tutoriel_pos_tagging.html')
+
+@app.route('/tutoriel_ren')
+def tutoriel_ren():
+	return render_template('tutoriel/tutoriel_ren.html')
+
+@app.route('/tutoriel_keywords')
+def tutoriel_keywords():
+	return render_template('tutoriel/tutoriel_keybert.html')
+
+#-------- FIN TUTORIEL -----------------#
+
 @app.route('/contact')
 def contact():
 	form = ContactForm()
@@ -139,18 +167,30 @@ def contact():
 def outils_corpus():
 	return render_template('corpus.html')
 
-@app.route('/outils_fouille')
-def outils_fouille():
-	return render_template('fouille_de_texte.html')
+@app.route('/annotation_automatique')
+def annotation_automatique():
+	return render_template('annotation_automatique.html')
+
+@app.route('/extraction_information')
+def extraction_information():
+	return render_template('extraction_information.html')
 
 @app.route('/outils_visualisation')
 def outils_visualisation():
 	return render_template('visualisation.html')
 
+@app.route('/atr_tools')
+def atr_tools():
+	return render_template('atr_tools.html')
+
 @app.route('/numeriser')
 def numeriser():
 	form = FlaskForm()
 	return render_template('numeriser.html', form=form)
+
+@app.route('/conversion')
+def conversion():
+	return render_template('conversion.html')
 
 @app.route('/normalisation')
 def normalisation():

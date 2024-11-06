@@ -32,11 +32,30 @@
    <h1 style="font-family:'Comprehension', serif;">Pandore toolbox</h1></a>
    <nav>
      <ul>
-       <li class="obtic-tool"><a href="{{ url_for('pandore')}}"><i class="fa-solid fa-box" style="margin-right:8px;"></i>Pandore</a></li>
-       <li class="obtic-tool"><a href="{{ url_for('outils') }}">{{ _('Outils') }}</a></li>
-       <li class="obtic-tool"><a href="{{ url_for('projet') }}" id="menu_projet">{{ _('Projet') }}</a></li>
-       <li class="obtic-tool"><a href="{{ url_for('documentation') }}">{{ _('Documentation') }}</a></li>
-    </ul>
+       <li class="obtic-tool"><a href="{{ url_for('pandore')}}"><i class="fa-solid fa-box" style="margin-right:8px;"></i> Pandore</a></li>
+       <li class="obtic-tool"><a href="{{ url_for('projet') }}" id="menu_projet"><i class="fa fa-users" style="margin-right:8px;"></i> {{ _('Projet') }}</a></li>
+    <li class="obtic-tool dropdown">
+      <a href="#" class="dropdown-toggle"><i class="fa fa-bars" style="margin-right:8px;"></i> Tâches</a>
+      <ul class="dropdown-child">
+        <li class="obtic-tool"><a href="{{ url_for('atr_tools') }}">Automatic Text Recognition (ATR)</a></li>
+        <li class="obtic-tool"><a href="{{ url_for('conversion') }}">Conversion de formats</a></li>
+        <li class="obtic-tool"><a href="{{ url_for('annotation_automatique') }}">Tâches d'annotation automatique</a></li>
+        <li class="obtic-tool"><a href="{{ url_for('extraction_information') }}">Extraction d'information</a></li>
+        <li class="obtic-tool"><a href="{{ url_for('outils_visualisation') }}">Visualisation</a></li>
+        <li class="obtic-tool"><a href="{{ url_for('collecter_corpus') }}">Extraction de corpus littéraires</a></li>
+        <li class="obtic-tool"><a href="{{ url_for('outils_corpus') }}">Correction de la graphie</a></li>
+        <li class="obtic-tool"><a href="{{ url_for('outils_pipeline') }}">Chaînes de traitement</a></li>
+      </ul>
+    </li>
+    <li class="obtic-tool dropdown">
+      <a href="#" class="dropdown-toggle"><i class="fa fa-question-circle" style="margin-right:8px;"></i> Aide</a>
+      <ul class="dropdown-child">
+        <li class="obtic-tool"><a href="{{ url_for('documentation') }}">{{ _('Documentation') }}</a></li>
+        <li class="obtic-tool"><a href="{{ url_for('tutoriel') }}">Tutoriel</a></li>
+        <li class="obtic-tool"><a href="{{ url_for('code_source') }}">Code Source</a></li>
+      </ul>
+    </li>
+  </ul>
     <div class="lang-menu">
         {% for language in AVAILABLE_LANGUAGES.items() %}
         {% if CURRENT_LANGUAGE == language[0] %}
@@ -67,20 +86,25 @@
   {% block mosaique %}
   <div class="bandeau-outils">
     <div class="container">
-      <div class="box-outil-accueil shadow" onclick="window.location.href='{{ url_for('numeriser') }}';">
+      <div class="box-outil-accueil shadow" onclick="window.location.href='{{ url_for('atr_tools') }}';">
         <div class="rubrique-icon"><img alt="OCR/HTR" src="{{url_for('static', filename='img/ocr_icon.png')}}"></div>
-        <span class="rubrique-title"><h3>OCR/HTR</h3></span>
+        <span class="rubrique-title"><h3>Automatic Text Recognition (ATR)</h3></span>
         <span class="rubrique-text"><p>{{ _("Conversion d'images en texte") }}</p></span>
       </div>
-      <div class="box-outil-accueil shadow" onclick="window.location.href='{{ url_for('conversion_xml') }}';">
+      <div class="box-outil-accueil shadow" onclick="window.location.href='{{ url_for('conversion') }}';">
         <div class="rubrique-icon"><img alt="Conversion de formats" src="{{url_for('static', filename='img/conversion-icon.png')}}"></div>
         <span class="rubrique-title"><h3>{{ _('Conversion de formats') }}</h3></span>
         <span class="rubrique-text"><p>{{ _('Formatage XML-TEI') }}, {{ _('conversion de divers formats de fichiers') }}.</p></span>
       </div>
-      <div class="box-outil-accueil shadow" onclick="window.location.href='{{ url_for('outils_fouille') }}';">
-        <div class="rubrique-icon"><img alt="Fouille et annotation de texte" src="{{url_for('static', filename='img/ner-icon.png')}}"></div>
-        <span class="rubrique-title"><h3>{{ _('Fouille et annotation de texte') }}</h3></span>
-        <span class="rubrique-text"><p>{{ _("Reconnaissance d'entités nommées") }}, {{ _('étiquetage morphosyntaxique')}}, {{ _('analyse de sentiments') }}</p></span>
+      <div class="box-outil-accueil shadow" onclick="window.location.href='{{ url_for('annotation_automatique') }}';">
+        <div class="rubrique-icon"><img alt="Tâches d'annotation automatique" src="{{url_for('static', filename='img/ner-icon.png')}}"></div>
+        <span class="rubrique-title"><h3>Tâches d'annotation automatique</h3></span>
+        <span class="rubrique-text"><p>{{ _("Reconnaissance d'entités nommées") }}, {{ _('étiquetage morphosyntaxique')}}, catégories sémantiques</p></span>
+      </div>
+      <div class="box-outil-accueil shadow" onclick="window.location.href='{{ url_for('extraction_information') }}';">
+        <div class="rubrique-icon"><img alt="Extraction d'information" src="{{url_for('static', filename='img/ner-icon.png')}}"></div>
+        <span class="rubrique-title"><h3>Extraction d'information</h3></span>
+        <span class="rubrique-text"><p>Extraction de mots-clés, Topic Modelling, Résumé automatique</p></span>
       </div>
       <div class="box-outil-accueil shadow" onclick="window.location.href='{{ url_for('outils_visualisation')}}'">
         <div class="rubrique-icon"><img alt="Visualisation" src="{{url_for('static', filename='img/network-icon.png')}}"></div>
@@ -109,7 +133,7 @@
 {% endblock %}
 {% block footer %}
 <div class="footer">
-  <p><a href="https://github.com/obtic-scai/Toolbox-site"><i class="fa-brands fa-github"></i> {{ _('Code source') }}</a></p>
+  <p><a href="https://github.com/obtic-scai/Toolbox-site" target="_blank"><i class="fa-brands fa-github"></i> {{ _('Code source') }}</a></p>
   <p>{{ _("Site développé par l'équipe ObTIC et hébergé par Sorbonne Université") }}. {{ _("Ce site ne dépose pas de cookies publicitaires.") }}.</p>
   <p>© 2022-2023 <a href="https://obtic.sorbonne-universite.fr/" target="_blank">ObTIC</a></p>
 </div>

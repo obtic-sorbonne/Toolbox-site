@@ -35,45 +35,73 @@ h2{
   font-family:'Comprehension', serif;
 	font-size:2em;
 	font-weight:500;
-	color:#8A824C;
+	color:#263e8d;
 	text-align:center;
 }
 
-nav{
+nav {
   display: flex;
-  justify-content:flex-end;
+  justify-content: flex-end;
 }
 
-
-nav ul{
-	display:flex;
-	justify-content:flex-end;
-	align-items:flex-end;
-	height:85px;
+nav ul {
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  height: 85px;
   margin-right: 1%;
 }
 
-nav ul li{
-	list-style-type:none;
-	width:190px;
+nav ul li {
+  list-style-type: none;
+  width: 190px;
+  position: relative;
 }
 
-nav ul a{
-	display:block;
-	text-decoration:none;
-	text-align:center;
-	font-size:1.3em;
-	font-family:"Bree Serif", serif;
-	font-weight:500;
-	color:#fff;
-	padding:20px;
+nav ul a {
+  display: block;
+  text-decoration: none;
+  text-align: center;
+  font-size: 1.3em;
+  font-family: "Bree Serif", serif;
+  font-weight: 500;
+  color: #fff;
+  padding: 20px;
 }
-nav li:hover{
-	background-color:#1ABC9C;
+
+nav li:hover {
+  background-color: #f2a800;
+}
+
+/* Dropdown styling */
+.dropdown:hover .dropdown-child {
+  display: block;
+}
+
+.dropdown-child {
+  display: none;
+  position: absolute;
+  background-color: #263e8d;
+  min-width: 190px;
+  top: 100%; /* Place dropdown directly below the parent */
+  left: 0;
+}
+
+.dropdown-child a {
+  color: #fff !important;
+  padding: 10px 20px;
+  text-align: left;
+  display: block;
+  background-color: #263e8d;
+}
+
+.dropdown-child a:hover {
+  background-color: #f2a800 !important;
+  color: #fff !important;
 }
 
 hr{
-  background-color:#8A824C;
+  background-color:#263e8d;
   width:50%;
   margin:20px auto;
   font-weight: 400;
@@ -102,14 +130,14 @@ hr{
   font-weight: 300;
 }
 .lang-menu a:hover{
-  background-color: #1ABC9C;
+  background-color: #f2a800;
 }
 
 
 .logo {
   position:fixed;
   margin-top: 0px;
-  background-color: #496a81;
+  background-color: #263e8d;
   color:#fff;
   height: 85px;
   width: 100%;
@@ -255,7 +283,7 @@ hr{
 
 .box-outil-visu{
   background-color:#e2e0d5;
-  border:1px solid #8A824C;
+  border:1px solid #263e8d;
   min-width:420px;
   flex: 0 0 0px;
   display:flex;
@@ -286,8 +314,8 @@ hr{
 
 .footer{
   font-size:0.7em;
-  color:#FFEBD2;
-  background-color:#79707D;
+  color:#263e8d;
+  background-color:#f2a800;
   text-align: center;
   padding:20px;
 }
@@ -297,7 +325,7 @@ hr{
 }
 .footer a{
   text-decoration: none;
-  color:#FFEBD2;
+  color:#263e8d;
 }
 .footer a:hover{
   color:#fff;
@@ -310,12 +338,12 @@ hr{
 
 
 .presentation a:link, .presentation a:active{
-  color:#b3af8fff;
+  color:#f2a800;
   text-decoration: dashed;
 }
 
 .presentation a:visited{
-  color:#1ABC9C;
+  color:#f2a800;
 }
 
 .div-search-form{
@@ -331,7 +359,7 @@ hr{
   font-size: medium;
 }
 .div-search-form .search-button{
-  background-color: #496a81;
+  background-color: #263e8d;
   font-size: 16px;
   border-radius: 50%;
   padding:12px 16px;
@@ -347,13 +375,13 @@ hr{
 }
 
 .two-columns-container h3{
-  color:#496a81;
+  color:#263e8d;
   font-weight: normal;
 }
 
 .col-list{
   min-width:48%;
-  border: 1px solid #79707D;
+  border: 1px solid #f2a800;
   border-radius: 12px;
 }
 .col-list ul{
@@ -396,7 +424,7 @@ hr{
 position:relative;
 width: 500px;
 height: 200px;
-border: 4px dashed #496a81;
+border: 4px dashed #263e8d;
 display: table;
 }
 
@@ -521,7 +549,7 @@ display: table;
 }
 
 .infos_outil .infos_title{
-  color:#8A824C;
+  color:#263e8d;
   font-style: italic;
   margin-bottom: 8px;
 }
@@ -544,7 +572,7 @@ display: table;
 .how{
   font-family: 'Bree Serif', serif;
   margin:15px 0;
-  color:#8A824C;
+  color:#263e8d;
   font-style:italic;
   font-weight: 300;
   font-size:1.2em;
@@ -627,7 +655,7 @@ display: table;
   padding:10px;
 }
 .outil a{
-  color:#b3af8fff;
+  color:#f2a800;
   text-decoration:none;
 }
 
@@ -829,7 +857,7 @@ button{
 
 button:hover{
   cursor: pointer;
-  background-color: #1ABC9C;
+  background-color: #f2a800;
   transition: all .2s ease;
 }
 
@@ -853,7 +881,7 @@ button:hover{
 }
 #urlform .addbutton:hover{
   cursor: pointer;
-  background-color: #1ABC9C;
+  background-color: #f2a800;
 }
 
 #divform{
@@ -951,7 +979,7 @@ table td{
   border:1px solid #a5bfc8;
 }
 .language-selection:hover{
-  box-shadow: 0 0 3px 1px #1ABC9C;
+  box-shadow: 0 0 3px 1px #f2a800;
 }
 .language-selection i{
   margin-right:8px;

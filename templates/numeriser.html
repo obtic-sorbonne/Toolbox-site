@@ -29,12 +29,13 @@
 
 <link rel="stylesheet" href="{{ url_for('static', filename= 'css/elements.css') }}">
 <div class="outil">
+  <div class="fil"><a href="{{ url_for('atr_tools')}}"><< Retour aux tâches</a></div>
 <h2>{{ _('Numériser')}} (OCR/HTR)</h2>
 
 <div class="tool-box">
     <h4>Tesseract OCR</h4>
     <p>{{ _ ("L'outil Tesseract") }} <a href="https://tesseract-ocr.github.io/tessdoc/" target="_blank"><i class="fa-solid fa-arrow-up-right-from-square"></i></a> {{ _('permet de numériser des imprimés')}}. {{ _('Les modèles préentraînés') }} <a href="https://github.com/tesseract-ocr/tessdata" target="_blank"> ({{ _('liste ici')}} <i class="fa-solid fa-arrow-up-right-from-square"></i>)</a> {{ _("disponibles avec l'outil couvrent un large éventail de polices et sont disponibles pour de très nombreuses langues")}}. Pour les textes bilingues, il est possible d'utiliser conjointement deux modèles. Les modèles pour le chinois proviennent d'un <a href="https://github.com/gumblex/tessdata_chi" target="_blank">projet externe</a>.</p>
-    <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_ocr') }}">{{ _('Voir la documentation complète') }}</a></p>
+    <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_ocr') }}"  target="_blank">{{ _('Voir la documentation complète') }}</a></p>
     <div class="infos_outil">
       <p class="infos_title"><i class="fa-solid fa-circle-info"></i> {{ _("Informations sur l'outil") }}</p>
       <p>Tesseract version 4.0.0</p>
@@ -90,14 +91,6 @@
 	  </div>
 	  <!--end div loader-->
   </div><!-- end div tool-box-->
-  <div class="tool-box">
-    <h4>eScriptorium (HTR)</h4>
-    <p>Une instance eScriptorium hébergée par le <a href="https://scai.sorbonne-universite.fr/" target="_blank">SCAI</a> à l'initiative d'ObTIC est disponible à <a href="https://escriptorium.isir.upmc.fr/">cette adresse</a>. Merci de remplir le formulaire de contact pour demander la création d'un compte.</p>
-  </div>
-  <div class="tool-box">
-    <h4>Transkribus (HTR)</h4>
-    <p>Transkribus <a href="https://readcoop.eu/transkribus/"><i class="fa-solid fa-arrow-up-right-from-square"></i></a> est une excellente alternative pour les tâches d'HTR. Payant au-delà d'un certain nombre de pages à numériser, il permet néanmoins d'entraîner rapidement des modèles performants. Une intéressante sélection de modèles pré-entraînés est également disponible.</p>
-  </div>
 </div>
 
 <span class="trigger-panel" onclick="openNav()">{{ _('Tâches suivantes')}}  <i class="fa-solid fa-angles-right"></i></span>

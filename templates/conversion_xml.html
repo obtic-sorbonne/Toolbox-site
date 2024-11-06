@@ -4,13 +4,8 @@
 {% block content %}
 
     <div class="outil" id="t3">
+      <div class="fil"><a href="{{ url_for('conversion')}}"><< Retour aux tâches</a></div>
       <h2 style="font-family:'Comprehension', serif;">{{ _('Conversion de formats') }}</h2>
-      <h4>Teinte</h4>
-      <div style="text-align: center;">
-        <a href="https://obtic.huma-num.fr/teinte/"><img src="{{ url_for('static', filename='img/apercu_teinte.png') }}" height="60px"></a>
-      </div>
-      <p><a href="https://obtic.huma-num.fr/teinte/" target="_blank">Teinte <i class="fa-solid fa-arrow-up-right-from-square"></i></a> {{ _("permet de convertir de nombreux formats de fichiers vers les formats les plus couramment utilisés dans les humanités numériques") }} : TEI, docx, html, epub, markdown.</p>
-
       <h4>{{ _('Outil Pandore') }}</h4>
       <p>{{ _("L'outil ci-dessous permet de transformer un texte brut en format XML-TEI") }}. <br>
         {{ _("La TEI est un format courant en humanitiés numériques qui permet d'encoder les textes. On utilise des balises prédefinies. 

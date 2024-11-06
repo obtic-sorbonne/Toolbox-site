@@ -61,13 +61,7 @@
     <p class="how">A quoi ça sert ?</p>
     <p>Cet étiquetage permet une analyse linguistique des textes. Il peut être utile par exemple pour comparer différentes éditions ou traductions d'un texte, ou pour filtrer une certaine catégorie de termes (verbes, nom propres, etc).</p>
 
-    <h3> SEM sur Pandore</h3>
-    <p>L'outil implémenté sur Pandore est l'analyseur SEM. <a href="https://github.com/YoannDupont/SEM"><i class="fa-brands fa-github"></i> GitHub du projet</a></p>
-    <div class="instruction">
-      <p> Votre document doit être au format de texte brut. Le document à télécharger sera au format CoNLL 2003 (à ouvrir avec un éditeur de type Excel), avec une colonne pour le mot et une pour l'étiquette morphosyntaxique.</p>
-      <p> Voici un exemple du document de sortie : <img src="{{ url_for('static', filename='img/capture_pos_exemple.png') }}"></p>
-    </div>
-  </div>
+    
 </div>
   {% endblock %}
   {% block footer %} {{ super() }} {% endblock %}
