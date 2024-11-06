@@ -39,8 +39,8 @@
       <ul class="dropdown-child">
         <li class="obtic-tool"><a href="{{ url_for('atr_tools') }}">{{ _('Reconnaissance automatique de texte (ATR)') }}</a></li>
         <li class="obtic-tool"><a href="{{ url_for('conversion') }}">{{ _('Conversion de formats') }}</a></li>
-        <li class="obtic-tool"><a href="{{ url_for('annotation_automatique') }}">{{ _('Tâches d'annotation automatique') }}</a></li>
-        <li class="obtic-tool"><a href="{{ url_for('extraction_information') }}">{{ _('Extraction d'information') }}</a></li>
+        <li class="obtic-tool"><a href="{{ url_for('annotation_automatique') }}">{{ _("Tâches d'annotation automatique") }}</a></li>
+        <li class="obtic-tool"><a href="{{ url_for('extraction_information') }}">{{ _("Extraction d'information") }}</a></li>
         <li class="obtic-tool"><a href="{{ url_for('outils_visualisation') }}">Visualisation</a></li>
         <li class="obtic-tool"><a href="{{ url_for('collecter_corpus') }}">{{ _('Collecte de corpus') }}</a></li>
         <li class="obtic-tool"><a href="{{ url_for('outils_corpus') }}">{{ _('Correction textuelle') }}</a></li>
@@ -98,12 +98,12 @@
       </div>
       <div class="box-outil-accueil shadow" onclick="window.location.href='{{ url_for('annotation_automatique') }}';">
         <div class="rubrique-icon"><img alt="Tâches d'annotation automatique" src="{{url_for('static', filename='img/ner-icon.png')}}"></div>
-        <span class="rubrique-title"><h3>{{ _('Tâches d'annotation automatique') }}</h3></span>
+        <span class="rubrique-title"><h3>{{ _("Tâches d'annotation automatique") }}</h3></span>
         <span class="rubrique-text"><p>{{ _("Reconnaissance d'entités nommées") }}, {{ _('étiquetage morphosyntaxique')}}, {{ _('Catégories sémantiques') }}</p></span>
       </div>
       <div class="box-outil-accueil shadow" onclick="window.location.href='{{ url_for('extraction_information') }}';">
         <div class="rubrique-icon"><img alt="Extraction d'information" src="{{url_for('static', filename='img/ner-icon.png')}}"></div>
-        <span class="rubrique-title"><h3>{{ _('Extraction d'information') }}</h3></span>
+        <span class="rubrique-title"><h3>{{ _("Extraction d'information") }}</h3></span>
         <span class="rubrique-text"><p>{{ _('Extraction automatique de mots-clés') }}, Topic Modelling, {{ _('Résumé automatique') }}</p></span>
       </div>
       <div class="box-outil-accueil shadow" onclick="window.location.href='{{ url_for('outils_visualisation')}}'">
