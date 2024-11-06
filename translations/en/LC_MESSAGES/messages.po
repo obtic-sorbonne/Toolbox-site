@@ -858,3 +858,6 @@ msgstr "Error 413"
 
 msgid "La taille des fichiers est pour le moment limitée à 5MB"
 msgstr "File size is currently limited to 5MB"
+
+msgid "Retour aux tâches"
+msgstr "Back to tasks"
