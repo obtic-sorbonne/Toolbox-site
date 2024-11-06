@@ -45,19 +45,19 @@
 		<ul class="item-list">
 			<li onclick="window.open('{{ url_for('documentation_ocr') }}');">
 				<img src="{{ url_for('static', filename='img/manuscript-icon-small.png')}}" alt="OCR">
-				<p>OCR / HTR</p>
+				<p>{{ _('Reconnaissance automatique de texte (ATR)') }}</p>
 			</li>
 			<li onclick="window.open('{{ url_for('documentation_pos_tagging') }}');">
 				<img src="{{ url_for('static', filename='img/nuage_de_pos.png')}}">
-				<p>Étiquetage morphosyntaxique</p>
+				<p>{{ _('Étiquetage morphosyntaxique (POS-tagging)')}}</p>
 			</li>
 			<li onclick="window.open('{{ url_for('documentation_ren') }}');">
 				<img src="{{ url_for('static', filename='img/ner.png')}}" alt="REN">
-				<p>Reconnaissance d'entités nommées (REN)</p>
+				<p>{{ _("Reconnaissance d'entités nommées (REN)") }}</p>
 			</li>
 			<li onclick="window.open('{{ url_for('documentation_keywords') }}');">
 				<img src="{{ url_for('static', filename='img/keyword_extraction.png')}}">
-				<p>Extraction de mots-clés</p>
+				<p>{{ _('Extraction automatique de mots-clés') }}</p>
 			</li>
 		</ul>
 	</div>

@@ -35,24 +35,24 @@
        <li class="obtic-tool"><a href="{{ url_for('pandore')}}"><i class="fa-solid fa-box" style="margin-right:8px;"></i> Pandore</a></li>
        <li class="obtic-tool"><a href="{{ url_for('projet') }}" id="menu_projet"><i class="fa fa-users" style="margin-right:8px;"></i> {{ _('Projet') }}</a></li>
     <li class="obtic-tool dropdown">
-      <a href="#" class="dropdown-toggle"><i class="fa fa-bars" style="margin-right:8px;"></i> Tâches</a>
+      <a href="#" class="dropdown-toggle"><i class="fa fa-bars" style="margin-right:8px;"></i> {{ _('Tâches') }}</a>
       <ul class="dropdown-child">
-        <li class="obtic-tool"><a href="{{ url_for('atr_tools') }}">Automatic Text Recognition (ATR)</a></li>
-        <li class="obtic-tool"><a href="{{ url_for('conversion') }}">Conversion de formats</a></li>
-        <li class="obtic-tool"><a href="{{ url_for('annotation_automatique') }}">Tâches d'annotation automatique</a></li>
-        <li class="obtic-tool"><a href="{{ url_for('extraction_information') }}">Extraction d'information</a></li>
+        <li class="obtic-tool"><a href="{{ url_for('atr_tools') }}">{{ _('Reconnaissance automatique de texte (ATR)') }}</a></li>
+        <li class="obtic-tool"><a href="{{ url_for('conversion') }}">{{ _('Conversion de formats') }}</a></li>
+        <li class="obtic-tool"><a href="{{ url_for('annotation_automatique') }}">{{ _('Tâches d'annotation automatique') }}</a></li>
+        <li class="obtic-tool"><a href="{{ url_for('extraction_information') }}">{{ _('Extraction d'information') }}</a></li>
         <li class="obtic-tool"><a href="{{ url_for('outils_visualisation') }}">Visualisation</a></li>
-        <li class="obtic-tool"><a href="{{ url_for('collecter_corpus') }}">Extraction de corpus littéraires</a></li>
-        <li class="obtic-tool"><a href="{{ url_for('outils_corpus') }}">Correction de la graphie</a></li>
-        <li class="obtic-tool"><a href="{{ url_for('outils_pipeline') }}">Chaînes de traitement</a></li>
+        <li class="obtic-tool"><a href="{{ url_for('collecter_corpus') }}">{{ _('Collecte de corpus') }}</a></li>
+        <li class="obtic-tool"><a href="{{ url_for('outils_corpus') }}">{{ _('Correction textuelle') }}</a></li>
+        <li class="obtic-tool"><a href="{{ url_for('outils_pipeline') }}">{{ _('Chaînes de traitement') }}</a></li>
       </ul>
     </li>
     <li class="obtic-tool dropdown">
       <a href="#" class="dropdown-toggle"><i class="fa fa-question-circle" style="margin-right:8px;"></i> Aide</a>
       <ul class="dropdown-child">
         <li class="obtic-tool"><a href="{{ url_for('documentation') }}">{{ _('Documentation') }}</a></li>
-        <li class="obtic-tool"><a href="{{ url_for('tutoriel') }}">Tutoriel</a></li>
-        <li class="obtic-tool"><a href="{{ url_for('code_source') }}">Code Source</a></li>
+        <li class="obtic-tool"><a href="{{ url_for('tutoriel') }}">{{ _('Tutoriel') }}</a></li>
+        <li class="obtic-tool"><a href="{{ url_for('code_source') }}">{{ _('Code source') }}</a></li>
       </ul>
     </li>
   </ul>
@@ -88,7 +88,7 @@
     <div class="container">
       <div class="box-outil-accueil shadow" onclick="window.location.href='{{ url_for('atr_tools') }}';">
         <div class="rubrique-icon"><img alt="OCR/HTR" src="{{url_for('static', filename='img/ocr_icon.png')}}"></div>
-        <span class="rubrique-title"><h3>Automatic Text Recognition (ATR)</h3></span>
+        <span class="rubrique-title"><h3>{{ _('Reconnaissance automatique de texte (ATR)') }}</h3></span>
         <span class="rubrique-text"><p>{{ _("Conversion d'images en texte") }}</p></span>
       </div>
       <div class="box-outil-accueil shadow" onclick="window.location.href='{{ url_for('conversion') }}';">
@@ -98,13 +98,13 @@
       </div>
       <div class="box-outil-accueil shadow" onclick="window.location.href='{{ url_for('annotation_automatique') }}';">
         <div class="rubrique-icon"><img alt="Tâches d'annotation automatique" src="{{url_for('static', filename='img/ner-icon.png')}}"></div>
-        <span class="rubrique-title"><h3>Tâches d'annotation automatique</h3></span>
-        <span class="rubrique-text"><p>{{ _("Reconnaissance d'entités nommées") }}, {{ _('étiquetage morphosyntaxique')}}, catégories sémantiques</p></span>
+        <span class="rubrique-title"><h3>{{ _('Tâches d'annotation automatique') }}</h3></span>
+        <span class="rubrique-text"><p>{{ _("Reconnaissance d'entités nommées") }}, {{ _('étiquetage morphosyntaxique')}}, {{ _('Catégories sémantiques') }}</p></span>
       </div>
       <div class="box-outil-accueil shadow" onclick="window.location.href='{{ url_for('extraction_information') }}';">
         <div class="rubrique-icon"><img alt="Extraction d'information" src="{{url_for('static', filename='img/ner-icon.png')}}"></div>
-        <span class="rubrique-title"><h3>Extraction d'information</h3></span>
-        <span class="rubrique-text"><p>Extraction de mots-clés, Topic Modelling, Résumé automatique</p></span>
+        <span class="rubrique-title"><h3>{{ _('Extraction d'information') }}</h3></span>
+        <span class="rubrique-text"><p>{{ _('Extraction automatique de mots-clés') }}, Topic Modelling, {{ _('Résumé automatique') }}</p></span>
       </div>
       <div class="box-outil-accueil shadow" onclick="window.location.href='{{ url_for('outils_visualisation')}}'">
         <div class="rubrique-icon"><img alt="Visualisation" src="{{url_for('static', filename='img/network-icon.png')}}"></div>

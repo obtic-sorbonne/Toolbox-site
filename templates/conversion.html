@@ -3,19 +3,19 @@
 
 {% block content %}
   <div class="selection">
-    <h2>Conversion de formats</h2>
+    <h2>{{ _('Conversion de formats') }}</h2>
     <p style="text-align: center;">Cette page répertorie divers outils qui peuvent être utilisées pour convertir des documents d'un format à l'autre.</p>
     <div class="container">
 
       <div class="box-outil-accueil" onclick="window.location.href='{{ url_for('conversion_xml') }}'">
         <div class="rubrique-icon"><img alt="Conversion de formats" src="{{url_for('static', filename='img/conversion-icon.png')}}"></div>
-        <span class="rubrique-title"><h3>Conversion XML</h3></span>
-        <span class="rubrique-text"><p>Formulaire permettant de remplir les métadonnées d'un document XML</p></span>
+        <span class="rubrique-title"><h3>{{ _('Conversion XML-TEI') }}</h3></span>
+        <span class="rubrique-text"><p>{{ _('Formulaire permettant de remplir les métadonnées d'un document XML') }}</p></span>
       </div>
       <div class="box-outil-accueil" onclick="window.open('https://obtic.huma-num.fr/teinte/')">
         <div class="rubrique-icon"><img alt="Teinte" src="{{ url_for('static', filename='img/apercu_teinte2.png') }}"></div>
         <span class="rubrique-title"><h3>Teinte</h3></span>
-        <span class="rubrique-text"><p>Conversion de nombreux formats de fichiers vers les formats les plus couramment utilisés dans les humanités numériques<p></span>
+        <span class="rubrique-text"><p>{{ _('Conversion de nombreux formats de fichiers vers les formats les plus couramment utilisés dans les humanités numériques') }}<p></span>
       </div>
     </div>
   </div>

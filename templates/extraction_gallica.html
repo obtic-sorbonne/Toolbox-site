@@ -96,7 +96,7 @@ input[type="radio"]{
 </style>
 
 <div class="outil">
-	<div class="fil"><a href="{{ url_for('collecter_corpus')}}"><< Retour aux tâches</a></div>
+	<div class="fil"><a href="{{ url_for('collecter_corpus')}}"><< {{ _('Retour aux tâches') }}</a></div>
 <h2>API Gallica</h2>
 <p>Les documents consultables dans Gallica sont identifiés selon un système normalisé, ARK (pour <span style="font-style:italic">Archival Resource Key</span>) 
 	qui permet de garantir la pérennité des URL (voir la <a href="https://www.bnf.fr/fr/lidentifiant-ark-archival-resource-key#bnf-ark-qu-est-ce-que-c-est-" target="_blank">notice sur ARK <i class="fa-solid fa-arrow-up-right-from-square"></i></a> sur le site de la BnF). Ce module permet d'<em>extraire des documents du catalogue Gallica</em> 

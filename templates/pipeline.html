@@ -2,17 +2,17 @@
 {% block header %} {{ super() }} {% endblock %}
 {% block content %}
 <div class="selection">
-  <h2>Chaînes de traitement</h2>
+  <h2>{{ _('Chaînes de traitement') }}</h2>
   <div class="container-visu">
     <div class="box-outil-accueil" onclick="window.location.href='{{ url_for('ocr_ner') }}'">
       <div class="rubrique-icon"></div>
       <span class="rubrique-title"><h3>OCR -> NER</h3></span>
-      <span class="rubrique-text"><p>Entrée : textes non numérisés <br>Sortie : textes annotés</p></span>
+      <span class="rubrique-text"><p>{{ _('Entrée : textes non numérisés') }} <br>{{ _('Sortie : textes annotés') }}</p></span>
     </div>
     <div class="box-outil-accueil" onclick="window.location.href='{{ url_for('ocr_map') }}'">
       <div class="rubrique-icon"></div>
       <span class="rubrique-title"><h3>Épiméthée</h3></span>
-      <span class="rubrique-text"><p>OCR -> Map<br>Entrée : textes numérisés ou non<br>Sortie : coordonnées géographiques des entités de lieux et leur visualisation sur une carte.</p></span>
+      <span class="rubrique-text"><p>OCR -> Map<br>{{ _('Entrée : textes numérisés ou non') }} <br>{{ _('Sortie : coordonnées géographiques des entités de lieux et leur visualisation sur une carte') }}.</p></span>
     </div>
   </div>
   <!--<div class="box-outil-visu">

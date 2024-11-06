@@ -4,9 +4,9 @@
 {% block content %}
 
     <div class="outil" id="t3">
-      <div class="fil"><a href="{{ url_for('conversion')}}"><< Retour aux tâches</a></div>
+      <div class="fil"><a href="{{ url_for('conversion')}}"><< {{ _('Retour aux tâches') }}</a></div>
       <h2 style="font-family:'Comprehension', serif;">{{ _('Conversion de formats') }}</h2>
-      <h4>{{ _('Outil Pandore') }}</h4>
+      <h4>{{ _('Conversion XML-TEI') }}</h4>
       <p>{{ _("L'outil ci-dessous permet de transformer un texte brut en format XML-TEI") }}. <br>
         {{ _("La TEI est un format courant en humanitiés numériques qui permet d'encoder les textes. On utilise des balises prédefinies. 
         <br>Chaque document TEI doit avoir au moins un &lt;teiHeader&gt; qui contient des informations importantes sur le document. Cette balise contient à son tour au minimum  &lt;fileDesc&gt;,   &lt;titleStmt&gt;,  &lt;publicationStmt&gt; et  &lt;sourceDesc&gt;. <br> 
