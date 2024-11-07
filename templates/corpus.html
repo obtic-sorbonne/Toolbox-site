@@ -7,12 +7,12 @@
   <h2>{{ _('Correction de la graphie') }}</h2>
   <div class="container">
     <div class="box-outil-accueil" onclick="window.location.href='{{ url_for('normalisation') }}'">
-      <div class="rubrique-icon"></div>
+      <div class="rubrique-icon"><img alt="Normalisation" src="{{ url_for('static', filename='img/normalisation.png')}}"></div>
       <span class="rubrique-title"><h3>{{ _('Normalisation de graphie ancienne') }}</h3></span>
       <span class="rubrique-text"><p>{{ _('Uniformisation des variations graphiques et équivalences en français moderne') }}.</p></span>
     </div>
     <div class="box-outil-accueil" onclick="window.location.href='{{ url_for('correction_erreur') }}'">
-      <div class="rubrique-icon"></div>
+      <div class="rubrique-icon"><img alt="Correction d'erreurs" src="{{ url_for('static', filename='img/spellcheck-icon.png') }}"></div>
       <span class="rubrique-title"><h3>{{ _("Correction d'erreurs") }}</h3></span>
       <span class="rubrique-text"><p>{{ _("Post traitement des sorties d'OCR ou amélioration de corpus bruités") }}.</p></span>
     </div>
