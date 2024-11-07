@@ -26,7 +26,7 @@
     margin: 5px 0 0;
 }
 .item-list li:hover {
-    color:#8A824C;
+    color:#f2a800;
 	cursor: pointer;
 }
 
@@ -47,17 +47,37 @@
 				<img src="{{ url_for('static', filename='img/manuscript-icon-small.png')}}" alt="OCR">
 				<p>{{ _('Reconnaissance automatique de texte (ATR)') }}</p>
 			</li>
+			<li onclick="window.open('{{ url_for('tutoriel_xmltei') }}');">
+				<img src="{{ url_for('static', filename='img/conversion-icon.png')}}" alt="XML-TEI">
+				<p>{{ _('Formatage XML-TEI') }}</p>
+			</li>
 			<li onclick="window.open('{{ url_for('tutoriel_pos_tagging') }}');">
-				<img src="{{ url_for('static', filename='img/nuage_de_pos.png')}}">
+				<img src="{{ url_for('static', filename='img/nuage_de_pos.png')}}" alt="POS-tagging">
 				<p>{{ _('Étiquetage morphosyntaxique (POS-tagging)')}}</p>
 			</li>
 			<li onclick="window.open('{{ url_for('tutoriel_ren') }}');">
 				<img src="{{ url_for('static', filename='img/ner.png')}}" alt="REN">
 				<p>{{ _("Reconnaissance d'entités nommées (REN)") }}</p>
 			</li>
+			<li onclick="window.open('{{ url_for('tutoriel_catsem') }}');">
+				<img src="{{ url_for('static', filename='img/categories_semantiques.png')}}" alt="Categories semantiques">
+				<p>{{ _('Catégories sémantiques') }}</p>
+			</li>
 			<li onclick="window.open('{{ url_for('tutoriel_keywords') }}');">
-				<img src="{{ url_for('static', filename='img/keyword_extraction.png')}}">
+				<img src="{{ url_for('static', filename='img/keyword_extraction.png')}}" alt="Extraction mots-clés">
 				<p>{{ _('Extraction automatique de mots-clés') }}</p>
+			</li>
+			<li onclick="window.open('{{ url_for('tutoriel_topicmodelling') }}');">
+				<img src="{{ url_for('static', filename='img/topic_modelling.png')}}" alt="Topic modelling">
+				<p>Topic modelling</p>
+			</li>
+			<li onclick="window.open('{{ url_for('tutoriel_normalisation') }}');">
+				<img src="{{ url_for('static', filename='img/normalisation.png')}}" alt="Normalisation">
+				<p>{{ _('Normalisation de graphie ancienne') }}</p>
+			</li>
+			<li onclick="window.open('{{ url_for('tutoriel_correrreur') }}');">
+				<img src="{{ url_for('static', filename='img/spellcheck-icon.png')}}" alt="Spellcheck">
+				<p>{{ _("Correction d'erreurs") }}</p>
 			</li>
 		</ul>
 	</div>

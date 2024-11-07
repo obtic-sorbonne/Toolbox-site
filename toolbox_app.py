@@ -132,6 +132,26 @@ def documentation_ren():
 @app.route('/documentation_keywords')
 def documentation_keywords():
 	return render_template('documentation/documentation_keybert.html')
+
+@app.route('/documentation_xmltei')
+def documentation_xmltei():
+	return render_template('documentation/documentation_xmltei.html')
+
+@app.route('/documentation_catsem')
+def documentation_catsem():
+	return render_template('documentation/documentation_catsem.html')
+
+@app.route('/documentation_correrreur')
+def documentation_correrreur():
+	return render_template('documentation/documentation_correrreur.html')
+
+@app.route('/documentation_normalisation')
+def documentation_normalisation():
+	return render_template('documentation/documentation_normalisation.html')
+
+@app.route('/documentation_topicmodelling')
+def documentation_topicmodelling():
+	return render_template('documentation/documentation_topicmodelling.html')
 #-------- FIN DOC -----------------------------#
 
 
@@ -155,6 +175,26 @@ def tutoriel_ren():
 @app.route('/tutoriel_keywords')
 def tutoriel_keywords():
 	return render_template('tutoriel/tutoriel_keybert.html')
+
+@app.route('/tutoriel_xmltei')
+def tutoriel_xmltei():
+	return render_template('tutoriel/tutoriel_xmltei.html')
+
+@app.route('/tutoriel_catsem')
+def tutoriel_catsem():
+	return render_template('tutoriel/tutoriel_catsem.html')
+
+@app.route('/tutoriel_correrreur')
+def tutoriel_correrreur():
+	return render_template('tutoriel/tutoriel_correrreur.html')
+
+@app.route('/tutoriel_normalisation')
+def tutoriel_normalisation():
+	return render_template('tutoriel/tutoriel_normalisation.html')
+
+@app.route('/tutoriel_topicmodelling')
+def tutoriel_topicmodelling():
+	return render_template('tutoriel/tutoriel_topicmodelling.html')
 
 #-------- FIN TUTORIEL -----------------#
 
