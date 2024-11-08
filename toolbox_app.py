@@ -754,10 +754,13 @@ def txt_to_xml(filename, fields):
 	text.append(div)
 
 	with open(filename, "r") as f:
-		for line in f:
-			ptext = etree.Element('p')
-			ptext.text = line
-			div.append(ptext)
+		file = f.read()
+	file = file.replace(".\n", ".[$]")
+	ptext = file.split("[$]")
+	for line in ptext:
+		paragraph = etree.Element("p")
+		paragraph.text = line.strip()
+		div.append(paragraph)
 
 	root.append(text)
 	return root
