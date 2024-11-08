@@ -501,12 +501,23 @@ def xmlconverter():
 		fields = {}
 
 		f = request.files['file']
-		fields['title'] = request.form['title'] # required
+		fields['title'] = request.form['title']
+		fields['title_lang'] = request.form['title_lang'] # required
 		fields['author'] = request.form.get('author')
 		fields['respStmt_name'] = request.form.get('nameresp')
 		fields['respStmt_resp'] = request.form.get('resp')
 		fields['pubStmt'] = request.form['pubStmt'] # required
 		fields['sourceDesc'] = request.form['sourceDesc'] # required
+		fields['revisionDesc_change'] = request.form['change']
+		fields['change_who'] = request.form['who']
+		fields['change_when'] = request.form['when']
+		fields['licence'] = request.form['licence']
+		fields['divtype'] = request.form['divtype']
+		fields["creation"] = request.form['creation']
+		fields["lang"] = request.form['lang']
+		fields["projet_p"] = request.form['projet_p']
+		fields["edit_correction_p"] = request.form['edit_correction_p']
+		fields["edit_hyphen_p"] = request.form['edit_hyphen_p']
 
 		filename = secure_filename(f.filename)
 		path_to_file = ROOT_FOLDER / os.path.join(app.config['UPLOAD_FOLDER'], filename)
@@ -602,7 +613,7 @@ def autocorrect():
 # - fields : dictionnaire des champs présents dans le form metadata
 def txt_to_xml(filename, fields):
 	# Initialise TEI
-	root = etree.Element("TEI")
+	root = etree.Element("TEI", {'xmlns': "http://www.tei-c.org/ns/1.0"})
 
 	# TEI header
 	teiHeader = etree.Element("teiHeader")
@@ -611,10 +622,15 @@ def txt_to_xml(filename, fields):
 	editionStmt = etree.Element("editionStmt")
 	publicationStmt = etree.Element("publicationStmt")
 	sourceDesc = etree.Element("sourceDesc")
+	profileDesc = etree.Element("profileDesc")
+	encodingDesc = etree.Element("encodingDesc")
+	revisionDesc = etree.Element("revisionDesc")
 
 	#- TitleStmt
 	#-- Title
 	title = etree.Element("title")
+	title_lang = fields["title_lang"]
+	title.set("{http://www.w3.org/XML/1998/namespace}lang", title_lang)
 	title.text = fields['title']
 	titleStmt.append(title)
 
@@ -626,16 +642,16 @@ def txt_to_xml(filename, fields):
 
 	#- EditionStmt
 	#-- respStmt
-	if fields['respStmt_name']:
+	if fields['respStmt_resp']:
 		respStmt = etree.Element("respStmt")
-		name = etree.Element("name")
-		name.text = fields['respStmt_name']
-		respStmt.append(name)
+		resp = etree.Element("resp")
+		resp.text = fields['respStmt_resp']
+		respStmt.append(resp)
 
-		if fields['respStmt_resp']:
-			resp = etree.Element("resp")
-			resp.text = fields['respStmt_resp']
-			respStmt.append(resp)
+		if fields['respStmt_name']:
+			name = etree.Element("name")
+			name.text = fields['respStmt_name']
+			respStmt.append(name)
 
 		editionStmt.append(respStmt)
 
@@ -648,6 +664,18 @@ def txt_to_xml(filename, fields):
 		publisher.text = pub
 		publicationStmt.append(publisher)
 
+	licence = etree.Element("licence")
+	licence.text = fields["licence"]
+	if licence.text == "CC-BY":
+		licence.set("target", "https://creativecommons.org/licenses/by/4.0/")
+	if licence.text == "CC-BY-SA":
+		licence.set("target", "https://creativecommons.org/licenses/by-sa/4.0/")
+	if licence.text == "CC-BY-ND":
+		licence.set("target", "https://creativecommons.org/licenses/by-nd/4.0/")
+	if licence.text == "CC-BY-NC":
+		licence.set("target", "https://creativecommons.org/licenses/by-nc/4.0/")
+	publicationStmt.append(licence)
+
 	#- SourceDesc
 	paragraphs = fields['sourceDesc'].split('\n')
 	for elem in paragraphs:
@@ -655,22 +683,81 @@ def txt_to_xml(filename, fields):
 		p.text = elem
 		sourceDesc.append(p)
 
+	#- ProfileDesc
+	creation = etree.Element("creation")
+	creation_date = fields["creation"]
+	creation.set('when', creation_date)
+	profileDesc.append(creation)
+	langUsage = etree.Element("langUsage")
+	language = etree.Element("language")
+	lang = fields["lang"]
+	language.set("ident", lang)
+	#langUsage.append(language)
+	profileDesc.append(language)
+
+	#- EncodingDesc
+	projetDesc = etree.Element("projetDesc")
+	projet_p = etree.Element("p")
+	projet_p.text = fields["projet_p"]
+	projetDesc.append(projet_p)
+	encodingDesc.append(projetDesc)
+
+	editorialDecl = etree.Element("editorialDecl")
+	edit_correction = etree.Element("correction")
+	edit_hyphen = etree.Element("hyphenation")
+	edit_correction_p = etree.Element("p")
+	edit_correction_p.text = fields["edit_correction_p"]
+	edit_correction.append(edit_correction_p)
+	edit_hyphen_p = etree.Element("p")
+	edit_hyphen_p.text = fields["edit_hyphen_p"]
+	edit_hyphen.append(edit_hyphen_p)
+	if edit_hyphen_p.text == "all end-of-line hyphenation has been retained, even though the lineation of the original may not have been":
+		edit_hyphen.set("eol", "all")
+	if edit_hyphen_p.text == "end-of-line hyphenation has been retained in some cases":
+		edit_hyphen.set("eol", "some")
+	if edit_hyphen_p.text == "all soft end-of-line hyphenation has been removed: any remaining end-of-line hyphenation should be retained":
+		edit_hyphen.set("eol", "hard")
+	if edit_hyphen_p.text == "all end-of-line hyphenation has been removed: any remaining hyphenation occurred within the line":
+		edit_hyphen.set("eol", "none")
+	editorialDecl.append(edit_correction)
+	editorialDecl.append(edit_hyphen)
+	encodingDesc.append(editorialDecl)
+
+
+	#- RevisionDesc
+	if fields['revisionDesc_change']:
+		revisionDesc = etree.Element("revisionDesc")
+		change = etree.Element("change")
+		change.text = fields['revisionDesc_change']
+		who = fields["change_who"]
+		change.set("who", who)
+		when = fields["change_when"]
+		change.set("when-iso", when)
+		revisionDesc.append(change)
+
 	# Header
 	fileDesc.append(titleStmt)
 	fileDesc.append(editionStmt)
 	fileDesc.append(publicationStmt)
 	fileDesc.append(sourceDesc)
+	fileDesc.append(profileDesc)
+	fileDesc.append(encodingDesc)
+	fileDesc.append(revisionDesc)
 	teiHeader.append(fileDesc)
 	root.append(teiHeader)
 
 	# Text
 	text = etree.Element("text")
+	div = etree.Element("div")
+	divtype = fields["divtype"]
+	div.set("type", divtype)
+	text.append(div)
 
 	with open(filename, "r") as f:
 		for line in f:
 			ptext = etree.Element('p')
 			ptext.text = line
-			text.append(ptext)
+			div.append(ptext)
 
 	root.append(text)
 	return root
