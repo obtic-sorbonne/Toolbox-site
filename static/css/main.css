@@ -682,7 +682,7 @@ display: table;
   z-index: 1;
   top: 85px;
   right: 0;
-  background-color: #e2e0d5; 
+  background-color: #263e8d; 
   overflow-x: hidden;
   padding-top: 60px;
   transition: 0.5s;
@@ -703,7 +703,7 @@ display: table;
 }
 
 .sidepanel h3{
-  color:#2B3A67;
+  color:#f6f6f6;
   text-align:center;
   margin-bottom: 30px;
 }
@@ -716,12 +716,12 @@ display: table;
 .side-item{
   margin:5px;
   padding:12px;
-  background-color: rgba(255, 255, 255, .3);
+  background-color: #f6f6f6;
   border-radius:12px;
 }
 .side-item:hover{
   cursor: pointer;
-  background-color: rgba(255, 255, 255, .7);;
+  background-color: #f2a800;
 }
 
 .trigger-panel{
@@ -730,6 +730,7 @@ display: table;
   right:0;
   padding:10px;
   cursor:pointer;
+  color:#f2a800;
 }
 
 .doc-intro{
