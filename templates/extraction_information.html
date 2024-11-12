@@ -6,21 +6,22 @@
     <div style="text-align: left;"><a href="{{ url_for('annotation_automatique')}}" style="color:#f2a800; text-decoration:none;"><< Tâche précédente</a></div>
     <div style="text-align: right;"><a href="{{ url_for('outils_visualisation')}}" style="color:#f2a800; text-decoration:none;">Tâche suivante >></a></div>
     <h2 style="font-family:'Comprehension', serif;">{{ _("Extraction d'information") }}</h2>
+    <p style="text-align: center;">Cette page répertorie diverses manières d'extraire des informations d'un document.</p>
     <div class="container">
     <div class="box-outil-accueil" onclick="window.location.href='{{ url_for('extraction_mots_cles') }}'">
-      <div class="rubrique-icon"><img alt="Extraction de mots-clés" src="{{ url_for('static', filename='img/keyword_extraction.png')}}"></div>
+      <div><img alt="Extraction de mots-clés" src="{{ url_for('static', filename='img/keyword_extraction.png')}}" width="60%" style="display: block; margin: 1em auto 1em auto;"></div>
       <span class="rubrique-title"><h3>{{ _('Extraction de mots-clés') }}</h3></span>
-      <span class="rubrique-text"><p>KeyBERT</p></span>
+      <span class="rubrique-text"><p>Identification des termes les plus représentatifs du contenu d'un document ou d'un corpus</p></span>
     </div>
     <div class="box-outil-accueil" onclick="window.location.href='{{ url_for('topic_modelling') }}'">
       <div class="rubrique-icon"><img alt="Topic Modelling" src="{{ url_for('static', filename='img/topic_modelling.png')}}"></div>
       <span class="rubrique-title"><h3>{{ _('Topic Modelling') }}</h3></span>
-      <span class="rubrique-text"><p>BERTopic, sklearn LDA</p></span>
+      <span class="rubrique-text"><p>Identification, dans un corpus, des groupes de termes représentatifs de ses thèmes</p></span>
     </div>
     <div class="box-outil-accueil" onclick="window.location.href='{{ url_for('resume_automatique') }}'">
-      <div class="rubrique-icon"><img alt="Résumé automatique" src="{{ url_for('static', filename='img/summarizer.png') }}"></div>
-      <span class="rubrique-title"><h3>{{ _('Résumé automatique') }}</h3></span>
-      <span class="rubrique-text"><p>Bart, T5, Pegasus</p></span>
+      <div><img alt="Résumé automatique" src="{{ url_for('static', filename='img/summarizer.png') }}" width="100%"></div>
+      <span class="rubrique-title"><h3>Summarizer</h3></span>
+      <span class="rubrique-text"><p>Résumer automatiquement des documents en anglais aux formats texte brut ou XML</p></span>
     </div>
   </div>
   </div>

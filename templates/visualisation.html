@@ -6,6 +6,7 @@
   <div style="text-align: left;"><a href="{{ url_for('extraction_information')}}" style="color:#f2a800; text-decoration:none;"><< Tâche précédente</a></div>
     <div style="text-align: right;"><a href="{{ url_for('collecter_corpus')}}" style="color:#f2a800; text-decoration:none;">Tâche suivante >></a></div>
   <h2>Visualisation</h2>
+  <p style="text-align: center;">Cette page propose plusieurs outils pour visualiser divers types d'informations selon les documents proposés.</p>
   <div class="container-visu">
     <div class="box-outil-visu">
       <div class="visu-img"><a href="{{ url_for('tanagra') }}"><img alt="visualisation Tanagra" src="{{ url_for('static', filename='img/tanagra_BCH_1877_2.png')}}"></a></div>
@@ -26,7 +27,7 @@
     </div>
 
     <div class="box-outil-visu">
-      <div class="visu-img"><a href="https://github.com/YoannDupont/minerva" target="_blank"><img alt="visualisation Minerva" src="{{ url_for('static', filename='img/capture-minerva.png') }}"></a></div>
+      <div class="visu-img"><a href="https://github.com/YoannDupont/minerva" target="_blank"><img alt="visualisation Minerva" src="{{ url_for('static', filename='img/minerva.png') }}"></a></div>
       <span class="visu-title"><a href="https://github.com/YoannDupont/minerva" target="_blank"><h3 style="font-family:'Comprehension', serif;">Minerva</h3></a></span>
       <span class="visu-text"><p>Minerva est un outil de lecture distante. A partir d'un texte annoté en entités nommées, il permet de visualiser les <em>réseaux de cooccurrences</em> entre celles-ci. A partir de l'annotation en opinions / sentiments effectuée par l'outil Ariane, Minerva permet de visualiser les faisceaux d'opinions et sentiments liées aux entités nommées d'un texte.</p></span>
     </div>

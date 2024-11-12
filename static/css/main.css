@@ -177,9 +177,11 @@ hr{
 }
 
 .bandeau-accueil{
-	width:100%;
-	background-color:#e2e0d5;
+	width:70%;
+	background-color:#f2a800;
 	padding:15px;
+  margin: 10px auto;
+  box-shadow: 2px 2px 4px #263e8d;
 }
 
 .bandeau-accueil h3{
@@ -190,9 +192,9 @@ hr{
 }
 
 .box-1{
-	width:50%;
+	width:75%;
 	margin:auto;
-	padding:32px;
+	padding:20px;
 	color:#2B3A67;
 }
 
@@ -229,6 +231,7 @@ hr{
 
 .box-outil-accueil{
   background-color:#f6f6f6;
+  border:1px solid #263e8d;
   min-width:290px;
   flex: 0 0 0px;
   display:flex;
@@ -277,6 +280,7 @@ hr{
   gap:20px;
   margin:auto;
   margin-bottom: 32px;
+  margin-top: 32px;
   justify-content:center;
   overflow-x: auto;
 }
@@ -284,7 +288,7 @@ hr{
 .box-outil-visu{
   background-color:#e2e0d5;
   border:1px solid #263e8d;
-  min-width:420px;
+  min-width:380px;
   flex: 0 0 0px;
   display:flex;
   flex-direction:column;
@@ -295,7 +299,7 @@ hr{
 }
 
 .visu-img img{
-  width:418px;
+  width:375px;
   cursor: pointer;
 }
 
@@ -474,7 +478,7 @@ display: table;
 }
 
 .form_opt{
-  width: 500px;
+  width: 400px;
 }
 
 .item h3{

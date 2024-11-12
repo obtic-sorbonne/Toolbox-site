@@ -99,17 +99,17 @@
       <div class="box-outil-accueil shadow" onclick="window.location.href='{{ url_for('annotation_automatique') }}';">
         <div class="rubrique-icon"><img alt="Tâches d'annotation automatique" src="{{url_for('static', filename='img/ner-icon.png')}}"></div>
         <span class="rubrique-title"><h3>{{ _("Tâches d'annotation automatique") }}</h3></span>
-        <span class="rubrique-text"><p>{{ _("Reconnaissance d'entités nommées") }}, {{ _('étiquetage morphosyntaxique')}}, {{ _('Catégories sémantiques') }}</p></span>
+        <span class="rubrique-text"><p>{{ _("Entités nommées") }}, {{ _('étiquetage morphosyntaxique')}}, {{ _('Catégories sémantiques') }}</p></span>
       </div>
       <div class="box-outil-accueil shadow" onclick="window.location.href='{{ url_for('extraction_information') }}';">
         <div class="rubrique-icon"><img alt="Extraction d'information" src="{{url_for('static', filename='img/topic_modelling.png')}}"></div>
         <span class="rubrique-title"><h3>{{ _("Extraction d'information") }}</h3></span>
-        <span class="rubrique-text"><p>{{ _('Extraction automatique de mots-clés') }}, Topic Modelling, {{ _('Résumé automatique') }}</p></span>
+        <span class="rubrique-text"><p>{{ _('Extraction automatique de mots-clés') }}, Topic Modelling, Summarizer</p></span>
       </div>
       <div class="box-outil-accueil shadow" onclick="window.location.href='{{ url_for('outils_visualisation')}}'">
         <div class="rubrique-icon"><img alt="Visualisation" src="{{url_for('static', filename='img/network-icon.png')}}"></div>
         <span class="rubrique-title"><h3>Visualisation</h3></span>
-        <span class="rubrique-text"><p>Tanagra ({{ _('entités de lieux sur carte') }})<br/>Minerva ({{ _('réseaux de cooccurrences') }})<br/>Ariane ({{ _('polarités textuelles') }})</p></span>
+        <span class="rubrique-text"><p>Entités de lieux sur carte, réseaux de personnages et de cooccurrences, polarités textuelles</p></span>
       </div>
       <div class="box-outil-accueil shadow" onclick="window.location.href='{{ url_for('collecter_corpus') }}';">
         <div class="rubrique-icon"><img alt="Collecte de corpus" src="{{url_for('static', filename='img/wiki-scraping-icon.png')}}"></div>
