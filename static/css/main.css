@@ -547,7 +547,8 @@ display: table;
   padding: 20px;
   border-radius: 12px;
   width:fit-content;
-  background-color: rgba(221, 201, 180, .3);
+  background-color: #f6f6f6;
+  border: 1px solid #263e8d;
   margin-top: 8px;
   color:#343434;
 }

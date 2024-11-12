@@ -36,13 +36,13 @@
     <h4>Tesseract OCR</h4>
     <p>{{ _ ("L'outil Tesseract") }} <a href="https://tesseract-ocr.github.io/tessdoc/" target="_blank"><i class="fa-solid fa-arrow-up-right-from-square"></i></a> {{ _('permet de numériser des imprimés')}}. {{ _('Les modèles préentraînés') }} <a href="https://github.com/tesseract-ocr/tessdata" target="_blank"> ({{ _('liste ici')}} <i class="fa-solid fa-arrow-up-right-from-square"></i>)</a> {{ _("disponibles avec l'outil couvrent un large éventail de polices et sont disponibles pour de très nombreuses langues")}}. Pour les textes bilingues, il est possible d'utiliser conjointement deux modèles. Les modèles pour le chinois proviennent d'un <a href="https://github.com/gumblex/tessdata_chi" target="_blank">projet externe</a>.</p>
     <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_ocr') }}"  target="_blank">{{ _('Voir la documentation complète') }}</a></p>
-    <div class="infos_outil">
-      <p class="infos_title"><i class="fa-solid fa-circle-info"></i> {{ _("Informations sur l'outil") }}</p>
-      <p>Tesseract version 4.0.0</p>
+    <div class="infos_outil" style="display: block;margin: 0 auto 15px auto;">
+        <input id="show" type=checkbox><label for="show" class="infos_title"><i class="fa-solid fa-circle-info"></i> {{ _("Informations sur l'outil") }}<i class="fa-solid fa-angle-right" style="float:right;margin-top:5px;margin-left:15px;cursor: pointer;"></i></label></p>
+        <div class="info_popped"><p>Tesseract version 4.0.0</p>
       <p>{{ _("Formats d'entrée :")}} <i class="fa-regular fa-image"></i> PNG, JPG, TIFF, PDF</p>
       <p>{{ _('Format généré :')}} <i class="fa-regular fa-file-lines"></i> {{ _('fichier TXT') }}</p>
       <p>Limite de taille : 50 Mo</p>
-      </p>
+      </p></div>
     </div>
     <div id="tess-form">
     <form action="{{ url_for('run_tesseract') }}" id="tesseract-form" method="post" enctype="multipart/form-data" onsubmit="showloader('loader')">
