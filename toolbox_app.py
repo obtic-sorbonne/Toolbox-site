@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding:utf-8 -*-
 
-from flask import Flask, abort, request, render_template, render_template_string, url_for, redirect, send_from_directory, Response, stream_with_context, session
+from flask import Flask, abort, request, render_template, render_template_string, url_for, redirect, send_from_directory, Response, stream_with_context, session, send_file
 from werkzeug.utils import secure_filename
 from werkzeug.exceptions import HTTPException
 from forms import ContactForm, SearchForm
@@ -321,6 +321,12 @@ def send_msg():
 		return render_template('validation_contact.html')
 	return render_template('contact.html', form=form)
 
+# TELECHARGEMENT DE FICHIER
+@app.route('/download')
+def download():
+    path = 'static/textolab.zip'
+    return send_file(path, as_attachment=True)
+
 
 #   NUMERISATION TESSERACT
 @app.route('/run_tesseract',  methods=["GET","POST"])
@@ -487,7 +493,6 @@ def corpus_from_url():
 			os.remove(result_path)
 
 	return render_template('collecter_corpus.html')
-
 
 @app.route('/conversion_xml')
 def conversion_xml():
