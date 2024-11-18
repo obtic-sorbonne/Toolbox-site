@@ -3,16 +3,16 @@
 
 {% block content %}
 <div class="outil">
-    <div class="fil"><a href="{{ url_for('pandore')}}"><< {{ _("Retour aux outils") }}</a></div>
+    <div class="fil"><a href="{{ url_for('extraction_information')}}"><< {{ _('Retour aux tâches') }}</a></div>
     <h2 style="font-family:'Comprehension', serif;">{{ _("Résumé automatique") }}</h2>
     <div class="tool-box">
         <h4>Summarizer</h4>
         <div class="two-columns-container">
             <div style="min-width:48%">
-                <p>L'outil <a href="https://obtic.sorbonne-universite.fr/summary/">Summarizer</a> permet de résumer automatiquement des documents en anglais aux formats texte brut ou XML.</p>
+                <p>{{ _("L'outil ") }}<a href="https://obtic.sorbonne-universite.fr/summary/" target="_blank">Summarizer</a> {{ _('permet de résumer automatiquement des documents en anglais aux formats texte brut ou XML') }}.</p>
             </div>
             <div style="min-width:48%">
-                <a href="https://obtic.sorbonne-universite.fr/summary/"><img style="width:100%;" src="{{ url_for('static', filename='img/summarizer.png') }}"></a>
+                <a href="https://obtic.sorbonne-universite.fr/summary/" target="_blank"><img style="width:100%;" src="{{ url_for('static', filename='img/summarizer.png') }}"></a>
             </div>
         </div>
     </div>

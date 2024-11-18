@@ -780,3 +780,84 @@ msgstr "Processing can be time-consuming"
 #~ msgid "(modèle thématique)"
 #~ msgstr ""
 
+# Additions of new translations
+msgid "Reconnaissance automatique de texte (ATR)"
+msgstr "Automatic text recognition (ATR)"
+
+msgid "Tâches"
+msgstr "Tasks"
+
+msgid "Tutoriel"
+msgstr "Tutorial"
+
+msgid "Extraction de corpus littéraires"
+msgstr "Extraction of literary corpora"
+
+msgid "Outils de reconnaissance automatique de texte"
+msgstr "Automatic Text Recognition tools"
+
+msgid "Outil d'ATR"
+msgstr "ATR tool"
+
+msgid "Outil Tesseract pour les documents imprimés"
+msgstr "Tesseract tool for printed documents"
+
+msgid "Correction d'erreurs"
+msgstr "Error correction"
+
+msgid "Correction de la graphie"
+msgstr "Correction of the spelling"
+
+msgid "Normalisation de graphie ancienne"
+msgstr "Normalization of old spelling"
+
+msgid "Uniformisation des variations graphiques et équivalences en français moderne"
+msgstr "Standardization of graphic variations and equivalences in modern French"
+
+msgid "Post traitement des sorties d'OCR ou amélioration de corpus bruités"
+msgstr "Post-processing of OCR outputs or improvement of noisy corpora"
+
+msgid "Formulaire permettant de remplir les métadonnées d'un document XML"
+msgstr "Form for filling in the metadata of an XML document"
+
+msgid "Conversion de nombreux formats de fichiers vers les formats les plus couramment utilisés dans les humanités numériques"
+msgstr "Converting many file formats to the most commonly used formats in digital humanities"
+
+msgid "Numérisation et reconnaissance d'entités nommées"
+msgstr "Digitization and Named Entity Recognition"
+
+msgid "L'outil Tesseract permet de numériser des fichiers imprimés"
+msgstr "Tesseract tool allows you to digitize printed files"
+
+msgid "Formats possibles pour les fichiers d'entrée à OCRiser :"
+msgstr "Possible formats for input files to be OCRed:"
+
+msgid "Formats possibles pour les fichiers d'entrée pour la REN seule :"
+msgstr "Possible formats for input files for NER only:"
+
+msgid "permet de résumer automatiquement des documents en anglais aux formats texte brut ou XML"
+msgstr "allows you to automatically summarize English documents in plain text or XML formats"
+
+msgid "L'outil "
+msgstr ""
+
+msgid "Entrée : textes non numérisés"
+msgstr "Input: non-digitized texts"
+
+msgid "Sortie : textes annotés"
+msgstr "Output: annotated texts"
+
+msgid "Entrée : textes numérisés ou non"
+msgstr "Input: digitized texts or not"
+
+msgid "Sortie : coordonnées géographiques des entités de lieux et leur visualisation sur une carte"
+msgstr "Output: geographic coordinates of place entities and their visualization on a map"
+
+msgid "Erreur 413"
+msgstr "Error 413"
+
+msgid "La taille des fichiers est pour le moment limitée à 5MB"
+msgstr "File size is currently limited to 5MB"
+
+msgid "Retour aux tâches"
+msgstr "Back to tasks"

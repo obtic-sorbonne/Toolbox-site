@@ -24,9 +24,14 @@
   </div>
   <nav>
     <ul>
-      <li><a href="{{ url_for('outils_corpus') }}"><i class="fas fa-book-open"></i> <em>Corpus</em></a></li>
-      <li><a href="{{ url_for('outils_fouille') }}"><i class="fa-solid fa-pen-to-square"></i> <em>Annotation automatique</em></a></li>
-      <li><a href="{{ url_for('outils_visualisation') }}"><i class="fa-solid fa-chart-column"></i> <em>Visualisation</em></a></li>
+      <li class="obtic-tool"><a href="{{ url_for('atr_tools') }}">{{ _('Reconnaissance automatique de texte (ATR)') }}</a></li>
+        <li class="obtic-tool"><a href="{{ url_for('conversion') }}">{{ _('Conversion de formats') }}</a></li>
+        <li class="obtic-tool"><a href="{{ url_for('annotation_automatique') }}">{{ _("Tâches d'annotation automatique") }}</a></li>
+        <li class="obtic-tool"><a href="{{ url_for('extraction_information') }}">{{ _("Extraction d'information") }}</a></li>
+        <li class="obtic-tool"><a href="{{ url_for('outils_visualisation') }}">Visualisation</a></li>
+        <li class="obtic-tool"><a href="{{ url_for('collecter_corpus') }}">{{ _('Collecte de corpus') }}</a></li>
+        <li class="obtic-tool"><a href="{{ url_for('outils_corpus') }}">{{ _('Correction textuelle') }}</a></li>
+        <li class="obtic-tool"><a href="{{ url_for('outils_pipeline') }}">{{ _('Chaînes de traitement') }}</a></li>
     </ul>
   </nav>
 

@@ -2,17 +2,20 @@
 {% block header %} {{ super() }} {% endblock %}
 {% block content %}
 <div class="selection">
-  <h2>Correction de la graphie</h2>
+  <div style="text-align: left;"><a href="{{ url_for('collecter_corpus')}}" style="color:#f2a800; text-decoration:none;"><< Tâche précédente</a></div>
+    <div style="text-align: right;"><a href="{{ url_for('outils_pipeline')}}" style="color:#f2a800; text-decoration:none;">Tâche suivante >></a></div>
+  <h2>{{ _('Correction de la graphie') }}</h2>
+  <p style="text-align: center;">Cette page répertorie divers outils pour modifier des sorties OCR, que cela soit des erreurs de prédiction ou des normalisations de graphie.</p>
   <div class="container">
     <div class="box-outil-accueil" onclick="window.location.href='{{ url_for('normalisation') }}'">
-      <div class="rubrique-icon"></div>
-      <span class="rubrique-title"><h3>Normalisation de graphie ancienne</h3></span>
-      <span class="rubrique-text"><p>Uniformisation des variations graphiques et équivalences en français moderne.</p></span>
+      <div class="rubrique-icon"><img alt="Normalisation" src="{{ url_for('static', filename='img/normalisation.png')}}"></div>
+      <span class="rubrique-title"><h3>{{ _('Normalisation de graphie ancienne') }}</h3></span>
+      <span class="rubrique-text"><p>{{ _('Uniformisation des variations graphiques et équivalences en français moderne') }}.</p></span>
     </div>
     <div class="box-outil-accueil" onclick="window.location.href='{{ url_for('correction_erreur') }}'">
-      <div class="rubrique-icon"></div>
-      <span class="rubrique-title"><h3>Correction d'erreurs</h3></span>
-      <span class="rubrique-text"><p>Post traitement des sorties d'OCR ou amélioration de corpus bruités.</p></span>
+      <div class="rubrique-icon"><img alt="Correction d'erreurs" src="{{ url_for('static', filename='img/spellcheck-icon.png') }}"></div>
+      <span class="rubrique-title"><h3>{{ _("Correction d'erreurs") }}</h3></span>
+      <span class="rubrique-text"><p>{{ _("Post traitement des sorties d'OCR ou amélioration de corpus bruités") }}.</p></span>
     </div>
   </div>
 </div>

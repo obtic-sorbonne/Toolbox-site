@@ -1,0 +1,220 @@
+{% extends "index.html" %} 
+
+{% block header %} 
+  {{ super() }} 
+{% endblock %} 
+
+{% block content %} 
+<style>
+  .instruction {
+    padding: 18px;
+    /*background-color: rgb(250, 235, 215, 0.3);*/
+    margin: 15px 8px;
+  }
+
+  .instruction img {
+    display: block;
+    margin:auto;
+    margin-top: 12px;
+  }
+
+  .instruction ol {
+    margin-left: 25px;
+  }
+
+  .instruction p span:first-child {
+    font-size: 1.2em;
+  }
+
+  .instruction p {
+    text-align: justify;
+  }
+</style>
+<div class="outil">
+  <div class="entree_manuel">
+    <h2>Tutoriel</h2>
+    <h3>Catégories sémantiques</h3>
+    <div class="instruction">
+      <h4>Préparation des données :</h4>
+<p>
+    <ol>
+    <li>Téléchargez sur votre ordinateur le dossier « new-project » à partir du site.</li>
+    <li>Décompressez le dossier « new-project », et renommez-le au besoin. Vous trouverez dedans les éléments suivants :
+<ul>
+   <li> Le dossier « corpora » qui contient les textes à traiter.</li>
+    <li>Le dossier « models »  qui contient des fichiers nécessaires au traitements. Ce dossier et son contenu ne doivent pas être modifiés, supprimés ou déplacés.</li>
+    <li>Le dossier « resources » qui contient vos ressources linguistiques (marqueurs et règles).</li>
+    <li>Le dossier « results » qui contient les résultats des traitements, étape par étape.</li>
+</ul></li>
+    <li>Organisez vos ressources linguistiques dans le dossier « resources » :<br>
+      <img src="{{url_for('static', filename='img/textolab1.png')}}" width="30%">
+        <ul>
+
+    <li>le dossier « resources » peut contenir une ou plusieurs cartes sémantiques (ou simplement « tâche » à traiter). Celles-ci sont organisées sous forme arborescente. A chaque carte sémantique ou tâche correpond la structure suivante :
+<ul>
+   <li> Un dossier racine qui porte le « nom de la carte » ou de la tâche. Exemple : « Opinions». Une carte peut contenir à son tour une ou plusieurs catégories (feuilles dans l'arborescence) :
+<ul>
+    <li>Un dossier qui porte le « nom de la catégorie », exemple : « Positive » ou « Negative ». Chaque dossier d'une catégorie contient les 7 dossiers de marqueurs suivants :
+<ul>
+    <li>Le dossier des indicateurs « indicators »</li>
+    <li>Le dossier des indices positifs avant l'indicateur « positiveCluesBefore »</li>
+    <li>Le dossier des indices positifs après l'indicateur  « positiveCluesAfter »</li>
+    <li>Le dossier des indices négatifs avant l'indicateur  « negativeCluesBefore »</li>
+    <li>Le dossier des indices négatifs après l'indicateur  « negativeCluesAfter »</li>
+    <li>Le dossier des indices positifs à l'intérieur de l'indicateur  « positiveCluesInside »</li>
+    <li>Le dossier des indices négatifs à l'intérieur de l'indicateur  « negativeCluesInside »</li>
+</ul><br>
+Ces sept dossiers ne doivent pas être supprimés, leurs noms ne doivent pas être modifiés non plus.</li>
+
+    <li>Le dossier « rules » qui contient toutes les règles construites pour les catégories de la carte. Pour en savoir plus, consultez la partie « Priorité entre règles ».
+
+Le dossier « rules » ne doit être ni supprimé ni renommé. Il faut également au moins un dossier de priorité : « priority_1 » pour contenir les règles. Celui-ci également, ne doit être ni supprimé ni renommé.<br>
+      <img alt="Exemple d'une carte sémantique" src="{{url_for('static', filename='img/textolab2.png')}}" width="30%">
+    </li></ul></li></ul></li></ul></li></ol>
+</p>
+<h4>Remarques importantes :</h4>
+<ol>
+    <li>À chaque fois que vous lancez l'application, il faut choisir comme racine de votre projet l'emplacement du dossier « new-project » que vous venez de décompresser sur votre PC.</li>
+    <li>Pour que le programme textolab fonctionne correctement, il ne faut absolument pas modifier l'organisation hiérarchique de ces dossiers (sauf bien sûr les noms des cartes et des catégories).</li></ol>
+
+<h4>Comment organiser une carte sémantique ou une tâche ?</h4>
+
+<p>Les dossiers des catégories (ex. Positive et Negative) dans textolab peuvent être organisés de manière à reproduire l'organisation de la carte sémantique. Ils peuvent être placés ou bien imriqués les uns à côté des autres, selon le cas.</p>
+
+<p>Le moteur textolab ne donne aucune interprétation sémantique à l'organisation des catégories d'une carte (suite de catégories ou arborescence). Pour l'outil, c'est une simple organisation de dossiers.<br>
+      <img src="{{url_for('static', filename='img/textolab3.png')}}" width="30%"></p>
+
+<h4>Comment créer les fichiers de marqueurs linguistiques ?</h4>
+
+<p>Vous devez déposer vos marqueurs dans les dossiers des marqueurs d'une catgorie donnée.<br>
+      <img src="{{url_for('static', filename='img/textolab4.png')}}" width="30%"></p>
+
+<p>Les fichiers doivent être au format texte brute (codage UTF-8).</p>
+
+<p>Vous pouvez bien entendu utiliser des marqueurs sous forme d'expressions régulières. Il existe des outils gratuit qui peuvent vous assisiter dans cette démarche (voir par exemple <a href="https://weitz.de/regex-coach/">Regex coach</a> ou <a href="https://regex101.com/">regex101</a>).</p>
+
+<h4>Comment créer une règle d'EC ?</h4>
+
+<p>Les règles dans textolab sont créées au format XML. Elles opèrent dans un espace de recherche continu[1], càd dans une phrase ou un titre. Une règle peut identifier une combinaison de marqueurs linguistiques. La place de l'indicateur déclencheur permet de définir plusieurs sous-espace de recherche :
+    <ol>
+
+    <li>Un espace avant l'indicateur où le moteur pourrait identifier :
+<ul>
+    <li>un indice positif</li>
+    <li>un indice négatif</li>
+</ul></li>
+   <li>Un espace après l'indicateur où le moteur pourrait identifier :
+<ul>
+    <li>un indice positif</li>
+    <li>un indice négatif</li>
+</ul></li>
+    <li>Un espace à l'intérieur même de l'indicateur où le moteur pourrait également identifier :
+<ul>
+    <li>un indice positif</li>
+    <li>un indice négatif</li>
+</ul></li>
+</ol>
+</p>
+<p>Un indice positif est un indice complémentaire qui vient confirmer la valeur sémantique de l'indicateur. Par contre, la présence d'un indice négatif dans le contexte d'un indicateur annule l’action de la règle en cours.</p>
+
+<p>Le moteur textolab recherche toujours l'indice positif en premier, ensuite, il recherche l'indice négatif. Si celui-ci est trouvé, l’action de la règle est annulée.</p>
+
+<p>La figure suivante montre le sens de parcours d'un segment à la recherche de marqueurs.<br>
+      <img src="{{url_for('static', filename='img/textolab5.png')}}" width="75%"></p>
+
+<p>L’outil textolab offre une interface pour créer automatiquement des règles au format XML (bouton « Rules »).<br>
+      <img src="{{url_for('static', filename='img/textolab6.png')}}" width="75%"></p>
+
+<p>Voici les étapes à suivre :
+    <ol>
+
+    <li>Choisir la catégorie à partir de la racine du projet.</li>
+    <li>Modifier éventuellement le nom de l'annotation généré par défaut.</li>
+    <li>Choisir le connecteur entre l'espace Avant et l'espace Après : Et, Ou, Ou exclusif.</li>
+    <li>Définir ce que le moteur doit trouver dans l'espace Avant : indice positif et indice négatif.
+<ul>
+    <li>Définir également l'ordre entre ces deux indices. Exemples :
+<ul>
+    <li>Si vous cochez uniquement « + » cela signifie que le moteur doit rechercher un indice positif avant l'indicateur.</li>
+    <li>Si vous cochez « + » et « - » et que vous déplacez (glissez) le bouton « - » avant le bouton « + », cela signifie que le moteur va rechercher dans l'espace en question un indice positif et ensuite, dans l'espace qui précède la position de l'indice positif trouvé, il va chercher un indice négatif.</li>
+    <li>Si vous cochez « indif », cela signifie que le moteur doit rechercher les deux indices positif et négatif dans un ordre indifférent.
+    etc.</li></ul></li></ul></li>
+
+    <li>Même chose que (4)</li>
+    <li>Même chose que (4)</li>
+    <li>Définir la partie du texte dans laquelle les phrases vont être parcourues : le texte entier, certaines sections, phrases non annotées ou phrases déjà annotées. Cette dernière option permet de réannoter récursivement les textes. Il faut donc spécifier le nom de l’annotation ciblée, l’espace dans lequel les marqueurs vont être recherchés : toute la phrase, avant, après ou à l’intérieur de l’indicateur.</li>
+    <li>L'action par défaut dans cette version est « l'annotation » de l'espace de recherche. Vous pouvez cependant attribuer l'annotation à l'une de ces 4 espaces :
+<ul>
+    <li>l’indicateur trouvé (token)</li>
+    <li>le segment en cours : phrase ou titre</li>
+    <li>le paragraphe en cours</li>
+    <li>la section en cours</li>
+    <li>le texte entier</li>
+</ul></li>
+    <li>Après la création de chaque règle, il faut enregistrer en appuyant sur le bouton « save current rule ». Puis vous commencez à créer la règle suivante. Si vous avez fini de créer toutes vos règles, vous pouvez appuyer sur « Exit and save all ». Une fenêtre apparait alors pour indiquer le chemin d'emplacement où vous voulez stocker le fichier créé (consultez aussi la partie « Priorité entre règles »).
+</ol>
+</p>
+
+<h4>Remarque :</h4>
+
+<p>Après avoir construit les règles, si vous modifiez le fichier des règles, le nom d'un dossier dans les ressources ou bien l'organisation des ressources, il faudrait recréer (ou modifier) les règles concernées par ce changement, afin de grader les bons chemins d’accès.</p>
+
+<h4>Comment fonctionnent les priorités entre les règles ?</h4>
+
+<p>textolab permet de gérer deux types de priorités entre les règles :
+<ol>
+    <li>Priorité en lecture descendante, définie par l'arborescence de la carte sémantique. Dans ce cas, le moteur textolab parcourt l'arbre d'une carte selon un mode en « profondeur préfixe ». Le parcours préfixe de l'arbre ci-dessous, par exemple, parcourt les nœuds dans l'ordre [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 ,12 ,13 ,14 ,15]. <br>
+      <img src="{{url_for('static', filename='img/textolab7.png')}}" width="50%">
+
+        
+
+        Ce type de priorité n'est pas disponible dans cette version du programme.</li>
+
+    <li>Priorité définie par l'utilisateur. Celui-ci doit organiser ses règles dans le dossier « Rules », selon un ordre de priorités de 1 à n (du plus important vers le moins important) : priority_1, priority_2, priority_3, etc.<br>
+      <img src="{{url_for('static', filename='img/textolab8.png')}}" width="50%"><br>
+
+    Dans ce mode de priorité, le passage d'un niveau « priority_n » à un mode de niveau « priority_n+1 » dépend du choix de l'utilisateur :
+<ul>
+    <li>Lecture « Minimale » : dans un segment donné, il y aura une seule annotation maximum, provenant de la première catégorie identifiée.</li>
+    <li>Lecture « Multiple » → dans un segment donné, il y aura une seule annotation maximum de chaque catégorie trouvée.</li></ul>
+</li></ol></p>
+<p>Par défaut, si l'utilisateur ne souhaite activer aucune forme de priorité, il peut se contenter de choisir « No, by default » dans la fenêtre de dialogue qui s'affiche avant l'annotation. Le moteur parcourera alors tous les sous dossiers de « Rules », l'un après l'autre, sans appliquer de priorités.</p>
+
+<p>→ Dans ce cas-là, pour un segment donné, il y aura : toutes les annotations potentielles pour toutes les catégories trouvées.</p>
+
+<p>A venir:
+    <ul>
+<li>Structure de textes générés par Textolab.</li>
+<li>Le schéma d'annotation dans Textolab.</li></ul></p>
+
+<h4>Utiliser l'application:</h4>
+<ol>
+    <li>Après avoir effectué toutes les étapes pré-requises, lancez maintenant la chaine de traitement :
+<ul>
+    <li>Choisir un texte ou un dossier de textes</li>
+    <li>Préparer (segmenter)</li>
+    <li>Annoter</li>
+    <li>Générer l'ensemble des segments annotés.<br>
+      <img src="{{url_for('static', filename='img/textolab9.png')}}" width="75%"></li>
+</ul></li>
+    <li>Le volet gauche de la fenêtre permet de visualiser l'organisation des ressources linguistiques et de choisir la ou les catégories à traiter avant chaque annotation.</li>
+    <li>Les résultats des différentes étapes du traitement peuvent être visualisés dans les sous-dossiers du répértoire « results ». </li></ol>
+
+<h4>Création et de gestion de données linguistiques</h4>
+
+<p>Pour créer un nouveau point de vue (pdv), le développeur procède de la sorte :
+<ul>
+    <li>Créer la carte, les catégories et les marqueurs</li>
+    <li>Faire un premier test « gourmand », sans indices, pour faire ressortir tous les marqueurs dans leurs contextes, avec éventuellement du bruit.</li>
+    <li>[en boucle] Analyser les résultats pour stabiliser les résultats :
+<ul>
+    <li>améliorer le repérage de certains marqueurs ou en enlever d'autres</li>
+    <li>ajouter des indices positifs</li>
+    <li>ajouter des indices négatifs</li>
+    <li>affiner la catégorisation</li></ul></li></ul>
+</p>
+    </div>
+  </div>
+</div> 
+{% endblock %}
+{% block footer %} {{ super() }} {% endblock %}

@@ -6,21 +6,9 @@
 <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
 
 <div class="outil">
-    <!--<div class="fil"><a href="{{ url_for('pandore')}}"><< Retour aux outils</a></div>-->
+    <div class="fil"><a href="{{ url_for('extraction_information')}}"><< {{ _('Retour aux tâches') }}</a></div>
     <h2 style="font-family:'Comprehension', serif;">{{ _('Extraction de mots-clés') }}</h2>
-    <h4>{{ _("Modèle KeyBERT") }}</h4>
-    <div class="doc-box"><p>Documentation <span class="lil-arrow"></span></p></div>
-    <div class="local-doc">
-        <p>{{ _("Cet outil utilise le") }} <a href="https://github.com/MaartenGr/KeyBERT" target="_blank">{{ _("modèle KeyBERT") }}</a>.</p>
-        <p>{{ _("Le texte est encodé au niveau de la phrase. Le modèle utilisé pour les transformers de phrases dans l'outil ci-dessous est")}} <a href="https://www.sbert.net/docs/pretrained_models.html#multi-lingual-models">distiluse-base-multilingual-cased-v1</a>, {{ _("qui prend en charge 15 langues")}}.
-        {{ _("Pour diversifier les mots-clés, ils est possible d'appliquer deux algorithmes :")}}</p>
-        <ul>
-            <li>Maximal marginal relevance (MMR){{ _(" : permet de filtrer les mots-clés candidats selon leur taux de diversité. Un taux de diversité élevé évitera les redondances ; un taux de diversité faible pourra par exemple permettre de cibler des nuances autour de thèmes principaux")}}.</li>
-            <li>Maximal sum similarity (MSS){{ _(" : sélectionne les mots-clés qui ont le taux de similarité deux à deux le plus faible possible")}}.</li>
-        </ul>
-
-    </div>
-    <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_keywords', _anchor='doc_words') }}">{{ _("Voir la documentation complète") }}</a></p>
+    <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_keywords') }}" target="_blank">{{ _("Voir la documentation complète") }}</a></p>
     <div class="container_two_columns">
         <div class="item">
             <h3>{{ _("Chargement des fichiers") }}</h3>
