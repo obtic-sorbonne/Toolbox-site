@@ -16,6 +16,8 @@
 }
 </style>
 <div class="outil">
+    <div style="text-align: right; font-size: 10pt; padding-top: 20px"><a href="{{ url_for('tutoriel_xmltei')}}" style="color:#f2a800; text-decoration:none;">Tutoriel suivant >></a></div>
+    <div>
 	<h3>L'OCR sur Pandore</h3>
 		<p>Nous proposons une numérisation de vos documents avec l'outil Tesseract. Vous pouvez extraire du texte depuis plusieurs formats d'images (png, jpg, tiff, pdf).</p>
 	<div class="instruction">
@@ -32,6 +34,7 @@
 			<li>Liste exhaustive des logiciels et systèmes d'OCR : <a href="https://github.com/kba/awesome-ocr" target="_blank">https://github.com/kba/awesome-ocr </a></li>
 		</ul>
 	</div>
+  <div><p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_ocr') }}"  target="_blank">{{ _('Voir la documentation') }}</a></p></div>		
 </div>
 
 {% endblock %}

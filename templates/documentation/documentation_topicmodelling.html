@@ -27,6 +27,8 @@
   }
 </style>
 <div class="outil">
+  <div style="text-align: left; font-size: 10pt; padding-top: 20px"><a href="{{ url_for('documentation_keywords')}}" style="color:#f2a800; text-decoration:none;"><< Documentation précédente</a></div>
+    <div style="text-align: right; font-size: 10pt"><a href="{{ url_for('documentation_normalisation')}}" style="color:#f2a800; text-decoration:none;">Documentation suivante >></a></div>
   <div class="entree_manuel">
     <h2>Documentation</h2>
     <h3>Topic Modelling</h3>
@@ -39,6 +41,7 @@
             <p>{{ _("Format de sortie :")}} {{ _("fichier CSV contenant les ensembles de mots-clés formant les thématiques détectées. Le nombre de thématiques dépend du nombre de document présents dans le corpus, mais est plafonné à 8.")}}
              <br><br>En plus, cet outil permet l'utilisateur de choisir la lemmatisation ou non. En gros, la lemmatisation fait référence au procesus ramener un mot portant des marques de flexion à sa forme de référence (par exemple, 'faisait' donnera 'faire'.</p>
   </div>
+  <div><p style="text-align: center;padding:20px"><a href="{{ url_for('tutoriel_topicmodelling') }}"  target="_blank">{{ _('Voir le tutoriel') }}</a></p></div>
 </div> 
 {% endblock %}
 {% block footer %} {{ super() }} {% endblock %}

@@ -27,11 +27,13 @@
   }
 </style>
 <div class="outil">
+  <div style="text-align: left; font-size: 10pt; padding-top: 20px"><a href="{{ url_for('documentation_normalisation')}}" style="color:#f2a800; text-decoration:none;"><< Documentation précédente</a></div>
   <div class="entree_manuel">
     <h2>Documentation</h2>
     <h3>Correction d'erreurs</h3>
     <p>Page en construction</p>
   </div>
+  <div><p style="text-align: center;padding:20px"><a href="{{ url_for('tutoriel_correrreur') }}"  target="_blank">{{ _('Voir le tutoriel') }}</a></p></div>
 </div> 
 {% endblock %}
 {% block footer %} {{ super() }} {% endblock %}

@@ -27,12 +27,15 @@
   }
 </style>
 <div class="outil">
+  <div style="text-align: left; font-size: 10pt; padding-top: 20px"><a href="{{ url_for('documentation_ren')}}" style="color:#f2a800; text-decoration:none;"><< Documentation précédente</a></div>
+    <div style="text-align: right; font-size: 10pt"><a href="{{ url_for('documentation_keywords')}}" style="color:#f2a800; text-decoration:none;">Documentation suivante >></a></div>
   <div class="entree_manuel">
     <h2>Documentation</h2>
     <h3>Catégories sémantiques</h3>
     <p><img src="{{url_for('static', filename='img/textolab_schema.png')}}" width="75%"><br>
     Le processus d’étiquetage dans Textolab est itératif et permet de localiser, grâce à des règles heuristiques, des patrons linguistiques sous forme de chaînes de caractères, d’expressions régulières ou de métadonnées (annotations existantes). Les règles sont déclaratives et ordonnables selon la priorité. Les règles permettent de lever l'ambiguité sur certains marqueurs à l'aide d'indices contextuels qui confirment ou qui affinent l’annotation. La présence d'autres indices infirmatifs permettent d'annuler l’annotation en cours. Si toutes les conditions d'une règle sont satisfaites, une étiquette est attribuée au passage textuel en question (par exemple modalité, polarité, intensité, entité nommée, etc.). Textolab offre une interface qui permet à l'utilisateur d'exécuter les différentes fonctionnalités de l'outil.</p>
   </div>
+  <div><p style="text-align: center;padding:20px"><a href="{{ url_for('tutoriel_catsem') }}"  target="_blank">{{ _('Voir le tutoriel') }}</a></p></div>
 </div> 
 {% endblock %}
 {% block footer %} {{ super() }} {% endblock %}

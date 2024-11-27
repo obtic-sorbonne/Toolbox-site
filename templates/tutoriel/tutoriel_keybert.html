@@ -20,6 +20,8 @@
   }
 </style>
 <div class="outil">
+  <div style="text-align: left; font-size: 10pt; padding-top: 20px"><a href="{{ url_for('tutoriel_catsem')}}" style="color:#f2a800; text-decoration:none;"><< Tutoriel précédent</a></div>
+    <div style="text-align: right; font-size: 10pt"><a href="{{ url_for('tutoriel_topicmodelling')}}" style="color:#f2a800; text-decoration:none;">Tutoriel suivant >></a></div>
     <h3>{{ _("Extraction de mots-clés sur Pandore")}}</h3>
   <div class="instruction">
       <p>
@@ -71,5 +73,6 @@
       <img src="{{ url_for('static', filename='img/capture_keybert_apercu.png')}}">
       <p> Vous pouvez visualiser un aperçu des résultats et les télécharger dans un tableur (format CSV).</p>
     </div>
+  <div><p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_keywords') }}"  target="_blank">{{ _('Voir la documentation') }}</a></p></div>
   </div>
 </div> {% endblock %} {% block footer %} {{ super() }} {% endblock %}
