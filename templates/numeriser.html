@@ -35,7 +35,8 @@
 <div class="tool-box">
     <h4>Tesseract OCR</h4>
     <p>{{ _ ("L'outil Tesseract") }} <a href="https://tesseract-ocr.github.io/tessdoc/" target="_blank"><i class="fa-solid fa-arrow-up-right-from-square"></i></a> {{ _('permet de numériser des imprimés')}}. {{ _('Les modèles préentraînés') }} <a href="https://github.com/tesseract-ocr/tessdata" target="_blank"> ({{ _('liste ici')}} <i class="fa-solid fa-arrow-up-right-from-square"></i>)</a> {{ _("disponibles avec l'outil couvrent un large éventail de polices et sont disponibles pour de très nombreuses langues")}}. Pour les textes bilingues, il est possible d'utiliser conjointement deux modèles. Les modèles pour le chinois proviennent d'un <a href="https://github.com/gumblex/tessdata_chi" target="_blank">projet externe</a>.</p>
-    <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_ocr') }}"  target="_blank">{{ _('Voir la documentation complète') }}</a></p>
+    <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_ocr') }}"  target="_blank">{{ _('Voir la documentation') }}</a></p>
+    <p style="text-align: center;padding:20px"><a href="{{ url_for('tutoriel_ocr') }}"  target="_blank">{{ _('Voir le tutoriel') }}</a></p>
     <div class="infos_outil" style="display: block;margin: 0 auto 15px auto;">
         <input id="show" type=checkbox><label for="show" class="infos_title"><i class="fa-solid fa-circle-info"></i> {{ _("Informations sur l'outil") }}<i class="fa-solid fa-angle-right" style="float:right;margin-top:5px;margin-left:15px;cursor: pointer;"></i></label></p>
         <div class="info_popped"><p>Tesseract version 4.0.0</p>
