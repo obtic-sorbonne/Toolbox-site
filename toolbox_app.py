@@ -131,7 +131,7 @@ def documentation_ren():
 
 @app.route('/documentation_keywords')
 def documentation_keywords():
-	return render_template('documentation/documentation_keybert.html')
+	return render_template('documentation/documentation_keywords.html')
 
 @app.route('/documentation_xmltei')
 def documentation_xmltei():
@@ -174,7 +174,7 @@ def tutoriel_ren():
 
 @app.route('/tutoriel_keywords')
 def tutoriel_keywords():
-	return render_template('tutoriel/tutoriel_keybert.html')
+	return render_template('tutoriel/tutoriel_keywords.html')
 
 @app.route('/tutoriel_xmltei')
 def tutoriel_xmltei():
