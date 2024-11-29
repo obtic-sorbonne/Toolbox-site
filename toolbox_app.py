@@ -426,6 +426,14 @@ def corpus_from_url():
 			if path_elems[-1] != 'Texte_entier' and request.form.get(s) == 'on':
 				# Escape URL if not already escaped
 				url_temp = url.replace("https://fr.wikisource.org/wiki/", "")
+				# Flag that will indicate if the removal of the report for this table of content is needed or not
+				f_delete_report = True
+				# Create a directory to store all chapters differently if there are more than one text that are scrapped
+				if len(urls)>1:
+					result_path_table = os.path.join(result_path,url_temp)
+					os.mkdir(result_path_table)
+				else:
+					result_path_table=result_path
 				if not '%' in url_temp:
 					url = "".join(["https://fr.wikisource.org/wiki/", urllib.parse.quote(url_temp)])
 				try:
@@ -441,18 +449,28 @@ def corpus_from_url():
 						if text != -1:
 							if not name:
 								name = path_elems[-1]
-							with open(os.path.join(result_path, name)+'.txt', 'w', encoding='utf-8') as output:
+							with open(os.path.join(result_path_table, name)+'.txt', 'w', encoding='utf-8') as output:
 								output.write(text)
-							with open(os.path.join(result_path, "rapport.txt"), 'a') as rapport:
+							with open(os.path.join(result_path_table, "rapport.txt"), 'a') as rapport:
 								rapport.write(link + '\t' + 'OK\n')
+						else:
+							if not name:
+								name = path_elems[-1]
+							with open(os.path.join(result_path_table, "rapport.txt"), 'a') as rapport:
+								rapport.write(link + '\t' + 'FAILED\n')
+								f_delete_report=False
 
 				except urllib.error.HTTPError:
 					print(" ".join(["The page", url, "cannot be opened."]))
-					with open(os.path.join(result_path, "rapport.txt"), 'a') as rapport:
+					with open(os.path.join(result_path_table, "rapport.txt"), 'a') as rapport:
 								rapport.write(url + '\t' + "Erreur : l'URL n'a pas pu être ouverte.\n")
 					continue
 
 				filename = urllib.parse.unquote(path_elems[-1])
+
+				#delete the report if all is well :
+				if f_delete_report:
+					os.remove(os.path.join(result_path_table, "rapport.txt"))
 
 			# URL vers texte intégral
 			else:
@@ -781,11 +799,6 @@ def generate_random_corpus(nb):
 	all_texts = []
 
 	for text_url in urls:
-		#removes the subsidiary part of the url path ("/Texte_entier" for example) so it does not mess with the filename
-		if(re.search('/',text_url)):
-			text_title = urllib.parse.unquote(text_url.split('/')[0])
-		else:
-			text_title = urllib.parse.unquote(text_url)
 		location = "".join(["https://fr.wikisource.org/wiki/", text_url])
 		try:
 			page = urllib.request.urlopen(location)
@@ -803,6 +816,24 @@ def generate_random_corpus(nb):
 			with open('pb_url.log', 'a') as err_log:
 				err_log.write(text_url)
 		else:
+			#Preparation of text_title:
+			#removes the subsidiary part of the url path when it is "/Texte_entier" so it does not mess with the filename
+			search_texte_entier = re.search("/Texte_entier", text_url)
+			if search_texte_entier:
+				text_url = text_url[:search_texte_entier.start()] + text_url[search_texte_entier.end():]
+
+			#removes the subsidiary part of the url path when it is "/%C3%89dition_XXXX" where XXXX is a date, so it does not mess with the filename
+			search_edition = re.search("/%C3%89dition_[0-9]{4}", text_url)
+			if search_edition:
+				text_url = text_url[:search_edition.start()] + text_url[search_edition.end():]
+
+			#once all artefacts have been removed, select the subsidiary part of the url path as a title so the slashes does not mess with the filename and the
+			#	infos of the most precise title are retained
+			if(re.search('/',text_url)):
+				text_title = urllib.parse.unquote(text_url.split('/')[0])
+			else:
+				text_title = urllib.parse.unquote(text_url)
+			
 			# Remove end of line inside sentence
 			clean_text = re.sub("[^\.:!?»[A-Z]]\n", ' ', text[0].text)
 			all_texts.append((clean_text,text_title))
