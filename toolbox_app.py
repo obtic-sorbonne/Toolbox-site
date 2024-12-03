@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding:utf-8 -*-
 
-from flask import Flask, abort, request, render_template, url_for, redirect, send_from_directory, Response, stream_with_context, session
+from flask import Flask, abort, request, render_template, render_template_string, url_for, redirect, send_from_directory, Response, stream_with_context, session, send_file
 from werkzeug.utils import secure_filename
 from werkzeug.exceptions import HTTPException
 from forms import ContactForm, SearchForm
@@ -29,8 +29,8 @@ import collections
 import pandas as pd
 
 import sem
-import sem.storage
-import sem.exporters
+#import sem.storage
+#import sem.exporters
 
 import ocr
 
@@ -108,6 +108,10 @@ def outils():
 	form = SearchForm()
 	return render_template('outils.html', form=form)
 
+@app.route('/code_source')
+def code_source():
+	return render_template('code_source.html')
+
 #-------- DOCUMENTATION ----------------------#
 @app.route('/documentation')
 def documentation():
@@ -127,8 +131,72 @@ def documentation_ren():
 
 @app.route('/documentation_keywords')
 def documentation_keywords():
-	return render_template('documentation/documentation_keybert.html')
+	return render_template('documentation/documentation_keywords.html')
+
+@app.route('/documentation_xmltei')
+def documentation_xmltei():
+	return render_template('documentation/documentation_xmltei.html')
+
+@app.route('/documentation_catsem')
+def documentation_catsem():
+	return render_template('documentation/documentation_catsem.html')
+
+@app.route('/documentation_correrreur')
+def documentation_correrreur():
+	return render_template('documentation/documentation_correrreur.html')
+
+@app.route('/documentation_normalisation')
+def documentation_normalisation():
+	return render_template('documentation/documentation_normalisation.html')
+
+@app.route('/documentation_topicmodelling')
+def documentation_topicmodelling():
+	return render_template('documentation/documentation_topicmodelling.html')
 #-------- FIN DOC -----------------------------#
+
+
+#-------- TUTORIEL ----------------------#
+@app.route('/tutoriel')
+def tutoriel():
+	return render_template('tutoriel.html')
+
+@app.route('/tutoriel_ocr')
+def tutoriel_ocr():
+	return render_template('tutoriel/tutoriel_ocr.html')
+
+@app.route('/tutoriel_pos_tagging')
+def tutoriel_pos_tagging():
+	return render_template('tutoriel/tutoriel_pos_tagging.html')
+
+@app.route('/tutoriel_ren')
+def tutoriel_ren():
+	return render_template('tutoriel/tutoriel_ren.html')
+
+@app.route('/tutoriel_keywords')
+def tutoriel_keywords():
+	return render_template('tutoriel/tutoriel_keywords.html')
+
+@app.route('/tutoriel_xmltei')
+def tutoriel_xmltei():
+	return render_template('tutoriel/tutoriel_xmltei.html')
+
+@app.route('/tutoriel_catsem')
+def tutoriel_catsem():
+	return render_template('tutoriel/tutoriel_catsem.html')
+
+@app.route('/tutoriel_correrreur')
+def tutoriel_correrreur():
+	return render_template('tutoriel/tutoriel_correrreur.html')
+
+@app.route('/tutoriel_normalisation')
+def tutoriel_normalisation():
+	return render_template('tutoriel/tutoriel_normalisation.html')
+
+@app.route('/tutoriel_topicmodelling')
+def tutoriel_topicmodelling():
+	return render_template('tutoriel/tutoriel_topicmodelling.html')
+
+#-------- FIN TUTORIEL -----------------#
 
 @app.route('/contact')
 def contact():
@@ -139,18 +207,30 @@ def contact():
 def outils_corpus():
 	return render_template('corpus.html')
 
-@app.route('/outils_fouille')
-def outils_fouille():
-	return render_template('fouille_de_texte.html')
+@app.route('/annotation_automatique')
+def annotation_automatique():
+	return render_template('annotation_automatique.html')
+
+@app.route('/extraction_information')
+def extraction_information():
+	return render_template('extraction_information.html')
 
 @app.route('/outils_visualisation')
 def outils_visualisation():
 	return render_template('visualisation.html')
 
+@app.route('/atr_tools')
+def atr_tools():
+	return render_template('atr_tools.html')
+
 @app.route('/numeriser')
 def numeriser():
 	form = FlaskForm()
 	return render_template('numeriser.html', form=form)
+
+@app.route('/conversion')
+def conversion():
+	return render_template('conversion.html')
 
 @app.route('/normalisation')
 def normalisation():
@@ -241,6 +321,12 @@ def send_msg():
 		return render_template('validation_contact.html')
 	return render_template('contact.html', form=form)
 
+# TELECHARGEMENT DE FICHIER
+@app.route('/download')
+def download():
+    path = 'static/textolab.zip'
+    return send_file(path, as_attachment=True)
+
 
 #   NUMERISATION TESSERACT
 @app.route('/run_tesseract',  methods=["GET","POST"])
@@ -289,24 +375,42 @@ def etiquetage_morphosyntaxique():
 def generate_corpus():
 	if request.method == 'POST':
 		nb = int(request.form['nbtext'])
+		result_path, rand_name = createRandomDir('wiki_', 8)
 		all_texts = generate_random_corpus(nb)
-		output_stream = StringIO()
-		output_stream.write('\n\n\n'.join(all_texts))
-		response = Response(output_stream.getvalue(), mimetype='text/plain',
-							headers={"Content-disposition": "attachment; filename=corpus_wikisource.txt"})
-		output_stream.seek(0)
-		output_stream.truncate(0)
-		return response
+		
+		#Crée les fichiers .txt
+		for clean_text,text_title in all_texts:
+			filename = text_title
+			with open(os.path.join(result_path, filename)+'.txt', 'w', encoding='utf-8') as output:
+				output.write(clean_text)
+
+        # ZIP le dossier résultat
+		if len(os.listdir(result_path)) > 0:
+			shutil.make_archive(result_path, 'zip', result_path)
+			output_stream = BytesIO()
+			with open(str(result_path) + '.zip', 'rb') as res:
+				content = res.read()
+			output_stream.write(content)
+			response = Response(output_stream.getvalue(), mimetype='application/zip',
+                                    headers={"Content-disposition": "attachment; filename=" + rand_name + '.zip'})
+			output_stream.seek(0)
+			output_stream.truncate(0)
+			return response
+		else:
+			os.remove(result_path)
+                
 	return render_template('/collecter_corpus.html')
 
 @app.route('/corpus_from_url',  methods=["GET","POST"])
 @stream_with_context
+
+#Modifiée pour travail local + corrections
 def corpus_from_url():
 	if request.method == 'POST':
 		keys = request.form.keys()
 		urls = [k for k in keys if k.startswith('url')]
-		#urls = sorted(urls)
-
+        #urls = sorted(urls)
+		
 		result_path, rand_name = createRandomDir('wiki_', 8)
 
 		# PARCOURS DES URLS UTILISATEUR
@@ -331,11 +435,13 @@ def corpus_from_url():
 					for a in nodes:
 						link = 'https://fr.wikisource.org' + a['href']
 						name = a['title']
+						if '/' in name:
+							name = name.split('/')[-1]
 						text = getWikiPage(link)
 						if text != -1:
 							if not name:
 								name = path_elems[-1]
-							with open(os.path.join(result_path, name), 'w') as output:
+							with open(os.path.join(result_path, name)+'.txt', 'w', encoding='utf-8') as output:
 								output.write(text)
 							with open(os.path.join(result_path, "rapport.txt"), 'a') as rapport:
 								rapport.write(link + '\t' + 'OK\n')
@@ -363,7 +469,7 @@ def corpus_from_url():
 						else:
 							filename = urllib.parse.unquote(path_elems[-2])
 
-						with open(os.path.join(result_path, filename), 'w') as output:
+						with open(os.path.join(result_path, filename)+'.txt', 'w', encoding='utf-8') as output:
 							output.write(clean_text)
 
 				except Exception as e:
@@ -388,7 +494,6 @@ def corpus_from_url():
 
 	return render_template('collecter_corpus.html')
 
-
 @app.route('/conversion_xml')
 def conversion_xml():
 	form = FlaskForm()
@@ -401,12 +506,23 @@ def xmlconverter():
 		fields = {}
 
 		f = request.files['file']
-		fields['title'] = request.form['title'] # required
+		fields['title'] = request.form['title']
+		fields['title_lang'] = request.form['title_lang'] # required
 		fields['author'] = request.form.get('author')
 		fields['respStmt_name'] = request.form.get('nameresp')
 		fields['respStmt_resp'] = request.form.get('resp')
 		fields['pubStmt'] = request.form['pubStmt'] # required
 		fields['sourceDesc'] = request.form['sourceDesc'] # required
+		fields['revisionDesc_change'] = request.form['change']
+		fields['change_who'] = request.form['who']
+		fields['change_when'] = request.form['when']
+		fields['licence'] = request.form['licence']
+		fields['divtype'] = request.form['divtype']
+		fields["creation"] = request.form['creation']
+		fields["lang"] = request.form['lang']
+		fields["projet_p"] = request.form['projet_p']
+		fields["edit_correction_p"] = request.form['edit_correction_p']
+		fields["edit_hyphen_p"] = request.form['edit_hyphen_p']
 
 		filename = secure_filename(f.filename)
 		path_to_file = ROOT_FOLDER / os.path.join(app.config['UPLOAD_FOLDER'], filename)
@@ -439,7 +555,6 @@ def xmlconverter():
 @app.route('/autocorrect', methods=["GET", "POST"])
 @stream_with_context
 def autocorrect():
-	"""
 	if request.method == 'POST':
 		uploaded_files = request.files.getlist("uploaded_files")
 
@@ -488,7 +603,7 @@ def autocorrect():
 		shutil.rmtree(result_path)
 
 		return response
-		"""
+
 	return render_template('/correction_erreur.html')
 
 #-----------------------------------------------------------------
@@ -503,7 +618,7 @@ def autocorrect():
 # - fields : dictionnaire des champs présents dans le form metadata
 def txt_to_xml(filename, fields):
 	# Initialise TEI
-	root = etree.Element("TEI")
+	root = etree.Element("TEI", {'xmlns': "http://www.tei-c.org/ns/1.0"})
 
 	# TEI header
 	teiHeader = etree.Element("teiHeader")
@@ -512,10 +627,15 @@ def txt_to_xml(filename, fields):
 	editionStmt = etree.Element("editionStmt")
 	publicationStmt = etree.Element("publicationStmt")
 	sourceDesc = etree.Element("sourceDesc")
+	profileDesc = etree.Element("profileDesc")
+	encodingDesc = etree.Element("encodingDesc")
+	revisionDesc = etree.Element("revisionDesc")
 
 	#- TitleStmt
 	#-- Title
 	title = etree.Element("title")
+	title_lang = fields["title_lang"]
+	title.set("{http://www.w3.org/XML/1998/namespace}lang", title_lang)
 	title.text = fields['title']
 	titleStmt.append(title)
 
@@ -527,16 +647,16 @@ def txt_to_xml(filename, fields):
 
 	#- EditionStmt
 	#-- respStmt
-	if fields['respStmt_name']:
+	if fields['respStmt_resp']:
 		respStmt = etree.Element("respStmt")
-		name = etree.Element("name")
-		name.text = fields['respStmt_name']
-		respStmt.append(name)
+		resp = etree.Element("resp")
+		resp.text = fields['respStmt_resp']
+		respStmt.append(resp)
 
-		if fields['respStmt_resp']:
-			resp = etree.Element("resp")
-			resp.text = fields['respStmt_resp']
-			respStmt.append(resp)
+		if fields['respStmt_name']:
+			name = etree.Element("name")
+			name.text = fields['respStmt_name']
+			respStmt.append(name)
 
 		editionStmt.append(respStmt)
 
@@ -549,6 +669,18 @@ def txt_to_xml(filename, fields):
 		publisher.text = pub
 		publicationStmt.append(publisher)
 
+	licence = etree.Element("licence")
+	licence.text = fields["licence"]
+	if licence.text == "CC-BY":
+		licence.set("target", "https://creativecommons.org/licenses/by/4.0/")
+	if licence.text == "CC-BY-SA":
+		licence.set("target", "https://creativecommons.org/licenses/by-sa/4.0/")
+	if licence.text == "CC-BY-ND":
+		licence.set("target", "https://creativecommons.org/licenses/by-nd/4.0/")
+	if licence.text == "CC-BY-NC":
+		licence.set("target", "https://creativecommons.org/licenses/by-nc/4.0/")
+	publicationStmt.append(licence)
+
 	#- SourceDesc
 	paragraphs = fields['sourceDesc'].split('\n')
 	for elem in paragraphs:
@@ -556,22 +688,84 @@ def txt_to_xml(filename, fields):
 		p.text = elem
 		sourceDesc.append(p)
 
+	#- ProfileDesc
+	creation = etree.Element("creation")
+	creation_date = fields["creation"]
+	creation.set('when', creation_date)
+	profileDesc.append(creation)
+	langUsage = etree.Element("langUsage")
+	language = etree.Element("language")
+	lang = fields["lang"]
+	language.set("ident", lang)
+	#langUsage.append(language)
+	profileDesc.append(language)
+
+	#- EncodingDesc
+	projetDesc = etree.Element("projetDesc")
+	projet_p = etree.Element("p")
+	projet_p.text = fields["projet_p"]
+	projetDesc.append(projet_p)
+	encodingDesc.append(projetDesc)
+
+	editorialDecl = etree.Element("editorialDecl")
+	edit_correction = etree.Element("correction")
+	edit_hyphen = etree.Element("hyphenation")
+	edit_correction_p = etree.Element("p")
+	edit_correction_p.text = fields["edit_correction_p"]
+	edit_correction.append(edit_correction_p)
+	edit_hyphen_p = etree.Element("p")
+	edit_hyphen_p.text = fields["edit_hyphen_p"]
+	edit_hyphen.append(edit_hyphen_p)
+	if edit_hyphen_p.text == "all end-of-line hyphenation has been retained, even though the lineation of the original may not have been":
+		edit_hyphen.set("eol", "all")
+	if edit_hyphen_p.text == "end-of-line hyphenation has been retained in some cases":
+		edit_hyphen.set("eol", "some")
+	if edit_hyphen_p.text == "all soft end-of-line hyphenation has been removed: any remaining end-of-line hyphenation should be retained":
+		edit_hyphen.set("eol", "hard")
+	if edit_hyphen_p.text == "all end-of-line hyphenation has been removed: any remaining hyphenation occurred within the line":
+		edit_hyphen.set("eol", "none")
+	editorialDecl.append(edit_correction)
+	editorialDecl.append(edit_hyphen)
+	encodingDesc.append(editorialDecl)
+
+
+	#- RevisionDesc
+	if fields['revisionDesc_change']:
+		revisionDesc = etree.Element("revisionDesc")
+		change = etree.Element("change")
+		change.text = fields['revisionDesc_change']
+		who = fields["change_who"]
+		change.set("who", who)
+		when = fields["change_when"]
+		change.set("when-iso", when)
+		revisionDesc.append(change)
+
 	# Header
 	fileDesc.append(titleStmt)
 	fileDesc.append(editionStmt)
 	fileDesc.append(publicationStmt)
 	fileDesc.append(sourceDesc)
+	fileDesc.append(profileDesc)
+	fileDesc.append(encodingDesc)
+	fileDesc.append(revisionDesc)
 	teiHeader.append(fileDesc)
 	root.append(teiHeader)
 
 	# Text
 	text = etree.Element("text")
+	div = etree.Element("div")
+	divtype = fields["divtype"]
+	div.set("type", divtype)
+	text.append(div)
 
 	with open(filename, "r") as f:
-		for line in f:
-			ptext = etree.Element('p')
-			ptext.text = line
-			text.append(ptext)
+		file = f.read()
+	file = file.replace(".\n", ".[$]")
+	ptext = file.split("[$]")
+	for line in ptext:
+		paragraph = etree.Element("p")
+		paragraph.text = line.strip()
+		div.append(paragraph)
 
 	root.append(text)
 	return root
@@ -587,6 +781,11 @@ def generate_random_corpus(nb):
 	all_texts = []
 
 	for text_url in urls:
+		#removes the subsidiary part of the url path ("/Texte_entier" for example) so it does not mess with the filename
+		if(re.search('/',text_url)):
+			text_title = urllib.parse.unquote(text_url.split('/')[0])
+		else:
+			text_title = urllib.parse.unquote(text_url)
 		location = "".join(["https://fr.wikisource.org/wiki/", text_url])
 		try:
 			page = urllib.request.urlopen(location)
@@ -606,9 +805,10 @@ def generate_random_corpus(nb):
 		else:
 			# Remove end of line inside sentence
 			clean_text = re.sub("[^\.:!?»[A-Z]]\n", ' ', text[0].text)
-			all_texts.append(clean_text)
+			all_texts.append((clean_text,text_title))
 
 	return all_texts
+
 #-----------------------------------------------------------------
 
 
@@ -883,10 +1083,10 @@ def topic_extraction():
 		if 'nmf' in methods:
 			tfidf_vectorizer = TfidfVectorizer(max_df=0.95, min_df=1, max_features=no_features, stop_words=stop_words_fr)
 			tfidf = tfidf_vectorizer.fit_transform(corpus)
-			tfidf_feature_names = tfidf_vectorizer.get_feature_names()
+			tfidf_feature_names = tfidf_vectorizer.get_feature_names_out()
 
 			# Parameter: nndsvda for less sparsity ; else nndsvd
-			nmf = NMF(n_components=no_topics, random_state=1, alpha=.1, l1_ratio=.5, init='nndsvda').fit(tfidf)
+			nmf = NMF(n_components=no_topics, random_state=1, l1_ratio=.5, init='nndsvda').fit(tfidf)
 			
 			res_nmf = display_topics(nmf, tfidf_feature_names, no_top_words)
 			res['nmf'] = res_nmf
@@ -895,7 +1095,7 @@ def topic_extraction():
 		if 'lda' in methods:
 			tf_vectorizer = CountVectorizer(max_df=0.95, min_df=1, max_features=no_features, stop_words=stop_words_fr)
 			tf = tf_vectorizer.fit_transform(corpus)
-			tf_feature_names = tf_vectorizer.get_feature_names()
+			tf_feature_names = tf_vectorizer.get_feature_names_out()
 
 			lda = LatentDirichletAllocation(n_components=no_topics, max_iter=5, learning_method='online', learning_offset=50.,random_state=0).fit(tf)
 			
@@ -961,6 +1161,7 @@ def extract_gallica():
 				res_ok += url + '\n'
 			except Exception as exc:
 				res_err += url + '\n'
+				continue
 		
 		elif input_format == 'img':
 			# Nb de pages à télécharger : si tout le document, aller chercher l'info dans le service pagination de l'API
@@ -1518,7 +1719,7 @@ def run_renard():
 			NLTKTokenizer(),
 			BertNamedEntityRecognizer(model=BERT_MODELS[lang]), #NLTKNamedEntityRecognizer(),
 			GraphRulesCharacterUnifier(min_appearances=min_appearances),
-			CoOccurrencesGraphExtractor(co_occurences_dist=35)
+			CoOccurrencesGraphExtractor(co_occurrences_dist=35)
 		], lang = lang)
 
 		out = pipeline(text)
@@ -1544,4 +1745,4 @@ def get_file(filename):
 	return send_from_directory(ROOT_FOLDER / app.config['UPLOAD_FOLDER'], filename, as_attachment=True)
 
 if __name__ == "__main__":
-	app.run(host='0.0.0.0')
+	app.run()
