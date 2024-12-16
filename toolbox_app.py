@@ -804,7 +804,7 @@ def generate_random_corpus(nb):
 				err_log.write(text_url)
 		else:
 			# Remove end of line inside sentence
-			clean_text = re.sub("[^\.:!?»[A-Z]]\n", ' ', text[0].text)
+			clean_text = re.sub(r"[^\.:!?»[A-Z]]\n", ' ', text[0].text)
 			all_texts.append((clean_text,text_title))
 
 	return all_texts
@@ -1328,7 +1328,7 @@ def bios_converter():
 #-----------------------------------------------------------------
 def sentencizer(text):
 	# Marqueurs de fin de phrase
-	split_regex=['\.{1,}','\!+','\?+']
+	split_regex=[r'\.{1,}',r'\!+',r'\?+']
 	delimiter_token='<SPLIT>'
 
 	# Escape acronyms or abbreviations
@@ -1376,7 +1376,7 @@ def getWikiPage(url):
 		return -1
 	else:
 		# Remove end of line inside sentence
-		clean_text = re.sub("[^\.:!?»[A-Z]]\n", ' ', text[0].text)
+		clean_text = re.sub(r"[^\.:!?»[A-Z]]\n", ' ', text[0].text)
 		clean_text = clean_text.replace('\\xa0', ' ')
 		return clean_text
 
