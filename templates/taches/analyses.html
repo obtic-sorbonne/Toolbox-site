@@ -2,28 +2,28 @@
 {% block header %} {{ super() }} {% endblock %}
 {% block content %}
 <div class="selection">
-  <div style="text-align: left;"><a href="{{ url_for('analyse_lexicale')}}" style="color:#f2a800; text-decoration:none;"><< Tâche précédente</a></div>
-    <div style="text-align: right;"><a href="{{ url_for('analyse_statistique')}}" style="color:#f2a800; text-decoration:none;">Tâche suivante >></a></div>
+  <div style="text-align: left;"><a href="{{ url_for('extraction_information')}}" style="color:#f2a800; text-decoration:none;"><< Tâche précédente</a></div>
+    <div style="text-align: right;"><a href="{{ url_for('outils_visualisation')}}" style="color:#f2a800; text-decoration:none;">Tâche suivante >></a></div>
   <h2>Analyse linguistique</h2>
   <p style="text-align: center;">Cette page propose plusieurs analyses à effectuer sur un texte</p>
   <div class="container">
     <div class="box-outil-accueil" onclick="window.location.href='{{ url_for('analyse_linguistique') }}'">
-      <div><img alt="Analyse des dépendances" src="{{ url_for('static', filename='img/dependency_parsing.png')}}" width="100%"></div>
+      <div><img alt="Analyse des dépendances" src="{{ url_for('static', filename='img/unknown.png')}}" width="100%"></div>
       <span class="rubrique-title"><h3>Analyse linguistique</h3></span>
       <span class="rubrique-text"><p>Cette page propose plusieurs techniques pour opérer une analyse linguistique sur un texte</p></span>
     </div>
     <div class="box-outil-accueil" onclick="window.location.href='{{ url_for('analyse_statistique') }}'">
-      <div><img alt="Analyse des dépendances" src="{{ url_for('static', filename='img/dependency_parsing.png')}}" width="100%"></div>
+      <div><img alt="Analyse des dépendances" src="{{ url_for('static', filename='img/unknown.png')}}" width="100%"></div>
       <span class="rubrique-title"><h3>Analyse statistique</h3></span>
       <span class="rubrique-text"><p></p></span>
     </div>
     <div class="box-outil-accueil" onclick="window.location.href='{{ url_for('analyse_lexicale') }}'">
-      <div><img alt="Analyse des dépendances" src="{{ url_for('static', filename='img/dependency_parsing.png')}}" width="100%"></div>
+      <div><img alt="Analyse des dépendances" src="{{ url_for('static', filename='img/unknown.png')}}" width="100%"></div>
       <span class="rubrique-title"><h3>Analyse lexicale</h3></span>
       <span class="rubrique-text"><p></p></span>
     </div>
     <div class="box-outil-accueil" onclick="window.location.href='{{ url_for('analyse_texte') }}'">
-      <div><img alt="Analyse des dépendances" src="{{ url_for('static', filename='img/dependency_parsing.png')}}" width="100%"></div>
+      <div><img alt="Analyse des dépendances" src="{{ url_for('static', filename='img/unknown.png')}}" width="100%"></div>
       <span class="rubrique-title"><h3>Analyse de texte</h3></span>
       <span class="rubrique-text"><p></p></span>
     </div>
