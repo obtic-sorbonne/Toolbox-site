@@ -468,6 +468,8 @@ def run_tesseract():
 # Prétraitement
 #-----------------------------------------------------------------
 
+#-------------- Nettoyage de texte -------------------------
+
 #-------------- Normalisation de texte -------------------------
 
 @app.route('/normalize_text', methods=['POST'])
@@ -528,6 +530,7 @@ def normalize_text():
 
     return Response(json.dumps({"error": "Une erreur est survenue dans le traitement des fichiers."}), status=500, mimetype='application/json')
 
+#-------------- Séparation de texte -------------------------
 
 #-----------------------------------------------------------------
 # Conversion XML
@@ -1057,6 +1060,8 @@ def topic_extraction():
 	return render_template('topic_modelling.html', form=form, res=res, msg=msg)
 
 
+#-------------- Quotation Extraction -------------------------
+
 #-----------------------------------------------------------------
 # Analyses
 #-----------------------------------------------------------------
@@ -1153,6 +1158,16 @@ def analyze_linguistic():
         return response
 
     return Response(json.dumps({"error": "Une erreur est survenue dans le traitement des fichiers."}), status=500, mimetype='application/json')
+
+
+#--------------- Analyse statistique --------------------------
+
+
+#--------------- Analyse lexicale --------------------------
+
+
+#--------------- Analyse de texte --------------------------
+
 
 
 #---------------------------------------------------------
@@ -1576,6 +1591,20 @@ def autocorrect():
 		return response
 
 	return render_template('/correction_erreur.html')
+
+
+#-----------------------------------------------------------------
+# Génération de texte
+#-----------------------------------------------------------------
+
+#------------- Complétion de texte ---------------------
+
+#------------- Q/A ---------------------
+
+#------------- Traduction ---------------------
+
+#------------- Ajustement du niveau de lecture ---------------------
+
 
 #-----------------------------------------------------------------
 @app.route('/bios_converter', methods=["GET", "POST"])
