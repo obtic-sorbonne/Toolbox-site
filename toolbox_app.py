@@ -112,16 +112,19 @@ def pandore():
 def projet():
 	return render_template('projet.html')
 
-@app.route('/outils')
-def outils():
-	form = SearchForm()
-	return render_template('outils.html', form=form)
-
 @app.route('/code_source')
 def code_source():
 	return render_template('code_source.html')
 
-#-------- DOCUMENTATION ----------------------#
+@app.route('/contact')
+def contact():
+	form = ContactForm()
+	return render_template('contact.html', form=form)
+
+#-----------------------------------------------------------------
+# DOCUMENTATION
+#-----------------------------------------------------------------
+
 @app.route('/documentation')
 def documentation():
 	return render_template('documentation.html')
@@ -161,10 +164,11 @@ def documentation_normalisation():
 @app.route('/documentation_topicmodelling')
 def documentation_topicmodelling():
 	return render_template('documentation/documentation_topicmodelling.html')
-#-------- FIN DOC -----------------------------#
 
+#-----------------------------------------------------------------
+# TUTORIELS
+#-----------------------------------------------------------------
 
-#-------- TUTORIEL ----------------------#
 @app.route('/tutoriel')
 def tutoriel():
 	return render_template('tutoriel.html')
@@ -205,28 +209,21 @@ def tutoriel_normalisation():
 def tutoriel_topicmodelling():
 	return render_template('tutoriel/tutoriel_topicmodelling.html')
 
-#-------- FIN TUTORIEL -----------------#
+#-----------------------------------------------------------------
+# TACHES
+#-----------------------------------------------------------------
 
-@app.route('/contact')
-def contact():
-	form = ContactForm()
-	return render_template('contact.html', form=form)
+@app.route('/atr_tools')
+def atr_tools():
+	return render_template('taches/atr_tools.html')
 
 @app.route('/pretraitement')
 def pretraitement():
     return render_template('taches/pretraitement.html')
 
-@app.route('/analyses')
-def analyses():
-    return render_template('taches/analyses.html')
-
-@app.route('/generation_texte')
-def generation_texte():
-    return render_template('taches/generation_texte.html')
-
-@app.route('/outils_corpus')
-def outils_corpus():
-	return render_template('taches/corpus.html')
+@app.route('/conversion')
+def conversion():
+	return render_template('taches/conversion.html')
 
 @app.route('/annotation_automatique')
 def annotation_automatique():
@@ -236,77 +233,38 @@ def annotation_automatique():
 def extraction_information():
 	return render_template('taches/extraction_information.html')
 
+@app.route('/analyses')
+def analyses():
+    return render_template('taches/analyses.html')
+
 @app.route('/outils_visualisation')
 def outils_visualisation():
 	return render_template('taches/visualisation.html')
 
-@app.route('/atr_tools')
-def atr_tools():
-	return render_template('taches/atr_tools.html')
+@app.route('/outils_corpus')
+def outils_corpus():
+	return render_template('taches/corpus.html')
 
-@app.route('/numeriser')
-def numeriser():
-	form = FlaskForm()
-	return render_template('outils/numeriser.html', form=form)
-
-@app.route('/conversion')
-def conversion():
-	return render_template('taches/conversion.html')
-
-@app.route('/normalisation')
-def normalisation():
-	return render_template('outils/normalisation.html')
-
-@app.route('/categories_semantiques')
-def categories_semantiques():
-	return render_template('outils/categories_semantiques.html')
-
-@app.route('/resume_automatique')
-def resume_automatique():
-	return render_template('outils/resume_automatique.html')
-
-@app.route('/extraction_mots_cles')
-def extraction_mots_cles():
-	form = FlaskForm()
-	return render_template('outils/extraction_mots_cles.html', form=form, res={})
-
-@app.route('/topic_modelling')
-def topic_modelling():
-	form = FlaskForm()
-	return render_template('outils/topic_modelling.html', form=form, res={})
+@app.route('/collecter_corpus')
+def collecter_corpus():
+	return render_template('taches/collecter_corpus.html')
 
 @app.route('/outils_pipeline')
 def outils_pipeline():
 	return render_template('taches/pipeline.html')
 
-@app.route('/ocr_ner')
-def ocr_ner():
-	form = FlaskForm()
-	return render_template('outils/ocr_ner.html', form=form)
+@app.route('/generation_texte')
+def generation_texte():
+    return render_template('taches/generation_texte.html')
 
-@app.route('/ocr_map')
-def ocr_map():
-	form = FlaskForm()
-	return render_template('outils/ocr_map.html', form=form)
+#-----------------------------------------------------------------
+# OUTILS
+#-----------------------------------------------------------------
 
-@app.route('/extraction_gallica')
-def extraction_gallica():
+@app.route('/numeriser')
+def numeriser():
 	form = FlaskForm()
-	return render_template('outils/extraction_gallica.html', form=form)
-
-@app.route('/extraction_wikisource')
-def extraction_wikisource():
-	form = FlaskForm()
-	return render_template('outils/extraction_wikisource.html', form=form)
-
-@app.route('/tanagra')
-def tanagra():
-	return render_template('outils/tanagra.html')
-
-@app.route('/renard')
-def renard():
-	form = FlaskForm()
-	return render_template('outils/renard.html', form=form, graph="", fname="")
+	return render_template('outils/numeriser.html', form=form)
 
 @app.route('/nettoyage_texte')
 def nettoyage_texte():
@@ -322,6 +280,41 @@ def text_normalisation():
 def separation_texte():
     form = FlaskForm()
     return render_template('outils/separation_texte.html', form=form)
+
+@app.route('/conversion_xml')
+def conversion_xml():
+	form = FlaskForm()
+	return render_template('outils/conversion_xml.html', form=form)
+
+@app.route('/entites_nommees')
+def entites_nommees():
+	form = FlaskForm()
+	return render_template('outils/entites_nommees.html', form=form)
+
+@app.route('/etiquetage_morphosyntaxique')
+def etiquetage_morphosyntaxique():
+	form = FlaskForm()
+	err = ""
+	return render_template('outils/etiquetage_morphosyntaxique.html', form=form, err=err)
+
+@app.route('/categories_semantiques')
+def categories_semantiques():
+	return render_template('outils/categories_semantiques.html')
+
+@app.route('/extraction_mots_cles')
+def extraction_mots_cles():
+	form = FlaskForm()
+	return render_template('outils/extraction_mots_cles.html', form=form, res={})
+
+@app.route('/quotation_extraction')
+def quotation_extraction():
+    form = FlaskForm()
+    return render_template('outils/quotation_extraction.html', form=form)
+
+@app.route('/topic_modelling')
+def topic_modelling():
+	form = FlaskForm()
+	return render_template('outils/topic_modelling.html', form=form, res={})
 
 @app.route('/analyse_linguistique')
 def analyse_linguistique():
@@ -343,6 +336,44 @@ def analyse_texte():
     form = FlaskForm()
     return render_template('outils/analyse_texte.html', form=form)
 
+@app.route('/tanagra')
+def tanagra():
+	return render_template('outils/tanagra.html')
+
+@app.route('/renard')
+def renard():
+	form = FlaskForm()
+	return render_template('outils/renard.html', form=form, graph="", fname="")
+
+@app.route('/extraction_gallica')
+def extraction_gallica():
+	form = FlaskForm()
+	return render_template('outils/extraction_gallica.html', form=form)
+
+@app.route('/extraction_wikisource')
+def extraction_wikisource():
+	form = FlaskForm()
+	return render_template('outils/extraction_wikisource.html', form=form)
+
+@app.route('/correction_erreur')
+def correction_erreur():
+	form = FlaskForm()
+	return render_template('outils/correction_erreur.html', form=form)
+
+@app.route('/normalisation')
+def normalisation():
+	return render_template('outils/normalisation.html')
+
+@app.route('/ocr_ner')
+def ocr_ner():
+	form = FlaskForm()
+	return render_template('outils/ocr_ner.html', form=form)
+
+@app.route('/ocr_map')
+def ocr_map():
+	form = FlaskForm()
+	return render_template('outils/ocr_map.html', form=form)
+
 @app.route('/text_completion')
 def text_completion():
     form = FlaskForm()
@@ -353,11 +384,6 @@ def qa_and_conversation():
     form = FlaskForm()
     return render_template('outils/qa_and_conversation.html', form=form)
 
-@app.route('/quotation_extraction')
-def quotation_extraction():
-    form = FlaskForm()
-    return render_template('outils/quotation_extraction.html', form=form)
-
 @app.route('/translation')
 def translation():
     form = FlaskForm()
@@ -367,6 +393,10 @@ def translation():
 def adjusting_text_readibility_level():
     form = FlaskForm()
     return render_template('outils/adjusting_text_readibility_level.html', form=form)
+
+@app.route('/resume_automatique')
+def resume_automatique():
+	return render_template('outils/resume_automatique.html')
 
 #-----------------------------------------------------------------
 # ERROR HANDLERS
@@ -408,6 +438,9 @@ def download():
     path = 'static/textolab.zip'
     return send_file(path, as_attachment=True)
 
+#-----------------------------------------------------------------
+# Numérisation
+#-----------------------------------------------------------------
 
 #   NUMERISATION TESSERACT
 @app.route('/run_tesseract',  methods=["GET","POST"])
@@ -431,154 +464,74 @@ def run_tesseract():
 		return response
 	return render_template('numeriser.html', erreur=erreur)
 
-@app.route('/collecter_corpus')
-def collecter_corpus():
-	return render_template('taches/collecter_corpus.html')
+#-----------------------------------------------------------------
+# Prétraitement
+#-----------------------------------------------------------------
 
-@app.route('/correction_erreur')
-def correction_erreur():
-	form = FlaskForm()
-	return render_template('outils/correction_erreur.html', form=form)
+#-------------- Normalisation de texte -------------------------
 
-@app.route('/entites_nommees')
-def entites_nommees():
-	form = FlaskForm()
-	return render_template('outils/entites_nommees.html', form=form)
+@app.route('/normalize_text', methods=['POST'])
+def normalize_text():
+    if 'files' not in request.files:
+        response = {"error": "No files part"}
+        return Response(json.dumps(response), status=400, mimetype='application/json')
 
-@app.route('/etiquetage_morphosyntaxique')
-def etiquetage_morphosyntaxique():
-	form = FlaskForm()
-	err = ""
-	return render_template('outils/etiquetage_morphosyntaxique.html', form=form, err=err)
+    files = request.files.getlist('files')
+    if not files or all(file.filename == '' for file in files):
+        response = {"error": "No selected files"}
+        return Response(json.dumps(response), status=400, mimetype='application/json')
 
-@app.route('/generate_corpus',  methods=["GET","POST"])
-@stream_with_context
-def generate_corpus():
-	if request.method == 'POST':
-		nb = int(request.form['nbtext'])
-		result_path, rand_name = createRandomDir('wiki_', 8)
-		all_texts = generate_random_corpus(nb)
-		
-		#Crée les fichiers .txt
-		for clean_text,text_title in all_texts:
-			filename = text_title
-			with open(os.path.join(result_path, filename)+'.txt', 'w', encoding='utf-8') as output:
-				output.write(clean_text)
+    normalisation_type = request.form['normalisation_type']
 
-        # ZIP le dossier résultat
-		if len(os.listdir(result_path)) > 0:
-			shutil.make_archive(result_path, 'zip', result_path)
-			output_stream = BytesIO()
-			with open(str(result_path) + '.zip', 'rb') as res:
-				content = res.read()
-			output_stream.write(content)
-			response = Response(output_stream.getvalue(), mimetype='application/zip',
-                                    headers={"Content-disposition": "attachment; filename=" + rand_name + '.zip'})
-			output_stream.seek(0)
-			output_stream.truncate(0)
-			return response
-		else:
-			os.remove(result_path)
-                
-	return render_template('/collecter_corpus.html')
+    rand_name = 'normalized_' + ''.join(random.choice(string.ascii_lowercase) for x in range(5))
+    result_path = os.path.join(os.getcwd(), rand_name)
+    os.makedirs(result_path, exist_ok=True)
 
-@app.route('/corpus_from_url',  methods=["GET","POST"])
-@stream_with_context
+    for f in files:
+        try:
+            input_text = f.read().decode('utf-8')
+            tokens = word_tokenize(input_text)
+            lowers = [token.lower() for token in tokens]
+            lemmas = [token.lemma_ for token in nlp_eng(input_text)]
+            filename, file_extension = os.path.splitext(f.filename)
 
-#Modifiée pour travail local + corrections
-def corpus_from_url():
-	if request.method == 'POST':
-		keys = request.form.keys()
-		urls = [k for k in keys if k.startswith('url')]
-        #urls = sorted(urls)
-		
-		result_path, rand_name = createRandomDir('wiki_', 8)
-
-		# PARCOURS DES URLS UTILISATEUR
-		for url_name in urls:
-			url = request.form.get(url_name)
-			if not url:
-				continue
-			n = url_name.split('_')[1]
-			s = 's' + n
-			path_elems = urlparse(url).path.split('/')
-
-			# L'URL pointe vers un sommaire
-			if path_elems[-1] != 'Texte_entier' and request.form.get(s) == 'on':
-				# Escape URL if not already escaped
-				url_temp = url.replace("https://fr.wikisource.org/wiki/", "")
-				if not '%' in url_temp:
-					url = "".join(["https://fr.wikisource.org/wiki/", urllib.parse.quote(url_temp)])
-				try:
-					index_page = urllib.request.urlopen(url)
-					index_soup = BeautifulSoup(index_page, 'html.parser')
-					nodes = index_soup.select('div.prp-pages-output div[class="tableItem"] a')
-					for a in nodes:
-						link = 'https://fr.wikisource.org' + a['href']
-						name = a['title']
-						if '/' in name:
-							name = name.split('/')[-1]
-						text = getWikiPage(link)
-						if text != -1:
-							if not name:
-								name = path_elems[-1]
-							with open(os.path.join(result_path, name)+'.txt', 'w', encoding='utf-8') as output:
-								output.write(text)
-							with open(os.path.join(result_path, "rapport.txt"), 'a') as rapport:
-								rapport.write(link + '\t' + 'OK\n')
-
-				except urllib.error.HTTPError:
-					print(" ".join(["The page", url, "cannot be opened."]))
-					with open(os.path.join(result_path, "rapport.txt"), 'a') as rapport:
-								rapport.write(url + '\t' + "Erreur : l'URL n'a pas pu être ouverte.\n")
-					continue
-
-				filename = urllib.parse.unquote(path_elems[-1])
-
-			# URL vers texte intégral
-			else:
-				try:
-					clean_text = getWikiPage(url)
-					if clean_text == -1:
-						print("Erreur lors de la lecture de la page {}".format(url))
-						with open(os.path.join(result_path, "rapport.txt"), 'a') as rapport:
-								rapport.write(url + '\t' + "Erreur : le contenu de la page n'a pas pu être lu.\n")
-
-					else:
-						if path_elems[-1] != 'Texte_entier':
-							filename = urllib.parse.unquote(path_elems[-1])
-						else:
-							filename = urllib.parse.unquote(path_elems[-2])
-
-						with open(os.path.join(result_path, filename)+'.txt', 'w', encoding='utf-8') as output:
-							output.write(clean_text)
-
-				except Exception as e:
-					print("Erreur sur l'URL {}".format(url))
-					continue
+            if normalisation_type == 'tokens':
+                output_name = filename + '_tokens.txt'
+                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
+                    out.write("The tokens of the text are: " + ", ".join(tokens))
+            elif normalisation_type == 'lowercases':
+                output_name = filename + '_lower.txt'
+                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
+                    out.write("The lowercase version of the text is: " + ", ".join(lowers))
+            elif normalisation_type == 'lemmas':
+                output_name = filename + '_lemmas.txt'
+                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
+                    out.write("The lemmas of the text are: " + ", ".join(lemmas))
 
 
-		# ZIP le dossier résultat
-		if len(os.listdir(result_path)) > 0:
-			shutil.make_archive(result_path, 'zip', result_path)
-			output_stream = BytesIO()
-			with open(str(result_path) + '.zip', 'rb') as res:
-				content = res.read()
-			output_stream.write(content)
-			response = Response(output_stream.getvalue(), mimetype='application/zip',
-									headers={"Content-disposition": "attachment; filename=" + rand_name + '.zip'})
-			output_stream.seek(0)
-			output_stream.truncate(0)
-			return response
-		else:
-			os.remove(result_path)
+        finally:
+            f.close()
 
-	return render_template('collecter_corpus.html')
+    if len(os.listdir(result_path)) > 0:
+        shutil.make_archive(result_path, 'zip', result_path)
+        output_stream = BytesIO()
+        with open(str(result_path) + '.zip', 'rb') as res:
+            content = res.read()
+        output_stream.write(content)
+        response = Response(output_stream.getvalue(), mimetype='application/zip',
+                            headers={"Content-disposition": "attachment; filename=" + rand_name + '.zip'})
+        output_stream.seek(0)
+        output_stream.truncate(0)
+        shutil.rmtree(result_path)
+        os.remove(str(result_path) + '.zip')
+        return response
 
-@app.route('/conversion_xml')
-def conversion_xml():
-	form = FlaskForm()
-	return render_template('outils/conversion_xml.html', form=form)
+    return Response(json.dumps({"error": "Une erreur est survenue dans le traitement des fichiers."}), status=500, mimetype='application/json')
+
+
+#-----------------------------------------------------------------
+# Conversion XML
+#-----------------------------------------------------------------
 
 @app.route('/xmlconverter', methods=["GET", "POST"])
 @stream_with_context
@@ -635,65 +588,6 @@ def xmlconverter():
         return send_file(zip_buffer, mimetype='application/zip', as_attachment=True, download_name='encoded_files.zip')
 
     return render_template("/conversion_xml")
-
-
-@app.route('/autocorrect', methods=["GET", "POST"])
-@stream_with_context
-def autocorrect():
-	if request.method == 'POST':
-		uploaded_files = request.files.getlist("uploaded_files")
-
-		# Initialisation du correcteur
-		modelpath = str(ROOT_FOLDER / os.path.join(app.config['MODEL_FOLDER'], 'fr.bin'))
-		jsp = jamspell.TSpellCorrector()
-		assert jsp.LoadLangModel(modelpath) # modèle de langue
-
-		# Nom de dossier aléatoire pour le résultat de la requête
-		rand_name =  'autocorrect_' + ''.join((random.choice(string.ascii_lowercase) for x in range(5)))
-		result_path = ROOT_FOLDER / os.path.join(app.config['UPLOAD_FOLDER'], rand_name)
-		os.mkdir(result_path)
-		print(result_path)
-
-		for f in uploaded_files:
-			filename, file_extension = os.path.splitext(f.filename)
-			output_name = filename + '_OK.txt'             # Texte corrigé
-			#tabfile_name = filename + '_corrections.tsv'   # Liste des corrections
-
-			byte_str = f.read()
-			f.close()
-
-			# Prétraitements du texte d'entrée
-			texte = byte_str.decode('UTF-8')
-			texte = re.sub(" +", " ", texte) # Suppression espaces multiples
-			texte = texte.replace("'", "’") # Guillemet français
-			phrases = sentencizer(texte)
-
-			with open(ROOT_FOLDER / os.path.join(result_path, output_name), 'a+', encoding="utf-8") as out:
-				for sent in phrases:
-					correction = jsp.FixFragment(sent)
-					out.write(correction)
-
-		# ZIP le dossier résultat
-		shutil.make_archive(result_path, 'zip', result_path)
-		output_stream = BytesIO()
-		with open(str(result_path) + '.zip', 'rb') as res:
-			content = res.read()
-		output_stream.write(content)
-		response = Response(output_stream.getvalue(), mimetype='application/zip',
-								headers={"Content-disposition": "attachment; filename=" + rand_name + '.zip'})
-		output_stream.seek(0)
-		output_stream.truncate(0)
-
-		# Nettoie le dossier de travail
-		shutil.rmtree(result_path)
-
-		return response
-
-	return render_template('/correction_erreur.html')
-
-#-----------------------------------------------------------------
-# FONCTIONS de traitement
-#-----------------------------------------------------------------
 
 # CONVERSION XML-TEI
 # Construit un fichier TEI à partir des métadonnées renseignées dans le formulaire.
@@ -854,48 +748,12 @@ def txt_to_xml(filename, fields):
 
 	root.append(text)
 	return root
-#-----------------------------------------------------------------
-def generate_random_corpus(nb):
-
-	# Read list of urls
-	with open(ROOT_FOLDER / 'static/wikisource_bib.txt', 'r') as bib:
-		random_texts = bib.read().splitlines()
-
-	# Pick random urls
-	urls = random.sample(random_texts, nb)
-	all_texts = []
-
-	for text_url in urls:
-		#removes the subsidiary part of the url path ("/Texte_entier" for example) so it does not mess with the filename
-		if(re.search('/',text_url)):
-			text_title = urllib.parse.unquote(text_url.split('/')[0])
-		else:
-			text_title = urllib.parse.unquote(text_url)
-		location = "".join(["https://fr.wikisource.org/wiki/", text_url])
-		try:
-			page = urllib.request.urlopen(location)
-		except Exception as e:
-			with open('pb_url.log', 'a') as err_log:
-				err_log.write("No server is associated with the following page:" + location + '\n')
-				err_log.write(e)
-			continue
-
-		soup = BeautifulSoup(page, 'html.parser')
-		text = soup.findAll("div", attrs={'class': 'prp-pages-output'})
-
-		if len(text) == 0:
-			print("This does not appear to be part of the text (no prp-pages-output tag at this location).")
-			with open('pb_url.log', 'a') as err_log:
-				err_log.write(text_url)
-		else:
-			# Remove end of line inside sentence
-			clean_text = re.sub(r"[^\.:!?»[A-Z]]\n", ' ', text[0].text)
-			all_texts.append((clean_text,text_title))
-
-	return all_texts
 
 #-----------------------------------------------------------------
+# Annotation automatique
+#-----------------------------------------------------------------
 
+#------------- POS ----------------------
 
 @app.route('/pos_tagging', methods=["POST"])
 @stream_with_context
@@ -943,7 +801,7 @@ def pos_tagging():
 	#output_stream.write(conllexporter.document_to_string(document, couples={"pos": "POS"}).encode("utf-8"))
 	#response = Response(output_stream.getvalue(), mimetype='text/plain', headers={"Content-disposition": "attachment; filename=" + output})
 
-
+#------------------ NER ---------------------------
 
 @app.route('/named_entity_recognition', methods=["POST"])
 @stream_with_context
@@ -1034,6 +892,12 @@ def named_entity_recognition():
 
 	render_template('entites_nommees.html', erreur=erreur)
 
+#-----------------------------------------------------------------
+# Extraction d'informations
+#-----------------------------------------------------------------
+
+#--------------- Mots-clés -----------------------
+
 @app.route('/keyword_extraction', methods=['POST'])
 @stream_with_context
 def keyword_extraction():
@@ -1084,161 +948,7 @@ def keyword_extraction():
 		
 	return render_template('extraction_mots_cles.html', form=form, res=res)
 
-#-------------------------------------------------------------------------------------------
-
-nlp_eng = spacy.load('en_core_web_sm')
-nltk.download('punkt')
-
-def find_hapaxes(input_text):
-    words = input_text.lower().replace(',', '').replace('?', '').split()
-    word_counts = Counter(words)
-    hapaxes = [word for word, count in word_counts.items() if count == 1]
-    return hapaxes
-
-def generate_ngrams(input_text, n, r):
-    tokens = word_tokenize(input_text.lower())
-    n_grams = ngrams(tokens, n)
-    n_grams_counts = Counter(n_grams)
-    most_frequent_ngrams = n_grams_counts.most_common(r)
-    return most_frequent_ngrams
-
-@app.route('/analyze_linguistic', methods=['POST'])
-def analyze_linguistic():
-    if 'files' not in request.files:
-        response = {"error": "No files part"}
-        return Response(json.dumps(response), status=400, mimetype='application/json')
-
-    files = request.files.getlist('files')
-    if not files or all(file.filename == '' for file in files):
-        response = {"error": "No selected files"}
-        return Response(json.dumps(response), status=400, mimetype='application/json')
-
-    analysis_type = request.form['analysis_type']
-
-    n = int(request.form.get('n', 2))  # Default n-gram length to 2 if not provided
-    r = int(request.form.get('r', 5)) 
-
-    rand_name = 'linguistic_' + ''.join(random.choice(string.ascii_lowercase) for x in range(5))
-    result_path = os.path.join(os.getcwd(), rand_name)
-    os.makedirs(result_path, exist_ok=True)
-
-    for f in files:
-        try:
-            input_text = f.read().decode('utf-8')
-            hapaxes_list = find_hapaxes(input_text)
-            langues_detectees = detect_langs(input_text)
-            langues_probabilites = [f"Langue : {lang.lang}, Probabilité : {lang.prob * 100:.2f}%" for lang in langues_detectees]
-            detected_languages_str = "\n".join(langues_probabilites)
-            filename, file_extension = os.path.splitext(f.filename)
-
-            if analysis_type == 'hapax':
-                output_name = filename + '_hapaxes.txt'
-                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-                    out.write("The hapaxes are: " + ", ".join(hapaxes_list))
-            elif analysis_type == 'n_gram':
-                most_frequent_ngrams = generate_ngrams(input_text, n, r)
-                output_name = filename + '_ngrams.txt'
-                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-                    for n_gram, count in most_frequent_ngrams:
-                        out.write(f"{n}-gram: {' '.join(n_gram)} --> Count: {count}\n")
-            elif analysis_type == 'detect_lang':
-                output_name = filename + '_detected_languages.txt'
-                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-                    out.write(f"Detected languages:\n{detected_languages_str}\n")
-            elif analysis_type == 'dependency':
-                # Dependency parsing
-                doc = nlp_eng(input_text)
-                syntax_info = "\n".join([f"{token.text} ({token.pos_}) <--{token.dep_} ({spacy.explain(token.dep_)})-- {token.head.text} ({token.head.pos_})" for token in doc])
-                output_name_text = filename + '_syntax.txt'
-                with open(os.path.join(result_path, output_name_text), 'w', encoding='utf-8') as out:
-                    out.write(syntax_info)
-
-                # Visualization with displacy
-                svg = displacy.render(doc, style='dep', jupyter=False)
-                output_name_svg = filename + '_syntax.svg'
-                with open(os.path.join(result_path, output_name_svg), 'w', encoding='utf-8') as out:
-                    out.write(svg)
-        finally:
-            f.close()
-
-    if len(os.listdir(result_path)) > 0:
-        shutil.make_archive(result_path, 'zip', result_path)
-        output_stream = BytesIO()
-        with open(str(result_path) + '.zip', 'rb') as res:
-            content = res.read()
-        output_stream.write(content)
-        response = Response(output_stream.getvalue(), mimetype='application/zip',
-                            headers={"Content-disposition": "attachment; filename=" + rand_name + '.zip'})
-        output_stream.seek(0)
-        output_stream.truncate(0)
-        shutil.rmtree(result_path)
-        os.remove(str(result_path) + '.zip')
-        return response
-
-    return Response(json.dumps({"error": "Une erreur est survenue dans le traitement des fichiers."}), status=500, mimetype='application/json')
-
-#--------------------------------------------------------------------------------------
-
-@app.route('/normalize_text', methods=['POST'])
-def normalize_text():
-    if 'files' not in request.files:
-        response = {"error": "No files part"}
-        return Response(json.dumps(response), status=400, mimetype='application/json')
-
-    files = request.files.getlist('files')
-    if not files or all(file.filename == '' for file in files):
-        response = {"error": "No selected files"}
-        return Response(json.dumps(response), status=400, mimetype='application/json')
-
-    normalisation_type = request.form['normalisation_type']
-
-    rand_name = 'normalized_' + ''.join(random.choice(string.ascii_lowercase) for x in range(5))
-    result_path = os.path.join(os.getcwd(), rand_name)
-    os.makedirs(result_path, exist_ok=True)
-
-    for f in files:
-        try:
-            input_text = f.read().decode('utf-8')
-            tokens = word_tokenize(input_text)
-            lowers = [token.lower() for token in tokens]
-            lemmas = [token.lemma_ for token in nlp_eng(input_text)]
-            filename, file_extension = os.path.splitext(f.filename)
-
-            if normalisation_type == 'tokens':
-                output_name = filename + '_tokens.txt'
-                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-                    out.write("The tokens of the text are: " + ", ".join(tokens))
-            elif normalisation_type == 'lowercases':
-                output_name = filename + '_lower.txt'
-                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-                    out.write("The lowercase version of the text is: " + ", ".join(lowers))
-            elif normalisation_type == 'lemmas':
-                output_name = filename + '_lemmas.txt'
-                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-                    out.write("The lemmas of the text are: " + ", ".join(lemmas))
-
-
-        finally:
-            f.close()
-
-    if len(os.listdir(result_path)) > 0:
-        shutil.make_archive(result_path, 'zip', result_path)
-        output_stream = BytesIO()
-        with open(str(result_path) + '.zip', 'rb') as res:
-            content = res.read()
-        output_stream.write(content)
-        response = Response(output_stream.getvalue(), mimetype='application/zip',
-                            headers={"Content-disposition": "attachment; filename=" + rand_name + '.zip'})
-        output_stream.seek(0)
-        output_stream.truncate(0)
-        shutil.rmtree(result_path)
-        os.remove(str(result_path) + '.zip')
-        return response
-
-    return Response(json.dumps({"error": "Une erreur est survenue dans le traitement des fichiers."}), status=500, mimetype='application/json')
-
-
-#--------------------------------------------------------------------------------------
+#----------------- Topic Modelling -----------------------------
 
 @app.route('/topic_extraction', methods=["POST"])
 @stream_with_context
@@ -1346,7 +1056,343 @@ def topic_extraction():
 
 	return render_template('topic_modelling.html', form=form, res=res, msg=msg)
 
+
 #-----------------------------------------------------------------
+# Analyses
+#-----------------------------------------------------------------
+
+#--------------- Analyse linguistique --------------------------
+
+nlp_eng = spacy.load('en_core_web_sm')
+nltk.download('punkt')
+
+def find_hapaxes(input_text):
+    words = input_text.lower().replace(',', '').replace('?', '').split()
+    word_counts = Counter(words)
+    hapaxes = [word for word, count in word_counts.items() if count == 1]
+    return hapaxes
+
+def generate_ngrams(input_text, n, r):
+    tokens = word_tokenize(input_text.lower())
+    n_grams = ngrams(tokens, n)
+    n_grams_counts = Counter(n_grams)
+    most_frequent_ngrams = n_grams_counts.most_common(r)
+    return most_frequent_ngrams
+
+@app.route('/analyze_linguistic', methods=['POST'])
+def analyze_linguistic():
+    if 'files' not in request.files:
+        response = {"error": "No files part"}
+        return Response(json.dumps(response), status=400, mimetype='application/json')
+
+    files = request.files.getlist('files')
+    if not files or all(file.filename == '' for file in files):
+        response = {"error": "No selected files"}
+        return Response(json.dumps(response), status=400, mimetype='application/json')
+
+    analysis_type = request.form['analysis_type']
+
+    n = int(request.form.get('n', 2))  # Default n-gram length to 2 if not provided
+    r = int(request.form.get('r', 5)) 
+
+    rand_name = 'linguistic_' + ''.join(random.choice(string.ascii_lowercase) for x in range(5))
+    result_path = os.path.join(os.getcwd(), rand_name)
+    os.makedirs(result_path, exist_ok=True)
+
+    for f in files:
+        try:
+            input_text = f.read().decode('utf-8')
+            hapaxes_list = find_hapaxes(input_text)
+            langues_detectees = detect_langs(input_text)
+            langues_probabilites = [f"Langue : {lang.lang}, Probabilité : {lang.prob * 100:.2f}%" for lang in langues_detectees]
+            detected_languages_str = "\n".join(langues_probabilites)
+            filename, file_extension = os.path.splitext(f.filename)
+
+            if analysis_type == 'hapax':
+                output_name = filename + '_hapaxes.txt'
+                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
+                    out.write("The hapaxes are: " + ", ".join(hapaxes_list))
+            elif analysis_type == 'n_gram':
+                most_frequent_ngrams = generate_ngrams(input_text, n, r)
+                output_name = filename + '_ngrams.txt'
+                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
+                    for n_gram, count in most_frequent_ngrams:
+                        out.write(f"{n}-gram: {' '.join(n_gram)} --> Count: {count}\n")
+            elif analysis_type == 'detect_lang':
+                output_name = filename + '_detected_languages.txt'
+                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
+                    out.write(f"Detected languages:\n{detected_languages_str}\n")
+            elif analysis_type == 'dependency':
+                # Dependency parsing
+                doc = nlp_eng(input_text)
+                syntax_info = "\n".join([f"{token.text} ({token.pos_}) <--{token.dep_} ({spacy.explain(token.dep_)})-- {token.head.text} ({token.head.pos_})" for token in doc])
+                output_name_text = filename + '_syntax.txt'
+                with open(os.path.join(result_path, output_name_text), 'w', encoding='utf-8') as out:
+                    out.write(syntax_info)
+
+                # Visualization with displacy
+                svg = displacy.render(doc, style='dep', jupyter=False)
+                output_name_svg = filename + '_syntax.svg'
+                with open(os.path.join(result_path, output_name_svg), 'w', encoding='utf-8') as out:
+                    out.write(svg)
+        finally:
+            f.close()
+
+    if len(os.listdir(result_path)) > 0:
+        shutil.make_archive(result_path, 'zip', result_path)
+        output_stream = BytesIO()
+        with open(str(result_path) + '.zip', 'rb') as res:
+            content = res.read()
+        output_stream.write(content)
+        response = Response(output_stream.getvalue(), mimetype='application/zip',
+                            headers={"Content-disposition": "attachment; filename=" + rand_name + '.zip'})
+        output_stream.seek(0)
+        output_stream.truncate(0)
+        shutil.rmtree(result_path)
+        os.remove(str(result_path) + '.zip')
+        return response
+
+    return Response(json.dumps({"error": "Une erreur est survenue dans le traitement des fichiers."}), status=500, mimetype='application/json')
+
+
+#---------------------------------------------------------
+# Visualisation
+#---------------------------------------------------------
+
+@app.route("/run_renard",  methods=["GET", "POST"])
+@stream_with_context
+def run_renard():
+	form = FlaskForm()
+	if request.method == 'POST':
+		min_appearances = int(request.form['min_appearances'])
+		lang = request.form.get('toollang')
+
+		if request.files['renard_upload'].filename != '':
+			f = request.files['renard_upload']
+
+			text = f.read()
+			text = text.decode('utf-8')
+		else:
+			text = request.form['renard_txt_input']
+		
+		rand_name =  'renard_graph_' + ''.join((random.choice(string.ascii_lowercase) for x in range(8))) + '.gexf'
+		result_path = ROOT_FOLDER / os.path.join(app.config['UPLOAD_FOLDER'], rand_name)
+		
+		from renard.pipeline import Pipeline
+		from renard.pipeline.tokenization import NLTKTokenizer
+		from renard.pipeline.ner import NLTKNamedEntityRecognizer, BertNamedEntityRecognizer
+		from renard.pipeline.character_unification import GraphRulesCharacterUnifier
+		from renard.pipeline.graph_extraction import CoOccurrencesGraphExtractor
+		from renard.graph_utils import graph_with_names
+		from renard.plot_utils import plot_nx_graph_reasonably
+		import matplotlib.pyplot as plt
+		import networkx as nx
+		import base64
+
+		BERT_MODELS = {
+			"fra" : "Jean-Baptiste/camembert-ner",
+			"eng" : "dslim/bert-base-NER",
+			"spa" : "mrm8488/bert-spanish-cased-finetuned-ner"
+		}
+		
+
+		pipeline = Pipeline(
+		[
+			NLTKTokenizer(),
+			BertNamedEntityRecognizer(model=BERT_MODELS[lang]), #NLTKNamedEntityRecognizer(),
+			GraphRulesCharacterUnifier(min_appearances=min_appearances),
+			CoOccurrencesGraphExtractor(co_occurrences_dist=35)
+		], lang = lang)
+
+		out = pipeline(text)
+
+		# Save GEXF network
+		out.export_graph_to_gexf(result_path)
+
+		# Networkx to plot
+		G = graph_with_names(out.characters_graph)
+		plot_nx_graph_reasonably(G)
+		img = BytesIO() # file-like object for the image
+		plt.savefig(img, format='png') # save the image to the stream
+		img.seek(0) # writing moved the cursor to the end of the file, reset
+		plt.clf() # clear pyplot
+		figdata_png = base64.b64encode(img.getvalue()).decode('ascii')
+
+		return render_template('renard.html', form=form, graph=figdata_png, fname=str(rand_name))
+
+	return render_template('renard.html', form=form, graph="", fname="")
+
+#-----------------------------------------------------------------
+# Extraction de corpus
+#-----------------------------------------------------------------
+
+@app.route('/generate_corpus',  methods=["GET","POST"])
+@stream_with_context
+def generate_corpus():
+	if request.method == 'POST':
+		nb = int(request.form['nbtext'])
+		result_path, rand_name = createRandomDir('wiki_', 8)
+		all_texts = generate_random_corpus(nb)
+		
+		#Crée les fichiers .txt
+		for clean_text,text_title in all_texts:
+			filename = text_title
+			with open(os.path.join(result_path, filename)+'.txt', 'w', encoding='utf-8') as output:
+				output.write(clean_text)
+
+        # ZIP le dossier résultat
+		if len(os.listdir(result_path)) > 0:
+			shutil.make_archive(result_path, 'zip', result_path)
+			output_stream = BytesIO()
+			with open(str(result_path) + '.zip', 'rb') as res:
+				content = res.read()
+			output_stream.write(content)
+			response = Response(output_stream.getvalue(), mimetype='application/zip',
+                                    headers={"Content-disposition": "attachment; filename=" + rand_name + '.zip'})
+			output_stream.seek(0)
+			output_stream.truncate(0)
+			return response
+		else:
+			os.remove(result_path)
+                
+	return render_template('/collecter_corpus.html')
+
+@app.route('/corpus_from_url',  methods=["GET","POST"])
+@stream_with_context
+
+#Modifiée pour travail local + corrections
+def corpus_from_url():
+	if request.method == 'POST':
+		keys = request.form.keys()
+		urls = [k for k in keys if k.startswith('url')]
+        #urls = sorted(urls)
+		
+		result_path, rand_name = createRandomDir('wiki_', 8)
+
+		# PARCOURS DES URLS UTILISATEUR
+		for url_name in urls:
+			url = request.form.get(url_name)
+			if not url:
+				continue
+			n = url_name.split('_')[1]
+			s = 's' + n
+			path_elems = urlparse(url).path.split('/')
+
+			# L'URL pointe vers un sommaire
+			if path_elems[-1] != 'Texte_entier' and request.form.get(s) == 'on':
+				# Escape URL if not already escaped
+				url_temp = url.replace("https://fr.wikisource.org/wiki/", "")
+				if not '%' in url_temp:
+					url = "".join(["https://fr.wikisource.org/wiki/", urllib.parse.quote(url_temp)])
+				try:
+					index_page = urllib.request.urlopen(url)
+					index_soup = BeautifulSoup(index_page, 'html.parser')
+					nodes = index_soup.select('div.prp-pages-output div[class="tableItem"] a')
+					for a in nodes:
+						link = 'https://fr.wikisource.org' + a['href']
+						name = a['title']
+						if '/' in name:
+							name = name.split('/')[-1]
+						text = getWikiPage(link)
+						if text != -1:
+							if not name:
+								name = path_elems[-1]
+							with open(os.path.join(result_path, name)+'.txt', 'w', encoding='utf-8') as output:
+								output.write(text)
+							with open(os.path.join(result_path, "rapport.txt"), 'a') as rapport:
+								rapport.write(link + '\t' + 'OK\n')
+
+				except urllib.error.HTTPError:
+					print(" ".join(["The page", url, "cannot be opened."]))
+					with open(os.path.join(result_path, "rapport.txt"), 'a') as rapport:
+								rapport.write(url + '\t' + "Erreur : l'URL n'a pas pu être ouverte.\n")
+					continue
+
+				filename = urllib.parse.unquote(path_elems[-1])
+
+			# URL vers texte intégral
+			else:
+				try:
+					clean_text = getWikiPage(url)
+					if clean_text == -1:
+						print("Erreur lors de la lecture de la page {}".format(url))
+						with open(os.path.join(result_path, "rapport.txt"), 'a') as rapport:
+								rapport.write(url + '\t' + "Erreur : le contenu de la page n'a pas pu être lu.\n")
+
+					else:
+						if path_elems[-1] != 'Texte_entier':
+							filename = urllib.parse.unquote(path_elems[-1])
+						else:
+							filename = urllib.parse.unquote(path_elems[-2])
+
+						with open(os.path.join(result_path, filename)+'.txt', 'w', encoding='utf-8') as output:
+							output.write(clean_text)
+
+				except Exception as e:
+					print("Erreur sur l'URL {}".format(url))
+					continue
+
+
+		# ZIP le dossier résultat
+		if len(os.listdir(result_path)) > 0:
+			shutil.make_archive(result_path, 'zip', result_path)
+			output_stream = BytesIO()
+			with open(str(result_path) + '.zip', 'rb') as res:
+				content = res.read()
+			output_stream.write(content)
+			response = Response(output_stream.getvalue(), mimetype='application/zip',
+									headers={"Content-disposition": "attachment; filename=" + rand_name + '.zip'})
+			output_stream.seek(0)
+			output_stream.truncate(0)
+			return response
+		else:
+			os.remove(result_path)
+
+	return render_template('collecter_corpus.html')
+
+#----------------------- Wikisource -------------------
+
+def generate_random_corpus(nb):
+
+	# Read list of urls
+	with open(ROOT_FOLDER / 'static/wikisource_bib.txt', 'r') as bib:
+		random_texts = bib.read().splitlines()
+
+	# Pick random urls
+	urls = random.sample(random_texts, nb)
+	all_texts = []
+
+	for text_url in urls:
+		#removes the subsidiary part of the url path ("/Texte_entier" for example) so it does not mess with the filename
+		if(re.search('/',text_url)):
+			text_title = urllib.parse.unquote(text_url.split('/')[0])
+		else:
+			text_title = urllib.parse.unquote(text_url)
+		location = "".join(["https://fr.wikisource.org/wiki/", text_url])
+		try:
+			page = urllib.request.urlopen(location)
+		except Exception as e:
+			with open('pb_url.log', 'a') as err_log:
+				err_log.write("No server is associated with the following page:" + location + '\n')
+				err_log.write(e)
+			continue
+
+		soup = BeautifulSoup(page, 'html.parser')
+		text = soup.findAll("div", attrs={'class': 'prp-pages-output'})
+
+		if len(text) == 0:
+			print("This does not appear to be part of the text (no prp-pages-output tag at this location).")
+			with open('pb_url.log', 'a') as err_log:
+				err_log.write(text_url)
+		else:
+			# Remove end of line inside sentence
+			clean_text = re.sub(r"[^\.:!?»[A-Z]]\n", ' ', text[0].text)
+			all_texts.append((clean_text,text_title))
+
+	return all_texts
+
+#---------------- Gallica ------------------------
+
 @app.route('/extract_gallica', methods=["GET", "POST"])
 @stream_with_context
 def extract_gallica():
@@ -1470,6 +1516,66 @@ def get_size(ark, i):
     except urllib.error.HTTPError as exc:
         print("Erreur {} en récupérant {}".format(exc, url))
         return None
+
+#-----------------------------------------------------------------
+# Correction de corpus
+#-----------------------------------------------------------------
+
+#------------- Correction Erreurs ---------------------
+
+@app.route('/autocorrect', methods=["GET", "POST"])
+@stream_with_context
+def autocorrect():
+	if request.method == 'POST':
+		uploaded_files = request.files.getlist("uploaded_files")
+
+		# Initialisation du correcteur
+		modelpath = str(ROOT_FOLDER / os.path.join(app.config['MODEL_FOLDER'], 'fr.bin'))
+		jsp = jamspell.TSpellCorrector()
+		assert jsp.LoadLangModel(modelpath) # modèle de langue
+
+		# Nom de dossier aléatoire pour le résultat de la requête
+		rand_name =  'autocorrect_' + ''.join((random.choice(string.ascii_lowercase) for x in range(5)))
+		result_path = ROOT_FOLDER / os.path.join(app.config['UPLOAD_FOLDER'], rand_name)
+		os.mkdir(result_path)
+		print(result_path)
+
+		for f in uploaded_files:
+			filename, file_extension = os.path.splitext(f.filename)
+			output_name = filename + '_OK.txt'             # Texte corrigé
+			#tabfile_name = filename + '_corrections.tsv'   # Liste des corrections
+
+			byte_str = f.read()
+			f.close()
+
+			# Prétraitements du texte d'entrée
+			texte = byte_str.decode('UTF-8')
+			texte = re.sub(" +", " ", texte) # Suppression espaces multiples
+			texte = texte.replace("'", "’") # Guillemet français
+			phrases = sentencizer(texte)
+
+			with open(ROOT_FOLDER / os.path.join(result_path, output_name), 'a+', encoding="utf-8") as out:
+				for sent in phrases:
+					correction = jsp.FixFragment(sent)
+					out.write(correction)
+
+		# ZIP le dossier résultat
+		shutil.make_archive(result_path, 'zip', result_path)
+		output_stream = BytesIO()
+		with open(str(result_path) + '.zip', 'rb') as res:
+			content = res.read()
+		output_stream.write(content)
+		response = Response(output_stream.getvalue(), mimetype='application/zip',
+								headers={"Content-disposition": "attachment; filename=" + rand_name + '.zip'})
+		output_stream.seek(0)
+		output_stream.truncate(0)
+
+		# Nettoie le dossier de travail
+		shutil.rmtree(result_path)
+
+		return response
+
+	return render_template('/correction_erreur.html')
 
 #-----------------------------------------------------------------
 @app.route('/bios_converter', methods=["GET", "POST"])
@@ -1629,7 +1735,7 @@ def display_topics(model, feature_names, no_top_words):
 	return res
 
 #-----------------------------------------------------------------
-# chaînes de traitement
+# Chaînes de traitement
 #-----------------------------------------------------------------
 
 @app.route("/run_ocr_ner", methods=["POST"])
@@ -1916,69 +2022,6 @@ def nermap_to_csv():
     output_stream.seek(0)
     output_stream.truncate(0)
     return response
-
-@app.route("/run_renard",  methods=["GET", "POST"])
-@stream_with_context
-def run_renard():
-	form = FlaskForm()
-	if request.method == 'POST':
-		min_appearances = int(request.form['min_appearances'])
-		lang = request.form.get('toollang')
-
-		if request.files['renard_upload'].filename != '':
-			f = request.files['renard_upload']
-
-			text = f.read()
-			text = text.decode('utf-8')
-		else:
-			text = request.form['renard_txt_input']
-		
-		rand_name =  'renard_graph_' + ''.join((random.choice(string.ascii_lowercase) for x in range(8))) + '.gexf'
-		result_path = ROOT_FOLDER / os.path.join(app.config['UPLOAD_FOLDER'], rand_name)
-		
-		from renard.pipeline import Pipeline
-		from renard.pipeline.tokenization import NLTKTokenizer
-		from renard.pipeline.ner import NLTKNamedEntityRecognizer, BertNamedEntityRecognizer
-		from renard.pipeline.character_unification import GraphRulesCharacterUnifier
-		from renard.pipeline.graph_extraction import CoOccurrencesGraphExtractor
-		from renard.graph_utils import graph_with_names
-		from renard.plot_utils import plot_nx_graph_reasonably
-		import matplotlib.pyplot as plt
-		import networkx as nx
-		import base64
-
-		BERT_MODELS = {
-			"fra" : "Jean-Baptiste/camembert-ner",
-			"eng" : "dslim/bert-base-NER",
-			"spa" : "mrm8488/bert-spanish-cased-finetuned-ner"
-		}
-		
-
-		pipeline = Pipeline(
-		[
-			NLTKTokenizer(),
-			BertNamedEntityRecognizer(model=BERT_MODELS[lang]), #NLTKNamedEntityRecognizer(),
-			GraphRulesCharacterUnifier(min_appearances=min_appearances),
-			CoOccurrencesGraphExtractor(co_occurrences_dist=35)
-		], lang = lang)
-
-		out = pipeline(text)
-
-		# Save GEXF network
-		out.export_graph_to_gexf(result_path)
-
-		# Networkx to plot
-		G = graph_with_names(out.characters_graph)
-		plot_nx_graph_reasonably(G)
-		img = BytesIO() # file-like object for the image
-		plt.savefig(img, format='png') # save the image to the stream
-		img.seek(0) # writing moved the cursor to the end of the file, reset
-		plt.clf() # clear pyplot
-		figdata_png = base64.b64encode(img.getvalue()).decode('ascii')
-
-		return render_template('renard.html', form=form, graph=figdata_png, fname=str(rand_name))
-
-	return render_template('renard.html', form=form, graph="", fname="")
 
 @app.route("/get_file/<path:filename>")
 def get_file(filename):
