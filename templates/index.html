@@ -45,6 +45,9 @@
         <li class="obtic-tool"><a href="{{ url_for('collecter_corpus') }}">{{ _('Collecte de corpus') }}</a></li>
         <li class="obtic-tool"><a href="{{ url_for('outils_corpus') }}">{{ _('Correction textuelle') }}</a></li>
         <li class="obtic-tool"><a href="{{ url_for('outils_pipeline') }}">{{ _('Chaînes de traitement') }}</a></li>
+        <li class="obtic-tool"><a href="{{ url_for('pretraitement') }}">{{ _('Prétraitement') }}</a></li>
+        <li class="obtic-tool"><a href="{{ url_for('analyses') }}">{{ _('Analyses') }}</a></li>
+        <li class="obtic-tool"><a href="{{ url_for('generation_texte') }}">{{ _('Génération de texte') }}</a></li>
       </ul>
     </li>
     <li class="obtic-tool dropdown">
@@ -124,6 +127,21 @@
       <div class="box-outil-accueil shadow" onclick="window.location.href='{{ url_for('outils_pipeline') }}';">
         <div class="rubrique-icon"><img alt="Chaînes de traitement" src="{{url_for('static', filename='img/pipeline-icon.png')}}"></div>
         <span class="rubrique-title"><h3>{{ _('Chaînes de traitement') }}</h3></span>
+        <span class="rubrique-text"><p>{{ _("Traitement automatique depuis l'OCR jusqu'à la reconnaissance d'entités et leur visualisation.") }}</p></span>
+      </div>
+      <div class="box-outil-accueil shadow" onclick="window.location.href='{{ url_for('pretraitement') }}';">
+        <div class="rubrique-icon"><img alt="Chaînes de traitement" src="{{url_for('static', filename='img/pipeline-icon.png')}}"></div>
+        <span class="rubrique-title"><h3>{{ _('Prétraitement') }}</h3></span>
+        <span class="rubrique-text"><p>{{ _("Traitement automatique depuis l'OCR jusqu'à la reconnaissance d'entités et leur visualisation.") }}</p></span>
+      </div>
+      <div class="box-outil-accueil shadow" onclick="window.location.href='{{ url_for('analyses') }}';">
+        <div class="rubrique-icon"><img alt="Chaînes de traitement" src="{{url_for('static', filename='img/pipeline-icon.png')}}"></div>
+        <span class="rubrique-title"><h3>{{ _('Analyses') }}</h3></span>
+        <span class="rubrique-text"><p>{{ _("Traitement automatique depuis l'OCR jusqu'à la reconnaissance d'entités et leur visualisation.") }}</p></span>
+      </div>
+      <div class="box-outil-accueil shadow" onclick="window.location.href='{{ url_for('generation_texte') }}';">
+        <div class="rubrique-icon"><img alt="Chaînes de traitement" src="{{url_for('static', filename='img/pipeline-icon.png')}}"></div>
+        <span class="rubrique-title"><h3>{{ _('Génération de texte') }}</h3></span>
         <span class="rubrique-text"><p>{{ _("Traitement automatique depuis l'OCR jusqu'à la reconnaissance d'entités et leur visualisation.") }}</p></span>
       </div>
     </div>

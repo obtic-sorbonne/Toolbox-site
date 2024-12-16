@@ -1,0 +1,37 @@
+{% extends "index.html" %}
+{% block header %} {{ super() }} {% endblock %}
+{% block content %}
+<div class="selection">
+  <div style="text-align: left;"><a href="{{ url_for('analyse_texte')}}" style="color:#f2a800; text-decoration:none;"><< Tâche précédente</a></div>
+  <h2>Génération de texte</h2>
+  <p style="text-align: center;">Cette page répertorie divers outils pour générer automatiquement du texte sous des formes variées</p>
+  <div class="container">
+    <div class="box-outil-accueil" onclick="window.location.href='{{ url_for('text_completion') }}'">
+      <div class="rubrique-icon"><img alt="Complétion de texte" src="{{ url_for('static', filename='img/textcompletion.png')}}"></div>
+      <span class="rubrique-title"><h3>Complétion de texte</h3></span>
+      <span class="rubrique-text"><p>Génération automatique d'un texte cohérent et contextuellement pertinent en fonction d'une invite ou d'une entrée donnée</p></span>
+    </div>
+    <div class="box-outil-accueil" onclick="window.location.href='{{ url_for('qa_and_conversation') }}'">
+      <div class="rubrique-icon"><img alt="Q/A" src="{{ url_for('static', filename='img/unknown.png')}}"></div>
+      <span class="rubrique-title"><h3>Questions/réponses et conversations</h3></span>
+      <span class="rubrique-text"><p>Modèles capables de comprendre et de répondre aux questions posées en langage humain avec des réponses précises et contextuellement pertinentes</p></span>
+    </div>
+    <div class="box-outil-accueil" onclick="window.location.href='{{ url_for('translation') }}'">
+      <div class="rubrique-icon"><img alt="Traduction" src="{{ url_for('static', filename='img/translation.jpg')}}"></div>
+      <span class="rubrique-title"><h3>Traduction</h3></span>
+      <span class="rubrique-text"><p>Utilisation de modèles pour convertir du texte ou de la parole d'une langue à une autre, permettant ainsi la communication et la compréhension interlinguistiques</p></span>
+    </div>
+    <div class="box-outil-accueil" onclick="window.location.href='{{ url_for('adjusting_text_readibility_level') }}'">
+      <div class="rubrique-icon"><img alt="Ajustement du niveau de lecture" src="{{ url_for('static', filename='img/unknown.png')}}"></div>
+      <span class="rubrique-title"><h3>Ajustement du niveau de lecture du texte</h3></span>
+      <span class="rubrique-text"><p>Rendu plus accessible d'un contenu en utilisant la simplification lexicale, le raccourcissement des phrases et la notation de lisibilité pour modifier la complexité du texte</p></span>
+    </div>
+    <div class="box-outil-accueil" onclick="window.location.href='{{ url_for('resume_automatique') }}'">
+      <div><img alt="Résumé automatique" src="{{ url_for('static', filename='img/summarizer.png') }}" width="100%"></div>
+      <span class="rubrique-title"><h3>Summarizer</h3></span>
+      <span class="rubrique-text"><p>Résumer automatiquement des documents en anglais aux formats texte brut ou XML</p></span>
+    </div>
+  </div>
+</div>
+{% endblock %}
+{% block footer %} {{ super() }} {% endblock %}

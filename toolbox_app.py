@@ -203,89 +203,161 @@ def contact():
 	form = ContactForm()
 	return render_template('contact.html', form=form)
 
+@app.route('/pretraitement')
+def pretraitement():
+    return render_template('taches/pretraitement.html')
+
+@app.route('/analyses')
+def analyses():
+    return render_template('taches/analyses.html')
+
+@app.route('/generation_texte')
+def generation_texte():
+    return render_template('taches/generation_texte.html')
+
 @app.route('/outils_corpus')
 def outils_corpus():
-	return render_template('corpus.html')
+	return render_template('taches/corpus.html')
 
 @app.route('/annotation_automatique')
 def annotation_automatique():
-	return render_template('annotation_automatique.html')
+	return render_template('taches/annotation_automatique.html')
 
 @app.route('/extraction_information')
 def extraction_information():
-	return render_template('extraction_information.html')
+	return render_template('taches/extraction_information.html')
 
 @app.route('/outils_visualisation')
 def outils_visualisation():
-	return render_template('visualisation.html')
+	return render_template('taches/visualisation.html')
 
 @app.route('/atr_tools')
 def atr_tools():
-	return render_template('atr_tools.html')
+	return render_template('taches/atr_tools.html')
 
 @app.route('/numeriser')
 def numeriser():
 	form = FlaskForm()
-	return render_template('numeriser.html', form=form)
+	return render_template('outils/numeriser.html', form=form)
 
 @app.route('/conversion')
 def conversion():
-	return render_template('conversion.html')
+	return render_template('taches/conversion.html')
 
 @app.route('/normalisation')
 def normalisation():
-	return render_template('normalisation.html')
+	return render_template('outils/normalisation.html')
 
 @app.route('/categories_semantiques')
 def categories_semantiques():
-	return render_template('categories_semantiques.html')
+	return render_template('outils/categories_semantiques.html')
 
 @app.route('/resume_automatique')
 def resume_automatique():
-	return render_template('resume_automatique.html')
+	return render_template('outils/resume_automatique.html')
 
 @app.route('/extraction_mots_cles')
 def extraction_mots_cles():
 	form = FlaskForm()
-	return render_template('extraction_mots_cles.html', form=form, res={})
+	return render_template('outils/extraction_mots_cles.html', form=form, res={})
 
 @app.route('/topic_modelling')
 def topic_modelling():
 	form = FlaskForm()
-	return render_template('topic_modelling.html', form=form, res={})
+	return render_template('outils/topic_modelling.html', form=form, res={})
 
 @app.route('/outils_pipeline')
 def outils_pipeline():
-	return render_template('pipeline.html')
+	return render_template('taches/pipeline.html')
 
 @app.route('/ocr_ner')
 def ocr_ner():
 	form = FlaskForm()
-	return render_template('ocr_ner.html', form=form)
+	return render_template('outils/ocr_ner.html', form=form)
 
 @app.route('/ocr_map')
 def ocr_map():
 	form = FlaskForm()
-	return render_template('ocr_map.html', form=form)
+	return render_template('outils/ocr_map.html', form=form)
 
 @app.route('/extraction_gallica')
 def extraction_gallica():
 	form = FlaskForm()
-	return render_template('extraction_gallica.html', form=form)
+	return render_template('outils/extraction_gallica.html', form=form)
 
 @app.route('/extraction_wikisource')
 def extraction_wikisource():
 	form = FlaskForm()
-	return render_template('extraction_wikisource.html', form=form)
+	return render_template('outils/extraction_wikisource.html', form=form)
 
 @app.route('/tanagra')
 def tanagra():
-	return render_template('tanagra.html')
+	return render_template('outils/tanagra.html')
 
 @app.route('/renard')
 def renard():
 	form = FlaskForm()
-	return render_template('renard.html', form=form, graph="", fname="")
+	return render_template('outils/renard.html', form=form, graph="", fname="")
+
+@app.route('/nettoyage_texte')
+def nettoyage_texte():
+    form = FlaskForm()
+    return render_template('outils/nettoyage_texte.html', form=form)
+
+@app.route('/text_normalisation')
+def text_normalisation():
+    form = FlaskForm()
+    return render_template('outils/text_normalisation.html', form=form)
+
+@app.route('/separation_texte')
+def separation_texte():
+    form = FlaskForm()
+    return render_template('outils/separation_texte.html', form=form)
+
+@app.route('/analyse_linguistique')
+def analyse_linguistique():
+    form = FlaskForm()
+    return render_template('outils/analyse_linguistique.html', form=form)
+
+@app.route('/analyse_statistique')
+def analyse_statistique():
+    form = FlaskForm()
+    return render_template('outils/analyse_statistique.html', form=form)
+
+@app.route('/analyse_lexicale')
+def analyse_lexicale():
+    form = FlaskForm()
+    return render_template('outils/analyse_lexicale.html', form=form)
+
+@app.route('/analyse_texte')
+def analyse_texte():
+    form = FlaskForm()
+    return render_template('outils/analyse_texte.html', form=form)
+
+@app.route('/text_completion')
+def text_completion():
+    form = FlaskForm()
+    return render_template('outils/text_completion.html', form=form)
+
+@app.route('/qa_and_conversation')
+def qa_and_conversation():
+    form = FlaskForm()
+    return render_template('outils/qa_and_conversation.html', form=form)
+
+@app.route('/quotation_extraction')
+def quotation_extraction():
+    form = FlaskForm()
+    return render_template('outils/quotation_extraction.html', form=form)
+
+@app.route('/translation')
+def translation():
+    form = FlaskForm()
+    return render_template('outils/translation.html', form=form)
+
+@app.route('/adjusting_text_readibility_level')
+def adjusting_text_readibility_level():
+    form = FlaskForm()
+    return render_template('outils/adjusting_text_readibility_level.html', form=form)
 
 #-----------------------------------------------------------------
 # ERROR HANDLERS
@@ -352,23 +424,23 @@ def run_tesseract():
 
 @app.route('/collecter_corpus')
 def collecter_corpus():
-	return render_template('collecter_corpus.html')
+	return render_template('taches/collecter_corpus.html')
 
 @app.route('/correction_erreur')
 def correction_erreur():
 	form = FlaskForm()
-	return render_template('correction_erreur.html', form=form)
+	return render_template('outils/correction_erreur.html', form=form)
 
 @app.route('/entites_nommees')
 def entites_nommees():
 	form = FlaskForm()
-	return render_template('entites_nommees.html', form=form)
+	return render_template('outils/entites_nommees.html', form=form)
 
 @app.route('/etiquetage_morphosyntaxique')
 def etiquetage_morphosyntaxique():
 	form = FlaskForm()
 	err = ""
-	return render_template('etiquetage_morphosyntaxique.html', form=form, err=err)
+	return render_template('outils/etiquetage_morphosyntaxique.html', form=form, err=err)
 
 @app.route('/generate_corpus',  methods=["GET","POST"])
 @stream_with_context
@@ -497,7 +569,7 @@ def corpus_from_url():
 @app.route('/conversion_xml')
 def conversion_xml():
 	form = FlaskForm()
-	return render_template('conversion_xml.html', form=form)
+	return render_template('outils/conversion_xml.html', form=form)
 
 @app.route('/xmlconverter', methods=["GET", "POST"])
 @stream_with_context
