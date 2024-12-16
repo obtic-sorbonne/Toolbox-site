@@ -532,6 +532,53 @@ def normalize_text():
 
 #-------------- Séparation de texte -------------------------
 
+@app.route('/split_sentences', methods=['POST'])
+def split_sentences():
+    if 'files' not in request.files:
+        response = {"error": "No files part"}
+        return Response(json.dumps(response), status=400, mimetype='application/json')
+
+    files = request.files.getlist('files')
+    if not files or all(file.filename == '' for file in files):
+        response = {"error": "No selected files"}
+        return Response(json.dumps(response), status=400, mimetype='application/json')
+
+    rand_name = 'splitsentences_' + ''.join(random.choice(string.ascii_lowercase) for x in range(5))
+    result_path = os.path.join(os.getcwd(), rand_name)
+    os.makedirs(result_path, exist_ok=True)
+
+    for f in files:
+        try:
+            input_text = f.read().decode('utf-8')
+            tokens = word_tokenize(input_text)
+            sentences = nltk.sent_tokenize(input_text)
+            splitsentence = [sentence.strip() for sentence in sentences]
+            filename, file_extension = os.path.splitext(f.filename)
+            
+            output_name = filename + '.txt'
+            with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
+                out.write("The sentences of the text are: " + ",\n".join(splitsentence))
+
+        finally:
+            f.close()
+
+    if len(os.listdir(result_path)) > 0:
+        shutil.make_archive(result_path, 'zip', result_path)
+        output_stream = BytesIO()
+        with open(str(result_path) + '.zip', 'rb') as res:
+            content = res.read()
+        output_stream.write(content)
+        response = Response(output_stream.getvalue(), mimetype='application/zip',
+                            headers={"Content-disposition": "attachment; filename=" + rand_name + '.zip'})
+        output_stream.seek(0)
+        output_stream.truncate(0)
+        shutil.rmtree(result_path)
+        os.remove(str(result_path) + '.zip')
+        return response
+
+    return Response(json.dumps({"error": "Une erreur est survenue dans le traitement des fichiers."}), status=500, mimetype='application/json')
+
+
 #-----------------------------------------------------------------
 # Conversion XML
 #-----------------------------------------------------------------
