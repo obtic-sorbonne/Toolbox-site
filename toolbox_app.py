@@ -13,7 +13,7 @@ import nltk
 from nltk.tokenize import word_tokenize
 from nltk import ngrams
 from collections import Counter
-from zipfile import ZipFile
+import zipfile
 import os
 from io import StringIO, BytesIO
 import string
@@ -25,7 +25,7 @@ from urllib.parse import urlparse
 import re
 from lxml import etree
 import csv
-import contextualSpellCheck
+#import contextualSpellCheck
 import spacy
 from spacy import displacy
 import shutil
@@ -583,55 +583,59 @@ def conversion_xml():
 @app.route('/xmlconverter', methods=["GET", "POST"])
 @stream_with_context
 def xmlconverter():
-	if request.method == 'POST':
-		fields = {}
+    if request.method == 'POST':
+        fields = {}
+        fields['title'] = request.form['title']
+        fields['title_lang'] = request.form['title_lang'] # required
+        fields['author'] = request.form.get('author')
+        fields['respStmt_name'] = request.form.get('nameresp')
+        fields['respStmt_resp'] = request.form.get('resp')
+        fields['pubStmt'] = request.form['pubStmt'] # required
+        fields['sourceDesc'] = request.form['sourceDesc'] # required
+        fields['revisionDesc_change'] = request.form['change']
+        fields['change_who'] = request.form['who']
+        fields['change_when'] = request.form['when']
+        fields['licence'] = request.form['licence']
+        fields['divtype'] = request.form['divtype']
+        fields["creation"] = request.form['creation']
+        fields["lang"] = request.form['lang']
+        fields["projet_p"] = request.form['projet_p']
+        fields["edit_correction_p"] = request.form['edit_correction_p']
+        fields["edit_hyphen_p"] = request.form['edit_hyphen_p']
 
-		f = request.files['file']
-		fields['title'] = request.form['title']
-		fields['title_lang'] = request.form['title_lang'] # required
-		fields['author'] = request.form.get('author')
-		fields['respStmt_name'] = request.form.get('nameresp')
-		fields['respStmt_resp'] = request.form.get('resp')
-		fields['pubStmt'] = request.form['pubStmt'] # required
-		fields['sourceDesc'] = request.form['sourceDesc'] # required
-		fields['revisionDesc_change'] = request.form['change']
-		fields['change_who'] = request.form['who']
-		fields['change_when'] = request.form['when']
-		fields['licence'] = request.form['licence']
-		fields['divtype'] = request.form['divtype']
-		fields["creation"] = request.form['creation']
-		fields["lang"] = request.form['lang']
-		fields["projet_p"] = request.form['projet_p']
-		fields["edit_correction_p"] = request.form['edit_correction_p']
-		fields["edit_hyphen_p"] = request.form['edit_hyphen_p']
+        files = request.files.getlist('file')
+        zip_buffer = BytesIO()
 
-		filename = secure_filename(f.filename)
-		path_to_file = ROOT_FOLDER / os.path.join(app.config['UPLOAD_FOLDER'], filename)
-		f.save(path_to_file)
-		# Validating file format
-		try:
-			with open(path_to_file, "r") as f:
-				for l in f:
-					break;
+        with zipfile.ZipFile(zip_buffer, 'a', zipfile.ZIP_DEFLATED, False) as zip_file:
+            for f in files:
+                filename = secure_filename(f.filename)
+                path_to_file = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+                f.save(path_to_file)
 
-			# Returning xml string
-			root = txt_to_xml(path_to_file, fields)
+                try:
+                    with open(path_to_file, "r") as file:
+                        for l in file:
+                            break
 
-			# Writing in stream
-			output_stream = BytesIO()
-			output = os.path.splitext(filename)[0] + '.xml'
-			etree.ElementTree(root).write(output_stream, pretty_print=True, xml_declaration=True, encoding="utf-8")
-			response = Response(output_stream.getvalue(), mimetype='application/xml',
-								headers={"Content-disposition": "attachment; filename=" + output})
-			output_stream.seek(0)
-			output_stream.truncate(0)
+                    # Returning xml string
+                    root = txt_to_xml(path_to_file, fields)
 
-		except UnicodeDecodeError:
-			return 'format de fichier incorrect'
+                    # Writing in stream
+                    output_stream = BytesIO()
+                    output_filename = os.path.splitext(filename)[0] + '.xml'
+                    etree.ElementTree(root).write(output_stream, pretty_print=True, xml_declaration=True, encoding="utf-8")
+                    output_stream.seek(0)
+                    zip_file.writestr(output_filename, output_stream.getvalue())
+                    output_stream.truncate(0)
 
-		return response
+                except UnicodeDecodeError:
+                    return 'format de fichier incorrect'
 
-	return render_template("/conversion_xml")
+        zip_buffer.seek(0)
+        return send_file(zip_buffer, mimetype='application/zip', as_attachment=True, download_name='encoded_files.zip')
+
+    return render_template("/conversion_xml")
+
 
 @app.route('/autocorrect', methods=["GET", "POST"])
 @stream_with_context

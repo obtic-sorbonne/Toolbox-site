@@ -31,7 +31,7 @@
           <fieldset>
           <p class="labelxml">Titre du document (titleStmt)*</p>
           <label for="title" style="display:inline-block;width:102px;margin-left:12px;">title</label>
-          <select name="title_lang" id="title_lang" required>
+          <select name="title_lang" id="title_lang">
             <option value="fr">français</option>
             <option value="en">anglais</option>
             <option value="de">allemand</option>
@@ -138,8 +138,8 @@
         </div>
         <div id="div-upload" class="column">
           <div class="dropzone">
-            <input type="file" id="rax-text-file" name="file" accept=".txt" required />
-              <p id="form_msg"><i class="fa-solid fa-upload"></i><br/>{{ _('Déposer le fichier ou cliquer ici.' )}}</p>
+            <input type="file" id="rax-text-file" name="file" accept=".txt" multiple required />
+              <p id="form_msg"><i class="fa-solid fa-upload"></i><br/>{{ _('Déposer le(s) fichier(s) ou cliquer ici.' )}}</p>
             </div>
           <input id="csrf_token" name="csrf_token" type="hidden" value="CSRF_TOKEN_STRING">
           <button style="display:block;margin:auto;margin-top:20px;">{{ _("Convertir en XML-TEI") }}</button>
