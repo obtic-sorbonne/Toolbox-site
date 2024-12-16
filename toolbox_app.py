@@ -8,6 +8,12 @@ from forms import ContactForm, SearchForm
 from flask_wtf import FlaskForm
 from flask_wtf.csrf import CSRFProtect
 from flask_babel import Babel, get_locale
+from langdetect import detect_langs
+import nltk
+from nltk.tokenize import word_tokenize
+from nltk import ngrams
+from collections import Counter
+from zipfile import ZipFile
 import os
 from io import StringIO, BytesIO
 import string
@@ -19,6 +25,9 @@ from urllib.parse import urlparse
 import re
 from lxml import etree
 import csv
+import contextualSpellCheck
+import spacy
+from spacy import displacy
 import shutil
 from pathlib import Path
 #import jamspell
@@ -1071,6 +1080,100 @@ def keyword_extraction():
 		
 	return render_template('extraction_mots_cles.html', form=form, res=res)
 
+#-------------------------------------------------------------------------------------------
+
+nlp_eng = spacy.load('en_core_web_sm')
+nltk.download('punkt')
+
+def find_hapaxes(input_text):
+    words = input_text.lower().replace(',', '').replace('?', '').split()
+    word_counts = Counter(words)
+    hapaxes = [word for word, count in word_counts.items() if count == 1]
+    return hapaxes
+
+def generate_ngrams(input_text, n, r):
+    tokens = word_tokenize(input_text.lower())
+    n_grams = ngrams(tokens, n)
+    n_grams_counts = Counter(n_grams)
+    most_frequent_ngrams = n_grams_counts.most_common(r)
+    return most_frequent_ngrams
+
+@app.route('/analyze_linguistic', methods=['POST'])
+def analyze_linguistic():
+    if 'files' not in request.files:
+        response = {"error": "No files part"}
+        return Response(json.dumps(response), status=400, mimetype='application/json')
+
+    files = request.files.getlist('files')
+    if not files or all(file.filename == '' for file in files):
+        response = {"error": "No selected files"}
+        return Response(json.dumps(response), status=400, mimetype='application/json')
+
+    analysis_type = request.form['analysis_type']
+
+    n = int(request.form.get('n', 2))  # Default n-gram length to 2 if not provided
+    r = int(request.form.get('r', 5)) 
+
+    rand_name = 'linguistic_' + ''.join(random.choice(string.ascii_lowercase) for x in range(5))
+    result_path = os.path.join(os.getcwd(), rand_name)
+    os.makedirs(result_path, exist_ok=True)
+
+    for f in files:
+        try:
+            input_text = f.read().decode('utf-8')
+            hapaxes_list = find_hapaxes(input_text)
+            langues_detectees = detect_langs(input_text)
+            langues_probabilites = [f"Langue : {lang.lang}, Probabilité : {lang.prob * 100:.2f}%" for lang in langues_detectees]
+            detected_languages_str = "\n".join(langues_probabilites)
+            filename, file_extension = os.path.splitext(f.filename)
+
+            if analysis_type == 'hapax':
+                output_name = filename + '_hapaxes.txt'
+                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
+                    out.write("The hapaxes are: " + ", ".join(hapaxes_list))
+            elif analysis_type == 'n_gram':
+                most_frequent_ngrams = generate_ngrams(input_text, n, r)
+                output_name = filename + '_ngrams.txt'
+                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
+                    for n_gram, count in most_frequent_ngrams:
+                        out.write(f"{n}-gram: {' '.join(n_gram)} --> Count: {count}\n")
+            elif analysis_type == 'detect_lang':
+                output_name = filename + '_detected_languages.txt'
+                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
+                    out.write(f"Detected languages:\n{detected_languages_str}\n")
+            elif analysis_type == 'dependency':
+                # Dependency parsing
+                doc = nlp_eng(input_text)
+                syntax_info = "\n".join([f"{token.text} ({token.pos_}) <--{token.dep_} ({spacy.explain(token.dep_)})-- {token.head.text} ({token.head.pos_})" for token in doc])
+                output_name_text = filename + '_syntax.txt'
+                with open(os.path.join(result_path, output_name_text), 'w', encoding='utf-8') as out:
+                    out.write(syntax_info)
+
+                # Visualization with displacy
+                svg = displacy.render(doc, style='dep', jupyter=False)
+                output_name_svg = filename + '_syntax.svg'
+                with open(os.path.join(result_path, output_name_svg), 'w', encoding='utf-8') as out:
+                    out.write(svg)
+        finally:
+            f.close()
+
+    if len(os.listdir(result_path)) > 0:
+        shutil.make_archive(result_path, 'zip', result_path)
+        output_stream = BytesIO()
+        with open(str(result_path) + '.zip', 'rb') as res:
+            content = res.read()
+        output_stream.write(content)
+        response = Response(output_stream.getvalue(), mimetype='application/zip',
+                            headers={"Content-disposition": "attachment; filename=" + rand_name + '.zip'})
+        output_stream.seek(0)
+        output_stream.truncate(0)
+        shutil.rmtree(result_path)
+        os.remove(str(result_path) + '.zip')
+        return response
+
+    return Response(json.dumps({"error": "Une erreur est survenue dans le traitement des fichiers."}), status=500, mimetype='application/json')
+
+#--------------------------------------------------------------------------------------
 
 @app.route('/topic_extraction', methods=["POST"])
 @stream_with_context
