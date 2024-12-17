@@ -1,0 +1,25 @@
+{% extends "index.html" %}
+{% block header %} {{ super() }} {% endblock %}
+
+{% block content %}
+<div class="selection">
+  <div style="text-align: left;"><a href="{{ url_for('analyses')}}" style="color:#f2a800; text-decoration:none;"><< Tâche précédente</a></div>
+    <div style="text-align: right;"><a href="{{ url_for('outils_visualisation')}}" style="color:#f2a800; text-decoration:none;">Tâche suivante >></a></div>
+  <h2>Exploration</h2>
+  <p style="text-align: center;">Cette page propose plusieurs outils pour explorer en profondeur des corpus de texte.</p>
+  <div class="container-visu">
+
+    <div class="box-outil-visu">
+      <div class="rubrique-icon"><a href="https://obvil.huma-num.fr/ariane/" target="_blank"><img alt="Ariane" src="{{ url_for('static', filename='img/ariane_small.jpg') }}"></a></div>
+      <span class="rubrique-title"><a href="https://obvil.huma-num.fr/ariane/" target="_blank"><h3 style="font-family:'Comprehension', serif;">Ariane</h3></a></span>
+      <span class="rubrique-text"><p>Ariane est une interface web pour l'exploration et la visualisation de corpus annotés. Elle permet de rechercher des mots au sein de passages annotés selon une ontologie linguistique (sentiments, opinions, etc.). L'interface propose des statistiques et des visualisations autour des résultats, ainsi que des fonctionnalités de filtrage et de lecture synthétique.</p></span>
+    </div>
+
+    <div class="box-outil-visu">
+      <div class="rubrique-icon"><a href="https://obtic.huma-num.fr/gallica-obvie/" target="_blank"><img alt="Gallica-Obvie" src="{{ url_for('static', filename='img/ObTIC-logo-white.png') }}"></a></div>
+      <span class="rubrique-title"><a href="https://obtic.huma-num.fr/gallica-obvie/" target="_blank"><h3 style="font-family:'Comprehension', serif;">Gallica-Obvie</h3></a></span>
+      <span class="rubrique-text"><p>Gallica-Obvie est un prototype en ligne qui permet de collecter des données textuelles à partir de Gallica, et de les indexer directement dans la plateforme Obvie. Il suffit de saisir quelques identifiants de Gallica (les arks) pour obtenir les résultats.</p></span>
+    </div>
+  </div>
+</div>
+{% endblock %}

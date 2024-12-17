@@ -238,6 +238,10 @@ def extraction_information():
 def analyses():
     return render_template('taches/analyses.html')
 
+@app.route('/search_tools')
+def search_tools():
+	return render_template('taches/search_tools.html')
+
 @app.route('/outils_visualisation')
 def outils_visualisation():
 	return render_template('taches/visualisation.html')
