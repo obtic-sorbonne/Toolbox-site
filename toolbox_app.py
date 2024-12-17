@@ -11,6 +11,7 @@ from flask_babel import Babel, get_locale
 from langdetect import detect_langs
 import nltk
 from nltk.tokenize import word_tokenize
+from nltk.corpus import stopwords
 from nltk import ngrams
 from collections import Counter
 import zipfile
@@ -469,6 +470,63 @@ def run_tesseract():
 #-----------------------------------------------------------------
 
 #-------------- Nettoyage de texte -------------------------
+nltk.download('stopwords')
+
+@app.route('/removing_elements', methods=['POST'])
+def removing_elements():
+    if 'files' not in request.files:
+        response = {"error": "No files part"}
+        return Response(json.dumps(response), status=400, mimetype='application/json')
+
+    files = request.files.getlist('files')
+    if not files or all(file.filename == '' for file in files):
+        response = {"error": "No selected files"}
+        return Response(json.dumps(response), status=400, mimetype='application/json')
+
+    removing_type = request.form['removing_type']
+
+    rand_name = 'removing_' + ''.join(random.choice(string.ascii_lowercase) for x in range(5))
+    result_path = os.path.join(os.getcwd(), rand_name)
+    os.makedirs(result_path, exist_ok=True)
+
+    for f in files:
+        try:
+            input_text = f.read().decode('utf-8')
+            tokens = word_tokenize(input_text)
+            removing_punctuation = [token for token in tokens if token.isalpha()]
+            stop_words = set(stopwords.words('english'))
+            removing_stopwords = [token for token in tokens if token.lower() not in stop_words]
+            filename, file_extension = os.path.splitext(f.filename)
+
+            if removing_type == 'punctuation':
+                output_name = filename + '_punctuation.txt'
+                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
+                    out.write('The original text was :\n"' + input_text + '"\n\nThe text without punctuation is :\n"' + " ".join(removing_punctuation) + '"')
+            elif removing_type == 'stopwords':
+                output_name = filename + '_stopwords.txt'
+                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
+                    out.write('The original text was :\n"' + input_text + '"\n\nThe text without stopwords is :\n"' + " ".join(removing_stopwords) + '"')
+
+
+        finally:
+            f.close()
+
+    if len(os.listdir(result_path)) > 0:
+        shutil.make_archive(result_path, 'zip', result_path)
+        output_stream = BytesIO()
+        with open(str(result_path) + '.zip', 'rb') as res:
+            content = res.read()
+        output_stream.write(content)
+        response = Response(output_stream.getvalue(), mimetype='application/zip',
+                            headers={"Content-disposition": "attachment; filename=" + rand_name + '.zip'})
+        output_stream.seek(0)
+        output_stream.truncate(0)
+        shutil.rmtree(result_path)
+        os.remove(str(result_path) + '.zip')
+        return response
+
+    return Response(json.dumps({"error": "Une erreur est survenue dans le traitement des fichiers."}), status=500, mimetype='application/json')
+
 
 #-------------- Normalisation de texte -------------------------
 
