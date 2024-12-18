@@ -10,8 +10,8 @@
   <p>{{ _("Mise à jour 2024: cet outil est sous construction et il est susceptible de ne pas marcher correctement")}}</p>
   <br>
   <p>{{ _("Cette section permet d'annoter la catégorie grammaticale de chaque mot d'un texte avec")}}<a href="https://github.com/YoannDupont/SEM" target="_blank">{{ _("l'outil SEM") }}</a>. {{ _("La liste des étiquettes est définie")}} <a href="https://apps.lattice.cnrs.fr/sem/about" target="_blank">{{ _('ici') }}</a>. {{ _("Le document renvoyé est au format") }} <a href="https://aclanthology.org/W03-0419/" target="_blank">CoNLL 2003</a> {{ _("avec deux colonnes : une pour le mot et une pour l'étiquette morphosyntaxique")}}.</p>
-  <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_pos_tagging', _anchor='doc_postag') }}" target="_blank">{{ _("Voir la documentation") }}</a></p>
-    <p style="text-align: center;padding:20px"><a href="{{ url_for('tutoriel_pos_tagging') }}"  target="_blank">{{ _('Voir le tutoriel') }}</a></p>
+  <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_annotation') }}" target="_blank">{{ _("Voir la documentation") }}</a></p>
+    <p style="text-align: center;padding:20px"><a href="{{ url_for('tutoriel_annotation') }}"  target="_blank">{{ _('Voir le tutoriel') }}</a></p>
   <div class="infos_outil" style="display: block;margin: 0 auto 15px auto;">
         <input id="show" type=checkbox><label for="show" class="infos_title"><i class="fa-solid fa-circle-info"></i> {{ _("Informations sur l'outil") }}<i class="fa-solid fa-angle-right" style="float:right;margin-top:5px;margin-left:15px;cursor: pointer;"></i></label></p>
         <div class="info_popped">

@@ -14,8 +14,8 @@
     <li>Téléchargez le dossier <a href="{{url_for('download')}}">textolab.zip</a> sur votre ordinateur et décompressez-le.</li>
     <li>Cliquer sur textolab.exe, et dans la fenêtre qui s'affiche, validez le chemin vers le projet textolab. Le logo de l'application doit s'afficher correctement. <br><img alt="Logo textolab" src="{{url_for('static', filename='img/logo_textolab.png')}}" width="25%"></li>
   </ul></p>
-  <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_catsem') }}" target="_blank">Voir la documentation</a></p>
-  <p style="text-align: center;padding:20px"><a href="{{ url_for('tutoriel_catsem') }}" target="_blank">Voir le tutoriel</a></p>
+  <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_annotation') }}" target="_blank">Voir la documentation</a></p>
+  <p style="text-align: center;padding:20px"><a href="{{ url_for('tutoriel_annotation') }}" target="_blank">Voir le tutoriel</a></p>
 </div>
 {% endblock %}
 {% block footer %} {{ super() }} {% endblock %}
