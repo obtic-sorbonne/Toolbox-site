@@ -9,17 +9,17 @@
     <p style="text-align: center;">Cette page répertorie diverses manières d'annoter automatiquement un texte.</p>
     <div class="container">
       <div class="box-outil-accueil" onclick="window.location.href='{{ url_for('etiquetage_morphosyntaxique') }}'">
-        <div class="rubrique-icon"><img alt="Étiquetages morphosyntaxiques" src="{{url_for('static', filename='img/morphosyntax.png')}}"></div>
+        <div class="rubrique-icon"><img alt="Étiquetages morphosyntaxiques" src="{{url_for('static', filename='img/icons/pos.png')}}"></div>
         <span class="rubrique-title"><h3>{{ _('Étiquetage morphosyntaxique') }}</h3></span>
         <span class="rubrique-text"><p>Annotation de la catégorie grammaticale de chaque mot d'un texte avec l'outil SEM</p></span>
       </div>
       <div class="box-outil-accueil" onclick="window.location.href='{{ url_for('entites_nommees') }}'">
-        <div class="rubrique-icon"><img alt="Reconnaissance d'entités nommées" src="{{url_for('static', filename='img/ner-icon.png')}}"></div>
+        <div class="rubrique-icon"><img alt="Reconnaissance d'entités nommées" src="{{url_for('static', filename='img/icons/ner.png')}}"></div>
         <span class="rubrique-title"><h3>{{ _("Reconnaissance d'entités nommées") }}</h3></span>
         <span class="rubrique-text"><p>Identification des entités nommées d'un corpus en choissisant son modèle (Spacy, Flair ou Bert)</p></span>
       </div>
       <div class="box-outil-accueil" onclick="window.location.href='{{ url_for('categories_semantiques') }}'">
-        <div class="rubrique-icon"><img alt="Catégories sémantiques" src="{{ url_for('static', filename='img/categories_semantiques.png')}}"></div>
+        <div class="rubrique-icon"><img alt="Catégories sémantiques" src="{{ url_for('static', filename='img/icons/catsem.png')}}"></div>
         <span class="rubrique-title"><h3>{{ _('Catégories sémantiques') }}</h3></span>
         <span class="rubrique-text"><p>Localisation, grâce à l'outil Textolab, de patrons linguistiques</p></span>
       </div>

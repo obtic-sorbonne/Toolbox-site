@@ -8,12 +8,12 @@
   <p style="text-align: center;">Cette page répertorie divers outils pour modifier des sorties OCR, que cela soit des erreurs de prédiction ou des normalisations de graphie.</p>
   <div class="container">
     <div class="box-outil-accueil" onclick="window.location.href='{{ url_for('normalisation') }}'">
-      <div class="rubrique-icon"><img alt="Normalisation" src="{{ url_for('static', filename='img/normalisation.png')}}"></div>
+      <div class="rubrique-icon"><img alt="Normalisation" src="{{ url_for('static', filename='img/icons/graphie-ancienne.png')}}"></div>
       <span class="rubrique-title"><h3>{{ _('Normalisation de graphie ancienne') }}</h3></span>
       <span class="rubrique-text"><p>{{ _('Uniformisation des variations graphiques et équivalences en français moderne') }}.</p></span>
     </div>
     <div class="box-outil-accueil" onclick="window.location.href='{{ url_for('correction_erreur') }}'">
-      <div class="rubrique-icon"><img alt="Correction d'erreurs" src="{{ url_for('static', filename='img/spellcheck-icon.png') }}"></div>
+      <div class="rubrique-icon"><img alt="Correction d'erreurs" src="{{ url_for('static', filename='img/icons/verification-du-texte.png') }}"></div>
       <span class="rubrique-title"><h3>{{ _("Correction d'erreurs") }}</h3></span>
       <span class="rubrique-text"><p>{{ _("Post traitement des sorties d'OCR ou amélioration de corpus bruités") }}.</p></span>
     </div>

@@ -8,22 +8,22 @@
   <p style="text-align: center;">Cette page propose plusieurs analyses à effectuer sur un texte</p>
   <div class="container">
     <div class="box-outil-accueil" onclick="window.location.href='{{ url_for('analyse_linguistique') }}'">
-      <div class="rubrique-icon"><img alt="Analyse des dépendances" src="{{ url_for('static', filename='img/unknown.png')}}" width="100%"></div>
+      <div class="rubrique-icon"><img alt="Analyse linguistique" src="{{ url_for('static', filename='img/icons/analyse-linguistique.png')}}" width="100%"></div>
       <span class="rubrique-title"><h3>Analyse linguistique</h3></span>
       <span class="rubrique-text"><p>Détection du language, Hapax, N-Grams, Analyse des dépendances</p></span>
     </div>
     <div class="box-outil-accueil" onclick="window.location.href='{{ url_for('analyse_statistique') }}'">
-      <div class="rubrique-icon"><img alt="Analyse des dépendances" src="{{ url_for('static', filename='img/unknown.png')}}" width="100%"></div>
+      <div class="rubrique-icon"><img alt="Analyse statistique" src="{{ url_for('static', filename='img/icons/analyse-statistique.png')}}" width="100%"></div>
       <span class="rubrique-title"><h3>Analyse statistique</h3></span>
       <span class="rubrique-text"><p>Longueur moyenne des phrases, Fréquence de mots, Co-occurrences, Embeddings</p></span>
     </div>
     <div class="box-outil-accueil" onclick="window.location.href='{{ url_for('analyse_lexicale') }}'">
-      <div class="rubrique-icon"><img alt="Analyse des dépendances" src="{{ url_for('static', filename='img/unknown.png')}}" width="100%"></div>
+      <div class="rubrique-icon"><img alt="Analyse lexicale" src="{{ url_for('static', filename='img/icons/analyse-lexicale.png')}}" width="100%"></div>
       <span class="rubrique-title"><h3>Analyse lexicale</h3></span>
       <span class="rubrique-text"><p>Dispersion lexicale, Diversité lexicale, Relations lexicales, Spécificités lexicales</p></span>
     </div>
     <div class="box-outil-accueil" onclick="window.location.href='{{ url_for('analyse_texte') }}'">
-      <div class="rubrique-icon"><img alt="Analyse des dépendances" src="{{ url_for('static', filename='img/unknown.png')}}" width="100%"></div>
+      <div class="rubrique-icon"><img alt="Analyse de texte" src="{{ url_for('static', filename='img/icons/analyse-de-texte.png')}}" width="100%"></div>
       <span class="rubrique-title"><h3>Analyse de texte</h3></span>
       <span class="rubrique-text"><p>Détection de subjectivité, Analyse de sentiments, Analyse d'émotions, Score de lecture, Comparaison</p></span>
     </div>
