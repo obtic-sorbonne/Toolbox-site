@@ -134,41 +134,41 @@ def copyright():
 def documentation():
 	return render_template('documentation.html')
 
-@app.route('/documentation_ocr')
-def documentation_ocr():
-	return render_template('documentation/documentation_ocr.html')
+@app.route('/documentation_recognition')
+def documentation_recognition():
+	return render_template('documentation/documentation_recognition.html')
 
-@app.route('/documentation_pos_tagging')
-def documentation_pos_tagging():
-	return render_template('documentation/documentation_pos_tagging.html')
+@app.route('/documentation_preprocessing')
+def documentation_preprocessing():
+	return render_template('documentation/documentation_preprocessing.html')
 
-@app.route('/documentation_ren')
-def documentation_ren():
-	return render_template('documentation/documentation_ren.html')
+@app.route('/documentation_conversion')
+def documentation_conversion():
+	return render_template('documentation/documentation_conversion.html')
 
-@app.route('/documentation_keywords')
-def documentation_keywords():
-	return render_template('documentation/documentation_keywords.html')
+@app.route('/documentation_annotation')
+def documentation_annotation():
+	return render_template('documentation/documentation_annotation.html')
 
-@app.route('/documentation_xmltei')
-def documentation_xmltei():
-	return render_template('documentation/documentation_xmltei.html')
+@app.route('/documentation_extraction')
+def documentation_extraction():
+	return render_template('documentation/documentation_extraction.html')
 
-@app.route('/documentation_catsem')
-def documentation_catsem():
-	return render_template('documentation/documentation_catsem.html')
+@app.route('/documentation_analyses')
+def documentation_analyses():
+	return render_template('documentation/documentation_analyses.html')
 
-@app.route('/documentation_correrreur')
-def documentation_correrreur():
-	return render_template('documentation/documentation_correrreur.html')
+@app.route('/documentation_correction')
+def documentation_correction():
+	return render_template('documentation/documentation_correction.html')
 
-@app.route('/documentation_normalisation')
-def documentation_normalisation():
-	return render_template('documentation/documentation_normalisation.html')
+@app.route('/documentation_workflow')
+def documentation_workflow():
+	return render_template('documentation/documentation_workflow.html')
 
-@app.route('/documentation_topicmodelling')
-def documentation_topicmodelling():
-	return render_template('documentation/documentation_topicmodelling.html')
+@app.route('/documentation_generation')
+def documentation_generation():
+	return render_template('documentation/documentation_generation.html')
 
 #-----------------------------------------------------------------
 # TUTORIELS
@@ -178,42 +178,42 @@ def documentation_topicmodelling():
 def tutoriel():
 	return render_template('tutoriel.html')
 
-@app.route('/tutoriel_ocr')
-def tutoriel_ocr():
-	return render_template('tutoriel/tutoriel_ocr.html')
+@app.route('/tutoriel_recognition')
+def tutoriel_recognition():
+	return render_template('tutoriel/tutoriel_recognition.html')
 
-@app.route('/tutoriel_pos_tagging')
-def tutoriel_pos_tagging():
-	return render_template('tutoriel/tutoriel_pos_tagging.html')
+@app.route('/tutoriel_preprocessing')
+def tutoriel_preprocessing():
+	return render_template('tutoriel/tutoriel_preprocessing.html')
 
-@app.route('/tutoriel_ren')
-def tutoriel_ren():
-	return render_template('tutoriel/tutoriel_ren.html')
+@app.route('/tutoriel_conversion')
+def tutoriel_conversion():
+	return render_template('tutoriel/tutoriel_conversion.html')
 
-@app.route('/tutoriel_keywords')
-def tutoriel_keywords():
-	return render_template('tutoriel/tutoriel_keywords.html')
+@app.route('/tutoriel_annotation')
+def tutoriel_annotation():
+	return render_template('tutoriel/tutoriel_annotation.html')
 
-@app.route('/tutoriel_xmltei')
-def tutoriel_xmltei():
-	return render_template('tutoriel/tutoriel_xmltei.html')
+@app.route('/tutoriel_extraction')
+def tutoriel_extraction():
+	return render_template('tutoriel/tutoriel_extraction.html')
 
-@app.route('/tutoriel_catsem')
-def tutoriel_catsem():
-	return render_template('tutoriel/tutoriel_catsem.html')
+@app.route('/tutoriel_analyses')
+def tutoriel_analyses():
+	return render_template('tutoriel/tutoriel_analyses.html')
 
-@app.route('/tutoriel_correrreur')
-def tutoriel_correrreur():
-	return render_template('tutoriel/tutoriel_correrreur.html')
+@app.route('/tutoriel_correction')
+def tutoriel_correction():
+	return render_template('tutoriel/tutoriel_correction.html')
 
-@app.route('/tutoriel_normalisation')
-def tutoriel_normalisation():
-	return render_template('tutoriel/tutoriel_normalisation.html')
+@app.route('/tutoriel_workflow')
+def tutoriel_workflow():
+	return render_template('tutoriel/tutoriel_workflow.html')
 
-@app.route('/tutoriel_topicmodelling')
-def tutoriel_topicmodelling():
-	return render_template('tutoriel/tutoriel_topicmodelling.html')
-
+@app.route('/tutoriel_generation')
+def tutoriel_generation():
+	return render_template('tutoriel/tutoriel_generation.html')
+	
 #-----------------------------------------------------------------
 # TACHES
 #-----------------------------------------------------------------
