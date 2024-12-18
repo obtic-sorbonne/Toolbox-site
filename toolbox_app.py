@@ -122,6 +122,10 @@ def contact():
 	form = ContactForm()
 	return render_template('contact.html', form=form)
 
+@app.route('/copyright')
+def copyright():
+	return render_template('copyright.html')
+
 #-----------------------------------------------------------------
 # DOCUMENTATION
 #-----------------------------------------------------------------
