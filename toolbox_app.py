@@ -283,6 +283,11 @@ def numeriser():
     form = FlaskForm()
     return render_template('outils/numeriser.html', form=form)
 
+@app.route('/speech')
+def speech():
+    form = FlaskForm()
+    return render_template('outils/speech.html', form=form)
+
 @app.route('/nettoyage_texte')
 def nettoyage_texte():
     form = FlaskForm()
