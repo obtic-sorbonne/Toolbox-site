@@ -5,22 +5,21 @@
 <link rel="stylesheet" href="{{ url_for('static', filename= 'css/elements.css') }}">
 <div class="outil">
     <div class="fil"><a href="{{ url_for('analyses')}}"><< {{ _('Retour aux tâches') }}</a></div>
-    <div><h1>Analyse lexicale</h1>
+    <div>
+        <h3>Analyse lexicale</h3>
     <p>Cette page permet d'opérer divers types d'analyses lexicales sur un ou plusieurs documents soumis.<br>
+        <br>
     <ul class="item-list" style="margin-left: 3em;">
-        <li>Dispersion lexicale<br>
-        <p>Mesure montrant la distribution et l'occurrence de mots spécifiques dans un texte</p></li>
-        <li>Diversité lexicale<br>
-        <p>Mesure de la diversité du vocabulaire d'un texte en évaluant le nombre et la variété des mots utilisés</p></li>
-        <li>Relations lexicales<br>
-        <p>Mesure de la diversité du vocabulaire d'un texte en évaluant le nombre et la variété des mots utilisés</p></li>
-        <li>Spécificités lexicales<br>
-        <p>Score identifiant le caractère unique d'un mot ou d'une phrase dans un document par rapport à un corpus de texte plus vaste</p></li>
+        <li><hi style="font-weight: bold;">Dispersion lexicale</hi> : Mesure montrant la distribution et l'occurrence de mots spécifiques dans un texte</li>
+        <li><hi style="font-weight: bold;">Diversité lexicale</hi> : Mesure de la diversité du vocabulaire d'un texte en évaluant le nombre et la variété des mots utilisés</li>
+        <li><hi style="font-weight: bold;">Relations lexicales</hi> : Mesure de la diversité du vocabulaire d'un texte en évaluant le nombre et la variété des mots utilisés</li>
+        <li><hi style="font-weight: bold;">Spécificités lexicales</hi> : Score identifiant le caractère unique d'un mot ou d'une phrase dans un document par rapport à un corpus de texte plus vaste</li>
     </ul></p></div>
+    <br>
     <form action="{{ url_for('analyze_lexicale') }}" id="linguistic-form" method="post" enctype="multipart/form-data" onsubmit="showloader('loader')">
-        <div>
+        <div class="centered-div">
             <label for="analysis_type">Choisir le type d'analyse :</label>
-            <select name="analysis_type" id="analysis_type" required>
+            <select class="styled-select" name="analysis_type" id="analysis_type" required>
                 <option value="lexical_dispersion">Dispersion lexicale</option>
                 <option value="lexical_diversity">Diversité lexicale</option>
                 <option value="lexical_relationships">Relations lexicales</option>
@@ -28,7 +27,8 @@
             </select>
         </div>
         {{ form.csrf_token }}
-        <div id="ngram-fields" style="display: none;">
+        <br>
+        <div class="centered-input-div" id="ngram-fields" style="display: none;">
             <label for="n">Longueur des n-grams :</label>
             <input type="number" id="n" name="n" min="1" value="2"><br>
             <label for="r">Nombre de n-grams à afficher :</label>

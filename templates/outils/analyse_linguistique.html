@@ -5,22 +5,21 @@
 <link rel="stylesheet" href="{{ url_for('static', filename= 'css/elements.css') }}">
 <div class="outil">
     <div class="fil"><a href="{{ url_for('analyses')}}"><< {{ _('Retour aux tâches') }}</a></div>
-    <div><h1>Analyse linguistique</h1>
+    <div>
+    <h3>Analyse linguistique</h3>
     <p>Cette page permet d'opérer divers types d'analyse linguistique sur un ou plusieurs documents soumis.<br>
+        <br>
     <ul class="item-list" style="margin-left: 3em;">
-        <li>Détection du language<br>
-        <p>Détection automatique de la langue d'un texte à l'aide de diverses bibliothèques et méthodes</p></li>
-        <li>Hapax<br>
-        <p>Détection de mots qui n'apparaissent qu'une seule fois dans un texte</p></li>
-        <li>N-Grams<br>
-        <p>Détection de séquences contiguës de n éléments (mots, caractères ou symboles) dans un texte ou un discours donné</p></li>
-        <li>Analyse des dépendances<br>
-        <p>Identification des relations entre les mots d'une phrase, en reliant chacun d'eux en fonction de sa fonction grammaticale comme sujet, objet, complément ou modificateur</p></li>
+        <li><hi style="font-weight: bold;">Détection du language</hi> : Détection automatique de la langue d'un texte à l'aide de diverses bibliothèques et méthodes</li>
+        <li><hi style="font-weight: bold;">Hapax</hi> : Détection de mots qui n'apparaissent qu'une seule fois dans un texte</li>
+        <li><hi style="font-weight: bold;">N-Grams</hi> : Détection de séquences contiguës de n éléments (mots, caractères ou symboles) dans un texte ou un discours donné</li>
+        <li><hi style="font-weight: bold;">Analyse des dépendances</hi> : Identification des relations entre les mots d'une phrase, en reliant chacun d'eux en fonction de sa fonction grammaticale comme sujet, objet, complément ou modificateur</li>
     </ul></p></div>
+    <br>
     <form action="{{ url_for('analyze_linguistic') }}" id="linguistic-form" method="post" enctype="multipart/form-data" onsubmit="showloader('loader')">
-        <div>
+        <div class="centered-div">
             <label for="analysis_type">Choisir le type d'analyse :</label>
-            <select name="analysis_type" id="analysis_type" required>
+            <select class="styled-select" name="analysis_type" id="analysis_type" required>
                 <option value="detect_lang">Détection de langue</option>
                 <option value="hapax">Hapax</option>
                 <option value="n_gram">N-grams</option>
@@ -28,12 +27,14 @@
             </select>
         </div>
         {{ form.csrf_token }}
-        <div id="ngram-fields" style="display: none;">
+        <br>
+        <div class="centered-input-div" id="ngram-fields" style="display: none;">
             <label for="n">Longueur des n-grams :</label>
             <input type="number" id="n" name="n" min="1" value="2"><br>
             <label for="r">Nombre de n-grams à afficher :</label>
             <input type="number" id="r" name="r" min="1" value="5"><br>
         </div>
+        <br>
         <div class="dropzone" style="margin:25px auto;">
             <input type="file" id="files" name="files" accept="text/plain" multiple required>
             <p id="form_msg">Déposer le(s) fichier(s) ou cliquer ici.</p>

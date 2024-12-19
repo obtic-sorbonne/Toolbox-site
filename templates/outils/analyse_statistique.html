@@ -5,27 +5,28 @@
 <link rel="stylesheet" href="{{ url_for('static', filename= 'css/elements.css') }}">
 <div class="outil">
     <div class="fil"><a href="{{ url_for('analyses')}}"><< {{ _('Retour aux tâches') }}</a></div>
-    <div><h1>Analyse statistique</h1>
+    <div>
+        <h3>Analyse statistique</h3>
     <p>Cette page permet d'opérer divers types d'analyses statistiques sur un ou plusieurs documents soumis.<br>
+        <br>
     <ul class="item-list" style="margin-left: 3em;">
-        <li>Longueur moyenne des phrases<br>
-        <p>Mesure calculant le nombre moyen de mots par phrase dans un texte donn, donnant un aperçu de la complexité et de la lisibilité du texte</p></li>
-        <li>Fréquence de mots<br>
-        <p>Calcul des fréquences absolue et relative de chaque mot d'un texte</p></li>
-        <li>Co-occurrences<br>
-        <p>Fréquence à laquelle deux éléments apparaissent ensemble dans un contexte</p></li>
+        <li><hi style="font-weight: bold;">Longueur moyenne des phrases</hi> : Mesure calculant le nombre moyen de mots par phrase dans un texte donn, donnant un aperçu de la complexité et de la lisibilité du texte</li>
+        <li><hi style="font-weight: bold;">Fréquence de mots</hi> : Calcul des fréquences absolue et relative de chaque mot d'un texte</li>
+        <li><hi style="font-weight: bold;">Co-occurrences</hi> : Fréquence à laquelle deux éléments apparaissent ensemble dans un contexte</li>
     </ul></p></div>
+    <br>
     <form action="{{ url_for('analyze_statistic') }}" id="linguistic-form" method="post" enctype="multipart/form-data" onsubmit="showloader('loader')">
-        <div>
+        <div class="centered-div">
             <label for="analysis_type">Choisir le type d'analyse :</label>
-            <select name="analysis_type" id="analysis_type" required>
+            <select class="styled-select" name="analysis_type" id="analysis_type" required>
                 <option value="sentence_length_average">Longueur moyenne des phrases</option>
                 <option value="words_frequency">Fréquence de mots</option>
                 <option value="cooccurrences">Co-occurrences</option>
             </select>
         </div>
         {{ form.csrf_token }}
-        <div id="cooccurrences-fields" style="display: none;">
+        <br>
+        <div class="centered-input-div" id="cooccurrences-fields" style="display: none;">
             <label for="context_window">Context window :</label>
             <input type="number" id="context_window" name="context_window" min="1" value="2"><br>
             <label for="target_word">Target word :</label>

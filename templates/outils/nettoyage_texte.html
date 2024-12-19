@@ -5,15 +5,24 @@
 <link rel="stylesheet" href="{{ url_for('static', filename= 'css/elements.css') }}">
 <div class="outil">
     <div class="fil"><a href="{{ url_for('pretraitement')}}"><< {{ _('Retour aux tâches') }}</a></div>
-    <h2>Nettoyage de texte</h2>
+    <div>
+    <h3>Nettoyage de texte</h3>
+    <p>Cette page permet de nettoyer, d'une manière ou d'une autre, un ou plusieurs documents soumis.<br>
+        <br>
+    <ul class="item-list" style="margin-left: 3em;">
+        <li><hi style="font-weight: bold;">Ponctuation</hi> : Suppression de la ponctuation dans un texte.</li>
+        <li><hi style="font-weight: bold;">Mots-vides</hi> : Suppression des mots-vides ou <em>stopwords</em>, soit des mots très courants, tels que déterminants, auxiliaires, conjonction, etc.</li>
+    </ul></p></div>
+    <br>
     <form action="{{ url_for('removing_elements') }}" id="linguistic-form" method="post" enctype="multipart/form-data" onsubmit="showloader('loader')">
-        <div>
+        <div class="centered-div">
             <label for="removing_type">Choisir le type de suppression :</label>
-            <select name="removing_type" id="removing_type" required>
+            <select class="styled-select" name="removing_type" id="removing_type" required>
                 <option value="punctuation">Ponctuation</option>
                 <option value="stopwords">Mots-vides</option>
             </select>
         </div>
+    <br>
         {{ form.csrf_token }}
         <div class="dropzone" style="margin:25px auto;">
             <input type="file" id="files" name="files" accept="text/plain" multiple required>

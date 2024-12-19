@@ -5,16 +5,26 @@
 <link rel="stylesheet" href="{{ url_for('static', filename= 'css/elements.css') }}">
 <div class="outil">
     <div class="fil"><a href="{{ url_for('pretraitement')}}"><< {{ _('Retour aux tâches') }}</a></div>
-    <h2>Normalisation de texte</h2>
+    <div>
+    <h3>Normalisation de texte</h3>
+    <p>Cette page permet de transformer, de diverses manières, un ou plusieurs documents soumis.<br>
+        <br>
+    <ul class="item-list" style="margin-left: 3em;">
+        <li><hi style="font-weight: bold;">Tokenisation</hi> : Découpage du texte en chaque instance séparée par un espace et/ou un signe de ponctuation</li>
+        <li><hi style="font-weight: bold;">Lowercases</hi> : Mise en minuscule de tous les tokens présents dans un texte soumis.</li>
+        <li><hi style="font-weight: bold;">Lemmatisation</hi> : Récupération de chaque élément du texte sous sa forme lemmatisé, c'est-à-dire sa forme canonique.</li>
+    </ul></p></div>
+    <br>
     <form action="{{ url_for('normalize_text') }}" id="linguistic-form" method="post" enctype="multipart/form-data" onsubmit="showloader('loader')">
-        <div>
+        <div class="centered-div">
             <label for="normalisation_type">Choisir le type d'analyse :</label>
-            <select name="normalisation_type" id="normalisation_type" required>
+            <select class="styled-select" name="normalisation_type" id="normalisation_type" required>
                 <option value="tokens">Tokenisation</option>
                 <option value="lowercases">Lowercases</option>
                 <option value="lemmas">Lemmatisation</option>
             </select>
         </div>
+    <br>
         {{ form.csrf_token }}
         <div class="dropzone" style="margin:25px auto;">
             <input type="file" id="files" name="files" accept="text/plain" multiple required>

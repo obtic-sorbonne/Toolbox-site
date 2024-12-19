@@ -40,9 +40,9 @@ import json
 import collections
 #from txt_ner import txt_ner_params
 
-nltk.download('punkt_tab')
-nltk.download('stopwords')
-nltk.download('punkt')
+#nltk.download('punkt_tab')
+#nltk.download('stopwords')
+#nltk.download('punkt')
 
 import pandas as pd
 
