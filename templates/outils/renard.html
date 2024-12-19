@@ -40,7 +40,7 @@
 		<form action="{{ url_for('run_renard') }}" id="renard-form" method="post" enctype="multipart/form-data">
 		{{ form.csrf_token }}
 		<div id="parameters">
-			<fieldset><legend>{{ _('Paramètres') }}</legend>
+			<fieldset><legend style="color:#263e8d;">{{ _('Paramètres') }}</legend>
 			<label for="toollang"><i class="fa-regular fa-flag"></i> {{ _("Langue du texte") }}</label>
 			<select name="toollang" id="toollang" class="sel sel--black-panther">
 				<option value="fra" selected="true">{{ _('Français') }}</option>

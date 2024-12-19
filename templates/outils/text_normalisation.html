@@ -15,6 +15,8 @@
         <li><hi style="font-weight: bold;">Lemmatisation</hi> : Récupération de chaque élément du texte sous sa forme lemmatisé, c'est-à-dire sa forme canonique.</li>
     </ul></p></div>
     <br>
+    <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_preprocessing') }}"  target="_blank">{{ _('Voir la documentation') }}</a> / <a href="{{ url_for('tutoriel_preprocessing') }}"  target="_blank">{{ _('Voir le tutoriel') }}</a></p>
+    <br>
     <form action="{{ url_for('normalize_text') }}" id="linguistic-form" method="post" enctype="multipart/form-data" onsubmit="showloader('loader')">
         <div class="centered-div">
             <label for="normalisation_type">Choisir le type d'analyse :</label>

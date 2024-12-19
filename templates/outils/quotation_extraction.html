@@ -5,7 +5,11 @@
 <link rel="stylesheet" href="{{ url_for('static', filename= 'css/elements.css') }}">
 <div class="outil">
     <div class="fil"><a href="{{ url_for('extraction_information')}}"><< {{ _('Retour aux tâches') }}</a></div>
-    <h2>Quotation extraction</h2>
+    <h3>Quotation extraction</h3>
+    <p>Récupération, dans un ou des documents soumis, d'extraits de texte, généralement entre guillemets, qui représentent les mots de quelqu'un d'autre.</p>
+    <br>
+    <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_extraction') }}" target="_blank">{{ _("Voir la documentation") }}</a> /<a href="{{ url_for('tutoriel_extraction') }}"  target="_blank">{{ _('Voir le tutoriel') }}</a></p>
+    <br>
     <form action="{{ url_for('quotation') }}" id="linguistic-form" method="post" enctype="multipart/form-data" onsubmit="showloader('loader')">
         {{ form.csrf_token }}
         <div class="dropzone" style="margin:25px auto;">

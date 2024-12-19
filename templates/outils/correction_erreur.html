@@ -6,19 +6,27 @@
   <div class="outil">
     <div class="fil"><a href="{{ url_for('outils_corpus')}}"><< {{ _('Retour aux tâches') }}</a></div>
       <h3>{{ _("Correction d'erreurs") }}</h3>
-      <p>Cet outil permet d'appliquer le correcteur orthographique <a href="https://jamspell.com/" target="_blank">JamSpell</a> sur des corpus bruités.</p>
-      <p>Format d'entrée supporté : texte brut (.txt) </p>
+      <p>Cet outil permet d'appliquer le correcteur orthographique de <a href="https://spacy.io/" target="_blank">spaCy</a> sur des corpus bruités.</p>
+      <br>
+      <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_correction') }}"  target="_blank">{{ _('Voir la documentation') }}</a> / <a href="{{ url_for('tutoriel_correction') }}"  target="_blank">{{ _('Voir le tutoriel') }}</a></p>
+      <div class="infos_outil" style="display: block;margin: 0 auto 15px auto;">
+        <input id="show" type=checkbox><label for="show" class="infos_title"><i class="fa-solid fa-circle-info"></i> {{ _("Informations sur l'outil") }}<i class="fa-solid fa-angle-right" style="float:right;margin-top:5px;margin-left:15px;cursor: pointer;"></i></label>
+        <div class="info_popped">
+          <p>contextualSpellCheck (spaCy)
+      <p>{{ _("Formats d'entrée :")}} <i class="fa-regular fa-file-lines"></i> texte brut (.txt)</p>
       <p>Encodage : UTF-8</p>
+      </div>
+    </div>
       <div style="margin:15px;margin-bottom:100px;">
-        <fieldset>
-        <legend>Correction d'erreurs</legend>
         <form action="{{ url_for('autocorrect') }}" id="correction-form" method="post" enctype="multipart/form-data">
             {{ form.csrf_token }}
-          <input type="file" name="uploaded_files" accept="text/plain" multiple/>
-          <input id="csrf_token" name="csrf_token" type="hidden" value="CSRF_TOKEN_STRING">
-          <button style="display:inline-block;">Corriger</button>
+        <div class="dropzone" style="margin:25px auto;">
+            <input type="file" id="files" name="uploaded_files" accept="text/plain" multiple required>
+            <p id="form_msg">Déposer le(s) fichier(s) ou cliquer ici.</p>
+        </div>
+        <input id="csrf_token" name="csrf_token" type="hidden" value="{{ csrf_token() }}">
+        <button style="display:block;margin:auto;margin-top:20px;">Corriger</button>
         </form>
-        </fieldset>
       </div>
   </div>
 {% endblock %}
