@@ -1,0 +1,91 @@
+{% extends "index.html" %}
+{% block header %} {{ super() }} {% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename= 'css/elements.css') }}">
+<div class="outil">
+    <div class="fil"><a href="{{ url_for('analyses')}}"><< {{ _('Retour aux tâches') }}</a></div>
+    <div>
+        <h3>Analyse de texte</h3>
+    <p>Cette page permet d'opérer divers types d'analyses textuelles sur un ou plusieurs documents soumis.<br>
+        <br>
+    <ul class="item-list" style="margin-left: 3em;">
+        <li><hi style="font-weight: bold;">Détection de subjectivité</hi> : Détection du caractère objective ou subjective d'une phrase, la subjectivité étant présente si son contenu est basé sur ou influencé par des sentiments, des goûts ou des opinions personnelles</li>
+        <li><hi style="font-weight: bold;">Analyse de sentiments</hi> : Processus de détermination du ton positif, négatif ou neutre d'un texte</li>
+        <li><hi style="font-weight: bold;">Analyse d'émotions</hi> : Processus d'identification d'émotions spécifiques exprimées dans un texte : joie, colère, tristesse...</li>
+        <li><hi style="font-weight: bold;">Score de lecture</hi> : Outils utilisés pour évaluer la lisibilité d'un texte écrit et fournissant une mesure quantitative de la facilité ou de la difficulté à comprendre un texte</li>
+        <li><hi style="font-weight: bold;">Comparaison</hi> : Comparaisons en fonction de la forme, avec différents niveaux de granularité, des statistiques, ou des représentations vectorielles, etc</li>
+    </ul></p></div>
+    <br>
+    <form action="{{ url_for('analyze_text') }}" id="linguistic-form" method="post" enctype="multipart/form-data" onsubmit="showloader('loader')">
+        <div class="centered-div">
+            <label for="analysis_type">Choisir le type d'analyse :</label>
+            <select class="styled-select" name="analysis_type" id="analysis_type" required>
+                <option value="subjectivity_detection">Détection de subjectivité</option>
+                <option value="sentiment_analysis">Analyse de sentiments</option>
+                <option value="emotion_analysis">Analyse d'émotions</option>
+                <option value="readibility_scoring">Score de lecture</option>
+                <option value="comparison">Comparaison</option>
+            </select>
+        </div>
+        {{ form.csrf_token }}
+        <br>
+        <div class="centered-input-div" id="ngram-fields" style="display: none;">
+            <label for="n">Longueur des n-grams :</label>
+            <input type="number" id="n" name="n" min="1" value="2"><br>
+            <label for="r">Nombre de n-grams à afficher :</label>
+            <input type="number" id="r" name="r" min="1" value="5"><br>
+        </div>
+        <div class="dropzone" style="margin:25px auto;">
+            <input type="file" id="files" name="files" accept="text/plain" multiple required>
+            <p id="form_msg">Déposer le(s) fichier(s) ou cliquer ici.</p>
+        </div>
+        <input id="csrf_token" name="csrf_token" type="hidden" value="{{ csrf_token() }}">
+        <button style="display:block;margin:auto;margin-top:20px;">Télécharger les fichiers</button>
+    </form>
+    {% if msg != "" %}
+    <div> <p>{{ msg }}</p></div>
+    {% endif %}
+    <div class="loader" id="loader">
+        <div class="loadingio-spinner-ball-205vl2x7f7n"><div class="ldio-b8p5li8dt1u"><div></div></div></div>
+        <p>Traitement en cours...</p>
+    </div>
+<script>
+/* MAJ de la zone de glisser-déposer */ 
+$('form input').change(function () {
+    var nb_files = this.files.length;
+    $('form #form_msg').text(nb_files + " fichier(s) selectionné(s)");
+
+    /* Prévisualisation des fichiers chargés (max 3 visibles) */
+    if(nb_files > 3){
+        var num = nb_files - 3;
+        for(i=0; i < 3; i++){
+            $("#form_msg").append('<br/><span class="filename_preview">' + this.files[i].name + '</span>');
+        }
+        $("#form_msg").append('<span class="filename_preview"> et ' + num + ' autres.</span>');
+    }
+    else{
+        for(i=0; i < nb_files; i++){
+            $("#form_msg").append('<br/><span class="filename_preview">' + this.files[i].name + '</span>');
+        }
+    }
+});
+        function toggleNgramFields() {
+            var analysisType = document.getElementById("analysis_type").value;
+            var ngramFields = document.getElementById("ngram-fields");
+            if (analysisType === "n_gram") {
+                ngramFields.style.display = "block";
+            } else {
+                ngramFields.style.display = "none";
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            document.getElementById("analysis_type").addEventListener("change", toggleNgramFields);
+            toggleNgramFields(); // Initial call to set visibility based on default selection
+        });
+
+</script>
+</div>
+{% endblock %}
+{% block footer %} {{ super() }} {% endblock %}
