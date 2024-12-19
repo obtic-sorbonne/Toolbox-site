@@ -5,26 +5,29 @@
 <link rel="stylesheet" href="{{ url_for('static', filename= 'css/elements.css') }}">
 <div class="outil">
     <div class="fil"><a href="{{ url_for('analyses')}}"><< {{ _('Retour aux tâches') }}</a></div>
-    <div><h1>Analyse linguistique</h1>
-    <p>Cette page permet d'opérer divers types d'analyse linguistique sur un ou plusieurs documents soumis.<br>
+    <div><h1>Analyse de texte</h1>
+    <p>Cette page permet d'opérer divers types d'analyses textuelles sur un ou plusieurs documents soumis.<br>
     <ul class="item-list" style="margin-left: 3em;">
-        <li>Détection du language<br>
-        <p>Détection automatique de la langue d'un texte à l'aide de diverses bibliothèques et méthodes</p></li>
-        <li>Hapax<br>
-        <p>Détection de mots qui n'apparaissent qu'une seule fois dans un texte</p></li>
-        <li>N-Grams<br>
-        <p>Détection de séquences contiguës de n éléments (mots, caractères ou symboles) dans un texte ou un discours donné</p></li>
-        <li>Analyse des dépendances<br>
-        <p>Identification des relations entre les mots d'une phrase, en reliant chacun d'eux en fonction de sa fonction grammaticale comme sujet, objet, complément ou modificateur</p></li>
+        <li>Détection de subjectivité<br>
+        <p>Détection du caractère objective ou subjective d'une phrase, la subjectivité étant présente si son contenu est basé sur ou influencé par des sentiments, des goûts ou des opinions personnelles</p></li>
+        <li>Analyse de sentiments<br>
+        <p>Processus de détermination du ton positif, négatif ou neutre d'un texte</p></li>
+        <li>Analyse d'émotions<br>
+        <p>Processus d'identification d'émotions spécifiques exprimées dans un texte : joie, colère, tristesse...</p></li>
+        <li>Score de lecture<br>
+        <p>Outils utilisés pour évaluer la lisibilité d'un texte écrit et fournissant une mesure quantitative de la facilité ou de la difficulté à comprendre un texte</p></li>
+        <li>Comparaison<br>
+        <p>Comparaisons en fonction de la forme, avec différents niveaux de granularité, des statistiques, ou des représentations vectorielles, etc</p></li>
     </ul></p></div>
-    <form action="{{ url_for('analyze_linguistic') }}" id="linguistic-form" method="post" enctype="multipart/form-data" onsubmit="showloader('loader')">
+    <form action="{{ url_for('analyze_text') }}" id="linguistic-form" method="post" enctype="multipart/form-data" onsubmit="showloader('loader')">
         <div>
             <label for="analysis_type">Choisir le type d'analyse :</label>
             <select name="analysis_type" id="analysis_type" required>
-                <option value="detect_lang">Détection de langue</option>
-                <option value="hapax">Hapax</option>
-                <option value="n_gram">N-grams</option>
-                <option value="dependency">Dependency Parsing</option>
+                <option value="subjectivity_detection">Détection de subjectivité</option>
+                <option value="sentiment_analysis">Analyse de sentiments</option>
+                <option value="emotion_analysis">Analyse d'émotions</option>
+                <option value="readibility_scoring">Score de lecture</option>
+                <option value="comparison">Comparaison</option>
             </select>
         </div>
         {{ form.csrf_token }}

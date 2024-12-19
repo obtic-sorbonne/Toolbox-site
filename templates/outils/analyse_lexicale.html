@@ -5,26 +5,26 @@
 <link rel="stylesheet" href="{{ url_for('static', filename= 'css/elements.css') }}">
 <div class="outil">
     <div class="fil"><a href="{{ url_for('analyses')}}"><< {{ _('Retour aux tâches') }}</a></div>
-    <div><h1>Analyse linguistique</h1>
-    <p>Cette page permet d'opérer divers types d'analyse linguistique sur un ou plusieurs documents soumis.<br>
+    <div><h1>Analyse lexicale</h1>
+    <p>Cette page permet d'opérer divers types d'analyses lexicales sur un ou plusieurs documents soumis.<br>
     <ul class="item-list" style="margin-left: 3em;">
-        <li>Détection du language<br>
-        <p>Détection automatique de la langue d'un texte à l'aide de diverses bibliothèques et méthodes</p></li>
-        <li>Hapax<br>
-        <p>Détection de mots qui n'apparaissent qu'une seule fois dans un texte</p></li>
-        <li>N-Grams<br>
-        <p>Détection de séquences contiguës de n éléments (mots, caractères ou symboles) dans un texte ou un discours donné</p></li>
-        <li>Analyse des dépendances<br>
-        <p>Identification des relations entre les mots d'une phrase, en reliant chacun d'eux en fonction de sa fonction grammaticale comme sujet, objet, complément ou modificateur</p></li>
+        <li>Dispersion lexicale<br>
+        <p>Mesure montrant la distribution et l'occurrence de mots spécifiques dans un texte</p></li>
+        <li>Diversité lexicale<br>
+        <p>Mesure de la diversité du vocabulaire d'un texte en évaluant le nombre et la variété des mots utilisés</p></li>
+        <li>Relations lexicales<br>
+        <p>Mesure de la diversité du vocabulaire d'un texte en évaluant le nombre et la variété des mots utilisés</p></li>
+        <li>Spécificités lexicales<br>
+        <p>Score identifiant le caractère unique d'un mot ou d'une phrase dans un document par rapport à un corpus de texte plus vaste</p></li>
     </ul></p></div>
-    <form action="{{ url_for('analyze_linguistic') }}" id="linguistic-form" method="post" enctype="multipart/form-data" onsubmit="showloader('loader')">
+    <form action="{{ url_for('analyze_lexicale') }}" id="linguistic-form" method="post" enctype="multipart/form-data" onsubmit="showloader('loader')">
         <div>
             <label for="analysis_type">Choisir le type d'analyse :</label>
             <select name="analysis_type" id="analysis_type" required>
-                <option value="detect_lang">Détection de langue</option>
-                <option value="hapax">Hapax</option>
-                <option value="n_gram">N-grams</option>
-                <option value="dependency">Dependency Parsing</option>
+                <option value="lexical_dispersion">Dispersion lexicale</option>
+                <option value="lexical_diversity">Diversité lexicale</option>
+                <option value="lexical_relationships">Relations lexicales</option>
+                <option value="lexical_specificity">Spécificités lexicales</option>
             </select>
         </div>
         {{ form.csrf_token }}
