@@ -16,6 +16,7 @@ from nltk import sent_tokenize
 from nltk.corpus import stopwords
 from nltk import ngrams
 from nltk import FreqDist
+from nltk import Text
 from collections import Counter
 from wordcloud import WordCloud
 import zipfile
@@ -1459,8 +1460,7 @@ def analyze_lexicale():
 
     analysis_type = request.form['analysis_type']
 
-    n = int(request.form.get('n', 2))  # Default n-gram length to 2 if not provided
-    r = int(request.form.get('r', 5)) 
+    words_to_analyze = str(request.form.get('words_to_analyze'))
 
     rand_name = 'lexicale_' + ''.join(random.choice(string.ascii_lowercase) for x in range(5))
     result_path = os.path.join(os.getcwd(), rand_name)
@@ -1469,18 +1469,49 @@ def analyze_lexicale():
     for f in files:
         try:
             input_text = f.read().decode('utf-8')
+            tokens = word_tokenize(input_text)
+            unique_words = set(tokens)
+            number_unique_words = len(unique_words)
+            total_number_words = len(tokens)
+            TTR = number_unique_words / total_number_words
             filename, file_extension = os.path.splitext(f.filename)
 
             if analysis_type == 'lexical_dispersion':
-                output_name = filename + '_dispersion.txt'
-                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-                    out.write("The hapaxes are: " + ", ".join(hapaxes_list))
+                text_nltk = Text(tokens) 
+                fig = plt.figure(figsize=(10, 6)) 
+                text_nltk.dispersion_plot(words_to_analyze) 
+                # Personnalisation du plot 
+                plt.xlabel('Word Offset') 
+                plt.ylabel('Frequency') 
+                plt.title('Lexical Dispersion Plot') 
+                plt.tight_layout() 
+                # Sauvegarder la visualisation dans un fichier 
+                vis_name = filename + '_dispersion_plot.png' 
+                vis_path = os.path.join(result_path, vis_name) 
+                plt.savefig(vis_path, format='png') 
+                plt.close()
             elif analysis_type == 'lexical_diversity':
-                most_frequent_ngrams = generate_ngrams(input_text, n, r)
+                #Sortie
                 output_name = filename + '_diversity.txt'
                 with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-                    for n_gram, count in most_frequent_ngrams:
-                        out.write(f"{n}-gram: {' '.join(n_gram)} --> Count: {count}\n")
+                    out.write("The lexical richness of the text is:" + str(round(TTR, 2)))
+
+                #Visualisation
+                labels = ['Total Words', 'Unique Words']
+                values = [total_number_words, number_unique_words]
+
+                # Création du graphique à barres
+                fig, ax = plt.subplots()
+                plt.bar(labels, values, color=['blue', 'green'])
+                plt.ylabel('Count')
+                plt.title('Total Words vs Unique Words')
+                plt.text(0.5, max(values)/2, f'TTR: {round(TTR, 2)}', horizontalalignment='center', verticalalignment='center', fontsize=12, color='red')
+
+                # Sauvegarder la visualisation dans un fichier
+                vis_name = 'words_comparison.png'
+                vis_path = os.path.join(result_path, vis_name)
+                plt.savefig(vis_path, format='png')
+                plt.close()
             elif analysis_type == 'lexical_relationships':
                 output_name = filename + '_relationships.txt'
                 with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:

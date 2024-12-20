@@ -28,11 +28,9 @@
         </div>
         {{ form.csrf_token }}
         <br>
-        <div class="centered-input-div" id="ngram-fields" style="display: none;">
-            <label for="n">Longueur des n-grams :</label>
-            <input type="number" id="n" name="n" min="1" value="2"><br>
-            <label for="r">Nombre de n-grams à afficher :</label>
-            <input type="number" id="r" name="r" min="1" value="5"><br>
+        <div class="centered-input-div" id="words_to_analyze" style="display: none;">
+            <label for="words_to_analyze">Mots à analyser :</label>
+            <input type="text" id="words_to_analyze" name="words_to_analyze" multiple required><br>
         </div>
         <div class="dropzone" style="margin:25px auto;">
             <input type="file" id="files" name="files" accept="text/plain" multiple required>
@@ -70,11 +68,11 @@ $('form input').change(function () {
 });
         function toggleNgramFields() {
             var analysisType = document.getElementById("analysis_type").value;
-            var ngramFields = document.getElementById("ngram-fields");
-            if (analysisType === "n_gram") {
-                ngramFields.style.display = "block";
+            var words_to_analyze = document.getElementById("words_to_analyze");
+            if (analysisType === "lexical_dispersion") {
+                words_to_analyze.style.display = "block";
             } else {
-                ngramFields.style.display = "none";
+                words_to_analyze.style.display = "none";
             }
         }
 
