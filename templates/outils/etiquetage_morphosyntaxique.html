@@ -17,13 +17,12 @@
 
 <form action="{{ url_for('pos_tagging') }}" id="metadata-form" method="post" enctype="multipart/form-data" onsubmit="showloader('loader')">
   {{ form.csrf_token }}
-  
-      <div class="dropzone" style="margin:25px auto;">
-        <input type="file" id="raw-text-file" name="uploaded_files" accept="text/plain" multiple required>
-        <p id="form_msg">{{ _("Déposer le(s) fichier(s) ou cliquer ici.")}}</p>
-      </div>
-      <input id="csrf_token" name="csrf_token" type="hidden" value="CSRF_TOKEN_STRING">
-      <button style="display:block;margin:auto;margin-top:20px;">{{ _("Étiqueter en morphosyntaxe") }}</button>
+        <div class="dropzone" style="margin:25px auto;">
+            <input type="file" id="files" name="files" accept="text/plain" multiple required>
+            <p id="form_msg">Déposer le(s) fichier(s) ou cliquer ici.</p>
+        </div>
+        <input id="csrf_token" name="csrf_token" type="hidden" value="{{ csrf_token() }}">
+        <button style="display:block;margin:auto;margin-top:20px;">Télécharger les fichiers</button>
   
 </form>
 {% if msg != "" %}

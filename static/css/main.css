@@ -964,7 +964,7 @@ button:hover{
 fieldset{
 	margin:8px 8px 2em;
 	padding:4px 8px;
-  width: 150%;
+  width: 100%;
 }
 
 textarea{
