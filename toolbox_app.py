@@ -44,6 +44,8 @@ import collections
 #nltk.download('stopwords')
 #nltk.download('punkt')
 
+nlp_eng = spacy.load('en_core_web_sm')
+
 import pandas as pd
 
 import sem
@@ -882,34 +884,37 @@ def txt_to_xml(filename, fields):
 #-----------------------------------------------------------------
 
 #------------- POS ----------------------
+nlp_eng = spacy.load('en_core_web_sm')
 
-@app.route('/pos_tagging', methods=["POST"])
-@stream_with_context
+@app.route('/pos_tagging', methods=['POST'])
 def pos_tagging():
-    form = FlaskForm()
-    model_path = str(ROOT_FOLDER / os.path.join(app.config['MODEL_FOLDER'], 'sem_pos'))
-    pipeline = sem.load(model_path)
-    conllexporter = sem.exporters.CoNLLExporter()
-    
-    uploaded_files = request.files.getlist("uploaded_files")
-    rand_name =  'postagging_' + ''.join((random.choice(string.ascii_lowercase) for x in range(5)))
-    result_path = ROOT_FOLDER / os.path.join(app.config['UPLOAD_FOLDER'], rand_name)
-    os.mkdir(result_path)
+    if 'files' not in request.files:
+        response = {"error": "No files part"}
+        return Response(json.dumps(response), status=400, mimetype='application/json')
 
-    #f = request.files['file']
-    for f in uploaded_files:
+    files = request.files.getlist('files')
+    if not files or all(file.filename == '' for file in files):
+        response = {"error": "No selected files"}
+        return Response(json.dumps(response), status=400, mimetype='application/json')
+
+    rand_name = 'postagging_' + ''.join(random.choice(string.ascii_lowercase) for x in range(5))
+    result_path = os.path.join(os.getcwd(), rand_name)
+    os.makedirs(result_path, exist_ok=True)
+
+    for f in files:
         try:
-            contenu = f.read()
-            document = pipeline.process_text(contenu.decode("utf-8"))
+            input_text = f.read().decode('utf-8')
+            doc = nlp_eng(input_text)
             filename, file_extension = os.path.splitext(f.filename)
-            output_name = filename + '_tokens.txt'  
+            
+            output_name = filename + '.txt'
+            with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
+                for token in doc:
+                    out.write(f"Token: {token.text} --> POS: {token.pos_}\n")
 
-            with open(ROOT_FOLDER / os.path.join(result_path, output_name), 'w', encoding="utf-8") as out:
-                out.write(conllexporter.document_to_string(document, couples={"pos": "POS"}))
         finally:
             f.close()
-    
-    # ZIP le dossier résultat
+
     if len(os.listdir(result_path)) > 0:
         shutil.make_archive(result_path, 'zip', result_path)
         output_stream = BytesIO()
@@ -917,17 +922,15 @@ def pos_tagging():
             content = res.read()
         output_stream.write(content)
         response = Response(output_stream.getvalue(), mimetype='application/zip',
-                                    headers={"Content-disposition": "attachment; filename=" + rand_name + '.zip'})
+                            headers={"Content-disposition": "attachment; filename=" + rand_name + '.zip'})
         output_stream.seek(0)
         output_stream.truncate(0)
+        shutil.rmtree(result_path)
+        os.remove(str(result_path) + '.zip')
         return response
-    
-    return render_template('etiquetage_morphosyntaxique.html', form=form, err="Une erreur est survenue dans le traitement des fichiers.")
-    # Writing in stream
-    #output_stream = BytesIO()
-    #output = f.filename
-    #output_stream.write(conllexporter.document_to_string(document, couples={"pos": "POS"}).encode("utf-8"))
-    #response = Response(output_stream.getvalue(), mimetype='text/plain', headers={"Content-disposition": "attachment; filename=" + output})
+
+    return Response(json.dumps({"error": "Une erreur est survenue dans le traitement des fichiers."}), status=500, mimetype='application/json')
+
 
 #------------------ NER ---------------------------
 
@@ -1239,7 +1242,6 @@ def quotation():
 
 #--------------- Analyse linguistique --------------------------
 
-nlp_eng = spacy.load('en_core_web_sm')
 
 def find_hapaxes(input_text):
     words = input_text.lower().replace(',', '').replace('?', '').split()
@@ -1353,21 +1355,24 @@ def analyze_statistic():
     for f in files:
         try:
             input_text = f.read().decode('utf-8')
-            #Sentence length average
+            # Sentence length average
             sentences = sent_tokenize(input_text)
             total_words = sum(len(word_tokenize(sentence)) for sentence in sentences)
             total_sentences = len(sentences)
             average_words_per_sentence = total_words / total_sentences
 
-            #Tokens called
+            # Sentence lengths for visualization 
+            sentence_lengths = [len(word_tokenize(sentence)) for sentence in sentences]
+
+            # Tokens called
             tokens = word_tokenize(input_text)
 
-            #Word frequency
+            # Word frequency
             abs_frequency = Counter(tokens)
             total_tokens = len(tokens)
             rel_frequency = {word: count / total_tokens for word, count in abs_frequency.items()}
 
-            #Cococcurrences
+            # Co-occurrences
             stop_words = set(stopwords.words('english'))
             context_pairs = [(target_word, tokens[i + j].lower()) for i, word in enumerate(tokens)
                              for j in range(-context_window, context_window + 1)
@@ -1381,15 +1386,45 @@ def analyze_statistic():
                 output_name = filename + '_length.txt'
                 with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
                     out.write("Total Words: " + str(total_words) + "\nTotal Sentences: " + str(total_sentences) + "\nAverage Words per Sentence: " + str(average_words_per_sentence))
+                
+                # Generate sentence length visualization
+                fig, ax = plt.subplots()
+                ax.bar(range(1, total_sentences + 1), sentence_lengths, color='blue', alpha=0.7)
+                ax.axhline(average_words_per_sentence, color='red', linestyle='dashed', linewidth=1)
+                ax.set_xlabel('Sentence Number')
+                ax.set_ylabel('Number of Words')
+                ax.set_title('Number of Words per Sentence')
+                ax.legend(['Average Words per Sentence', 'Words per Sentence'])
+                
+                # Save visualization to a file
+                vis_name = filename + '_sentence_lengths.png'
+                vis_path = os.path.join(result_path, vis_name)
+                plt.savefig(vis_path, format='png')
+                plt.close()
+
             elif analysis_type == 'words_frequency':
                 output_name = filename + '_wordsfrequency.txt'
                 with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
                     out.write("Absolute frequency of words: " + str(abs_frequency) + "\nRelative frequency of words: " + str(rel_frequency) + "\nTotal number of words:" + str(total_tokens))
+                
+                # Generate word cloud
+                wordcloud = WordCloud(width=800, height=400, background_color='white').generate(input_text)
+                plt.figure(figsize=(10, 5))
+                plt.imshow(wordcloud, interpolation='bilinear')
+                plt.axis('off')
+                
+                # Save word cloud to a file
+                wordcloud_name = filename + '_wordcloud.png'
+                wordcloud_path = os.path.join(result_path, wordcloud_name)
+                plt.savefig(wordcloud_path, format='png')
+                plt.close()
+
             elif analysis_type == 'cooccurrences':
                 output_name = filename + '_cooccurrences.txt'
                 with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
                     for pair, count in co_occurrences.items():
                         out.write(f"Co-occurrence of '{pair[0]}' & '{pair[1]}' --> {count}\n")
+        
         finally:
             f.close()
 
@@ -1927,6 +1962,53 @@ def get_size(ark, i):
 #-----------------------------------------------------------------
 # Correction de corpus
 #-----------------------------------------------------------------
+
+#------------- Normalisation de graphie ---------------------
+@app.route('/normalisation_graphies', methods=['POST'])
+def normalisation_graphies():
+    if 'files' not in request.files:
+        response = {"error": "No files part"}
+        return Response(json.dumps(response), status=400, mimetype='application/json')
+
+    files = request.files.getlist('files')
+    if not files or all(file.filename == '' for file in files):
+        response = {"error": "No selected files"}
+        return Response(json.dumps(response), status=400, mimetype='application/json')
+
+    rand_name = 'normgraph_' + ''.join(random.choice(string.ascii_lowercase) for x in range(5))
+    result_path = os.path.join(os.getcwd(), rand_name)
+    os.makedirs(result_path, exist_ok=True)
+
+    for f in files:
+        try:
+            input_text = f.read().decode('utf-8')
+            doc = nlp_eng(input_text)
+            filename, file_extension = os.path.splitext(f.filename)
+            
+            output_name = filename + '.txt'
+            with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
+                for token in doc:
+                    out.write(f"Token: {token.text} --> POS: {token.pos_}\n")
+
+        finally:
+            f.close()
+
+    if len(os.listdir(result_path)) > 0:
+        shutil.make_archive(result_path, 'zip', result_path)
+        output_stream = BytesIO()
+        with open(str(result_path) + '.zip', 'rb') as res:
+            content = res.read()
+        output_stream.write(content)
+        response = Response(output_stream.getvalue(), mimetype='application/zip',
+                            headers={"Content-disposition": "attachment; filename=" + rand_name + '.zip'})
+        output_stream.seek(0)
+        output_stream.truncate(0)
+        shutil.rmtree(result_path)
+        os.remove(str(result_path) + '.zip')
+        return response
+
+    return Response(json.dumps({"error": "Une erreur est survenue dans le traitement des fichiers."}), status=500, mimetype='application/json')
+
 
 #------------- Correction Erreurs ---------------------
 
