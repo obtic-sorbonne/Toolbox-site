@@ -1,0 +1,30 @@
+{% extends "index.html" %}
+{% block header %} {{ super() }} {% endblock %}
+
+{% block content %}
+  <div class="selection">
+    <div style="text-align: left;"><a href="{{ url_for('annotation_automatique')}}" style="color:#f2a800; text-decoration:none;"><< Tâche précédente</a></div>
+    <div style="text-align: right;"><a href="{{ url_for('analyses')}}" style="color:#f2a800; text-decoration:none;">Tâche suivante >></a></div>
+    <h2 style="font-family:'Comprehension', serif;">{{ _("Extraction d'information") }}</h2>
+    <p style="text-align: center;">Cette page répertorie diverses manières d'extraire des informations d'un document.</p>
+    <div class="container">
+    <div class="box-outil-accueil" onclick="window.location.href='{{ url_for('extraction_mots_cles') }}'">
+      <div><img alt="Extraction de mots-clés" src="{{ url_for('static', filename='img/icons/keywords.png')}}" width="60%" style="display: block; margin: 1em auto 1em auto;"></div>
+      <span class="rubrique-title"><h3>{{ _('Extraction de mots-clés') }}</h3></span>
+      <span class="rubrique-text"><p>Identification des termes les plus représentatifs du contenu d'un document ou d'un corpus</p></span>
+    </div>
+    <div class="box-outil-accueil" onclick="window.location.href='{{ url_for('topic_modelling') }}'">
+      <div class="rubrique-icon"><img alt="Topic Modelling" src="{{ url_for('static', filename='img/icons/topic.png')}}"></div>
+      <span class="rubrique-title"><h3>{{ _('Topic Modelling') }}</h3></span>
+      <span class="rubrique-text"><p>Identification, dans un corpus, des groupes de termes représentatifs de ses thèmes</p></span>
+    </div>
+    <div class="box-outil-accueil" onclick="window.location.href='{{ url_for('quotation_extraction') }}'">
+      <div class="rubrique-icon"><img alt="Résumé automatique" src="{{ url_for('static', filename='img/icons/quotation.png') }}" width="100%"></div>
+      <span class="rubrique-title"><h3>Quotation extraction</h3></span>
+      <span class="rubrique-text"><p>Extraction d'extraits de texte, généralement entre guillemets, qui représentent les mots de quelqu'un d'autre</p></span>
+    </div>
+  </div>
+  </div>
+{% endblock %}
+
+{% block footer %} {{ super() }} {% endblock %}

@@ -1,0 +1,28 @@
+{% extends "index.html" %}
+{% block header %} {{ super() }} {% endblock %}
+{% block content %}
+<div class="selection">
+  <div style="text-align: left;"><a href="{{ url_for('atr_tools')}}" style="color:#f2a800; text-decoration:none;"><< Tâche précédente</a></div>
+    <div style="text-align: right;"><a href="{{ url_for('conversion')}}" style="color:#f2a800; text-decoration:none;">Tâche suivante >></a></div>
+  <h2>Prétraitement</h2>
+  <p style="text-align: center;">Cette page répertorie divers outils pour préparer et/ou nettoyer son texte avant de conduire une quelconque analyse</p>
+  <div class="container">
+    <div class="box-outil-accueil" onclick="window.location.href='{{ url_for('nettoyage_texte') }}'">
+      <div class="rubrique-icon"><img alt='Nettoyage de texte © <a href="https://fr.freepik.com/icone/fichier_1954555">Icône de SBTS2018</a>' src="{{ url_for('static', filename='img/icons/text_cleaning.png')}}"></div>
+      <span class="rubrique-title"><h3>Nettoyage de texte</h3></span>
+      <span class="rubrique-text"><p>Suppression des mots vides et de la punctuation</p></span>
+    </div>
+    <div class="box-outil-accueil" onclick="window.location.href='{{ url_for('text_normalisation') }}'">
+      <div class="rubrique-icon"><img alt="Normalisation de texte" src="{{ url_for('static', filename='img/icons/text_normalisation.png')}}"></div>
+      <span class="rubrique-title"><h3>Normalisation de texte</h3></span>
+      <span class="rubrique-text"><p>Tokenisation, Lowercasing, Lemmatisation</p></span>
+    </div>
+    <div class="box-outil-accueil" onclick="window.location.href='{{ url_for('separation_texte') }}'">
+      <div class="rubrique-icon"><img alt="Séparation de texte" src="{{ url_for('static', filename='img/icons/text_separation.png')}}"></div>
+      <span class="rubrique-title"><h3>Séparation de texte</h3></span>
+      <span class="rubrique-text"><p>Identification et séparations de phrases individuelles dans un texte continu</p></span>
+    </div>
+</div>
+</div>
+{% endblock %}
+{% block footer %} {{ super() }} {% endblock %}

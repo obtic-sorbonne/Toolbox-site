@@ -1,0 +1,43 @@
+{% extends "index.html" %}
+{% block header %} {{ super() }} {% endblock %}
+{% block content %}
+
+<style>
+.item-list {
+    list-style: none;
+    padding: 0;
+}
+
+.item-list li {
+    margin: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.item-list img {
+    max-width: 130px; /* Ajustez la largeur maximale de l'image selon vos besoins */
+    height: auto;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-right: 30px; /* Ajoute un espace entre l'image et le texte */
+}
+
+.item-list p {
+    margin: 5px 0 0;
+}
+.item-list li:hover {
+    color:#f2a800;
+	cursor: pointer;
+}
+
+</style>
+
+<div class="outil">
+	<div class="doc-intro">
+	<h2 style="font-family:'Comprehension', serif;">Analyses</h2>
+	<p>Documentation à venir</p>
+	</div>
+</div>
+{% endblock %}
+
+{% block footer %} {{ super() }} {% endblock %}

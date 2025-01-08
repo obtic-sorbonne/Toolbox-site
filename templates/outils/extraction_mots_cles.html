@@ -1,0 +1,163 @@
+{% extends "index.html" %}
+{% block header %} {{ super() }} {% endblock %}
+
+{% block content %}
+<script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
+
+<div class="outil">
+    <div class="fil"><a href="{{ url_for('extraction_information')}}"><< {{ _('Retour aux tâches') }}</a></div>
+    <h2 style="font-family:'Comprehension', serif;">{{ _('Extraction de mots-clés') }}</h2>
+    <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_extraction') }}" target="_blank">{{ _("Voir la documentation") }}</a> /<a href="{{ url_for('tutoriel_extraction') }}"  target="_blank">{{ _('Voir le tutoriel') }}</a></p>
+    <div class="container_two_columns">
+        <div class="item">
+            <h3>{{ _("Chargement des fichiers") }}</h3>
+            <form action="{{ url_for('keyword_extraction') }}" method="post" enctype="multipart/form-data" class="drag-drop-form" id="kw_form">
+                {{ form.csrf_token }}
+                <div class="form_opt">
+                <fieldset>
+                    <legend>{{ _("Méthode de calcul des mots-clés") }}</legend>
+                    <input type="checkbox" name="extraction-method" value="default" id="def" checked><label for="default">{{ _("Par défaut") }}</label>
+                    <input type="checkbox" name="extraction-method" value="mmr" id="mmr"><label for="mmr">MMR</label>
+                    <input type="checkbox" name="extraction-method" value="mss" id="mss"><label for="mss">MSS</label>
+
+                    <div id="diversity_opt" style="display:none;padding:5px;"><input type="range" name="diversity" min="0" max="10" value="7"><label for="diversity">{{ _("Diversité (MMR)") }}</label></div>
+                </fieldset>
+                </div>
+                <div class="dropzone" id="kw_dropzone">
+                <input type="file" name="keywd-extract" accept="text/plain" multiple required>
+                <p id="form_msg">{{ _("Déposer le(s) fichier(s) ou cliquer ici.") }}</p>
+                </div>
+                <input id="csrf_token" name="csrf_token" type="hidden" value="CSRF_TOKEN_STRING">
+                <button type="submit">{{ _('Envoyer') }}</button>
+            </form>
+        </div>
+        <div class="item">
+            <h3>{{ _("Résultats") }}</h3>
+            <table>
+                <tr>
+                    <th>{{ _("KeyBERT défaut") }}</th>
+                    <th>{{ _("Filtrage MMR") }}</th>
+                    <th>{{ _("Filtrage MSS") }}</th>
+                </tr>
+                {% for fname, methods in res.items() %}
+                <tr><td colspan="3" style="background-color: #496a81;text-align: center;color:#fff"> {{ fname }} </td></tr>
+                <tr>
+                    <td class="kw_res_default" id="{{ fname }}_def">{% if 'default' in methods %}{% for kw in methods.default %}{{ kw }}<br>{% endfor %}{% endif %}</td>
+                    <td class="kw_res_mmr" id="{{ fname }}_mmr">{% if 'mmr' in methods %}{% for kw in methods.mmr %}{{ kw }}<br>{% endfor %}{% endif %}</td>
+                    <td class="kw_res_mss" id="{{ fname }}_mss">{% if 'mss' in methods %}{% for kw in methods.mss %}{{ kw }}<br>{% endfor %}{% endif %}</td>
+                </tr>
+                {% endfor %}
+            </table>
+            <button class="download-button" id="download_btn" onclick="download_res({{ res }})"><i class="fa-solid fa-download"></i> {{ _("Télécharger") }}</button>
+        </div>
+    </div>
+
+
+<script>
+    /* MAJ de la zone de glisser-déposer */ 
+    $(document).ready(function(){
+        $('form input').change(function () {
+
+            var nb_files = this.files.length;
+            $('form #form_msg').text(nb_files + " fichier(s) selectionné(s)");
+
+            /* Prévisualisation des fichiers chargés (max 3 visibles) */
+            if(nb_files > 3){
+                var num = nb_files - 3;
+                for(i=0; i < 3; i++){
+                    $("#form_msg").append('<br/><span class="filename_preview">' + this.files[i].name + '</span>');
+                }
+                $("#form_msg").append('<span class="filename_preview"> et ' + num + ' autres.</span>');
+            }
+            else{
+                for(i=0; i < nb_files; i++){
+                    $("#form_msg").append('<br/><span class="filename_preview">' + this.files[i].name + '</span>');
+                }
+            }
+        });
+
+        /* Affichage des options du formulaire */
+
+        $('#mmr').click(function(){
+            $("#diversity_opt").toggle();
+        });
+
+    });
+
+    /* Affichage de la documentation */
+    $(function () {$(".doc-box").click(function () {
+            if($( ".local-doc" ).css( "display" ) == 'none')
+            {
+                $( ".local-doc" ).css( "display", "block" );
+            }
+            else{
+                $( ".local-doc" ).css( "display", "none" );
+            }
+        });
+    });
+
+    /* Vérifier si une méthode est bien cochée */
+    $("#kw_form").submit(function(){
+        var checked = $("#kw_form input:checked").length > 0;
+        if (!checked){
+            alert("Choisir une méthode d'extraction.");
+            return false;
+        }
+    });
+
+
+    function receiveFlask(vars) {
+        return vars
+    }
+
+    var res = receiveFlask({{res|tojson}})
+    
+    /* Affichage du bouton de téléchargement */
+    if (Object.keys(res).length > 0){
+        $( "#download_btn" ).css( "display", "block" );
+    }
+
+    /* Téléchargement des résultats */
+    function download_res(content){
+        
+        var header = "Filename\t";
+        if($(".kw_res_default").text() != ""){ header += "Default\t"}
+        if($(".kw_res_mmr").text() != ""){ header += "MMR\t"}
+        if($(".kw_res_mss").text() != ""){ header += "MSS"}
+        header += '\n';
+
+        var file_content = "";
+
+        for (let f in content){
+            console.log("f : " + f);
+            file_content += f + '\t';
+
+            var txt_def = $("#" + f + '_def').text();
+            var txt_mmr = $("#" + f + '_mmr').text();
+            var txt_mss = $("#" + f + '_mss').text();
+
+            if( txt_def != ""){ file_content += txt_def + '\t'; }
+            if( txt_mmr != ""){ file_content += txt_mmr + '\t'; }
+            if( txt_mss != ""){ file_content += txt_mss; }
+
+            file_content += '\n';
+        }
+
+        /* Génère le lien de téléchargement */
+        var a = window.document.createElement('a');
+        a.href = window.URL.createObjectURL(new Blob([header + file_content], {type: 'text/csv'}));
+        a.download = 'keywords.csv';
+
+        // Append anchor to body.
+        document.body.appendChild(a);
+        a.click();
+
+        // Remove anchor from body
+        document.body.removeChild(a);
+    }
+
+</script>
+</div>
+{% endblock %}
+{% block footer %} {{ super() }} {% endblock %}

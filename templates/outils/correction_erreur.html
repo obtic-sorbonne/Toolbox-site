@@ -1,0 +1,62 @@
+{% extends "index.html" %}
+{% block header %} {{ super() }} {% endblock %}
+
+{% block content %}
+<!-- CREATION CORPUS -->
+  <div class="outil">
+    <div class="fil"><a href="{{ url_for('outils_corpus')}}"><< {{ _('Retour aux tâches') }}</a></div>
+      <h3>{{ _("Correction d'erreurs") }}</h3>
+      <p>Cet outil permet d'appliquer le correcteur orthographique de <a href="https://spacy.io/" target="_blank">spaCy</a> sur des corpus bruités.</p>
+      <br>
+      <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_correction') }}"  target="_blank">{{ _('Voir la documentation') }}</a> / <a href="{{ url_for('tutoriel_correction') }}"  target="_blank">{{ _('Voir le tutoriel') }}</a></p>
+      <div class="infos_outil" style="display: block;margin: 0 auto 15px auto;">
+        <input id="show" type=checkbox><label for="show" class="infos_title"><i class="fa-solid fa-circle-info"></i> {{ _("Informations sur l'outil") }}<i class="fa-solid fa-angle-right" style="float:right;margin-top:5px;margin-left:15px;cursor: pointer;"></i></label>
+        <div class="info_popped">
+          <p>contextualSpellCheck (spaCy)
+      <p>{{ _("Formats d'entrée :")}} <i class="fa-regular fa-file-lines"></i> texte brut (.txt)</p>
+      <p>Encodage : UTF-8</p>
+      </div>
+    </div>
+    <div><p>L'outil est en cours de construction</p></div>
+      <!--<div style="margin:15px;margin-bottom:100px;">
+        <form action="{{ url_for('autocorrect') }}" id="correction-form" method="post" enctype="multipart/form-data">
+            {{ form.csrf_token }}
+        <div class="dropzone" style="margin:25px auto;">
+            <input type="file" id="files" name="uploaded_files" accept="text/plain" multiple required>
+            <p id="form_msg">Déposer le(s) fichier(s) ou cliquer ici.</p>
+        </div>
+        <input id="csrf_token" name="csrf_token" type="hidden" value="{{ csrf_token() }}">
+        <button style="display:block;margin:auto;margin-top:20px;">Corriger</button>
+        </form>
+    {% if msg != "" %}
+    <div> <p>{{ msg }}</p></div>
+    {% endif %}
+    <div class="loader" id="loader">
+        <div class="loadingio-spinner-ball-205vl2x7f7n"><div class="ldio-b8p5li8dt1u"><div></div></div></div>
+        <p>Traitement en cours...</p>
+    </div>
+  </div>
+      <script>
+/* MAJ de la zone de glisser-déposer */ 
+$('form input').change(function () {
+    var nb_files = this.files.length;
+    $('form #form_msg').text(nb_files + " fichier(s) selectionné(s)");
+
+    /* Prévisualisation des fichiers chargés (max 3 visibles) */
+    if(nb_files > 3){
+        var num = nb_files - 3;
+        for(i=0; i < 3; i++){
+            $("#form_msg").append('<br/><span class="filename_preview">' + this.files[i].name + '</span>');
+        }
+        $("#form_msg").append('<span class="filename_preview"> et ' + num + ' autres.</span>');
+    }
+    else{
+        for(i=0; i < nb_files; i++){
+            $("#form_msg").append('<br/><span class="filename_preview">' + this.files[i].name + '</span>');
+        }
+    }
+});
+</script>-->
+  </div>
+{% endblock %}
+{% block footer %} {{ super() }} {% endblock %}
