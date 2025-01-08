@@ -31,14 +31,14 @@ from urllib.parse import urlparse
 import re
 from lxml import etree
 import csv
-#import contextualSpellCheck
 import spacy
 from spacy import displacy
+import contextualSpellCheck
 import shutil
 from pathlib import Path
-#import jamspell
 import json
 import collections
+#from transformers import pipeline
 #from txt_ner import txt_ner_params
 
 #nltk.download('punkt_tab')
@@ -2042,9 +2042,7 @@ def normalisation_graphies():
 
 
 #------------- Correction Erreurs ---------------------
-
 @app.route('/autocorrect', methods=["GET", "POST"])
-@stream_with_context
 def autocorrect():
     if request.method == 'POST':
         uploaded_files = request.files.getlist("uploaded_files")
@@ -2096,7 +2094,6 @@ def autocorrect():
         return response
 
     return render_template('/correction_erreur.html')
-
 
 #-----------------------------------------------------------------
 # Génération de texte
