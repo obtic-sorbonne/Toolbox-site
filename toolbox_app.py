@@ -880,7 +880,7 @@ def txt_to_xml(filename, fields):
             name.text = fields['respStmt_name']
             respStmt.append(name)
 
-        editionStmt.append(respStmt)
+        titleStmt.append(respStmt)
 
     #- PublicationStmt
     publishers_list = fields['pubStmt'].split('\n') # Get publishers list
@@ -892,6 +892,7 @@ def txt_to_xml(filename, fields):
         publicationStmt.append(publisher)
 
     licence = etree.Element("licence")
+    availability = etree.Element("availability")
     licence.text = fields["licence"]
     if licence.text == "CC-BY":
         licence.set("target", "https://creativecommons.org/licenses/by/4.0/")
@@ -901,7 +902,8 @@ def txt_to_xml(filename, fields):
         licence.set("target", "https://creativecommons.org/licenses/by-nd/4.0/")
     if licence.text == "CC-BY-NC":
         licence.set("target", "https://creativecommons.org/licenses/by-nc/4.0/")
-    publicationStmt.append(licence)
+    availability.append(licence)
+    publicationStmt.append(availability)
 
     #- SourceDesc
     paragraphs = fields['sourceDesc'].split('\n')
@@ -919,14 +921,15 @@ def txt_to_xml(filename, fields):
     language = etree.Element("language")
     lang = fields["lang"]
     language.set("ident", lang)
-    profileDesc.append(language)
+    langUsage.append(language)
+    profileDesc.append(langUsage)
 
     #- EncodingDesc
-    projetDesc = etree.Element("projetDesc")
-    projet_p = etree.Element("p")
-    projet_p.text = fields["projet_p"]
-    projetDesc.append(projet_p)
-    encodingDesc.append(projetDesc)
+    projectDesc = etree.Element("projectDesc")
+    project_p = etree.Element("p")
+    project_p.text = fields["projet_p"]
+    projectDesc.append(project_p)
+    encodingDesc.append(projectDesc)
 
     editorialDecl = etree.Element("editorialDecl")
     edit_correction = etree.Element("correction")
@@ -962,13 +965,12 @@ def txt_to_xml(filename, fields):
 
     # Header
     fileDesc.append(titleStmt)
-    fileDesc.append(editionStmt)
     fileDesc.append(publicationStmt)
     fileDesc.append(sourceDesc)
-    fileDesc.append(profileDesc)
-    fileDesc.append(encodingDesc)
-    fileDesc.append(revisionDesc)
     teiHeader.append(fileDesc)
+    teiHeader.append(encodingDesc)
+    teiHeader.append(profileDesc)
+    teiHeader.append(revisionDesc)
     root.append(teiHeader)
 
     # Text
