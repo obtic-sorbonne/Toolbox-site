@@ -1765,9 +1765,8 @@ def analyze_text():
 @stream_with_context
 
 def run_renard():
+
     try: # For debugging  
-        from renard import __version__
-        print(f"Renard version: {__version__}")
         from renard.pipeline.graph_extraction import CoOccurrencesGraphExtractor
         print("Available parameters for CoOccurrencesGraphExtractor:")
         print(help(CoOccurrencesGraphExtractor))
@@ -1778,24 +1777,22 @@ def run_renard():
 
     if request.method == 'POST':
         try:
-
             min_appearances = int(request.form['min_appearances'])
             lang = request.form.get('toollang')
 
             if request.files['renard_upload'].filename != '':
                 f = request.files['renard_upload']
-
                 text = f.read()
                 text = text.decode('utf-8')
             else:
                 text = request.form['renard_txt_input']
             
-            rand_name =  'renard_graph_' + ''.join((random.choice(string.ascii_lowercase) for x in range(8))) + '.gexf'
+            rand_name = 'renard_graph_' + ''.join((random.choice(string.ascii_lowercase) for x in range(8))) + '.gexf'
             result_path = ROOT_FOLDER / os.path.join(app.config['UPLOAD_FOLDER'], rand_name)
             
             from renard.pipeline import Pipeline
             from renard.pipeline.tokenization import NLTKTokenizer
-            from renard.pipeline.ner import NLTKNamedEntityRecognizer, BertNamedEntityRecognizer
+            from renard.pipeline.ner import BertNamedEntityRecognizer
             from renard.pipeline.character_unification import GraphRulesCharacterUnifier
             from renard.pipeline.graph_extraction import CoOccurrencesGraphExtractor
             from renard.graph_utils import graph_with_names
@@ -1813,33 +1810,29 @@ def run_renard():
             pipeline = Pipeline(
             [
                 NLTKTokenizer(),
-                BertNamedEntityRecognizer(model=BERT_MODELS[lang]), #NLTKNamedEntityRecognizer(),
+                BertNamedEntityRecognizer(model=BERT_MODELS[lang]),
                 GraphRulesCharacterUnifier(min_appearances=min_appearances),
-                CoOccurrencesGraphExtractor(co_occurrences_dist=35)
-            ], lang = lang)
+                CoOccurrencesGraphExtractor(co_occurences_dist=35) 
+            ], lang=lang)
 
             out = pipeline(text)
-
-            # Save GEXF network
             out.export_graph_to_gexf(result_path)
-
-            # Networkx to plot
             G = graph_with_names(out.characters_graph)
             plot_nx_graph_reasonably(G)
-            img = BytesIO() # file-like object for the image
-            plt.savefig(img, format='png') # save the image to the stream
-            img.seek(0) # writing moved the cursor to the end of the file, reset
-            plt.clf() # clear pyplot
+            img = BytesIO()
+            plt.savefig(img, format='png')
+            img.seek(0)
+            plt.clf()
             figdata_png = base64.b64encode(img.getvalue()).decode('ascii')
 
-            return render_template('renard.html', form=form, graph=figdata_png, fname=str(rand_name))
+            return render_template('outils/renard.html', form=form, graph=figdata_png, fname=str(rand_name))
 
         except Exception as e:
             print(f"Error in pipeline: {str(e)}")
-            return render_template('renard.html', form=form, 
+            return render_template('outils/renard.html', form=form, 
                                 error=f"Pipeline error: {str(e)}")
 
-    return render_template('renard.html', form=form, graph="", fname="")
+    return render_template('outils/renard.html', form=form, graph="", fname="")
 
 #-----------------------------------------------------------------
 # Extraction de corpus
