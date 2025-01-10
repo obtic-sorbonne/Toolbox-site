@@ -36,9 +36,9 @@ import spacy
 from spacy import displacy
 import shutil
 from pathlib import Path
-#import jamspell
 import json
 import collections
+#from transformers import pipeline
 #from txt_ner import txt_ner_params
 
 #nltk.download('punkt_tab')
@@ -50,7 +50,6 @@ nlp_eng = spacy.load('en_core_web_sm')
 import pandas as pd
 
 import sem
-
 #import sem.storage
 #import sem.exporters
 
@@ -480,8 +479,10 @@ def run_tesseract():
         else:
             model_bis = ''
 
+
         up_folder = app.config['UPLOAD_FOLDER']
         rand_name =  'ocr_' + ''.join((random.choice(string.ascii_lowercase) for x in range(8)))
+
 
         text = ocr.tesseract_to_txt(uploaded_files, model, model_bis, rand_name, ROOT_FOLDER, up_folder)
         response = Response(text, mimetype='text/plain',
@@ -530,6 +531,8 @@ def removing_elements():
                 output_name = filename + '_stopwords.txt'
                 with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
                     out.write('The original text was :\n"' + input_text + '"\n\nThe text without stopwords is :\n"' + " ".join(removing_stopwords) + '"')
+
+
 
         finally:
             f.close()
@@ -1029,16 +1032,15 @@ def named_entity_recognition():
 #-----------------------------------------------------------------
 
 #--------------- Mots-clés -----------------------
-from flask import Flask, render_template, request, abort, Response, stream_with_context
-from flask_wtf import FlaskForm
-from flask_wtf.csrf import CSRFProtect
-import json
 
-@app.route('/keyword_extraction', methods=['GET', 'POST'])
+
+@app.route('/keyword_extraction', methods=['POST'])
+
 @stream_with_context
 def keyword_extraction():
     form = FlaskForm()
     if request.method == 'POST':
+
         try:
             uploaded_files = request.files.getlist("keywd-extract")
             methods = request.form.getlist('extraction-method')
@@ -1130,6 +1132,7 @@ def test_template():
                          res={}, 
                          error=None)
 
+
 #----------------- Topic Modelling -----------------------------
 
 @app.route('/topic_extraction', methods=["POST"])
@@ -1138,6 +1141,7 @@ def topic_extraction():
     form = FlaskForm()
     msg = ""
     res = {}
+
     
     if request.method == 'POST':
         try:
@@ -1302,6 +1306,7 @@ def topic_extraction():
 
 #-------------- Quotation Extraction -------------------------
 
+
 @app.route('/quotation', methods=['POST'])
 def quotation():
     if 'files' not in request.files:
@@ -1322,6 +1327,7 @@ def quotation():
             input_text = f.read().decode('utf-8')
             filename, file_extension = os.path.splitext(f.filename)
 
+
             patterns = [
                 r'"(.*?)"',           # Double quotes
                 r'«\s*(.*?)\s*»'      # French quotes with optional spaces
@@ -1331,6 +1337,7 @@ def quotation():
             for pattern in patterns:
                 quotes = re.findall(pattern, input_text)
                 quotations.extend(quotes)
+
 
             output_name = filename + '.txt'
             with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
@@ -1571,112 +1578,106 @@ def analyze_statistic():
 
 @app.route('/analyze_lexicale', methods=['POST'])
 def analyze_lexicale():
-    try:
-        # Check if files are present in the request
-        if 'files' not in request.files:
-            return Response(json.dumps({"error": "No files part"}), status=400, mimetype='application/json')
+    if 'files' not in request.files:
+        response = {"error": "No files part"}
+        return Response(json.dumps(response), status=400, mimetype='application/json')
 
-        files = request.files.getlist('files')
-        if not files or all(file.filename == '' for file in files):
-            return Response(json.dumps({"error": "No selected files"}), status=400, mimetype='application/json')
+    files = request.files.getlist('files')
+    if not files or all(file.filename == '' for file in files):
+        response = {"error": "No selected files"}
+        return Response(json.dumps(response), status=400, mimetype='application/json')
 
-        # Validate analysis type
-        analysis_type = request.form.get('analysis_type')
-        if not analysis_type:
-            return Response(json.dumps({"error": "Analysis type not specified"}), status=400, mimetype='application/json')
+    analysis_type = request.form['analysis_type']
 
-        # Validate words_to_analyze if required
-        words_to_analyze = request.form.get('words_to_analyze', '').strip()
-        if analysis_type == 'lexical_dispersion' and not words_to_analyze:
-            return Response(json.dumps({"error": "Words to analyze not specified"}), status=400, mimetype='application/json')
+    words_to_analyze = str(request.form.get('words_to_analyze'))
 
-        # Prepare a directory to store results
-        rand_name = 'lexicale_' + ''.join(random.choice(string.ascii_lowercase) for _ in range(5))
-        result_path = os.path.join(os.getcwd(), rand_name)
-        os.makedirs(result_path, exist_ok=True)
+    rand_name = 'lexicale_' + ''.join(random.choice(string.ascii_lowercase) for x in range(5))
+    result_path = os.path.join(os.getcwd(), rand_name)
+    os.makedirs(result_path, exist_ok=True)
 
-        for f in files:
-            try:
-                input_text = f.read().decode('utf-8')
-                tokens = word_tokenize(input_text)
-                unique_words = set(tokens)
-                total_number_words = len(tokens)
-                TTR = len(unique_words) / total_number_words if total_number_words > 0 else 0
-                filename, file_extension = os.path.splitext(f.filename)
+    for f in files:
+        try:
+            input_text = f.read().decode('utf-8')
+            tokens = word_tokenize(input_text)
+            unique_words = set(tokens)
+            number_unique_words = len(unique_words)
+            total_number_words = len(tokens)
+            TTR = number_unique_words / total_number_words
+            filename, file_extension = os.path.splitext(f.filename)
 
-                # Perform analysis based on analysis_type
-                if analysis_type == 'lexical_dispersion':
-                    words_list = [word.strip() for word in words_to_analyze.split(',')]
-                    text_nltk = Text(tokens)
+            if analysis_type == 'lexical_dispersion':
+                text_nltk = Text(tokens) 
+                fig = plt.figure(figsize=(10, 6)) 
+                text_nltk.dispersion_plot(words_to_analyze) 
+                # Personnalisation du plot 
+                plt.xlabel('Word Offset') 
+                plt.ylabel('Frequency') 
+                plt.title('Lexical Dispersion Plot') 
+                plt.tight_layout() 
+                # Sauvegarder la visualisation dans un fichier 
+                vis_name = filename + '_dispersion_plot.png' 
+                vis_path = os.path.join(result_path, vis_name) 
+                plt.savefig(vis_path, format='png') 
+                plt.close()
+            elif analysis_type == 'lexical_diversity':
+                #Sortie
+                output_name = filename + '_diversity.txt'
+                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
+                    out.write("The lexical richness of the text is:" + str(round(TTR, 2)))
 
-                    # Plot dispersion
-                    plt.figure(figsize=(10, 6))
-                    text_nltk.dispersion_plot(words_list)
-                    plt.xlabel('Word Offset')
-                    plt.ylabel('Frequency')
-                    plt.title('Lexical Dispersion Plot')
-                    plt.tight_layout()
-                    vis_name = f"{filename}_dispersion_plot.png"
-                    plt.savefig(os.path.join(result_path, vis_name), format='png')
-                    plt.close()
+                #Visualisation
+                labels = ['Total Words', 'Unique Words']
+                values = [total_number_words, number_unique_words]
 
-                elif analysis_type == 'lexical_diversity':
-                    # Write lexical diversity to a text file
-                    output_name = f"{filename}_diversity.txt"
-                    with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-                        out.write(f"The lexical richness of the text is: {round(TTR, 2)}")
+                # Création du graphique à barres
+                fig, ax = plt.subplots()
+                plt.bar(labels, values, color=['blue', 'green'])
+                plt.ylabel('Count')
+                plt.title('Total Words vs Unique Words')
+                plt.text(0.5, max(values)/2, f'TTR: {round(TTR, 2)}', horizontalalignment='center', verticalalignment='center', fontsize=12, color='red')
 
-                    # Visualize total vs unique words
-                    labels = ['Total Words', 'Unique Words']
-                    values = [total_number_words, len(unique_words)]
-                    plt.bar(labels, values, color=['blue', 'green'])
-                    plt.ylabel('Count')
-                    plt.title('Total Words vs Unique Words')
-                    plt.text(0.5, max(values) / 2, f'TTR: {round(TTR, 2)}',
-                             horizontalalignment='center', fontsize=12, color='red')
-                    vis_name = f"{filename}_words_comparison.png"
-                    plt.savefig(os.path.join(result_path, vis_name), format='png')
-                    plt.close()
+                # Sauvegarder la visualisation dans un fichier
+                vis_name = 'words_comparison.png'
+                vis_path = os.path.join(result_path, vis_name)
+                plt.savefig(vis_path, format='png')
+                plt.close()
+            elif analysis_type == 'lexical_relationships':
+                output_name = filename + '_relationships.txt'
+                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
+                    out.write(f"Detected languages:\n{detected_languages_str}\n")
+            elif analysis_type == 'lexical_specificity':
+                # Dependency parsing
+                doc = nlp_eng(input_text)
+                syntax_info = "\n".join([f"{token.text} ({token.pos_}) <--{token.dep_} ({spacy.explain(token.dep_)})-- {token.head.text} ({token.head.pos_})" for token in doc])
+                output_name_text = filename + '_specifity.txt'
+                with open(os.path.join(result_path, output_name_text), 'w', encoding='utf-8') as out:
+                    out.write(syntax_info)
 
-                elif analysis_type == 'lexical_relationships':
-                    output_name = f"{filename}_relationships.txt"
-                    detected_languages_str = "English (example)"
-                    with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-                        out.write(f"Detected languages:\n{detected_languages_str}\n")
+                # Visualization with displacy
+                svg = displacy.render(doc, style='dep', jupyter=False)
+                output_name_svg = filename + '_specifity.svg'
+                with open(os.path.join(result_path, output_name_svg), 'w', encoding='utf-8') as out:
+                    out.write(svg)
+        finally:
+            f.close()
 
-                elif analysis_type == 'lexical_specificity':
-                    # Parse syntax using SpaCy
-                    doc = nlp_eng(input_text)
-                    syntax_info = "\n".join(
-                        [f"{token.text} ({token.pos_}) <--{token.dep_}-- {token.head.text} ({token.head.pos_})" for token in doc]
-                    )
-                    output_name_text = f"{filename}_specificity.txt"
-                    with open(os.path.join(result_path, output_name_text), 'w', encoding='utf-8') as out:
-                        out.write(syntax_info)
+    if len(os.listdir(result_path)) > 0:
+        shutil.make_archive(result_path, 'zip', result_path)
+        output_stream = BytesIO()
+        with open(str(result_path) + '.zip', 'rb') as res:
+            content = res.read()
+        output_stream.write(content)
+        response = Response(output_stream.getvalue(), mimetype='application/zip',
+                            headers={"Content-disposition": "attachment; filename=" + rand_name + '.zip'})
+        output_stream.seek(0)
+        output_stream.truncate(0)
+        shutil.rmtree(result_path)
+        os.remove(str(result_path) + '.zip')
+        return response
 
-                    # Generate dependency parse visualization
-                    svg = displacy.render(doc, style='dep', jupyter=False)
-                    output_name_svg = f"{filename}_specificity.svg"
-                    with open(os.path.join(result_path, output_name_svg), 'w', encoding='utf-8') as out:
-                        out.write(svg)
-            finally:
-                f.close()
+    return Response(json.dumps({"error": "Une erreur est survenue dans le traitement des fichiers."}), status=500, mimetype='application/json')
 
-        # Prepare response as a ZIP file
-        if os.listdir(result_path):
-            shutil.make_archive(result_path, 'zip', result_path)
-            output_stream = BytesIO()
-            with open(f"{result_path}.zip", 'rb') as res:
-                output_stream.write(res.read())
-            shutil.rmtree(result_path)
-            os.remove(f"{result_path}.zip")
-            return Response(output_stream.getvalue(), mimetype='application/zip',
-                            headers={"Content-Disposition": f"attachment; filename={rand_name}.zip"})
 
-        return Response(json.dumps({"error": "Error processing files."}), status=500, mimetype='application/json')
-
-    except Exception as e:
-        return Response(json.dumps({"error": str(e)}), status=500, mimetype='application/json')
 
 #--------------- Analyse de texte --------------------------
 
@@ -1757,13 +1758,13 @@ def analyze_text():
 
     return Response(json.dumps({"error": "Une erreur est survenue dans le traitement des fichiers."}), status=500, mimetype='application/json')
 
+
 #---------------------------------------------------------
 # Visualisation
 #---------------------------------------------------------
 
 @app.route("/run_renard",  methods=["GET", "POST"])
 @stream_with_context
-
 def run_renard():
 
     try: # For debugging  
@@ -1774,11 +1775,12 @@ def run_renard():
         print(f"Error importing renard: {str(e)}")
 
     form = FlaskForm()
-
     if request.method == 'POST':
         try:
             min_appearances = int(request.form['min_appearances'])
             lang = request.form.get('toollang')
+        min_appearances = int(request.form['min_appearances'])
+        lang = request.form.get('toollang')
 
             if request.files['renard_upload'].filename != '':
                 f = request.files['renard_upload']
@@ -1800,6 +1802,27 @@ def run_renard():
             import matplotlib.pyplot as plt
             import networkx as nx
             import base64
+        if request.files['renard_upload'].filename != '':
+            f = request.files['renard_upload']
+
+            text = f.read()
+            text = text.decode('utf-8')
+        else:
+            text = request.form['renard_txt_input']
+        
+        rand_name =  'renard_graph_' + ''.join((random.choice(string.ascii_lowercase) for x in range(8))) + '.gexf'
+        result_path = ROOT_FOLDER / os.path.join(app.config['UPLOAD_FOLDER'], rand_name)
+        
+        from renard.pipeline import Pipeline
+        from renard.pipeline.tokenization import NLTKTokenizer
+        from renard.pipeline.ner import NLTKNamedEntityRecognizer, BertNamedEntityRecognizer
+        from renard.pipeline.character_unification import GraphRulesCharacterUnifier
+        from renard.pipeline.graph_extraction import CoOccurrencesGraphExtractor
+        from renard.graph_utils import graph_with_names
+        from renard.plot_utils import plot_nx_graph_reasonably
+        import matplotlib.pyplot as plt
+        import networkx as nx
+        import base64
 
             BERT_MODELS = {
                 "fra" : "Jean-Baptiste/camembert-ner",
@@ -1814,6 +1837,20 @@ def run_renard():
                 GraphRulesCharacterUnifier(min_appearances=min_appearances),
                 CoOccurrencesGraphExtractor(co_occurences_dist=35) 
             ], lang=lang)
+        BERT_MODELS = {
+            "fra" : "Jean-Baptiste/camembert-ner",
+            "eng" : "dslim/bert-base-NER",
+            "spa" : "mrm8488/bert-spanish-cased-finetuned-ner"
+        }
+        
+
+        pipeline = Pipeline(
+        [
+            NLTKTokenizer(),
+            BertNamedEntityRecognizer(model=BERT_MODELS[lang]), #NLTKNamedEntityRecognizer(),
+            GraphRulesCharacterUnifier(min_appearances=min_appearances),
+            CoOccurrencesGraphExtractor(co_occurrences_dist=35)
+        ], lang = lang)
 
             out = pipeline(text)
             out.export_graph_to_gexf(result_path)
@@ -1824,8 +1861,22 @@ def run_renard():
             img.seek(0)
             plt.clf()
             figdata_png = base64.b64encode(img.getvalue()).decode('ascii')
+        out = pipeline(text)
+
+        # Save GEXF network
+        out.export_graph_to_gexf(result_path)
+
+        # Networkx to plot
+        G = graph_with_names(out.characters_graph)
+        plot_nx_graph_reasonably(G)
+        img = BytesIO() # file-like object for the image
+        plt.savefig(img, format='png') # save the image to the stream
+        img.seek(0) # writing moved the cursor to the end of the file, reset
+        plt.clf() # clear pyplot
+        figdata_png = base64.b64encode(img.getvalue()).decode('ascii')
 
             return render_template('outils/renard.html', form=form, graph=figdata_png, fname=str(rand_name))
+        return render_template('renard.html', form=form, graph=figdata_png, fname=str(rand_name))
 
         except Exception as e:
             print(f"Error in pipeline: {str(e)}")
@@ -2183,7 +2234,7 @@ def normalisation_graphies():
 #------------- Correction Erreurs ---------------------
 
 @app.route('/autocorrect', methods=["GET", "POST"])
-@stream_with_context
+
 def autocorrect():
     if request.method == 'POST':
         uploaded_files = request.files.getlist("uploaded_files")
@@ -2235,6 +2286,7 @@ def autocorrect():
         return response
 
     return render_template('/correction_erreur.html')
+
 
 
 #-----------------------------------------------------------------
@@ -2701,5 +2753,7 @@ def get_file(filename):
     return send_from_directory(ROOT_FOLDER / app.config['UPLOAD_FOLDER'], filename, as_attachment=True)
 
 if __name__ == "__main__":
+
     print("Starting Pandore Toolbox...")
     app.run(host='0.0.0.0', port=5000, debug=False, use_reloader=False)
+
