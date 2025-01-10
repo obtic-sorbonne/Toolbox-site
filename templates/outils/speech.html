@@ -1,0 +1,43 @@
+{% extends "index.html" %}
+{% block header %} {{ super() }} {% endblock %}
+
+{% block content %}
+<style>
+  #tess-form{
+    padding:35px;
+    margin:20px auto;
+    /*background-color:rgba(221, 201, 180, .3);*/
+    width:800px;
+    text-align: center;
+  }
+
+  .dropzone{
+    margin:auto;
+    margin-top: 8px;
+  }
+
+  button{
+    display: block;
+    margin:auto;
+    margin-top: 8px;
+  }
+  
+  #add_model{
+    cursor:pointer;
+  }
+</style>
+
+<link rel="stylesheet" href="{{ url_for('static', filename= 'css/elements.css') }}">
+<div class="outil">
+  <div class="fil"><a href="{{ url_for('atr_tools')}}"><< {{ _('Retour aux tâches') }}</a></div>
+<h2>{{ _('Reconnaissance automatique de discours') }}</h2>
+
+<div class="tool-box">
+    <h4>...</h4>
+    <p>...</p>
+    <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_recognition') }}"  target="_blank">{{ _('Voir la documentation') }}</a></p>
+    <p style="text-align: center;padding:20px"><a href="{{ url_for('tutoriel_recognition') }}"  target="_blank">{{ _('Voir le tutoriel') }}</a></p>
+  </div>
+{% endblock %}
+
+{% block footer %} {{ super() }} {% endblock %}

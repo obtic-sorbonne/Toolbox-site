@@ -1,0 +1,21 @@
+{% extends "index.html" %}
+{% block header %} {{ super() }} {% endblock %}
+
+{% block content %}
+<div class="outil">
+	<div class="fil"><a href="{{ url_for('outils_corpus')}}"><< {{ _('Retour aux tâches') }}</a></div>
+
+<h3>{{ _('Normalisation de graphie ancienne') }}</h3>
+
+<p><em>NormaLisa</em> est un outil à base de règles pour normaliser automatiquement la graphie de textes en français ancien. Ce script a été élaboré par <a href="https://scholar.google.fr/citations?user=cHgIp_kAAAAJ&hl=fr" target="_blank">Marine Riguet</a> à l'occasion d'une collaboration de plusieurs mois avec l'équipe d'ARTFL (Université de Chicago) au printemps 2018.</p>
+
+<p>NormaLisa s’appuie sur plusieurs bases lexicales ouvertes, développées par l’ATILF : <a href="https://repository.ortolang.fr/api/content/morphalou/2/LISEZ_MOI.html" target="_blank">Morphalou</a>, lexique ouvert de formes fléchies du français, et <a href="http://stella.atilf.fr/LGeRM/" target="_blank">LGeRM</a>, lexique morphologique répertoriant les flexions et variations orthographiques du moyen-français et du français des XVIe-XVIIe siècles.</p>
+
+<p><br/>Une version beta est disponible sur Git, sous forme de script Python : <a href="https://github.com/ljpetkovic/Normalisa/tree/dev" target="_blank"><em>NormaLisa (beta)</em></a></p>
+<!--<div id="normadiv">
+<form id="normaform">
+</form>
+</div>-->
+</div>
+{% endblock %}
+{% block footer %} {{ super() }} {% endblock %}

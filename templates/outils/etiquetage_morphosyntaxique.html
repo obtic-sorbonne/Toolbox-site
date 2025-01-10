@@ -1,0 +1,58 @@
+{% extends "index.html" %}
+{% block header %} {{ super() }} {% endblock %}
+
+{% block content %}
+<div class="outil" id="TM1">
+  <div class="fil"><a href="{{ url_for('annotation_automatique')}}"><< {{ _('Retour aux tâches') }}</a></div>
+
+  <h2>{{ _('Étiquetage morphosyntaxique') }}</h2>
+  <p>{{ _("Cette section permet d'annoter la catégorie grammaticale de chaque mot d'un texte avec")}} <a href="https://spacy.io/usage/linguistic-features#pos-tagging" target="_blank">{{ _("l'outil POS tagging de spaCy") }}</a>. <br>{{ _("Le document renvoyé précise le token récupéré et son étiquette morphosyntaxique")}}.</p>
+  <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_annotation') }}" target="_blank">{{ _("Voir la documentation") }}</a> / <a href="{{ url_for('tutoriel_annotation') }}"  target="_blank">{{ _('Voir le tutoriel') }}</a></p>
+  <div class="infos_outil" style="display: block;margin: 0 auto 15px auto;">
+        <input id="show" type=checkbox><label for="show" class="infos_title"><i class="fa-solid fa-circle-info"></i> {{ _("Informations sur les classes d'étiquettes") }}<i class="fa-solid fa-angle-right" style="float:right;margin-top:5px;margin-left:15px;cursor: pointer;"></i></label></p>
+        <div class="info_popped">
+    <p>ADJ Adjective ; ADP Adposition (Preposition/Postposition) ;<br>ADV Adverb ; AUX Auxiliary ;<br>CCONJ Coordinating Conjunction; DET Determiner ;<br>NOUN Words for persons, places, things, etc. ; NUM Numeral ;<br>PRON Pronoun ; PROPN Proper noun ;<br>PUNCT Punctuation ; SCONJ Subordinating Conjunction ;<br>VERB Words for actions and processes ; X Other</p>
+</div>
+  </div>
+
+<form action="{{ url_for('pos_tagging') }}" id="metadata-form" method="post" enctype="multipart/form-data" onsubmit="showloader('loader')">
+  {{ form.csrf_token }}
+        <div class="dropzone" style="margin:25px auto;">
+            <input type="file" id="files" name="files" accept="text/plain" multiple required>
+            <p id="form_msg">Déposer le(s) fichier(s) ou cliquer ici.</p>
+        </div>
+        <input id="csrf_token" name="csrf_token" type="hidden" value="{{ csrf_token() }}">
+        <button style="display:block;margin:auto;margin-top:20px;">Télécharger les fichiers</button>
+  
+</form>
+{% if msg != "" %}
+<div> <p>{{ msg }}</p></div>
+{% endif %}
+<div class="loader"><div class="loadingio-spinner-ball-205vl2x7f7n"><div class="ldio-b8p5li8dt1u"><div></div></div></div><p>{{ _("Traitement en cours...") }}</p></div>
+</div>
+<script>
+  /* MAJ de la zone de glisser-déposer */ 
+  $('form input').change(function () {
+
+  var nb_files = this.files.length;
+  $('form #form_msg').text(nb_files + " fichier(s) selectionné(s)");
+
+  /* Prévisualisation des fichiers chargés (max 3 visibles) */
+  if(nb_files > 3){
+      var num = nb_files - 3;
+      for(i=0; i < 3; i++){
+          $("#form_msg").append('<br/><span class="filename_preview">' + this.files[i].name + '</span>');
+      }
+      $("#form_msg").append('<span class="filename_preview"> et ' + num + ' autres.</span>');
+  }
+  else{
+      for(i=0; i < nb_files; i++){
+          $("#form_msg").append('<br/><span class="filename_preview">' + this.files[i].name + '</span>');
+      }
+  }
+});
+</script>
+{% endblock %}
+
+{% block footer %} {{ super() }} {% endblock %}
+

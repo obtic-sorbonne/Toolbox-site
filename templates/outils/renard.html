@@ -1,0 +1,107 @@
+{% extends "index.html" %}
+{% block header %} {{ super() }} {% endblock %}
+
+{% block content %}
+
+<style>
+	#renard_visu{
+		width: 100%;
+	}
+	#renard_visu img{
+		margin:auto;
+	}
+	#parameters{
+		text-align: center;
+		margin-top: 25px;
+	}
+	#parameters fieldset{
+		border:none;
+	}
+	#parameters fieldset legend{
+		color:#8A824C;
+	}
+</style>
+<div class="outil">
+	<div class="fil"><a href="{{ url_for('outils_visualisation')}}"><< {{ _('Retour aux tâches') }}</a></div>
+	<h2>Renard</h2>
+	<p>L'outil <a href="https://compnet.github.io/Renard/introduction.html" target="_blank">Renard <i class="fa-solid fa-arrow-up-right-from-square"></i></a> ({{ _('pour') }} <span style="font-style:italic">Relationships Extraction from NARrative Documents</span>) {{ _ ("permet d'extraire les entités de personnes d'un texte littéraire et visualiser les réseaux de personnages sous forme de graphes") }}.</p>
+	<div class="infos_outil" style="display: block;margin: 0 auto 15px auto;">
+        <input id="show" type=checkbox><label for="show" class="infos_title"><i class="fa-solid fa-circle-info"></i> {{ _("Informations sur l'outil") }}<i class="fa-solid fa-angle-right" style="float:right;margin-top:5px;margin-left:15px;cursor: pointer;"></i></label></p>
+        <div class="info_popped">
+		<p>Renard v.0.3.0</p>
+		<p>{{ _("Format d'entrée :")}} <i class="fa-regular fa-file-lines"></i> {{ _('fichier TXT') }}</p>
+		<p>{{ _('Formats générés :')}} <li style="text-decoration: none; margin-left: 20px;"><i class="fa-regular fa-image"></i> graphe PNG</li> 
+			<li style="text-decoration: none; margin-left: 20px;"><i class="fa-solid fa-file-code"></i> fichier GEXF</li></ul></p>
+		<p>Limite de taille : 50 Mo</p>
+		</p>
+	  </div></div>
+	
+	<div>
+		<form action="{{ url_for('run_renard') }}" id="renard-form" method="post" enctype="multipart/form-data">
+		{{ form.csrf_token }}
+		<div id="parameters">
+			<fieldset><legend style="color:#263e8d;">{{ _('Paramètres') }}</legend>
+			<label for="toollang"><i class="fa-regular fa-flag"></i> {{ _("Langue du texte") }}</label>
+			<select name="toollang" id="toollang" class="sel sel--black-panther">
+				<option value="fra" selected="true">{{ _('Français') }}</option>
+				<option value="eng">{{ _('Anglais') }}</option>
+				<option value="spa">{{ _('Espagnol') }}</option>
+			</select>
+			<br>
+			<label for="min_appearances">{{ _('Nombre minimal de mentions du personnage') }}</label>
+			<input type="number" id="min_appearances" name="min_appearances" min="1" max="50" value="10"></fieldset>
+		</div>
+		 <div class="container" id="renard_container">
+			<div class="dropzone">
+				<input type="file" id="renard_upload" name="renard_upload" accept="text/plain">
+				<p id="form_msg"><span style="font-size: 2em;color: #c0c0c0;"><i class="fa-solid fa-arrow-up-from-bracket"></i></span><br>Déposer un fichier ou cliquer ici.</p>
+			</div>
+			<textarea name="renard_txt_input" id="renard_txt_input" style="width:500px" placeholder="Coller votre texte ici"></textarea>
+			<input id="csrf_token" name="csrf_token" type="hidden" value="CSRF_TOKEN_STRING">
+		 </div>
+			<button type="submit" style="display:block;margin:auto;margin-top:15px;">Envoyer</button>
+		</form>
+		<div class="loader"><div class="loadingio-spinner-ball-205vl2x7f7n"><div class="ldio-b8p5li8dt1u"><div></div></div></div><p>Traitement en cours...</p></div>
+	</div>
+
+	{% if graph != "" %}
+	<div id="renard_visu">
+		<img style="display:block;margin:auto" src="data:image/png;base64, {{graph}}" alt="graphe" height="650px"/>
+	</div>
+	{% endif %}
+
+	{% if fname != "" %}
+	<button style="display:block;margin:20px auto;" onclick="window.location.href='{{ url_for('get_file', filename=fname) }}';">Télécharger le graphe (.gexf)</button>
+	{% endif %}
+
+	<div class="bibliography">
+		<h4>{{ _("Références") }}</h4>
+		<ul>
+			<li>{{ _("Documentation de l'outil Renard")}} <a href="https://compnet.github.io/Renard/index.html"  target="_blank"><i class="fa-brands fa-github"></i></a></li>
+			<li>Labatut, V., & Bost, X. (2019). Extraction and analysis of fictional character networks: A survey. <span style="font-style: italic;">ACM Computing Surveys (CSUR)</span>, 52(5), 1-40.</li>
+		</ul>
+	</div>
+</div>
+
+<script type="text/javascript">
+	/* Vérification input */
+	$("#renard-form").submit(function(){
+		var fileName = $("#renard_upload").val();
+		var text = $.trim($("#renard_txt_input").val());
+		if(!fileName && !text){
+			alert("Sélectionner un fichier ou copier le texte.");
+			return false;
+		}
+		else{
+			$(".loader").css("display", "block");
+		}
+	});
+
+	/* MAJ de la zone de glisser-déposer */ 
+	$('form input').change(function (e) {
+		var fileName = e.target.files[0].name;
+		$('form #form_msg').text("Fichier sélectionné : " + fileName);
+	});
+
+</script>
+{% endblock %}
