@@ -1766,11 +1766,42 @@ def analyze_text():
 @app.route("/run_renard",  methods=["GET", "POST"])
 @stream_with_context
 def run_renard():
+
+    try: # For debugging  
+        from renard.pipeline.graph_extraction import CoOccurrencesGraphExtractor
+        print("Available parameters for CoOccurrencesGraphExtractor:")
+        print(help(CoOccurrencesGraphExtractor))
+    except Exception as e:
+        print(f"Error importing renard: {str(e)}")
+
     form = FlaskForm()
     if request.method == 'POST':
+        try:
+            min_appearances = int(request.form['min_appearances'])
+            lang = request.form.get('toollang')
         min_appearances = int(request.form['min_appearances'])
         lang = request.form.get('toollang')
 
+            if request.files['renard_upload'].filename != '':
+                f = request.files['renard_upload']
+                text = f.read()
+                text = text.decode('utf-8')
+            else:
+                text = request.form['renard_txt_input']
+            
+            rand_name = 'renard_graph_' + ''.join((random.choice(string.ascii_lowercase) for x in range(8))) + '.gexf'
+            result_path = ROOT_FOLDER / os.path.join(app.config['UPLOAD_FOLDER'], rand_name)
+            
+            from renard.pipeline import Pipeline
+            from renard.pipeline.tokenization import NLTKTokenizer
+            from renard.pipeline.ner import BertNamedEntityRecognizer
+            from renard.pipeline.character_unification import GraphRulesCharacterUnifier
+            from renard.pipeline.graph_extraction import CoOccurrencesGraphExtractor
+            from renard.graph_utils import graph_with_names
+            from renard.plot_utils import plot_nx_graph_reasonably
+            import matplotlib.pyplot as plt
+            import networkx as nx
+            import base64
         if request.files['renard_upload'].filename != '':
             f = request.files['renard_upload']
 
@@ -1793,6 +1824,19 @@ def run_renard():
         import networkx as nx
         import base64
 
+            BERT_MODELS = {
+                "fra" : "Jean-Baptiste/camembert-ner",
+                "eng" : "dslim/bert-base-NER",
+                "spa" : "mrm8488/bert-spanish-cased-finetuned-ner"
+            }
+            
+            pipeline = Pipeline(
+            [
+                NLTKTokenizer(),
+                BertNamedEntityRecognizer(model=BERT_MODELS[lang]),
+                GraphRulesCharacterUnifier(min_appearances=min_appearances),
+                CoOccurrencesGraphExtractor(co_occurences_dist=35) 
+            ], lang=lang)
         BERT_MODELS = {
             "fra" : "Jean-Baptiste/camembert-ner",
             "eng" : "dslim/bert-base-NER",
@@ -1808,6 +1852,15 @@ def run_renard():
             CoOccurrencesGraphExtractor(co_occurrences_dist=35)
         ], lang = lang)
 
+            out = pipeline(text)
+            out.export_graph_to_gexf(result_path)
+            G = graph_with_names(out.characters_graph)
+            plot_nx_graph_reasonably(G)
+            img = BytesIO()
+            plt.savefig(img, format='png')
+            img.seek(0)
+            plt.clf()
+            figdata_png = base64.b64encode(img.getvalue()).decode('ascii')
         out = pipeline(text)
 
         # Save GEXF network
@@ -1822,10 +1875,15 @@ def run_renard():
         plt.clf() # clear pyplot
         figdata_png = base64.b64encode(img.getvalue()).decode('ascii')
 
+            return render_template('outils/renard.html', form=form, graph=figdata_png, fname=str(rand_name))
         return render_template('renard.html', form=form, graph=figdata_png, fname=str(rand_name))
 
+        except Exception as e:
+            print(f"Error in pipeline: {str(e)}")
+            return render_template('outils/renard.html', form=form, 
+                                error=f"Pipeline error: {str(e)}")
 
-    return render_template('renard.html', form=form, graph="", fname="")
+    return render_template('outils/renard.html', form=form, graph="", fname="")
 
 #-----------------------------------------------------------------
 # Extraction de corpus
