@@ -698,7 +698,7 @@ display: table;
     padding: 10px; /* Espacement interne */
     margin-top: 10px; /* Espacement au-dessus du select */
     border: 2px solid #000;
-    width: 100%; /* Largeur complète */
+    width: auto; /* Largeur complète */
     box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2); /* Ombre pour effet */
 }
 .centered-input-div {
