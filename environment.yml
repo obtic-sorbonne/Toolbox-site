@@ -4,7 +4,6 @@ channels:
   - defaults
   - conda-forge
 dependencies:
-  - pip
   - _libgcc_mutex=0.1=conda_forge
   - _openmp_mutex=4.5=2_kmp_llvm
   - beautifulsoup4=4.11.1=py39h06a4308_0

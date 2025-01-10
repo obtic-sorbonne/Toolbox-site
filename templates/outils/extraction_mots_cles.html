@@ -8,15 +8,6 @@
 <div class="outil">
     <div class="fil"><a href="{{ url_for('extraction_information')}}"><< {{ _('Retour aux tâches') }}</a></div>
     <h2 style="font-family:'Comprehension', serif;">{{ _('Extraction de mots-clés') }}</h2>
-
-    
-    {% if error %}
-        <div class="alert alert-danger">
-            {{ error }}
-        </div>
-    {% endif %}
-
-
     <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_extraction') }}" target="_blank">{{ _("Voir la documentation") }}</a> /<a href="{{ url_for('tutoriel_extraction') }}"  target="_blank">{{ _('Voir le tutoriel') }}</a></p>
     <div class="container_two_columns">
         <div class="item">
