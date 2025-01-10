@@ -530,7 +530,6 @@ def removing_elements():
                 with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
                     out.write('The original text was :\n"' + input_text + '"\n\nThe text without stopwords is :\n"' + " ".join(removing_stopwords) + '"')
 
-
         finally:
             f.close()
 
@@ -1029,56 +1028,106 @@ def named_entity_recognition():
 #-----------------------------------------------------------------
 
 #--------------- Mots-clés -----------------------
+from flask import Flask, render_template, request, abort, Response, stream_with_context
+from flask_wtf import FlaskForm
+from flask_wtf.csrf import CSRFProtect
+import json
 
-@app.route('/keyword_extraction', methods=['POST'])
+@app.route('/keyword_extraction', methods=['GET', 'POST'])
 @stream_with_context
 def keyword_extraction():
     form = FlaskForm()
     if request.method == 'POST':
-        uploaded_files = request.files.getlist("keywd-extract")
-        methods = request.form.getlist('extraction-method')
-        res = {}
-        
-        if uploaded_files == []:
-            abort(400)
-
-        from keybert import KeyBERT
-        from sentence_transformers import SentenceTransformer
-        from pathlib import Path
-
-        # Chargement du modèle
-        sentence_model = SentenceTransformer("distiluse-base-multilingual-cased-v1")
-        kw_model = KeyBERT(model=sentence_model)
-
-        # Le résultat est stocké dans un dictionnaire. 
-        # Clé : nom du fichier (string)
-        # Valeur : dictionnaire dont la clé est la méthode d'extraction et la valeur une liste de mots-clés
-        
-        for f in uploaded_files:
-            fname = Path(f.filename).stem
-            fname = fname.replace(' ', '_')
-            fname = fname.strip()
-            fname = "".join(x for x in fname if (x.isalnum() or x == '_'))
+        try:
+            uploaded_files = request.files.getlist("keywd-extract")
+            methods = request.form.getlist('extraction-method')
             
-            res[fname] = {}
-            text = f.read().decode("utf-8")
+            if not uploaded_files:
+                return render_template('outils/extraction_mots_cles.html', 
+                                    form=form, 
+                                    res={}, 
+                                    error="Please upload at least one file.")
+
+            print(f"Received files: {[f.filename for f in uploaded_files]}")
+            print(f"Selected methods: {methods}")
+
+            # Import required libraries
+            from keybert import KeyBERT
+            from sentence_transformers import SentenceTransformer
             
-            if 'default' in methods:
-                keywords_def = kw_model.extract_keywords(text)
-                res[fname]['default'] = keywords_def
+            # Load model
+            print("Loading models...")
+            sentence_model = SentenceTransformer("distiluse-base-multilingual-cased-v1")
+            kw_model = KeyBERT(model=sentence_model)
+            print("Models loaded successfully")
+            
+            res = {}
+            for f in uploaded_files:
+                try:
+                    fname = secure_filename(f.filename)
+                    fname = os.path.splitext(fname)[0]
+                    fname = fname.replace(' ', '_')
+                    
+                    print(f"Processing file: {fname}")
+                    res[fname] = {}
+                    
+                    text = f.read().decode("utf-8")
+                    if not text.strip():
+                        print(f"Empty file: {fname}")
+                        continue
 
-            if 'mmr' in methods:
-                diversity = int(request.form.get('diversity')) / 10
-                keywords_mmr = kw_model.extract_keywords(text, use_mmr=True, diversity=diversity)
-                res[fname]['mmr'] = keywords_mmr
+                    if 'default' in methods:
+                        print("Running default extraction...")
+                        keywords_def = kw_model.extract_keywords(text)
+                        res[fname]['default'] = keywords_def
 
-            if 'mss' in methods:
-                keywords_mss = kw_model.extract_keywords(text, keyphrase_ngram_range=(1, 3), use_maxsum=True, nr_candidates=10, top_n=3)
-                res[fname]['mss'] = keywords_mss
-        
-        return Response(response=render_template('extraction_mots_cles.html', form=form, res=res))
-        
-    return render_template('extraction_mots_cles.html', form=form, res=res)
+                    if 'mmr' in methods:
+                        print("Running MMR extraction...")
+                        diversity = float(request.form.get('diversity', '7')) / 10
+                        keywords_mmr = kw_model.extract_keywords(text, use_mmr=True, diversity=diversity)
+                        res[fname]['mmr'] = keywords_mmr
+
+                    if 'mss' in methods:
+                        print("Running MSS extraction...")
+                        keywords_mss = kw_model.extract_keywords(
+                            text, 
+                            keyphrase_ngram_range=(1, 3),
+                            use_maxsum=True,
+                            nr_candidates=10,
+                            top_n=3
+                        )
+                        res[fname]['mss'] = keywords_mss
+                    
+                    print(f"Completed processing {fname}")
+                    
+                except Exception as e:
+                    print(f"Error processing file {fname}: {e}")
+                    res[fname] = {'error': str(e)}
+
+            print(f"Final results: {res}")
+            return render_template('outils/extraction_mots_cles.html', 
+                                form=form, 
+                                res=res)
+
+        except Exception as e:
+            print(f"General error: {e}")
+            return render_template('outils/extraction_mots_cles.html', 
+                                form=form, 
+                                res={}, 
+                                error=str(e))
+    
+    return render_template('outils/extraction_mots_cles.html', 
+                         form=form, 
+                         res={})
+
+# Test route to verify template loading
+@app.route('/test_template')
+def test_template():
+    form = FlaskForm()
+    return render_template('outils/extraction_mots_cles.html', 
+                         form=form, 
+                         res={}, 
+                         error=None)
 
 #----------------- Topic Modelling -----------------------------
 
@@ -1088,108 +1137,170 @@ def topic_extraction():
     form = FlaskForm()
     msg = ""
     res = {}
+    
     if request.method == 'POST':
-        uploaded_files = request.files.getlist("topic_model")
-        if uploaded_files == []:
-            abort(400)
-        if len(uploaded_files) == 1:
-            text = uploaded_files[0].read().decode("utf-8")
-            if len(text) < 4500:
-                return Response(response=render_template('topic_modelling.html', form=form, res=res, msg="Le texte est trop court, merci de charger un corpus plus grand pour des résultats significatifs. A défaut, vous pouvez utiliser l'outil d'extraction de mot-clés."))
-
-        # Topic modelling
-        from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer
-        from sklearn.decomposition import NMF, LatentDirichletAllocation
-        from pathlib import Path
-        import numpy as np
-
-        # Loading stop words
-        with open(ROOT_FOLDER / os.path.join(app.config['UTILS_FOLDER'], "stop_words_fr.txt"), 'r', encoding="utf-8") as sw :
-            stop_words_fr = sw.read().splitlines()
-        
-        # Form options
-        methods = request.form.getlist('modelling-method')
-        lemma_state = request.form.getlist('lemma-opt')
-
-        # Loading corpus
-        corpus = []
-        max_f = 0
-
-        # If one file is uploaded, we split it in 3 chunks to be able to retrieve more than 1 topic cluster.
-        if len(uploaded_files) == 1:
-            sents = sentencizer(text)
-            chunks = [x.tolist() for x in np.array_split(sents, 3)]
-            total_tokens = set()
-            for l in chunks:
-                if lemma_state:
-                    txt_part = spacy_lemmatizer("\n".join(l))
-                else:
-                    txt_part = "\n".join(l)
+        try:
+            uploaded_files = request.files.getlist("topic_model")
+            if not uploaded_files:
+                return render_template('outils/topic_modelling.html', 
+                                    form=form, 
+                                    res=res, 
+                                    msg="Please upload at least one file.")
                 
-                corpus.append(txt_part)
+            # Process single file case
+            if len(uploaded_files) == 1:
+                text = uploaded_files[0].read().decode("utf-8")
+                if len(text) < 4500:
+                    return render_template('outils/topic_modelling.html', 
+                                        form=form, 
+                                        res=res, 
+                                        msg="Le texte est trop court, merci de charger un corpus plus grand pour des résultats significatifs. A défaut, vous pouvez utiliser l'outil d'extraction de mot-clés.")
+
+            print("Loading required libraries...")
+            from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer
+            from sklearn.decomposition import NMF, LatentDirichletAllocation
+            from pathlib import Path
+            import numpy as np
+
+            # Loading stop words
+            stop_words_path = ROOT_FOLDER / os.path.join(app.config['UTILS_FOLDER'], "stop_words_fr.txt")
+            print(f"Loading stop words from {stop_words_path}")
+            try:
+                with open(stop_words_path, 'r', encoding="utf-8") as sw:
+                    stop_words_fr = sw.read().splitlines()
+            except Exception as e:
+                print(f"Error loading stop words: {e}")
+                return render_template('outils/topic_modelling.html', 
+                                    form=form, 
+                                    res=res, 
+                                    msg=f"Error loading stop words: {e}")
+            
+            # Form options
+            methods = request.form.getlist('modelling-method')
+            lemma_state = request.form.getlist('lemma-opt')
+
+            print(f"Selected methods: {methods}")
+            print(f"Lemmatization: {lemma_state}")
+
+            # Loading corpus
+            corpus = []
+            max_f = 0
+
+            # Single file processing
+            if len(uploaded_files) == 1:
+                print("Processing single file...")
+                sents = sentencizer(text)
+                chunks = [x.tolist() for x in np.array_split(sents, 3)]
+                total_tokens = set()
                 
-                # Compute corpus size
-                total_tokens.update(set(txt_part.split(' ')))
-            
-            # Number of topics when corpus xxs
-            no_topics = 2
-            
-        else:
-            total_tokens = set()
-            for f in uploaded_files:
-                text = f.read().decode("utf-8")
-                if lemma_state:
-                    text = spacy_lemmatizer(text)
+                for l in chunks:
+                    if lemma_state:
+                        txt_part = spacy_lemmatizer("\n".join(l))
+                    else:
+                        txt_part = "\n".join(l)
+                    
+                    corpus.append(txt_part)
+                    total_tokens.update(set(txt_part.split(' ')))
                 
-                corpus.append(text)
-
-                # Compute corpus size
-                total_tokens.update(set(text.split(' ')))
-
-                # Nb topics = nb fichiers
-                if len(uploaded_files) > 8:
-                    no_topics = 8
-                else:
-                    no_topics = len(uploaded_files)
+                no_topics = 2
                 
-        # Taille du corpus
-        max_f = len(total_tokens)
-        print("Nb types : ".format(max_f))
+            # Multiple files processing
+            else:
+                print(f"Processing {len(uploaded_files)} files...")
+                total_tokens = set()
+                for f in uploaded_files:
+                    text = f.read().decode("utf-8")
+                    if lemma_state:
+                        text = spacy_lemmatizer(text)
+                    
+                    corpus.append(text)
+                    total_tokens.update(set(text.split(' ')))
 
-        # Number of terms included in the bag of word matrix
-        no_features = int(max_f - (10 * max_f / 100))
-        
-        no_top_words = 5
+                no_topics = min(8, len(uploaded_files))
+                
+            # Corpus size
+            max_f = len(total_tokens)
+            print(f"Vocabulary size: {max_f}")
 
-        # Topic extraction
-        if 'nmf' in methods:
-            tfidf_vectorizer = TfidfVectorizer(max_df=0.95, min_df=1, max_features=no_features, stop_words=stop_words_fr)
-            tfidf = tfidf_vectorizer.fit_transform(corpus)
-            tfidf_feature_names = tfidf_vectorizer.get_feature_names_out()
+            # Matrix parameters
+            no_features = int(max_f - (10 * max_f / 100))
+            no_top_words = 5
 
-            # Parameter: nndsvda for less sparsity ; else nndsvd
-            nmf = NMF(n_components=no_topics, random_state=1, l1_ratio=.5, init='nndsvda').fit(tfidf)
+            print(f"Features: {no_features}, Topics: {no_topics}, Top words: {no_top_words}")
+
+            # Topic extraction
+            if 'nmf' in methods:
+                print("Running NMF...")
+                try:
+                    tfidf_vectorizer = TfidfVectorizer(
+                        max_df=0.95, 
+                        min_df=1, 
+                        max_features=no_features, 
+                        stop_words=stop_words_fr
+                    )
+                    tfidf = tfidf_vectorizer.fit_transform(corpus)
+                    tfidf_feature_names = tfidf_vectorizer.get_feature_names_out()
+
+                    nmf = NMF(
+                        n_components=no_topics, 
+                        random_state=1, 
+                        l1_ratio=.5, 
+                        init='nndsvda'
+                    ).fit(tfidf)
+                    
+                    res_nmf = display_topics(nmf, tfidf_feature_names, no_top_words)
+                    res['nmf'] = res_nmf
+                except Exception as e:
+                    print(f"NMF error: {e}")
+                    msg += f"NMF processing error: {e}\n"
+
+            if 'lda' in methods:
+                print("Running LDA...")
+                try:
+                    tf_vectorizer = CountVectorizer(
+                        max_df=0.95, 
+                        min_df=1, 
+                        max_features=no_features, 
+                        stop_words=stop_words_fr
+                    )
+                    tf = tf_vectorizer.fit_transform(corpus)
+                    tf_feature_names = tf_vectorizer.get_feature_names_out()
+
+                    lda = LatentDirichletAllocation(
+                        n_components=no_topics, 
+                        max_iter=5, 
+                        learning_method='online', 
+                        learning_offset=50.,
+                        random_state=0
+                    ).fit(tf)
+                    
+                    res_lda = display_topics(lda, tf_feature_names, no_top_words)
+                    res['lda'] = res_lda
+                except Exception as e:
+                    print(f"LDA error: {e}")
+                    msg += f"LDA processing error: {e}\n"
             
-            res_nmf = display_topics(nmf, tfidf_feature_names, no_top_words)
-            res['nmf'] = res_nmf
+            print(f"Final results: {res}")
+            return render_template('outils/topic_modelling.html', 
+                                form=form, 
+                                res=res, 
+                                msg=msg)
 
+        except Exception as e:
+            print(f"General error in topic extraction: {e}")
+            return render_template('outils/topic_modelling.html', 
+                                form=form, 
+                                res={}, 
+                                msg=f"Error processing request: {e}")
 
-        if 'lda' in methods:
-            tf_vectorizer = CountVectorizer(max_df=0.95, min_df=1, max_features=no_features, stop_words=stop_words_fr)
-            tf = tf_vectorizer.fit_transform(corpus)
-            tf_feature_names = tf_vectorizer.get_feature_names_out()
-
-            lda = LatentDirichletAllocation(n_components=no_topics, max_iter=5, learning_method='online', learning_offset=50.,random_state=0).fit(tf)
-            
-            res_lda = display_topics(lda, tf_feature_names, no_top_words)
-            res['lda'] = res_lda
-        
-        return Response(response=render_template('topic_modelling.html', form=form, res=res, msg=msg))
-
-    return render_template('topic_modelling.html', form=form, res=res, msg=msg)
+    return render_template('outils/topic_modelling.html', 
+                         form=form, 
+                         res=res, 
+                         msg=msg)
 
 
 #-------------- Quotation Extraction -------------------------
+
 @app.route('/quotation', methods=['POST'])
 def quotation():
     if 'files' not in request.files:
@@ -1209,8 +1320,17 @@ def quotation():
         try:
             input_text = f.read().decode('utf-8')
             filename, file_extension = os.path.splitext(f.filename)
-            rgx = r'"(.*?)"'
-            quotations = re.findall(rgx, input_text)
+
+            patterns = [
+                r'"(.*?)"',           # Double quotes
+                r'«\s*(.*?)\s*»'      # French quotes with optional spaces
+            ]
+            
+            quotations = []
+            for pattern in patterns:
+                quotes = re.findall(pattern, input_text)
+                quotations.extend(quotes)
+
             output_name = filename + '.txt'
             with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
                 out.write("The quotes of the text are:\n")
@@ -1447,107 +1567,115 @@ def analyze_statistic():
 
 
 #--------------- Analyse lexicale --------------------------
+
 @app.route('/analyze_lexicale', methods=['POST'])
 def analyze_lexicale():
-    if 'files' not in request.files:
-        response = {"error": "No files part"}
-        return Response(json.dumps(response), status=400, mimetype='application/json')
+    try:
+        # Check if files are present in the request
+        if 'files' not in request.files:
+            return Response(json.dumps({"error": "No files part"}), status=400, mimetype='application/json')
 
-    files = request.files.getlist('files')
-    if not files or all(file.filename == '' for file in files):
-        response = {"error": "No selected files"}
-        return Response(json.dumps(response), status=400, mimetype='application/json')
+        files = request.files.getlist('files')
+        if not files or all(file.filename == '' for file in files):
+            return Response(json.dumps({"error": "No selected files"}), status=400, mimetype='application/json')
 
-    analysis_type = request.form['analysis_type']
+        # Validate analysis type
+        analysis_type = request.form.get('analysis_type')
+        if not analysis_type:
+            return Response(json.dumps({"error": "Analysis type not specified"}), status=400, mimetype='application/json')
 
-    words_to_analyze = str(request.form.get('words_to_analyze'))
+        # Validate words_to_analyze if required
+        words_to_analyze = request.form.get('words_to_analyze', '').strip()
+        if analysis_type == 'lexical_dispersion' and not words_to_analyze:
+            return Response(json.dumps({"error": "Words to analyze not specified"}), status=400, mimetype='application/json')
 
-    rand_name = 'lexicale_' + ''.join(random.choice(string.ascii_lowercase) for x in range(5))
-    result_path = os.path.join(os.getcwd(), rand_name)
-    os.makedirs(result_path, exist_ok=True)
+        # Prepare a directory to store results
+        rand_name = 'lexicale_' + ''.join(random.choice(string.ascii_lowercase) for _ in range(5))
+        result_path = os.path.join(os.getcwd(), rand_name)
+        os.makedirs(result_path, exist_ok=True)
 
-    for f in files:
-        try:
-            input_text = f.read().decode('utf-8')
-            tokens = word_tokenize(input_text)
-            unique_words = set(tokens)
-            number_unique_words = len(unique_words)
-            total_number_words = len(tokens)
-            TTR = number_unique_words / total_number_words
-            filename, file_extension = os.path.splitext(f.filename)
+        for f in files:
+            try:
+                input_text = f.read().decode('utf-8')
+                tokens = word_tokenize(input_text)
+                unique_words = set(tokens)
+                total_number_words = len(tokens)
+                TTR = len(unique_words) / total_number_words if total_number_words > 0 else 0
+                filename, file_extension = os.path.splitext(f.filename)
 
-            if analysis_type == 'lexical_dispersion':
-                text_nltk = Text(tokens) 
-                fig = plt.figure(figsize=(10, 6)) 
-                text_nltk.dispersion_plot(words_to_analyze) 
-                # Personnalisation du plot 
-                plt.xlabel('Word Offset') 
-                plt.ylabel('Frequency') 
-                plt.title('Lexical Dispersion Plot') 
-                plt.tight_layout() 
-                # Sauvegarder la visualisation dans un fichier 
-                vis_name = filename + '_dispersion_plot.png' 
-                vis_path = os.path.join(result_path, vis_name) 
-                plt.savefig(vis_path, format='png') 
-                plt.close()
-            elif analysis_type == 'lexical_diversity':
-                #Sortie
-                output_name = filename + '_diversity.txt'
-                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-                    out.write("The lexical richness of the text is:" + str(round(TTR, 2)))
+                # Perform analysis based on analysis_type
+                if analysis_type == 'lexical_dispersion':
+                    words_list = [word.strip() for word in words_to_analyze.split(',')]
+                    text_nltk = Text(tokens)
 
-                #Visualisation
-                labels = ['Total Words', 'Unique Words']
-                values = [total_number_words, number_unique_words]
+                    # Plot dispersion
+                    plt.figure(figsize=(10, 6))
+                    text_nltk.dispersion_plot(words_list)
+                    plt.xlabel('Word Offset')
+                    plt.ylabel('Frequency')
+                    plt.title('Lexical Dispersion Plot')
+                    plt.tight_layout()
+                    vis_name = f"{filename}_dispersion_plot.png"
+                    plt.savefig(os.path.join(result_path, vis_name), format='png')
+                    plt.close()
 
-                # Création du graphique à barres
-                fig, ax = plt.subplots()
-                plt.bar(labels, values, color=['blue', 'green'])
-                plt.ylabel('Count')
-                plt.title('Total Words vs Unique Words')
-                plt.text(0.5, max(values)/2, f'TTR: {round(TTR, 2)}', horizontalalignment='center', verticalalignment='center', fontsize=12, color='red')
+                elif analysis_type == 'lexical_diversity':
+                    # Write lexical diversity to a text file
+                    output_name = f"{filename}_diversity.txt"
+                    with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
+                        out.write(f"The lexical richness of the text is: {round(TTR, 2)}")
 
-                # Sauvegarder la visualisation dans un fichier
-                vis_name = 'words_comparison.png'
-                vis_path = os.path.join(result_path, vis_name)
-                plt.savefig(vis_path, format='png')
-                plt.close()
-            elif analysis_type == 'lexical_relationships':
-                output_name = filename + '_relationships.txt'
-                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-                    out.write(f"Detected languages:\n{detected_languages_str}\n")
-            elif analysis_type == 'lexical_specificity':
-                # Dependency parsing
-                doc = nlp_eng(input_text)
-                syntax_info = "\n".join([f"{token.text} ({token.pos_}) <--{token.dep_} ({spacy.explain(token.dep_)})-- {token.head.text} ({token.head.pos_})" for token in doc])
-                output_name_text = filename + '_specifity.txt'
-                with open(os.path.join(result_path, output_name_text), 'w', encoding='utf-8') as out:
-                    out.write(syntax_info)
+                    # Visualize total vs unique words
+                    labels = ['Total Words', 'Unique Words']
+                    values = [total_number_words, len(unique_words)]
+                    plt.bar(labels, values, color=['blue', 'green'])
+                    plt.ylabel('Count')
+                    plt.title('Total Words vs Unique Words')
+                    plt.text(0.5, max(values) / 2, f'TTR: {round(TTR, 2)}',
+                             horizontalalignment='center', fontsize=12, color='red')
+                    vis_name = f"{filename}_words_comparison.png"
+                    plt.savefig(os.path.join(result_path, vis_name), format='png')
+                    plt.close()
 
-                # Visualization with displacy
-                svg = displacy.render(doc, style='dep', jupyter=False)
-                output_name_svg = filename + '_specifity.svg'
-                with open(os.path.join(result_path, output_name_svg), 'w', encoding='utf-8') as out:
-                    out.write(svg)
-        finally:
-            f.close()
+                elif analysis_type == 'lexical_relationships':
+                    output_name = f"{filename}_relationships.txt"
+                    detected_languages_str = "English (example)"
+                    with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
+                        out.write(f"Detected languages:\n{detected_languages_str}\n")
 
-    if len(os.listdir(result_path)) > 0:
-        shutil.make_archive(result_path, 'zip', result_path)
-        output_stream = BytesIO()
-        with open(str(result_path) + '.zip', 'rb') as res:
-            content = res.read()
-        output_stream.write(content)
-        response = Response(output_stream.getvalue(), mimetype='application/zip',
-                            headers={"Content-disposition": "attachment; filename=" + rand_name + '.zip'})
-        output_stream.seek(0)
-        output_stream.truncate(0)
-        shutil.rmtree(result_path)
-        os.remove(str(result_path) + '.zip')
-        return response
+                elif analysis_type == 'lexical_specificity':
+                    # Parse syntax using SpaCy
+                    doc = nlp_eng(input_text)
+                    syntax_info = "\n".join(
+                        [f"{token.text} ({token.pos_}) <--{token.dep_}-- {token.head.text} ({token.head.pos_})" for token in doc]
+                    )
+                    output_name_text = f"{filename}_specificity.txt"
+                    with open(os.path.join(result_path, output_name_text), 'w', encoding='utf-8') as out:
+                        out.write(syntax_info)
 
-    return Response(json.dumps({"error": "Une erreur est survenue dans le traitement des fichiers."}), status=500, mimetype='application/json')
+                    # Generate dependency parse visualization
+                    svg = displacy.render(doc, style='dep', jupyter=False)
+                    output_name_svg = f"{filename}_specificity.svg"
+                    with open(os.path.join(result_path, output_name_svg), 'w', encoding='utf-8') as out:
+                        out.write(svg)
+            finally:
+                f.close()
 
+        # Prepare response as a ZIP file
+        if os.listdir(result_path):
+            shutil.make_archive(result_path, 'zip', result_path)
+            output_stream = BytesIO()
+            with open(f"{result_path}.zip", 'rb') as res:
+                output_stream.write(res.read())
+            shutil.rmtree(result_path)
+            os.remove(f"{result_path}.zip")
+            return Response(output_stream.getvalue(), mimetype='application/zip',
+                            headers={"Content-Disposition": f"attachment; filename={rand_name}.zip"})
+
+        return Response(json.dumps({"error": "Error processing files."}), status=500, mimetype='application/json')
+
+    except Exception as e:
+        return Response(json.dumps({"error": str(e)}), status=500, mimetype='application/json')
 
 #--------------- Analyse de texte --------------------------
 
@@ -2562,4 +2690,5 @@ def get_file(filename):
     return send_from_directory(ROOT_FOLDER / app.config['UPLOAD_FOLDER'], filename, as_attachment=True)
 
 if __name__ == "__main__":
-    app.run()
+    print("Starting Pandore Toolbox...")
+    app.run(host='0.0.0.0', port=5000, debug=False, use_reloader=False)
