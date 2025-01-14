@@ -1,5 +1,15 @@
 FROM nvidia/cuda:11.8.0-cudnn8-runtime-ubuntu22.04
 
+# Install NVIDIA Container Toolkit
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    nvidia-container-toolkit \
+    && rm -rf /var/lib/apt/lists/*
+
+# Set environment variables for NVIDIA
+ENV NVIDIA_VISIBLE_DEVICES all
+ENV NVIDIA_DRIVER_CAPABILITIES=compute,utility,graphics
+
+
 WORKDIR /pandore_app
 ADD . /pandore_app
 
@@ -45,6 +55,10 @@ ENV LANGUAGE fr_FR.UTF-8
 ENV LC_ALL fr_FR.UTF-8
 ENV TESSDATA_PREFIX=/pandore_app/static/models/tessdata
 
+ENV PYTHONUNBUFFERED=1
+ENV FLASK_APP=toolbox_app.py
+ENV FLASK_ENV=production
+
 # Install Miniconda
 RUN wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O Miniconda.sh && \
     /bin/bash Miniconda.sh -b -p /opt/conda && \
@@ -73,6 +87,8 @@ ENV PATH=/home/pandore/.local/bin:$PATH
 RUN pip install -U pip setuptools wheel
 RUN pip install docopt==0.6.2
 
+RUN pip install --no-cache-dir pip==23.0.1
+
 # Core requirements
 RUN pip install -r requirements.txt
 
@@ -87,6 +103,8 @@ RUN python -m nltk.downloader punkt averaged_perceptron_tagger maxent_ne_chunker
 # Install wordcloud
 RUN pip install wordcloud
 
+RUN pip install --upgrade numexpr>=2.8.4 bottleneck>=1.3.6
+
 # Install spaCy models
 RUN python -m spacy download en_core_web_sm
 RUN python -m spacy download en_core_web_md
@@ -95,7 +113,12 @@ RUN python -m spacy download fr_core_news_sm
 RUN python -m spacy download fr_core_news_md
 RUN python -m spacy download fr_core_news_lg
 
-
 EXPOSE 5000
+
+# Add these volume configurations
+VOLUME ["/pandore_app/uploads", "/pandore_app/static/models"]
+
+# Update the ENTRYPOINT to handle signals properly
+#ENTRYPOINT ["conda", "run", "--no-capture-output", "-n", "toolbox-env", "python", "-u", "toolbox_app.py"]
 
 ENTRYPOINT ["conda", "run", "--no-capture-output", "-n", "toolbox-env", "python", "toolbox_app.py"]
