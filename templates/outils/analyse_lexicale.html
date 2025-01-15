@@ -29,12 +29,16 @@
         {{ form.csrf_token }}
         <br>
         <div class="centered-input-div" id="words_to_analyze" style="display: none;">
-            <label for="words_to_analyze">Mots à analyser :</label>
+            <label for="words_to_analyze">Mots à analyser (à séparer par un ";" sans espace d'un côté ou l'autre du signe) :</label>
             <input type="text" id="words_to_analyze" name="words_to_analyze" multiple required><br>
         </div>
-        <div class="dropzone" style="margin:25px auto;">
+        <div class="centered-input-div" id="word" style="display: none;">
+            <label for="word">Mot à analyser :</label>
+            <input type="text" id="word" name="word" required><br>
+        </div>
+        <div class="dropzone" id="dropzone" for="dropzone" style="margin:25px auto;">
             <input type="file" id="files" name="files" accept="text/plain" multiple required>
-            <p id="form_msg">Déposer le(s) fichier(s) ou cliquer ici.</p>
+            <p id="form_msg" style="margin:25px auto;">Déposer le(s) fichier(s) ou cliquer ici.</p>
         </div>
         <input id="csrf_token" name="csrf_token" type="hidden" value="{{ csrf_token() }}">
         <button style="display:block;margin:auto;margin-top:20px;">Télécharger les fichiers</button>
@@ -69,10 +73,20 @@ $('form input').change(function () {
         function toggleNgramFields() {
             var analysisType = document.getElementById("analysis_type").value;
             var words_to_analyze = document.getElementById("words_to_analyze");
+            var word = document.getElementById("word");
+            var dropzone = document.getElementById("dropzone");
             if (analysisType === "lexical_dispersion") {
                 words_to_analyze.style.display = "block";
+                word.style.display = "none";
+                dropzone.style.display = "block"
+            } else if (analysisType === "lexical_relationships") {
+                words_to_analyze.style.display = "none";
+                word.style.display = "block";
+                dropzone.style.display = "none"
             } else {
                 words_to_analyze.style.display = "none";
+                word.style.display = "none";
+                dropzone.style.display = "block"
             }
         }
 

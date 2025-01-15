@@ -45,6 +45,9 @@ import collections
 #nltk.download('stopwords')
 #nltk.download('punkt')
 
+nltk.download('wordnet')
+from nltk.corpus import wordnet
+
 nlp_eng = spacy.load('en_core_web_sm')
 
 import pandas as pd
@@ -1590,6 +1593,9 @@ def analyze_lexicale():
     analysis_type = request.form['analysis_type']
 
     words_to_analyze = str(request.form.get('words_to_analyze'))
+    words_list = words_to_analyze.split(';')
+    word = str(request.form.get('word'))
+
 
     rand_name = 'lexicale_' + ''.join(random.choice(string.ascii_lowercase) for x in range(5))
     result_path = os.path.join(os.getcwd(), rand_name)
@@ -1608,7 +1614,7 @@ def analyze_lexicale():
             if analysis_type == 'lexical_dispersion':
                 text_nltk = Text(tokens) 
                 fig = plt.figure(figsize=(10, 6)) 
-                text_nltk.dispersion_plot(words_to_analyze) 
+                text_nltk.dispersion_plot(words_list) 
                 # Personnalisation du plot 
                 plt.xlabel('Word Offset') 
                 plt.ylabel('Frequency') 
@@ -1642,9 +1648,20 @@ def analyze_lexicale():
                 plt.savefig(vis_path, format='png')
                 plt.close()
             elif analysis_type == 'lexical_relationships':
+                synonyms, antonyms, hyponyms, hypernyms = set(), set(), set(), set()
+                for syn in wordnet.synsets(word):
+                    for lemma in syn.lemmas():
+                        synonyms.add(lemma.name())  # Add synonyms
+                        if lemma.antonyms():
+                            antonyms.add(lemma.antonyms()[0].name())  # Add antonyms
+
+                    for hypo in syn.hyponyms():
+                        hyponyms.update(lemma.name() for lemma in hypo.lemmas())  # Add hyponyms
+                    for hyper in syn.hypernyms():
+                        hypernyms.update(lemma.name() for lemma in hyper.lemmas())  # Add hypernyms
                 output_name = filename + '_relationships.txt'
                 with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-                    out.write(f"Detected languages:\n{detected_languages_str}\n")
+                    out.write("Synonyms: " + str(list(synonyms)) + "\nAntonyms: " + str(list(antonyms)) + "\nHyponyms: " + str(list(hyponyms)) + "\nHypernyms:" + str(list(hypernyms)))
             elif analysis_type == 'lexical_specificity':
                 # Dependency parsing
                 doc = nlp_eng(input_text)
