@@ -1762,7 +1762,7 @@ def analyze_text():
 #---------------------------------------------------------
 # Visualisation
 #---------------------------------------------------------
-
+"""
 @app.route("/run_renard",  methods=["GET", "POST"])
 @stream_with_context
 def run_renard():
@@ -1884,7 +1884,7 @@ def run_renard():
                                 error=f"Pipeline error: {str(e)}")
 
     return render_template('outils/renard.html', form=form, graph="", fname="")
-
+"""
 #-----------------------------------------------------------------
 # Extraction de corpus
 #-----------------------------------------------------------------
