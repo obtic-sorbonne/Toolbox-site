@@ -30,18 +30,12 @@
         </div>
         {{ form.csrf_token }}
         <br>
-        <div class="centered-input-div" id="ngram-fields" style="display: none;">
-            <label for="n">Longueur des n-grams :</label>
-            <input type="number" id="n" name="n" min="1" value="2"><br>
-            <label for="r">Nombre de n-grams à afficher :</label>
-            <input type="number" id="r" name="r" min="1" value="5"><br>
-        </div>
         <div class="dropzone" style="margin:25px auto;">
             <input type="file" id="files" name="files" accept="text/plain" multiple required>
             <p id="form_msg">Déposer le(s) fichier(s) ou cliquer ici.</p>
         </div>
         <input id="csrf_token" name="csrf_token" type="hidden" value="{{ csrf_token() }}">
-        <button style="display:block;margin:auto;margin-top:20px;">Télécharger les fichiers</button>
+        <button style="display:block;margin:auto;margin-top:20px;">Lancer l'analyse</button>
     </form>
     {% if msg != "" %}
     <div> <p>{{ msg }}</p></div>

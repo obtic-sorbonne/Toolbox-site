@@ -39,7 +39,8 @@ import shutil
 from pathlib import Path
 import json
 import collections
-#from transformers import pipeline
+from transformers import pipeline
+import textstat
 #from txt_ner import txt_ner_params
 
 #nltk.download('punkt_tab')
@@ -1730,8 +1731,8 @@ def analyze_text():
 
     analysis_type = request.form['analysis_type']
 
-    n = int(request.form.get('n', 2))  # Default n-gram length to 2 if not provided
-    r = int(request.form.get('r', 5)) 
+    classifier1 = pipeline('text-classification', model='GroNLP/mdebertav3-subjectivity-multilingual')
+    classifier2 = pipeline("sentiment-analysis", model="nlptown/bert-base-multilingual-uncased-sentiment")
 
     rand_name = 'textanalysis_' + ''.join(random.choice(string.ascii_lowercase) for x in range(5))
     result_path = os.path.join(os.getcwd(), rand_name)
@@ -1743,25 +1744,28 @@ def analyze_text():
             filename, file_extension = os.path.splitext(f.filename)
 
             if analysis_type == 'subjectivity_detection':
+                result = classifier1(input_text)[0]
+                label = "objective" if result['label'] == "LABEL_0" else "subjective"
                 output_name = filename + '_subjectivity_detection.txt'
                 with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-                    out.write("The hapaxes are: " + ", ".join(hapaxes_list))
+                    out.write(f"The sentence: [{input_text}] is {label} (Score: {result['score']:.2f})")
             elif analysis_type == 'sentiment_analysis':
-                most_frequent_ngrams = generate_ngrams(input_text, n, r)
+                results = classifier2(input_text)
+                star_rating = int(results[0]['label'].split()[0])
+                sentiment = "negative" if star_rating in [1, 2] else "neutral" if star_rating == 3 else "positive"
                 output_name = filename + '_sentiment_analysis.txt'
                 with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-                    for n_gram, count in most_frequent_ngrams:
-                        out.write(f"{n}-gram: {' '.join(n_gram)} --> Count: {count}\n")
+                    out.write(f"Sentence: {input_text}\n Star Rating: {star_rating} \n Sentiment: {sentiment} \n Score: {results[0]['score']:.2f}")
             elif analysis_type == 'emotion_analysis':
-                most_frequent_ngrams = generate_ngrams(input_text, n, r)
+                flesch_reading_ease = textstat.flesch_reading_ease(input_text)
                 output_name = filename + '_emotion_analysis.txt'
                 with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-                    for n_gram, count in most_frequent_ngrams:
-                        out.write(f"{n}-gram: {' '.join(n_gram)} --> Count: {count}\n")
+                    out.write(f"Flesch Reading Ease Score: {flesch_reading_ease}")
             elif analysis_type == 'readibility_scoring':
+                flesch_reading_ease = textstat.flesch_reading_ease(input_text)
                 output_name = filename + '_readibility_scoring.txt'
                 with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-                    out.write(f"Detected languages:\n{detected_languages_str}\n")
+                    out.write(f"Flesch Reading Ease Score: {flesch_reading_ease}")
             elif analysis_type == 'comparison':
                 # Dependency parsing
                 doc = nlp_eng(input_text)
