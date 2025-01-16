@@ -29,19 +29,23 @@
         {{ form.csrf_token }}
         <br>
         <div class="centered-input-div" id="words_to_analyze" style="display: none;">
-            <label for="words_to_analyze">Mots à analyser (à séparer par un ";" sans espace d'un côté ou l'autre du signe) :</label>
+            <label for="words_to_analyze">Mots à analyser (séparation : ";") :</label>
             <input type="text" id="words_to_analyze" name="words_to_analyze" multiple required><br>
         </div>
         <div class="centered-input-div" id="word" style="display: none;">
             <label for="word">Mot à analyser :</label>
             <input type="text" id="word" name="word" required><br>
         </div>
-        <div class="dropzone" id="dropzone" for="dropzone" style="margin:25px auto;">
-            <input type="file" id="files" name="files" accept="text/plain" multiple required>
-            <p id="form_msg" style="margin:25px auto;">Déposer le(s) fichier(s) ou cliquer ici.</p>
+        <div class="centered-input-div" id="words_list" style="display: none;">
+            <label for="words_list">Mot à analyser :</label>
+            <input type="text" id="words_list" name="words_list" multiple required><br>
+        </div>
+        <div class="dropzone" style="margin:25px auto;">
+            <input type="file" id="files" name="files" accept="text/plain" multiple>
+            <p id="form_msg">Déposer le(s) fichier(s) ou cliquer ici.</p>
         </div>
         <input id="csrf_token" name="csrf_token" type="hidden" value="{{ csrf_token() }}">
-        <button style="display:block;margin:auto;margin-top:20px;">Télécharger les fichiers</button>
+        <button style="display:block;margin:auto;margin-top:20px;">Lancer l'analyse</button>
     </form>
     {% if msg != "" %}
     <div> <p>{{ msg }}</p></div>
@@ -74,19 +78,23 @@ $('form input').change(function () {
             var analysisType = document.getElementById("analysis_type").value;
             var words_to_analyze = document.getElementById("words_to_analyze");
             var word = document.getElementById("word");
-            var dropzone = document.getElementById("dropzone");
+            var words_list = document.getElementById("words_list");
             if (analysisType === "lexical_dispersion") {
                 words_to_analyze.style.display = "block";
                 word.style.display = "none";
-                dropzone.style.display = "block"
+                words_list.style.display = "none";
             } else if (analysisType === "lexical_relationships") {
                 words_to_analyze.style.display = "none";
                 word.style.display = "block";
-                dropzone.style.display = "none"
+                words_list.style.display = "none";
+            } else if (analysisType === "lexical_specificity") {
+                words_to_analyze.style.display = "none";
+                word.style.display = "none";
+                words_list.style.display = "block";
             } else {
                 words_to_analyze.style.display = "none";
                 word.style.display = "none";
-                dropzone.style.display = "block"
+                words_list.style.display = "none";
             }
         }
 

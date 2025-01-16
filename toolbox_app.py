@@ -10,6 +10,7 @@ from flask_wtf.csrf import CSRFProtect
 from flask_babel import Babel, get_locale
 from langdetect import detect_langs
 import matplotlib.pyplot as plt
+import math
 import nltk
 from nltk.tokenize import sent_tokenize, word_tokenize
 from nltk import sent_tokenize
@@ -46,7 +47,10 @@ import collections
 #nltk.download('punkt')
 
 nltk.download('wordnet')
+nltk.download('omw-1.4')
 from nltk.corpus import wordnet
+
+stop_words = set(stopwords.words('english'))
 
 nlp_eng = spacy.load('en_core_web_sm')
 
@@ -1593,8 +1597,9 @@ def analyze_lexicale():
     analysis_type = request.form['analysis_type']
 
     words_to_analyze = str(request.form.get('words_to_analyze'))
-    words_list = words_to_analyze.split(';')
+    analyzed_words = words_to_analyze.split(';')
     word = str(request.form.get('word'))
+    words_list = str(request.form.get('words_list'))
 
 
     rand_name = 'lexicale_' + ''.join(random.choice(string.ascii_lowercase) for x in range(5))
@@ -1614,7 +1619,7 @@ def analyze_lexicale():
             if analysis_type == 'lexical_dispersion':
                 text_nltk = Text(tokens) 
                 fig = plt.figure(figsize=(10, 6)) 
-                text_nltk.dispersion_plot(words_list) 
+                text_nltk.dispersion_plot(analyzed_words) 
                 # Personnalisation du plot 
                 plt.xlabel('Word Offset') 
                 plt.ylabel('Frequency') 
@@ -1663,18 +1668,32 @@ def analyze_lexicale():
                 with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
                     out.write("Synonyms: " + str(list(synonyms)) + "\nAntonyms: " + str(list(antonyms)) + "\nHyponyms: " + str(list(hyponyms)) + "\nHypernyms:" + str(list(hypernyms)))
             elif analysis_type == 'lexical_specificity':
-                # Dependency parsing
-                doc = nlp_eng(input_text)
-                syntax_info = "\n".join([f"{token.text} ({token.pos_}) <--{token.dep_} ({spacy.explain(token.dep_)})-- {token.head.text} ({token.head.pos_})" for token in doc])
-                output_name_text = filename + '_specifity.txt'
-                with open(os.path.join(result_path, output_name_text), 'w', encoding='utf-8') as out:
-                    out.write(syntax_info)
+                text_without_stopwords = [word for word in words_list.lower().split() if word not in stop_words]
 
-                # Visualization with displacy
-                svg = displacy.render(doc, style='dep', jupyter=False)
-                output_name_svg = filename + '_specifity.svg'
-                with open(os.path.join(result_path, output_name_svg), 'w', encoding='utf-8') as out:
-                    out.write(svg)
+                tf = Counter(text_without_stopwords)
+                total_words = len(text_without_stopwords)
+                tf = {word: count / total_words for word, count in tf.items()}
+                word_doc_counts = {word: sum(1 for doc in input_text if word in doc.lower().split()) for word in tf}
+                idf = {word: math.log(len(input_text) / max(count, 1)) for word, count in word_doc_counts.items()}
+                tf_idf = {word: tf[word] * idf[word] for word in tf}
+                sorted_tf_idf = sorted(tf_idf.items(), key=lambda item: item[1], reverse=True)
+
+                #Sortie
+                output_name = filename + '_specifity.txt'
+                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
+                    out.write("Results: " + str(sorted_tf_idf))
+
+                # Visualization
+                words, scores = zip(*sorted_tf_idf)
+                plt.figure(figsize=(10, 6))
+                plt.bar(words, scores, color='grey')
+                plt.xlabel('Words')
+                plt.ylabel('TF-IDF Score')
+                plt.title('TF-IDF Scores for Words in Text')
+                vis_name = filename + '_specifity.png'
+                vis_path = os.path.join(result_path, vis_name)
+                plt.savefig(vis_path, format='png')
+                plt.close()
         finally:
             f.close()
 
