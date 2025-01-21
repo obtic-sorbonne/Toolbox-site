@@ -10,6 +10,7 @@ from flask_wtf.csrf import CSRFProtect
 from flask_babel import Babel, get_locale
 from langdetect import detect_langs
 import matplotlib.pyplot as plt
+import math
 import nltk
 from nltk.tokenize import sent_tokenize, word_tokenize
 from nltk import sent_tokenize
@@ -39,11 +40,18 @@ from pathlib import Path
 import json
 import collections
 #from transformers import pipeline
+import textstat
 #from txt_ner import txt_ner_params
 
 #nltk.download('punkt_tab')
 #nltk.download('stopwords')
 #nltk.download('punkt')
+
+#nltk.download('wordnet')
+#nltk.download('omw-1.4')
+from nltk.corpus import wordnet
+
+stop_words = set(stopwords.words('english'))
 
 nlp_eng = spacy.load('en_core_web_sm')
 
@@ -1696,6 +1704,10 @@ def analyze_lexicale():
     analysis_type = request.form['analysis_type']
 
     words_to_analyze = str(request.form.get('words_to_analyze'))
+    analyzed_words = words_to_analyze.split(';')
+    word = str(request.form.get('word'))
+    words_list = str(request.form.get('words_list'))
+
 
     rand_name = 'lexicale_' + ''.join(random.choice(string.ascii_lowercase) for x in range(5))
     result_path = os.path.join(os.getcwd(), rand_name)
@@ -1714,7 +1726,7 @@ def analyze_lexicale():
             if analysis_type == 'lexical_dispersion':
                 text_nltk = Text(tokens) 
                 fig = plt.figure(figsize=(10, 6)) 
-                text_nltk.dispersion_plot(words_to_analyze) 
+                text_nltk.dispersion_plot(analyzed_words) 
                 # Personnalisation du plot 
                 plt.xlabel('Word Offset') 
                 plt.ylabel('Frequency') 
@@ -1748,22 +1760,47 @@ def analyze_lexicale():
                 plt.savefig(vis_path, format='png')
                 plt.close()
             elif analysis_type == 'lexical_relationships':
+                synonyms, antonyms, hyponyms, hypernyms = set(), set(), set(), set()
+                for syn in wordnet.synsets(word):
+                    for lemma in syn.lemmas():
+                        synonyms.add(lemma.name())  # Add synonyms
+                        if lemma.antonyms():
+                            antonyms.add(lemma.antonyms()[0].name())  # Add antonyms
+
+                    for hypo in syn.hyponyms():
+                        hyponyms.update(lemma.name() for lemma in hypo.lemmas())  # Add hyponyms
+                    for hyper in syn.hypernyms():
+                        hypernyms.update(lemma.name() for lemma in hyper.lemmas())  # Add hypernyms
                 output_name = filename + '_relationships.txt'
                 with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-                    out.write(f"Detected languages:\n{detected_languages_str}\n")
+                    out.write("Synonyms: " + str(list(synonyms)) + "\nAntonyms: " + str(list(antonyms)) + "\nHyponyms: " + str(list(hyponyms)) + "\nHypernyms:" + str(list(hypernyms)))
             elif analysis_type == 'lexical_specificity':
-                # Dependency parsing
-                doc = nlp_eng(input_text)
-                syntax_info = "\n".join([f"{token.text} ({token.pos_}) <--{token.dep_} ({spacy.explain(token.dep_)})-- {token.head.text} ({token.head.pos_})" for token in doc])
-                output_name_text = filename + '_specifity.txt'
-                with open(os.path.join(result_path, output_name_text), 'w', encoding='utf-8') as out:
-                    out.write(syntax_info)
+                text_without_stopwords = [word for word in words_list.lower().split() if word not in stop_words]
 
-                # Visualization with displacy
-                svg = displacy.render(doc, style='dep', jupyter=False)
-                output_name_svg = filename + '_specifity.svg'
-                with open(os.path.join(result_path, output_name_svg), 'w', encoding='utf-8') as out:
-                    out.write(svg)
+                tf = Counter(text_without_stopwords)
+                total_words = len(text_without_stopwords)
+                tf = {word: count / total_words for word, count in tf.items()}
+                word_doc_counts = {word: sum(1 for doc in input_text if word in doc.lower().split()) for word in tf}
+                idf = {word: math.log(len(input_text) / max(count, 1)) for word, count in word_doc_counts.items()}
+                tf_idf = {word: tf[word] * idf[word] for word in tf}
+                sorted_tf_idf = sorted(tf_idf.items(), key=lambda item: item[1], reverse=True)
+
+                #Sortie
+                output_name = filename + '_specifity.txt'
+                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
+                    out.write("Results: " + str(sorted_tf_idf))
+
+                # Visualization
+                words, scores = zip(*sorted_tf_idf)
+                plt.figure(figsize=(10, 6))
+                plt.bar(words, scores, color='grey')
+                plt.xlabel('Words')
+                plt.ylabel('TF-IDF Score')
+                plt.title('TF-IDF Scores for Words in Text')
+                vis_name = filename + '_specifity.png'
+                vis_path = os.path.join(result_path, vis_name)
+                plt.savefig(vis_path, format='png')
+                plt.close()
         finally:
             f.close()
 
@@ -1786,7 +1823,7 @@ def analyze_lexicale():
 
 
 #--------------- Analyse de texte --------------------------
-
+"""
 @app.route('/analyze_text', methods=['POST'])
 def analyze_text():
     if 'files' not in request.files:
@@ -1800,8 +1837,8 @@ def analyze_text():
 
     analysis_type = request.form['analysis_type']
 
-    n = int(request.form.get('n', 2))  # Default n-gram length to 2 if not provided
-    r = int(request.form.get('r', 5)) 
+    classifier1 = pipeline('text-classification', model='GroNLP/mdebertav3-subjectivity-multilingual')
+    classifier2 = pipeline("sentiment-analysis", model="nlptown/bert-base-multilingual-uncased-sentiment")
 
     rand_name = 'textanalysis_' + ''.join(random.choice(string.ascii_lowercase) for x in range(5))
     result_path = os.path.join(os.getcwd(), rand_name)
@@ -1813,25 +1850,28 @@ def analyze_text():
             filename, file_extension = os.path.splitext(f.filename)
 
             if analysis_type == 'subjectivity_detection':
+                result = classifier1(input_text)[0]
+                label = "objective" if result['label'] == "LABEL_0" else "subjective"
                 output_name = filename + '_subjectivity_detection.txt'
                 with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-                    out.write("The hapaxes are: " + ", ".join(hapaxes_list))
+                    out.write(f"The sentence: [{input_text}] is {label} (Score: {result['score']:.2f})")
             elif analysis_type == 'sentiment_analysis':
-                most_frequent_ngrams = generate_ngrams(input_text, n, r)
+                results = classifier2(input_text)
+                star_rating = int(results[0]['label'].split()[0])
+                sentiment = "negative" if star_rating in [1, 2] else "neutral" if star_rating == 3 else "positive"
                 output_name = filename + '_sentiment_analysis.txt'
                 with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-                    for n_gram, count in most_frequent_ngrams:
-                        out.write(f"{n}-gram: {' '.join(n_gram)} --> Count: {count}\n")
+                    out.write(f"Sentence: {input_text}\n Star Rating: {star_rating} \n Sentiment: {sentiment} \n Score: {results[0]['score']:.2f}")
             elif analysis_type == 'emotion_analysis':
-                most_frequent_ngrams = generate_ngrams(input_text, n, r)
+                flesch_reading_ease = textstat.flesch_reading_ease(input_text)
                 output_name = filename + '_emotion_analysis.txt'
                 with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-                    for n_gram, count in most_frequent_ngrams:
-                        out.write(f"{n}-gram: {' '.join(n_gram)} --> Count: {count}\n")
+                    out.write(f"Flesch Reading Ease Score: {flesch_reading_ease}")
             elif analysis_type == 'readibility_scoring':
+                flesch_reading_ease = textstat.flesch_reading_ease(input_text)
                 output_name = filename + '_readibility_scoring.txt'
                 with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-                    out.write(f"Detected languages:\n{detected_languages_str}\n")
+                    out.write(f"Flesch Reading Ease Score: {flesch_reading_ease}")
             elif analysis_type == 'comparison':
                 # Dependency parsing
                 doc = nlp_eng(input_text)
@@ -1864,11 +1904,11 @@ def analyze_text():
 
     return Response(json.dumps({"error": "Une erreur est survenue dans le traitement des fichiers."}), status=500, mimetype='application/json')
 
-
+"""
 #---------------------------------------------------------
 # Visualisation
 #---------------------------------------------------------
-
+"""
 @app.route("/run_renard",  methods=["GET", "POST"])
 @stream_with_context
 def run_renard():
@@ -1990,7 +2030,7 @@ def run_renard():
                                 error=f"Pipeline error: {str(e)}")
 
     return render_template('outils/renard.html', form=form, graph="", fname="")
-
+"""
 #-----------------------------------------------------------------
 # Extraction de corpus
 #-----------------------------------------------------------------
