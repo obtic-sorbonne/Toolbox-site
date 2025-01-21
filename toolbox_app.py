@@ -710,7 +710,7 @@ def xmlconverter():
                     # Writing in stream
                     output_stream = BytesIO()
                     output_filename = os.path.splitext(filename)[0] + '.xml'
-                    etree.ElementTree(root).write(output_stream, pretty_print=True, xml_declaration=True, encoding="utf-8")
+                    etree.ElementTree(root).write(output_stream, xml_declaration=True, encoding="utf-8")
                     output_stream.seek(0)
                     zip_file.writestr(output_filename, output_stream.getvalue())
                     output_stream.truncate(0)
@@ -729,6 +729,115 @@ def xmlconverter():
 # Paramètres :
 # - filename : emplacement du fichier uploadé par l'utilisateur
 # - fields : dictionnaire des champs présents dans le form metadata
+import xml.etree.ElementTree as etree
+
+def encode_text(filename, is_text_standard=True, is_poem=False, is_play=False, is_book=False):
+    div = etree.Element("div")
+
+    with open(filename, "r", encoding="utf-8") as f:
+        lines = f.readlines()
+    
+    if is_poem:
+        stanza = []
+        for line in lines:
+            if line.strip() == "":
+                if stanza:
+                    stanza_element = etree.Element("lg", type="stanza")
+                    for verse in stanza:
+                        verse_element = etree.Element("l")
+                        verse_element.text = verse.strip()
+                        stanza_element.append(verse_element)
+                    div.append(stanza_element)
+                    stanza = []
+            else:
+                stanza.append(line)
+        
+        if stanza:
+            stanza_element = etree.Element("lg", type="stanza")
+            for verse in stanza:
+                verse_element = etree.Element("l")
+                verse_element.text = verse.strip()
+                stanza_element.append(verse_element)
+            div.append(stanza_element)
+    elif is_play:
+        scene = []
+        acte_element = None
+        scene_element = None
+
+        for line in lines:
+            if re.match(r"Act|Acte", line.strip()):
+                if acte_element is not None:
+                    div.append(acte_element)
+                acte_element = etree.Element("div")
+                acte_element.set("type", "act")
+                head_element = etree.Element("head")
+                head_element.text = line.strip()
+                acte_element.append(head_element)
+                scene = []
+
+            elif re.match(r"Scène|Scene", line.strip()):
+                if scene_element is not None:
+                    acte_element.append(scene_element)
+                scene_element = etree.Element("div")
+                scene_element.set("type", "scene")
+                head_element = etree.Element("head")
+                head_element.text = line.strip()
+                scene_element.append(head_element)
+                scene = []
+
+            else:
+                scene.append(line)
+
+        if scene_element is not None:
+            for dialogue in scene:
+                dialogue_element = etree.Element("p")
+                dialogue_element.text = dialogue.strip()
+                scene_element.append(dialogue_element)
+            acte_element.append(scene_element)
+
+        if acte_element is not None:
+            div.append(acte_element)
+
+    elif is_book:
+        scene = []
+        chapter_element = None
+        text_element = None
+
+        for line in lines:
+            if re.match(r"Chapter|Chapitre", line.strip()):
+                if chapter_element is not None:
+                    div.append(chapter_element)
+                chapter_element = etree.Element("div")
+                chapter_element.set("type", "chapter")
+                head_element = etree.Element("head")
+                head_element.text = line.strip()
+                chapter_element.append(head_element)
+                scene = []
+            else:
+                scene.append(line)
+
+        if chapter_element is not None:
+            text_element = etree.Element("div")
+            text_element.set("type", "text")
+            for dialogue in scene:
+                dialogue_element = etree.Element("p")
+                dialogue_element.text = dialogue.strip()
+                text_element.append(dialogue_element)
+            chapter_element.append(text_element)
+            div.append(chapter_element)
+
+
+    else:
+        file = "".join(lines)
+        file = file.replace(".\n", ".[$]")
+        ptext = file.split("[$]")
+        for line in ptext:
+            paragraph = etree.Element("p")
+            paragraph.text = line.strip()
+            div.append(paragraph)
+    
+    return div
+
 def txt_to_xml(filename, fields):
     # Initialise TEI
     root = etree.Element("TEI", {'xmlns': "http://www.tei-c.org/ns/1.0"})
@@ -771,7 +880,7 @@ def txt_to_xml(filename, fields):
             name.text = fields['respStmt_name']
             respStmt.append(name)
 
-        editionStmt.append(respStmt)
+        titleStmt.append(respStmt)
 
     #- PublicationStmt
     publishers_list = fields['pubStmt'].split('\n') # Get publishers list
@@ -783,6 +892,7 @@ def txt_to_xml(filename, fields):
         publicationStmt.append(publisher)
 
     licence = etree.Element("licence")
+    availability = etree.Element("availability")
     licence.text = fields["licence"]
     if licence.text == "CC-BY":
         licence.set("target", "https://creativecommons.org/licenses/by/4.0/")
@@ -792,7 +902,8 @@ def txt_to_xml(filename, fields):
         licence.set("target", "https://creativecommons.org/licenses/by-nd/4.0/")
     if licence.text == "CC-BY-NC":
         licence.set("target", "https://creativecommons.org/licenses/by-nc/4.0/")
-    publicationStmt.append(licence)
+    availability.append(licence)
+    publicationStmt.append(availability)
 
     #- SourceDesc
     paragraphs = fields['sourceDesc'].split('\n')
@@ -810,15 +921,15 @@ def txt_to_xml(filename, fields):
     language = etree.Element("language")
     lang = fields["lang"]
     language.set("ident", lang)
-    #langUsage.append(language)
-    profileDesc.append(language)
+    langUsage.append(language)
+    profileDesc.append(langUsage)
 
     #- EncodingDesc
-    projetDesc = etree.Element("projetDesc")
-    projet_p = etree.Element("p")
-    projet_p.text = fields["projet_p"]
-    projetDesc.append(projet_p)
-    encodingDesc.append(projetDesc)
+    projectDesc = etree.Element("projectDesc")
+    project_p = etree.Element("p")
+    project_p.text = fields["projet_p"]
+    projectDesc.append(project_p)
+    encodingDesc.append(projectDesc)
 
     editorialDecl = etree.Element("editorialDecl")
     edit_correction = etree.Element("correction")
@@ -841,7 +952,6 @@ def txt_to_xml(filename, fields):
     editorialDecl.append(edit_hyphen)
     encodingDesc.append(editorialDecl)
 
-
     #- RevisionDesc
     if fields['revisionDesc_change']:
         revisionDesc = etree.Element("revisionDesc")
@@ -855,34 +965,30 @@ def txt_to_xml(filename, fields):
 
     # Header
     fileDesc.append(titleStmt)
-    fileDesc.append(editionStmt)
     fileDesc.append(publicationStmt)
     fileDesc.append(sourceDesc)
-    fileDesc.append(profileDesc)
-    fileDesc.append(encodingDesc)
-    fileDesc.append(revisionDesc)
     teiHeader.append(fileDesc)
+    teiHeader.append(encodingDesc)
+    teiHeader.append(profileDesc)
+    teiHeader.append(revisionDesc)
     root.append(teiHeader)
 
     # Text
     text = etree.Element("text")
+    body = etree.Element("body")
+    text.append(body)
     div = etree.Element("div")
     divtype = fields["divtype"]
     div.set("type", divtype)
-    text.append(div)
+    body.append(div)
 
-    with open(filename, "r") as f:
-        file = f.read()
-    file = file.replace(".\n", ".[$]")
-    ptext = file.split("[$]")
-    for line in ptext:
-        paragraph = etree.Element("p")
-        paragraph.text = line.strip()
-        div.append(paragraph)
+    # Utilisation de la fonction encode_text
+    content_div = encode_text(filename, is_text_standard=(fields["divtype"] == "text"), is_poem=(fields["divtype"] == "poem"), is_play=(fields["divtype"] == "play"), is_book=(fields["divtype"] == "book"))
+    div.extend(content_div)
 
     root.append(text)
-    return root
 
+    return root
 #-----------------------------------------------------------------
 # Annotation automatique
 #-----------------------------------------------------------------

@@ -23,41 +23,42 @@
 
         <form action="{{ url_for('xmlconverter') }}" id="metadata-form" method="post" enctype="multipart/form-data">
           {{ form.csrf_token }}
-        <div id="div-metadata">
+        <div id="div-metadata" style="display:flex; flex-wrap:wrap; gap: 15px;">
+          <div style="flex: 1; min-width: 49%;">
           <br/>
           <legend>{{ _("Métadonnées") }}</legend>
           <fieldset>
           <p class="labelxml">Titre du document (titleStmt)*</p>
           <label for="title" style="display:inline-block;width:102px;margin-left:12px;">title</label>
-          <select name="title_lang" id="title_lang">
+          <select class="styled-select" name="title_lang" id="title_lang">
             <option value="fr">français</option>
             <option value="en">anglais</option>
             <option value="de">allemand</option>
             <option value="es">espagnol</option>
           </select>
-          <input type="text" name="title" id="title">
+          <input class="styled-select" type="text" name="title" id="title" required>
           <br/>
           <label for="author" style="display:inline-block;width:102px;margin-left:12px;">author</label>
-          <input type="text" name="author" id="author">
+          <input class="styled-select" type="text" name="author" id="author">
         </fieldset>
           <fieldset>
             <details>
           <summary class="labelxml">Responsabilité du document (respStmt)</summary>
           <label for="resp" style="margin-left:12px;display:inline-block;width:90px;">resp</label>
-          <input type="text" name="resp" id="resp">
+          <input class="styled-select" type="text" name="resp" id="resp">
           <br/>
           <label for="nameresp" style="margin-left:12px; display:inline-block;width:90px;">name</label>
-          <input type="text" name="nameresp" id="nameresp">
+          <input class="styled-select" type="text" name="nameresp" id="nameresp">
           <br/>
         </details>
           </fieldset>
           <fieldset>
           <label class="labelxml" for="pubStmt">Publication du document (publicationStmt)*</label>
           <p style="font-size:8px;">{{ _("Entrer les noms des éditeurs séparés par un retour à la ligne") }}</p>
-          <textarea cols="25" rows="3" id="pubStmt" name="pubStmt" placeholder="Publié par..." required></textarea>
+          <textarea  class="styled-select" cols="25" rows="3" id="pubStmt" name="pubStmt" placeholder="Publié par..." required></textarea>
           <br/>
           <label for="licence" style="margin-left:12px;display:inline-block;width:90px;">Licence *</label>
-          <select name="licence" id="licence" required>
+          <select class="styled-select" name="licence" id="licence" required>
             <option value="CC-BY">CC-BY</option>
             <option value="CC-BY-SA">CC-BY-SA</option>
             <option value="CC-BY-ND">CC-BY-ND</option>
@@ -68,17 +69,22 @@
           <fieldset>
           <label class="labelxml" for="sourceDesc">Description bibliographique de la source (sourceDesc)*</label>
           <br/>
-          <textarea cols="25" rows="3" id="sourceDesc" name="sourceDesc" placeholder="Description bibliographique de la source"></textarea>
+          <textarea class="styled-select" cols="25" rows="3" id="sourceDesc" name="sourceDesc" placeholder="Description bibliographique de la source"></textarea>
           <br/>
           </fieldset>
+          </div> 
+          <div style="flex: 1; min-width: 49%;">
+            <br/>
+            <br/>
+            <br/>
           <fieldset>
            <details>
             <summary class="labelxml">Profil du document (profileDesc)</summary>
           <label for="creation" style="margin-left:12px;display:inline-block;">Quelle est la date de création du document</label>
-          <input type="text" name="creation" id="creation" placeholder="YYYY">
+          <input class="styled-select" type="text" name="creation" id="creation" placeholder="YYYY">
           <br/>
           <label for="lang" style="display:inline-block;margin-left:12px;">Quel est la langue du document ?</label>
-          <select name="lang" id="lang">
+          <select class="styled-select" name="lang" id="lang">
             <option value="">--Please choose an option--</option>
             <option value="fr">français</option>
             <option value="en">anglais</option>
@@ -92,17 +98,17 @@
            <details>
             <summary class="labelxml">Description du projet (projectDesc)</summary>
           <label for="projet_p" style="margin-left:12px;display:inline-block;">Description</label>
-          <input type="text" name="projet_p" id="projet_p" >
+          <input class="styled-select" type="text" name="projet_p" id="projet_p" >
           </details>
           </fieldset>
           <fieldset>
            <details>
             <summary class="labelxml">Choix éditoriaux (editorialDecl)</summary>
           <label for="edit_correction_p" style="margin-left:12px;display:inline-block;">Quelle(s) correction(s) a(ont) été faite(s) ?</label>
-          <input type="text" name="edit_correction_p" id="edit_correction_p" >
+          <input class="styled-select" type="text" name="edit_correction_p" id="edit_correction_p" >
           <br/>
           <label for="edit_hyphen_p" style="display:inline-block;margin-left:12px;">Quel système de traits d'union a été choisi ?</label>
-          <select name="edit_hyphen_p" id="edit_hyphen_p">
+          <select class="styled-select"  name="edit_hyphen_p" id="edit_hyphen_p">
             <option value="all end-of-line hyphenation has been retained, even though the lineation of the original may not have been">all end-of-line hyphenation has been retained, even though the lineation of the original may not have been</option>
             <option value="end-of-line hyphenation has been retained in some cases">end-of-line hyphenation has been retained in some cases</option>
             <option value="all soft end-of-line hyphenation has been removed: any remaining end-of-line hyphenation should be retained">all soft end-of-line hyphenation has been removed: any remaining end-of-line hyphenation should be retained</option>
@@ -114,13 +120,13 @@
           <fieldset>
           <p class="labelxml">Révision du document (revisionDesc)*</p>
           <label for="when" style="margin-left:12px;display:inline-block;">Date de la révision</label>
-          <input type="date" name="when" id="when" required>
+          <input class="styled-select" type="date" name="when" id="when" required>
           <br/>
           <label for="who" style="margin-left:12px;display:inline-block;">Responsable de la révision</label>
-          <input type="text" name="who" id="who" required>
+          <input class="styled-select" type="text" name="who" id="who" required>
           <br/>
           <label for="change" style="margin-left:12px;display:inline-block;">Quelle révision a été effectué ?</label>
-          <input type="text" name="change" id="change" required>
+          <input class="styled-select" type="text" name="change" id="change" required>
           <br/>
           </fieldset>
           <br/>
@@ -128,15 +134,22 @@
           <fieldset>
           <p class="labelxml">Type de document</p>
           <label for="divtype" style="display:inline-block;margin-left:12px;">Quel est la nature du document ?</label>
-          <input type="text" name="divtype" id="divtype" placeholder="Ex: transcription, book, report">
+          <select class="styled-select" name="divtype" id="divtype" required>
+            <option value="text">Text</option>
+            <option value="poem">Poem</option>
+            <option value="play">Play</option>
+            <option value="book">Book</option>
+          </select>
           <br/>
           </fieldset>
-          <p style="text-align: right; color: red; font-size: 9pt;">Tous les champs accompagnés d'un * doivent obligatoirement être remplies</p>
           <br/>
         </div>
-        <div id="div-upload" class="column">
-          <div class="dropzone">
-            <input type="file" id="rax-text-file" name="file" accept=".txt" multiple required />
+          <p style="margin:25px auto; color: red; font-size: 9pt;">Tous les champs accompagnés d'un * doivent obligatoirement être remplies</p>
+          <br/>
+      </div>
+        <div id="div-upload">
+          <div class="dropzone" style="margin:25px auto;">
+            <input class="styled-select" type="file" id="rax-text-file" name="file" accept=".txt" multiple required />
               <p id="form_msg"><i class="fa-solid fa-upload"></i><br/>{{ _('Déposer le(s) fichier(s) ou cliquer ici.' )}}</p>
             </div>
           <input id="csrf_token" name="csrf_token" type="hidden" value="CSRF_TOKEN_STRING">
