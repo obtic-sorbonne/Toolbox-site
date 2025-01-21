@@ -39,7 +39,7 @@ import shutil
 from pathlib import Path
 import json
 import collections
-from transformers import pipeline
+#from transformers import pipeline
 import textstat
 #from txt_ner import txt_ner_params
 
@@ -47,8 +47,8 @@ import textstat
 #nltk.download('stopwords')
 #nltk.download('punkt')
 
-nltk.download('wordnet')
-nltk.download('omw-1.4')
+#nltk.download('wordnet')
+#nltk.download('omw-1.4')
 from nltk.corpus import wordnet
 
 stop_words = set(stopwords.words('english'))
@@ -1717,7 +1717,7 @@ def analyze_lexicale():
 
 
 #--------------- Analyse de texte --------------------------
-
+"""
 @app.route('/analyze_text', methods=['POST'])
 def analyze_text():
     if 'files' not in request.files:
@@ -1798,7 +1798,7 @@ def analyze_text():
 
     return Response(json.dumps({"error": "Une erreur est survenue dans le traitement des fichiers."}), status=500, mimetype='application/json')
 
-
+"""
 #---------------------------------------------------------
 # Visualisation
 #---------------------------------------------------------
