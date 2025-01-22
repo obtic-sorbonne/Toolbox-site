@@ -28,6 +28,17 @@
         </div>
     <br>
         {{ form.csrf_token }}
+        <div class="centered-input-div" id="lemma-fields" style="display: none;">
+            <label for="selected_language">Choisissez la langue :</label>
+                <select name="selected_language" id="selected_language">
+                    <option value="english">Anglais</option>
+                    <option value="french">Français</option>
+                    <option value="spanish">Espagnol</option>
+                    <option value="german">German</option>
+                    <!-- Rajouter d'autres langues -->
+                </select>
+        </div>
+        <br>
         <div class="dropzone" style="margin:25px auto;">
             <input type="file" id="files" name="files" accept="text/plain" multiple required>
             <p id="form_msg">Déposer le(s) fichier(s) ou cliquer ici.</p>
@@ -62,6 +73,20 @@ $('form input').change(function () {
         }
     }
 });
+    function togglelemmaFields() {
+            var normalisation_type = document.getElementById("normalisation_type").value;
+            var lemmasFields = document.getElementById("lemma-fields");
+            if (normalisation_type === "lemmas") {
+                lemmasFields.style.display = "block";
+            } else {
+                lemmasFields.style.display = "none";
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            document.getElementById("normalisation_type").addEventListener("change", togglelemmaFields);
+            togglelemmaFields(); // Initial call to set visibility based on default selection
+        });
 </script>
 </div>
 {% endblock %}

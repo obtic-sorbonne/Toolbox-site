@@ -45,8 +45,6 @@ import collections
 #nltk.download('stopwords')
 #nltk.download('punkt')
 
-nlp_eng = spacy.load('en_core_web_sm')
-
 import pandas as pd
 
 import sem
@@ -573,6 +571,24 @@ def removing_elements():
 
 #-------------- Normalisation de texte -------------------------
 
+
+nlp_eng = spacy.load('en_core_web_sm')
+nlp_fr = spacy.load('fr_core_news_sm')
+nlp_es = spacy.load('es_core_news_sm')
+nlp_de = spacy.load('de_core_news_sm')
+
+def get_nlp(language):
+    if language == 'english':
+        return nlp_eng
+    elif language == 'french':
+        return nlp_fr
+    elif language == 'spanish':
+        return nlp_es
+    elif language == 'german':
+        return nlp_de
+    else:
+        return set()
+
 @app.route('/normalize_text', methods=['POST'])
 def normalize_text():
     if 'files' not in request.files:
@@ -585,6 +601,7 @@ def normalize_text():
         return Response(json.dumps(response), status=400, mimetype='application/json')
 
     normalisation_type = request.form['normalisation_type']
+    selected_language = request.form['selected_language']
 
     rand_name = 'normalized_' + ''.join(random.choice(string.ascii_lowercase) for x in range(5))
     result_path = os.path.join(os.getcwd(), rand_name)
@@ -595,7 +612,8 @@ def normalize_text():
             input_text = f.read().decode('utf-8')
             tokens = word_tokenize(input_text)
             lowers = [token.lower() for token in tokens]
-            lemmas = [token.lemma_ for token in nlp_eng(input_text)]
+            nlp = get_nlp(selected_language)
+            lemmas = [token.lemma_ for token in nlp(input_text)]
             filename, file_extension = os.path.splitext(f.filename)
 
             if normalisation_type == 'tokens':
