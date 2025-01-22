@@ -18,9 +18,15 @@
       </div>
     </div>
     <div><p>L'outil est en cours de construction</p></div>
-      <!--<div style="margin:15px;margin-bottom:100px;">
+      <div style="margin:15px;margin-bottom:100px;">
         <form action="{{ url_for('autocorrect') }}" id="correction-form" method="post" enctype="multipart/form-data">
             {{ form.csrf_token }}
+            <label for="selected_language">{{ _('Modèle') }}</label>
+      <select name="selected_language" class="sel sel--black-panther">
+        <option value="french" selected>{{ _('Français') }} (fr)</option>
+        <option value="english">{{ _('Anglais') }} (eng)</option>
+        <option value="spanish">{{ _('Espagnol') }} (es)</option>
+      </select>
         <div class="dropzone" style="margin:25px auto;">
             <input type="file" id="files" name="uploaded_files" accept="text/plain" multiple required>
             <p id="form_msg">Déposer le(s) fichier(s) ou cliquer ici.</p>
@@ -56,7 +62,7 @@ $('form input').change(function () {
         }
     }
 });
-</script>-->
+</script>
   </div>
 {% endblock %}
 {% block footer %} {{ super() }} {% endblock %}
