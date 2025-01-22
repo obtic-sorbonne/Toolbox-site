@@ -497,6 +497,22 @@ def run_tesseract():
 
 #-------------- Nettoyage de texte -------------------------
 
+# Importer les stopwords pour chaque langue
+stop_words_english = set(stopwords.words('english'))
+stop_words_french = set(stopwords.words('french'))
+stop_words_spanish = set(stopwords.words('spanish'))
+
+# Fonction pour obtenir les stopwords en fonction de la langue
+def get_stopwords(language):
+    if language == 'english':
+        return stop_words_english
+    elif language == 'french':
+        return stop_words_french
+    elif language == 'spanish':
+        return stop_words_spanish
+    else:
+        return set()
+
 @app.route('/removing_elements', methods=['POST'])
 def removing_elements():
     if 'files' not in request.files:
@@ -509,6 +525,7 @@ def removing_elements():
         return Response(json.dumps(response), status=400, mimetype='application/json')
 
     removing_type = request.form['removing_type']
+    selected_language = request.form['selected_language']
 
     rand_name = 'removing_' + ''.join(random.choice(string.ascii_lowercase) for x in range(5))
     result_path = os.path.join(os.getcwd(), rand_name)
@@ -519,7 +536,7 @@ def removing_elements():
             input_text = f.read().decode('utf-8')
             tokens = word_tokenize(input_text)
             removing_punctuation = [token for token in tokens if token.isalpha()]
-            stop_words = set(stopwords.words('english'))
+            stop_words = get_stopwords(selected_language)
             removing_stopwords = [token for token in tokens if token.lower() not in stop_words]
             filename, file_extension = os.path.splitext(f.filename)
 
@@ -1868,7 +1885,7 @@ def analyze_text():
 #---------------------------------------------------------
 # Visualisation
 #---------------------------------------------------------
-
+"""
 @app.route("/run_renard",  methods=["GET", "POST"])
 @stream_with_context
 def run_renard():
@@ -1990,7 +2007,7 @@ def run_renard():
                                 error=f"Pipeline error: {str(e)}")
 
     return render_template('outils/renard.html', form=form, graph="", fname="")
-
+"""
 #-----------------------------------------------------------------
 # Extraction de corpus
 #-----------------------------------------------------------------

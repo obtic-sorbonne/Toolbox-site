@@ -26,6 +26,16 @@
         </div>
     <br>
         {{ form.csrf_token }}
+        <div class="centered-input-div" id="stopwords-fields" style="display: none;">
+            <label for="selected_language">Choisissez la langue :</label>
+                <select name="selected_language" id="selected_language">
+                    <option value="english">Anglais</option>
+                    <option value="french">Français</option>
+                    <option value="spanish">Espagnol</option>
+                    <!-- Rajouter d'autres langues -->
+                </select>
+        </div>
+        <br>
         <div class="dropzone" style="margin:25px auto;">
             <input type="file" id="files" name="files" accept="text/plain" multiple required>
             <p id="form_msg">Déposer le(s) fichier(s) ou cliquer ici.</p>
@@ -60,6 +70,20 @@ $('form input').change(function () {
         }
     }
 });
+    function togglestopwordFields() {
+            var removing_type = document.getElementById("removing_type").value;
+            var stopwordsFields = document.getElementById("stopwords-fields");
+            if (removing_type === "stopwords") {
+                stopwordsFields.style.display = "block";
+            } else {
+                stopwordsFields.style.display = "none";
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            document.getElementById("removing_type").addEventListener("change", togglestopwordFields);
+            togglestopwordFields(); // Initial call to set visibility based on default selection
+        });
 </script>
 </div>
 {% endblock %}
