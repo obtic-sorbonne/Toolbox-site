@@ -11,7 +11,7 @@
         <br>
     <ul class="item-list" style="margin-left: 3em;">
         <li><hi style="font-weight: bold;">Tokenisation</hi> : Découpage du texte en chaque instance séparée par un espace et/ou un signe de ponctuation</li>
-        <li><hi style="font-weight: bold;">Lowercases</hi> : Mise en minuscule de tous les tokens présents dans un texte soumis.</li>
+        <li><hi style="font-weight: bold;">Case folding</hi> : Mise en minuscule de tous les tokens présents dans un texte soumis.</li>
         <li><hi style="font-weight: bold;">Lemmatisation</hi> : Récupération de chaque élément du texte sous sa forme lemmatisé, c'est-à-dire sa forme canonique.</li>
     </ul></p></div>
     <br>
@@ -22,7 +22,7 @@
             <label for="normalisation_type">Choisir le type d'analyse :</label>
             <select class="styled-select" name="normalisation_type" id="normalisation_type" required>
                 <option value="tokens">Tokenisation</option>
-                <option value="lowercases">Lowercases</option>
+                <option value="lowercases">Case folding</option>
                 <option value="lemmas">Lemmatisation</option>
             </select>
         </div>
