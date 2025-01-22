@@ -1029,7 +1029,6 @@ def txt_to_xml(filename, fields):
 #-----------------------------------------------------------------
 
 #------------- POS ----------------------
-nlp_eng = spacy.load('en_core_web_sm')
 
 @app.route('/pos_tagging', methods=['POST'])
 def pos_tagging():
@@ -1042,6 +1041,8 @@ def pos_tagging():
         response = {"error": "No selected files"}
         return Response(json.dumps(response), status=400, mimetype='application/json')
 
+    selected_language = request.form['selected_language']
+
     rand_name = 'postagging_' + ''.join(random.choice(string.ascii_lowercase) for x in range(5))
     result_path = os.path.join(os.getcwd(), rand_name)
     os.makedirs(result_path, exist_ok=True)
@@ -1049,7 +1050,8 @@ def pos_tagging():
     for f in files:
         try:
             input_text = f.read().decode('utf-8')
-            doc = nlp_eng(input_text)
+            nlp = get_nlp(selected_language)
+            doc = nlp(input_text)
             filename, file_extension = os.path.splitext(f.filename)
             
             output_name = filename + '.txt'
