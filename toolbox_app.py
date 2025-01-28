@@ -31,7 +31,7 @@ from urllib.parse import urlparse
 import re
 from lxml import etree
 import csv
-#import contextualSpellCheck
+import contextualSpellCheck
 import spacy
 from spacy import displacy
 import shutil
@@ -2389,6 +2389,8 @@ def autocorrect():
 
 
     selected_language = request.form['selected_language']
+    nlp = get_nlp(selected_language)
+    contextualSpellCheck.add_to_pipe(nlp)
 
     rand_name = 'autocorrected_' + ''.join(random.choice(string.ascii_lowercase) for x in range(5))
     result_path = os.path.join(os.getcwd(), rand_name)
@@ -2397,14 +2399,11 @@ def autocorrect():
     for f in files:
         try:
             input_text = f.read().decode('utf-8')
-            nlp = get_nlp(selected_language)
-            contextualSpellCheck.add_to_pipe(nlp)
             doc = nlp(input_text)
             filename, file_extension = os.path.splitext(f.filename)
-            
             output_name = filename + '.txt'
             with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-                out.write(str(doc._.outcome_spellCheck))
+                out.write("the input text was : \n" + str(input_text) + "\n\nthe corrected text is: \n" + str(doc._.outcome_spellCheck))
 
         finally:
             f.close()
