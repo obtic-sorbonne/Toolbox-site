@@ -14,8 +14,18 @@
         <li><hi style="font-weight: bold;">Mots-vides</hi> : Suppression des mots-vides ou <em>stopwords</em>, soit des mots très courants, tels que déterminants, auxiliaires, conjonction, etc.</li>
     </ul></p></div>
     <br>
-    <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_preprocessing') }}"  target="_blank">{{ _('Voir la documentation') }}</a> / <a href="{{ url_for('tutoriel_preprocessing') }}"  target="_blank">{{ _('Voir le tutoriel') }}</a></p>
+    <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_preprocessing') }}"  target="_blank">{{ _('Voir la documentation') }}</a></p>
     <br>
+    <div class="infos_outil" style="display: block;margin: 0 auto 15px auto;">
+        <input id="show" type=checkbox><label for="show" class="infos_title"><i class="fa-solid fa-circle-info"></i> {{ _("Informations sur l'outil") }}<i class="fa-solid fa-angle-right" style="float:right;margin-top:5px;margin-left:15px;cursor: pointer;"></i></label>
+        <div class="info_popped">
+          <p>Natural Language Toolkit (NLTK)
+      <p>{{ _("Formats d'entrée :")}} <i class="fa-regular fa-file-lines"></i> texte brut (.txt)</p>
+      <p>{{ _("Formats de sortie :")}} <i class="fa-regular fa-file-lines"></i> texte brut (.txt)</p>
+      <p>Encodage : UTF-8</p>
+      </div>
+  </div>
+      <br>
     <form action="{{ url_for('removing_elements') }}" id="linguistic-form" method="post" enctype="multipart/form-data" onsubmit="showloader('loader')">
         <div class="centered-div">
             <label for="removing_type">Choisir le type de suppression :</label>
@@ -26,12 +36,29 @@
         </div>
     <br>
         {{ form.csrf_token }}
+        <div class="centered-input-div" id="stopwords-fields" style="display: none;">
+            <label for="selected_language">Choisissez la langue :</label>
+                <select name="selected_language" id="selected_language">
+                    <option value="german">{{ _('Allemand') }} (de)</option>
+                    <option value="english">{{ _('Anglais') }} (eng)</option>
+                    <option value="danish">{{ _('Danois') }} (da)</option>
+                    <option value="spanish">{{ _('Espagnol') }} (es)</option>
+                    <option value="finnish">{{ _('Finnois') }} (fi)</option>
+                    <option value="french" selected>{{ _('Français') }} (fr)</option>
+                    <option value="greek">{{ _('Grec') }} (el)</option>
+                    <option value="italian">{{ _('Italien') }} (it)</option>
+                    <option value="dutch">{{ _('Néerlandais') }} (nl)</option>
+                    <option value="portuguese">{{ _('Portugais') }} (pt)</option>
+                    <option value="russian">{{ _('Russe') }} (ru)</option>
+                </select>
+        </div>
+        <br>
         <div class="dropzone" style="margin:25px auto;">
             <input type="file" id="files" name="files" accept="text/plain" multiple required>
             <p id="form_msg">Déposer le(s) fichier(s) ou cliquer ici.</p>
         </div>
         <input id="csrf_token" name="csrf_token" type="hidden" value="{{ csrf_token() }}">
-        <button style="display:block;margin:auto;margin-top:20px;">Télécharger les fichiers</button>
+        <button style="display:block;margin:auto;margin-top:20px;">Prétraitement</button>
     </form>
     {% if msg != "" %}
     <div> <p>{{ msg }}</p></div>
@@ -60,6 +87,20 @@ $('form input').change(function () {
         }
     }
 });
+    function togglestopwordFields() {
+            var removing_type = document.getElementById("removing_type").value;
+            var stopwordsFields = document.getElementById("stopwords-fields");
+            if (removing_type === "stopwords") {
+                stopwordsFields.style.display = "block";
+            } else {
+                stopwordsFields.style.display = "none";
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            document.getElementById("removing_type").addEventListener("change", togglestopwordFields);
+            togglestopwordFields(); // Initial call to set visibility based on default selection
+        });
 </script>
 </div>
 {% endblock %}

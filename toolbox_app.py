@@ -31,7 +31,7 @@ from urllib.parse import urlparse
 import re
 from lxml import etree
 import csv
-#import contextualSpellCheck
+import contextualSpellCheck
 import spacy
 from spacy import displacy
 import shutil
@@ -44,8 +44,6 @@ import collections
 #nltk.download('punkt_tab')
 #nltk.download('stopwords')
 #nltk.download('punkt')
-
-nlp_eng = spacy.load('en_core_web_sm')
 
 import pandas as pd
 
@@ -188,15 +186,7 @@ def documentation_generation():
 @app.route('/tutoriel')
 def tutoriel():
     return render_template('tutoriel.html')
-
-@app.route('/tutoriel_recognition')
-def tutoriel_recognition():
-    return render_template('tutoriel/tutoriel_recognition.html')
-
-@app.route('/tutoriel_preprocessing')
-def tutoriel_preprocessing():
-    return render_template('tutoriel/tutoriel_preprocessing.html')
-
+    
 @app.route('/tutoriel_conversion')
 def tutoriel_conversion():
     return render_template('tutoriel/tutoriel_conversion.html')
@@ -497,6 +487,47 @@ def run_tesseract():
 
 #-------------- Nettoyage de texte -------------------------
 
+# Importer les stopwords pour chaque langue
+stop_words_english = set(stopwords.words('english'))
+stop_words_french = set(stopwords.words('french'))
+stop_words_spanish = set(stopwords.words('spanish'))
+stop_words_german = set(stopwords.words('german'))
+stop_words_danish = set(stopwords.words('danish'))
+stop_words_finnish = set(stopwords.words('finnish'))
+stop_words_greek = set(stopwords.words('greek'))
+stop_words_italian = set(stopwords.words('italian'))
+stop_words_dutch = set(stopwords.words('dutch'))
+#stop_words_polish = set(stopwords.words('polish'))
+stop_words_portuguese = set(stopwords.words('portuguese'))
+stop_words_russian = set(stopwords.words('russian'))
+
+# Fonction pour obtenir les stopwords en fonction de la langue
+def get_stopwords(language):
+    if language == 'english':
+        return stop_words_english
+    elif language == 'french':
+        return stop_words_french
+    elif language == 'spanish':
+        return stop_words_spanish
+    elif language == 'german':
+        return stop_words_german
+    elif language == 'danish':
+        return stop_words_danish
+    elif language == 'finnish':
+        return stop_words_finnish
+    elif language == 'greek':
+        return stop_words_greek
+    elif language == 'italian':
+        return stop_words_italian
+    elif language == 'dutch':
+        return stop_words_dutch
+    elif language == 'portuguese':
+        return stop_words_portuguese
+    elif language == 'russian':
+        return stop_words_russian
+    else:
+        return set()
+
 @app.route('/removing_elements', methods=['POST'])
 def removing_elements():
     if 'files' not in request.files:
@@ -509,6 +540,7 @@ def removing_elements():
         return Response(json.dumps(response), status=400, mimetype='application/json')
 
     removing_type = request.form['removing_type']
+    selected_language = request.form['selected_language']
 
     rand_name = 'removing_' + ''.join(random.choice(string.ascii_lowercase) for x in range(5))
     result_path = os.path.join(os.getcwd(), rand_name)
@@ -519,7 +551,7 @@ def removing_elements():
             input_text = f.read().decode('utf-8')
             tokens = word_tokenize(input_text)
             removing_punctuation = [token for token in tokens if token.isalpha()]
-            stop_words = set(stopwords.words('english'))
+            stop_words = get_stopwords(selected_language)
             removing_stopwords = [token for token in tokens if token.lower() not in stop_words]
             filename, file_extension = os.path.splitext(f.filename)
 
@@ -556,6 +588,48 @@ def removing_elements():
 
 #-------------- Normalisation de texte -------------------------
 
+
+nlp_eng = spacy.load('en_core_web_sm')
+nlp_fr = spacy.load('fr_core_news_sm')
+nlp_es = spacy.load('es_core_news_sm')
+nlp_de = spacy.load('de_core_news_sm')
+nlp_it = spacy.load('it_core_news_sm')
+nlp_da = spacy.load("da_core_news_sm")
+nlp_nl = spacy.load("nl_core_news_sm")
+nlp_fi = spacy.load("fi_core_news_sm")
+nlp_pl = spacy.load("pl_core_news_sm")
+nlp_pt = spacy.load("pt_core_news_sm")
+nlp_el = spacy.load("el_core_news_sm")
+nlp_ru = spacy.load("ru_core_news_sm")
+
+def get_nlp(language):
+    if language == 'english':
+        return nlp_eng
+    elif language == 'french':
+        return nlp_fr
+    elif language == 'spanish':
+        return nlp_es
+    elif language == 'german':
+        return nlp_de
+    elif language == 'italian':
+        return nlp_it
+    elif language == 'danish':
+        return nlp_da
+    elif language == 'dutch':
+        return nlp_nl
+    elif language == 'finnish':
+        return nlp_fi
+    elif language == 'polish':
+        return nlp_pl
+    elif language == 'portuguese':
+        return nlp_pt
+    elif language == 'greek':
+        return nlp_el
+    elif language == 'russian':
+        return nlp_ru
+    else:
+        return set()
+
 @app.route('/normalize_text', methods=['POST'])
 def normalize_text():
     if 'files' not in request.files:
@@ -568,6 +642,7 @@ def normalize_text():
         return Response(json.dumps(response), status=400, mimetype='application/json')
 
     normalisation_type = request.form['normalisation_type']
+    selected_language = request.form['selected_language']
 
     rand_name = 'normalized_' + ''.join(random.choice(string.ascii_lowercase) for x in range(5))
     result_path = os.path.join(os.getcwd(), rand_name)
@@ -578,7 +653,8 @@ def normalize_text():
             input_text = f.read().decode('utf-8')
             tokens = word_tokenize(input_text)
             lowers = [token.lower() for token in tokens]
-            lemmas = [token.lemma_ for token in nlp_eng(input_text)]
+            nlp = get_nlp(selected_language)
+            lemmas = [token.lemma_ for token in nlp(input_text)]
             filename, file_extension = os.path.splitext(f.filename)
 
             if normalisation_type == 'tokens':
@@ -994,7 +1070,6 @@ def txt_to_xml(filename, fields):
 #-----------------------------------------------------------------
 
 #------------- POS ----------------------
-nlp_eng = spacy.load('en_core_web_sm')
 
 @app.route('/pos_tagging', methods=['POST'])
 def pos_tagging():
@@ -1007,6 +1082,8 @@ def pos_tagging():
         response = {"error": "No selected files"}
         return Response(json.dumps(response), status=400, mimetype='application/json')
 
+    selected_language = request.form['selected_language']
+
     rand_name = 'postagging_' + ''.join(random.choice(string.ascii_lowercase) for x in range(5))
     result_path = os.path.join(os.getcwd(), rand_name)
     os.makedirs(result_path, exist_ok=True)
@@ -1014,7 +1091,8 @@ def pos_tagging():
     for f in files:
         try:
             input_text = f.read().decode('utf-8')
-            doc = nlp_eng(input_text)
+            nlp = get_nlp(selected_language)
+            doc = nlp(input_text)
             filename, file_extension = os.path.splitext(f.filename)
             
             output_name = filename + '.txt'
@@ -1868,7 +1946,7 @@ def analyze_text():
 #---------------------------------------------------------
 # Visualisation
 #---------------------------------------------------------
-
+"""
 @app.route("/run_renard",  methods=["GET", "POST"])
 @stream_with_context
 def run_renard():
@@ -1990,7 +2068,7 @@ def run_renard():
                                 error=f"Pipeline error: {str(e)}")
 
     return render_template('outils/renard.html', form=form, graph="", fname="")
-
+"""
 #-----------------------------------------------------------------
 # Extraction de corpus
 #-----------------------------------------------------------------
@@ -2340,7 +2418,55 @@ def normalisation_graphies():
 #------------- Correction Erreurs ---------------------
 
 @app.route('/autocorrect', methods=["GET", "POST"])
+def autocorrect():
+    if 'files' not in request.files:
+        response = {"error": "No files part"}
+        return Response(json.dumps(response), status=400, mimetype='application/json')
 
+    files = request.files.getlist('files')
+    if not files or all(file.filename == '' for file in files):
+        response = {"error": "No selected files"}
+        return Response(json.dumps(response), status=400, mimetype='application/json')
+
+
+    selected_language = request.form['selected_language']
+    nlp = get_nlp(selected_language)
+    contextualSpellCheck.add_to_pipe(nlp)
+
+    rand_name = 'autocorrected_' + ''.join(random.choice(string.ascii_lowercase) for x in range(5))
+    result_path = os.path.join(os.getcwd(), rand_name)
+    os.makedirs(result_path, exist_ok=True)
+
+    for f in files:
+        try:
+            input_text = f.read().decode('utf-8')
+            doc = nlp(input_text)
+            filename, file_extension = os.path.splitext(f.filename)
+            output_name = filename + '.txt'
+            with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
+                out.write("The input text was : \n" + str(input_text) + "\n\nThe corrected text is: \n" + str(doc._.outcome_spellCheck))
+
+        finally:
+            f.close()
+
+    if len(os.listdir(result_path)) > 0:
+        shutil.make_archive(result_path, 'zip', result_path)
+        output_stream = BytesIO()
+        with open(str(result_path) + '.zip', 'rb') as res:
+            content = res.read()
+        output_stream.write(content)
+        response = Response(output_stream.getvalue(), mimetype='application/zip',
+                            headers={"Content-disposition": "attachment; filename=" + rand_name + '.zip'})
+        output_stream.seek(0)
+        output_stream.truncate(0)
+        shutil.rmtree(result_path)
+        os.remove(str(result_path) + '.zip')
+        return response
+
+    return Response(json.dumps({"error": "Une erreur est survenue dans le traitement des fichiers."}), status=500, mimetype='application/json')
+
+
+"""
 def autocorrect():
     if request.method == 'POST':
         uploaded_files = request.files.getlist("uploaded_files")
@@ -2393,7 +2519,7 @@ def autocorrect():
 
     return render_template('/correction_erreur.html')
 
-
+"""
 
 #-----------------------------------------------------------------
 # Génération de texte
