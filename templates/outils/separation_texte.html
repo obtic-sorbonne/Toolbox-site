@@ -27,7 +27,7 @@
             <p id="form_msg">Déposer le(s) fichier(s) ou cliquer ici.</p>
         </div>
         <input id="csrf_token" name="csrf_token" type="hidden" value="{{ csrf_token() }}">
-        <button style="display:block;margin:auto;margin-top:20px;">Télécharger les fichiers</button>
+        <button style="display:block;margin:auto;margin-top:20px;">Prétraitement</button>
     </form>
     {% if msg != "" %}
     <div> <p>{{ msg }}</p></div>
