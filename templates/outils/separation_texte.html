@@ -8,7 +8,7 @@
     <h2>Séparation de texte</h2>
     <p>Division de textes en phrases impliquant l’identification et la séparation de phrases individuelles d’un texte continu.</p>
     <br>
-    <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_preprocessing') }}"  target="_blank">{{ _('Voir la documentation') }}</a> / <a href="{{ url_for('tutoriel_preprocessing') }}"  target="_blank">{{ _('Voir le tutoriel') }}</a></p>
+    <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_preprocessing') }}"  target="_blank">{{ _('Voir la documentation') }}</a></p>
     <br>
     <form action="{{ url_for('split_sentences') }}" id="linguistic-form" method="post" enctype="multipart/form-data" onsubmit="showloader('loader')">
         {{ form.csrf_token }}

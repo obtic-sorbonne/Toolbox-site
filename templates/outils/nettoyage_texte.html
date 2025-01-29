@@ -14,7 +14,7 @@
         <li><hi style="font-weight: bold;">Mots-vides</hi> : Suppression des mots-vides ou <em>stopwords</em>, soit des mots très courants, tels que déterminants, auxiliaires, conjonction, etc.</li>
     </ul></p></div>
     <br>
-    <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_preprocessing') }}"  target="_blank">{{ _('Voir la documentation') }}</a> / <a href="{{ url_for('tutoriel_preprocessing') }}"  target="_blank">{{ _('Voir le tutoriel') }}</a></p>
+    <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_preprocessing') }}"  target="_blank">{{ _('Voir la documentation') }}</a></p>
     <br>
     <form action="{{ url_for('removing_elements') }}" id="linguistic-form" method="post" enctype="multipart/form-data" onsubmit="showloader('loader')">
         <div class="centered-div">

@@ -186,15 +186,7 @@ def documentation_generation():
 @app.route('/tutoriel')
 def tutoriel():
     return render_template('tutoriel.html')
-
-@app.route('/tutoriel_recognition')
-def tutoriel_recognition():
-    return render_template('tutoriel/tutoriel_recognition.html')
-
-@app.route('/tutoriel_preprocessing')
-def tutoriel_preprocessing():
-    return render_template('tutoriel/tutoriel_preprocessing.html')
-
+    
 @app.route('/tutoriel_conversion')
 def tutoriel_conversion():
     return render_template('tutoriel/tutoriel_conversion.html')
