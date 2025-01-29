@@ -47,9 +47,18 @@
         {{ form.csrf_token }}
         <label for="selected_language">{{ _('Modèle') }}</label>
         <select name="selected_language">
-            <option value="french" selected>{{ _('Français') }} (fr)</option>
+            <option value="german">{{ _('Allemand') }} (de)</option>
             <option value="english">{{ _('Anglais') }} (eng)</option>
+            <option value="danish">{{ _('Danois') }} (da)</option>
             <option value="spanish">{{ _('Espagnol') }} (es)</option>
+            <option value="finnish">{{ _('Finnois') }} (fi)</option>
+            <option value="french" selected>{{ _('Français') }} (fr)</option>
+            <option value="greek">{{ _('Grec') }} (el)</option>
+            <option value="italian">{{ _('Italien') }} (it)</option>
+            <option value="dutch">{{ _('Néerlandais') }} (nl)</option>
+            <option value="polish">{{ _('Polonais') }} (pl)</option>
+            <option value="portuguese">{{ _('Portugais') }} (pt)</option>
+            <option value="russian">{{ _('Russe') }} (ru)</option>
         </select>
         <div class="dropzone" style="margin:25px auto;">
             <input type="file" id="files" name="files" accept="text/plain" multiple required>

@@ -499,6 +499,15 @@ def run_tesseract():
 stop_words_english = set(stopwords.words('english'))
 stop_words_french = set(stopwords.words('french'))
 stop_words_spanish = set(stopwords.words('spanish'))
+stop_words_german = set(stopwords.words('german'))
+stop_words_danish = set(stopwords.words('danish'))
+stop_words_finnish = set(stopwords.words('finnish'))
+stop_words_greek = set(stopwords.words('greek'))
+stop_words_italian = set(stopwords.words('italian'))
+stop_words_dutch = set(stopwords.words('dutch'))
+stop_words_polish = set(stopwords.words('polish'))
+stop_words_portuguese = set(stopwords.words('portuguese'))
+stop_words_russian = set(stopwords.words('russian'))
 
 # Fonction pour obtenir les stopwords en fonction de la langue
 def get_stopwords(language):
@@ -508,6 +517,24 @@ def get_stopwords(language):
         return stop_words_french
     elif language == 'spanish':
         return stop_words_spanish
+    elif language == 'german':
+        return stop_words_german
+    elif language == 'danish':
+        return stop_words_danish
+    elif language == 'finnish':
+        return stop_words_finnish
+    elif language == 'greek':
+        return stop_words_greek
+    elif language == 'italian':
+        return stop_words_italian
+    elif language == 'dutch':
+        return stop_words_dutch
+    elif language == 'polish':
+        return stop_words_polish
+    elif language == 'portuguese':
+        return stop_words_portuguese
+    elif language == 'russian':
+        return stop_words_russian
     else:
         return set()
 
@@ -576,6 +603,14 @@ nlp_eng = spacy.load('en_core_web_sm')
 nlp_fr = spacy.load('fr_core_news_sm')
 nlp_es = spacy.load('es_core_news_sm')
 nlp_de = spacy.load('de_core_news_sm')
+nlp_it = spacy.load('it_core_news_sm')
+nlp_da = spacy.load("da_core_news_sm")
+nlp_nl = spacy.load("nl_core_news_sm")
+nlp_fi = spacy.load("fi_core_news_sm")
+nlp_pl = spacy.load("pl_core_news_sm")
+nlp_pt = spacy.load("pt_core_news_sm")
+nlp_el = spacy.load("el_core_news_sm")
+nlp_ru = spacy.load("ru_core_news_sm")
 
 def get_nlp(language):
     if language == 'english':
@@ -586,6 +621,22 @@ def get_nlp(language):
         return nlp_es
     elif language == 'german':
         return nlp_de
+    elif language == 'italian':
+        return nlp_it
+    elif language == 'danish':
+        return nlp_da
+    elif language == 'dutch':
+        return nlp_nl
+    elif language == 'finnish':
+        return nlp_fi
+    elif language == 'polish':
+        return nlp_pl
+    elif language == 'portuguese':
+        return nlp_pt
+    elif language == 'greek':
+        return nlp_el
+    elif language == 'russian':
+        return nlp_ru
     else:
         return set()
 
