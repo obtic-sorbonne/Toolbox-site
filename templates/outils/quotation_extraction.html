@@ -8,8 +8,17 @@
     <h3>Quotation extraction</h3>
     <p>Récupération, dans un ou des documents soumis, d'extraits de texte, généralement entre guillemets, qui représentent les mots de quelqu'un d'autre.</p>
     <br>
-    <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_extraction') }}" target="_blank">{{ _("Voir la documentation") }}</a> /<a href="{{ url_for('tutoriel_extraction') }}"  target="_blank">{{ _('Voir le tutoriel') }}</a></p>
-    <br>
+    <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_extraction') }}" target="_blank">{{ _("Voir la documentation") }}</a></p>
+    <br><div class="infos_outil" style="display: block;margin: 0 auto 15px auto;">
+        <input id="show" type=checkbox><label for="show" class="infos_title"><i class="fa-solid fa-circle-info"></i> {{ _("Informations sur l'outil") }}<i class="fa-solid fa-angle-right" style="float:right;margin-top:5px;margin-left:15px;cursor: pointer;"></i></label>
+        <div class="info_popped">
+          <p>Regular Expressions (Regex)
+      <p>{{ _("Formats d'entrée :")}} <i class="fa-regular fa-file-lines"></i> texte brut (.txt)</p>
+      <p>{{ _("Formats de sortie :")}} <i class="fa-regular fa-file-lines"></i> texte brut (.txt)</p>
+      <p>Encodage : UTF-8</p>
+      </div>
+  </div>
+  <br>
     <form action="{{ url_for('quotation') }}" id="linguistic-form" method="post" enctype="multipart/form-data" onsubmit="showloader('loader')">
         {{ form.csrf_token }}
         <div class="dropzone" style="margin:25px auto;">
