@@ -505,7 +505,7 @@ stop_words_finnish = set(stopwords.words('finnish'))
 stop_words_greek = set(stopwords.words('greek'))
 stop_words_italian = set(stopwords.words('italian'))
 stop_words_dutch = set(stopwords.words('dutch'))
-stop_words_polish = set(stopwords.words('polish'))
+#stop_words_polish = set(stopwords.words('polish'))
 stop_words_portuguese = set(stopwords.words('portuguese'))
 stop_words_russian = set(stopwords.words('russian'))
 
@@ -529,8 +529,6 @@ def get_stopwords(language):
         return stop_words_italian
     elif language == 'dutch':
         return stop_words_dutch
-    elif language == 'polish':
-        return stop_words_polish
     elif language == 'portuguese':
         return stop_words_portuguese
     elif language == 'russian':
