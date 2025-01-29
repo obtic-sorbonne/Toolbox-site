@@ -2,6 +2,30 @@
 {% block header %} {{ super() }} {% endblock %}
 
 {% block content %}
+<style>
+  #tess-form{
+    padding:35px;
+    margin:20px auto;
+    /*background-color:rgba(221, 201, 180, .3);*/
+    width:800px;
+    text-align: center;
+  }
+
+  .dropzone{
+    margin:auto;
+    margin-top: 8px;
+  }
+
+  button{
+    display: block;
+    margin:auto;
+    margin-top: 8px;
+  }
+  
+  #add_model{
+    cursor:pointer;
+  }
+</style>
 <!-- CREATION CORPUS -->
   <div class="outil">
     <div class="fil"><a href="{{ url_for('outils_corpus')}}"><< {{ _('Retour aux tâches') }}</a></div>
@@ -17,12 +41,12 @@
       <p>Encodage : UTF-8</p>
       </div>
     </div>
-    <div><p>L'outil est en cours de construction</p></div>
       <div style="margin:15px;margin-bottom:100px;">
+        <div id="tess-form">
     <form action="{{ url_for('autocorrect') }}" id="correction-form" method="post" enctype="multipart/form-data">
         {{ form.csrf_token }}
         <label for="selected_language">{{ _('Modèle') }}</label>
-        <select name="selected_language" class="sel sel--black-panther">
+        <select name="selected_language">
             <option value="french" selected>{{ _('Français') }} (fr)</option>
             <option value="english">{{ _('Anglais') }} (eng)</option>
             <option value="spanish">{{ _('Espagnol') }} (es)</option>
@@ -34,6 +58,7 @@
         <input id="csrf_token" name="csrf_token" type="hidden" value="{{ csrf_token() }}">
         <button style="display:block;margin:auto;margin-top:20px;">Corriger</button>
     </form>
+  </div>
     {% if msg != "" %}
     <div><p>{{ msg }}</p></div>
     {% endif %}

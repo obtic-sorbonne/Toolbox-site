@@ -2403,7 +2403,7 @@ def autocorrect():
             filename, file_extension = os.path.splitext(f.filename)
             output_name = filename + '.txt'
             with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-                out.write("the input text was : \n" + str(input_text) + "\n\nthe corrected text is: \n" + str(doc._.outcome_spellCheck))
+                out.write("The input text was : \n" + str(input_text) + "\n\nThe corrected text is: \n" + str(doc._.outcome_spellCheck))
 
         finally:
             f.close()
