@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding:utf-8 -*-
 
-from flask import Flask, abort, request, render_template, render_template_string, url_for, redirect, send_from_directory, Response, stream_with_context, session, send_file
+from flask import Flask, abort, request, render_template, render_template_string, url_for, redirect, send_from_directory, Response, stream_with_context, session, send_file, jsonify
 from werkzeug.utils import secure_filename
 from werkzeug.exceptions import HTTPException
 from forms import ContactForm, SearchForm
@@ -39,6 +39,8 @@ import shutil
 from pathlib import Path
 import json
 import collections
+import textdistance
+import difflib
 #from transformers import pipeline
 import textstat
 #from txt_ner import txt_ner_params
@@ -368,6 +370,16 @@ def analyse_lexicale():
 def analyse_texte():
     form = FlaskForm()
     return render_template('outils/analyse_texte.html', form=form)
+
+@app.route('/comparison')
+def comparison():
+    form = FlaskForm()
+    return render_template('outils/comparison.html', form=form)
+
+@app.route('/embeddings')
+def embeddings():
+    form = FlaskForm()
+    return render_template('outils/embeddings.html', form=form)
 
 @app.route('/tanagra')
 def tanagra():
@@ -1717,7 +1729,7 @@ def analyze_lexicale():
 
 
 #--------------- Analyse de texte --------------------------
-"""
+
 @app.route('/analyze_text', methods=['POST'])
 def analyze_text():
     if 'files' not in request.files:
@@ -1766,19 +1778,6 @@ def analyze_text():
                 output_name = filename + '_readibility_scoring.txt'
                 with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
                     out.write(f"Flesch Reading Ease Score: {flesch_reading_ease}")
-            elif analysis_type == 'comparison':
-                # Dependency parsing
-                doc = nlp_eng(input_text)
-                syntax_info = "\n".join([f"{token.text} ({token.pos_}) <--{token.dep_} ({spacy.explain(token.dep_)})-- {token.head.text} ({token.head.pos_})" for token in doc])
-                output_name_text = filename + '_comparison.txt'
-                with open(os.path.join(result_path, output_name_text), 'w', encoding='utf-8') as out:
-                    out.write(syntax_info)
-
-                # Visualization with displacy
-                svg = displacy.render(doc, style='dep', jupyter=False)
-                output_name_svg = filename + '_comparison.svg'
-                with open(os.path.join(result_path, output_name_svg), 'w', encoding='utf-8') as out:
-                    out.write(svg)
         finally:
             f.close()
 
@@ -1798,7 +1797,110 @@ def analyze_text():
 
     return Response(json.dumps({"error": "Une erreur est survenue dans le traitement des fichiers."}), status=500, mimetype='application/json')
 
-"""
+
+#--------------- Comparison --------------------------
+
+def highlight_diffs(text1, text2):
+    matcher = difflib.SequenceMatcher(None, text1, text2)
+    output1 = []
+    output2 = []
+    for tag, i1, i2, j1, j2 in matcher.get_opcodes():
+        if tag == 'replace':
+            output1.append('<span style="background-color: #ffd700;">' + ''.join(text1[i1:i2]) + '</span>')
+            output2.append('<span style="background-color: #ffd700;">' + ''.join(text2[j1:j2]) + '</span>')
+        elif tag == 'delete':
+            output1.append('<span style="background-color: #fbb6c2;">' + ''.join(text1[i1:i2]) + '</span>')
+            output2.append('<span></span>')
+        elif tag == 'insert':
+            output1.append('<span></span>')
+            output2.append('<span style="background-color: #d4fcbc;">' + ''.join(text2[j1:j2]) + '</span>')
+        elif tag == 'equal':
+            output1.append(''.join(text1[i1:i2]))
+            output2.append(''.join(text2[j1:j2]))
+    return ''.join(output1), ''.join(output2)
+
+def calculate_comparisons(text1, text2):
+    # Edit-based distance (Levenshtein...): Counts minimum edits needed (insertions, deletions, substitutions) to change one text into another.
+    levenshtein_score = textdistance.levenshtein(text1, text2)
+    # Token-based similarity (Jaccard...): Assesses similarity by comparing the sets of words from both texts
+    jaccard_score = textdistance.jaccard(text1.split(), text2.split())
+    # Sequence-based distance (Longest Common Subsequence): Measures the distance based on the length of the longest common subsequence
+    lcs_score = textdistance.lcsstr.distance(text1, text2)
+    # Compression-based similarity (Ratcliff-Obershelp...): Uses the size of the compressed texts to estimate their similarity
+    ratcliff_obershelp_score = textdistance.ratcliff_obershelp(text1, text2)
+    return levenshtein_score, jaccard_score, lcs_score, ratcliff_obershelp_score
+
+def compare_texts(text1, text2, output_file):
+    # Character by character comparison
+    char_diff1, char_diff2 = highlight_diffs(text1, text2)
+
+    # Calculate comparison metrics
+    levenshtein_score, jaccard_score, lcs_score, ratcliff_obershelp_score = calculate_comparisons(text1, text2)
+
+    # HTML result
+    html_result = '<table><tr><td><pre>' + char_diff1 + '</pre></td><td><pre>' + char_diff2 + '</pre></td></tr></table>'
+
+    # Write results to the HTML file
+    with open(output_file, 'w', encoding='utf-8') as file:
+        file.write(f'<br><h4>Comparison Results</h4><br/><ul><li>Levenshtein Distance (Edit-based): {levenshtein_score:.2f}</li><li>Jaccard Index (Token-based): {jaccard_score:.2f}</li><li>LCS Distance (Sequence-based): {lcs_score:.2f}</li><li>Ratcliff-Obershelp Similarity (Compression-based): {ratcliff_obershelp_score:.2f}</li></ul><br><span style="background-color: #ffd700;">Substitution</span><br><span style="background-color: #fbb6c2;">Deletion</span><br><span style="background-color: #d4fcbc;">Insertion</span><br><br>')
+        file.write(html_result)
+
+def read_file(file_path):
+    with open(file_path, 'r') as file:
+        return file.read()
+
+@app.route('/compare', methods=['POST'])
+def compare():
+    if 'files' not in request.files:
+        response = {"error": "No files part"}
+        return Response(json.dumps(response), status=400, mimetype='application/json')
+
+    files = request.files.getlist('files')
+    if not files or all(file.filename == '' for file in files):
+        response = {"error": "No selected files"}
+        return Response(json.dumps(response), status=400, mimetype='application/json')
+
+    file_paths = []
+    for file in files:
+        filename = secure_filename(file.filename)
+        file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+        file.save(file_path)
+        file_paths.append(file_path)
+    
+    if len(file_paths) >= 2:
+        text1 = read_file(file_paths[0])
+        text2 = read_file(file_paths[1])
+        rand_name = 'comparison_' + ''.join(random.choice(string.ascii_lowercase) for x in range(5))
+        result_path = os.path.join(os.getcwd(), rand_name)
+        os.makedirs(result_path, exist_ok=True)
+        
+        output_file = os.path.join(result_path, 'comparison.html')
+        compare_texts(text1, text2, output_file)
+
+        if len(os.listdir(result_path)) > 0:
+            shutil.make_archive(result_path, 'zip', result_path)
+            output_stream = BytesIO()
+            with open(str(result_path) + '.zip', 'rb') as res:
+                content = res.read()
+            output_stream.write(content)
+            response = Response(output_stream.getvalue(), mimetype='application/zip',
+                                headers={"Content-disposition": "attachment; filename=" + rand_name + '.zip'})
+            output_stream.seek(0)
+            output_stream.truncate(0)
+            shutil.rmtree(result_path)
+            os.remove(str(result_path) + '.zip')
+            return response
+
+        return Response(json.dumps({"error": "Une erreur est survenue dans le traitement des fichiers."}), status=500, mimetype='application/json')
+    
+    else:
+        return jsonify({"error": "Please upload at least two text files"}), 400
+
+
+#--------------- Embeddings --------------------------
+
+
+
 #---------------------------------------------------------
 # Visualisation
 #---------------------------------------------------------

@@ -6,7 +6,7 @@
 <div class="outil">
     <div class="fil"><a href="{{ url_for('analyses')}}"><< {{ _('Retour aux tâches') }}</a></div>
     <div>
-        <h3>Analyse de texte</h3>
+        <h3>Embeddings</h3>
     <p>Cette page permet d'opérer divers types d'analyses textuelles sur un ou plusieurs documents soumis.<br>
         <br>
     <ul class="item-list" style="margin-left: 3em;">
@@ -14,6 +14,7 @@
         <li><hi style="font-weight: bold;">Analyse de sentiments</hi> : Processus de détermination du ton positif, négatif ou neutre d'un texte</li>
         <li><hi style="font-weight: bold;">Analyse d'émotions</hi> : Processus d'identification d'émotions spécifiques exprimées dans un texte : joie, colère, tristesse...</li>
         <li><hi style="font-weight: bold;">Score de lecture</hi> : Outils utilisés pour évaluer la lisibilité d'un texte écrit et fournissant une mesure quantitative de la facilité ou de la difficulté à comprendre un texte</li>
+        <li><hi style="font-weight: bold;">Comparaison</hi> : Comparaisons en fonction de la forme, avec différents niveaux de granularité, des statistiques, ou des représentations vectorielles, etc</li>
     </ul></p></div>
     <br>
     <form action="{{ url_for('analyze_text') }}" id="linguistic-form" method="post" enctype="multipart/form-data" onsubmit="showloader('loader')">
@@ -24,6 +25,7 @@
                 <option value="sentiment_analysis">Analyse de sentiments</option>
                 <option value="emotion_analysis">Analyse d'émotions</option>
                 <option value="readibility_scoring">Score de lecture</option>
+                <option value="comparison">Comparaison</option>
             </select>
         </div>
         {{ form.csrf_token }}
