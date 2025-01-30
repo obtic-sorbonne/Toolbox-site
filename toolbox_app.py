@@ -41,9 +41,12 @@ import json
 import collections
 import textdistance
 import difflib
-#from transformers import pipeline
+from transformers import pipeline
 import textstat
 #from txt_ner import txt_ner_params
+import gensim.downloader as api
+from sklearn.cluster import KMeans
+from sklearn.decomposition import PCA
 
 #nltk.download('punkt_tab')
 #nltk.download('stopwords')
@@ -1898,6 +1901,77 @@ def compare():
 
 
 #--------------- Embeddings --------------------------
+@app.route('/embedding_tool', methods=['POST'])
+def embedding_tool():
+    analysis_type = request.form['analysis_type']
+    inputText = str(request.form.get('inputText'))
+    input1 = str(request.form.get('input1'))
+    input2 = str(request.form.get('input2'))
+    input3 = str(request.form.get('input3'))
+    words_list = str(request.form.get('words_list'))
+    analyzed_words = words_list.split(';')
+
+    model_glove = api.load("glove-wiki-gigaword-100")
+
+    rand_name = 'embedding_' + ''.join(random.choice(string.ascii_lowercase) for x in range(5))
+    result_path = os.path.join(os.getcwd(), rand_name)
+    os.makedirs(result_path, exist_ok=True)
+
+    try:
+        if analysis_type == 'similarity':
+            similar_words = model_glove.most_similar(inputText, topn=5)
+            output_name = 'similarity.txt'
+            with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
+                for term, similarity in similar_words:
+                    out.write(f"{term}: {similarity:.4f}\n")
+        elif analysis_type == 'relations':
+            result = model_glove.most_similar(positive=[input1, input2], negative=[input3], topn=1)
+            output_name = 'relations.txt'
+            with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
+                out.write(f"'{input1}' is to '{input2}' as '{input3}' is to '{result[0][0]}'")
+        elif analysis_type == 'clustering':
+            word_vectors = [model_glove[word] for word in analyzed_words]
+            kmeans = KMeans(n_clusters=3, random_state=0).fit(word_vectors)
+            clusters = kmeans.labels_
+
+            #Sortie
+            output_name = 'clustering.txt'
+            with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
+                for word, cluster in zip(analyzed_words, clusters):
+                    out.write(f"{word} is in cluster {cluster}\n")
+
+            #Visualisation
+            pca = PCA(n_components=2)
+            word_vecs_2d = pca.fit_transform(word_vectors)
+            plt.figure(figsize=(5, 5))
+            for i, word in enumerate(analyzed_words):
+                plt.scatter(word_vecs_2d[i, 0], word_vecs_2d[i, 1])
+                plt.annotate(word, xy=(word_vecs_2d[i, 0], word_vecs_2d[i, 1]), xytext=(5, 2),
+                             textcoords='offset points', ha='right', va='bottom')
+            cluster_name = 'clustering.png'
+            cluster_path = os.path.join(result_path, cluster_name)
+            plt.savefig(cluster_path, format='png')
+            plt.close()
+
+    except Exception as e:
+        response = {"error": str(e)}
+        return Response(json.dumps(response), status=500, mimetype='application/json')
+
+    if len(os.listdir(result_path)) > 0:
+        shutil.make_archive(result_path, 'zip', result_path)
+        output_stream = BytesIO()
+        with open(str(result_path) + '.zip', 'rb') as res:
+            content = res.read()
+        output_stream.write(content)
+        response = Response(output_stream.getvalue(), mimetype='application/zip',
+                            headers={"Content-disposition": "attachment; filename=" + rand_name + '.zip'})
+        output_stream.seek(0)
+        output_stream.truncate(0)
+        shutil.rmtree(result_path)
+        os.remove(str(result_path) + '.zip')
+        return response
+
+    return Response(json.dumps({"error": "Une erreur est survenue dans le traitement des fichiers."}), status=500, mimetype='application/json')
 
 
 
