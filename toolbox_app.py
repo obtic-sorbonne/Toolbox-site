@@ -47,6 +47,10 @@ import textstat
 import gensim.downloader as api
 from sklearn.cluster import KMeans
 from sklearn.decomposition import PCA
+import plotly.graph_objects as go
+import numpy as np
+from transformers import DistilBertTokenizer, DistilBertForSequenceClassification
+from transformers import RobertaTokenizer, RobertaForSequenceClassification
 
 #nltk.download('punkt_tab')
 #nltk.download('stopwords')
@@ -1745,9 +1749,12 @@ def analyze_text():
         return Response(json.dumps(response), status=400, mimetype='application/json')
 
     analysis_type = request.form['analysis_type']
+    emotion_type = request.form['emotion_type']
 
     classifier1 = pipeline('text-classification', model='GroNLP/mdebertav3-subjectivity-multilingual')
     classifier2 = pipeline("sentiment-analysis", model="nlptown/bert-base-multilingual-uncased-sentiment")
+    classifier_distilbert = pipeline("text-classification", model='bhadresh-savani/distilbert-base-uncased-emotion', return_all_scores=True, top_k=None)
+    classifier_roberta = pipeline("text-classification", model="SamLowe/roberta-base-go_emotions", return_all_scores=True, top_k=None)
 
     rand_name = 'textanalysis_' + ''.join(random.choice(string.ascii_lowercase) for x in range(5))
     result_path = os.path.join(os.getcwd(), rand_name)
@@ -1772,10 +1779,52 @@ def analyze_text():
                 with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
                     out.write(f"Sentence: {input_text}\n Star Rating: {star_rating} \n Sentiment: {sentiment} \n Score: {results[0]['score']:.2f}")
             elif analysis_type == 'emotion_analysis':
-                flesch_reading_ease = textstat.flesch_reading_ease(input_text)
-                output_name = filename + '_emotion_analysis.txt'
-                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-                    out.write(f"Flesch Reading Ease Score: {flesch_reading_ease}")
+                if emotion_type == "analyse1":
+                    #Sortie
+                    vis1 = classifier_distilbert(input_text)
+                    emotions = [result['label'] for result in vis1[0]]
+                    scores = [result['score'] for result in vis1[0]]
+
+                    output_name = filename + '_emotion_analysis.txt'
+                    with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
+                        for emotion, score in zip(emotions, scores):
+                            out.write(f"{emotion}: {score:.4f}\n")
+
+                    #Visualisation
+                    source = [0] * len(emotions)
+                    target = list(range(1, len(emotions) + 1))
+                    value = scores
+                    node_colors = ["#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd", "#8c564b", "#e377c2", "#7f7f7f", "#bcbd22", "#17becf", "#bc80bd", "#ccebc5", "#ffed6f", "#8dd3c7", "#fb8072"]
+                    fig = go.Figure(data=[go.Sankey(
+                        node=dict(pad=55, thickness=55, line=dict(color="black", width=0.5), label=["Input Text"] + emotions, color=node_colors),
+                        link=dict(source=source, target=target, value=value)
+                    )])
+                    fig.update_layout(title_text="Emotion Classification", font_size=15)
+                    vis1_name = filename + '_emotion1.png'
+                    vis1_path = os.path.join(result_path, vis1_name)
+                    fig.write_image(vis1_path, format='png')
+
+                elif emotion_type == "analyse2":
+                    #Visualisation2
+                    vis2 = classifier_roberta(input_text)
+                    labels = [emotion['label'] for emotion in vis2[0]]
+                    scores = [emotion['score'] for emotion in vis2[0]]
+                    combined = list(zip(labels, scores))
+                    random.shuffle(combined)
+                    labels, scores = zip(*combined)
+                    scores = list(scores) + [scores[0]]
+                    angles = [n / float(len(labels)) * 2 * np.pi for n in range(len(labels))] + [0]
+                    fig, ax = plt.subplots(subplot_kw=dict(polar=True))
+                    ax.fill(angles, scores, color='blue', alpha=0.5)
+                    ax.plot(angles, scores, color='blue', linewidth=1)
+                    ax.set_xticks(angles[:-1])
+                    ax.set_xticklabels(labels)
+                    plt.title('Emotion Classification')
+                    vis2_name = filename + '_emotion2.png'
+                    vis2_path = os.path.join(result_path, vis2_name)
+                    plt.savefig(vis2_path, format='png')
+                    plt.close()
+
             elif analysis_type == 'readibility_scoring':
                 flesch_reading_ease = textstat.flesch_reading_ease(input_text)
                 output_name = filename + '_readibility_scoring.txt'

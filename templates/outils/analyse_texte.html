@@ -26,6 +26,14 @@
                 <option value="readibility_scoring">Score de lecture</option>
             </select>
         </div>
+        <br>
+        <div class="centered-input-div" id="emotion_type" >
+            <label for="emotion_type">Choisir le type d'analyse :</label>
+            <select name="emotion_type" id="emotion_type" required>
+                <option value="analyse1">Score + visualisation</option>
+                <option value="analyse2">Visualisation circulaire</option>
+            </select>
+        </div>
         {{ form.csrf_token }}
         <br>
         <div class="dropzone" style="margin:25px auto;">
@@ -64,11 +72,11 @@ $('form input').change(function () {
 });
         function toggleNgramFields() {
             var analysisType = document.getElementById("analysis_type").value;
-            var ngramFields = document.getElementById("ngram-fields");
-            if (analysisType === "n_gram") {
-                ngramFields.style.display = "block";
+            var emotion_type = document.getElementById("emotion_type");
+            if (analysisType === "emotion_analysis") {
+                emotion_type.style.display = "block";
             } else {
-                ngramFields.style.display = "none";
+                emotion_type.style.display = "none";
             }
         }
 
