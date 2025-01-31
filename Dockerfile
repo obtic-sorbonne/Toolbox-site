@@ -1,26 +1,21 @@
 FROM nvidia/cuda:11.8.0-cudnn8-runtime-ubuntu22.04
 
-# Install NVIDIA Container Toolkit
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    nvidia-container-toolkit \
-    && rm -rf /var/lib/apt/lists/*
-
-# Set environment variables for NVIDIA
-ENV NVIDIA_VISIBLE_DEVICES all
-ENV NVIDIA_DRIVER_CAPABILITIES=compute,utility,graphics
-
-
 WORKDIR /pandore_app
 ADD . /pandore_app
 
-# Create necessary directories first
+# Create necessary directories first, including certificates
 RUN mkdir -p /pandore_app/uploads \
     && mkdir -p /pandore_app/static/models/tessdata \
-    && mkdir -p /pandore_app/temp
+    && mkdir -p /pandore_app/temp \
+    && mkdir -p /pandore_app/certificates
+
+# Create a non-root user
+RUN useradd -m pandore
 
 # Install system dependencies including ALL Tesseract language packs
 RUN apt-get update && apt-get install -y \
     wget \
+    net-tools \
     gcc \
     poppler-utils \
     tesseract-ocr \
@@ -42,7 +37,7 @@ RUN apt-get update && apt-get install -y \
 
 # Copy Tesseract trained data to our custom tessdata directory
 RUN cp -r /usr/share/tesseract-ocr/4.00/tessdata/* /pandore_app/static/models/tessdata/ \
-&& chmod -R 777 /pandore_app/static/models/tessdata
+    && chmod -R 777 /pandore_app/static/models/tessdata
 
 # Configure SWIG
 RUN cd swig && ./swig-3.0.12/configure && make && make install
@@ -72,17 +67,6 @@ RUN conda create -n toolbox-env python=3.9.13 && \
 # Activate environment and install packages
 SHELL ["conda", "run", "-n", "toolbox-env", "/bin/bash", "-c"]
 
-# Create a non-root user and set permissions
-RUN useradd -m pandore && \
-    chown -R pandore:pandore /pandore_app && \
-    chmod -R 777 /pandore_app/uploads && \
-    chmod -R 777 /pandore_app/temp
-
-USER pandore
-
-# Add local bin to PATH for the pandore user
-ENV PATH=/home/pandore/.local/bin:$PATH
-
 # Install pip packages and requirements first
 RUN pip install -U pip setuptools wheel
 RUN pip install docopt==0.6.2
@@ -103,7 +87,7 @@ RUN python -m nltk.downloader punkt averaged_perceptron_tagger maxent_ne_chunker
 # Install wordcloud
 RUN pip install wordcloud
 
-RUN pip install --upgrade numexpr>=2.8.4 bottleneck>=1.3.6
+RUN pip install --upgrade "numexpr>=2.8.4" "bottleneck>=1.3.6"
 
 # Install spaCy models
 RUN python -m spacy download en_core_web_sm
@@ -113,12 +97,40 @@ RUN python -m spacy download fr_core_news_sm
 RUN python -m spacy download fr_core_news_md
 RUN python -m spacy download fr_core_news_lg
 
+# Copy certificates into the container and set correct ownership and permissions
+# COPY --chown=pandore:pandore certificates/cert-fullchain.pem /pandore_app/certificates/cert.pem
+# COPY --chown=pandore:pandore certificates/server.key /pandore_app/certificates/server.key
+
+# RUN chmod 644 /pandore_app/certificates/cert.pem && \
+#     chmod 600 /pandore_app/certificates/server.key
+
+# USER pandore
+# Copy certificates and set ownership/permissions
+#COPY certificates/cert-fullchain.pem /pandore_app/certificates/cert.pem
+#COPY certificates/server.key /pandore_app/certificates/server.key
+
+# Verification and debugging steps
+RUN echo "For certificate:" && \
+    ls -l /pandore_app/certificates/ && \
+    echo "For fullchain:" && \
+    openssl x509 -noout -modulus -in /pandore_app/certificates/cert.pem | openssl md5 && \
+    echo "Certificate modulus:" && \
+    openssl x509 -noout -modulus -in /pandore_app/certificates/fullchain.pem | openssl md5 && \
+    echo "For private key:" && \
+    openssl rsa -noout -modulus -in /pandore_app/certificates/server.key | openssl md5
+
+RUN chmod 644 /pandore_app/certificates/fullchain.pem && \
+    chmod 600 /pandore_app/certificates/server.key && \
+    chown -R pandore:pandore /pandore_app/certificates
+
+USER pandore
+
+# Add local bin to PATH for the pandore user
+ENV PATH=/home/pandore/.local/bin:$PATH
+
 EXPOSE 5000
 
 # Add these volume configurations
 VOLUME ["/pandore_app/uploads", "/pandore_app/static/models"]
-
-# Update the ENTRYPOINT to handle signals properly
-#ENTRYPOINT ["conda", "run", "--no-capture-output", "-n", "toolbox-env", "python", "-u", "toolbox_app.py"]
 
 ENTRYPOINT ["conda", "run", "--no-capture-output", "-n", "toolbox-env", "python", "toolbox_app.py"]
