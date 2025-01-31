@@ -2743,3 +2743,39 @@ if __name__ == "__main__":
         use_reloader=False,
         ssl_context=ssl_context
     )
+
+#=====================================================================
+# Adding this part to try to make the website faster 
+#=====================================================================
+
+import mimetypes
+
+# Configure static file serving
+app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 31536000  # 1 year
+app.config['STATIC_FOLDER'] = 'static'
+
+@app.after_request
+def add_header(response):
+    if 'Cache-Control' not in response.headers:
+        if request.path.startswith('/static/'):
+            # Cache static files
+            response.cache_control.public = True
+            response.cache_control.max_age = 31536000
+            response.cache_control.immutable = True
+            
+            # Add content-type for images
+            if request.path.endswith(('.png', '.jpg', '.jpeg', '.gif', '.ico')):
+                mime_type, _ = mimetypes.guess_type(request.path)
+                if mime_type:
+                    response.headers['Content-Type'] = mime_type
+    return response
+
+# Serve static files with custom headers
+@app.route('/static/<path:filename>')
+def serve_static(filename):
+    response = send_from_directory(app.static_folder, filename)
+    
+    # Add security headers
+    response.headers['X-Content-Type-Options'] = 'nosniff'
+    response.headers['X-Frame-Options'] = 'SAMEORIGIN'
+    return response
