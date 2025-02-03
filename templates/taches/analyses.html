@@ -15,9 +15,9 @@
     <div class="box-outil-accueil" onclick="window.location.href='{{ url_for('analyse_statistique') }}'">
       <div class="rubrique-icon"><img alt="Analyse statistique" src="{{ url_for('static', filename='img/icons/analyse-statistique.png')}}" width="100%"></div>
       <span class="rubrique-title"><h3>Analyse statistique</h3></span>
-      <span class="rubrique-text"><p>Longueur moyenne des phrases, Fréquence de mots, Co-occurrences, Embeddings</p></span>
+      <span class="rubrique-text"><p>Longueur moyenne des phrases, Fréquence de mots, Co-occurrences</p></span>
     </div>
-    <!--<div class="box-outil-accueil" onclick="window.location.href='{{ url_for('analyse_lexicale') }}'">
+    <div class="box-outil-accueil" onclick="window.location.href='{{ url_for('analyse_lexicale') }}'">
       <div class="rubrique-icon"><img alt="Analyse lexicale" src="{{ url_for('static', filename='img/icons/analyse-lexicale.png')}}" width="100%"></div>
       <span class="rubrique-title"><h3>Analyse lexicale</h3></span>
       <span class="rubrique-text"><p>Dispersion lexicale, Diversité lexicale, Relations lexicales, Spécificités lexicales</p></span>
@@ -25,9 +25,18 @@
     <div class="box-outil-accueil" onclick="window.location.href='{{ url_for('analyse_texte') }}'">
       <div class="rubrique-icon"><img alt="Analyse de texte" src="{{ url_for('static', filename='img/icons/analyse-de-texte.png')}}" width="100%"></div>
       <span class="rubrique-title"><h3>Analyse de texte</h3></span>
-      <span class="rubrique-text"><p>Détection de subjectivité, Analyse de sentiments, Analyse d'émotions, Score de lecture, Comparaison</p></span>
-
-    </div>-->
+      <span class="rubrique-text"><p>Détection de subjectivité, Analyse de sentiments, Analyse d'émotions, Score de lecture</p></span>
+    </div>
+    <div class="box-outil-accueil" onclick="window.location.href='{{ url_for('comparison') }}'">
+      <div class="rubrique-icon"><img alt="Comparaison" src="{{ url_for('static', filename='img/icons/comparison.png')}}" width="100%"></div>
+      <span class="rubrique-title"><h3>Comparaison</h3></span>
+      <span class="rubrique-text"><p>Comparaison de textes</p></span>
+    </div>
+    <div class="box-outil-accueil" onclick="window.location.href='{{ url_for('embeddings') }}'">
+      <div class="rubrique-icon"><img alt="Embeddings" src="{{ url_for('static', filename='img/icons/cluster.png')}}" width="100%"></div>
+      <span class="rubrique-title"><h3>Embeddings</h3></span>
+      <span class="rubrique-text"><p>Similarités, Relations, Clustering</p></span>
+    </div>
     
   </div>
 </div>

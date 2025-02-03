@@ -11,6 +11,7 @@ from flask_wtf.csrf import CSRFProtect
 from flask_babel import Babel, get_locale
 from langdetect import detect_langs
 import matplotlib.pyplot as plt
+import math
 import nltk
 from nltk.tokenize import sent_tokenize, word_tokenize
 from nltk import sent_tokenize
@@ -33,21 +34,33 @@ from urllib.parse import urlparse
 import re
 from lxml import etree
 import csv
-#import contextualSpellCheck
+import contextualSpellCheck
 import spacy
 from spacy import displacy
 import shutil
 from pathlib import Path
 import json
 import collections
-#from transformers import pipeline
+import textdistance
+import difflib
+from transformers import pipeline
+import textstat
 #from txt_ner import txt_ner_params
+import gensim.downloader as api
+from sklearn.cluster import KMeans
+from sklearn.decomposition import PCA
+import plotly.graph_objects as go
+import numpy as np
 
-#nltk.download('punkt_tab')
-#nltk.download('stopwords')
-#nltk.download('punkt')
+nltk.download('punkt_tab')
+nltk.download('stopwords')
+nltk.download('punkt')
 
-nlp_eng = spacy.load('en_core_web_sm')
+nltk.download('wordnet')
+nltk.download('omw-1.4')
+from nltk.corpus import wordnet
+
+stop_words = set(stopwords.words('english'))
 
 import pandas as pd
 
@@ -200,15 +213,7 @@ def documentation_generation():
 @app.route('/tutoriel')
 def tutoriel():
     return render_template('tutoriel.html')
-
-@app.route('/tutoriel_recognition')
-def tutoriel_recognition():
-    return render_template('tutoriel/tutoriel_recognition.html')
-
-@app.route('/tutoriel_preprocessing')
-def tutoriel_preprocessing():
-    return render_template('tutoriel/tutoriel_preprocessing.html')
-
+    
 @app.route('/tutoriel_conversion')
 def tutoriel_conversion():
     return render_template('tutoriel/tutoriel_conversion.html')
@@ -373,6 +378,16 @@ def analyse_texte():
     form = FlaskForm()
     return render_template('outils/analyse_texte.html', form=form)
 
+@app.route('/comparison')
+def comparison():
+    form = FlaskForm()
+    return render_template('outils/comparison.html', form=form)
+
+@app.route('/embeddings')
+def embeddings():
+    form = FlaskForm()
+    return render_template('outils/embeddings.html', form=form)
+
 @app.route('/tanagra')
 def tanagra():
     return render_template('outils/tanagra.html')
@@ -509,6 +524,47 @@ def run_tesseract():
 
 #-------------- Nettoyage de texte -------------------------
 
+# Importer les stopwords pour chaque langue
+stop_words_english = set(stopwords.words('english'))
+stop_words_french = set(stopwords.words('french'))
+stop_words_spanish = set(stopwords.words('spanish'))
+stop_words_german = set(stopwords.words('german'))
+stop_words_danish = set(stopwords.words('danish'))
+stop_words_finnish = set(stopwords.words('finnish'))
+stop_words_greek = set(stopwords.words('greek'))
+stop_words_italian = set(stopwords.words('italian'))
+stop_words_dutch = set(stopwords.words('dutch'))
+#stop_words_polish = set(stopwords.words('polish'))
+stop_words_portuguese = set(stopwords.words('portuguese'))
+stop_words_russian = set(stopwords.words('russian'))
+
+# Fonction pour obtenir les stopwords en fonction de la langue
+def get_stopwords(language):
+    if language == 'english':
+        return stop_words_english
+    elif language == 'french':
+        return stop_words_french
+    elif language == 'spanish':
+        return stop_words_spanish
+    elif language == 'german':
+        return stop_words_german
+    elif language == 'danish':
+        return stop_words_danish
+    elif language == 'finnish':
+        return stop_words_finnish
+    elif language == 'greek':
+        return stop_words_greek
+    elif language == 'italian':
+        return stop_words_italian
+    elif language == 'dutch':
+        return stop_words_dutch
+    elif language == 'portuguese':
+        return stop_words_portuguese
+    elif language == 'russian':
+        return stop_words_russian
+    else:
+        return set()
+
 @app.route('/removing_elements', methods=['POST'])
 def removing_elements():
     if 'files' not in request.files:
@@ -521,6 +577,7 @@ def removing_elements():
         return Response(json.dumps(response), status=400, mimetype='application/json')
 
     removing_type = request.form['removing_type']
+    selected_language = request.form['selected_language']
 
     rand_name = 'removing_' + ''.join(random.choice(string.ascii_lowercase) for x in range(5))
     result_path = os.path.join(os.getcwd(), rand_name)
@@ -531,7 +588,7 @@ def removing_elements():
             input_text = f.read().decode('utf-8')
             tokens = word_tokenize(input_text)
             removing_punctuation = [token for token in tokens if token.isalpha()]
-            stop_words = set(stopwords.words('english'))
+            stop_words = get_stopwords(selected_language)
             removing_stopwords = [token for token in tokens if token.lower() not in stop_words]
             filename, file_extension = os.path.splitext(f.filename)
 
@@ -568,6 +625,48 @@ def removing_elements():
 
 #-------------- Normalisation de texte -------------------------
 
+
+nlp_eng = spacy.load('en_core_web_sm')
+nlp_fr = spacy.load('fr_core_news_sm')
+nlp_es = spacy.load('es_core_news_sm')
+nlp_de = spacy.load('de_core_news_sm')
+nlp_it = spacy.load('it_core_news_sm')
+nlp_da = spacy.load("da_core_news_sm")
+nlp_nl = spacy.load("nl_core_news_sm")
+nlp_fi = spacy.load("fi_core_news_sm")
+nlp_pl = spacy.load("pl_core_news_sm")
+nlp_pt = spacy.load("pt_core_news_sm")
+nlp_el = spacy.load("el_core_news_sm")
+nlp_ru = spacy.load("ru_core_news_sm")
+
+def get_nlp(language):
+    if language == 'english':
+        return nlp_eng
+    elif language == 'french':
+        return nlp_fr
+    elif language == 'spanish':
+        return nlp_es
+    elif language == 'german':
+        return nlp_de
+    elif language == 'italian':
+        return nlp_it
+    elif language == 'danish':
+        return nlp_da
+    elif language == 'dutch':
+        return nlp_nl
+    elif language == 'finnish':
+        return nlp_fi
+    elif language == 'polish':
+        return nlp_pl
+    elif language == 'portuguese':
+        return nlp_pt
+    elif language == 'greek':
+        return nlp_el
+    elif language == 'russian':
+        return nlp_ru
+    else:
+        return set()
+
 @app.route('/normalize_text', methods=['POST'])
 def normalize_text():
     if 'files' not in request.files:
@@ -580,6 +679,7 @@ def normalize_text():
         return Response(json.dumps(response), status=400, mimetype='application/json')
 
     normalisation_type = request.form['normalisation_type']
+    selected_language = request.form['selected_language']
 
     rand_name = 'normalized_' + ''.join(random.choice(string.ascii_lowercase) for x in range(5))
     result_path = os.path.join(os.getcwd(), rand_name)
@@ -590,7 +690,8 @@ def normalize_text():
             input_text = f.read().decode('utf-8')
             tokens = word_tokenize(input_text)
             lowers = [token.lower() for token in tokens]
-            lemmas = [token.lemma_ for token in nlp_eng(input_text)]
+            nlp = get_nlp(selected_language)
+            lemmas = [token.lemma_ for token in nlp(input_text)]
             filename, file_extension = os.path.splitext(f.filename)
 
             if normalisation_type == 'tokens':
@@ -722,7 +823,7 @@ def xmlconverter():
                     # Writing in stream
                     output_stream = BytesIO()
                     output_filename = os.path.splitext(filename)[0] + '.xml'
-                    etree.ElementTree(root).write(output_stream, pretty_print=True, xml_declaration=True, encoding="utf-8")
+                    etree.ElementTree(root).write(output_stream, xml_declaration=True, encoding="utf-8")
                     output_stream.seek(0)
                     zip_file.writestr(output_filename, output_stream.getvalue())
                     output_stream.truncate(0)
@@ -741,6 +842,115 @@ def xmlconverter():
 # Paramètres :
 # - filename : emplacement du fichier uploadé par l'utilisateur
 # - fields : dictionnaire des champs présents dans le form metadata
+import xml.etree.ElementTree as etree
+
+def encode_text(filename, is_text_standard=True, is_poem=False, is_play=False, is_book=False):
+    div = etree.Element("div")
+
+    with open(filename, "r", encoding="utf-8") as f:
+        lines = f.readlines()
+    
+    if is_poem:
+        stanza = []
+        for line in lines:
+            if line.strip() == "":
+                if stanza:
+                    stanza_element = etree.Element("lg", type="stanza")
+                    for verse in stanza:
+                        verse_element = etree.Element("l")
+                        verse_element.text = verse.strip()
+                        stanza_element.append(verse_element)
+                    div.append(stanza_element)
+                    stanza = []
+            else:
+                stanza.append(line)
+        
+        if stanza:
+            stanza_element = etree.Element("lg", type="stanza")
+            for verse in stanza:
+                verse_element = etree.Element("l")
+                verse_element.text = verse.strip()
+                stanza_element.append(verse_element)
+            div.append(stanza_element)
+    elif is_play:
+        scene = []
+        acte_element = None
+        scene_element = None
+
+        for line in lines:
+            if re.match(r"Act|Acte", line.strip()):
+                if acte_element is not None:
+                    div.append(acte_element)
+                acte_element = etree.Element("div")
+                acte_element.set("type", "act")
+                head_element = etree.Element("head")
+                head_element.text = line.strip()
+                acte_element.append(head_element)
+                scene = []
+
+            elif re.match(r"Scène|Scene", line.strip()):
+                if scene_element is not None:
+                    acte_element.append(scene_element)
+                scene_element = etree.Element("div")
+                scene_element.set("type", "scene")
+                head_element = etree.Element("head")
+                head_element.text = line.strip()
+                scene_element.append(head_element)
+                scene = []
+
+            else:
+                scene.append(line)
+
+        if scene_element is not None:
+            for dialogue in scene:
+                dialogue_element = etree.Element("p")
+                dialogue_element.text = dialogue.strip()
+                scene_element.append(dialogue_element)
+            acte_element.append(scene_element)
+
+        if acte_element is not None:
+            div.append(acte_element)
+
+    elif is_book:
+        scene = []
+        chapter_element = None
+        text_element = None
+
+        for line in lines:
+            if re.match(r"Chapter|Chapitre", line.strip()):
+                if chapter_element is not None:
+                    div.append(chapter_element)
+                chapter_element = etree.Element("div")
+                chapter_element.set("type", "chapter")
+                head_element = etree.Element("head")
+                head_element.text = line.strip()
+                chapter_element.append(head_element)
+                scene = []
+            else:
+                scene.append(line)
+
+        if chapter_element is not None:
+            text_element = etree.Element("div")
+            text_element.set("type", "text")
+            for dialogue in scene:
+                dialogue_element = etree.Element("p")
+                dialogue_element.text = dialogue.strip()
+                text_element.append(dialogue_element)
+            chapter_element.append(text_element)
+            div.append(chapter_element)
+
+
+    else:
+        file = "".join(lines)
+        file = file.replace(".\n", ".[$]")
+        ptext = file.split("[$]")
+        for line in ptext:
+            paragraph = etree.Element("p")
+            paragraph.text = line.strip()
+            div.append(paragraph)
+    
+    return div
+
 def txt_to_xml(filename, fields):
     # Initialise TEI
     root = etree.Element("TEI", {'xmlns': "http://www.tei-c.org/ns/1.0"})
@@ -783,7 +993,7 @@ def txt_to_xml(filename, fields):
             name.text = fields['respStmt_name']
             respStmt.append(name)
 
-        editionStmt.append(respStmt)
+        titleStmt.append(respStmt)
 
     #- PublicationStmt
     publishers_list = fields['pubStmt'].split('\n') # Get publishers list
@@ -795,6 +1005,7 @@ def txt_to_xml(filename, fields):
         publicationStmt.append(publisher)
 
     licence = etree.Element("licence")
+    availability = etree.Element("availability")
     licence.text = fields["licence"]
     if licence.text == "CC-BY":
         licence.set("target", "https://creativecommons.org/licenses/by/4.0/")
@@ -804,7 +1015,8 @@ def txt_to_xml(filename, fields):
         licence.set("target", "https://creativecommons.org/licenses/by-nd/4.0/")
     if licence.text == "CC-BY-NC":
         licence.set("target", "https://creativecommons.org/licenses/by-nc/4.0/")
-    publicationStmt.append(licence)
+    availability.append(licence)
+    publicationStmt.append(availability)
 
     #- SourceDesc
     paragraphs = fields['sourceDesc'].split('\n')
@@ -822,15 +1034,15 @@ def txt_to_xml(filename, fields):
     language = etree.Element("language")
     lang = fields["lang"]
     language.set("ident", lang)
-    #langUsage.append(language)
-    profileDesc.append(language)
+    langUsage.append(language)
+    profileDesc.append(langUsage)
 
     #- EncodingDesc
-    projetDesc = etree.Element("projetDesc")
-    projet_p = etree.Element("p")
-    projet_p.text = fields["projet_p"]
-    projetDesc.append(projet_p)
-    encodingDesc.append(projetDesc)
+    projectDesc = etree.Element("projectDesc")
+    project_p = etree.Element("p")
+    project_p.text = fields["projet_p"]
+    projectDesc.append(project_p)
+    encodingDesc.append(projectDesc)
 
     editorialDecl = etree.Element("editorialDecl")
     edit_correction = etree.Element("correction")
@@ -853,7 +1065,6 @@ def txt_to_xml(filename, fields):
     editorialDecl.append(edit_hyphen)
     encodingDesc.append(editorialDecl)
 
-
     #- RevisionDesc
     if fields['revisionDesc_change']:
         revisionDesc = etree.Element("revisionDesc")
@@ -867,40 +1078,35 @@ def txt_to_xml(filename, fields):
 
     # Header
     fileDesc.append(titleStmt)
-    fileDesc.append(editionStmt)
     fileDesc.append(publicationStmt)
     fileDesc.append(sourceDesc)
-    fileDesc.append(profileDesc)
-    fileDesc.append(encodingDesc)
-    fileDesc.append(revisionDesc)
     teiHeader.append(fileDesc)
+    teiHeader.append(encodingDesc)
+    teiHeader.append(profileDesc)
+    teiHeader.append(revisionDesc)
     root.append(teiHeader)
 
     # Text
     text = etree.Element("text")
+    body = etree.Element("body")
+    text.append(body)
     div = etree.Element("div")
     divtype = fields["divtype"]
     div.set("type", divtype)
-    text.append(div)
+    body.append(div)
 
-    with open(filename, "r") as f:
-        file = f.read()
-    file = file.replace(".\n", ".[$]")
-    ptext = file.split("[$]")
-    for line in ptext:
-        paragraph = etree.Element("p")
-        paragraph.text = line.strip()
-        div.append(paragraph)
+    # Utilisation de la fonction encode_text
+    content_div = encode_text(filename, is_text_standard=(fields["divtype"] == "text"), is_poem=(fields["divtype"] == "poem"), is_play=(fields["divtype"] == "play"), is_book=(fields["divtype"] == "book"))
+    div.extend(content_div)
 
     root.append(text)
-    return root
 
+    return root
 #-----------------------------------------------------------------
 # Annotation automatique
 #-----------------------------------------------------------------
 
 #------------- POS ----------------------
-nlp_eng = spacy.load('en_core_web_sm')
 
 @app.route('/pos_tagging', methods=['POST'])
 def pos_tagging():
@@ -913,6 +1119,8 @@ def pos_tagging():
         response = {"error": "No selected files"}
         return Response(json.dumps(response), status=400, mimetype='application/json')
 
+    selected_language = request.form['selected_language']
+
     rand_name = 'postagging_' + ''.join(random.choice(string.ascii_lowercase) for x in range(5))
     result_path = os.path.join(os.getcwd(), rand_name)
     os.makedirs(result_path, exist_ok=True)
@@ -920,7 +1128,8 @@ def pos_tagging():
     for f in files:
         try:
             input_text = f.read().decode('utf-8')
-            doc = nlp_eng(input_text)
+            nlp = get_nlp(selected_language)
+            doc = nlp(input_text)
             filename, file_extension = os.path.splitext(f.filename)
             
             output_name = filename + '.txt'
@@ -1602,6 +1811,10 @@ def analyze_lexicale():
     analysis_type = request.form['analysis_type']
 
     words_to_analyze = str(request.form.get('words_to_analyze'))
+    analyzed_words = words_to_analyze.split(';')
+    word = str(request.form.get('word'))
+    words_list = str(request.form.get('words_list'))
+
 
     rand_name = 'lexicale_' + ''.join(random.choice(string.ascii_lowercase) for x in range(5))
     result_path = os.path.join(os.getcwd(), rand_name)
@@ -1620,7 +1833,7 @@ def analyze_lexicale():
             if analysis_type == 'lexical_dispersion':
                 text_nltk = Text(tokens) 
                 fig = plt.figure(figsize=(10, 6)) 
-                text_nltk.dispersion_plot(words_to_analyze) 
+                text_nltk.dispersion_plot(analyzed_words) 
                 # Personnalisation du plot 
                 plt.xlabel('Word Offset') 
                 plt.ylabel('Frequency') 
@@ -1654,22 +1867,47 @@ def analyze_lexicale():
                 plt.savefig(vis_path, format='png')
                 plt.close()
             elif analysis_type == 'lexical_relationships':
+                synonyms, antonyms, hyponyms, hypernyms = set(), set(), set(), set()
+                for syn in wordnet.synsets(word):
+                    for lemma in syn.lemmas():
+                        synonyms.add(lemma.name())  # Add synonyms
+                        if lemma.antonyms():
+                            antonyms.add(lemma.antonyms()[0].name())  # Add antonyms
+
+                    for hypo in syn.hyponyms():
+                        hyponyms.update(lemma.name() for lemma in hypo.lemmas())  # Add hyponyms
+                    for hyper in syn.hypernyms():
+                        hypernyms.update(lemma.name() for lemma in hyper.lemmas())  # Add hypernyms
                 output_name = filename + '_relationships.txt'
                 with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-                    out.write(f"Detected languages:\n{detected_languages_str}\n")
+                    out.write("Synonyms: " + str(list(synonyms)) + "\nAntonyms: " + str(list(antonyms)) + "\nHyponyms: " + str(list(hyponyms)) + "\nHypernyms:" + str(list(hypernyms)))
             elif analysis_type == 'lexical_specificity':
-                # Dependency parsing
-                doc = nlp_eng(input_text)
-                syntax_info = "\n".join([f"{token.text} ({token.pos_}) <--{token.dep_} ({spacy.explain(token.dep_)})-- {token.head.text} ({token.head.pos_})" for token in doc])
-                output_name_text = filename + '_specifity.txt'
-                with open(os.path.join(result_path, output_name_text), 'w', encoding='utf-8') as out:
-                    out.write(syntax_info)
+                text_without_stopwords = [word for word in words_list.lower().split() if word not in stop_words]
 
-                # Visualization with displacy
-                svg = displacy.render(doc, style='dep', jupyter=False)
-                output_name_svg = filename + '_specifity.svg'
-                with open(os.path.join(result_path, output_name_svg), 'w', encoding='utf-8') as out:
-                    out.write(svg)
+                tf = Counter(text_without_stopwords)
+                total_words = len(text_without_stopwords)
+                tf = {word: count / total_words for word, count in tf.items()}
+                word_doc_counts = {word: sum(1 for doc in input_text if word in doc.lower().split()) for word in tf}
+                idf = {word: math.log(len(input_text) / max(count, 1)) for word, count in word_doc_counts.items()}
+                tf_idf = {word: tf[word] * idf[word] for word in tf}
+                sorted_tf_idf = sorted(tf_idf.items(), key=lambda item: item[1], reverse=True)
+
+                #Sortie
+                output_name = filename + '_specifity.txt'
+                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
+                    out.write("Results: " + str(sorted_tf_idf))
+
+                # Visualization
+                words, scores = zip(*sorted_tf_idf)
+                plt.figure(figsize=(10, 6))
+                plt.bar(words, scores, color='grey')
+                plt.xlabel('Words')
+                plt.ylabel('TF-IDF Score')
+                plt.title('TF-IDF Scores for Words in Text')
+                vis_name = filename + '_specifity.png'
+                vis_path = os.path.join(result_path, vis_name)
+                plt.savefig(vis_path, format='png')
+                plt.close()
         finally:
             f.close()
 
@@ -1705,9 +1943,12 @@ def analyze_text():
         return Response(json.dumps(response), status=400, mimetype='application/json')
 
     analysis_type = request.form['analysis_type']
+    emotion_type = request.form['emotion_type']
 
-    n = int(request.form.get('n', 2))  # Default n-gram length to 2 if not provided
-    r = int(request.form.get('r', 5)) 
+    classifier1 = pipeline('text-classification', model='GroNLP/mdebertav3-subjectivity-multilingual')
+    classifier2 = pipeline("sentiment-analysis", model="nlptown/bert-base-multilingual-uncased-sentiment")
+    classifier_distilbert = pipeline("text-classification", model='bhadresh-savani/distilbert-base-uncased-emotion', return_all_scores=True, top_k=None)
+    classifier_roberta = pipeline("text-classification", model="SamLowe/roberta-base-go_emotions", return_all_scores=True, top_k=None)
 
     rand_name = 'textanalysis_' + ''.join(random.choice(string.ascii_lowercase) for x in range(5))
     result_path = os.path.join(os.getcwd(), rand_name)
@@ -1719,38 +1960,70 @@ def analyze_text():
             filename, file_extension = os.path.splitext(f.filename)
 
             if analysis_type == 'subjectivity_detection':
+                result = classifier1(input_text)[0]
+                label = "objective" if result['label'] == "LABEL_0" else "subjective"
                 output_name = filename + '_subjectivity_detection.txt'
                 with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-                    out.write("The hapaxes are: " + ", ".join(hapaxes_list))
+                    out.write(f"The sentence: [{input_text}] is {label} (Score: {result['score']:.2f})")
             elif analysis_type == 'sentiment_analysis':
-                most_frequent_ngrams = generate_ngrams(input_text, n, r)
+                results = classifier2(input_text)
+                star_rating = int(results[0]['label'].split()[0])
+                sentiment = "negative" if star_rating in [1, 2] else "neutral" if star_rating == 3 else "positive"
                 output_name = filename + '_sentiment_analysis.txt'
                 with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-                    for n_gram, count in most_frequent_ngrams:
-                        out.write(f"{n}-gram: {' '.join(n_gram)} --> Count: {count}\n")
+                    out.write(f"Sentence: {input_text}\n Star Rating: {star_rating} \n Sentiment: {sentiment} \n Score: {results[0]['score']:.2f}")
             elif analysis_type == 'emotion_analysis':
-                most_frequent_ngrams = generate_ngrams(input_text, n, r)
-                output_name = filename + '_emotion_analysis.txt'
-                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-                    for n_gram, count in most_frequent_ngrams:
-                        out.write(f"{n}-gram: {' '.join(n_gram)} --> Count: {count}\n")
+                if emotion_type == "analyse1":
+                    #Sortie
+                    vis1 = classifier_distilbert(input_text)
+                    emotions = [result['label'] for result in vis1[0]]
+                    scores = [result['score'] for result in vis1[0]]
+
+                    output_name = filename + '_emotion_analysis.txt'
+                    with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
+                        for emotion, score in zip(emotions, scores):
+                            out.write(f"{emotion}: {score:.4f}\n")
+
+                    #Visualisation
+                    source = [0] * len(emotions)
+                    target = list(range(1, len(emotions) + 1))
+                    value = scores
+                    node_colors = ["#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd", "#8c564b", "#e377c2", "#7f7f7f", "#bcbd22", "#17becf", "#bc80bd", "#ccebc5", "#ffed6f", "#8dd3c7", "#fb8072"]
+                    fig = go.Figure(data=[go.Sankey(
+                        node=dict(pad=55, thickness=55, line=dict(color="black", width=0.5), label=["Input Text"] + emotions, color=node_colors),
+                        link=dict(source=source, target=target, value=value)
+                    )])
+                    fig.update_layout(title_text="Emotion Classification", font_size=15)
+                    vis1_name = filename + '_emotion1.png'
+                    vis1_path = os.path.join(result_path, vis1_name)
+                    fig.write_image(vis1_path, format='png')
+
+                elif emotion_type == "analyse2":
+                    #Visualisation2
+                    vis2 = classifier_roberta(input_text)
+                    labels = [emotion['label'] for emotion in vis2[0]]
+                    scores = [emotion['score'] for emotion in vis2[0]]
+                    combined = list(zip(labels, scores))
+                    random.shuffle(combined)
+                    labels, scores = zip(*combined)
+                    scores = list(scores) + [scores[0]]
+                    angles = [n / float(len(labels)) * 2 * np.pi for n in range(len(labels))] + [0]
+                    fig, ax = plt.subplots(subplot_kw=dict(polar=True))
+                    ax.fill(angles, scores, color='blue', alpha=0.5)
+                    ax.plot(angles, scores, color='blue', linewidth=1)
+                    ax.set_xticks(angles[:-1])
+                    ax.set_xticklabels(labels)
+                    plt.title('Emotion Classification')
+                    vis2_name = filename + '_emotion2.png'
+                    vis2_path = os.path.join(result_path, vis2_name)
+                    plt.savefig(vis2_path, format='png')
+                    plt.close()
+
             elif analysis_type == 'readibility_scoring':
+                flesch_reading_ease = textstat.flesch_reading_ease(input_text)
                 output_name = filename + '_readibility_scoring.txt'
                 with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-                    out.write(f"Detected languages:\n{detected_languages_str}\n")
-            elif analysis_type == 'comparison':
-                # Dependency parsing
-                doc = nlp_eng(input_text)
-                syntax_info = "\n".join([f"{token.text} ({token.pos_}) <--{token.dep_} ({spacy.explain(token.dep_)})-- {token.head.text} ({token.head.pos_})" for token in doc])
-                output_name_text = filename + '_comparison.txt'
-                with open(os.path.join(result_path, output_name_text), 'w', encoding='utf-8') as out:
-                    out.write(syntax_info)
-
-                # Visualization with displacy
-                svg = displacy.render(doc, style='dep', jupyter=False)
-                output_name_svg = filename + '_comparison.svg'
-                with open(os.path.join(result_path, output_name_svg), 'w', encoding='utf-8') as out:
-                    out.write(svg)
+                    out.write(f"Flesch Reading Ease Score: {flesch_reading_ease}")
         finally:
             f.close()
 
@@ -1771,11 +2044,186 @@ def analyze_text():
     return Response(json.dumps({"error": "Une erreur est survenue dans le traitement des fichiers."}), status=500, mimetype='application/json')
 
 
+#--------------- Comparison --------------------------
+
+def highlight_diffs(text1, text2):
+    matcher = difflib.SequenceMatcher(None, text1, text2)
+    output1 = []
+    output2 = []
+    for tag, i1, i2, j1, j2 in matcher.get_opcodes():
+        if tag == 'replace':
+            output1.append('<span style="background-color: #ffd700;">' + ''.join(text1[i1:i2]) + '</span>')
+            output2.append('<span style="background-color: #ffd700;">' + ''.join(text2[j1:j2]) + '</span>')
+        elif tag == 'delete':
+            output1.append('<span style="background-color: #fbb6c2;">' + ''.join(text1[i1:i2]) + '</span>')
+            output2.append('<span></span>')
+        elif tag == 'insert':
+            output1.append('<span></span>')
+            output2.append('<span style="background-color: #d4fcbc;">' + ''.join(text2[j1:j2]) + '</span>')
+        elif tag == 'equal':
+            output1.append(''.join(text1[i1:i2]))
+            output2.append(''.join(text2[j1:j2]))
+    return ''.join(output1), ''.join(output2)
+
+def calculate_comparisons(text1, text2):
+    # Edit-based distance (Levenshtein...): Counts minimum edits needed (insertions, deletions, substitutions) to change one text into another.
+    levenshtein_score = textdistance.levenshtein(text1, text2)
+    # Token-based similarity (Jaccard...): Assesses similarity by comparing the sets of words from both texts
+    jaccard_score = textdistance.jaccard(text1.split(), text2.split())
+    # Sequence-based distance (Longest Common Subsequence): Measures the distance based on the length of the longest common subsequence
+    lcs_score = textdistance.lcsstr.distance(text1, text2)
+    # Compression-based similarity (Ratcliff-Obershelp...): Uses the size of the compressed texts to estimate their similarity
+    ratcliff_obershelp_score = textdistance.ratcliff_obershelp(text1, text2)
+    return levenshtein_score, jaccard_score, lcs_score, ratcliff_obershelp_score
+
+def compare_texts(text1, text2, output_file):
+    # Character by character comparison
+    char_diff1, char_diff2 = highlight_diffs(text1, text2)
+
+    # Calculate comparison metrics
+    levenshtein_score, jaccard_score, lcs_score, ratcliff_obershelp_score = calculate_comparisons(text1, text2)
+
+    # HTML result
+    html_result = '<table><tr><td><pre>' + char_diff1 + '</pre></td><td><pre>' + char_diff2 + '</pre></td></tr></table>'
+
+    # Write results to the HTML file
+    with open(output_file, 'w', encoding='utf-8') as file:
+        file.write(f'<br><h4>Comparison Results</h4><br/><ul><li>Levenshtein Distance (Edit-based): {levenshtein_score:.2f}</li><li>Jaccard Index (Token-based): {jaccard_score:.2f}</li><li>LCS Distance (Sequence-based): {lcs_score:.2f}</li><li>Ratcliff-Obershelp Similarity (Compression-based): {ratcliff_obershelp_score:.2f}</li></ul><br><span style="background-color: #ffd700;">Substitution</span><br><span style="background-color: #fbb6c2;">Deletion</span><br><span style="background-color: #d4fcbc;">Insertion</span><br><br>')
+        file.write(html_result)
+
+def read_file(file_path):
+    with open(file_path, 'r') as file:
+        return file.read()
+
+@app.route('/compare', methods=['POST'])
+def compare():
+    if 'files' not in request.files:
+        response = {"error": "No files part"}
+        return Response(json.dumps(response), status=400, mimetype='application/json')
+
+    files = request.files.getlist('files')
+    if not files or all(file.filename == '' for file in files):
+        response = {"error": "No selected files"}
+        return Response(json.dumps(response), status=400, mimetype='application/json')
+
+    file_paths = []
+    for file in files:
+        filename = secure_filename(file.filename)
+        file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+        file.save(file_path)
+        file_paths.append(file_path)
+    
+    if len(file_paths) >= 2:
+        text1 = read_file(file_paths[0])
+        text2 = read_file(file_paths[1])
+        rand_name = 'comparison_' + ''.join(random.choice(string.ascii_lowercase) for x in range(5))
+        result_path = os.path.join(os.getcwd(), rand_name)
+        os.makedirs(result_path, exist_ok=True)
+        
+        output_file = os.path.join(result_path, 'comparison.html')
+        compare_texts(text1, text2, output_file)
+
+        if len(os.listdir(result_path)) > 0:
+            shutil.make_archive(result_path, 'zip', result_path)
+            output_stream = BytesIO()
+            with open(str(result_path) + '.zip', 'rb') as res:
+                content = res.read()
+            output_stream.write(content)
+            response = Response(output_stream.getvalue(), mimetype='application/zip',
+                                headers={"Content-disposition": "attachment; filename=" + rand_name + '.zip'})
+            output_stream.seek(0)
+            output_stream.truncate(0)
+            shutil.rmtree(result_path)
+            os.remove(str(result_path) + '.zip')
+            return response
+
+        return Response(json.dumps({"error": "Une erreur est survenue dans le traitement des fichiers."}), status=500, mimetype='application/json')
+    
+    else:
+        return jsonify({"error": "Please upload at least two text files"}), 400
+
+
+#--------------- Embeddings --------------------------
+@app.route('/embedding_tool', methods=['POST'])
+def embedding_tool():
+    analysis_type = request.form['analysis_type']
+    inputText = str(request.form.get('inputText'))
+    input1 = str(request.form.get('input1'))
+    input2 = str(request.form.get('input2'))
+    input3 = str(request.form.get('input3'))
+    words_list = str(request.form.get('words_list'))
+    analyzed_words = words_list.split(';')
+
+    model_glove = api.load("glove-wiki-gigaword-100")
+
+    rand_name = 'embedding_' + ''.join(random.choice(string.ascii_lowercase) for x in range(5))
+    result_path = os.path.join(os.getcwd(), rand_name)
+    os.makedirs(result_path, exist_ok=True)
+
+    try:
+        if analysis_type == 'similarity':
+            similar_words = model_glove.most_similar(inputText, topn=5)
+            output_name = 'similarity.txt'
+            with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
+                for term, similarity in similar_words:
+                    out.write(f"{term}: {similarity:.4f}\n")
+        elif analysis_type == 'relations':
+            result = model_glove.most_similar(positive=[input1, input2], negative=[input3], topn=1)
+            output_name = 'relations.txt'
+            with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
+                out.write(f"'{input1}' is to '{input2}' as '{input3}' is to '{result[0][0]}'")
+        elif analysis_type == 'clustering':
+            word_vectors = [model_glove[word] for word in analyzed_words]
+            kmeans = KMeans(n_clusters=3, random_state=0).fit(word_vectors)
+            clusters = kmeans.labels_
+
+            #Sortie
+            output_name = 'clustering.txt'
+            with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
+                for word, cluster in zip(analyzed_words, clusters):
+                    out.write(f"{word} is in cluster {cluster}\n")
+
+            #Visualisation
+            pca = PCA(n_components=2)
+            word_vecs_2d = pca.fit_transform(word_vectors)
+            plt.figure(figsize=(5, 5))
+            for i, word in enumerate(analyzed_words):
+                plt.scatter(word_vecs_2d[i, 0], word_vecs_2d[i, 1])
+                plt.annotate(word, xy=(word_vecs_2d[i, 0], word_vecs_2d[i, 1]), xytext=(5, 2),
+                             textcoords='offset points', ha='right', va='bottom')
+            cluster_name = 'clustering.png'
+            cluster_path = os.path.join(result_path, cluster_name)
+            plt.savefig(cluster_path, format='png')
+            plt.close()
+
+    except Exception as e:
+        response = {"error": str(e)}
+        return Response(json.dumps(response), status=500, mimetype='application/json')
+
+    if len(os.listdir(result_path)) > 0:
+        shutil.make_archive(result_path, 'zip', result_path)
+        output_stream = BytesIO()
+        with open(str(result_path) + '.zip', 'rb') as res:
+            content = res.read()
+        output_stream.write(content)
+        response = Response(output_stream.getvalue(), mimetype='application/zip',
+                            headers={"Content-disposition": "attachment; filename=" + rand_name + '.zip'})
+        output_stream.seek(0)
+        output_stream.truncate(0)
+        shutil.rmtree(result_path)
+        os.remove(str(result_path) + '.zip')
+        return response
+
+    return Response(json.dumps({"error": "Une erreur est survenue dans le traitement des fichiers."}), status=500, mimetype='application/json')
+
+
+
 #---------------------------------------------------------
 # Visualisation
 #---------------------------------------------------------
 @app.route("/run_renard", methods=["GET", "POST"])
 @stream_with_context
+"""
 def run_renard():
     try:  # For debugging  
         from renard.pipeline.graph_extraction import CoOccurrencesGraphExtractor
@@ -1852,7 +2300,7 @@ def run_renard():
                                 error=f"Pipeline error: {str(e)}")
 
     return render_template('outils/renard.html', form=form, graph="", fname="")
-
+"""
 #-----------------------------------------------------------------
 # Extraction de corpus
 #-----------------------------------------------------------------
@@ -2201,7 +2649,55 @@ def normalisation_graphies():
 #------------- Correction Erreurs ---------------------
 
 @app.route('/autocorrect', methods=["GET", "POST"])
+def autocorrect():
+    if 'files' not in request.files:
+        response = {"error": "No files part"}
+        return Response(json.dumps(response), status=400, mimetype='application/json')
 
+    files = request.files.getlist('files')
+    if not files or all(file.filename == '' for file in files):
+        response = {"error": "No selected files"}
+        return Response(json.dumps(response), status=400, mimetype='application/json')
+
+
+    selected_language = request.form['selected_language']
+    nlp = get_nlp(selected_language)
+    contextualSpellCheck.add_to_pipe(nlp)
+
+    rand_name = 'autocorrected_' + ''.join(random.choice(string.ascii_lowercase) for x in range(5))
+    result_path = os.path.join(os.getcwd(), rand_name)
+    os.makedirs(result_path, exist_ok=True)
+
+    for f in files:
+        try:
+            input_text = f.read().decode('utf-8')
+            doc = nlp(input_text)
+            filename, file_extension = os.path.splitext(f.filename)
+            output_name = filename + '.txt'
+            with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
+                out.write("The input text was : \n" + str(input_text) + "\n\nThe corrected text is: \n" + str(doc._.outcome_spellCheck))
+
+        finally:
+            f.close()
+
+    if len(os.listdir(result_path)) > 0:
+        shutil.make_archive(result_path, 'zip', result_path)
+        output_stream = BytesIO()
+        with open(str(result_path) + '.zip', 'rb') as res:
+            content = res.read()
+        output_stream.write(content)
+        response = Response(output_stream.getvalue(), mimetype='application/zip',
+                            headers={"Content-disposition": "attachment; filename=" + rand_name + '.zip'})
+        output_stream.seek(0)
+        output_stream.truncate(0)
+        shutil.rmtree(result_path)
+        os.remove(str(result_path) + '.zip')
+        return response
+
+    return Response(json.dumps({"error": "Une erreur est survenue dans le traitement des fichiers."}), status=500, mimetype='application/json')
+
+
+"""
 def autocorrect():
     if request.method == 'POST':
         uploaded_files = request.files.getlist("uploaded_files")
@@ -2254,7 +2750,7 @@ def autocorrect():
 
     return render_template('/correction_erreur.html')
 
-
+"""
 
 #-----------------------------------------------------------------
 # Génération de texte

@@ -14,7 +14,6 @@
         <li><hi style="font-weight: bold;">Analyse de sentiments</hi> : Processus de détermination du ton positif, négatif ou neutre d'un texte</li>
         <li><hi style="font-weight: bold;">Analyse d'émotions</hi> : Processus d'identification d'émotions spécifiques exprimées dans un texte : joie, colère, tristesse...</li>
         <li><hi style="font-weight: bold;">Score de lecture</hi> : Outils utilisés pour évaluer la lisibilité d'un texte écrit et fournissant une mesure quantitative de la facilité ou de la difficulté à comprendre un texte</li>
-        <li><hi style="font-weight: bold;">Comparaison</hi> : Comparaisons en fonction de la forme, avec différents niveaux de granularité, des statistiques, ou des représentations vectorielles, etc</li>
     </ul></p></div>
     <br>
     <form action="{{ url_for('analyze_text') }}" id="linguistic-form" method="post" enctype="multipart/form-data" onsubmit="showloader('loader')">
@@ -25,23 +24,24 @@
                 <option value="sentiment_analysis">Analyse de sentiments</option>
                 <option value="emotion_analysis">Analyse d'émotions</option>
                 <option value="readibility_scoring">Score de lecture</option>
-                <option value="comparison">Comparaison</option>
+            </select>
+        </div>
+        <br>
+        <div class="centered-input-div" id="emotion_type" >
+            <label for="emotion_type">Choisir le type d'analyse :</label>
+            <select name="emotion_type" id="emotion_type" required>
+                <option value="analyse1">Score + visualisation</option>
+                <option value="analyse2">Visualisation circulaire</option>
             </select>
         </div>
         {{ form.csrf_token }}
         <br>
-        <div class="centered-input-div" id="ngram-fields" style="display: none;">
-            <label for="n">Longueur des n-grams :</label>
-            <input type="number" id="n" name="n" min="1" value="2"><br>
-            <label for="r">Nombre de n-grams à afficher :</label>
-            <input type="number" id="r" name="r" min="1" value="5"><br>
-        </div>
         <div class="dropzone" style="margin:25px auto;">
             <input type="file" id="files" name="files" accept="text/plain" multiple required>
             <p id="form_msg">Déposer le(s) fichier(s) ou cliquer ici.</p>
         </div>
         <input id="csrf_token" name="csrf_token" type="hidden" value="{{ csrf_token() }}">
-        <button style="display:block;margin:auto;margin-top:20px;">Télécharger les fichiers</button>
+        <button style="display:block;margin:auto;margin-top:20px;">Lancer l'analyse</button>
     </form>
     {% if msg != "" %}
     <div> <p>{{ msg }}</p></div>
@@ -72,11 +72,11 @@ $('form input').change(function () {
 });
         function toggleNgramFields() {
             var analysisType = document.getElementById("analysis_type").value;
-            var ngramFields = document.getElementById("ngram-fields");
-            if (analysisType === "n_gram") {
-                ngramFields.style.display = "block";
+            var emotion_type = document.getElementById("emotion_type");
+            if (analysisType === "emotion_analysis") {
+                emotion_type.style.display = "block";
             } else {
-                ngramFields.style.display = "none";
+                emotion_type.style.display = "none";
             }
         }
 

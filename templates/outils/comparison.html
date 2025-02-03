@@ -4,29 +4,28 @@
 {% block content %}
 <link rel="stylesheet" href="{{ url_for('static', filename= 'css/elements.css') }}">
 <div class="outil">
-    <div class="fil"><a href="{{ url_for('extraction_information')}}"><< {{ _('Retour aux tâches') }}</a></div>
-    <h3>Quotation extraction</h3>
-    <p>Récupération, dans un ou des documents soumis, d'extraits de texte, généralement entre guillemets, qui représentent les mots de quelqu'un d'autre.</p>
+    <div class="fil"><a href="{{ url_for('analyses')}}"><< {{ _('Retour aux tâches') }}</a></div>
+    <div>
+        <h3>Comparaison</h3>
+    <p>Cet outil permet d'observer les différences qui existent entre deux textes données.</p></div>
     <br>
-    <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_extraction') }}" target="_blank">{{ _("Voir la documentation") }}</a></p>
-    <br><div class="infos_outil" style="display: block;margin: 0 auto 15px auto;">
+    <div class="infos_outil" style="display: block;margin: 0 auto 15px auto;">
         <input id="show" type=checkbox><label for="show" class="infos_title"><i class="fa-solid fa-circle-info"></i> {{ _("Informations sur l'outil") }}<i class="fa-solid fa-angle-right" style="float:right;margin-top:5px;margin-left:15px;cursor: pointer;"></i></label>
-        <div class="info_popped">
-          <p>Regular Expressions (Regex)
-      <p>{{ _("Formats d'entrée :")}} <i class="fa-regular fa-file-lines"></i> texte brut (.txt)</p>
-      <p>{{ _("Formats de sortie :")}} <i class="fa-regular fa-file-lines"></i> texte brut (.txt)</p>
-      <p>Encodage : UTF-8</p>
+        <div class="info_popped"><p>Textdistance, Difflib</p>
+      <p>{{ _("Formats d'entrée :")}} <i class="fa-regular fa-file-lines"></i> fichier texte (.txt)</p>
+      <p>{{ _('Format généré :')}} <i class="fa-solid fa-file-code"></i> fichier HTML</p>
+      <p>Limite d'ajout : 2 fichiers max</p>
       </div>
-  </div>
-  <br>
-    <form action="{{ url_for('quotation') }}" id="linguistic-form" method="post" enctype="multipart/form-data" onsubmit="showloader('loader')">
+    </div>
+    <form action="{{ url_for('compare') }}" id="linguistic-form" method="post" enctype="multipart/form-data" onsubmit="showloader('loader')">
         {{ form.csrf_token }}
         <div class="dropzone" style="margin:25px auto;">
             <input type="file" id="files" name="files" accept="text/plain" multiple required>
             <p id="form_msg">Déposer le(s) fichier(s) ou cliquer ici.</p>
         </div>
+        <p id="fileError" style="color:red;text-align: center;"></p>
         <input id="csrf_token" name="csrf_token" type="hidden" value="{{ csrf_token() }}">
-        <button style="display:block;margin:auto;margin-top:20px;">Extraire</button>
+        <button style="display:block;margin:auto;margin-top:20px;">Lancer la comparaison</button>
     </form>
     {% if msg != "" %}
     <div> <p>{{ msg }}</p></div>
@@ -55,6 +54,19 @@ $('form input').change(function () {
         }
     }
 });
+
+document.getElementById('files').addEventListener('change', function(event) {
+            let files = event.target.files;
+            let fileError = document.getElementById('fileError');
+
+            if (files.length > 2) {
+                fileError.textContent = "Vous ne pouvez pas télécharger plus de 2 fichiers.";
+                event.target.value = ""; // Réinitialise le champ
+            } else {
+                fileError.textContent = "";
+            }
+        });
+
 </script>
 </div>
 {% endblock %}
