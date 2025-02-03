@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding:utf-8 -*-
 
-from flask import Flask, abort, request, render_template, render_template_string, url_for, redirect, send_from_directory, Response, stream_with_context, session, send_file, jsonify
+from flask import Flask, abort, request, render_template, render_template_string, url_for, redirect, send_from_directory, Response, stream_with_context, session, send_file
+from flask_wtf.csrf import CSRFError
 from werkzeug.utils import secure_filename
 from werkzeug.exceptions import HTTPException
 from forms import ContactForm, SearchForm
@@ -22,6 +23,7 @@ from collections import Counter
 from wordcloud import WordCloud
 import zipfile
 import os
+from datetime import timedelta
 from io import StringIO, BytesIO
 import string
 import random
@@ -75,8 +77,8 @@ MODEL_FOLDER = 'static/models'
 UTILS_FOLDER = 'static/utils'
 ROOT_FOLDER = Path(__file__).parent.absolute()
 
+# Flask's CSRF (Cross-Site Request Forgery) protection
 csrf = CSRFProtect()
-SECRET_KEY = os.urandom(32)
 
 app = Flask(__name__)
 
@@ -88,7 +90,9 @@ babel = Babel(app)
 
 # App config
 app.config['SESSION_TYPE'] = 'filesystem'
-app.config['SECRET_KEY'] = SECRET_KEY
+app.config['SECRET_KEY'] = '6kGcDYu04nLGQZXGv8Sqg0YzTeE8yeyL'
+app.config['WTF_CSRF_TIME_LIMIT'] = None  # No time limit on tokens
+app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=1)  # Session lasts 1 day
 
 app.config['MAX_CONTENT_LENGTH'] = 50 * 1024 * 1024 # Limit file upload to 35MB
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -99,8 +103,16 @@ app.config['LANGUAGES'] = {
     'en': 'EN',
 }
 app.add_url_rule("/uploads/<name>", endpoint="download_file", build_only=True)
+
 csrf.init_app(app)
 
+
+#-----------------------------------------------------------------
+# error handlers to catch CSRF errors gracefully
+#-----------------------------------------------------------------
+@app.errorhandler(CSRFError)
+def handle_csrf_error(e):
+    return render_template('errors/csrf_error.html', reason=e.description), 400
 
 #-----------------------------------------------------------------
 # BABEL
@@ -2209,12 +2221,11 @@ def embedding_tool():
 #---------------------------------------------------------
 # Visualisation
 #---------------------------------------------------------
-"""
-@app.route("/run_renard",  methods=["GET", "POST"])
+@app.route("/run_renard", methods=["GET", "POST"])
 @stream_with_context
+"""
 def run_renard():
-
-    try: # For debugging  
+    try:  # For debugging  
         from renard.pipeline.graph_extraction import CoOccurrencesGraphExtractor
         print("Available parameters for CoOccurrencesGraphExtractor:")
         print(help(CoOccurrencesGraphExtractor))
@@ -2226,9 +2237,8 @@ def run_renard():
         try:
             min_appearances = int(request.form['min_appearances'])
             lang = request.form.get('toollang')
-        min_appearances = int(request.form['min_appearances'])
-        lang = request.form.get('toollang')
-
+            
+            # Get text from file upload or input
             if request.files['renard_upload'].filename != '':
                 f = request.files['renard_upload']
                 text = f.read()
@@ -2236,9 +2246,11 @@ def run_renard():
             else:
                 text = request.form['renard_txt_input']
             
+            # Generate random filename and path
             rand_name = 'renard_graph_' + ''.join((random.choice(string.ascii_lowercase) for x in range(8))) + '.gexf'
             result_path = ROOT_FOLDER / os.path.join(app.config['UPLOAD_FOLDER'], rand_name)
             
+            # Import required libraries
             from renard.pipeline import Pipeline
             from renard.pipeline.tokenization import NLTKTokenizer
             from renard.pipeline.ner import BertNamedEntityRecognizer
@@ -2249,58 +2261,29 @@ def run_renard():
             import matplotlib.pyplot as plt
             import networkx as nx
             import base64
-        if request.files['renard_upload'].filename != '':
-            f = request.files['renard_upload']
 
-            text = f.read()
-            text = text.decode('utf-8')
-        else:
-            text = request.form['renard_txt_input']
-        
-        rand_name =  'renard_graph_' + ''.join((random.choice(string.ascii_lowercase) for x in range(8))) + '.gexf'
-        result_path = ROOT_FOLDER / os.path.join(app.config['UPLOAD_FOLDER'], rand_name)
-        
-        from renard.pipeline import Pipeline
-        from renard.pipeline.tokenization import NLTKTokenizer
-        from renard.pipeline.ner import NLTKNamedEntityRecognizer, BertNamedEntityRecognizer
-        from renard.pipeline.character_unification import GraphRulesCharacterUnifier
-        from renard.pipeline.graph_extraction import CoOccurrencesGraphExtractor
-        from renard.graph_utils import graph_with_names
-        from renard.plot_utils import plot_nx_graph_reasonably
-        import matplotlib.pyplot as plt
-        import networkx as nx
-        import base64
-
+            # Define BERT models for different languages
             BERT_MODELS = {
-                "fra" : "Jean-Baptiste/camembert-ner",
-                "eng" : "dslim/bert-base-NER",
-                "spa" : "mrm8488/bert-spanish-cased-finetuned-ner"
+                "fra": "Jean-Baptiste/camembert-ner",
+                "eng": "dslim/bert-base-NER",
+                "spa": "mrm8488/bert-spanish-cased-finetuned-ner"
             }
-            
-            pipeline = Pipeline(
-            [
+
+            # Create and configure pipeline
+            pipeline = Pipeline([
                 NLTKTokenizer(),
                 BertNamedEntityRecognizer(model=BERT_MODELS[lang]),
                 GraphRulesCharacterUnifier(min_appearances=min_appearances),
-                CoOccurrencesGraphExtractor(co_occurences_dist=35) 
+                CoOccurrencesGraphExtractor(co_occurences_dist=35)
             ], lang=lang)
-        BERT_MODELS = {
-            "fra" : "Jean-Baptiste/camembert-ner",
-            "eng" : "dslim/bert-base-NER",
-            "spa" : "mrm8488/bert-spanish-cased-finetuned-ner"
-        }
-        
 
-        pipeline = Pipeline(
-        [
-            NLTKTokenizer(),
-            BertNamedEntityRecognizer(model=BERT_MODELS[lang]), #NLTKNamedEntityRecognizer(),
-            GraphRulesCharacterUnifier(min_appearances=min_appearances),
-            CoOccurrencesGraphExtractor(co_occurrences_dist=35)
-        ], lang = lang)
-
+            # Process text through pipeline
             out = pipeline(text)
+
+            # Save GEXF network
             out.export_graph_to_gexf(result_path)
+
+            # Create and save visualization
             G = graph_with_names(out.characters_graph)
             plot_nx_graph_reasonably(G)
             img = BytesIO()
@@ -2308,22 +2291,8 @@ def run_renard():
             img.seek(0)
             plt.clf()
             figdata_png = base64.b64encode(img.getvalue()).decode('ascii')
-        out = pipeline(text)
-
-        # Save GEXF network
-        out.export_graph_to_gexf(result_path)
-
-        # Networkx to plot
-        G = graph_with_names(out.characters_graph)
-        plot_nx_graph_reasonably(G)
-        img = BytesIO() # file-like object for the image
-        plt.savefig(img, format='png') # save the image to the stream
-        img.seek(0) # writing moved the cursor to the end of the file, reset
-        plt.clf() # clear pyplot
-        figdata_png = base64.b64encode(img.getvalue()).decode('ascii')
 
             return render_template('outils/renard.html', form=form, graph=figdata_png, fname=str(rand_name))
-        return render_template('renard.html', form=form, graph=figdata_png, fname=str(rand_name))
 
         except Exception as e:
             print(f"Error in pipeline: {str(e)}")
@@ -2441,7 +2410,6 @@ def corpus_from_url():
                 except Exception as e:
                     print("Erreur sur l'URL {}".format(url))
                     continue
-
 
         # ZIP le dossier résultat
         if len(os.listdir(result_path)) > 0:
@@ -3247,8 +3215,75 @@ def nermap_to_csv():
 def get_file(filename):
     return send_from_directory(ROOT_FOLDER / app.config['UPLOAD_FOLDER'], filename, as_attachment=True)
 
+import os
+
+""" 
+# for tests locally
+
 if __name__ == "__main__":
 
     print("Starting Pandore Toolbox...")
     app.run(host='0.0.0.0', port=5000, debug=False, use_reloader=False)
+""" 
 
+if __name__ == "__main__":
+    
+
+    cert_file = '/pandore_app/certificates/fullchain.pem'
+    key_file = '/pandore_app/certificates/server.key'
+
+    # Verify that files exist
+    if not os.path.isfile(cert_file):
+        raise FileNotFoundError(f"Certificate file not found: {cert_file}")
+    if not os.path.isfile(key_file):
+        raise FileNotFoundError(f"Key file not found: {key_file}")
+
+    print(f"Cert file permissions: {oct(os.stat(cert_file).st_mode)}")
+    print(f"Key file permissions: {oct(os.stat(key_file).st_mode)}")
+
+    ssl_context = (cert_file, key_file)
+
+    print("Starting Pandore Toolbox with HTTPS...")
+    app.run(
+        host= "0.0.0.0", #'obtic-gpu1.mesu.sorbonne-universite.fr',
+        port=5000,
+        debug=False,
+        use_reloader=False,
+        ssl_context=ssl_context
+    )
+
+#=====================================================================
+# Adding this part to try to make the website faster 
+#=====================================================================
+
+import mimetypes
+
+# Configure static file serving
+app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 31536000  # 1 year
+app.config['STATIC_FOLDER'] = 'static'
+
+@app.after_request
+def add_header(response):
+    if 'Cache-Control' not in response.headers:
+        if request.path.startswith('/static/'):
+            # Cache static files
+            response.cache_control.public = True
+            response.cache_control.max_age = 31536000
+            response.cache_control.immutable = True
+            
+            # Add content-type for images
+            if request.path.endswith(('.png', '.jpg', '.jpeg', '.gif', '.ico')):
+                mime_type, _ = mimetypes.guess_type(request.path)
+                if mime_type:
+                    response.headers['Content-Type'] = mime_type
+    return response
+
+# Serve static files with custom headers
+@app.route('/static/<path:filename>')
+def serve_static(filename):
+    response = send_from_directory(app.static_folder, filename)
+    
+    # Add security headers
+    response.headers['X-Content-Type-Options'] = 'nosniff'
+    response.headers['X-Frame-Options'] = 'SAMEORIGIN'
+    return response
