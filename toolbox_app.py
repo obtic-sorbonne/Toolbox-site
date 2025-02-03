@@ -49,15 +49,13 @@ from sklearn.cluster import KMeans
 from sklearn.decomposition import PCA
 import plotly.graph_objects as go
 import numpy as np
-from transformers import DistilBertTokenizer, DistilBertForSequenceClassification
-from transformers import RobertaTokenizer, RobertaForSequenceClassification
 
-#nltk.download('punkt_tab')
-#nltk.download('stopwords')
-#nltk.download('punkt')
+nltk.download('punkt_tab')
+nltk.download('stopwords')
+nltk.download('punkt')
 
-#nltk.download('wordnet')
-#nltk.download('omw-1.4')
+nltk.download('wordnet')
+nltk.download('omw-1.4')
 from nltk.corpus import wordnet
 
 stop_words = set(stopwords.words('english'))
