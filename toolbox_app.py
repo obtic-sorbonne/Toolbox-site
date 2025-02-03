@@ -2,6 +2,7 @@
 # -*- coding:utf-8 -*-
 
 from flask import Flask, abort, request, render_template, render_template_string, url_for, redirect, send_from_directory, Response, stream_with_context, session, send_file
+from flask_wtf.csrf import CSRFError
 from werkzeug.utils import secure_filename
 from werkzeug.exceptions import HTTPException
 from forms import ContactForm, SearchForm
@@ -21,6 +22,7 @@ from collections import Counter
 from wordcloud import WordCloud
 import zipfile
 import os
+from datetime import timedelta
 from io import StringIO, BytesIO
 import string
 import random
@@ -62,8 +64,8 @@ MODEL_FOLDER = 'static/models'
 UTILS_FOLDER = 'static/utils'
 ROOT_FOLDER = Path(__file__).parent.absolute()
 
+# Flask's CSRF (Cross-Site Request Forgery) protection
 csrf = CSRFProtect()
-SECRET_KEY = os.urandom(32)
 
 app = Flask(__name__)
 
@@ -75,7 +77,9 @@ babel = Babel(app)
 
 # App config
 app.config['SESSION_TYPE'] = 'filesystem'
-app.config['SECRET_KEY'] = SECRET_KEY
+app.config['SECRET_KEY'] = '6kGcDYu04nLGQZXGv8Sqg0YzTeE8yeyL'
+app.config['WTF_CSRF_TIME_LIMIT'] = None  # No time limit on tokens
+app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=1)  # Session lasts 1 day
 
 app.config['MAX_CONTENT_LENGTH'] = 50 * 1024 * 1024 # Limit file upload to 35MB
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -86,8 +90,16 @@ app.config['LANGUAGES'] = {
     'en': 'EN',
 }
 app.add_url_rule("/uploads/<name>", endpoint="download_file", build_only=True)
+
 csrf.init_app(app)
 
+
+#-----------------------------------------------------------------
+# error handlers to catch CSRF errors gracefully
+#-----------------------------------------------------------------
+@app.errorhandler(CSRFError)
+def handle_csrf_error(e):
+    return render_template('errors/csrf_error.html', reason=e.description), 400
 
 #-----------------------------------------------------------------
 # BABEL
