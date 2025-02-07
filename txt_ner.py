@@ -16,14 +16,27 @@ from flair.models import SequenceTagger
 
 
 def flair_annotate(sentence, modele):
-    s = FlairSentence(sentence)
-    modele.predict(s)
-    return s
+    try:
+        s = FlairSentence(sentence)
+        print("Successfully created Flair sentence")
+        print(f"Predicting with model: {modele}")
+        modele.predict(s)
+        print("Successfully made prediction")
+        return s
+    except Exception as e:
+        print(f"Error in flair_annotate: {str(e)}")
+        raise
+
 
 
 def get_label_function(annotateur_name, annotateur):
+    print(f"Getting label function for {annotateur_name}")
     if annotateur_name == "flair":
-        return functools.partial(flair_annotate, modele=annotateur)
+        try:
+            return functools.partial(flair_annotate, modele=annotateur)
+        except Exception as e:
+            print(f"Error creating Flair label function: {str(e)}")
+            raise
 
     if annotateur_name == "spacy":
         return annotateur.__call__
@@ -37,11 +50,21 @@ def spacy_iterate(doc):
 
 
 def flair_iterate(doc):
-    for entity in doc.get_spans('ner'):
-        try:
-            yield (entity.tag, entity.start_position, entity.end_position)
-        except AttributeError:
-            yield (entity.tag, entity.start_pos, entity.end_pos)
+    print(f"Starting Flair iteration on document")
+    try:
+        for entity in doc.get_spans('ner'):
+            try:
+                yield (entity.tag, entity.start_position, entity.end_position)
+            except AttributeError:
+                try:
+                    yield (entity.tag, entity.start_pos, entity.end_pos)
+                except Exception as e:
+                    print(f"Error accessing entity positions: {str(e)}")
+                    raise
+    except Exception as e:
+        print(f"Error in Flair iteration: {str(e)}")
+        raise
+
 
 
 loaders = {
@@ -66,9 +89,14 @@ def txt_ner_params(texte, moteur, modele, encodage="utf-8"):
     if iterator is None:
         raise ValueError(f"Pas d'itérateur d'entités pour {moteur}")
 
-    print(loader)
-    pipeline = loader(modele)
-    print(pipeline)
+    print(f"Attempting to load {moteur} model: {modele}")
+    try:
+        pipeline = loader(modele)
+        print(f"Successfully loaded model: {pipeline}")
+    except Exception as e:
+        print(f"Error loading model {modele}: {str(e)}")
+        raise
+
     label_function = get_label_function(moteur, pipeline)
     try:
         contenu = texte.decode(encodage)
@@ -76,7 +104,6 @@ def txt_ner_params(texte, moteur, modele, encodage="utf-8"):
         contenu = texte
         print("Erreur dans la spécification de l'encodage.")
     return txt_ner(contenu, label_function, iterator, encodage=encodage)
-
 
 def txt_ner(texte, annotateur, iterateur, encodage="utf-8"):
     """Annote un fichier TEI avec un moteur de reconnaissance d'entités nommées.

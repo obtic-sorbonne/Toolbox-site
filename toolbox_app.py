@@ -1,82 +1,83 @@
 #!/usr/bin/env python3
 # -*- coding:utf-8 -*-
 
-from flask import Flask, abort, request, render_template, render_template_string, url_for, redirect, send_from_directory, Response, stream_with_context, session, send_file, jsonify
-from werkzeug.utils import secure_filename
-from werkzeug.exceptions import HTTPException
-from forms import ContactForm, SearchForm
-from flask_wtf import FlaskForm
-from flask_wtf.csrf import CSRFProtect
-from flask_babel import Babel, get_locale
-from langdetect import detect_langs
-import matplotlib.pyplot as plt
-import math
-import nltk
-from nltk.tokenize import sent_tokenize, word_tokenize
-from nltk import sent_tokenize
-from nltk.corpus import stopwords
-from nltk import ngrams
-from nltk import FreqDist
-from nltk import Text
-from collections import Counter
-from wordcloud import WordCloud
-import zipfile
+# Standard library imports
+import collections
+import csv
+import json
 import os
-from io import StringIO, BytesIO
-import string
 import random
-from bs4 import BeautifulSoup
+import re
+import shutil
+import string
+import math
+from datetime import timedelta
+from io import StringIO, BytesIO
+from pathlib import Path
 import urllib
 import urllib.request
 from urllib.parse import urlparse
-import re
+import zipfile
+
+# Third-party imports
+from bs4 import BeautifulSoup
+from flask import (
+    Flask, abort, request, render_template, render_template_string, 
+    url_for, redirect, send_from_directory, Response, 
+    stream_with_context, session, send_file, jsonify
+)
+from flask_babel import Babel, get_locale
+from flask_wtf import FlaskForm
+from flask_wtf.csrf import CSRFError, CSRFProtect
+from langdetect import detect_langs
 from lxml import etree
-import csv
-import contextualSpellCheck
+import matplotlib.pyplot as plt
+import nltk
+from nltk.tokenize import sent_tokenize, word_tokenize
+from nltk.corpus import stopwords
+from nltk import ngrams, FreqDist, Text
+from nltk.corpus import wordnet
+import pandas as pd
 import spacy
 from spacy import displacy
-import shutil
-from pathlib import Path
-import json
-import collections
+from werkzeug.utils import secure_filename
+from werkzeug.exceptions import HTTPException
+from wordcloud import WordCloud
+import contextualSpellCheck
 import textdistance
 import difflib
 from transformers import pipeline
 import textstat
-#from txt_ner import txt_ner_params
 import gensim.downloader as api
 from sklearn.cluster import KMeans
 from sklearn.decomposition import PCA
 import plotly.graph_objects as go
 import numpy as np
 
+# Local application imports
+from forms import ContactForm, SearchForm
+import ocr
+import sem
+from cluster import freqs2clustering
+
+# NLTK
 nltk.download('punkt_tab')
 nltk.download('stopwords')
 nltk.download('punkt')
-
 nltk.download('wordnet')
 nltk.download('omw-1.4')
-from nltk.corpus import wordnet
 
 stop_words = set(stopwords.words('english'))
 
-import pandas as pd
 
-import sem
-#import sem.storage
-#import sem.exporters
-
-import ocr
-
-from cluster import freqs2clustering
 
 UPLOAD_FOLDER = 'uploads'
 MODEL_FOLDER = 'static/models'
 UTILS_FOLDER = 'static/utils'
 ROOT_FOLDER = Path(__file__).parent.absolute()
 
+# Flask's CSRF (Cross-Site Request Forgery) protection
 csrf = CSRFProtect()
-SECRET_KEY = os.urandom(32)
 
 app = Flask(__name__)
 
@@ -88,7 +89,9 @@ babel = Babel(app)
 
 # App config
 app.config['SESSION_TYPE'] = 'filesystem'
-app.config['SECRET_KEY'] = SECRET_KEY
+app.config['SECRET_KEY'] = '6kGcDYu04nLGQZXGv8Sqg0YzTeE8yeyL'
+app.config['WTF_CSRF_TIME_LIMIT'] = None  # No time limit on tokens
+app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=1)  # Session lasts 1 day
 
 app.config['MAX_CONTENT_LENGTH'] = 50 * 1024 * 1024 # Limit file upload to 35MB
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -99,8 +102,16 @@ app.config['LANGUAGES'] = {
     'en': 'EN',
 }
 app.add_url_rule("/uploads/<name>", endpoint="download_file", build_only=True)
+
 csrf.init_app(app)
 
+
+#-----------------------------------------------------------------
+# error handlers to catch CSRF errors gracefully
+#-----------------------------------------------------------------
+@app.errorhandler(CSRFError)
+def handle_csrf_error(e):
+    return render_template('errors/csrf_error.html', reason=e.description), 400
 
 #-----------------------------------------------------------------
 # BABEL
@@ -1235,7 +1246,7 @@ def named_entity_recognition():
         os.remove(result_path)
 
     render_template('entites_nommees.html', erreur=erreur)
-
+        
 #-----------------------------------------------------------------
 # Extraction d'informations
 #-----------------------------------------------------------------
@@ -3247,8 +3258,73 @@ def nermap_to_csv():
 def get_file(filename):
     return send_from_directory(ROOT_FOLDER / app.config['UPLOAD_FOLDER'], filename, as_attachment=True)
 
+""" 
+# for tests locally
+
 if __name__ == "__main__":
 
     print("Starting Pandore Toolbox...")
     app.run(host='0.0.0.0', port=5000, debug=False, use_reloader=False)
+""" 
 
+if __name__ == "__main__":
+    
+
+    cert_file = '/pandore_app/certificates/fullchain.pem'
+    key_file = '/pandore_app/certificates/server.key'
+
+    # Verify that files exist
+    if not os.path.isfile(cert_file):
+        raise FileNotFoundError(f"Certificate file not found: {cert_file}")
+    if not os.path.isfile(key_file):
+        raise FileNotFoundError(f"Key file not found: {key_file}")
+
+    print(f"Cert file permissions: {oct(os.stat(cert_file).st_mode)}")
+    print(f"Key file permissions: {oct(os.stat(key_file).st_mode)}")
+
+    ssl_context = (cert_file, key_file)
+
+    print("Starting Pandore Toolbox with HTTPS...")
+    app.run(
+        host= "0.0.0.0", #'obtic-gpu1.mesu.sorbonne-universite.fr',
+        port=5000,
+        debug=False,
+        use_reloader=False,
+        ssl_context=ssl_context
+    )
+
+#=====================================================================
+# Adding this part to try to make the website faster 
+#=====================================================================
+
+import mimetypes
+
+# Configure static file serving
+app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 31536000  # 1 year
+app.config['STATIC_FOLDER'] = 'static'
+
+@app.after_request
+def add_header(response):
+    if 'Cache-Control' not in response.headers:
+        if request.path.startswith('/static/'):
+            # Cache static files
+            response.cache_control.public = True
+            response.cache_control.max_age = 31536000
+            response.cache_control.immutable = True
+            
+            # Add content-type for images
+            if request.path.endswith(('.png', '.jpg', '.jpeg', '.gif', '.ico')):
+                mime_type, _ = mimetypes.guess_type(request.path)
+                if mime_type:
+                    response.headers['Content-Type'] = mime_type
+    return response
+
+# Serve static files with custom headers
+@app.route('/static/<path:filename>')
+def serve_static(filename):
+    response = send_from_directory(app.static_folder, filename)
+    
+    # Add security headers
+    response.headers['X-Content-Type-Options'] = 'nosniff'
+    response.headers['X-Frame-Options'] = 'SAMEORIGIN'
+    return response
