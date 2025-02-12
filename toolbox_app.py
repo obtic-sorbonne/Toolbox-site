@@ -35,8 +35,9 @@ import matplotlib.pyplot as plt
 import nltk
 from nltk.tokenize import sent_tokenize, word_tokenize
 from nltk.corpus import stopwords
-from nltk import ngrams, FreqDist, Text
+from nltk import ngrams, FreqDist, sent_tokenize, Text
 from nltk.corpus import wordnet
+from collections import Counter
 import pandas as pd
 import spacy
 from spacy import displacy
