@@ -3,6 +3,13 @@ FROM nvidia/cuda:11.8.0-cudnn8-runtime-ubuntu22.04
 WORKDIR /pandore_app
 ADD . /pandore_app
 
+# Create the pandore user early to avoid permission issues
+RUN useradd -m pandore
+
+# Create directories and set ownership for pandore user
+RUN mkdir -p /pandore_app/nltk_data && \
+    chown -R pandore:pandore /pandore_app/nltk_data
+
 # Create necessary directories first
 RUN mkdir -p /pandore_app/uploads \
    && mkdir -p /pandore_app/static/models/tessdata \
@@ -74,6 +81,8 @@ RUN pip install -U pip setuptools wheel && \
    pip install contextualSpellCheck textdistance textstat plotly
 
 # Install spacy and its models first
+# Install spacy and its models first
+# Install spacy and its models first
 RUN pip install spacy && \
    python -m spacy download en_core_web_sm && \
    python -m spacy download en_core_web_lg && \
@@ -81,7 +90,16 @@ RUN pip install spacy && \
    python -m spacy download fr_core_news_md && \
    python -m spacy download fr_core_news_lg && \
    python -m spacy download es_core_news_sm && \
-   python -m spacy download es_core_news_lg
+   python -m spacy download es_core_news_lg && \
+   python -m spacy download de_core_news_sm && \
+   python -m spacy download it_core_news_sm && \
+   python -m spacy download da_core_news_sm && \
+   python -m spacy download nl_core_news_sm && \
+   python -m spacy download fi_core_news_sm && \
+   python -m spacy download pl_core_news_sm && \
+   python -m spacy download pt_core_news_sm && \
+   python -m spacy download el_core_news_sm && \
+   python -m spacy download ru_core_news_sm  
 
 # Install Flair with specific versions and create necessary directories
 RUN pip install torch==1.13.1 && \
@@ -105,9 +123,8 @@ RUN python -m nltk.downloader punkt && \
 # Add nginx config
 COPY nginx.conf /etc/nginx/nginx.conf
 
-# Set up user and permissions (do this after all installations)
-RUN useradd -m pandore && \
-   chown -R pandore:pandore /pandore_app && \
+# Set up permissions after all installations (user pandore already exists)
+RUN chown -R pandore:pandore /pandore_app && \
    chown -R pandore:pandore /opt/conda/envs/toolbox-env/lib/python3.9/site-packages/spacy && \
    chown -R pandore:pandore /home/pandore/.flair && \
    chown -R pandore:pandore /home/pandore/.cache && \
@@ -123,6 +140,9 @@ USER pandore
 ENV PATH=/home/pandore/.local/bin:$PATH
 
 EXPOSE 5000
+
+# For local host 
+#CMD ["/opt/conda/envs/toolbox-env/bin/gunicorn", "--bind", "0.0.0.0:5000", "toolbox_app:app"]
 
 # Use gunicorn for production
 CMD ["conda", "run", "--no-capture-output", "-n", "toolbox-env", \

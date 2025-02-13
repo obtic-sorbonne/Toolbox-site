@@ -35,8 +35,9 @@ import matplotlib.pyplot as plt
 import nltk
 from nltk.tokenize import sent_tokenize, word_tokenize
 from nltk.corpus import stopwords
-from nltk import ngrams, FreqDist, Text
+from nltk import ngrams, FreqDist, sent_tokenize, Text
 from nltk.corpus import wordnet
+from collections import Counter
 import pandas as pd
 import spacy
 from spacy import displacy
@@ -3258,7 +3259,6 @@ def nermap_to_csv():
 def get_file(filename):
     return send_from_directory(ROOT_FOLDER / app.config['UPLOAD_FOLDER'], filename, as_attachment=True)
 
-""" 
 # for tests locally
 
 if __name__ == "__main__":
@@ -3292,6 +3292,8 @@ if __name__ == "__main__":
         use_reloader=False,
         ssl_context=ssl_context
     )
+
+""" 
 
 #=====================================================================
 # Adding this part to try to make the website faster 
