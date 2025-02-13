@@ -3259,12 +3259,12 @@ def nermap_to_csv():
 def get_file(filename):
     return send_from_directory(ROOT_FOLDER / app.config['UPLOAD_FOLDER'], filename, as_attachment=True)
 
-# for tests locally
 
 if __name__ == "__main__":
 
     print("Starting Pandore Toolbox...")
     app.run(host='0.0.0.0', port=5000, debug=False, use_reloader=False)
+
 
 #=====================================================================
 # Adding this part to try to make the website faster 
