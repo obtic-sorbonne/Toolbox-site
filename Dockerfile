@@ -81,7 +81,6 @@ RUN pip install -U pip setuptools wheel && \
    pip install contextualSpellCheck textdistance textstat plotly
 
 # Replacing local host from toolbox_app
-
 RUN sed -i 's|if __name__ == "__main__":.*|if __name__ == "__main__":\n\
     import os\n\
     cert_file = "/pandore_app/certificates/fullchain.pem"\n\

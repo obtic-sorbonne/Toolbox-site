@@ -6,4 +6,4 @@
 certificates/
 *.pem
 *.key
-
+Dockerfile

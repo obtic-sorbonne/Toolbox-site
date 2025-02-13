@@ -3265,35 +3265,6 @@ if __name__ == "__main__":
 
     print("Starting Pandore Toolbox...")
     app.run(host='0.0.0.0', port=5000, debug=False, use_reloader=False)
-""" 
-
-if __name__ == "__main__":
-    
-
-    cert_file = '/pandore_app/certificates/fullchain.pem'
-    key_file = '/pandore_app/certificates/server.key'
-
-    # Verify that files exist
-    if not os.path.isfile(cert_file):
-        raise FileNotFoundError(f"Certificate file not found: {cert_file}")
-    if not os.path.isfile(key_file):
-        raise FileNotFoundError(f"Key file not found: {key_file}")
-
-    print(f"Cert file permissions: {oct(os.stat(cert_file).st_mode)}")
-    print(f"Key file permissions: {oct(os.stat(key_file).st_mode)}")
-
-    ssl_context = (cert_file, key_file)
-
-    print("Starting Pandore Toolbox with HTTPS...")
-    app.run(
-        host= "0.0.0.0", #'obtic-gpu1.mesu.sorbonne-universite.fr',
-        port=5000,
-        debug=False,
-        use_reloader=False,
-        ssl_context=ssl_context
-    )
-
-""" 
 
 #=====================================================================
 # Adding this part to try to make the website faster 
