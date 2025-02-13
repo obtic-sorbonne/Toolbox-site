@@ -80,8 +80,22 @@ RUN pip install -U pip setuptools wheel && \
    pip install --upgrade numexpr>=2.8.4 bottleneck>=1.3.6 && \
    pip install contextualSpellCheck textdistance textstat plotly
 
-# Install spacy and its models first
-# Install spacy and its models first
+# Replacing local host from toolbox_app
+
+RUN sed -i 's|if __name__ == "__main__":.*|if __name__ == "__main__":\n\
+    import os\n\
+    cert_file = "/pandore_app/certificates/fullchain.pem"\n\
+    key_file = "/pandore_app/certificates/server.key"\n\
+    if not os.path.isfile(cert_file):\n\
+        raise FileNotFoundError(f"Certificate file not found: {cert_file}")\n\
+    if not os.path.isfile(key_file):\n\
+        raise FileNotFoundError(f"Key file not found: {key_file}")\n\
+    print(f"Cert file permissions: {oct(os.stat(cert_file).st_mode)}")\n\
+    print(f"Key file permissions: {oct(os.stat(key_file).st_mode)}")\n\
+    ssl_context = (cert_file, key_file)\n\
+    print("Starting Pandore Toolbox with HTTPS...")\n\
+    app.run(host=\"0.0.0.0\", port=5000, debug=False, use_reloader=False, ssl_context=ssl_context)|g' toolbox_app.py
+
 # Install spacy and its models first
 RUN pip install spacy && \
    python -m spacy download en_core_web_sm && \
