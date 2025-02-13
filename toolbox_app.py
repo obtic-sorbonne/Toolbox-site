@@ -2382,7 +2382,7 @@ def generate_corpus():
 @app.route('/corpus_from_url',  methods=["GET","POST"])
 @stream_with_context
 
-#Modifiée pour travail local + corrections
+# Minor ameliorations for the Wikisource scrapping feature
 def corpus_from_url():
     if request.method == 'POST':
         keys = request.form.keys()
@@ -2404,6 +2404,16 @@ def corpus_from_url():
             if path_elems[-1] != 'Texte_entier' and request.form.get(s) == 'on':
                 # Escape URL if not already escaped
                 url_temp = url.replace("https://fr.wikisource.org/wiki/", "")
+                # Flag that will indicate if the removal of the report for this table of content is needed or not
+                f_delete_report = True
+                
+                # Create a directory to store all chapters differently if there are more than one text
+                if len(urls) > 1:
+                    result_path_table = os.path.join(result_path, url_temp)
+                    os.mkdir(result_path_table)
+                else:
+                    result_path_table = result_path
+                    
                 if not '%' in url_temp:
                     url = "".join(["https://fr.wikisource.org/wiki/", urllib.parse.quote(url_temp)])
                 try:
@@ -2419,18 +2429,31 @@ def corpus_from_url():
                         if text != -1:
                             if not name:
                                 name = path_elems[-1]
-                            with open(os.path.join(result_path, name)+'.txt', 'w', encoding='utf-8') as output:
+                            with open(os.path.join(result_path_table, name)+'.txt', 'w', encoding='utf-8') as output:
                                 output.write(text)
-                            with open(os.path.join(result_path, "rapport.txt"), 'a') as rapport:
+                            with open(os.path.join(result_path_table, "rapport.txt"), 'a') as rapport:
                                 rapport.write(link + '\t' + 'OK\n')
+                        else:
+                            if not name:
+                                name = path_elems[-1]
+                            with open(os.path.join(result_path_table, "rapport.txt"), 'a') as rapport:
+                                rapport.write(link + '\t' + 'FAILED\n')
+                                f_delete_report = False
 
                 except urllib.error.HTTPError:
                     print(" ".join(["The page", url, "cannot be opened."]))
-                    with open(os.path.join(result_path, "rapport.txt"), 'a') as rapport:
-                                rapport.write(url + '\t' + "Erreur : l'URL n'a pas pu être ouverte.\n")
+                    with open(os.path.join(result_path_table, "rapport.txt"), 'a') as rapport:
+                        rapport.write(url + '\t' + "Erreur : l'URL n'a pas pu être ouverte.\n")
                     continue
 
                 filename = urllib.parse.unquote(path_elems[-1])
+                
+                # Delete the report if all is well
+                if f_delete_report:
+                    try:
+                        os.remove(os.path.join(result_path_table, "rapport.txt"))
+                    except FileNotFoundError:
+                        pass
 
             # URL vers texte intégral
             else:
@@ -2439,21 +2462,17 @@ def corpus_from_url():
                     if clean_text == -1:
                         print("Erreur lors de la lecture de la page {}".format(url))
                         with open(os.path.join(result_path, "rapport.txt"), 'a') as rapport:
-                                rapport.write(url + '\t' + "Erreur : le contenu de la page n'a pas pu être lu.\n")
-
+                            rapport.write(url + '\t' + "Erreur : le contenu de la page n'a pas pu être lu.\n")
                     else:
                         if path_elems[-1] != 'Texte_entier':
                             filename = urllib.parse.unquote(path_elems[-1])
                         else:
                             filename = urllib.parse.unquote(path_elems[-2])
-
                         with open(os.path.join(result_path, filename)+'.txt', 'w', encoding='utf-8') as output:
                             output.write(clean_text)
-
                 except Exception as e:
                     print("Erreur sur l'URL {}".format(url))
                     continue
-
 
         # ZIP le dossier résultat
         if len(os.listdir(result_path)) > 0:
@@ -2475,7 +2494,6 @@ def corpus_from_url():
 #----------------------- Wikisource -------------------
 
 def generate_random_corpus(nb):
-
     # Read list of urls
     with open(ROOT_FOLDER / 'static/wikisource_bib.txt', 'r') as bib:
         random_texts = bib.read().splitlines()
@@ -2485,18 +2503,13 @@ def generate_random_corpus(nb):
     all_texts = []
 
     for text_url in urls:
-        #removes the subsidiary part of the url path ("/Texte_entier" for example) so it does not mess with the filename
-        if(re.search('/',text_url)):
-            text_title = urllib.parse.unquote(text_url.split('/')[0])
-        else:
-            text_title = urllib.parse.unquote(text_url)
         location = "".join(["https://fr.wikisource.org/wiki/", text_url])
         try:
             page = urllib.request.urlopen(location)
         except Exception as e:
             with open('pb_url.log', 'a') as err_log:
                 err_log.write("No server is associated with the following page:" + location + '\n')
-                err_log.write(e)
+                err_log.write(str(e))  # Convert exception to string to avoid TypeError
             continue
 
         soup = BeautifulSoup(page, 'html.parser')
@@ -2505,11 +2518,30 @@ def generate_random_corpus(nb):
         if len(text) == 0:
             print("This does not appear to be part of the text (no prp-pages-output tag at this location).")
             with open('pb_url.log', 'a') as err_log:
-                err_log.write(text_url)
+                err_log.write(text_url + '\n')  # Added newline for better log readability
         else:
+            # Preparation of text_title
+            processed_url = text_url
+            
+            # Remove "/Texte_entier" from the URL
+            search_texte_entier = re.search("/Texte_entier", processed_url)
+            if search_texte_entier:
+                processed_url = processed_url[:search_texte_entier.start()] + processed_url[search_texte_entier.end():]
+            
+            # Remove "/%C3%89dition_XXXX" (Edition_YYYY) from the URL
+            search_edition = re.search("/%C3%89dition_[0-9]{4}", processed_url)
+            if search_edition:
+                processed_url = processed_url[:search_edition.start()] + processed_url[search_edition.end():]
+            
+            # Get the most precise title while avoiding filename issues with slashes
+            if re.search('/', processed_url):
+                text_title = urllib.parse.unquote(processed_url.split('/')[0])
+            else:
+                text_title = urllib.parse.unquote(processed_url)
+
             # Remove end of line inside sentence
             clean_text = re.sub(r"[^\.:!?»[A-Z]]\n", ' ', text[0].text)
-            all_texts.append((clean_text,text_title))
+            all_texts.append((clean_text, text_title))
 
     return all_texts
 
