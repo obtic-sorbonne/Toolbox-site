@@ -34,9 +34,8 @@ from lxml import etree
 import matplotlib.pyplot as plt
 import nltk
 from nltk.tokenize import sent_tokenize, word_tokenize
-from nltk.corpus import stopwords
+from nltk.corpus import stopwords, wordnet
 from nltk import ngrams, FreqDist, sent_tokenize, Text
-from nltk.corpus import wordnet
 from collections import Counter
 import pandas as pd
 import spacy
@@ -1794,139 +1793,173 @@ def analyze_statistic():
 
     return Response(json.dumps({"error": "Une erreur est survenue dans le traitement des fichiers."}), status=500, mimetype='application/json')
 
-
 #--------------- Analyse lexicale --------------------------
 
 @app.route('/analyze_lexicale', methods=['POST'])
 def analyze_lexicale():
     if 'files' not in request.files:
-        response = {"error": "No files part"}
-        return Response(json.dumps(response), status=400, mimetype='application/json')
+        return Response(json.dumps({"error": "No files part"}), status=400, mimetype='application/json')
 
     files = request.files.getlist('files')
     if not files or all(file.filename == '' for file in files):
-        response = {"error": "No selected files"}
-        return Response(json.dumps(response), status=400, mimetype='application/json')
+        return Response(json.dumps({"error": "No selected files"}), status=400, mimetype='application/json')
 
-    analysis_type = request.form['analysis_type']
+    # Get analysis parameters with proper error handling
+    analysis_type = request.form.get('analysis_type')
+    if not analysis_type:
+        return Response(json.dumps({"error": "Analysis type not specified"}), status=400, mimetype='application/json')
 
-    words_to_analyze = str(request.form.get('words_to_analyze'))
-    analyzed_words = words_to_analyze.split(';')
-    word = str(request.form.get('word'))
-    words_list = str(request.form.get('words_list'))
+    # Initialize parameters with proper error handling
+    analyzed_words = []
+    word = ''
+    words_list = ''
 
+    # Only get parameters needed for the specific analysis type
+    if analysis_type == 'lexical_dispersion':
+        words_to_analyze = request.form.get('words_to_analyze')
+        if not words_to_analyze:
+            return Response(json.dumps({"error": "Words to analyze not specified"}), status=400, mimetype='application/json')
+        analyzed_words = words_to_analyze.split(';')
+    elif analysis_type == 'lexical_relationships':
+        word = request.form.get('word')
+        if not word:
+            return Response(json.dumps({"error": "Word not specified"}), status=400, mimetype='application/json')
+    elif analysis_type == 'lexical_specificity':
+        words_list = request.form.get('words_list')
+        if not words_list:
+            return Response(json.dumps({"error": "Words list not specified"}), status=400, mimetype='application/json')
 
-    rand_name = 'lexicale_' + ''.join(random.choice(string.ascii_lowercase) for x in range(5))
-    result_path = os.path.join(os.getcwd(), rand_name)
-    os.makedirs(result_path, exist_ok=True)
+    # Create result directory with error handling
+    try:
+        rand_name = 'lexicale_' + ''.join(random.choice(string.ascii_lowercase) for x in range(5))
+        result_path = os.path.join(os.getcwd(), rand_name)
+        os.makedirs(result_path, exist_ok=True)
+    except Exception as e:
+        return Response(json.dumps({"error": f"Failed to create result directory: {str(e)}"}), 
+                       status=500, mimetype='application/json')
 
-    for f in files:
-        try:
+    try:
+        for f in files:
             input_text = f.read().decode('utf-8')
             tokens = word_tokenize(input_text)
             unique_words = set(tokens)
             number_unique_words = len(unique_words)
             total_number_words = len(tokens)
-            TTR = number_unique_words / total_number_words
-            filename, file_extension = os.path.splitext(f.filename)
+            TTR = number_unique_words / total_number_words if total_number_words > 0 else 0
+            filename, _ = os.path.splitext(f.filename)
 
             if analysis_type == 'lexical_dispersion':
-                text_nltk = Text(tokens) 
-                fig = plt.figure(figsize=(10, 6)) 
-                text_nltk.dispersion_plot(analyzed_words) 
-                # Personnalisation du plot 
-                plt.xlabel('Word Offset') 
-                plt.ylabel('Frequency') 
-                plt.title('Lexical Dispersion Plot') 
-                plt.tight_layout() 
-                # Sauvegarder la visualisation dans un fichier 
-                vis_name = filename + '_dispersion_plot.png' 
-                vis_path = os.path.join(result_path, vis_name) 
-                plt.savefig(vis_path, format='png') 
-                plt.close()
-            elif analysis_type == 'lexical_diversity':
-                #Sortie
-                output_name = filename + '_diversity.txt'
-                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-                    out.write("The lexical richness of the text is:" + str(round(TTR, 2)))
-
-                #Visualisation
-                labels = ['Total Words', 'Unique Words']
-                values = [total_number_words, number_unique_words]
-
-                # Création du graphique à barres
-                fig, ax = plt.subplots()
-                plt.bar(labels, values, color=['blue', 'green'])
-                plt.ylabel('Count')
-                plt.title('Total Words vs Unique Words')
-                plt.text(0.5, max(values)/2, f'TTR: {round(TTR, 2)}', horizontalalignment='center', verticalalignment='center', fontsize=12, color='red')
-
-                # Sauvegarder la visualisation dans un fichier
-                vis_name = 'words_comparison.png'
-                vis_path = os.path.join(result_path, vis_name)
+                plt.figure(figsize=(10, 6))
+                Text(tokens).dispersion_plot(analyzed_words)
+                plt.xlabel('Word Offset')
+                plt.ylabel('Frequency')
+                plt.title('Lexical Dispersion Plot')
+                plt.tight_layout()
+                vis_path = os.path.join(result_path, f'{filename}_dispersion_plot.png')
                 plt.savefig(vis_path, format='png')
                 plt.close()
+
+            elif analysis_type == 'lexical_diversity':
+                # Save diversity metrics
+                with open(os.path.join(result_path, f'{filename}_diversity.txt'), 'w', encoding='utf-8') as out:
+                    out.write(f"The lexical richness of the text is: {round(TTR, 2)}")
+
+                # Create visualization
+                plt.figure(figsize=(10, 6))
+                plt.bar(['Total Words', 'Unique Words'], 
+                       [total_number_words, number_unique_words], 
+                       color=['blue', 'green'])
+                plt.ylabel('Count')
+                plt.title('Total Words vs Unique Words')
+                plt.text(0.5, max(total_number_words, number_unique_words)/2, 
+                        f'TTR: {round(TTR, 2)}', 
+                        horizontalalignment='center', 
+                        verticalalignment='center', 
+                        fontsize=12, 
+                        color='red')
+                plt.savefig(os.path.join(result_path, f'{filename}_words_comparison.png'))
+                plt.close()
+
             elif analysis_type == 'lexical_relationships':
                 synonyms, antonyms, hyponyms, hypernyms = set(), set(), set(), set()
                 for syn in wordnet.synsets(word):
                     for lemma in syn.lemmas():
-                        synonyms.add(lemma.name())  # Add synonyms
+                        synonyms.add(lemma.name())
                         if lemma.antonyms():
-                            antonyms.add(lemma.antonyms()[0].name())  # Add antonyms
+                            antonyms.add(lemma.antonyms()[0].name())
+                    hyponyms.update(lemma.name() for hypo in syn.hyponyms() for lemma in hypo.lemmas())
+                    hypernyms.update(lemma.name() for hyper in syn.hypernyms() for lemma in hyper.lemmas())
+                
+                with open(os.path.join(result_path, f'{filename}_relationships.txt'), 'w', encoding='utf-8') as out:
+                    out.write(f"Synonyms: {list(synonyms)}\nAntonyms: {list(antonyms)}\n"
+                            f"Hyponyms: {list(hyponyms)}\nHypernyms: {list(hypernyms)}")
 
-                    for hypo in syn.hyponyms():
-                        hyponyms.update(lemma.name() for lemma in hypo.lemmas())  # Add hyponyms
-                    for hyper in syn.hypernyms():
-                        hypernyms.update(lemma.name() for lemma in hyper.lemmas())  # Add hypernyms
-                output_name = filename + '_relationships.txt'
-                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-                    out.write("Synonyms: " + str(list(synonyms)) + "\nAntonyms: " + str(list(antonyms)) + "\nHyponyms: " + str(list(hyponyms)) + "\nHypernyms:" + str(list(hypernyms)))
             elif analysis_type == 'lexical_specificity':
-                text_without_stopwords = [word for word in words_list.lower().split() if word not in stop_words]
+                if not words_list:
+                    continue
+                    
+                text_without_stopwords = [w for w in words_list.lower().split() if w not in stop_words]
+                if not text_without_stopwords:
+                    continue
 
+                # Calculate TF-IDF
                 tf = Counter(text_without_stopwords)
                 total_words = len(text_without_stopwords)
                 tf = {word: count / total_words for word, count in tf.items()}
-                word_doc_counts = {word: sum(1 for doc in input_text if word in doc.lower().split()) for word in tf}
-                idf = {word: math.log(len(input_text) / max(count, 1)) for word, count in word_doc_counts.items()}
+                word_doc_counts = {word: sum(1 for doc in [input_text] if word in doc.lower().split()) 
+                                 for word in tf}
+                idf = {word: math.log(1 / max(count, 1)) for word, count in word_doc_counts.items()}
                 tf_idf = {word: tf[word] * idf[word] for word in tf}
                 sorted_tf_idf = sorted(tf_idf.items(), key=lambda item: item[1], reverse=True)
 
-                #Sortie
-                output_name = filename + '_specifity.txt'
-                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-                    out.write("Results: " + str(sorted_tf_idf))
+                # Save results
+                with open(os.path.join(result_path, f'{filename}_specificity.txt'), 'w', encoding='utf-8') as out:
+                    out.write(f"Results: {sorted_tf_idf}")
 
-                # Visualization
-                words, scores = zip(*sorted_tf_idf)
+                # Create visualization
+                words, scores = zip(*sorted_tf_idf[:10])  # Only show top 10 words
                 plt.figure(figsize=(10, 6))
                 plt.bar(words, scores, color='grey')
+                plt.xticks(rotation=45)
                 plt.xlabel('Words')
                 plt.ylabel('TF-IDF Score')
                 plt.title('TF-IDF Scores for Words in Text')
-                vis_name = filename + '_specifity.png'
-                vis_path = os.path.join(result_path, vis_name)
-                plt.savefig(vis_path, format='png')
+                plt.tight_layout()
+                plt.savefig(os.path.join(result_path, f'{filename}_specificity.png'))
                 plt.close()
-        finally:
-            f.close()
 
-    if len(os.listdir(result_path)) > 0:
+    except Exception as e:
+        shutil.rmtree(result_path, ignore_errors=True)
+        return Response(json.dumps({"error": f"Analysis failed: {str(e)}"}), 
+                       status=500, mimetype='application/json')
+
+    # Create and return zip file
+    try:
+        if not os.listdir(result_path):
+            shutil.rmtree(result_path)
+            return Response(json.dumps({"error": "No output files were generated"}), 
+                          status=500, mimetype='application/json')
+
+        zip_path = f"{result_path}.zip"
         shutil.make_archive(result_path, 'zip', result_path)
-        output_stream = BytesIO()
-        with open(str(result_path) + '.zip', 'rb') as res:
-            content = res.read()
-        output_stream.write(content)
-        response = Response(output_stream.getvalue(), mimetype='application/zip',
-                            headers={"Content-disposition": "attachment; filename=" + rand_name + '.zip'})
-        output_stream.seek(0)
-        output_stream.truncate(0)
+        
+        with open(zip_path, 'rb') as zip_file:
+            response = Response(zip_file.read(), 
+                              mimetype='application/zip',
+                              headers={"Content-disposition": f"attachment; filename={rand_name}.zip"})
+        
+        # Cleanup
         shutil.rmtree(result_path)
-        os.remove(str(result_path) + '.zip')
+        os.remove(zip_path)
+        
         return response
 
-    return Response(json.dumps({"error": "Une erreur est survenue dans le traitement des fichiers."}), status=500, mimetype='application/json')
-
+    except Exception as e:
+        shutil.rmtree(result_path, ignore_errors=True)
+        if os.path.exists(f"{result_path}.zip"):
+            os.remove(f"{result_path}.zip")
+        return Response(json.dumps({"error": f"Failed to create zip file: {str(e)}"}), 
+                       status=500, mimetype='application/json')
 
 
 #--------------- Analyse de texte --------------------------
