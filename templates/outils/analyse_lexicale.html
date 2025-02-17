@@ -7,16 +7,17 @@
     <div class="fil"><a href="{{ url_for('analyses')}}"><< {{ _('Retour aux tâches') }}</a></div>
     <div>
         <h3>Analyse lexicale</h3>
-    <p>Cette page permet d'opérer divers types d'analyses lexicales sur un ou plusieurs documents soumis.<br>
-        <br>
-    <ul class="item-list" style="margin-left: 3em;">
-        <li><hi style="font-weight: bold;">Dispersion lexicale</hi> : Mesure montrant la distribution et l'occurrence de mots spécifiques dans un texte</li>
-        <li><hi style="font-weight: bold;">Diversité lexicale</hi> : Mesure de la diversité du vocabulaire d'un texte en évaluant le nombre et la variété des mots utilisés</li>
-        <li><hi style="font-weight: bold;">Relations lexicales</hi> : Mesure de la diversité du vocabulaire d'un texte en évaluant le nombre et la variété des mots utilisés</li>
-        <li><hi style="font-weight: bold;">Spécificités lexicales</hi> : Score identifiant le caractère unique d'un mot ou d'une phrase dans un document par rapport à un corpus de texte plus vaste</li>
-    </ul></p></div>
+        <p>Cette page permet d'opérer divers types d'analyses lexicales sur un ou plusieurs documents soumis.<br>
+            <br>
+        <ul class="item-list" style="margin-left: 3em;">
+            <li><strong>Dispersion lexicale</strong> : Mesure montrant la distribution et l'occurrence de mots spécifiques dans un texte</li>
+            <li><strong>Diversité lexicale</strong> : Mesure de la diversité du vocabulaire d'un texte en évaluant le nombre et la variété des mots utilisés</li>
+            <li><strong>Relations lexicales</strong> : Analyse des liens entre les mots et leur fréquence d'apparition conjointe</li>
+            <li><strong>Spécificités lexicales</strong> : Score identifiant le caractère unique d'un mot ou d'une phrase dans un document par rapport à un corpus de texte plus vaste</li>
+        </ul></p>
+    </div>
     <br>
-    <form action="{{ url_for('analyze_lexicale') }}" id="linguistic-form" method="post" enctype="multipart/form-data" onsubmit="showloader('loader')">
+    <form action="{{ url_for('analyze_lexicale') }}" id="linguistic-form" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
         <div class="centered-div">
             <label for="analysis_type">Choisir le type d'analyse :</label>
             <select class="styled-select" name="analysis_type" id="analysis_type" required>
@@ -28,81 +29,135 @@
         </div>
         {{ form.csrf_token }}
         <br>
-        <div class="centered-input-div" id="words_to_analyze" style="display: none;">
-            <label for="words_to_analyze">Mots à analyser (séparation : ";") :</label>
-            <input type="text" id="words_to_analyze" name="words_to_analyze"><br>
+        <div class="centered-input-div" id="words_to_analyze_container" style="display: none;">
+            <label for="words_to_analyze_input">Mots à analyser (séparation : ";") :</label>
+            <input type="text" id="words_to_analyze_input" name="words_to_analyze"><br>
         </div>
-        <div class="centered-input-div" id="word" style="display: none;">
-            <label for="word">Mot à analyser :</label>
-            <input type="text" id="word" name="word" required><br>
+        
+        <div class="centered-input-div" id="word_container" style="display: none;">
+            <label for="word_input">Mot à analyser :</label>
+            <input type="text" id="word_input" name="word"><br>
         </div>
-        <div class="centered-input-div" id="words_list" style="display: none;">
-            <label for="words_list">Mot à analyser :</label>
-            <input type="text" id="words_list" name="words_list"><br>
+        
+        <div class="centered-input-div" id="words_list_container" style="display: none;">
+            <label for="words_list_input">Mots à analyser (séparation : ";") :</label>
+            <input type="text" id="words_list_input" name="words_list"><br>
         </div>
         <div class="dropzone" style="margin:25px auto;">
-            <input type="file" id="files" name="files" accept="text/plain" multiple>
+            <input type="file" id="files" name="files" accept="text/plain" multiple required>
             <p id="form_msg">Déposer le(s) fichier(s) ou cliquer ici.</p>
         </div>
         <input id="csrf_token" name="csrf_token" type="hidden" value="{{ csrf_token() }}">
-        <button style="display:block;margin:auto;margin-top:20px;">Lancer l'analyse</button>
+        <button type="submit" style="display:block;margin:auto;margin-top:20px;">Lancer l'analyse</button>
     </form>
     {% if msg != "" %}
-    <div> <p>{{ msg }}</p></div>
+    <div><p>{{ msg }}</p></div>
     {% endif %}
-    <div class="loader" id="loader">
-        <div class="loadingio-spinner-ball-205vl2x7f7n"><div class="ldio-b8p5li8dt1u"><div></div></div></div>
+    <div class="loader" id="loader" style="display: none;">
+        <div class="loadingio-spinner-ball-205vl2x7n"><div class="ldio-b8p5li8dt1u"><div></div></div></div>
         <p>Traitement en cours...</p>
     </div>
+
 <script>
-/* MAJ de la zone de glisser-déposer */ 
-$('form input').change(function () {
-    var nb_files = this.files.length;
-    $('form #form_msg').text(nb_files + " fichier(s) selectionné(s)");
 
-    /* Prévisualisation des fichiers chargés (max 3 visibles) */
-    if(nb_files > 3){
-        var num = nb_files - 3;
-        for(i=0; i < 3; i++){
-            $("#form_msg").append('<br/><span class="filename_preview">' + this.files[i].name + '</span>');
+document.addEventListener("DOMContentLoaded", () => {
+    const form = document.getElementById("linguistic-form");
+    const analysisTypeSelect = document.getElementById("analysis_type");
+    const fileInput = document.getElementById("files");
+    const loader = document.getElementById("loader");
+    const formMsg = document.getElementById("form_msg");
+
+    // Function to handle file input display
+    const updateFileDisplay = () => {
+        if (fileInput.files.length > 0) {
+            const fileNames = Array.from(fileInput.files)
+                .map(file => file.name)
+                .join(', ');
+            formMsg.textContent = `Fichiers sélectionnés: ${fileNames}`;
+        } else {
+            formMsg.textContent = "Déposer le(s) fichier(s) ou cliquer ici.";
         }
-        $("#form_msg").append('<span class="filename_preview"> et ' + num + ' autres.</span>');
-    }
-    else{
-        for(i=0; i < nb_files; i++){
-            $("#form_msg").append('<br/><span class="filename_preview">' + this.files[i].name + '</span>');
-        }
-    }
-});
-        function toggleNgramFields() {
-            var analysisType = document.getElementById("analysis_type").value;
-            var words_to_analyze = document.getElementById("words_to_analyze");
-            var word = document.getElementById("word");
-            var words_list = document.getElementById("words_list");
-            if (analysisType === "lexical_dispersion") {
-                words_to_analyze.style.display = "block";
-                word.style.display = "none";
-                words_list.style.display = "none";
-            } else if (analysisType === "lexical_relationships") {
-                words_to_analyze.style.display = "none";
-                word.style.display = "block";
-                words_list.style.display = "none";
-            } else if (analysisType === "lexical_specificity") {
-                words_to_analyze.style.display = "none";
-                word.style.display = "none";
-                words_list.style.display = "block";
-            } else {
-                words_to_analyze.style.display = "none";
-                word.style.display = "none";
-                words_list.style.display = "none";
+    };
+
+    const toggleFieldsVisibility = () => {
+        const selectedAnalysis = analysisTypeSelect.value;
+        const wordsToAnalyze = document.getElementById("words_to_analyze_container");
+        const word = document.getElementById("word_container");
+        const wordsList = document.getElementById("words_list_container");
+        
+        [wordsToAnalyze, word, wordsList].forEach(container => {
+            if (container) {
+                container.style.display = "none";
+                const input = container.querySelector('input');
+                if (input) {
+                    input.removeAttribute('required');
+                }
             }
-        }
-
-        document.addEventListener("DOMContentLoaded", function() {
-            document.getElementById("analysis_type").addEventListener("change", toggleNgramFields);
-            toggleNgramFields(); // Initial call to set visibility based on default selection
         });
+        
+        switch (selectedAnalysis) {
+            case "lexical_dispersion":
+                wordsToAnalyze.style.display = "block";
+                wordsToAnalyze.querySelector('input').setAttribute('required', 'required');
+                break;
+            case "lexical_relationships":
+                word.style.display = "block";
+                word.querySelector('input').setAttribute('required', 'required');
+                break;
+            case "lexical_specificity":
+                wordsList.style.display = "block";
+                wordsList.querySelector('input').setAttribute('required', 'required');
+                break;
+        }
+    };
 
+    // Add event listeners
+    analysisTypeSelect.addEventListener("change", toggleFieldsVisibility);
+    fileInput.addEventListener("change", updateFileDisplay);
+    
+    form.addEventListener("submit", () => {
+        loader.style.display = "block";
+    });
+
+    // Add response handler to hide loader when response is received
+    form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        loader.style.display = "block";
+        
+        try {
+            const formData = new FormData(form);
+            const response = await fetch(form.action, {
+                method: 'POST',
+                body: formData
+            });
+            
+            if (response.ok) {
+                // Handle successful response (download file)
+                const blob = await response.blob();
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = response.headers.get('Content-disposition').split('filename=')[1];
+                document.body.appendChild(a);
+                a.click();
+                window.URL.revokeObjectURL(url);
+                document.body.removeChild(a);
+            } else {
+                // Handle error response
+                const errorData = await response.json();
+                alert(errorData.error || 'An error occurred');
+            }
+        } catch (error) {
+            alert('An error occurred while processing your request');
+        } finally {
+            loader.style.display = "none";
+        }
+    });
+
+    // Initial setup
+    toggleFieldsVisibility();
+    updateFileDisplay();
+});
 </script>
 </div>
 {% endblock %}

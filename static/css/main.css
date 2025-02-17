@@ -11,8 +11,8 @@ em {
 }
 
 @font-face {
-    font-family: 'Comprehension';
-    src: local("Comprehension"), url("font/Comprehension-SemiBold.otf") format("opentype");
+  font-family: 'Comprehension';
+  src: url('/static/font/Comprehension-SemiBold.otf') format('opentype');
 }
 
 @font-face {
