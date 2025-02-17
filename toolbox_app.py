@@ -70,7 +70,6 @@ nltk.download('omw-1.4')
 stop_words = set(stopwords.words('english'))
 
 
-
 UPLOAD_FOLDER = 'uploads'
 MODEL_FOLDER = 'static/models'
 UTILS_FOLDER = 'static/utils'
