@@ -10,10 +10,10 @@
         <p>Cette page permet d'opérer divers types d'analyses lexicales sur un ou plusieurs documents soumis.<br>
             <br>
         <ul class="item-list" style="margin-left: 3em;">
-            <li><hi style="font-weight: bold;">Dispersion lexicale</hi> : Mesure montrant la distribution et l'occurrence de mots spécifiques dans un texte</li>
-            <li><hi style="font-weight: bold;">Diversité lexicale</hi> : Mesure de la diversité du vocabulaire d'un texte en évaluant le nombre et la variété des mots utilisés</li>
-            <li><hi style="font-weight: bold;">Relations lexicales</hi> : Mesure de la diversité du vocabulaire d'un texte en évaluant le nombre et la variété des mots utilisés</li>
-            <li><hi style="font-weight: bold;">Spécificités lexicales</hi> : Score identifiant le caractère unique d'un mot ou d'une phrase dans un document par rapport à un corpus de texte plus vaste</li>
+            <li><strong>Dispersion lexicale</strong> : Mesure montrant la distribution et l'occurrence de mots spécifiques dans un texte</li>
+            <li><strong>Diversité lexicale</strong> : Mesure de la diversité du vocabulaire d'un texte en évaluant le nombre et la variété des mots utilisés</li>
+            <li><strong>Relations lexicales</strong> : Analyse des liens entre les mots et leur fréquence d'apparition conjointe</li>
+            <li><strong>Spécificités lexicales</strong> : Score identifiant le caractère unique d'un mot ou d'une phrase dans un document par rapport à un corpus de texte plus vaste</li>
         </ul></p>
     </div>
     <br>
@@ -59,106 +59,105 @@
     </div>
 
 <script>
-document.addEventListener("DOMContentLoaded", function() {
+
+document.addEventListener("DOMContentLoaded", () => {
     const form = document.getElementById("linguistic-form");
     const analysisTypeSelect = document.getElementById("analysis_type");
-    
-    // Initialize fields visibility
-    toggleInputFields();
-    
-    // Add event listener for analysis type changes
-    analysisTypeSelect.addEventListener("change", toggleInputFields);
-    
-    // File input handling
     const fileInput = document.getElementById("files");
-    fileInput.addEventListener("change", updateFileDisplay);
-});
+    const loader = document.getElementById("loader");
+    const formMsg = document.getElementById("form_msg");
 
-function toggleInputFields() {
-    const analysisType = document.getElementById("analysis_type").value;
-    
-    // Get all input containers
-    const wordsToAnalyze = document.getElementById("words_to_analyze_container");
-    const word = document.getElementById("word_container");
-    const wordsList = document.getElementById("words_list_container");
-    
-    // Hide all containers and remove required attributes
-    [wordsToAnalyze, word, wordsList].forEach(container => {
-        if (container) {
-            container.style.display = "none";
-            const input = container.querySelector('input');
-            if (input) {
-                input.removeAttribute('required');
-            }
+    // Function to handle file input display
+    const updateFileDisplay = () => {
+        if (fileInput.files.length > 0) {
+            const fileNames = Array.from(fileInput.files)
+                .map(file => file.name)
+                .join(', ');
+            formMsg.textContent = `Fichiers sélectionnés: ${fileNames}`;
+        } else {
+            formMsg.textContent = "Déposer le(s) fichier(s) ou cliquer ici.";
         }
-    });
-    
-    // Show only the needed container based on analysis type
-    switch(analysisType) {
-        case "lexical_dispersion":
-            if (wordsToAnalyze) {
+    };
+
+    const toggleFieldsVisibility = () => {
+        const selectedAnalysis = analysisTypeSelect.value;
+        const wordsToAnalyze = document.getElementById("words_to_analyze_container");
+        const word = document.getElementById("word_container");
+        const wordsList = document.getElementById("words_list_container");
+        
+        [wordsToAnalyze, word, wordsList].forEach(container => {
+            if (container) {
+                container.style.display = "none";
+                const input = container.querySelector('input');
+                if (input) {
+                    input.removeAttribute('required');
+                }
+            }
+        });
+        
+        switch (selectedAnalysis) {
+            case "lexical_dispersion":
                 wordsToAnalyze.style.display = "block";
                 wordsToAnalyze.querySelector('input').setAttribute('required', 'required');
-            }
-            break;
-        case "lexical_relationships":
-            if (word) {
+                break;
+            case "lexical_relationships":
                 word.style.display = "block";
                 word.querySelector('input').setAttribute('required', 'required');
-            }
-            break;
-        case "lexical_specificity":
-            if (wordsList) {
+                break;
+            case "lexical_specificity":
                 wordsList.style.display = "block";
                 wordsList.querySelector('input').setAttribute('required', 'required');
-            }
-            break;
-        case "lexical_diversity":
-            // No input fields needed for diversity analysis
-            break;
-    }
-}
+                break;
+        }
+    };
 
-function updateFileDisplay() {
-    const fileInput = document.getElementById("files");
-    const formMsg = document.getElementById("form_msg");
-    const files = fileInput.files;
+    // Add event listeners
+    analysisTypeSelect.addEventListener("change", toggleFieldsVisibility);
+    fileInput.addEventListener("change", updateFileDisplay);
     
-    if (files.length === 0) {
-        formMsg.textContent = "Déposer le(s) fichier(s) ou cliquer ici.";
-        return;
-    }
-    
-    formMsg.textContent = `${files.length} fichier(s) selectionné(s)`;
-    
-    // Show preview of file names
-    const maxPreview = 3;
-    const previewFiles = Array.from(files).slice(0, maxPreview);
-    
-    previewFiles.forEach(file => {
-        formMsg.innerHTML += `<br><span class="filename_preview">${file.name}</span>`;
+    form.addEventListener("submit", () => {
+        loader.style.display = "block";
     });
-    
-    if (files.length > maxPreview) {
-        const remaining = files.length - maxPreview;
-        formMsg.innerHTML += `<br><span class="filename_preview">et ${remaining} autres.</span>`;
-    }
-}
 
-function validateForm() {
-    const analysisType = document.getElementById("analysis_type").value;
-    const files = document.getElementById("files").files;
-    
-    if (files.length === 0) {
-        alert("Veuillez sélectionner au moins un fichier.");
-        return false;
-    }
-    
-    // Show loader
-    document.getElementById("loader").style.display = "block";
-    
-    return true;
-}
+    // Add response handler to hide loader when response is received
+    form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        loader.style.display = "block";
+        
+        try {
+            const formData = new FormData(form);
+            const response = await fetch(form.action, {
+                method: 'POST',
+                body: formData
+            });
+            
+            if (response.ok) {
+                // Handle successful response (download file)
+                const blob = await response.blob();
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = response.headers.get('Content-disposition').split('filename=')[1];
+                document.body.appendChild(a);
+                a.click();
+                window.URL.revokeObjectURL(url);
+                document.body.removeChild(a);
+            } else {
+                // Handle error response
+                const errorData = await response.json();
+                alert(errorData.error || 'An error occurred');
+            }
+        } catch (error) {
+            alert('An error occurred while processing your request');
+        } finally {
+            loader.style.display = "none";
+        }
+    });
+
+    // Initial setup
+    toggleFieldsVisibility();
+    updateFileDisplay();
+});
 </script>
 </div>
 {% endblock %}
