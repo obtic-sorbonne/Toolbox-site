@@ -60,6 +60,16 @@ import ocr
 import sem
 from cluster import freqs2clustering
 
+# Import required libraries
+from keybert import KeyBERT
+from sentence_transformers import SentenceTransformer
+
+print("Loading models at startup...")
+sentence_model = SentenceTransformer("distiluse-base-multilingual-cased-v1")
+kw_model = KeyBERT(model=sentence_model)
+print("Models loaded successfully")
+
+
 # NLTK
 nltk.download('punkt_tab')
 nltk.download('stopwords')
@@ -1272,10 +1282,6 @@ def keyword_extraction():
 
             print(f"Received files: {[f.filename for f in uploaded_files]}")
             print(f"Selected methods: {methods}")
-
-            # Import required libraries
-            from keybert import KeyBERT
-            from sentence_transformers import SentenceTransformer
             
             # Load model
             print("Loading models...")
