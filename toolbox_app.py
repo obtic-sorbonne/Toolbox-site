@@ -53,6 +53,7 @@ from sklearn.cluster import KMeans
 from sklearn.decomposition import PCA
 import plotly.graph_objects as go
 import numpy as np
+import torch
 
 # Local application imports
 from forms import ContactForm, SearchForm
@@ -64,10 +65,9 @@ from cluster import freqs2clustering
 from keybert import KeyBERT
 from sentence_transformers import SentenceTransformer
 
-print("Loading models at startup...")
-sentence_model = SentenceTransformer("distiluse-base-multilingual-cased-v1")
-kw_model = KeyBERT(model=sentence_model)
-print("Models loaded successfully")
+# Global variables for models
+sentence_model = None
+kw_model = None
 
 
 # NLTK
@@ -103,6 +103,10 @@ app.config['WTF_CSRF_TIME_LIMIT'] = None  # No time limit on tokens
 app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=1)  # Session lasts 1 day
 
 app.config['MAX_CONTENT_LENGTH'] = 50 * 1024 * 1024 # Limit file upload to 35MB
+app.config['CHUNK_SIZE'] = 1024 * 1024 # 1MB chunks for processing
+
+
+
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['MODEL_FOLDER'] = MODEL_FOLDER
 app.config['UTILS_FOLDER'] = UTILS_FOLDER
@@ -1261,25 +1265,22 @@ def named_entity_recognition():
 #-----------------------------------------------------------------
 
 #--------------- Mots-clés -----------------------
-
-
 @app.route('/keyword_extraction', methods=['POST'])
-
-@stream_with_context
 def keyword_extraction():
+    MAX_CONTENT_LENGTH = app.config['MAX_CONTENT_LENGTH']
     form = FlaskForm()
+    
     if request.method == 'POST':
-
         try:
             uploaded_files = request.files.getlist("keywd-extract")
             methods = request.form.getlist('extraction-method')
             
             if not uploaded_files:
-                return render_template('outils/extraction_mots_cles.html', 
-                                    form=form, 
-                                    res={}, 
+                return render_template('outils/extraction_mots_cles.html',
+                                    form=form,
+                                    res={},
                                     error="Please upload at least one file.")
-
+            
             print(f"Received files: {[f.filename for f in uploaded_files]}")
             print(f"Selected methods: {methods}")
             
@@ -1292,6 +1293,11 @@ def keyword_extraction():
             res = {}
             for f in uploaded_files:
                 try:
+                    # Read and process file
+                    text = f.read().decode('utf-8')
+                    if not text.strip():
+                        continue
+                        
                     fname = secure_filename(f.filename)
                     fname = os.path.splitext(fname)[0]
                     fname = fname.replace(' ', '_')
@@ -1299,30 +1305,37 @@ def keyword_extraction():
                     print(f"Processing file: {fname}")
                     res[fname] = {}
                     
-                    text = f.read().decode("utf-8")
-                    if not text.strip():
-                        print(f"Empty file: {fname}")
-                        continue
-
+                    # Process each method
                     if 'default' in methods:
                         print("Running default extraction...")
-                        keywords_def = kw_model.extract_keywords(text)
+                        keywords_def = kw_model.extract_keywords(
+                            text,
+                            top_n=5,
+                            stop_words='french'  # Changed to French
+                        )
                         res[fname]['default'] = keywords_def
-
+                    
                     if 'mmr' in methods:
                         print("Running MMR extraction...")
                         diversity = float(request.form.get('diversity', '7')) / 10
-                        keywords_mmr = kw_model.extract_keywords(text, use_mmr=True, diversity=diversity)
+                        keywords_mmr = kw_model.extract_keywords(
+                            text,
+                            use_mmr=True,
+                            diversity=diversity,
+                            top_n=5,
+                            stop_words='french'  # Changed to French
+                        )
                         res[fname]['mmr'] = keywords_mmr
-
+                    
                     if 'mss' in methods:
                         print("Running MSS extraction...")
                         keywords_mss = kw_model.extract_keywords(
-                            text, 
+                            text,
                             keyphrase_ngram_range=(1, 3),
                             use_maxsum=True,
                             nr_candidates=10,
-                            top_n=3
+                            top_n=3,
+                            stop_words='french'  # Changed to French
                         )
                         res[fname]['mss'] = keywords_mss
                     
@@ -1331,21 +1344,21 @@ def keyword_extraction():
                 except Exception as e:
                     print(f"Error processing file {fname}: {e}")
                     res[fname] = {'error': str(e)}
-
+            
             print(f"Final results: {res}")
-            return render_template('outils/extraction_mots_cles.html', 
-                                form=form, 
+            return render_template('outils/extraction_mots_cles.html',
+                                form=form,
                                 res=res)
-
+            
         except Exception as e:
             print(f"General error: {e}")
-            return render_template('outils/extraction_mots_cles.html', 
-                                form=form, 
-                                res={}, 
+            return render_template('outils/extraction_mots_cles.html',
+                                form=form,
+                                res={},
                                 error=str(e))
     
-    return render_template('outils/extraction_mots_cles.html', 
-                         form=form, 
+    return render_template('outils/extraction_mots_cles.html',
+                         form=form,
                          res={})
 
 # Test route to verify template loading
