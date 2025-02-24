@@ -6,12 +6,6 @@
 <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
 
 <div class="outil">
-    <!-- Loading indicator - using the exact HTML structure from the example -->
-    <div class="loader" id="loader" style="display: none;">
-        <div class="loadingio-spinner-ball-205vl2x7n"><div class="ldio-b8p5li8dt1u"><div></div></div></div>
-        <p>Traitement en cours...</p>
-    </div>
-
     <div class="fil"><a href="{{ url_for('extraction_information')}}"><< {{ _('Retour aux tâches') }}</a></div>
     <h2 style="font-family:'Comprehension', serif;">{{ _('Extraction de mots-clés') }}</h2>
 
@@ -46,6 +40,12 @@
                 <input id="csrf_token" name="csrf_token" type="hidden" value="CSRF_TOKEN_STRING">
                 <button type="submit">{{ _('Envoyer') }}</button>
             </form>
+            
+            <!-- the loader -->
+            <div class="loader" id="loader" style="display: none;">
+                <div class="loadingio-spinner-ball-205vl2x7n"><div class="ldio-b8p5li8dt1u"><div></div></div></div>
+                <p>Traitement en cours...</p>
+            </div>
         </div>
         <div class="item">
             <h3>{{ _("Résultats") }}</h3>
@@ -196,72 +196,6 @@
         document.body.removeChild(a);
     }
 </script>
-
-<!-- Add CSS for the loader - using the same classes as in the example -->
-<style>
-    /* Loader container */
-    .loader {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(255, 255, 255, 0.8);
-        z-index: 9999;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        text-align: center;
-    }
-    
-    /* Spinner container */
-    .loadingio-spinner-ball-205vl2x7n {
-        width: 200px;
-        height: 200px;
-        display: inline-block;
-        overflow: hidden;
-        background: none;
-    }
-    
-    /* Animation container */
-    .ldio-b8p5li8dt1u {
-        width: 100%;
-        height: 100%;
-        position: relative;
-        transform: translateZ(0) scale(1);
-        backface-visibility: hidden;
-        transform-origin: 0 0;
-    }
-    
-    /* Animated element */
-    .ldio-b8p5li8dt1u div {
-        width: 30px;
-        height: 30px;
-        background: #496a81;
-        border-radius: 50%;
-        animation: ldio-b8p5li8dt1u 1s linear infinite;
-        position: absolute;
-        top: 85px;
-        left: 85px;
-    }
-    
-    /* Animation keyframes */
-    @keyframes ldio-b8p5li8dt1u {
-        0% { transform: translate(-50px, 0); }
-        25% { transform: translate(0, 50px); }
-        50% { transform: translate(50px, 0); }
-        75% { transform: translate(0, -50px); }
-        100% { transform: translate(-50px, 0); }
-    }
-    
-    /* Loading text */
-    .loader p {
-        margin-top: 20px;
-        font-size: 18px;
-        color: #496a81;
-    }
-</style>
 </div>
 {% endblock %}
 {% block footer %} {{ super() }} {% endblock %}

@@ -64,7 +64,7 @@ from cluster import freqs2clustering
 
 # NLTK
 try:
-    #nltk.download('punkt_tab', quiet=True)
+    nltk.download('punkt_tab', quiet=True)
     nltk.download('stopwords', quiet=True)
     nltk.download('punkt', quiet=True)
     nltk.download('wordnet', quiet=True)
@@ -1264,6 +1264,12 @@ def named_entity_recognition():
 @app.route('/keyword_extraction', methods=['POST'])
 @stream_with_context
 def keyword_extraction():
+    """
+    Endpoint for extracting keywords from uploaded text files. 
+    - 'default': Standard KeyBERT keyword extraction.
+    - 'mmr': Maximal Marginal Relevance (MMR) for diverse keywords.
+    - 'mss': Multi-word phrases extraction using MaxSum with n-gramms from 1 to 4 elements dividing it into chunks.
+    """
     form = FlaskForm()
     if request.method == 'POST':
         try:
@@ -1280,7 +1286,7 @@ def keyword_extraction():
             print(f"Selected methods: {methods}")
 
             def chunk_text(text, max_length=25000):
-                """Split text into smaller chunks to process"""
+                """Split text into smaller chunks to process. The txt book 'Les Bienveillantes' (2,52MB or ~2 433 258 characters) is devided into 98 chunks with max_length=25000 taking up to 7 minutes to process the data."""
                 words = text.split()
                 chunks = []
                 current_chunk = []
@@ -1300,7 +1306,7 @@ def keyword_extraction():
                 
                 return chunks
 
-            # Load models only when needed
+            # Load models only when needed to save memory
             try:
                 import torch
                 import gc
@@ -1393,6 +1399,7 @@ def keyword_extraction():
                     # Process results for each method
                     for method in methods:
                         if method_results[method]:
+
                             # Deduplicate and sort
                             unique_keywords = {}
                             for item in method_results[method]:
@@ -1401,12 +1408,11 @@ def keyword_extraction():
                                 if word not in unique_keywords or score > unique_keywords[word]['score']:
                                     unique_keywords[word] = item
                             
-                            # Convert back to tuples and sort
                             sorted_keywords = sorted(
                                 [(item['word'], item['score']) for item in unique_keywords.values()],
                                 key=lambda x: x[1],
                                 reverse=True
-                            )[:10]  # Keep top 10 results
+                            )[:10]  # Keeping only top 10 results
                             
                             res[fname][method] = sorted_keywords
                     
