@@ -6,6 +6,12 @@
 <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
 
 <div class="outil">
+    <!-- Loading indicator - using the exact HTML structure from the example -->
+    <div class="loader" id="loader" style="display: none;">
+        <div class="loadingio-spinner-ball-205vl2x7n"><div class="ldio-b8p5li8dt1u"><div></div></div></div>
+        <p>Traitement en cours...</p>
+    </div>
+
     <div class="fil"><a href="{{ url_for('extraction_information')}}"><< {{ _('Retour aux tâches') }}</a></div>
     <h2 style="font-family:'Comprehension', serif;">{{ _('Extraction de mots-clés') }}</h2>
 
@@ -17,7 +23,7 @@
     {% endif %}
 
 
-    <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_extraction') }}" target="_blank">{{ _("Voir la documentation") }}</a> /<a href="{{ url_for('tutoriel_extraction') }}"  target="_blank">{{ _('Voir le tutoriel') }}</a></p>
+    <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_extraction') }}" target="_blank">{{ _("Voir la documentation") }}</a> /<a href="{{ url_for('tutoriel_extraction') }}"  target="_blank">{{ _('Voir le tutoriel') }}</a></p>
     <div class="container_two_columns">
         <div class="item">
             <h3>{{ _("Chargement des fichiers") }}</h3>
@@ -82,7 +88,6 @@
         </div>
     </div>
 
-<!-- This is the updated portion of the code that needs to be changed -->
 <script>
     /* MAJ de la zone de glisser-déposer */ 
     $(document).ready(function(){
@@ -124,12 +129,15 @@
     });
 
     /* Vérifier si une méthode est bien cochée */
-    $("#kw_form").submit(function(){
+    $("#kw_form").submit(function(e){
         var checked = $("#kw_form input:checked").length > 0;
         if (!checked){
             alert("Choisir une méthode d'extraction.");
             return false;
         }
+        
+        // Show the loader when form is submitted
+        $("#loader").show();
     });
 
     /* Affichage du bouton de téléchargement */
@@ -137,6 +145,8 @@
         if (Object.keys({{ res|tojson }}).length > 0){
             $( "#download_btn" ).css( "display", "block" );
         }
+        // Hide loader when page is loaded (in case it was showing from a previous submission)
+        $("#loader").hide();
     });
 
     /* Téléchargement des résultats */
@@ -186,6 +196,72 @@
         document.body.removeChild(a);
     }
 </script>
+
+<!-- Add CSS for the loader - using the same classes as in the example -->
+<style>
+    /* Loader container */
+    .loader {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(255, 255, 255, 0.8);
+        z-index: 9999;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+    }
+    
+    /* Spinner container */
+    .loadingio-spinner-ball-205vl2x7n {
+        width: 200px;
+        height: 200px;
+        display: inline-block;
+        overflow: hidden;
+        background: none;
+    }
+    
+    /* Animation container */
+    .ldio-b8p5li8dt1u {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        transform: translateZ(0) scale(1);
+        backface-visibility: hidden;
+        transform-origin: 0 0;
+    }
+    
+    /* Animated element */
+    .ldio-b8p5li8dt1u div {
+        width: 30px;
+        height: 30px;
+        background: #496a81;
+        border-radius: 50%;
+        animation: ldio-b8p5li8dt1u 1s linear infinite;
+        position: absolute;
+        top: 85px;
+        left: 85px;
+    }
+    
+    /* Animation keyframes */
+    @keyframes ldio-b8p5li8dt1u {
+        0% { transform: translate(-50px, 0); }
+        25% { transform: translate(0, 50px); }
+        50% { transform: translate(50px, 0); }
+        75% { transform: translate(0, -50px); }
+        100% { transform: translate(-50px, 0); }
+    }
+    
+    /* Loading text */
+    .loader p {
+        margin-top: 20px;
+        font-size: 18px;
+        color: #496a81;
+    }
+</style>
 </div>
 {% endblock %}
 {% block footer %} {{ super() }} {% endblock %}
