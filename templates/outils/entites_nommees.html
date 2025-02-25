@@ -129,18 +129,28 @@ form p{
 <div class="outil">
   <div class="fil"><a href="{{ url_for('annotation_automatique')}}"><< {{ _('Retour aux tâches') }}</a></div>
   <h3>{{ _("Reconnaissance d'entités nommées") }}</h3>
-  <div class="language-selection">
+  <!--<div class="language-selection">
     <label for="toollang"><i class="fa-regular fa-flag"></i>{{ _("Dans quelle langue est votre texte ?") }}</label>
     <select name="toollang" id="toollang" class="sel sel--black-panther">
       <option value="fra" selected="true">{{ _('Français') }}</option>
       <option value="eng">{{ _('Anglais') }}</option>
       <option value="spa">{{ _('Espagnol') }}</option>
     </select>
-  </div>
+  </div>-->
 <p>{{ _("Cet outil permet d'identifier les entités nommées d'un corpus en utilisant au choix trois modèles : Spacy, Flair, ou un modèle Bert") }}. {{ _("Le corpus peut être au format texte ou au format XML-TEI") }}. {{ _("Dans ce dernier cas, les entités seront annotées directement dans le texte avec la balise")}} &lt;Entity&gt; {{ _("avec leur type en attribut annotation") }}. {{ _("A noter que ce processus ne conserve pas la structuration et le formatage à l'intérieur des balises parcourues ; tous les formatages à l'extérieur de ces balises sont en revanche restitués") }}.</p>
 <p>{{ _("L'utilisation de cette balise &lt;Entity&gt; rend utilisable le XML en sortie dans la plateforme") }} <a href="https://obtic.huma-num.fr/ariane" target="_blank">Ariane</a>.</p><p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_annotation') }}" target="_blank">{{ _("Voir la documentation") }}</a> / <a href="{{ url_for('tutoriel_annotation') }}"  target="_blank">{{ _('Voir le tutoriel') }}</a></p>
-  <div id="lang_fr">
-    <h4>{{ _("Entités nommées") }} (<span id="ner_title">fra</span>)</h4>
+<br>
+    <div class="infos_outil" style="display: block;margin: 0 auto 15px auto;">
+        <input id="show" type=checkbox><label for="show" class="infos_title"><i class="fa-solid fa-circle-info"></i> {{ _("Informations sur l'outil") }}<i class="fa-solid fa-angle-right" style="float:right;margin-top:5px;margin-left:15px;cursor: pointer;"></i></label>
+        <div class="info_popped">
+          <p>SpaCy, Flair, BERT
+      <p>{{ _("Formats d'entrée :")}} <i class="fa-regular fa-file-lines"></i> texte brut (.txt) ou <i class="fa-regular fa-file-code"></i> fichier XML (.xml)</p>
+      <p>{{ _("Formats de sortie :")}} <i class="fa-regular fa-file-lines"></i> texte brut (.txt) or <i class="fa-regular fa-file-code"></i> fichier XML (.xml)</p>
+      <p>Encodage : UTF-8</p>
+      </div>
+  </div>
+      <br>
+  <div>
     <form action="{{ url_for('named_entity_recognition') }}" id="metadata-form" method="post" enctype="multipart/form-data">
       {{ form.csrf_token }}
       <!-- Input format selection -->
@@ -175,7 +185,6 @@ form p{
             <input type="text" name="encodage" id="encodage" value="UTF-8" required>
          </div>
       </div>
-      <hr>
 
       <!-- Select engine -->
       <p>{{ _("Moteur de REN") }}</p>
@@ -200,12 +209,19 @@ form p{
       <div id="modeldiv">
         <label for="modele_REN">{{ _("Modèle à utiliser") }}</label>
         <select class="styled-select" name="modele_REN" id="modele_REN">
-          <option value="fr_core_news_sm">fr_core_news_sm</option>
-          <option value="fr_core_news_md" selected="true">fr_core_news_md</option>
-          <option value="fr_core_news_lg">fr_core_news_lg</option>
+          <option value="de_core_news_sm">{{ _('Allemand') }} (de)</option>
+          <option value="en_core_web_sm">{{ _('Anglais') }} (eng)</option>
+          <option value="da_core_news_sm">{{ _('Danois') }} (da)</option>
+          <option value="es_core_news_sm">{{ _('Espagnol') }} (es)</option>
+          <option value="fi_core_news_sm">{{ _('Finnois') }} (fi)</option>
+          <option value="fr_core_news_sm" selected>{{ _('Français') }} (fr)</option>
+          <option value="el_core_news_sm">{{ _('Grec') }} (el)</option>
+          <option value="it_core_news_sm">{{ _('Italien') }} (it)</option>
+          <option value="nl_core_news_sm">{{ _('Néerlandais') }} (nl)</option>
+          <option value="pt_core_news_sm">{{ _('Portugais') }} (pt)</option>
+          <option value="ru_core_news_sm">{{ _('Russe') }} (ru)</option>
         </select>
       </div>
-      <hr>
     <!-- Drop zone -->
     <div class="centerElem">
       {% if erreur != "" %}
@@ -229,88 +245,63 @@ $('#xmlparams').hide();
 $('#inf-box-spacy-models').hide();
 localStorage.setItem('ner_lang', 'fra');
 
-/* Store language */
-$('#toollang').change(function(){
-  var lang = $('#toollang').val();
-  localStorage.setItem('ner_lang', lang);
-
-  var html_options_spacy = availableSpacyModels(lang);
-  $("#opt-spacy").prop("checked", true);
-  $("#modele_REN").html(html_options_spacy);
-  $("#ner_title").html(lang);
-  
-  // Disable Flair for Spanish
-  if (lang == 'spa') {
-    $("#opt-flair").prop("disabled", true);
-    $('.opt-flair').css('opacity', '0.5');
-    $('.opt-flair').css('cursor', 'not-allowed');
-  } else {
-    $("#opt-flair").prop("disabled", false);
-    $('.opt-flair').css('opacity', '1');
-    $('.opt-flair').css('cursor', 'pointer');
-  }
+/* Show available models according to selected NER engine */
+$('input[type=radio][name=moteur_REN]').change(function() {
+    try {
+        if (this.value == 'spacy') {
+            var html_options_spacy = availableSpacyModels();
+            $("#modele_REN").html(html_options_spacy);
+        }
+        else if (this.value == 'flair') {
+            var html_options_flair = availableFlairModels();
+            $("#modele_REN").html(html_options_flair);
+        }
+        else if (this.value == 'camembert') {
+            var html_options_bert = availableBertModels();
+            $("#modele_REN").html(html_options_bert);
+        }
+    } catch (error) {
+        console.error("Error updating models:", error);
+        $("#modele_REN").html('<option value="">Error loading models</option>');
+    }
 });
 
-function availableSpacyModels(lang){
-  var html_options; 
-  if (lang == 'fra'){
-    html_options = `<option value="fr_core_news_sm">fr_core_news_sm</option>
-     <option value="fr_core_news_md" selected="true">fr_core_news_md</option>
-     <option value="fr_core_news_lg">fr_core_news_lg</option>`;
-  }
-  else if (lang == 'eng'){
-    html_options = `<option value="en_core_web_sm">en_core_web_sm</option>
-    <option value="en_core_web_lg">en_core_web_lg</option>`; // Removed only en_core_web_md
-  }
-  else if (lang == 'spa'){
-    html_options = `<option value="es_core_news_sm">es_core_news_sm</option>
-    <option value="es_core_news_lg">es_core_news_lg</option>`;
-  }
-  return html_options;
+
+function availableSpacyModels() {
+    var html_options = `
+        <option value="de_core_news_sm">{{ _('Allemand') }} (de)</option>
+        <option value="en_core_web_sm">{{ _('Anglais') }} (eng)</option>
+        <option value="da_core_news_sm">{{ _('Danois') }} (da)</option>
+        <option value="es_core_news_sm">{{ _('Espagnol') }} (es)</option>
+        <option value="fi_core_news_sm">{{ _('Finnois') }} (fi)</option>
+        <option value="fr_core_news_sm" selected>{{ _('Français') }} (fr)</option>
+        <option value="el_core_news_sm">{{ _('Grec') }} (el)</option>
+        <option value="it_core_news_sm">{{ _('Italien') }} (it)</option>
+        <option value="nl_core_news_sm">{{ _('Néerlandais') }} (nl)</option>
+        <option value="pt_core_news_sm">{{ _('Portugais') }} (pt)</option>
+        <option value="ru_core_news_sm">{{ _('Russe') }} (ru)</option>`;
+    return html_options;
 }
 
-/*function availableFlairModels(lang){
-  var html_options;
-  if (lang =='fra'){
-    html_options = `<option value="flair/ner-french" selected="true">flair/ner-french</option>`;
-  }
-  else if (lang == 'eng'){
-    html_options = `<option value="flair/ner-english" selected="true">flair/ner-english</option>`;
-  }
-  else if (lang == 'spa'){
-    html_options = `<option value="flair/ner-spanish-large" selected="true">flair/ner-spanish-large</option>`;
-  }
-  return html_options;
-}*/
 
-function availableFlairModels(lang) {
-  var html_options;
-  if (lang == 'fra') {
-    html_options = '<option value="flair/ner-french">flair/ner-french</option>';
-  }
-  else if (lang == 'eng') {
-    html_options = '<option value="flair/ner-english">flair/ner-english</option>';
-  }
-  else if (lang == 'spa') {
-    // Spanish Flair model disabled
-    html_options = '<option value="" disabled>No Spanish model available</option>';
-  }
+function availableFlairModels(){
+  var html_options = `
+    <option value="flair/ner-multi">Multilingual</option>
+    <option value="flair/ner-german">{{ _('Allemand') }} (de)</option>
+    <option value="flair/ner-english">{{ _('Anglais') }} (eng)</option>
+    <option value="flair/ner-danish">{{ _('Danois') }} (da)</option>
+    <option value="flair/ner-french" selected="true">{{ _('Français') }} (fr)</option>
+    <option value="flair/ner-spanish-large">{{ _('Espagnol') }} (es)</option>
+    <option value="flair/ner-dutch">{{ _('Néerlandais') }} (nl)</option>`;
   return html_options;
 }
 
 
-
-function availableBertModels(lang){
-  var html_options;
-  if (lang =='fra'){
-    html_options = `<option value="Jean-Baptiste/camembert-ner" selected="true">Jean-Baptiste/camembert-ner</option>`;
-  }
-  else if (lang == 'eng'){
-    html_options = `<option value="dslim/bert-base-NER" selected="true">dslim/bert-base-NER</option>`;
-  }
-  else if (lang == 'spa'){
-    html_options = `<option value="mrm8488/bert-spanish-cased-finetuned-ner" selected="true">mrm8488/bert-spanish-cased-finetuned-ner</option>`;
-  }
+function availableBertModels(){
+  var html_options = `
+    <option value="Jean-Baptiste/camembert-ner" selected="true">{{ _('Français') }} (fr)</option>
+    <option value="dslim/bert-base-NER">{{ _('Anglais') }} (eng)</option>
+    <option value="mrm8488/bert-spanish-cased-finetuned-ner">{{ _('Espagnol') }} (es)</option>`;
   return html_options;
 }
 
@@ -326,28 +317,6 @@ $('input[type=radio][name=input_format]').change(function() {
     $('#xmlparams').hide();
     $('#label-camembert').show();
   }
-});
-
-/* Show available models according to selected NER engine */
-$('input[type=radio][name=moteur_REN]').change(function() {
-    var lang = localStorage.getItem('ner_lang');
-    try {
-        if (this.value == 'spacy') {
-            var html_options_spacy = availableSpacyModels(lang);
-            $("#modele_REN").html(html_options_spacy);
-        }
-        else if (this.value == 'flair') {
-            var html_options_flair = availableFlairModels(lang);
-            $("#modele_REN").html(html_options_flair);
-        }
-        else if (this.value == 'camembert') {
-            var html_options_bert = availableBertModels(lang);
-            $("#modele_REN").html(html_options_bert);
-        }
-    } catch (error) {
-        console.error("Error updating models:", error);
-        $("#modele_REN").html('<option value="">Error loading models</option>');
-    }
 });
 
 
