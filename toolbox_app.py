@@ -53,6 +53,7 @@ from sklearn.cluster import KMeans
 from sklearn.decomposition import PCA
 import plotly.graph_objects as go
 import numpy as np
+import torch
 
 # Local application imports
 from forms import ContactForm, SearchForm
@@ -60,12 +61,16 @@ import ocr
 import sem
 from cluster import freqs2clustering
 
+
 # NLTK
-nltk.download('punkt_tab')
-nltk.download('stopwords')
-nltk.download('punkt')
-nltk.download('wordnet')
-nltk.download('omw-1.4')
+try:
+    nltk.download('punkt_tab', quiet=True)
+    nltk.download('stopwords', quiet=True)
+    nltk.download('punkt', quiet=True)
+    nltk.download('wordnet', quiet=True)
+    nltk.download('omw-1.4', quiet=True)
+except Exception as e:
+    print(f"Warning: NLTK data download error: {e}")
 
 stop_words = set(stopwords.words('english'))
 
@@ -93,6 +98,10 @@ app.config['WTF_CSRF_TIME_LIMIT'] = None  # No time limit on tokens
 app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=1)  # Session lasts 1 day
 
 app.config['MAX_CONTENT_LENGTH'] = 50 * 1024 * 1024 # Limit file upload to 35MB
+app.config['CHUNK_SIZE'] = 1024 * 1024 # 1MB chunks for processing
+
+
+
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['MODEL_FOLDER'] = MODEL_FOLDER
 app.config['UTILS_FOLDER'] = UTILS_FOLDER
@@ -1252,14 +1261,17 @@ def named_entity_recognition():
 
 #--------------- Mots-clés -----------------------
 
-
 @app.route('/keyword_extraction', methods=['POST'])
-
 @stream_with_context
 def keyword_extraction():
+    """
+    Endpoint for extracting keywords from uploaded text files. 
+    - 'default': Standard KeyBERT keyword extraction.
+    - 'mmr': Maximal Marginal Relevance (MMR) for diverse keywords.
+    - 'mss': Multi-word phrases extraction using MaxSum with n-gramms from 1 to 4 elements dividing it into chunks.
+    """
     form = FlaskForm()
     if request.method == 'POST':
-
         try:
             uploaded_files = request.files.getlist("keywd-extract")
             methods = request.form.getlist('extraction-method')
@@ -1273,15 +1285,46 @@ def keyword_extraction():
             print(f"Received files: {[f.filename for f in uploaded_files]}")
             print(f"Selected methods: {methods}")
 
-            # Import required libraries
-            from keybert import KeyBERT
-            from sentence_transformers import SentenceTransformer
-            
-            # Load model
-            print("Loading models...")
-            sentence_model = SentenceTransformer("distiluse-base-multilingual-cased-v1")
-            kw_model = KeyBERT(model=sentence_model)
-            print("Models loaded successfully")
+            def chunk_text(text, max_length=25000):
+                """Split text into smaller chunks to process. The txt book 'Les Bienveillantes' (2,52MB or ~2 433 258 characters) is devided into 98 chunks with max_length=25000 taking up to 7 minutes to process the data."""
+                words = text.split()
+                chunks = []
+                current_chunk = []
+                current_length = 0
+                
+                for word in words:
+                    if current_length + len(word) + 1 <= max_length:
+                        current_chunk.append(word)
+                        current_length += len(word) + 1
+                    else:
+                        chunks.append(' '.join(current_chunk))
+                        current_chunk = [word]
+                        current_length = len(word)
+                
+                if current_chunk:
+                    chunks.append(' '.join(current_chunk))
+                
+                return chunks
+
+            # Load models only when needed to save memory
+            try:
+                import torch
+                import gc
+                from keybert import KeyBERT
+                from sentence_transformers import SentenceTransformer
+                print("Loading models...")
+                sentence_model = SentenceTransformer("distiluse-base-multilingual-cased-v1")
+                if torch.cuda.is_available():
+                    sentence_model = sentence_model.to('cuda')
+                    print("Using CUDA")
+                kw_model = KeyBERT(model=sentence_model)
+                print("Models loaded successfully")
+            except Exception as e:
+                print(f"Error loading models: {e}")
+                return render_template('outils/extraction_mots_cles.html',
+                                    form=form,
+                                    res={},
+                                    error=f"Failed to initialize models: {str(e)}")
             
             res = {}
             for f in uploaded_files:
@@ -1298,27 +1341,80 @@ def keyword_extraction():
                         print(f"Empty file: {fname}")
                         continue
 
-                    if 'default' in methods:
-                        print("Running default extraction...")
-                        keywords_def = kw_model.extract_keywords(text)
-                        res[fname]['default'] = keywords_def
+                    # Clear cache before processing
+                    gc.collect()
+                    if torch.cuda.is_available():
+                        torch.cuda.empty_cache()
 
-                    if 'mmr' in methods:
-                        print("Running MMR extraction...")
-                        diversity = float(request.form.get('diversity', '7')) / 10
-                        keywords_mmr = kw_model.extract_keywords(text, use_mmr=True, diversity=diversity)
-                        res[fname]['mmr'] = keywords_mmr
+                    # Split text into chunks for all methods
+                    chunks = chunk_text(text)
+                    print(f"Split text into {len(chunks)} chunks")
 
-                    if 'mss' in methods:
-                        print("Running MSS extraction...")
-                        keywords_mss = kw_model.extract_keywords(
-                            text, 
-                            keyphrase_ngram_range=(1, 3),
-                            use_maxsum=True,
-                            nr_candidates=10,
-                            top_n=3
-                        )
-                        res[fname]['mss'] = keywords_mss
+                    method_results = {
+                        'default': [],
+                        'mmr': [],
+                        'mss': []
+                    }
+
+                    for i, chunk in enumerate(chunks):
+                        print(f"Processing chunk {i+1}/{len(chunks)}")
+                        
+                        if torch.cuda.is_available():
+                            torch.cuda.empty_cache()
+                        
+                        try:
+                            if 'default' in methods:
+                                keywords_def = kw_model.extract_keywords(chunk)
+                                method_results['default'].extend([{'word': word, 'score': float(score)} 
+                                                               for word, score in keywords_def])
+                            
+                            if 'mmr' in methods:
+                                diversity = float(request.form.get('diversity', '7')) / 10
+                                keywords_mmr = kw_model.extract_keywords(chunk, use_mmr=True, diversity=diversity)
+                                method_results['mmr'].extend([{'word': word, 'score': float(score)} 
+                                                           for word, score in keywords_mmr])
+                            
+                            if 'mss' in methods:
+                                keywords_mss = kw_model.extract_keywords(
+                                    chunk,
+                                    keyphrase_ngram_range=(1, 4),
+                                    use_maxsum=True,
+                                    nr_candidates=10,
+                                    top_n=3
+                                )
+                                filtered_keywords_mss = []
+                                for word, score in keywords_mss:
+                                    if len(word.split()) > 1 and word.strip():
+                                        filtered_keywords_mss.append({'word': word, 'score': float(score)})
+                                method_results['mss'].extend(filtered_keywords_mss)
+                                
+                        except Exception as e:
+                            print(f"Error in chunk {i+1}: {str(e)}")
+                            continue
+                        
+                        gc.collect()
+                        if torch.cuda.is_available():
+                            torch.cuda.empty_cache()
+
+                    # Process results for each method
+                    for method in methods:
+                        if method_results[method]:
+
+                            # Deduplicate and sort
+                            unique_keywords = {}
+                            for item in method_results[method]:
+                                word = item['word']
+                                score = item['score']
+                                if word not in unique_keywords or score > unique_keywords[word]['score']:
+                                    unique_keywords[word] = item
+                            
+                            sorted_keywords = sorted(
+                                [(item['word'], item['score']) for item in unique_keywords.values()],
+                                key=lambda x: x[1],
+                                reverse=True
+                            )[:10]  # Keeping only top 10 results
+                            
+                            res[fname][method] = sorted_keywords
                     
                     print(f"Completed processing {fname}")
                     
