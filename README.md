@@ -54,7 +54,7 @@ Ouvrir le lien http://127.0.0.1:5000 dans un navigateur pour accéder à l'inter
 
 ## Version en ligne
 
-Une [version de démonstration](http://pp-obtic.sorbonne-universite.fr/toolbox/) est disponible en ligne.
+Une [version de démonstration](https://obtic-gpu1.mesu.sorbonne-universite.fr:8550/) est disponible en ligne.
 Une nouvelle version pour diffusion plus large est en cours de conception.
 
 ____
