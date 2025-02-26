@@ -23,7 +23,6 @@ dnspython==2.2.1
 docopt==0.6.2
 email-validator==1.2.1
 exceptiongroup==1.1.3
-es-core-news-sm @ https://github.com/explosion/spacy-models/releases/download/es_core_news_sm-3.4.0/es_core_news_sm-3.4.0-py3-none-any.whl#sha256=7d0faf911983532096284515ba8b3662205c55ba7e05348e447fc04dea1db2a0
 filelock==3.8.0
 flair==0.12.2
 # flair updated pour éviter 'dict' object has no attribute 'embedding_length'
@@ -35,9 +34,6 @@ Flask-WTF==1.0.1
 fonttools==4.37.3
 ftfy==6.1.1
 future==0.18.2
-fr-core-news-lg @ https://github.com/explosion/spacy-models/releases/download/fr_core_news_lg-3.4.0/fr_core_news_lg-3.4.0-py3-none-any.whl#sha256=b68c2e0472a66287690293cd08b47a7947a1df4ae4f729de1fd48983dd0beaf9
-fr-core-news-sm @ https://github.com/explosion/spacy-models/releases/download/fr_core_news_sm-3.4.0/fr_core_news_sm-3.4.0-py3-none-any.whl
-fr-core-news-md @ https://github.com/explosion/spacy-models/releases/download/fr_core_news_md-3.4.0/fr_core_news_md-3.4.0-py3-none-any.whl
 gdown==4.4.0
 gensim==4.2.0
 geopy==2.2.0
@@ -101,6 +97,20 @@ soupsieve==2.3.1
 spacy==3.4.1
 spacy-legacy==3.0.10
 spacy-loggers==1.0.3
+# SpaCy Models
+de_core_news_sm @ https://github.com/explosion/spacy-models/releases/download/de_core_news_sm-3.8.0/de_core_news_sm-3.8.0-py3-none-any.whl#sha256=dcc3bba9ec39c60d1f51b4ed62ba5fbf43a1f8853461a058539e8d88733a0062
+en_core_web_sm @ https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.8.0/en_core_web_sm-3.8.0-py3-none-any.whl#sha256=1932429db727d4bff3deed6b34cfc05df17794f4a52eeb26cf8928f7c1a0fb85
+es_core_news_sm @ https://github.com/explosion/spacy-models/releases/download/es_core_news_sm-3.8.0/es_core_news_sm-3.8.0-py3-none-any.whl#sha256=e451a83d6df79b87e9eed0cb553f03e99e36a3bab18a7b79f0dcfd1fdf875e12
+fr_core_news_lg @ https://github.com/explosion/spacy-models/releases/download/fr_core_news_lg-3.8.0/fr_core_news_lg-3.8.0-py3-none-any.whl#sha256=da5bf7fc860af64293d88638b4416b3de3a29005b785bfff67d09b06c77345de
+fr_core_news_md @ https://github.com/explosion/spacy-models/releases/download/fr_core_news_md-3.8.0/fr_core_news_md-3.8.0-py3-none-any.whl#sha256=8a70d090a54ef77525c3ffa6a6195b9d365f2cf369ae1cd84ede93f3d709079e
+fr_core_news_sm @ https://github.com/explosion/spacy-models/releases/download/fr_core_news_sm-3.8.0/fr_core_news_sm-3.8.0-py3-none-any.whl#sha256=7d6ad14cd5078e53147bfbf70fb9d433c6a3865b695fda2657140bbc59a27e29
+da_core_news_sm @ https://github.com/explosion/spacy-models/releases/download/da_core_news_sm-3.8.0/da_core_news_sm-3.8.0-py3-none-any.whl#sha256=23f5a3248242cd2b36c0c5bda9b4f21a5ac60a1d98dd38b52d1bf98adc65a4c8
+nl_core_news_sm @ https://github.com/explosion/spacy-models/releases/download/nl_core_news_sm-3.8.0/nl_core_news_sm-3.8.0-py3-none-any.whl#sha256=5845a44c44f72ddb505a55619d25eb481ac95a0d22fde260eec51e8cd94a8806
+fi_core_news_sm @ https://github.com/explosion/spacy-models/releases/download/fi_core_news_sm-3.8.0/fi_core_news_sm-3.8.0-py3-none-any.whl#sha256=2e85c69423a0cb96fa97d46e9c78e2d98a64bd4770c7be90ca0a08075cbe7a8e
+it_core_news_sm @ https://github.com/explosion/spacy-models/releases/download/it_core_news_sm-3.8.0/it_core_news_sm-3.8.0-py3-none-any.whl#sha256=8425b2a05bfb93cefd21dcd7e69f64ae1a5c5a3d68c8ac3edda58e018eef8200
+pt_core_news_sm @ https://github.com/explosion/spacy-models/releases/download/pt_core_news_sm-3.8.0/pt_core_news_sm-3.8.0-py3-none-any.whl#sha256=74d82c76ec31b40476521242d16d0c6c82b8bdf7bf3f06bad2f15f7ce9638de9
+el_core_news_sm @ https://github.com/explosion/spacy-models/releases/download/el_core_news_sm-3.8.0/el_core_news_sm-3.8.0-py3-none-any.whl#sha256=3db5613bca9404d0e54a81f36bf3cd8d9a8ea4d03c99dc51f1f8db0c15bddae1
+ru_core_news_sm @ https://github.com/explosion/spacy-models/releases/download/ru_core_news_sm-3.8.0/ru_core_news_sm-3.8.0-py3-none-any.whl#sha256=3a9e5ac3bf550efca6eeee7bf607ff4d31c435f78a9f8e82cfbbf1ec0167c7d8
 sqlitedict==2.0.0
 srsly==2.4.3
 tabulate==0.8.10
