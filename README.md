@@ -32,24 +32,24 @@
 
 Il se peut qu'il faille lancer les commandes suivantes : 
 
-<ul>
-<li>`pip install -U pip setuptools wheel`</li>
-<li>`pip install -U spacy`</li>
-<li>`python -m spacy download en_core_web_sm`</li>
-<li>`python -m spacy download fr_core_news_sm`</li>
-<li>`python -m spacy download fr_core_news_md`</li>
-<li>`python -m spacy download fr_core_news_lg`</li>
-<li>`python -m spacy download es_core_news_sm`</li>
-<li>`python -m spacy download de_core_news_sm`</li>
-<li>`python -m spacy download da_core_news_sm`</li>
-<li>`python -m spacy download nl_core_news_sm`</li>
-<li>`python -m spacy download fi_core_news_sm`</li>
-<li>`python -m spacy download it_core_news_sm`</li>
-<li>`python -m spacy download pt_core_news_sm`</li>
-<li>`python -m spacy download el_core_news_sm`</li>
-<li>`python -m spacy download ru_core_news_sm`</li>
-</ul>
-  
+```bash
+pip install -U pip setuptools wheel
+pip install -U spacy
+python -m spacy download en_core_web_sm
+python -m spacy download fr_core_news_sm
+python -m spacy download fr_core_news_md
+python -m spacy download fr_core_news_lg
+python -m spacy download es_core_news_sm
+python -m spacy download de_core_news_sm
+python -m spacy download da_core_news_sm
+python -m spacy download nl_core_news_sm
+python -m spacy download fi_core_news_sm
+python -m spacy download it_core_news_sm
+python -m spacy download pt_core_news_sm
+python -m spacy download el_core_news_sm
+python -m spacy download ru_core_news_sm
+```
+
 ### Lancer l'application
 
 Placé dans le dossier Toolbox-site, lancer la commande :
