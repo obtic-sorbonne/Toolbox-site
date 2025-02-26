@@ -201,7 +201,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "-m",
         "--modele",
-        default="fr_core_news_lg",
+        default="fr_core_news_sm",
         help="Le modèle à utiliser par l'annotateur (défaut : fr_core_news_lg)"
     )
     parser.add_argument(

@@ -1221,7 +1221,7 @@ def named_entity_recognition():
                 if moteur_REN == 'spacy' or moteur_REN == 'flair':
                     from txt_ner import txt_ner_params
                     entities = txt_ner_params(contenu, moteur_REN, modele_REN, encodage=encodage)
-                    output_name = os.path.join(result_path, filename + ".ann")
+                    output_name = os.path.join(result_path, filename + ".txt")
                     with open(output_name, 'w') as csvfile:
                         writer = csv.writer(csvfile, delimiter="\t")
                         for nth, entity in enumerate(entities, 1):
