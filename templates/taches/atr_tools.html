@@ -9,14 +9,14 @@
     <div class="container">
       <div class="box-outil-accueil" onclick="window.location.href='{{ url_for('numeriser') }}'">
         <div class="rubrique-icon"><img alt="Tesseract" src="{{url_for('static', filename='img/icons/text_recognition.png')}}"></div>
-        <span class="rubrique-title"><h3>Tesseract</h3></span>
+        <span class="rubrique-title"><h3>Reconnaissance automatique de texte</h3></span>
         <span class="rubrique-text"><p>{{ _('Outil Tesseract pour les documents imprimés') }}</p></span>
       </div>
-      <!--<div class="box-outil-accueil" onclick="window.location.href='{{ url_for('speech') }}'">
+      <div class="box-outil-accueil" onclick="window.location.href='{{ url_for('speech') }}'">
         <div class="rubrique-icon"><img alt="Speech" src="{{url_for('static', filename='img/icons/speech_recognition.png')}}"></div>
-        <span class="rubrique-title"><h3>Reconnaissance de discours</h3></span>
-        <span class="rubrique-text"><p>{{ _('Speech Recognition') }}</p></span>
-      </div>-->
+        <span class="rubrique-title"><h3>Reconnaissance automatique de discours</h3></span>
+        <span class="rubrique-text"><p>{{ _('Outil Whisper pour les fichiers audio et vidéo') }}</p></span>
+      </div>
       <div class="box-outil-accueil" onclick="window.open('https://obtic-gpu1.mesu.sorbonne-universite.fr:8501/')">
         <div class="rubrique-icon"><img alt="eScriptorium" src="{{url_for('static', filename='img/escriptorium.png')}}"></div>
         <span class="rubrique-title"><h3>eScriptorium</h3></span>
