@@ -736,8 +736,8 @@ def normalize_text():
 
 #-------------- Séparation de texte -------------------------
 
-@app.route('/split_sentences', methods=['POST'])
-def split_sentences():
+@app.route('/split_text', methods=['POST'])
+def split_text():
     if 'files' not in request.files:
         response = {"error": "No files part"}
         return Response(json.dumps(response), status=400, mimetype='application/json')
@@ -747,22 +747,35 @@ def split_sentences():
         response = {"error": "No selected files"}
         return Response(json.dumps(response), status=400, mimetype='application/json')
 
-    rand_name = 'splitsentences_' + ''.join(random.choice(string.ascii_lowercase) for x in range(5))
+    split_type = request.form['split_type']
+
+    rand_name = 'splittext_' + ''.join(random.choice(string.ascii_lowercase) for x in range(5))
     result_path = os.path.join(os.getcwd(), rand_name)
     os.makedirs(result_path, exist_ok=True)
 
     for f in files:
         try:
             input_text = f.read().decode('utf-8')
-            tokens = word_tokenize(input_text)
-            sentences = nltk.sent_tokenize(input_text)
+            sentences = nltk.sent_tokenize(text)
             splitsentence = [sentence.strip() for sentence in sentences]
+            f.seek(0)
+            lines = f.readlines()
+            splitline = [line.decode('utf-8').strip() for line in lines]
             filename, file_extension = os.path.splitext(f.filename)
             
-            output_name = filename + '.txt'
-            with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-                out.write("The sentences of the text are: " + ",\n".join(splitsentence))
-
+            if split_type == 'sentences':
+                output_name = filename + '_sentences.txt'
+                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
+                    out.write("The sentences of the text are: " + ",\n".join(splitsentence))
+            elif split_type == 'lines':
+                output_name = filename + '_lines.txt'
+                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
+                    out.write("The lines of the text are: " + ",\n".join(splitline))
+            elif split_type == 'sentences_lines':
+                output_name = filename + '.txt'
+                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
+                    out.write("The sentences of the text are: " + ",\n".join(splitsentence))
+                    out.write("\n\nThe lines of the text are: " + ",\n".join(splitline))
         finally:
             f.close()
 
