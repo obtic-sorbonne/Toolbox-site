@@ -23,12 +23,13 @@
                 <option value="detect_lang">Détection de langue</option>
                 <option value="hapax">Hapax</option>
                 <option value="n_gram">N-grams</option>
+                <option value="hapax_ngrams">Hapax + N-grams</option>
                 <option value="dependency">Dependency Parsing</option>
             </select>
         </div>
         {{ form.csrf_token }}
         <br>
-        <div class="centered-input-div" id="ngram-fields" style="display: none;">
+        <div class="centered-input-div" id="ngram_fields" style="display: none;">
             <label for="n">Longueur des n-grams :</label>
             <input type="number" id="n" name="n" min="1" value="2"><br>
             <label for="r">Nombre de n-grams à afficher :</label>
@@ -71,10 +72,14 @@ $('form input').change(function () {
 });
         function toggleNgramFields() {
             var analysisType = document.getElementById("analysis_type").value;
-            var ngramFields = document.getElementById("ngram-fields");
+            var ngramFields = document.getElementById("ngram_fields");
             if (analysisType === "n_gram") {
                 ngramFields.style.display = "block";
-            } else {
+            }
+            else if (analysisType === "hapax_ngrams") {
+                ngramFields.style.display = "block";
+            }
+             else {
                 ngramFields.style.display = "none";
             }
         }

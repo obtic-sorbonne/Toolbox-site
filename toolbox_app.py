@@ -1796,6 +1796,13 @@ def analyze_linguistic():
                 output_name = filename + '_hapaxes.txt'
                 with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
                     out.write("The hapaxes are: " + ", ".join(hapaxes_list))
+            elif analysis_type == 'hapax_ngrams':
+                most_frequent_ngrams = generate_ngrams(input_text, n, r)
+                output_name = filename + '_hapax_ngrams.txt'
+                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
+                    out.write("The hapaxes are: " + ", ".join(hapaxes_list) + "\n\n")
+                    for n_gram, count in most_frequent_ngrams:
+                        out.write(f"{n}-gram: {' '.join(n_gram)} --> Count: {count}\n")
             elif analysis_type == 'n_gram':
                 most_frequent_ngrams = generate_ngrams(input_text, n, r)
                 output_name = filename + '_ngrams.txt'
@@ -1892,7 +1899,7 @@ def analyze_statistic():
             if analysis_type == 'sentence_length_average':
                 output_name = filename + '_length.txt'
                 with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-                    out.write("Total Words: " + str(total_words) + "\nTotal Sentences: " + str(total_sentences) + "\nAverage Words per Sentence: " + str(average_words_per_sentence))
+                    out.write("Total Words: " + str(total_words) + "\n\nTotal Sentences: " + str(total_sentences) + "\n\nAverage Words per Sentence: " + str(average_words_per_sentence))
                 
                 # Generate sentence length visualization
                 fig, ax = plt.subplots()
@@ -1913,6 +1920,12 @@ def analyze_statistic():
                 output_name = filename + '_wordsfrequency.txt'
                 with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
                     out.write("Absolute frequency of words: " + str(abs_frequency) + "\n\nRelative frequency of words: " + str(rel_frequency) + "\n\nTotal number of words:" + str(total_tokens))
+
+            elif analysis_type == 'sla_wf':
+                output_name = filename + '_sla_wf.txt'
+                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
+                    out.write("Absolute frequency of words: " + str(abs_frequency) + "\n\nRelative frequency of words: " + str(rel_frequency) + "\n\nTotal number of words:" + str(total_tokens))
+                    out.write("\n\nTotal Sentences: " + str(total_sentences) + "\n\nAverage Words per Sentence: " + str(average_words_per_sentence))
                 
                 # Generate word cloud
                 wordcloud = WordCloud(width=800, height=400, background_color='white').generate(input_text)
@@ -1924,6 +1937,21 @@ def analyze_statistic():
                 wordcloud_name = filename + '_wordcloud.png'
                 wordcloud_path = os.path.join(result_path, wordcloud_name)
                 plt.savefig(wordcloud_path, format='png')
+                plt.close()
+
+                # Generate sentence length visualization
+                fig, ax = plt.subplots()
+                ax.bar(range(1, total_sentences + 1), sentence_lengths, color='blue', alpha=0.7)
+                ax.axhline(average_words_per_sentence, color='red', linestyle='dashed', linewidth=1)
+                ax.set_xlabel('Sentence Number')
+                ax.set_ylabel('Number of Words')
+                ax.set_title('Number of Words per Sentence')
+                ax.legend(['Average Words per Sentence', 'Words per Sentence'])
+                
+                # Save visualization to a file
+                vis_name = filename + '_sentence_lengths.png'
+                vis_path = os.path.join(result_path, vis_name)
+                plt.savefig(vis_path, format='png')
                 plt.close()
 
             elif analysis_type == 'cooccurrences':
