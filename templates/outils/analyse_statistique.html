@@ -26,7 +26,7 @@
         </div>
         {{ form.csrf_token }}
         <br>
-        <div class="centered-input-div" id="cooccurrences-fields" style="display: none;">
+        <div class="centered-input-div" id="cooccurrences_fields" style="display: none;">
             <label for="context_window">Context window :</label>
             <input type="number" id="context_window" name="context_window" min="1" value="2"><br>
             <label for="target_word">Target word :</label>
@@ -68,11 +68,12 @@ $('form input').change(function () {
 });
         function toggleNgramFields() {
             var analysisType = document.getElementById("analysis_type").value;
-            var ngramFields = document.getElementById("cooccurrences-fields");
+            var cooccurrences_fields = document.getElementById("cooccurrences_fields");
             if (analysisType === "cooccurrences") {
-                ngramFields.style.display = "block";
-            } else {
-                ngramFields.style.display = "none";
+                cooccurrences_fields.style.display = "block";
+            }
+             else {
+                cooccurrences_fields.style.display = "none";
             }
         }
 

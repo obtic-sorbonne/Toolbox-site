@@ -1912,7 +1912,7 @@ def analyze_statistic():
             elif analysis_type == 'words_frequency':
                 output_name = filename + '_wordsfrequency.txt'
                 with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-                    out.write("Absolute frequency of words: " + str(abs_frequency) + "\nRelative frequency of words: " + str(rel_frequency) + "\nTotal number of words:" + str(total_tokens))
+                    out.write("Absolute frequency of words: " + str(abs_frequency) + "\n\nRelative frequency of words: " + str(rel_frequency) + "\n\nTotal number of words:" + str(total_tokens))
                 
                 # Generate word cloud
                 wordcloud = WordCloud(width=800, height=400, background_color='white').generate(input_text)
