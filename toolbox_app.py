@@ -696,23 +696,38 @@ def normalize_text():
         try:
             input_text = f.read().decode('utf-8')
             tokens = word_tokenize(input_text)
-            lowers = [token.lower() for token in tokens]
+            tokens_lower = [token.lower() for token in word_tokenize(input_text)]
             nlp = get_nlp(selected_language)
             lemmas = [token.lemma_ for token in nlp(input_text)]
+            lemmas_lower = [token.lemma_.lower() for token in nlp(input_text)]
             filename, file_extension = os.path.splitext(f.filename)
 
             if normalisation_type == 'tokens':
                 output_name = filename + '_tokens.txt'
                 with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
                     out.write("The tokens of the text are: " + ", ".join(tokens))
-            elif normalisation_type == 'lowercases':
-                output_name = filename + '_lower.txt'
+            elif normalisation_type == 'tokens_lower':
+                output_name = filename + '_tokenslower.txt'
                 with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-                    out.write("The lowercase version of the text is: " + ", ".join(lowers))
+                    out.write("The tokens (in lowercases) of the text are: " + ", ".join(tokens_lower))
             elif normalisation_type == 'lemmas':
                 output_name = filename + '_lemmas.txt'
                 with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
                     out.write("The lemmas of the text are: " + ", ".join(lemmas))
+            elif normalisation_type == 'lemmas_lower':
+                output_name = filename + '_lemmaslower.txt'
+                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
+                    out.write("The lemmas (in lowercases) of the text are: " + ", ".join(lemmas_lower))
+            elif normalisation_type == 'tokens_lemmas':
+                output_name = filename + '_tokenslemmas.txt'
+                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
+                    out.write("The tokens of the text are: " + ", ".join(tokens))
+                    out.write("\n\nThe lemmas of the text are: " + ", ".join(lemmas))
+            elif normalisation_type == 'tokens_lemmas_lower':
+                output_name = filename + '_tokenslemmaslower.txt'
+                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
+                    out.write("The tokens (in lowercases) of the text are: " + ", ".join(tokens_lower))
+                    out.write("\n\nThe lemmas (in lowercases) of the text are: " + ", ".join(lemmas_lower))
 
 
         finally:
