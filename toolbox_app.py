@@ -54,6 +54,7 @@ from sklearn.decomposition import PCA
 import plotly.graph_objects as go
 import numpy as np
 import torch
+import unicodedata
 
 # Local application imports
 from forms import ContactForm, SearchForm
@@ -572,6 +573,15 @@ def get_stopwords(language):
     else:
         return set()
 
+
+def keep_accented_only(tokens):
+    clean_tokens = []
+    for token in tokens:
+        # Vérifier chaque caractère : doit être alphabétique ou un caractère accentué
+        if all(char.isalpha() or unicodedata.category(char) == 'Mn' for char in token):
+            clean_tokens.append(token)
+    return clean_tokens
+
 @app.route('/removing_elements', methods=['POST'])
 def removing_elements():
     if 'files' not in request.files:
@@ -594,19 +604,44 @@ def removing_elements():
         try:
             input_text = f.read().decode('utf-8')
             tokens = word_tokenize(input_text)
-            removing_punctuation = [token for token in tokens if token.isalpha()]
+            lowercases = [token.lower() for token in tokens]
+            removing_punctuation = [token for token in keep_accented_only(tokens)]
+            lower_removing_punctuation = [token.lower() for token in keep_accented_only(tokens)]
             stop_words = get_stopwords(selected_language)
             removing_stopwords = [token for token in tokens if token.lower() not in stop_words]
+            lower_removing_stopwords = [token.lower() for token in tokens if token.lower() not in stop_words]
+            removing_punctuation_and_stopwords = [token for token in keep_accented_only(tokens) if token.lower() not in stop_words]
+            lower_removing_punctuation_and_stopwords = [token.lower() for token in keep_accented_only(tokens) if token.lower() not in stop_words]
             filename, file_extension = os.path.splitext(f.filename)
 
             if removing_type == 'punctuation':
                 output_name = filename + '_punctuation.txt'
                 with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-                    out.write('The original text was :\n"' + input_text + '"\n\nThe text without punctuation is :\n"' + " ".join(removing_punctuation) + '"')
+                    out.write('The text without punctuation is :\n"' + " ".join(removing_punctuation) + '"')
+            elif removing_type == 'lowercases':
+                output_name = filename + '_lowercases.txt'
+                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
+                    out.write('The text in lowercases is :\n"' + " ".join(lowercases) + '"')
             elif removing_type == 'stopwords':
                 output_name = filename + '_stopwords.txt'
                 with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-                    out.write('The original text was :\n"' + input_text + '"\n\nThe text without stopwords is :\n"' + " ".join(removing_stopwords) + '"')
+                    out.write('The text without stopwords is :\n"' + " ".join(removing_stopwords) + '"')
+            elif removing_type == 'lowercases_punctuation':
+                output_name = filename + '_lowercasespunctuation.txt'
+                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
+                    out.write('The text in lowercases and without punctuation is :\n"' + " ".join(lower_removing_punctuation) + '"')
+            elif removing_type == 'lowercases_stopwords':
+                output_name = filename + '_lowercasesstopwords.txt'
+                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
+                    out.write('The text in lowercases and without stopwords is :\n"' + " ".join(lower_removing_stopwords) + '"')
+            elif removing_type == 'punctuation_stopwords':
+                output_name = filename + '_punctuationstopwords.txt'
+                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
+                    out.write('The text without punctuation and stopwords is :\n"' + " ".join(removing_punctuation_and_stopwords) + '"')
+            elif removing_type == 'lowercases_punctuation_stopwords':
+                output_name = filename + '_lowercases_punctuation_stopwords.txt'
+                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
+                    out.write('The text in lowercases and without stopwords and punctuation is :\n"' + " ".join(lower_removing_punctuation_and_stopwords) + '"')
 
 
 
