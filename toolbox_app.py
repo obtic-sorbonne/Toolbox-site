@@ -1993,7 +1993,7 @@ def analyze_lexicale():
                 if not words_list:
                     continue
                     
-                text_without_stopwords = [w for w in words_list.lower().split() if w not in stop_words]
+                text_without_stopwords = [w for w in words_list.lower().split(";") if w not in stop_words]
                 if not text_without_stopwords:
                     continue
 
