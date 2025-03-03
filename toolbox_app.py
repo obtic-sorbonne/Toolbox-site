@@ -2061,14 +2061,11 @@ def analyze_lexicale():
 
 @app.route('/analyze_text', methods=['POST'])
 def analyze_text():
-    if 'files' not in request.files:
-        response = {"error": "No files part"}
+    if 'input_text' not in request.form:
+        response = {"error": "No text part"}
         return Response(json.dumps(response), status=400, mimetype='application/json')
 
-    files = request.files.getlist('files')
-    if not files or all(file.filename == '' for file in files):
-        response = {"error": "No selected files"}
-        return Response(json.dumps(response), status=400, mimetype='application/json')
+    input_text = request.form.get('input_text', '').splitlines()
 
     analysis_type = request.form['analysis_type']
     emotion_type = request.form['emotion_type']
@@ -2082,78 +2079,162 @@ def analyze_text():
     result_path = os.path.join(os.getcwd(), rand_name)
     os.makedirs(result_path, exist_ok=True)
 
-    for f in files:
-        try:
-            input_text = f.read().decode('utf-8')
-            filename, file_extension = os.path.splitext(f.filename)
-
-            if analysis_type == 'subjectivity_detection':
-                result = classifier1(input_text)[0]
+    
+    if analysis_type == 'subjectivity_detection':
+        output_name = 'subjectivity_detection.txt'
+        with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
+            for text in input_text:
+                result = classifier1(text)[0]
                 label = "objective" if result['label'] == "LABEL_0" else "subjective"
-                output_name = filename + '_subjectivity_detection.txt'
-                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-                    out.write(f"The sentence: [{input_text}] is {label} (Score: {result['score']:.2f})")
-            elif analysis_type == 'sentiment_analysis':
-                results = classifier2(input_text)
+                out.write(f"The sentence: [{text}] is {label} (Score: {result['score']:.2f})\n\n")
+    elif analysis_type == 'sentiment_analysis':
+        output_name = 'sentiment_analysis.txt'
+        with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
+            for text in input_text:
+                results = classifier2(text)
                 star_rating = int(results[0]['label'].split()[0])
                 sentiment = "negative" if star_rating in [1, 2] else "neutral" if star_rating == 3 else "positive"
-                output_name = filename + '_sentiment_analysis.txt'
-                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-                    out.write(f"Sentence: {input_text}\n Star Rating: {star_rating} \n Sentiment: {sentiment} \n Score: {results[0]['score']:.2f}")
-            elif analysis_type == 'emotion_analysis':
-                if emotion_type == "analyse1":
+                out.write(f"Sentence: {text}\n Star Rating: {star_rating} \n Sentiment: {sentiment} \n Score: {results[0]['score']:.2f}\n\n")
+    elif analysis_type == 'subjectivity_sentiment':
+        output_name = 'subjectivity_sentiment.txt'
+        with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
+            for text in input_text:
+                result = classifier1(text)[0]
+                label = "objective" if result['label'] == "LABEL_0" else "subjective"
+                results = classifier2(text)
+                star_rating = int(results[0]['label'].split()[0])
+                sentiment = "negative" if star_rating in [1, 2] else "neutral" if star_rating == 3 else "positive"
+                out.write(f"The sentence: [{text}] is {label} (Score: {result['score']:.2f})")
+                out.write(f"\nStar Rating: {star_rating} \n Sentiment: {sentiment} \n Score: {results[0]['score']:.2f}\n\n")
+    elif analysis_type == 'subjectivity_sentiment_emotion':
+        output_name = 'subjectivity_sentiment_emotion.txt'
+        with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
+            for text in input_text:
+                result = classifier1(text)[0]
+                label = "objective" if result['label'] == "LABEL_0" else "subjective"
+                results = classifier2(text)
+                star_rating = int(results[0]['label'].split()[0])
+                sentiment = "negative" if star_rating in [1, 2] else "neutral" if star_rating == 3 else "positive"
+                vis1 = classifier_distilbert(text)
+                emotions = [result['label'] for result in vis1[0]]
+                scores = [result['score'] for result in vis1[0]]
+                out.write(f"The sentence: [{text}] is {label} (Score: {result['score']:.2f})")
+                out.write(f"\nStar Rating: {star_rating} \n Sentiment: {sentiment} \n Score: {results[0]['score']:.2f}\n\n")
+                out.write(f"The emotions for the text are : \n")
+                for emotion, score in zip(emotions, scores):
+                    out.write(f"{emotion}: {score:.4f}\n")
+                out.write("\n\n")
+    elif analysis_type == 'subjectivity_emotion':
+        output_name = 'subjectivity_emotion.txt'
+        with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
+            for text in input_text:
+                result = classifier1(text)[0]
+                label = "objective" if result['label'] == "LABEL_0" else "subjective"
+                vis1 = classifier_distilbert(text)
+                emotions = [result['label'] for result in vis1[0]]
+                scores = [result['score'] for result in vis1[0]]
+                out.write(f"The sentence: [{text}] is {label} (Score: {result['score']:.2f})")
+                out.write(f"\nThe emotions for the text are : \n")
+                for emotion, score in zip(emotions, scores):
+                    out.write(f"{emotion}: {score:.4f}\n")
+                out.write("\n\n")
+    elif analysis_type == 'sentiment_emotion':
+        output_name = 'sentiment_emotion.txt'
+        with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
+            for text in input_text:
+                results = classifier2(text)
+                star_rating = int(results[0]['label'].split()[0])
+                sentiment = "negative" if star_rating in [1, 2] else "neutral" if star_rating == 3 else "positive"
+                vis1 = classifier_distilbert(text)
+                emotions = [result['label'] for result in vis1[0]]
+                scores = [result['score'] for result in vis1[0]]
+                out.write(f"Sentence: {text}\n : {star_rating} \n Sentiment: {sentiment} \n Score: {results[0]['score']:.2f}\n\n")
+                out.write(f"The emotions for the text are : \n")
+                for emotion, score in zip(emotions, scores):
+                    out.write(f"{emotion}: {score:.4f}\n")
+                out.write("\n\n")
+    elif analysis_type == 'emotion_analysis':
+        if emotion_type == "analyse1":
+            output_name = 'emotion_analysis.txt'
+            with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
+                for text in input_text:
                     #Sortie
-                    vis1 = classifier_distilbert(input_text)
+                    vis1 = classifier_distilbert(text)
                     emotions = [result['label'] for result in vis1[0]]
                     scores = [result['score'] for result in vis1[0]]
+                    out.write(f"The emotions for [{text}] are : \n")
+                    for emotion, score in zip(emotions, scores):
+                        out.write(f"{emotion}: {score:.4f}\n")
+                    out.write("\n\n")
 
-                    output_name = filename + '_emotion_analysis.txt'
-                    with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-                        for emotion, score in zip(emotions, scores):
-                            out.write(f"{emotion}: {score:.4f}\n")
+            text_base = "emotion_viz1_"
+            for i, text in enumerate(input_text):
+                #Visualisation
+                source = [0] * len(emotions)
+                target = list(range(1, len(emotions) + 1))
+                value = scores
+                node_colors = ["#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd", "#8c564b", "#e377c2", "#7f7f7f", "#bcbd22", "#17becf", "#bc80bd", "#ccebc5", "#ffed6f", "#8dd3c7", "#fb8072"]
+                fig = go.Figure(data=[go.Sankey(
+                    node=dict(pad=55, thickness=55, line=dict(color="black", width=0.5), label=["Input Text"] + emotions, color=node_colors),
+                    link=dict(source=source, target=target, value=value)
+                )])
+                fig.update_layout(title_text="Emotion Classification", font_size=15)
+                vis1_name = text_base + str(i) + '.png'
+                vis1_path = os.path.join(result_path, vis1_name)
+                fig.write_image(vis1_path, format='png')
 
-                    #Visualisation
-                    source = [0] * len(emotions)
-                    target = list(range(1, len(emotions) + 1))
-                    value = scores
-                    node_colors = ["#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd", "#8c564b", "#e377c2", "#7f7f7f", "#bcbd22", "#17becf", "#bc80bd", "#ccebc5", "#ffed6f", "#8dd3c7", "#fb8072"]
-                    fig = go.Figure(data=[go.Sankey(
-                        node=dict(pad=55, thickness=55, line=dict(color="black", width=0.5), label=["Input Text"] + emotions, color=node_colors),
-                        link=dict(source=source, target=target, value=value)
-                    )])
-                    fig.update_layout(title_text="Emotion Classification", font_size=15)
-                    vis1_name = filename + '_emotion1.png'
-                    vis1_path = os.path.join(result_path, vis1_name)
-                    fig.write_image(vis1_path, format='png')
+        elif emotion_type == "analyse2":
+            #Visualisation2
+            text_base = "emotion_viz2_"  # Chaîne de caractères de base
+            for i, text in enumerate(input_text):  # input_text est une liste de textes à analyser
+                vis2 = classifier_roberta(text)
+                labels = [emotion['label'] for emotion in vis2[0]]
+                scores = [emotion['score'] for emotion in vis2[0]]
+                combined = list(zip(labels, scores))
+                random.shuffle(combined)
+                labels, scores = zip(*combined)
+                scores = list(scores) + [scores[0]]
+                angles = [n / float(len(labels)) * 2 * np.pi for n in range(len(labels))] + [0]
+                fig, ax = plt.subplots(subplot_kw=dict(polar=True))
+                ax.fill(angles, scores, color='blue', alpha=0.5)
+                ax.plot(angles, scores, color='blue', linewidth=1)
+                ax.set_xticks(angles[:-1])
+                ax.set_xticklabels(labels)
+                plt.title('Emotion Classification')
+                
+                vis2_name = text_base + str(i) + '.png'
+                vis2_path = os.path.join(result_path, vis2_name)
+                plt.savefig(vis2_path, format='png')
+                plt.close()
 
-                elif emotion_type == "analyse2":
-                    #Visualisation2
-                    vis2 = classifier_roberta(input_text)
-                    labels = [emotion['label'] for emotion in vis2[0]]
-                    scores = [emotion['score'] for emotion in vis2[0]]
-                    combined = list(zip(labels, scores))
-                    random.shuffle(combined)
-                    labels, scores = zip(*combined)
-                    scores = list(scores) + [scores[0]]
-                    angles = [n / float(len(labels)) * 2 * np.pi for n in range(len(labels))] + [0]
-                    fig, ax = plt.subplots(subplot_kw=dict(polar=True))
-                    ax.fill(angles, scores, color='blue', alpha=0.5)
-                    ax.plot(angles, scores, color='blue', linewidth=1)
-                    ax.set_xticks(angles[:-1])
-                    ax.set_xticklabels(labels)
-                    plt.title('Emotion Classification')
-                    vis2_name = filename + '_emotion2.png'
-                    vis2_path = os.path.join(result_path, vis2_name)
-                    plt.savefig(vis2_path, format='png')
-                    plt.close()
 
-            elif analysis_type == 'readibility_scoring':
-                flesch_reading_ease = textstat.flesch_reading_ease(input_text)
-                output_name = filename + '_readibility_scoring.txt'
-                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-                    out.write(f"Flesch Reading Ease Score: {flesch_reading_ease}")
-        finally:
-            f.close()
+    elif analysis_type == 'readibility_scoring':
+        output_name = 'readibility_scoring.txt'
+        with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
+            for text in input_text:
+                flesch_reading_ease = textstat.flesch_reading_ease(text)
+                out.write(f"Flesch Reading Ease Score: {flesch_reading_ease}\n\n")
+
+    elif analysis_type == 'subjectivity_sentiment_emotion_readability':
+        output_name = 'subjectivity_sentiment_emotion_readability.txt'
+        with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
+            for text in input_text:
+                result = classifier1(text)[0]
+                label = "objective" if result['label'] == "LABEL_0" else "subjective"
+                results = classifier2(text)
+                star_rating = int(results[0]['label'].split()[0])
+                sentiment = "negative" if star_rating in [1, 2] else "neutral" if star_rating == 3 else "positive"
+                vis1 = classifier_distilbert(text)
+                emotions = [result['label'] for result in vis1[0]]
+                scores = [result['score'] for result in vis1[0]]
+                flesch_reading_ease = textstat.flesch_reading_ease(text)
+                out.write(f"The sentence: [{text}] is {label} (Score: {result['score']:.2f})")
+                out.write(f"\nStar Rating: {star_rating} \n Sentiment: {sentiment} \n Score: {results[0]['score']:.2f}\n\n")
+                out.write(f"The emotions for the text are : \n")
+                for emotion, score in zip(emotions, scores):
+                    out.write(f"{emotion}: {score:.4f}\n")
+                out.write(f"\nFlesch Reading Ease Score: {flesch_reading_ease}\n\n")
+
 
     if len(os.listdir(result_path)) > 0:
         shutil.make_archive(result_path, 'zip', result_path)
