@@ -33,16 +33,17 @@
     <div class="infos_outil" style="display: block;margin: 0 auto 15px auto;">
         <input id="show" type=checkbox><label for="show" class="infos_title"><i class="fa-solid fa-circle-info"></i> {{ _("Informations sur l'outil") }}<i class="fa-solid fa-angle-right" style="float:right;margin-top:5px;margin-left:15px;cursor: pointer;"></i></label>
         <div class="info_popped"><p><i>Whisper OpenAI</i></p>
-      <p>{{ _("Formats d'entrée :")}} <i class="fa-solid fa-file-video"></i> Fichier video ou <i class="fa-solid fa-file-audio"></i> fichier audio</p>
+      <p>{{ _("Formats d'entrée :")}} URL <i class="fa-solid fa-file-video"></i> vidéo ou <i class="fa-solid fa-file-audio"></i> audio</p>
       <p>{{ _('Formats générés :')}} <i class="fa-solid fa-file-audio"></i> Fichier audio et <i class="fa-regular fa-file-lines"></i> {{ _('fichier TXT') }}</p>
       </div>
     </div>
+    <br>
     <form action="{{ url_for('automatic_speech_recognition') }}" method="POST" enctype="multipart/form-data">
-      <div class="centered-div">
-            <label for="file_type">Choisir le type de fichier :</label>
+      <div style="display: block; margin: auto; width: max-content; border: solid #263e8d; padding: 10px;">
+            <label for="file_type">Choisir le type de document : </label>
             <select class="styled-select" name="file_type" id="file_type" required>
-                <option value="audio_urls">Audio file</option>
-                <option value="video_urls">Video file</option>
+                <option value="audio_urls">Audio</option>
+                <option value="video_urls">Vidéo</option>
             </select>
         </div>
         <br>
