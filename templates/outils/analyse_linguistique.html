@@ -10,21 +10,30 @@
     <p>Cette page permet d'opérer divers types d'analyse linguistique sur un ou plusieurs documents soumis.<br>
         <br>
     <ul class="item-list" style="margin-left: 3em;">
-        <li><hi style="font-weight: bold;">Détection du language</hi> : Détection automatique de la langue d'un texte à l'aide de diverses bibliothèques et méthodes</li>
-        <li><hi style="font-weight: bold;">Hapax</hi> : Détection de mots qui n'apparaissent qu'une seule fois dans un texte</li>
-        <li><hi style="font-weight: bold;">N-Grams</hi> : Détection de séquences contiguës de n éléments (mots, caractères ou symboles) dans un texte ou un discours donné</li>
-        <li><hi style="font-weight: bold;">Analyse des dépendances</hi> : Identification des relations entre les mots d'une phrase, en reliant chacun d'eux en fonction de sa fonction grammaticale comme sujet, objet, complément ou modificateur</li>
+        <li><hi style="font-weight: bold;">Détection du language (Option 1)</hi> : Détection automatique de la langue d'un texte à l'aide de diverses bibliothèques et méthodes</li>
+        <li><hi style="font-weight: bold;">Hapax (Option 2)</hi> : Détection de mots qui n'apparaissent qu'une seule fois dans un texte</li>
+        <li><hi style="font-weight: bold;">N-Grams (Option 3)</hi> : Détection de séquences contiguës de n éléments (mots, caractères ou symboles) dans un texte ou un discours donné</li>
+        <li><hi style="font-weight: bold;">Analyse des dépendances (Option 4)</hi> : Identification des relations entre les mots d'une phrase, en reliant chacun d'eux en fonction de sa fonction grammaticale comme sujet, objet, complément ou modificateur</li>
     </ul></p></div>
     <br>
     <form action="{{ url_for('analyze_linguistic') }}" id="linguistic-form" method="post" enctype="multipart/form-data" onsubmit="showloader('loader')">
         <div class="centered-div">
             <label for="analysis_type">Choisir le type d'analyse :</label>
             <select class="styled-select" name="analysis_type" id="analysis_type" required>
-                <option value="detect_lang">Détection de langue</option>
-                <option value="hapax">Hapax</option>
-                <option value="n_gram">N-grams</option>
-                <option value="hapax_ngrams">Hapax + N-grams</option>
-                <option value="dependency">Dependency Parsing</option>
+                <option value="detect_lang">Option 1</option>
+                <option value="hapax">Option 2</option>
+                <option value="n_gram">Option 3</option>
+                <option value="dependency">Option 4</option>
+                <option value="lang_hapax">Options 1 et 2</option>
+                <option value="lang_ngrams">Options 1 et 3</option>
+                <option value="lang_dependency">Options 1 et 4</option>
+                <option value="hapax_ngrams">Options 2 et 3</option>
+                <option value="hapax_dependency">Options 2 et 4</option>
+                <option value="ngrams_dependency">Options 3 et 4</option>
+                <option value="lang_hapax_ngrams">Options 1, 2 et 3</option>
+                <option value="lang_hapax_dependency">Options 1, 2 et 4</option>
+                <option value="hapax_ngrams_dependency">Options 2, 3 et 4</option>
+                <option value="lang_hapax_ngrams_dependency">Options 1, 2, 3 et 4</option>
             </select>
         </div>
         {{ form.csrf_token }}
@@ -77,6 +86,21 @@ $('form input').change(function () {
                 ngramFields.style.display = "block";
             }
             else if (analysisType === "hapax_ngrams") {
+                ngramFields.style.display = "block";
+            }
+            else if (analysisType === "lang_ngrams") {
+                ngramFields.style.display = "block";
+            }
+            else if (analysisType === "ngrams_dependency") {
+                ngramFields.style.display = "block";
+            }
+            else if (analysisType === "lang_hapax_ngrams") {
+                ngramFields.style.display = "block";
+            }
+            else if (analysisType === "hapax_ngrams_dependency") {
+                ngramFields.style.display = "block";
+            }
+            else if (analysisType === "lang_hapax_ngrams_dependency") {
                 ngramFields.style.display = "block";
             }
              else {

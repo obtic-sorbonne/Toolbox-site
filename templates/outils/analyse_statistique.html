@@ -10,19 +10,22 @@
     <p>Cette page permet d'opérer divers types d'analyses statistiques sur un ou plusieurs documents soumis.<br>
         <br>
     <ul class="item-list" style="margin-left: 3em;">
-        <li><hi style="font-weight: bold;">Longueur moyenne des phrases</hi> : Mesure calculant le nombre moyen de mots par phrase dans un texte donn, donnant un aperçu de la complexité et de la lisibilité du texte</li>
-        <li><hi style="font-weight: bold;">Fréquence de mots</hi> : Calcul des fréquences absolue et relative de chaque mot d'un texte</li>
-        <li><hi style="font-weight: bold;">Co-occurrences</hi> : Fréquence à laquelle deux éléments apparaissent ensemble dans un contexte</li>
+        <li><hi style="font-weight: bold;">Longueur moyenne des phrases (Option 1)</hi> : Mesure calculant le nombre moyen de mots par phrase dans un texte donn, donnant un aperçu de la complexité et de la lisibilité du texte</li>
+        <li><hi style="font-weight: bold;">Fréquence de mots (Option 2)</hi> : Calcul des fréquences absolue et relative de chaque mot d'un texte</li>
+        <li><hi style="font-weight: bold;">Co-occurrences (Option 3)</hi> : Fréquence à laquelle deux éléments apparaissent ensemble dans un contexte</li>
     </ul></p></div>
     <br>
     <form action="{{ url_for('analyze_statistic') }}" id="linguistic-form" method="post" enctype="multipart/form-data" onsubmit="showloader('loader')">
         <div class="centered-div">
             <label for="analysis_type">Choisir le type d'analyse :</label>
             <select class="styled-select" name="analysis_type" id="analysis_type" required>
-                <option value="sentence_length_average">Longueur moyenne des phrases</option>
-                <option value="words_frequency">Fréquence de mots</option>
-                <option value="sla_wf">Longueur moyenne des phrases et fréquence de mots</option>
-                <option value="cooccurrences">Co-occurrences</option>
+                <option value="sentence_length_average">Option 1</option>
+                <option value="words_frequency">Option 2</option>
+                <option value="cooccurrences">Option 3</option>
+                <option value="sla_wf">Options 1 et 2</option>
+                <option value="sla_coocc">Options 1 et 3</option>
+                <option value="wf_coocc">Options 2 et 3</option>
+                <option value="sla_wf_coocc">Options 1, 2 et 3</option>
             </select>
         </div>
         {{ form.csrf_token }}
@@ -71,6 +74,15 @@ $('form input').change(function () {
             var analysisType = document.getElementById("analysis_type").value;
             var cooccurrences_fields = document.getElementById("cooccurrences_fields");
             if (analysisType === "cooccurrences") {
+                cooccurrences_fields.style.display = "block";
+            }
+            else if (analysisType === "sla_coocc") {
+                cooccurrences_fields.style.display = "block";
+            }
+            else if (analysisType === "wf_coocc") {
+                cooccurrences_fields.style.display = "block";
+            }
+            else if (analysisType === "sla_wf_coocc") {
                 cooccurrences_fields.style.display = "block";
             }
              else {
