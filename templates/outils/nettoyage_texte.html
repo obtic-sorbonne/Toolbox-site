@@ -28,15 +28,20 @@
       <br>
     <form action="{{ url_for('removing_elements') }}" id="linguistic-form" method="post" enctype="multipart/form-data" onsubmit="showloader('loader')">
         <div class="centered-div">
-            <label for="removing_type">Choisir le type de suppression :</label>
+            <label for="removing_type">Choisir le type de modification :</label>
             <select class="styled-select" name="removing_type" id="removing_type" required>
-                <option value="punctuation">Ponctuation</option>
-                <option value="stopwords">Mots-vides</option>
+                <option value="lowercases">Mise en minuscules</option>
+                <option value="punctuation">Suppression de la ponctuation</option>
+                <option value="stopwords">Suppression des mots-vides</option>
+                <option value="lowercases_punctuation">Mise en minuscules et suppression de la ponctuation</option>
+                <option value="lowercases_stopwords">Mise en minuscules et suppression des mots-vides</option>
+                <option value="punctuation_stopwords">Suppression de la ponctuation et des mots-vides</option>
+                <option value="lowercases_punctuation_stopwords">Mise en minuscules et suppression de la ponctuation et des mots-vides</option>
             </select>
         </div>
     <br>
         {{ form.csrf_token }}
-        <div class="centered-input-div" id="stopwords-fields" style="display: none;">
+        <div class="centered-input-div" id="stopwords_fields" style="display: none;">
             <label for="selected_language">Choisissez la langue :</label>
                 <select name="selected_language" id="selected_language">
                     <option value="german">{{ _('Allemand') }} (de)</option>
@@ -89,10 +94,20 @@ $('form input').change(function () {
 });
     function togglestopwordFields() {
             var removing_type = document.getElementById("removing_type").value;
-            var stopwordsFields = document.getElementById("stopwords-fields");
+            var stopwordsFields = document.getElementById("stopwords_fields");
             if (removing_type === "stopwords") {
                 stopwordsFields.style.display = "block";
-            } else {
+            } 
+            else if (removing_type === "lowercases_stopwords") {
+                stopwordsFields.style.display = "block";
+            }
+            else if (removing_type === "punctuation_stopwords") {
+                stopwordsFields.style.display = "block";
+            }
+            else if (removing_type === "lowercases_punctuation_stopwords") {
+                stopwordsFields.style.display = "block";
+            }
+            else {
                 stopwordsFields.style.display = "none";
             }
         }

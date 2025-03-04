@@ -6,21 +6,29 @@
 <div class="outil">
     <div class="fil"><a href="{{ url_for('pretraitement')}}"><< {{ _('Retour aux tâches') }}</a></div>
     <h2>Séparation de texte</h2>
-    <p>Division de textes en phrases impliquant l’identification et la séparation de phrases individuelles d’un texte continu.</p>
+    <p>Division de textes en phrases et/ou lignes impliquant l’identification et la séparation de phrases/lignes individuelles d’un texte continu.</p>
     <br>
     <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_preprocessing') }}"  target="_blank">{{ _('Voir la documentation') }}</a></p>
     <br>
     <div class="infos_outil" style="display: block;margin: 0 auto 15px auto;">
         <input id="show" type=checkbox><label for="show" class="infos_title"><i class="fa-solid fa-circle-info"></i> {{ _("Informations sur l'outil") }}<i class="fa-solid fa-angle-right" style="float:right;margin-top:5px;margin-left:15px;cursor: pointer;"></i></label>
         <div class="info_popped">
-          <p>Natural Language Toolkit (NLTK)
+          <p>Python et Natural Language Toolkit (NLTK)</p>
       <p>{{ _("Formats d'entrée :")}} <i class="fa-regular fa-file-lines"></i> texte brut (.txt)</p>
       <p>{{ _("Formats de sortie :")}} <i class="fa-regular fa-file-lines"></i> texte brut (.txt)</p>
       <p>Encodage : UTF-8</p>
       </div>
   </div>
   <br>
-    <form action="{{ url_for('split_sentences') }}" id="linguistic-form" method="post" enctype="multipart/form-data" onsubmit="showloader('loader')">
+    <form action="{{ url_for('split_text') }}" id="linguistic-form" method="post" enctype="multipart/form-data" onsubmit="showloader('loader')">
+        <div class="centered-div">
+            <label for="split_type">Choisir le type de séparation :</label>
+            <select class="styled-select" name="split_type" id="split_type" required>
+                <option value="sentences">Phrases</option>
+                <option value="lines">Lignes</option>
+                <option value="sentences_lines">Phrases + Lignes</option>
+            </select>
+        </div>
         {{ form.csrf_token }}
         <div class="dropzone" style="margin:25px auto;">
             <input type="file" id="files" name="files" accept="text/plain" multiple required>

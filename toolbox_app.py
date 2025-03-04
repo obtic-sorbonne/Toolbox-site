@@ -54,7 +54,9 @@ from sklearn.decomposition import PCA
 import plotly.graph_objects as go
 import numpy as np
 import torch
+import unicodedata
 import whisper
+
 
 # Local application imports
 from forms import ContactForm, SearchForm
@@ -643,6 +645,15 @@ def get_stopwords(language):
     else:
         return set()
 
+
+def keep_accented_only(tokens):
+    clean_tokens = []
+    for token in tokens:
+        # Vérifier chaque caractère : doit être alphabétique ou un caractère accentué
+        if all(char.isalpha() or unicodedata.category(char) == 'Mn' for char in token):
+            clean_tokens.append(token)
+    return clean_tokens
+
 @app.route('/removing_elements', methods=['POST'])
 def removing_elements():
     if 'files' not in request.files:
@@ -665,19 +676,44 @@ def removing_elements():
         try:
             input_text = f.read().decode('utf-8')
             tokens = word_tokenize(input_text)
-            removing_punctuation = [token for token in tokens if token.isalpha()]
+            lowercases = [token.lower() for token in tokens]
+            removing_punctuation = [token for token in keep_accented_only(tokens)]
+            lower_removing_punctuation = [token.lower() for token in keep_accented_only(tokens)]
             stop_words = get_stopwords(selected_language)
             removing_stopwords = [token for token in tokens if token.lower() not in stop_words]
+            lower_removing_stopwords = [token.lower() for token in tokens if token.lower() not in stop_words]
+            removing_punctuation_and_stopwords = [token for token in keep_accented_only(tokens) if token.lower() not in stop_words]
+            lower_removing_punctuation_and_stopwords = [token.lower() for token in keep_accented_only(tokens) if token.lower() not in stop_words]
             filename, file_extension = os.path.splitext(f.filename)
 
             if removing_type == 'punctuation':
                 output_name = filename + '_punctuation.txt'
                 with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-                    out.write('The original text was :\n"' + input_text + '"\n\nThe text without punctuation is :\n"' + " ".join(removing_punctuation) + '"')
+                    out.write('The text without punctuation is :\n"' + " ".join(removing_punctuation) + '"')
+            elif removing_type == 'lowercases':
+                output_name = filename + '_lowercases.txt'
+                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
+                    out.write('The text in lowercases is :\n"' + " ".join(lowercases) + '"')
             elif removing_type == 'stopwords':
                 output_name = filename + '_stopwords.txt'
                 with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-                    out.write('The original text was :\n"' + input_text + '"\n\nThe text without stopwords is :\n"' + " ".join(removing_stopwords) + '"')
+                    out.write('The text without stopwords is :\n"' + " ".join(removing_stopwords) + '"')
+            elif removing_type == 'lowercases_punctuation':
+                output_name = filename + '_lowercasespunctuation.txt'
+                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
+                    out.write('The text in lowercases and without punctuation is :\n"' + " ".join(lower_removing_punctuation) + '"')
+            elif removing_type == 'lowercases_stopwords':
+                output_name = filename + '_lowercasesstopwords.txt'
+                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
+                    out.write('The text in lowercases and without stopwords is :\n"' + " ".join(lower_removing_stopwords) + '"')
+            elif removing_type == 'punctuation_stopwords':
+                output_name = filename + '_punctuationstopwords.txt'
+                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
+                    out.write('The text without punctuation and stopwords is :\n"' + " ".join(removing_punctuation_and_stopwords) + '"')
+            elif removing_type == 'lowercases_punctuation_stopwords':
+                output_name = filename + '_lowercases_punctuation_stopwords.txt'
+                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
+                    out.write('The text in lowercases and without stopwords and punctuation is :\n"' + " ".join(lower_removing_punctuation_and_stopwords) + '"')
 
 
 
@@ -767,23 +803,38 @@ def normalize_text():
         try:
             input_text = f.read().decode('utf-8')
             tokens = word_tokenize(input_text)
-            lowers = [token.lower() for token in tokens]
+            tokens_lower = [token.lower() for token in word_tokenize(input_text)]
             nlp = get_nlp(selected_language)
             lemmas = [token.lemma_ for token in nlp(input_text)]
+            lemmas_lower = [token.lemma_.lower() for token in nlp(input_text)]
             filename, file_extension = os.path.splitext(f.filename)
 
             if normalisation_type == 'tokens':
                 output_name = filename + '_tokens.txt'
                 with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
                     out.write("The tokens of the text are: " + ", ".join(tokens))
-            elif normalisation_type == 'lowercases':
-                output_name = filename + '_lower.txt'
+            elif normalisation_type == 'tokens_lower':
+                output_name = filename + '_tokenslower.txt'
                 with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-                    out.write("The lowercase version of the text is: " + ", ".join(lowers))
+                    out.write("The tokens (in lowercases) of the text are: " + ", ".join(tokens_lower))
             elif normalisation_type == 'lemmas':
                 output_name = filename + '_lemmas.txt'
                 with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
                     out.write("The lemmas of the text are: " + ", ".join(lemmas))
+            elif normalisation_type == 'lemmas_lower':
+                output_name = filename + '_lemmaslower.txt'
+                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
+                    out.write("The lemmas (in lowercases) of the text are: " + ", ".join(lemmas_lower))
+            elif normalisation_type == 'tokens_lemmas':
+                output_name = filename + '_tokenslemmas.txt'
+                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
+                    out.write("The tokens of the text are: " + ", ".join(tokens))
+                    out.write("\n\nThe lemmas of the text are: " + ", ".join(lemmas))
+            elif normalisation_type == 'tokens_lemmas_lower':
+                output_name = filename + '_tokenslemmaslower.txt'
+                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
+                    out.write("The tokens (in lowercases) of the text are: " + ", ".join(tokens_lower))
+                    out.write("\n\nThe lemmas (in lowercases) of the text are: " + ", ".join(lemmas_lower))
 
 
         finally:
@@ -807,8 +858,8 @@ def normalize_text():
 
 #-------------- Séparation de texte -------------------------
 
-@app.route('/split_sentences', methods=['POST'])
-def split_sentences():
+@app.route('/split_text', methods=['POST'])
+def split_text():
     if 'files' not in request.files:
         response = {"error": "No files part"}
         return Response(json.dumps(response), status=400, mimetype='application/json')
@@ -818,22 +869,35 @@ def split_sentences():
         response = {"error": "No selected files"}
         return Response(json.dumps(response), status=400, mimetype='application/json')
 
-    rand_name = 'splitsentences_' + ''.join(random.choice(string.ascii_lowercase) for x in range(5))
+    split_type = request.form['split_type']
+
+    rand_name = 'splittext_' + ''.join(random.choice(string.ascii_lowercase) for x in range(5))
     result_path = os.path.join(os.getcwd(), rand_name)
     os.makedirs(result_path, exist_ok=True)
 
     for f in files:
         try:
             input_text = f.read().decode('utf-8')
-            tokens = word_tokenize(input_text)
-            sentences = nltk.sent_tokenize(input_text)
+            sentences = nltk.sent_tokenize(text)
             splitsentence = [sentence.strip() for sentence in sentences]
+            f.seek(0)
+            lines = f.readlines()
+            splitline = [line.decode('utf-8').strip() for line in lines]
             filename, file_extension = os.path.splitext(f.filename)
             
-            output_name = filename + '.txt'
-            with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-                out.write("The sentences of the text are: " + ",\n".join(splitsentence))
-
+            if split_type == 'sentences':
+                output_name = filename + '_sentences.txt'
+                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
+                    out.write("The sentences of the text are: " + ",\n".join(splitsentence))
+            elif split_type == 'lines':
+                output_name = filename + '_lines.txt'
+                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
+                    out.write("The lines of the text are: " + ",\n".join(splitline))
+            elif split_type == 'sentences_lines':
+                output_name = filename + '.txt'
+                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
+                    out.write("The sentences of the text are: " + ",\n".join(splitsentence))
+                    out.write("\n\nThe lines of the text are: " + ",\n".join(splitline))
         finally:
             f.close()
 
@@ -1804,6 +1868,13 @@ def analyze_linguistic():
                 output_name = filename + '_hapaxes.txt'
                 with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
                     out.write("The hapaxes are: " + ", ".join(hapaxes_list))
+            elif analysis_type == 'hapax_ngrams':
+                most_frequent_ngrams = generate_ngrams(input_text, n, r)
+                output_name = filename + '_hapax_ngrams.txt'
+                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
+                    out.write("The hapaxes are: " + ", ".join(hapaxes_list) + "\n\n")
+                    for n_gram, count in most_frequent_ngrams:
+                        out.write(f"{n}-gram: {' '.join(n_gram)} --> Count: {count}\n")
             elif analysis_type == 'n_gram':
                 most_frequent_ngrams = generate_ngrams(input_text, n, r)
                 output_name = filename + '_ngrams.txt'
@@ -1900,7 +1971,7 @@ def analyze_statistic():
             if analysis_type == 'sentence_length_average':
                 output_name = filename + '_length.txt'
                 with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-                    out.write("Total Words: " + str(total_words) + "\nTotal Sentences: " + str(total_sentences) + "\nAverage Words per Sentence: " + str(average_words_per_sentence))
+                    out.write("Total Words: " + str(total_words) + "\n\nTotal Sentences: " + str(total_sentences) + "\n\nAverage Words per Sentence: " + str(average_words_per_sentence))
                 
                 # Generate sentence length visualization
                 fig, ax = plt.subplots()
@@ -1920,7 +1991,13 @@ def analyze_statistic():
             elif analysis_type == 'words_frequency':
                 output_name = filename + '_wordsfrequency.txt'
                 with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-                    out.write("Absolute frequency of words: " + str(abs_frequency) + "\nRelative frequency of words: " + str(rel_frequency) + "\nTotal number of words:" + str(total_tokens))
+                    out.write("Absolute frequency of words: " + str(abs_frequency) + "\n\nRelative frequency of words: " + str(rel_frequency) + "\n\nTotal number of words:" + str(total_tokens))
+
+            elif analysis_type == 'sla_wf':
+                output_name = filename + '_sla_wf.txt'
+                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
+                    out.write("Absolute frequency of words: " + str(abs_frequency) + "\n\nRelative frequency of words: " + str(rel_frequency) + "\n\nTotal number of words:" + str(total_tokens))
+                    out.write("\n\nTotal Sentences: " + str(total_sentences) + "\n\nAverage Words per Sentence: " + str(average_words_per_sentence))
                 
                 # Generate word cloud
                 wordcloud = WordCloud(width=800, height=400, background_color='white').generate(input_text)
@@ -1932,6 +2009,21 @@ def analyze_statistic():
                 wordcloud_name = filename + '_wordcloud.png'
                 wordcloud_path = os.path.join(result_path, wordcloud_name)
                 plt.savefig(wordcloud_path, format='png')
+                plt.close()
+
+                # Generate sentence length visualization
+                fig, ax = plt.subplots()
+                ax.bar(range(1, total_sentences + 1), sentence_lengths, color='blue', alpha=0.7)
+                ax.axhline(average_words_per_sentence, color='red', linestyle='dashed', linewidth=1)
+                ax.set_xlabel('Sentence Number')
+                ax.set_ylabel('Number of Words')
+                ax.set_title('Number of Words per Sentence')
+                ax.legend(['Average Words per Sentence', 'Words per Sentence'])
+                
+                # Save visualization to a file
+                vis_name = filename + '_sentence_lengths.png'
+                vis_path = os.path.join(result_path, vis_name)
+                plt.savefig(vis_path, format='png')
                 plt.close()
 
             elif analysis_type == 'cooccurrences':

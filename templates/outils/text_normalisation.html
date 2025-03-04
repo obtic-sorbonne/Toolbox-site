@@ -11,7 +11,6 @@
         <br>
     <ul class="item-list" style="margin-left: 3em;">
         <li><hi style="font-weight: bold;">Tokenisation</hi> : Découpage du texte en chaque instance séparée par un espace et/ou un signe de ponctuation</li>
-        <li><hi style="font-weight: bold;">Case folding</hi> : Mise en minuscule de tous les tokens présents dans un texte soumis.</li>
         <li><hi style="font-weight: bold;">Lemmatisation</hi> : Récupération de chaque élément du texte sous sa forme lemmatisé, c'est-à-dire sa forme canonique.</li>
     </ul></p></div>
     <br>
@@ -32,13 +31,16 @@
             <label for="normalisation_type">Choisir le type d'analyse :</label>
             <select class="styled-select" name="normalisation_type" id="normalisation_type" required>
                 <option value="tokens">Tokenisation</option>
-                <option value="lowercases">Case folding</option>
+                <option value="tokens_lower">Tokenisation (All tokens are in lowercases)</option>
                 <option value="lemmas">Lemmatisation</option>
+                <option value="lemmas_lower">Lemmatisation (All lemmas are in lowercases)</option>
+                <option value="tokens_lemmas">Tokenisation and lemmatisation</option>
+                <option value="tokens_lemmas_lower">Tokenisation and lemmatisation (All tokens/lemmas are in lowercases)</option>
             </select>
         </div>
     <br>
         {{ form.csrf_token }}
-        <div class="centered-input-div" id="lemma-fields" style="display: none;">
+        <div class="centered-input-div" id="lemma_fields" style="display: none;">
             <label for="selected_language">Choisissez la langue :</label>
                 <select name="selected_language" id="selected_language">
                     <option value="german">{{ _('Allemand') }} (de)</option>
@@ -92,10 +94,20 @@ $('form input').change(function () {
 });
     function togglelemmaFields() {
             var normalisation_type = document.getElementById("normalisation_type").value;
-            var lemmasFields = document.getElementById("lemma-fields");
+            var lemmasFields = document.getElementById("lemma_fields");
             if (normalisation_type === "lemmas") {
                 lemmasFields.style.display = "block";
-            } else {
+            } 
+            else if (normalisation_type === "lemmas_lower") {
+                lemmasFields.style.display = "block";
+            } 
+            else if (normalisation_type === "tokens_lemmas") {
+                lemmasFields.style.display = "block";
+            }
+            else if (normalisation_type === "tokens_lemmas_lower") {
+                lemmasFields.style.display = "block";
+            }
+            else {
                 lemmasFields.style.display = "none";
             }
         }
