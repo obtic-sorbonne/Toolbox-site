@@ -35,7 +35,7 @@
 		<p>Limite de taille : 50 Mo</p>
 		</p>
 	  </div></div>
-	
+	<!--
 	<div>
 		<form action="{{ url_for('run_renard') }}" id="renard-form" method="post" enctype="multipart/form-data">
 		{{ form.csrf_token }}
@@ -51,6 +51,7 @@
 			<label for="min_appearances">{{ _('Nombre minimal de mentions du personnage') }}</label>
 			<input type="number" id="min_appearances" name="min_appearances" min="1" max="50" value="10"></fieldset>
 		</div>
+
 		 <div class="container" id="renard_container">
 			<div class="dropzone">
 				<input type="file" id="renard_upload" name="renard_upload" accept="text/plain">
@@ -63,6 +64,7 @@
 		</form>
 		<div class="loader"><div class="loadingio-spinner-ball-205vl2x7f7n"><div class="ldio-b8p5li8dt1u"><div></div></div></div><p>Traitement en cours...</p></div>
 	</div>
+	-->
 
 	{% if graph != "" %}
 	<div id="renard_visu">
