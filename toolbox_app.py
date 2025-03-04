@@ -54,6 +54,7 @@ from sklearn.decomposition import PCA
 import plotly.graph_objects as go
 import numpy as np
 import torch
+import whisper
 
 # Local application imports
 from forms import ContactForm, SearchForm
@@ -498,10 +499,10 @@ def download():
     return send_file(path, as_attachment=True)
 
 #-----------------------------------------------------------------
-# Numérisation
+# Reconnaissance de texte
 #-----------------------------------------------------------------
 
-#   NUMERISATION TESSERACT
+#----------- NUMERISATION TESSERACT -------------------
 @app.route('/run_tesseract',  methods=["GET","POST"])
 @stream_with_context
 def run_tesseract():
@@ -524,6 +525,76 @@ def run_tesseract():
 
         return response
     return render_template('numeriser.html', erreur=erreur)
+
+
+#-------------- Reconnaissance de discours --------------
+@app.route('/automatic_speech_recognition', methods=['POST'])
+def automatic_speech_recognition():
+    if 'files' not in request.files and 'audio_urls' not in request.form and 'video_urls' not in request.form:
+        response = {"error": "No files part or URLs provided"}
+        return Response(json.dumps(response), status=400, mimetype='application/json')
+
+    audio_urls = request.form.get('audio_urls', '').splitlines()
+    video_urls = request.form.get('video_urls', '').splitlines()
+
+    file_type = request.form['file_type']
+
+    rand_name = 'asr_' + ''.join(random.choice(string.ascii_lowercase) for x in range(5))
+    result_path = os.path.join(UPLOAD_FOLDER, rand_name)
+    os.makedirs(result_path, exist_ok=True)
+
+    model = whisper.load_model("base")
+
+
+    if file_type == 'audio_urls':
+        # Process audio URLs
+        for audio_url in audio_urls:
+            if audio_url.strip():
+                url_path = urlparse(audio_url).path
+                file_name = os.path.basename(url_path)
+                os.system(f"wget {audio_url} -O {result_path}/{file_name}")
+                audio_file = f"{result_path}/{file_name}"
+
+                if not os.path.isfile(audio_file):
+                    print(f"Erreur : {audio_file} n'est pas un fichier.")
+                    continue
+
+                result = model.transcribe(audio_file)
+                output_name = os.path.splitext(file_name)[0] + '_transcription.txt'
+                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
+                    out.write(result['text'])
+    elif file_type == 'video_urls':
+        # Process video URLs
+        for video_url in video_urls:
+            if video_url.strip():
+                os.system(f"yt-dlp -f 'bestaudio[ext=m4a]' {video_url} -o '{result_path}/video_{video_urls.index(video_url)}.%(ext)s'")
+                audio_file = f"{result_path}/video_{video_urls.index(video_url)}.m4a"
+
+                if not os.path.isfile(audio_file):
+                    print(f"Erreur : {audio_file} n'est pas un fichier.")
+                    continue
+
+                result = model.transcribe(audio_file)
+                output_name = f"video_{video_urls.index(video_url)}_transcription.txt"
+                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
+                    out.write(result['text'])
+
+
+    if len(os.listdir(result_path)) > 0:
+        shutil.make_archive(result_path, 'zip', result_path)
+        output_stream = BytesIO()
+        with open(str(result_path) + '.zip', 'rb') as res:
+            content = res.read()
+        output_stream.write(content)
+        response = Response(output_stream.getvalue(), mimetype='application/zip',
+                            headers={"Content-disposition": "attachment; filename=" + rand_name + '.zip'})
+        output_stream.seek(0)
+        output_stream.truncate(0)
+        shutil.rmtree(result_path)
+        os.remove(str(result_path) + '.zip')
+        return response
+
+    return Response(json.dumps({"error": "Une erreur est survenue dans le traitement des fichiers."}), status=500, mimetype='application/json')
 
 #-----------------------------------------------------------------
 # Prétraitement
