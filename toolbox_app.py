@@ -1946,6 +1946,7 @@ def analyze_statistic():
             total_words = sum(len(word_tokenize(sentence)) for sentence in sentences)
             total_sentences = len(sentences)
             average_words_per_sentence = total_words / total_sentences
+            average_words_per_sentence_rounded = round(average_words_per_sentence, 3)
 
             # Sentence lengths for visualization 
             sentence_lengths = [len(word_tokenize(sentence)) for sentence in sentences]
@@ -1969,18 +1970,18 @@ def analyze_statistic():
             filename, file_extension = os.path.splitext(f.filename)
 
             if analysis_type == 'sentence_length_average':
-                output_name = filename + '_length.txt'
+                """output_name = filename + '_length.txt'
                 with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
                     out.write("Total Words: " + str(total_words) + "\n\nTotal Sentences: " + str(total_sentences) + "\n\nAverage Words per Sentence: " + str(average_words_per_sentence))
-                
+                """
                 # Generate sentence length visualization
                 fig, ax = plt.subplots()
                 ax.bar(range(1, total_sentences + 1), sentence_lengths, color='blue', alpha=0.7)
                 ax.axhline(average_words_per_sentence, color='red', linestyle='dashed', linewidth=1)
-                ax.set_xlabel('Sentence Number')
-                ax.set_ylabel('Number of Words')
+                ax.set_xlabel(f'Sentence Number (Total: {str(total_sentences)})')
+                ax.set_ylabel(f'Number of Words  (Total: {str(total_words)})')
                 ax.set_title('Number of Words per Sentence')
-                ax.legend(['Average Words per Sentence', 'Words per Sentence'])
+                ax.legend([f'Average Words per Sentence\n({str(average_words_per_sentence_rounded)})', 'Words per Sentence'])
                 
                 # Save visualization to a file
                 vis_name = filename + '_sentence_lengths.png'
@@ -1997,7 +1998,7 @@ def analyze_statistic():
                 output_name = filename + '_sla_wf.txt'
                 with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
                     out.write("Absolute frequency of words: " + str(abs_frequency) + "\n\nRelative frequency of words: " + str(rel_frequency) + "\n\nTotal number of words:" + str(total_tokens))
-                    out.write("\n\nTotal Sentences: " + str(total_sentences) + "\n\nAverage Words per Sentence: " + str(average_words_per_sentence))
+                    out.write("\n\nTotal Sentences: " + str(total_sentences) + "\n\nAverage Words per Sentence: " + str(average_words_per_sentence_rounded))
                 
                 # Generate word cloud
                 wordcloud = WordCloud(width=800, height=400, background_color='white').generate(input_text)
@@ -2015,10 +2016,10 @@ def analyze_statistic():
                 fig, ax = plt.subplots()
                 ax.bar(range(1, total_sentences + 1), sentence_lengths, color='blue', alpha=0.7)
                 ax.axhline(average_words_per_sentence, color='red', linestyle='dashed', linewidth=1)
-                ax.set_xlabel('Sentence Number')
-                ax.set_ylabel('Number of Words')
+                ax.set_xlabel(f'Sentence Number (Total: {str(total_sentences)})')
+                ax.set_ylabel(f'Number of Words  (Total: {str(total_words)})')
                 ax.set_title('Number of Words per Sentence')
-                ax.legend(['Average Words per Sentence', 'Words per Sentence'])
+                ax.legend([f'Average Words per Sentence\n({str(average_words_per_sentence_rounded)})', 'Words per Sentence'])
                 
                 # Save visualization to a file
                 vis_name = filename + '_sentence_lengths.png'
@@ -2130,11 +2131,11 @@ def analyze_lexicale():
                 plt.ylabel('Count')
                 plt.title('Total Words vs Unique Words')
                 plt.text(0.5, max(total_number_words, number_unique_words)/2, 
-                        f'TTR: {round(TTR, 2)}', 
+                        f'Type-Token Ratio (TTR): {round(TTR, 2)}', 
                         horizontalalignment='center', 
                         verticalalignment='center', 
                         fontsize=12, 
-                        color='red')
+                        color='black')
                 plt.savefig(os.path.join(result_path, f'{filename}_words_comparison.png'))
                 plt.close()
 
