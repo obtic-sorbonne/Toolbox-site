@@ -1868,23 +1868,19 @@ def analyze_linguistic():
                 output_name = filename + '_hapaxes.txt'
                 with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
                     out.write("The hapaxes are: " + ", ".join(hapaxes_list))
-            elif analysis_type == 'hapax_ngrams':
-                most_frequent_ngrams = generate_ngrams(input_text, n, r)
-                output_name = filename + '_hapax_ngrams.txt'
-                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-                    out.write("The hapaxes are: " + ", ".join(hapaxes_list) + "\n\n")
-                    for n_gram, count in most_frequent_ngrams:
-                        out.write(f"{n}-gram: {' '.join(n_gram)} --> Count: {count}\n")
+            
             elif analysis_type == 'n_gram':
                 most_frequent_ngrams = generate_ngrams(input_text, n, r)
                 output_name = filename + '_ngrams.txt'
                 with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
                     for n_gram, count in most_frequent_ngrams:
                         out.write(f"{n}-gram: {' '.join(n_gram)} --> Count: {count}\n")
+            
             elif analysis_type == 'detect_lang':
                 output_name = filename + '_detected_languages.txt'
                 with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
                     out.write(f"Detected languages:\n{detected_languages_str}\n")
+            
             elif analysis_type == 'dependency':
                 # Dependency parsing
                 doc = nlp_eng(input_text)
@@ -1898,6 +1894,132 @@ def analyze_linguistic():
                 output_name_svg = filename + '_syntax.svg'
                 with open(os.path.join(result_path, output_name_svg), 'w', encoding='utf-8') as out:
                     out.write(svg)
+            
+            elif analysis_type == "lang_hapax":
+                output_name = filename + '_lang_hapax.txt'
+                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
+                    out.write(f"Detected languages:\n{detected_languages_str}\n\n")
+                    out.write("The hapaxes are: " + ", ".join(hapaxes_list))
+            
+            elif analysis_type == "lang_ngrams":
+                most_frequent_ngrams = generate_ngrams(input_text, n, r)
+                output_name = filename + '_lang_ngrams.txt'
+                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
+                    out.write(f"Detected languages:\n{detected_languages_str}\n\n")
+                    for n_gram, count in most_frequent_ngrams:
+                        out.write(f"{n}-gram: {' '.join(n_gram)} --> Count: {count}\n")
+            
+            elif analysis_type == "lang_dependency":
+                output_name = filename + '_lang_dependency.txt'
+                doc = nlp_eng(input_text)
+                syntax_info = "\n".join([f"{token.text} ({token.pos_}) <--{token.dep_} ({spacy.explain(token.dep_)})-- {token.head.text} ({token.head.pos_})" for token in doc])
+                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
+                    out.write(f"Detected languages:\n{detected_languages_str}\n\n")
+                    out.write(syntax_info)
+
+                # Visualization with displacy
+                svg = displacy.render(doc, style='dep', jupyter=False)
+                output_name_svg = filename + '_syntax.svg'
+                with open(os.path.join(result_path, output_name_svg), 'w', encoding='utf-8') as out:
+                    out.write(svg)
+            
+            elif analysis_type == 'hapax_ngrams':
+                most_frequent_ngrams = generate_ngrams(input_text, n, r)
+                output_name = filename + '_hapax_ngrams.txt'
+                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
+                    out.write("The hapaxes are: " + ", ".join(hapaxes_list) + "\n\n")
+                    for n_gram, count in most_frequent_ngrams:
+                        out.write(f"{n}-gram: {' '.join(n_gram)} --> Count: {count}\n")
+            
+            elif analysis_type == "hapax_dependency":
+                output_name = filename + '_hapax_dependency.txt'
+                doc = nlp_eng(input_text)
+                syntax_info = "\n".join([f"{token.text} ({token.pos_}) <--{token.dep_} ({spacy.explain(token.dep_)})-- {token.head.text} ({token.head.pos_})" for token in doc])
+                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
+                    out.write("The hapaxes are: " + ", ".join(hapaxes_list)+"\n\n")
+                    out.write(syntax_info)
+
+                # Visualization with displacy
+                svg = displacy.render(doc, style='dep', jupyter=False)
+                output_name_svg = filename + '_syntax.svg'
+                with open(os.path.join(result_path, output_name_svg), 'w', encoding='utf-8') as out:
+                    out.write(svg)
+            
+            elif analysis_type == "ngrams_dependency":
+                most_frequent_ngrams = generate_ngrams(input_text, n, r)
+                output_name = filename + '_ngrams_dependency.txt'
+                doc = nlp_eng(input_text)
+                syntax_info = "\n".join([f"{token.text} ({token.pos_}) <--{token.dep_} ({spacy.explain(token.dep_)})-- {token.head.text} ({token.head.pos_})" for token in doc])
+                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
+                    for n_gram, count in most_frequent_ngrams:
+                        out.write(f"{n}-gram: {' '.join(n_gram)} --> Count: {count}\n")
+                    out.write("\n\n" + syntax_info)
+
+                # Visualization with displacy
+                svg = displacy.render(doc, style='dep', jupyter=False)
+                output_name_svg = filename + '_syntax.svg'
+                with open(os.path.join(result_path, output_name_svg), 'w', encoding='utf-8') as out:
+                    out.write(svg)
+            
+            elif analysis_type == "lang_hapax_ngrams":
+                most_frequent_ngrams = generate_ngrams(input_text, n, r)
+                output_name = filename + '_lang_hapax_ngrams.txt'
+                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
+                    out.write(f"Detected languages:\n{detected_languages_str}\n\n")
+                    out.write("The hapaxes are: " + ", ".join(hapaxes_list)+"\n\n")
+                    for n_gram, count in most_frequent_ngrams:
+                        out.write(f"{n}-gram: {' '.join(n_gram)} --> Count: {count}\n")
+            
+            elif analysis_type == "lang_hapax_dependency":
+                output_name = filename + '_lang_hapax_dependency.txt'
+                doc = nlp_eng(input_text)
+                syntax_info = "\n".join([f"{token.text} ({token.pos_}) <--{token.dep_} ({spacy.explain(token.dep_)})-- {token.head.text} ({token.head.pos_})" for token in doc])
+                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
+                    out.write(f"Detected languages:\n{detected_languages_str}\n\n")
+                    out.write("The hapaxes are: " + ", ".join(hapaxes_list)+"\n\n")
+                    out.write(syntax_info)
+
+                # Visualization with displacy
+                svg = displacy.render(doc, style='dep', jupyter=False)
+                output_name_svg = filename + '_syntax.svg'
+                with open(os.path.join(result_path, output_name_svg), 'w', encoding='utf-8') as out:
+                    out.write(svg)
+            
+            elif analysis_type == "hapax_ngrams_dependency":
+                most_frequent_ngrams = generate_ngrams(input_text, n, r)
+                output_name = filename + '_hapax_ngrams_dependency.txt'
+                doc = nlp_eng(input_text)
+                syntax_info = "\n".join([f"{token.text} ({token.pos_}) <--{token.dep_} ({spacy.explain(token.dep_)})-- {token.head.text} ({token.head.pos_})" for token in doc])
+                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
+                    out.write("The hapaxes are: " + ", ".join(hapaxes_list)+"\n\n")
+                    for n_gram, count in most_frequent_ngrams:
+                        out.write(f"{n}-gram: {' '.join(n_gram)} --> Count: {count}\n")
+                    out.write("\n\n"+syntax_info)
+
+                # Visualization with displacy
+                svg = displacy.render(doc, style='dep', jupyter=False)
+                output_name_svg = filename + '_syntax.svg'
+                with open(os.path.join(result_path, output_name_svg), 'w', encoding='utf-8') as out:
+                    out.write(svg)
+            
+            elif analysis_type == "lang_hapax_ngrams_dependency":
+                most_frequent_ngrams = generate_ngrams(input_text, n, r)
+                output_name = filename + '_lang_hapax_ngrams_dependency.txt'
+                doc = nlp_eng(input_text)
+                syntax_info = "\n".join([f"{token.text} ({token.pos_}) <--{token.dep_} ({spacy.explain(token.dep_)})-- {token.head.text} ({token.head.pos_})" for token in doc])
+                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
+                    out.write(f"Detected languages:\n{detected_languages_str}\n\n")
+                    out.write("The hapaxes are: " + ", ".join(hapaxes_list)+"\n\n")
+                    for n_gram, count in most_frequent_ngrams:
+                        out.write(f"{n}-gram: {' '.join(n_gram)} --> Count: {count}\n")
+                    out.write("\n\n"+syntax_info)
+
+                # Visualization with displacy
+                svg = displacy.render(doc, style='dep', jupyter=False)
+                output_name_svg = filename + '_syntax.svg'
+                with open(os.path.join(result_path, output_name_svg), 'w', encoding='utf-8') as out:
+                    out.write(svg)
+
         finally:
             f.close()
 
@@ -1946,6 +2068,7 @@ def analyze_statistic():
             total_words = sum(len(word_tokenize(sentence)) for sentence in sentences)
             total_sentences = len(sentences)
             average_words_per_sentence = total_words / total_sentences
+            average_words_per_sentence_rounded = round(average_words_per_sentence, 3)
 
             # Sentence lengths for visualization 
             sentence_lengths = [len(word_tokenize(sentence)) for sentence in sentences]
@@ -1969,18 +2092,18 @@ def analyze_statistic():
             filename, file_extension = os.path.splitext(f.filename)
 
             if analysis_type == 'sentence_length_average':
-                output_name = filename + '_length.txt'
+                """output_name = filename + '_length.txt'
                 with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
                     out.write("Total Words: " + str(total_words) + "\n\nTotal Sentences: " + str(total_sentences) + "\n\nAverage Words per Sentence: " + str(average_words_per_sentence))
-                
+                """
                 # Generate sentence length visualization
                 fig, ax = plt.subplots()
                 ax.bar(range(1, total_sentences + 1), sentence_lengths, color='blue', alpha=0.7)
                 ax.axhline(average_words_per_sentence, color='red', linestyle='dashed', linewidth=1)
-                ax.set_xlabel('Sentence Number')
-                ax.set_ylabel('Number of Words')
+                ax.set_xlabel(f'Sentence Number (Total: {str(total_sentences)})')
+                ax.set_ylabel(f'Number of Words  (Total: {str(total_words)})')
                 ax.set_title('Number of Words per Sentence')
-                ax.legend(['Average Words per Sentence', 'Words per Sentence'])
+                ax.legend([f'Average Words per Sentence\n({str(average_words_per_sentence_rounded)})', 'Words per Sentence'])
                 
                 # Save visualization to a file
                 vis_name = filename + '_sentence_lengths.png'
@@ -1993,11 +2116,29 @@ def analyze_statistic():
                 with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
                     out.write("Absolute frequency of words: " + str(abs_frequency) + "\n\nRelative frequency of words: " + str(rel_frequency) + "\n\nTotal number of words:" + str(total_tokens))
 
+                # Generate word cloud
+                wordcloud = WordCloud(width=800, height=400, background_color='white').generate(input_text)
+                plt.figure(figsize=(10, 5))
+                plt.imshow(wordcloud, interpolation='bilinear')
+                plt.axis('off')
+                
+                # Save word cloud to a file
+                wordcloud_name = filename + '_wordcloud.png'
+                wordcloud_path = os.path.join(result_path, wordcloud_name)
+                plt.savefig(wordcloud_path, format='png')
+                plt.close()
+
+            elif analysis_type == 'cooccurrences':
+                output_name = filename + '_cooccurrences.txt'
+                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
+                    for pair, count in co_occurrences.items():
+                        out.write(f"Co-occurrence of '{pair[0]}' & '{pair[1]}' --> {count}\n")
+
             elif analysis_type == 'sla_wf':
                 output_name = filename + '_sla_wf.txt'
                 with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
                     out.write("Absolute frequency of words: " + str(abs_frequency) + "\n\nRelative frequency of words: " + str(rel_frequency) + "\n\nTotal number of words:" + str(total_tokens))
-                    out.write("\n\nTotal Sentences: " + str(total_sentences) + "\n\nAverage Words per Sentence: " + str(average_words_per_sentence))
+                    out.write("\n\nTotal Sentences: " + str(total_sentences) + "\n\nAverage Words per Sentence: " + str(average_words_per_sentence_rounded))
                 
                 # Generate word cloud
                 wordcloud = WordCloud(width=800, height=400, background_color='white').generate(input_text)
@@ -2015,10 +2156,32 @@ def analyze_statistic():
                 fig, ax = plt.subplots()
                 ax.bar(range(1, total_sentences + 1), sentence_lengths, color='blue', alpha=0.7)
                 ax.axhline(average_words_per_sentence, color='red', linestyle='dashed', linewidth=1)
-                ax.set_xlabel('Sentence Number')
-                ax.set_ylabel('Number of Words')
+                ax.set_xlabel(f'Sentence Number (Total: {str(total_sentences)})')
+                ax.set_ylabel(f'Number of Words  (Total: {str(total_words)})')
                 ax.set_title('Number of Words per Sentence')
-                ax.legend(['Average Words per Sentence', 'Words per Sentence'])
+                ax.legend([f'Average Words per Sentence\n({str(average_words_per_sentence_rounded)})', 'Words per Sentence'])
+                
+                # Save visualization to a file
+                vis_name = filename + '_sentence_lengths.png'
+                vis_path = os.path.join(result_path, vis_name)
+                plt.savefig(vis_path, format='png')
+                plt.close()
+        
+            elif analysis_type == 'sla_coocc':
+                output_name = filename + 'sla_coocc.txt'
+                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
+                    out.write("Total Words: " + str(total_words) + "\n\nTotal Sentences: " + str(total_sentences) + "\n\nAverage Words per Sentence: " + str(average_words_per_sentence) + "\n\n")
+                    for pair, count in co_occurrences.items():
+                        out.write(f"Co-occurrence of '{pair[0]}' & '{pair[1]}' --> {count}\n")
+
+                # Generate sentence length visualization
+                fig, ax = plt.subplots()
+                ax.bar(range(1, total_sentences + 1), sentence_lengths, color='blue', alpha=0.7)
+                ax.axhline(average_words_per_sentence, color='red', linestyle='dashed', linewidth=1)
+                ax.set_xlabel(f'Sentence Number (Total: {str(total_sentences)})')
+                ax.set_ylabel(f'Number of Words  (Total: {str(total_words)})')
+                ax.set_title('Number of Words per Sentence')
+                ax.legend([f'Average Words per Sentence\n({str(average_words_per_sentence_rounded)})', 'Words per Sentence'])
                 
                 # Save visualization to a file
                 vis_name = filename + '_sentence_lengths.png'
@@ -2026,12 +2189,60 @@ def analyze_statistic():
                 plt.savefig(vis_path, format='png')
                 plt.close()
 
-            elif analysis_type == 'cooccurrences':
-                output_name = filename + '_cooccurrences.txt'
+            elif analysis_type == 'wf_coocc':
+                output_name = filename + 'wf_coocc.txt'
                 with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
+                    out.write("Absolute frequency of words: " + str(abs_frequency) + "\n\nRelative frequency of words: " + str(rel_frequency) + "\n\nTotal number of words:" + str(total_tokens) + "\n\n")
                     for pair, count in co_occurrences.items():
                         out.write(f"Co-occurrence of '{pair[0]}' & '{pair[1]}' --> {count}\n")
-        
+
+                # Generate word cloud
+                wordcloud = WordCloud(width=800, height=400, background_color='white').generate(input_text)
+                plt.figure(figsize=(10, 5))
+                plt.imshow(wordcloud, interpolation='bilinear')
+                plt.axis('off')
+                
+                # Save word cloud to a file
+                wordcloud_name = filename + '_wordcloud.png'
+                wordcloud_path = os.path.join(result_path, wordcloud_name)
+                plt.savefig(wordcloud_path, format='png')
+                plt.close()
+
+            elif analysis_type == 'sla_wf_coocc':
+                output_name = filename + 'sla_wf_coocc.txt'
+                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
+                    out.write("Total Words: " + str(total_words) + "\n\nTotal Sentences: " + str(total_sentences) + "\n\nAverage Words per Sentence: " + str(average_words_per_sentence) + "\n\n")
+                    out.write("Absolute frequency of words: " + str(abs_frequency) + "\n\nRelative frequency of words: " + str(rel_frequency) + "\n\nTotal number of words:" + str(total_tokens) + "\n\n")
+                    for pair, count in co_occurrences.items():
+                        out.write(f"Co-occurrence of '{pair[0]}' & '{pair[1]}' --> {count}\n")
+
+                # Generate word cloud
+                wordcloud = WordCloud(width=800, height=400, background_color='white').generate(input_text)
+                plt.figure(figsize=(10, 5))
+                plt.imshow(wordcloud, interpolation='bilinear')
+                plt.axis('off')
+                
+                # Save word cloud to a file
+                wordcloud_name = filename + '_wordcloud.png'
+                wordcloud_path = os.path.join(result_path, wordcloud_name)
+                plt.savefig(wordcloud_path, format='png')
+                plt.close()
+
+                # Generate sentence length visualization
+                fig, ax = plt.subplots()
+                ax.bar(range(1, total_sentences + 1), sentence_lengths, color='blue', alpha=0.7)
+                ax.axhline(average_words_per_sentence, color='red', linestyle='dashed', linewidth=1)
+                ax.set_xlabel(f'Sentence Number (Total: {str(total_sentences)})')
+                ax.set_ylabel(f'Number of Words  (Total: {str(total_words)})')
+                ax.set_title('Number of Words per Sentence')
+                ax.legend([f'Average Words per Sentence\n({str(average_words_per_sentence_rounded)})', 'Words per Sentence'])
+                
+                # Save visualization to a file
+                vis_name = filename + '_sentence_lengths.png'
+                vis_path = os.path.join(result_path, vis_name)
+                plt.savefig(vis_path, format='png')
+                plt.close()
+
         finally:
             f.close()
 
@@ -2130,11 +2341,11 @@ def analyze_lexicale():
                 plt.ylabel('Count')
                 plt.title('Total Words vs Unique Words')
                 plt.text(0.5, max(total_number_words, number_unique_words)/2, 
-                        f'TTR: {round(TTR, 2)}', 
+                        f'Type-Token Ratio (TTR): {round(TTR, 2)}', 
                         horizontalalignment='center', 
                         verticalalignment='center', 
                         fontsize=12, 
-                        color='red')
+                        color='black')
                 plt.savefig(os.path.join(result_path, f'{filename}_words_comparison.png'))
                 plt.close()
 
