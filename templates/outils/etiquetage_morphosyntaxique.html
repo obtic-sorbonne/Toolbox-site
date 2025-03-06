@@ -7,18 +7,18 @@
 
   <h2>{{ _('Étiquetage morphosyntaxique') }}</h2>
   <p>{{ _("Cette section permet d'annoter la catégorie grammaticale de chaque mot d'un texte avec")}} <a href="https://spacy.io/usage/linguistic-features#pos-tagging" target="_blank">{{ _("l'outil POS tagging de spaCy") }}</a>. <br>{{ _("Le document renvoyé précise le token récupéré et son étiquette morphosyntaxique")}}.</p>
-  <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_annotation') }}" target="_blank">{{ _("Voir la documentation") }}</a> / <a href="{{ url_for('tutoriel_annotation') }}"  target="_blank">{{ _('Voir le tutoriel') }}</a></p>
+  <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_annotation') }}" target="_blank">{{ _("Voir la documentation") }}</a> / <a href="{{ url_for('tutoriel_annotation') }}"  target="_blank">{{ _('Voir le tutoriel') }}</a></p>
   <div class="infos_outil" style="display: block;margin: 0 auto 15px auto;">
         <input id="show" type=checkbox><label for="show" class="infos_title"><i class="fa-solid fa-circle-info"></i> {{ _("Informations sur les classes d'étiquettes") }}<i class="fa-solid fa-angle-right" style="float:right;margin-top:5px;margin-left:15px;cursor: pointer;"></i></label></p>
         <div class="info_popped">
-    <p>ADJ Adjective ; ADP Adposition (Preposition/Postposition) ;<br>ADV Adverb ; AUX Auxiliary ;<br>CCONJ Coordinating Conjunction; DET Determiner ;<br>NOUN Words for persons, places, things, etc. ; NUM Numeral ;<br>PRON Pronoun ; PROPN Proper noun ;<br>PUNCT Punctuation ; SCONJ Subordinating Conjunction ;<br>VERB Words for actions and processes ; X Other</p>
+    <p>ADJ {{ _('Adjectif') }} ; ADP Adposition ({{ _('Préposition') }}/Postposition) ;<br>ADV {{ _('Adverbe') }} ; AUX {{ _('Auxiliaire') }} ;<br>CCONJ {{ _('Conjonction de coordination') }} ; DET {{ _('Déterminant') }} ;<br>NOUN {{ _('Mots pour des personnes, lieux, objets') }}, etc. ; NUM {{ _('Numéro') }} ;<br>PRON {{ _('Pronom') }} ; PROPN {{ _('Nom propre') }} ;<br>PUNCT {{ _('Ponctuation') }} ; SCONJ {{ _('Conjonction de subordination') }} ;<br>VERB {{ _('Mots pour des actions et processus') }} ; X {{ _('Autre') }}</p>
 </div>
   </div>
 
 <form action="{{ url_for('pos_tagging') }}" id="metadata-form" method="post" enctype="multipart/form-data" onsubmit="showloader('loader')">
   {{ form.csrf_token }}
         <div class="centered-input-div">
-            <label for="selected_language">Choisissez la langue :</label>
+            <label for="selected_language">{{ _('Choisissez la langue') }} :</label>
                 <select name="selected_language" id="selected_language">
                     <option value="german">{{ _('Allemand') }} (de)</option>
                     <option value="english">{{ _('Anglais') }} (eng)</option>
@@ -37,10 +37,10 @@
                 <br>
         <div class="dropzone" style="margin:25px auto;">
             <input type="file" id="files" name="files" accept="text/plain" multiple required>
-            <p id="form_msg">Déposer le(s) fichier(s) ou cliquer ici.</p>
+            <p id="form_msg">{{ _("Déposer le(s) fichier(s) ou cliquer ici") }}.</p>
         </div>
         <input id="csrf_token" name="csrf_token" type="hidden" value="{{ csrf_token() }}">
-        <button style="display:block;margin:auto;margin-top:20px;">Annoter</button>
+        <button style="display:block;margin:auto;margin-top:20px;">{{ _('Annoter') }}</button>
   
 </form>
 {% if msg != "" %}

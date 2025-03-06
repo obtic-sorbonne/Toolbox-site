@@ -2,14 +2,14 @@
 {% block header %} {{ super() }} {% endblock %}
 {% block content %}
 <div class="outil">
-<h2>Erreur 500</h2>
+<h2>{{ _('Erreur 500') }}</h2>
 
-<p style="margin:auto">Oups, une erreur est survenue sur notre serveur.</p>
+<p style="margin:auto">{{ _('Oups, une erreur est survenue sur notre serveur') }}.</p>
 <br/>
 <div style="margin:auto">
 <figure>
 <img src="{{url_for('static', filename='img/estampe_Vallotton.jpg')}}" alt="Estampe chats Félix Vallotton" style="width:250px;"/>
-<figcaption style="font-size:0.6em;font-style:italic;">Gravure sur bois, Félix Vallotton, 1893 (détail). <br/>Consultable sur <a href="https://gallica.bnf.fr/ark:/12148/btv1b69516686.item" target="_blank">Gallica</a>.</figcaption>
+<figcaption style="font-size:0.6em;font-style:italic;">Gravure sur bois, Félix Vallotton, 1893 (détail). <br/>{{ _('Consultable sur') }} <a href="https://gallica.bnf.fr/ark:/12148/btv1b69516686.item" target="_blank">Gallica</a>.</figcaption>
 </figure>
 </div>
 </div>

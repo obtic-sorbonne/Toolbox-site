@@ -28,22 +28,22 @@
 
 <div class="tool-box">
     <h4>Whisper ASR</h4>
-    <p>La reconnaissance automatique de discours (ASR), qu'on peut aussi qualifier de reconnaissance de voix ou audio-to-text, est une technique qui permet de transformer du langage parlé en du texte. Pour se faire, <a href="https://openai.com/index/whisper/" target="_blank">Whisper</a>, un système ASR développé par OpenAI et entraîné sur plusieurs centaines de milliers d'heures de données du web, est utilisé.</p>
-    <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_recognition') }}"  target="_blank">{{ _('Voir la documentation') }}</a></p>
+    <p>{{ _("La reconnaissance automatique de discours (ASR), qu'on peut aussi qualifier de reconnaissance de voix ou audio-to-text, est une technique qui permet de transformer du langage parlé en du texte") }}. {{ _('Pour se faire') }}, <a href="https://openai.com/index/whisper/" target="_blank">Whisper</a>, {{ _("un système ASR développé par OpenAI et entraîné sur plusieurs centaines de milliers d'heures de données du web, est utilisé") }}.</p>
+    <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_recognition') }}"  target="_blank">{{ _('Voir la documentation') }}</a></p>
     <div class="infos_outil" style="display: block;margin: 0 auto 15px auto;">
         <input id="show" type=checkbox><label for="show" class="infos_title"><i class="fa-solid fa-circle-info"></i> {{ _("Informations sur l'outil") }}<i class="fa-solid fa-angle-right" style="float:right;margin-top:5px;margin-left:15px;cursor: pointer;"></i></label>
         <div class="info_popped"><p><i>Whisper OpenAI</i></p>
-      <p>{{ _("Formats d'entrée :")}} URL <i class="fa-solid fa-file-video"></i> vidéo ou <i class="fa-solid fa-file-audio"></i> audio</p>
-      <p>{{ _('Formats générés :')}} <i class="fa-solid fa-file-audio"></i> Fichier audio et <i class="fa-regular fa-file-lines"></i> {{ _('fichier TXT') }}</p>
+      <p>{{ _("Formats d'entrée :")}} URL <i class="fa-solid fa-file-video"></i> {{ _('vidéo') }} {{ _('ou') }} <i class="fa-solid fa-file-audio"></i> audio</p>
+      <p>{{ _('Formats générés :')}} <i class="fa-solid fa-file-audio"></i> {{ _('Fichier audio') }} {{ _('et') }} <i class="fa-regular fa-file-lines"></i> {{ _('fichier TXT') }}</p>
       </div>
     </div>
     <br>
     <form action="{{ url_for('automatic_speech_recognition') }}" method="POST" enctype="multipart/form-data">
       <div style="display: block; margin: auto; width: max-content; border: solid #263e8d; padding: 10px;">
-            <label for="file_type">Choisir le type de document : </label>
+            <label for="file_type">{{ _('Choisir le type de document') }} : </label>
             <select class="styled-select" name="file_type" id="file_type" required>
                 <option value="audio_urls">Audio</option>
-                <option value="video_urls">Vidéo</option>
+                <option value="video_urls">{{ _('Vidéo') }}</option>
             </select>
         </div>
         <br>
@@ -51,18 +51,18 @@
         {{ form.csrf_token }}
         <div style="display: block; margin: auto; width: max-content;">
         <div id="audio_urls">
-          <label for="audio_urls" style="font-weight: bold;">Audio URLs</label><br>
+          <label for="audio_urls" style="font-weight: bold;">{{ _('URLs Audio') }}</label><br>
           <textarea name="audio_urls" rows="4" cols="50" placeholder="One URL per line"></textarea><br><br>
         </div>
       </div>
 
         <div id="video_urls" style="display: block; margin: auto; width: max-content;">
-          <label for="video_urls" style="font-weight: bold;">Video URLs</label><br>
+          <label for="video_urls" style="font-weight: bold;">{{ _('URLs Vidéo') }}</label><br>
           <textarea name="video_urls" rows="4" cols="50" placeholder="One URL per line"></textarea><br><br>
         </div>
         <br>
         <input id="csrf_token" name="csrf_token" type="hidden" value="{{ csrf_token() }}">
-        <button type="submit">Lancer la reconnaissance</button>
+        <button type="submit">{{ _('Lancer la reconnaissance') }}</button>
     </form>
 
 

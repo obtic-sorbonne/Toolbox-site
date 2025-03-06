@@ -6,26 +6,26 @@
 <div class="outil">
     <div class="fil"><a href="{{ url_for('analyses')}}"><< {{ _('Retour aux tâches') }}</a></div>
     <div>
-        <h3>Comparaison</h3>
-    <p>Cet outil permet d'observer les différences qui existent entre deux textes données.</p></div>
+        <h3>{{ _('Comparaison') }}</h3>
+    <p>{{ _("Cet outil permet d'observer les différences qui existent entre deux textes donnés") }}.</p></div>
     <br>
     <div class="infos_outil" style="display: block;margin: 0 auto 15px auto;">
         <input id="show" type=checkbox><label for="show" class="infos_title"><i class="fa-solid fa-circle-info"></i> {{ _("Informations sur l'outil") }}<i class="fa-solid fa-angle-right" style="float:right;margin-top:5px;margin-left:15px;cursor: pointer;"></i></label>
         <div class="info_popped"><p>Textdistance, Difflib</p>
-      <p>{{ _("Formats d'entrée :")}} <i class="fa-regular fa-file-lines"></i> fichier texte (.txt)</p>
-      <p>{{ _('Format généré :')}} <i class="fa-solid fa-file-code"></i> fichier HTML</p>
-      <p>Limite d'ajout : 2 fichiers max</p>
+      <p>{{ _("Formats d'entrée :")}} <i class="fa-regular fa-file-lines"></i> {{ _('fichier texte') }} (.txt)</p>
+      <p>{{ _('Format généré :')}} <i class="fa-solid fa-file-code"></i> {{ _('fichier') }} HTML</p>
+      <p>{{ _("Limite d'ajout : 2 fichiers max") }}</p>
       </div>
     </div>
     <form action="{{ url_for('compare') }}" id="linguistic-form" method="post" enctype="multipart/form-data" onsubmit="showloader('loader')">
         {{ form.csrf_token }}
         <div class="dropzone" style="margin:25px auto;">
             <input type="file" id="files" name="files" accept="text/plain" multiple required>
-            <p id="form_msg">Déposer le(s) fichier(s) ou cliquer ici.</p>
+            <p id="form_msg">{{ _("Déposer le(s) fichier(s) ou cliquer ici") }}.</p>
         </div>
         <p id="fileError" style="color:red;text-align: center;"></p>
         <input id="csrf_token" name="csrf_token" type="hidden" value="{{ csrf_token() }}">
-        <button style="display:block;margin:auto;margin-top:20px;">Lancer la comparaison</button>
+        <button style="display:block;margin:auto;margin-top:20px;">{{ _('Lancer la comparaison') }}</button>
     </form>
     {% if msg != "" %}
     <div> <p>{{ msg }}</p></div>

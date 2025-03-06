@@ -6,36 +6,36 @@
 <div class="outil">
     <div class="fil"><a href="{{ url_for('analyses')}}"><< {{ _('Retour aux tâches') }}</a></div>
     <div>
-        <h3>Analyse de texte</h3>
-    <p>Cette page permet d'opérer divers types d'analyses textuelles sur un ou plusieurs documents soumis.<br>
+        <h3>{{ _('Analyse de texte') }}</h3>
+    <p>{{ _("Cette page permet d'opérer divers types d'analyses textuelles sur un ou plusieurs documents soumis") }}.<br>
         <br>
     <ul class="item-list" style="margin-left: 3em;">
-        <li><hi style="font-weight: bold;">Détection de subjectivité (Option 1)</hi> : Détection du caractère objective ou subjective d'une phrase, la subjectivité étant présente si son contenu est basé sur ou influencé par des sentiments, des goûts ou des opinions personnelles</li>
-        <li><hi style="font-weight: bold;">Analyse de sentiments (Option 2)</hi> : Processus de détermination du ton positif, négatif ou neutre d'un texte</li>
-        <li><hi style="font-weight: bold;">Analyse d'émotions (Option 3)</hi> : Processus d'identification d'émotions spécifiques exprimées dans un texte : joie, colère, tristesse...</li>
-        <li><hi style="font-weight: bold;">Score de lecture (Option 4)</hi> : Outils utilisés pour évaluer la lisibilité d'un texte écrit et fournissant une mesure quantitative de la facilité ou de la difficulté à comprendre un texte</li>
+        <li><hi style="font-weight: bold;">{{ _('Détection de subjectivité') }} (Option 1)</hi> : {{ _("Détection du caractère objective ou subjective d'une phrase, la subjectivité étant présente") }} {{ _('si son contenu est basé sur ou influencé par des sentiments, des goûts ou des opinions personnelles') }}</li>
+        <li><hi style="font-weight: bold;">{{ _('Analyse de sentiments') }} (Option 2)</hi> : {{ _("Processus de détermination du ton positif, négatif ou neutre d'un texte") }}</li>
+        <li><hi style="font-weight: bold;">{{ _("Analyse d'émotions") }} (Option 3)</hi> : {{ _("Processus d'identification d'émotions spécifiques exprimées dans un texte") }} : {{ _('joie, colère, tristesse...') }}</li>
+        <li><hi style="font-weight: bold;">{{ _('Score de lecture') }} (Option 4)</hi> : {{ _("Outils utilisés pour évaluer la lisibilité d'un texte écrit et") }} {{ _('fournissant une mesure quantitative de la facilité ou de la difficulté à comprendre un texte') }}</li>
     </ul></p></div>
     <br>
     <form action="{{ url_for('analyze_text') }}" id="linguistic-form" method="post" enctype="multipart/form-data" onsubmit="showloader('loader')">
         <div class="centered-div">
-            <label for="analysis_type">Choisir le type d'analyse :</label>
+            <label for="analysis_type">{{ _("Choisir le type d'analyse") }} :</label>
             <select class="styled-select" name="analysis_type" id="analysis_type" required>
                 <option value="subjectivity_detection">Option 1</option>
                 <option value="sentiment_analysis">Option 2</option>
                 <option value="emotion_analysis">Option 3</option>
                 <option value="readibility_scoring">Option 4</option>
-                <option value="subjectivity_sentiment">Options 1 et 2</option>
-                <option value="subjectivity_emotion">Options 1 et 3</option>
-                <option value="subjectivity_sentiment_emotion">Options 1, 2 et 3</option>
-                <option value="subjectivity_sentiment_emotion_readability">Options 1, 2, 3 et 4</option>
+                <option value="subjectivity_sentiment">{{ _('Options 1 et 2') }}</option>
+                <option value="subjectivity_emotion">{{ _('Options 1 et 3') }}</option>
+                <option value="subjectivity_sentiment_emotion">{{ _('Options 1, 2 et 3') }}</option>
+                <option value="subjectivity_sentiment_emotion_readability">{{ _('Options 1, 2, 3 et 4') }}</option>
             </select>
         </div>
         <br>
         <div class="centered-input-div" id="emotion_type" >
-            <label for="emotion_type">Choisir le type d'analyse :</label>
+            <label for="emotion_type">{{ _("Choisir le type d'analyse") }} :</label>
             <select name="emotion_type" id="emotion_type" required>
-                <option value="analyse1">Score + visualisation</option>
-                <option value="analyse2">Visualisation circulaire</option>
+                <option value="analyse1">{{ _('Score + visualisation') }}</option>
+                <option value="analyse2">{{ _('Visualisation circulaire') }}</option>
             </select>
         </div>
         {{ form.csrf_token }}
@@ -50,7 +50,7 @@
         </div>
       </div>
         <input id="csrf_token" name="csrf_token" type="hidden" value="{{ csrf_token() }}">
-        <button style="display:block;margin:auto;margin-top:20px;">Lancer l'analyse</button>
+        <button style="display:block;margin:auto;margin-top:20px;">{{ _("Lancer l'analyse") }}</button>
     </form>
     {% if msg != "" %}
     <div> <p>{{ msg }}</p></div>
