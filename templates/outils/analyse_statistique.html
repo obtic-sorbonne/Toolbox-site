@@ -6,42 +6,42 @@
 <div class="outil">
     <div class="fil"><a href="{{ url_for('analyses')}}"><< {{ _('Retour aux tâches') }}</a></div>
     <div>
-        <h3>Analyse statistique</h3>
-    <p>Cette page permet d'opérer divers types d'analyses statistiques sur un ou plusieurs documents soumis.<br>
+        <h3>{{ _('Analyse statistique') }}</h3>
+    <p>{{ _("Cette page permet d'opérer divers types d'analyses statistiques sur un ou plusieurs documents soumis") }}.<br>
         <br>
     <ul class="item-list" style="margin-left: 3em;">
-        <li><hi style="font-weight: bold;">Longueur moyenne des phrases (Option 1)</hi> : Mesure calculant le nombre moyen de mots par phrase dans un texte donn, donnant un aperçu de la complexité et de la lisibilité du texte</li>
-        <li><hi style="font-weight: bold;">Fréquence de mots (Option 2)</hi> : Calcul des fréquences absolue et relative de chaque mot d'un texte</li>
-        <li><hi style="font-weight: bold;">Co-occurrences (Option 3)</hi> : Fréquence à laquelle deux éléments apparaissent ensemble dans un contexte</li>
+        <li><hi style="font-weight: bold;">{{ _('Longueur moyenne des phrases') }} (Option 1)</hi> : {{ _('Mesure calculant le nombre moyen de mots par phrase dans un texte donné') }}, {{ _('donnant un aperçu de la complexité et de la lisibilité du texte') }}</li>
+        <li><hi style="font-weight: bold;">{{ _('Fréquence de mots') }} (Option 2)</hi> : {{ _("Calcul des fréquences absolue et relative de chaque mot d'un texte") }}</li>
+        <li><hi style="font-weight: bold;">{{ _('Co-occurrences') }} (Option 3)</hi> : {{ _('Fréquence à laquelle deux éléments apparaissent ensemble dans un contexte') }}</li>
     </ul></p></div>
     <br>
     <form action="{{ url_for('analyze_statistic') }}" id="linguistic-form" method="post" enctype="multipart/form-data" onsubmit="showloader('loader')">
         <div class="centered-div">
-            <label for="analysis_type">Choisir le type d'analyse :</label>
+            <label for="analysis_type">{{ _("Choisir le type d'analyse") }} :</label>
             <select class="styled-select" name="analysis_type" id="analysis_type" required>
                 <option value="sentence_length_average">Option 1</option>
                 <option value="words_frequency">Option 2</option>
                 <option value="cooccurrences">Option 3</option>
-                <option value="sla_wf">Options 1 et 2</option>
-                <option value="sla_coocc">Options 1 et 3</option>
-                <option value="wf_coocc">Options 2 et 3</option>
-                <option value="sla_wf_coocc">Options 1, 2 et 3</option>
+                <option value="sla_wf">{{ _('Options 1 et 2') }}</option>
+                <option value="sla_coocc">{{ _('Options 1 et 3') }}</option>
+                <option value="wf_coocc">{{ _('Options 2 et 3') }}</option>
+                <option value="sla_wf_coocc">{{ _('Options 1, 2 et 3') }}</option>
             </select>
         </div>
         {{ form.csrf_token }}
         <br>
         <div class="centered-input-div" id="cooccurrences_fields" style="display: none;">
-            <label for="context_window">Context window :</label>
+            <label for="context_window">{{ _('Fenêtre de contexte') }} :</label>
             <input type="number" id="context_window" name="context_window" min="1" value="2"><br>
-            <label for="target_word">Target word :</label>
+            <label for="target_word">{{ _('Mot cible') }} :</label>
             <input type="text" id="target_word" name="target_word" placeholder="Fill it with a unique word"><br>
         </div>
         <div class="dropzone" style="margin:25px auto;">
             <input type="file" id="files" name="files" accept="text/plain" multiple required>
-            <p id="form_msg">Déposer le(s) fichier(s) ou cliquer ici.</p>
+            <p id="form_msg">{{ _("Déposer le(s) fichier(s) ou cliquer ici") }}.</p>
         </div>
         <input id="csrf_token" name="csrf_token" type="hidden" value="{{ csrf_token() }}">
-        <button style="display:block;margin:auto;margin-top:20px;">Lancer l'analyse</button>
+        <button style="display:block;margin:auto;margin-top:20px;">{{ _("Lancer l'analyse") }}</button>
     </form>
     {% if msg != "" %}
     <div> <p>{{ msg }}</p></div>

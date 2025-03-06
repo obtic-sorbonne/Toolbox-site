@@ -3,18 +3,18 @@
 
 {% block content %}
   <div class="selection">
-    <div style="text-align: right;"><a href="{{ url_for('pretraitement')}}" style="color:#f2a800; text-decoration:none;">Tâche suivante >></a></div>
+    <div style="text-align: right;"><a href="{{ url_for('pretraitement')}}" style="color:#f2a800; text-decoration:none;">{{ _('Tâche suivante') }} >></a></div>
     <h2>{{ _('Outils de reconnaissance automatique de texte') }}</h2>
-    <p style="text-align: center;">Cette page répertorie divers outils qui peuvent être utilisées pour faire de la reconnaissance automatique de textes.</p>
+    <p style="text-align: center;">{{ _("Cette page répertorie divers outils qui peuvent être utilisées pour faire de la reconnaissance automatique de textes") }}.</p>
     <div class="container">
       <div class="box-outil-accueil" onclick="window.location.href='{{ url_for('numeriser') }}'">
         <div class="rubrique-icon"><img alt="Tesseract" src="{{url_for('static', filename='img/icons/text_recognition.png')}}"></div>
-        <span class="rubrique-title"><h3>Reconnaissance automatique de texte</h3></span>
+        <span class="rubrique-title"><h3>{{ _('Reconnaissance automatique de texte (ATR)') }}</h3></span>
         <span class="rubrique-text"><p>{{ _('Outil Tesseract pour les documents imprimés') }}</p></span>
       </div>
       <div class="box-outil-accueil" onclick="window.location.href='{{ url_for('speech') }}'">
         <div class="rubrique-icon"><img alt="Speech" src="{{url_for('static', filename='img/icons/speech_recognition.png')}}"></div>
-        <span class="rubrique-title"><h3>Reconnaissance automatique de discours</h3></span>
+        <span class="rubrique-title"><h3>{{ _('Reconnaissance automatique de discours (ASR)') }}</h3></span>
         <span class="rubrique-text"><p>{{ _('Outil Whisper pour les fichiers audio et vidéo') }}</p></span>
       </div>
       <div class="box-outil-accueil" onclick="window.open('https://obtic-gpu1.mesu.sorbonne-universite.fr:8501/')">

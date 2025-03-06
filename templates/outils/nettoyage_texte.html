@@ -6,13 +6,13 @@
 <div class="outil">
     <div class="fil"><a href="{{ url_for('pretraitement')}}"><< {{ _('Retour aux tâches') }}</a></div>
     <div>
-    <h3>Nettoyage de texte</h3>
-    <p>Cette page permet de nettoyer, d'une manière ou d'une autre, un ou plusieurs documents soumis.<br>
+    <h3>{{ _('Nettoyage de texte') }}</h3>
+    <p>{{ _("Cette page permet de nettoyer, d'une manière ou d'une autre, un ou plusieurs documents soumis") }}.<br>
         <br>
     <ul class="item-list" style="margin-left: 3em;">
-        <li><hi style="font-weight: bold;">Minuscules (Option 1)</hi> : Mise en minuscule de tous les caractères dans un texte.</li>
-        <li><hi style="font-weight: bold;">Ponctuation (Option 2)</hi> : Suppression de la ponctuation dans un texte.</li>
-        <li><hi style="font-weight: bold;">Mots-vides (Option 3)</hi> : Suppression des mots-vides ou <em>stopwords</em>, soit des mots très courants, tels que déterminants, auxiliaires, conjonction, etc.</li>
+        <li><hi style="font-weight: bold;">{{ _('Minuscules') }} (Option 1)</hi> : {{ _('Mise en minuscule de tous les caractères dans un texte') }}.</li>
+        <li><hi style="font-weight: bold;">{{ _('Ponctuation') }} (Option 2)</hi> : {{ _('Suppression de la ponctuation dans un texte') }}.</li>
+        <li><hi style="font-weight: bold;">{{ _('Mots-vides') }} (Option 3)</hi> : {{ _("Suppression des mots-vides ou <em>stopwords</em>") }}, {{ _('soit des mots très courants, tels que déterminants, auxiliaires, conjonction') }}, etc.</li>
     </ul></p></div>
     <br>
     <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_preprocessing') }}"  target="_blank">{{ _('Voir la documentation') }}</a></p>
@@ -21,29 +21,29 @@
         <input id="show" type=checkbox><label for="show" class="infos_title"><i class="fa-solid fa-circle-info"></i> {{ _("Informations sur l'outil") }}<i class="fa-solid fa-angle-right" style="float:right;margin-top:5px;margin-left:15px;cursor: pointer;"></i></label>
         <div class="info_popped">
           <p>Natural Language Toolkit (NLTK)
-      <p>{{ _("Formats d'entrée :")}} <i class="fa-regular fa-file-lines"></i> texte brut (.txt)</p>
-      <p>{{ _("Formats de sortie :")}} <i class="fa-regular fa-file-lines"></i> texte brut (.txt)</p>
-      <p>Encodage : UTF-8</p>
+      <p>{{ _("Formats d'entrée :")}} <i class="fa-regular fa-file-lines"></i> {{ _('texte brut') }} (.txt)</p>
+      <p>{{ _("Formats de sortie :")}} <i class="fa-regular fa-file-lines"></i> {{ _('texte brut') }} (.txt)</p>
+      <p>{{ _("Encodage")}} : UTF-8</p>
       </div>
   </div>
       <br>
     <form action="{{ url_for('removing_elements') }}" id="linguistic-form" method="post" enctype="multipart/form-data" onsubmit="showloader('loader')">
         <div class="centered-div">
-            <label for="removing_type">Choisir le type de modification :</label>
+            <label for="removing_type">{{ _('Choisir le type de modification') }} :</label>
             <select class="styled-select" name="removing_type" id="removing_type" required>
                 <option value="lowercases">Option 1</option>
                 <option value="punctuation">Option 2</option>
                 <option value="stopwords">Option 3</option>
-                <option value="lowercases_punctuation">Options 1 et 2</option>
-                <option value="lowercases_stopwords">Options 1 et 3</option>
-                <option value="punctuation_stopwords">Options 2 et 3</option>
-                <option value="lowercases_punctuation_stopwords">Options 1, 2 et 3</option>
+                <option value="lowercases_punctuation">{{ _('Options 1 et 2') }}</option>
+                <option value="lowercases_stopwords">{{ _('Options 1 et 3') }}</option>
+                <option value="punctuation_stopwords">{{ _('Options 2 et 3') }}</option>
+                <option value="lowercases_punctuation_stopwords">{{ _('Options 1, 2 et 3') }}</option>
             </select>
         </div>
     <br>
         {{ form.csrf_token }}
         <div class="centered-input-div" id="stopwords_fields" style="display: none;">
-            <label for="selected_language">Choisissez la langue :</label>
+            <label for="selected_language">{{ _('Choisissez la langue') }} :</label>
                 <select name="selected_language" id="selected_language">
                     <option value="german">{{ _('Allemand') }} (de)</option>
                     <option value="english">{{ _('Anglais') }} (eng)</option>
@@ -61,10 +61,10 @@
         <br>
         <div class="dropzone" style="margin:25px auto;">
             <input type="file" id="files" name="files" accept="text/plain" multiple required>
-            <p id="form_msg">Déposer le(s) fichier(s) ou cliquer ici.</p>
+            <p id="form_msg">{{ _("Déposer le(s) fichier(s) ou cliquer ici") }}.</p>
         </div>
         <input id="csrf_token" name="csrf_token" type="hidden" value="{{ csrf_token() }}">
-        <button style="display:block;margin:auto;margin-top:20px;">Prétraitement</button>
+        <button style="display:block;margin:auto;margin-top:20px;">{{ _('Prétraitement') }}</button>
     </form>
     {% if msg != "" %}
     <div> <p>{{ msg }}</p></div>

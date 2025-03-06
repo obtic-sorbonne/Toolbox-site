@@ -6,20 +6,20 @@
 <div class="outil">
     <div class="fil"><a href="{{ url_for('analyses')}}"><< {{ _('Retour aux tâches') }}</a></div>
     <div>
-        <h3>Embeddings</h3>
-    <p>Cette page permet de travailler avec des embeddings, soit des représentations numériques de mots utilisées pour capturer les relations et les similitudes entre eux dans un espace de dimension inférieure..<br>
+        <h3>{{ _('Embeddings') }}</h3>
+    <p>{{ _('Cette page permet de travailler avec des embeddings') }}, {{ _('soit des représentations numériques de mots utilisées pour capturer les relations et') }} {{ _('les similitudes entre eux dans un espace de dimension inférieure') }}.<br>
         <br>
     <ul class="item-list" style="margin-left: 3em;">
-        <li><hi style="font-weight: bold;">Similarité</hi> : Recherche des mots les plus similaires à un mot donné, selon un modèle d'<i>embedding</i>. <br>Le score : similarité cosinus entre les représentations vectorielles du mot cible et tous les autres mots du vocabulaire (<b>1</b> indique une similarité parfaite, <b>0</b> indique aucune similarité et <b>-1</b> indique une dissemblance parfaite).</li>
-        <li><hi style="font-weight: bold;">Relations</hi> : Recherche des relations entre des mots, tel qu'un mot qui se rapporte à "woman" de la même manière que "man" se rapporte à "king"</li>
-        <li><hi style="font-weight: bold;">Clustering</hi> : Regroupement de mots spécifiques en groupes à l'aide de leurs représentations vectorielles GloVe et du clustering K-means</li>
+        <li><hi style="font-weight: bold;">{{ _('Similarité') }}</hi> : {{ _("Recherche des mots les plus similaires à un mot donné, selon un modèle d'") }}<i>embedding</i>. <br>{{ _('Le score : similarité cosinus entre les représentations vectorielles du mot cible et tous les autres mots du vocabulaire') }} (<b>1</b> {{ _('indique une similarité parfaite') }}, <b>0</b> {{ _('indique aucune similarité et') }} <b>-1</b> {{ _('indique une dissemblance parfaite') }}).</li>
+        <li><hi style="font-weight: bold;">Relations</hi> : {{ _("Recherche des relations entre des mots, tel qu'un mot qui se rapporte à 'woman' de la même manière que 'man' se rapporte à 'king'") }}</li>
+        <li><hi style="font-weight: bold;">Clustering</hi> : {{ _("Regroupement de mots spécifiques en groupes à l'aide de leurs représentations vectorielles GloVe et du clustering K-means") }}</li>
     </ul></p></div>
     <br>
     <form action="{{ url_for('embedding_tool') }}" id="linguistic-form" method="post" enctype="multipart/form-data" onsubmit="showloader('loader')">
         <div class="centered-div">
-            <label for="analysis_type">Choisir le type d'analyse :</label>
+            <label for="analysis_type">{{ _("Choisir le type d'analyse") }} :</label>
             <select class="styled-select" name="analysis_type" id="analysis_type" required>
-                <option value="similarity">Similarity</option>
+                <option value="similarity">{{ _('Similarité') }}</option>
                 <option value="relations">Relations</option>
                 <option value="clustering">Clustering</option>
             </select>
@@ -27,23 +27,23 @@
         {{ form.csrf_token }}
         <br>
         <div id="embedding_similarity" class="centered-input-div">
-            <label for="inputText">Mot à analyser :</label>
-            <input type="text" id="inputText" name="inputText" placeholder="Mot à analyser" required>
+            <label for="inputText">{{ _('Mot à analyser') }} :</label>
+            <input type="text" id="inputText" name="inputText" placeholder="Word to analyze" required>
         </div>
         <div id="embedding_relations" class="centered-input-div">
-            <div style="margin-bottom: 25px; margin-top: 25px;"><label for="inputText">Mot à analyser :</label>
-            <input type="text" id="input1" name="input1" placeholder="Exemple : 'woman'" required></div>
-            <div style="margin-bottom: 25px;"><label for="inputText">Référence :</label>
-            <input type="text" id="input2" name="input2" placeholder="Exemple : 'king'" required></div>
-            <div style="margin-bottom: 25px;"><label for="inputText">Référence :</label>
-            <input type="text" id="input3" name="input3" placeholder="Exemple : 'man'" required></div>
+            <div style="margin-bottom: 25px; margin-top: 25px;"><label for="inputText">{{ _('Mot à analyser') }} :</label>
+            <input type="text" id="input1" name="input1" placeholder="Example: 'woman'" required></div>
+            <div style="margin-bottom: 25px;"><label for="inputText">{{ _('Référence') }} :</label>
+            <input type="text" id="input2" name="input2" placeholder="Example: 'king'" required></div>
+            <div style="margin-bottom: 25px;"><label for="inputText">{{ _('Référence') }} :</label>
+            <input type="text" id="input3" name="input3" placeholder="Example: 'man'" required></div>
         </div>
         <div id="embedding_clustering" class="centered-input-div">
-            <label for="inputText" style="display: block; text-align: center;">Mots à grouper :</label><br>
-            <textarea style="width: auto;" id="words_list" name="words_list" placeholder="Entrez vos mots ici séparés par un point-virgule (;)" required></textarea>
+            <label for="inputText" style="display: block; text-align: center;">{{ _('Mots à grouper') }} :</label><br>
+            <textarea style="width: auto;" id="words_list" name="words_list" placeholder="Fill in here with words divided by a semicolon (;)" required></textarea>
         </div>
         <input id="csrf_token" name="csrf_token" type="hidden" value="{{ csrf_token() }}">
-        <button style="display:block;margin:auto;margin-top:20px;">Lancer l'analyse</button>
+        <button style="display:block;margin:auto;margin-top:20px;">{{ _("Lancer l'analyse") }}</button>
     </form>
     {% if msg != "" %}
     <div> <p>{{ msg }}</p></div>

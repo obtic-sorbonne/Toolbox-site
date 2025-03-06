@@ -129,24 +129,16 @@ form p{
 <div class="outil">
   <div class="fil"><a href="{{ url_for('annotation_automatique')}}"><< {{ _('Retour aux tâches') }}</a></div>
   <h3>{{ _("Reconnaissance d'entités nommées") }}</h3>
-  <!--<div class="language-selection">
-    <label for="toollang"><i class="fa-regular fa-flag"></i>{{ _("Dans quelle langue est votre texte ?") }}</label>
-    <select name="toollang" id="toollang" class="sel sel--black-panther">
-      <option value="fra" selected="true">{{ _('Français') }}</option>
-      <option value="eng">{{ _('Anglais') }}</option>
-      <option value="spa">{{ _('Espagnol') }}</option>
-    </select>
-  </div>-->
-<p>{{ _("Cet outil permet d'identifier les entités nommées d'un corpus en utilisant au choix trois modèles : Spacy, Flair, ou un modèle Bert") }}. {{ _("Le corpus peut être au format texte ou au format XML-TEI") }}. {{ _("Dans ce dernier cas, les entités seront annotées directement dans le texte avec la balise")}} &lt;Entity&gt; {{ _("avec leur type en attribut annotation") }}. {{ _("A noter que ce processus ne conserve pas la structuration et le formatage à l'intérieur des balises parcourues ; tous les formatages à l'extérieur de ces balises sont en revanche restitués") }}.</p>
-<p>{{ _("L'utilisation de cette balise &lt;Entity&gt; rend utilisable le XML en sortie dans la plateforme") }} <a href="https://obtic.huma-num.fr/ariane" target="_blank">Ariane</a>.</p><p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_annotation') }}" target="_blank">{{ _("Voir la documentation") }}</a> / <a href="{{ url_for('tutoriel_annotation') }}"  target="_blank">{{ _('Voir le tutoriel') }}</a></p>
+<p>{{ _("Cet outil permet d'identifier les entités nommées d'un corpus en utilisant au choix trois modèles : Spacy, Flair, ou un modèle Bert") }}. {{ _("Le corpus peut être au format texte ou au format XML-TEI") }}. {{ _("Dans ce dernier cas, les entités seront annotées directement dans le texte avec la balise")}} &lt;Entity&gt; {{ _("avec leur type en attribut annotation") }}. {{ _("A noter que ce processus ne conserve pas la structuration et le formatage à l'intérieur des balises parcourues ; tous les formatages à l'extérieur de ces balises sont en revanche restitués") }}.</p>
+<p>{{ _("L'utilisation de cette balise &lt;Entity&gt; rend utilisable le XML en sortie dans la plateforme") }} <a href="https://obtic.huma-num.fr/ariane" target="_blank">Ariane</a>.</p><p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_annotation') }}" target="_blank">{{ _("Voir la documentation") }}</a> / <a href="{{ url_for('tutoriel_annotation') }}"  target="_blank">{{ _('Voir le tutoriel') }}</a></p>
 <br>
     <div class="infos_outil" style="display: block;margin: 0 auto 15px auto;">
         <input id="show" type=checkbox><label for="show" class="infos_title"><i class="fa-solid fa-circle-info"></i> {{ _("Informations sur l'outil") }}<i class="fa-solid fa-angle-right" style="float:right;margin-top:5px;margin-left:15px;cursor: pointer;"></i></label>
         <div class="info_popped">
           <p>SpaCy, Flair, BERT
-      <p>{{ _("Formats d'entrée :")}} <i class="fa-regular fa-file-lines"></i> texte brut (.txt) ou <i class="fa-regular fa-file-code"></i> fichier XML (.xml)</p>
-      <p>{{ _("Formats de sortie :")}} <i class="fa-regular fa-file-lines"></i> texte brut (.txt) or <i class="fa-regular fa-file-code"></i> fichier XML (.xml)</p>
-      <p>Encodage : UTF-8</p>
+      <p>{{ _("Formats d'entrée :")}} <i class="fa-regular fa-file-lines"></i> {{ _('texte brut') }} (.txt) {{ _('ou') }} <i class="fa-regular fa-file-code"></i> {{ _('fichier XML') }} (.xml)</p>
+      <p>{{ _("Formats de sortie :")}} <i class="fa-regular fa-file-lines"></i> {{ _('texte brut') }} (.txt) {{ _('ou') }} <i class="fa-regular fa-file-code"></i> {{ _('fichier XML') }} (.xml)</p>
+      <p>{{ _("Encodage")}} : UTF-8</p>
       </div>
   </div>
       <br>
