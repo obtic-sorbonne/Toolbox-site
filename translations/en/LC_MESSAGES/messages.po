@@ -2412,6 +2412,12 @@ msgstr "Project"
 msgid "Tâches"
 msgstr "Tasks"
 
+msgid "Accueil"
+msgstr "Home"
+
+msgid "Aide"
+msgstr "Help"
+
 msgid ""
 "Pandore : une boîte à outil pour les humanités numériques"
 msgstr ""
