@@ -52,7 +52,7 @@
         <fieldset>
             <legend>Configuration NER</legend>
             <label for="encodage" style="display:inline-block;width:110px;">Encodage</label>
-            <input style="border: 1px solid #c1c1c1; font-weight: bold; box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);" type="text" name="encodage" id="encodage" value="UTF-8" required>
+            <input style="border: 1px solid #c1c1c1; font-weight: bold; box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);" type="text" name="encodage" id="encodage" required>
             <br>
             <label for="moteur_REN" style="display:inline-block;width:180px;">Moteur de REN</label>
             <select class="styled-select" name="moteur_REN" id="moteur_REN" onchange="detectChangeMoteur(this, 'modele_REN')">
@@ -100,72 +100,29 @@
 
 <!--<h4>Kraken</h4>-->
 
-<script type="text/javascript">
-function detectChangeMoteur(moteurREN, modelREN) {
-    var html_options_spacy = availableSpacyModels();
-    var html_options_flair = availableFlairModels();
-
-    var moteur = moteurREN.value;
-    if (moteur === "spacy") {
-        $('#' + modelREN).html(html_options_spacy);
-    }
-    else if (moteur === "flair") {
-        $('#' + modelREN).html(html_options_flair);
-    }
-    else if (moteur === "aucun"){
-        $('#' + modelREN).html('<option value="aucun" selected="true">aucun</option>');
-    }
-}
-
-function availableSpacyModels() {
-    var html_options = `
-        <option value="de_core_news_sm">Allemand (de)</option>
-        <option value="en_core_web_sm">Anglais (eng)</option>
-        <option value="da_core_news_sm">Danois (da)</option>
-        <option value="es_core_news_sm">Espagnol (es)</option>
-        <option value="fi_core_news_sm">Finnois (fi)</option>
-        <option value="fr_core_news_sm" selected>Français (fr)</option>
-        <option value="el_core_news_sm">Grec (el)</option>
-        <option value="it_core_news_sm">Italien (it)</option>
-        <option value="nl_core_news_sm">Néerlandais (nl)</option>
-        <option value="pt_core_news_sm">Portugais (pt)</option>
-        <option value="ru_core_news_sm">Russe (ru)</option>`;
-    return html_options;
-}
-
-function availableFlairModels(){
-    var html_options = `
-        <option value="flair/ner-multi">Multilingual</option>
-        <option value="flair/ner-german">Allemand (de)</option>
-        <option value="flair/ner-english">Anglais (eng)</option>
-        <option value="flair/ner-danish">Danois (da)</option>
-        <option value="flair/ner-french" selected="true">Français (fr)</option>
-        <option value="flair/ner-spanish-large">Espagnol (es)</option>
-        <option value="flair/ner-dutch">Néerlandais (nl)</option>`;
-    return html_options;
-}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
 
 /* MAJ de la zone de glisser-déposer */ 
-$('#dropzoneEnt input').change(function () {
+ $(document).ready(function () {
+    $('#files').change(function () {
+        var nb_files = this.files.length;
+        $('#form_msg').text(nb_files + " fichier(s) sélectionné(s)");
 
-  var nb_files = this.files.length;
-
-  $('#form_msg').text(nb_files + " fichier(s) selectionné(s)");
-
-  /* Prévisualisation des fichiers chargés (max 3 visibles) */
-  if(nb_files > 3){
-      var num = nb_files - 3;
-      for(i=0; i < 3; i++){
-          $("#form_msg").append('<br/><span class="filename_preview">' + this.files[i].name + '</span>');
-      }
-      $("#form_msg").append('<span class="filename_preview"> et ' + num + ' autres.</span>');
-  }
-  else{
-      for(i=0; i < nb_files; i++){
-          $("#form_msg").append('<br/><span class="filename_preview">' + this.files[i].name + '</span>');
-      }
-  }
+        if (nb_files > 3) {
+            var num = nb_files - 3;
+            for (var i = 0; i < 3; i++) {
+                $('#form_msg').append('<br/><span class="filename_preview">' + this.files[i].name + '</span>');
+            }
+            $('#form_msg').append('<span class="filename_preview"> et ' + num + ' autres.</span>');
+        } else {
+            for (var i = 0; i < nb_files; i++) {
+                $('#form_msg').append('<br/><span class="filename_preview">' + this.files[i].name + '</span>');
+            }
+        }
+    });
 });
+
 </script>
 </div>
 {% endblock %}
