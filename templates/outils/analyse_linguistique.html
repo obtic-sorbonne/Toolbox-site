@@ -6,51 +6,51 @@
 <div class="outil">
     <div class="fil"><a href="{{ url_for('analyses')}}"><< {{ _('Retour aux tâches') }}</a></div>
     <div>
-    <h3>Analyse linguistique</h3>
-    <p>Cette page permet d'opérer divers types d'analyse linguistique sur un ou plusieurs documents soumis.<br>
+    <h3>{{ _('Analyse linguistique') }}</h3>
+    <p>{{ _("Cette page permet d'opérer divers types d'analyse linguistique sur un ou plusieurs documents soumis") }}.<br>
         <br>
     <ul class="item-list" style="margin-left: 3em;">
-        <li><hi style="font-weight: bold;">Détection du language (Option 1)</hi> : Détection automatique de la langue d'un texte à l'aide de diverses bibliothèques et méthodes</li>
-        <li><hi style="font-weight: bold;">Hapax (Option 2)</hi> : Détection de mots qui n'apparaissent qu'une seule fois dans un texte</li>
-        <li><hi style="font-weight: bold;">N-Grams (Option 3)</hi> : Détection de séquences contiguës de n éléments (mots, caractères ou symboles) dans un texte ou un discours donné</li>
-        <li><hi style="font-weight: bold;">Analyse des dépendances (Option 4)</hi> : Identification des relations entre les mots d'une phrase, en reliant chacun d'eux en fonction de sa fonction grammaticale comme sujet, objet, complément ou modificateur</li>
+        <li><hi style="font-weight: bold;">{{ _('Détection du language') }} (Option 1)</hi> : {{ _("Détection automatique de la langue d'un texte") }} {{ _("à l'aide de diverses bibliothèques et méthodes") }}</li>
+        <li><hi style="font-weight: bold;">Hapax (Option 2)</hi> : {{ _("Détection de mots qui n'apparaissent qu'une seule fois dans un texte") }}</li>
+        <li><hi style="font-weight: bold;">N-Grams (Option 3)</hi> : {{ _('Détection de séquences contiguës de n éléments (mots, caractères ou symboles)') }} {{ _('dans un texte ou un discours donné') }}</li>
+        <li><hi style="font-weight: bold;">{{ _('Analyse des dépendances') }} (Option 4)</hi> : {{ _("Identification des relations entre les mots d'une phrase, en reliant chacun d'eux") }} {{ _('en fonction de sa fonction grammaticale comme sujet, objet, complément ou modificateur') }}</li>
     </ul></p></div>
     <br>
     <form action="{{ url_for('analyze_linguistic') }}" id="linguistic-form" method="post" enctype="multipart/form-data" onsubmit="showloader('loader')">
         <div class="centered-div">
-            <label for="analysis_type">Choisir le type d'analyse :</label>
+            <label for="analysis_type">{{ _("Choisir le type d'analyse") }} :</label>
             <select class="styled-select" name="analysis_type" id="analysis_type" required>
                 <option value="detect_lang">Option 1</option>
                 <option value="hapax">Option 2</option>
                 <option value="n_gram">Option 3</option>
                 <option value="dependency">Option 4</option>
-                <option value="lang_hapax">Options 1 et 2</option>
-                <option value="lang_ngrams">Options 1 et 3</option>
-                <option value="lang_dependency">Options 1 et 4</option>
-                <option value="hapax_ngrams">Options 2 et 3</option>
-                <option value="hapax_dependency">Options 2 et 4</option>
-                <option value="ngrams_dependency">Options 3 et 4</option>
-                <option value="lang_hapax_ngrams">Options 1, 2 et 3</option>
-                <option value="lang_hapax_dependency">Options 1, 2 et 4</option>
-                <option value="hapax_ngrams_dependency">Options 2, 3 et 4</option>
-                <option value="lang_hapax_ngrams_dependency">Options 1, 2, 3 et 4</option>
+                <option value="lang_hapax">{{ _('Options 1 et 2') }}</option>
+                <option value="lang_ngrams">{{ _('Options 1 et 3') }}</option>
+                <option value="lang_dependency">{{ _('Options 1 et 4') }}</option>
+                <option value="hapax_ngrams">{{ _('Options 2 et 3') }}</option>
+                <option value="hapax_dependency">{{ _('Options 2 et 4') }}</option>
+                <option value="ngrams_dependency">{{ _('Options 3 et 4') }}</option>
+                <option value="lang_hapax_ngrams">{{ _('Options 1, 2 et 3') }}</option>
+                <option value="lang_hapax_dependency">{{ _('Options 1, 2 et 4') }}</option>
+                <option value="hapax_ngrams_dependency">{{ _('Options 2, 3 et 4') }}</option>
+                <option value="lang_hapax_ngrams_dependency">{{ _('Options 1, 2, 3 et 4') }}</option>
             </select>
         </div>
         {{ form.csrf_token }}
         <br>
         <div class="centered-input-div" id="ngram_fields" style="display: none;">
-            <label for="n">Longueur des n-grams :</label>
+            <label for="n">{{ _('Longueur des n-grams') }} :</label>
             <input type="number" id="n" name="n" min="1" value="2"><br>
-            <label for="r">Nombre de n-grams à afficher :</label>
+            <label for="r">{{ _('Nombre de n-grams à afficher') }} :</label>
             <input type="number" id="r" name="r" min="1" value="5"><br>
         </div>
         <br>
         <div class="dropzone" style="margin:25px auto;">
             <input type="file" id="files" name="files" accept="text/plain" multiple required>
-            <p id="form_msg">Déposer le(s) fichier(s) ou cliquer ici.</p>
+            <p id="form_msg">{{ _("Déposer le(s) fichier(s) ou cliquer ici") }}.</p>
         </div>
         <input id="csrf_token" name="csrf_token" type="hidden" value="{{ csrf_token() }}">
-        <button style="display:block;margin:auto;margin-top:20px;">Lancer l'analyse</button>
+        <button style="display:block;margin:auto;margin-top:20px;">{{ _("Lancer l'analyse") }}</button>
     </form>
     {% if msg != "" %}
     <div> <p>{{ msg }}</p></div>

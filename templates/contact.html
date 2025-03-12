@@ -24,14 +24,18 @@
   </div>
   <nav>
     <ul>
-      <li class="obtic-tool"><a href="{{ url_for('atr_tools') }}">{{ _('Reconnaissance automatique de texte (ATR)') }}</a></li>
-        <li class="obtic-tool"><a href="{{ url_for('conversion') }}">{{ _('Conversion de formats') }}</a></li>
-        <li class="obtic-tool"><a href="{{ url_for('annotation_automatique') }}">{{ _("Tâches d'annotation automatique") }}</a></li>
-        <li class="obtic-tool"><a href="{{ url_for('extraction_information') }}">{{ _("Extraction d'information") }}</a></li>
-        <li class="obtic-tool"><a href="{{ url_for('outils_visualisation') }}">Visualisation</a></li>
-        <li class="obtic-tool"><a href="{{ url_for('collecter_corpus') }}">{{ _('Collecte de corpus') }}</a></li>
-        <li class="obtic-tool"><a href="{{ url_for('outils_corpus') }}">{{ _('Correction textuelle') }}</a></li>
+      <li class="obtic-tool"><a href="{{ url_for('analyses') }}">{{ _('Analyses') }}</a></li>
         <li class="obtic-tool"><a href="{{ url_for('outils_pipeline') }}">{{ _('Chaînes de traitement') }}</a></li>
+        <li class="obtic-tool"><a href="{{ url_for('collecter_corpus') }}">{{ _('Collecte de corpus') }}</a></li>
+        <li class="obtic-tool"><a href="{{ url_for('conversion') }}">{{ _('Conversion de formats') }}</a></li>
+        <li class="obtic-tool"><a href="{{ url_for('outils_corpus') }}">{{ _('Correction textuelle') }}</a></li>
+        <li class="obtic-tool"><a href="{{ url_for('search_tools') }}">{{ _("Exploration") }}</a></li>
+        <li class="obtic-tool"><a href="{{ url_for('extraction_information') }}">{{ _("Extraction d'information") }}</a></li>
+        <li class="obtic-tool"><a href="{{ url_for('generation_texte') }}">{{ _('Génération de texte') }}</a></li>
+        <li class="obtic-tool"><a href="{{ url_for('pretraitement') }}">{{ _('Prétraitement') }}</a></li>
+        <li class="obtic-tool"><a href="{{ url_for('atr_tools') }}">{{ _('Reconnaissance automatique de texte (ATR)') }}</a></li>
+        <li class="obtic-tool"><a href="{{ url_for('annotation_automatique') }}">{{ _("Tâches d'annotation automatique") }}</a></li>
+        <li class="obtic-tool"><a href="{{ url_for('outils_visualisation') }}">{{ _("Visualisation") }}</a></li>
     </ul>
   </nav>
 
@@ -42,7 +46,7 @@
       <form id="contact-form" action="{{ url_for('send_msg') }}" method="POST">
         {{ form.csrf_token }}
         <div class="contact-form-item">
-        <label for="name">Nom</label>
+        <label for="name">{{ _('Nom') }}</label>
         <input type="text" name="name" placeholder="Nom">
         </div>
         <div class="contact-form-item">
@@ -54,7 +58,7 @@
           <textarea name="message" rows="8" placeholder="Message..." required></textarea>
         </div>
         <input id="csrf_token" name="csrf_token" type="hidden" value="CSRF_TOKEN_STRING">
-        <button>Envoyer</button>
+        <button>{{ _('Envoyer') }}</button>
       </form>
     </div>
   </div><!-- end content-->

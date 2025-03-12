@@ -6,16 +6,16 @@
 <div class="outil">
     <div class="fil"><a href="{{ url_for('extraction_information')}}"><< {{ _('Retour aux tâches') }}</a></div>
     <h3>Quotation extraction</h3>
-    <p>Récupération, dans un ou des documents soumis, d'extraits de texte, généralement entre guillemets, qui représentent les mots de quelqu'un d'autre.</p>
+    <p>{{ _("Récupération, dans un ou des documents soumis, d'extraits de texte") }}, {{ _("généralement entre guillemets, qui représentent les mots de quelqu'un d'autre") }}.</p>
     <br>
-    <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_extraction') }}" target="_blank">{{ _("Voir la documentation") }}</a></p>
+    <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_extraction') }}" target="_blank">{{ _("Voir la documentation") }}</a></p>
     <br><div class="infos_outil" style="display: block;margin: 0 auto 15px auto;">
         <input id="show" type=checkbox><label for="show" class="infos_title"><i class="fa-solid fa-circle-info"></i> {{ _("Informations sur l'outil") }}<i class="fa-solid fa-angle-right" style="float:right;margin-top:5px;margin-left:15px;cursor: pointer;"></i></label>
         <div class="info_popped">
-          <p>Regular Expressions (Regex)
-      <p>{{ _("Formats d'entrée :")}} <i class="fa-regular fa-file-lines"></i> texte brut (.txt)</p>
-      <p>{{ _("Formats de sortie :")}} <i class="fa-regular fa-file-lines"></i> texte brut (.txt)</p>
-      <p>Encodage : UTF-8</p>
+          <p>{{ _('Expressions régulières') }} (Regex)
+      <p>{{ _("Formats d'entrée :")}} <i class="fa-regular fa-file-lines"></i> {{ _('texte brut') }} (.txt)</p>
+      <p>{{ _("Formats de sortie :")}} <i class="fa-regular fa-file-lines"></i> {{ _('texte brut') }} (.txt)</p>
+      <p>{{ _('Encodage') }} : UTF-8</p>
       </div>
   </div>
   <br>
@@ -23,10 +23,10 @@
         {{ form.csrf_token }}
         <div class="dropzone" style="margin:25px auto;">
             <input type="file" id="files" name="files" accept="text/plain" multiple required>
-            <p id="form_msg">Déposer le(s) fichier(s) ou cliquer ici.</p>
+            <p id="form_msg">{{ _("Déposer le(s) fichier(s) ou cliquer ici") }}.</p>
         </div>
         <input id="csrf_token" name="csrf_token" type="hidden" value="{{ csrf_token() }}">
-        <button style="display:block;margin:auto;margin-top:20px;">Extraire</button>
+        <button style="display:block;margin:auto;margin-top:20px;">{{ _('Extraire') }}</button>
     </form>
     {% if msg != "" %}
     <div> <p>{{ msg }}</p></div>
