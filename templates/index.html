@@ -32,7 +32,7 @@
    <h1 style="font-family:'Comprehension', serif;">Pandore toolbox</h1></a>
    <nav>
      <ul>
-       <li class="obtic-tool"><a href="{{ url_for('pandore')}}"><i class="fa-solid fa-box" style="margin-right:8px;"></i> Accueil</a></li>
+       <li class="obtic-tool"><a href="{{ url_for('pandore')}}"><i class="fa-solid fa-box" style="margin-right:8px;"></i> {{ _('Accueil') }}</a></li>
        <li class="obtic-tool"><a href="{{ url_for('projet') }}" id="menu_projet"><i class="fa fa-users" style="margin-right:8px;"></i> {{ _('Projet') }}</a></li>
     <li class="obtic-tool dropdown">
       <a href="#" class="dropdown-toggle"><i class="fa fa-bars" style="margin-right:8px;"></i> {{ _('Tâches') }}</a>
@@ -48,11 +48,11 @@
         <li class="obtic-tool"><a href="{{ url_for('pretraitement') }}">{{ _('Prétraitement') }}</a></li>
         <li class="obtic-tool"><a href="{{ url_for('atr_tools') }}">{{ _('Reconnaissance automatique de texte (ATR)') }}</a></li>
         <li class="obtic-tool"><a href="{{ url_for('annotation_automatique') }}">{{ _("Tâches d'annotation automatique") }}</a></li>
-        <li class="obtic-tool"><a href="{{ url_for('outils_visualisation') }}">Visualisation</a></li>
+        <li class="obtic-tool"><a href="{{ url_for('outils_visualisation') }}">{{ _("Visualisation") }}</a></li>
       </ul>
     </li>
     <li class="obtic-tool dropdown">
-      <a href="#" class="dropdown-toggle"><i class="fa fa-question-circle" style="margin-right:8px;"></i> Aide</a>
+      <a href="#" class="dropdown-toggle"><i class="fa fa-question-circle" style="margin-right:8px;"></i> {{ _('Aide') }}</a>
       <ul class="dropdown-child">
         <li class="obtic-tool"><a href="{{ url_for('code_source') }}">{{ _('Code source') }}</a></li>
         <li class="obtic-tool"><a href="{{ url_for('copyright') }}">{{ _('Copyright') }} ©</a></li>
@@ -94,12 +94,12 @@
       <div class="box-outil-accueil shadow" onclick="window.location.href='{{ url_for('atr_tools') }}';">
         <div class="rubrique-icon"><img alt="OCR/HTR" src="{{url_for('static', filename='img/icons/text_recognition.png')}}"></div>
         <span class="rubrique-title"><h3>{{ _('Reconnaissance automatique de texte (ATR)') }}</h3></span>
-        <span class="rubrique-text"><p>{{ _("Conversion d'images en texte") }}</p></span>
+        <span class="rubrique-text"><p>{{ _("Conversion d'images en texte") }}, {{ _("conversion de voix en texte") }}</p></span>
       </div>
       <div class="box-outil-accueil shadow" onclick="window.location.href='{{ url_for('pretraitement') }}';">
         <div class="rubrique-icon"><img alt="Prétraitement" src="{{url_for('static', filename='img/icons/text_cleaning.png')}}"></div>
         <span class="rubrique-title"><h3>{{ _('Prétraitement') }}</h3></span>
-        <span class="rubrique-text"><p>{{ _('Nettoyage de texte') }}, Normalisation, {{ _('Séparation de texte') }}</p></span>
+        <span class="rubrique-text"><p>{{ _('Nettoyage de texte') }}, {{ _("Normalisation de texte") }}, {{ _('Séparation de texte') }}</p></span>
       </div>
       <div class="box-outil-accueil shadow" onclick="window.location.href='{{ url_for('conversion') }}';">
         <div class="rubrique-icon"><img alt="Conversion de formats" src="{{url_for('static', filename='img/icons/conversion_xml.png')}}"></div>
@@ -109,7 +109,7 @@
       <div class="box-outil-accueil shadow" onclick="window.location.href='{{ url_for('annotation_automatique') }}';">
         <div class="rubrique-icon"><img alt="Tâches d'annotation automatique" src="{{url_for('static', filename='img/icons/annotation.png')}}"></div>
         <span class="rubrique-title"><h3>{{ _("Tâches d'annotation automatique") }}</h3></span>
-        <span class="rubrique-text"><p>{{ _("Entités nommées") }}, {{ _('étiquetage morphosyntaxique')}}, {{ _('Catégories sémantiques') }}</p></span>
+        <span class="rubrique-text"><p>{{ _("Entités nommées") }}, {{ _('Étiquetage morphosyntaxique')}}, {{ _('Catégories sémantiques') }}</p></span>
       </div>
       <div class="box-outil-accueil shadow" onclick="window.location.href='{{ url_for('extraction_information') }}';">
         <div class="rubrique-icon"><img alt="Extraction d'information" src="{{url_for('static', filename='img/icons/information_extraction.png')}}"></div>
@@ -119,17 +119,17 @@
       <div class="box-outil-accueil shadow" onclick="window.location.href='{{ url_for('analyses') }}';">
         <div class="rubrique-icon"><img alt="Analyses" src="{{url_for('static', filename='img/icons/analytics.png')}}"></div>
         <span class="rubrique-title"><h3>{{ _('Analyses') }}</h3></span>
-        <span class="rubrique-text"><p>Analyses linguistiques, lexicales, statistiques, analyses de texte, comparaisons, embeddings</p></span>
+        <span class="rubrique-text"><p>{{ _("Analyses linguistiques, lexicales, statistiques, analyses de texte, comparaisons, embeddings") }}</p></span>
       </div>
       <div class="box-outil-accueil shadow" onclick="window.location.href='{{ url_for('search_tools')}}'">
         <div class="rubrique-icon"><img alt="Exploration" src="{{url_for('static', filename='img/icons/search.png')}}"></div>
-        <span class="rubrique-title"><h3>Exploration</h3></span>
-        <span class="rubrique-text"><p>Exploration de corpus</p></span>
+        <span class="rubrique-title"><h3>{{ _("Exploration") }}</h3></span>
+        <span class="rubrique-text"><p>{{ _("Exploration de corpus") }}</p></span>
       </div>
       <div class="box-outil-accueil shadow" onclick="window.location.href='{{ url_for('outils_visualisation')}}'">
         <div class="rubrique-icon"><img alt="Visualisation" src="{{url_for('static', filename='img/icons/visualization.png')}}"></div>
-        <span class="rubrique-title"><h3>Visualisation</h3></span>
-        <span class="rubrique-text"><p>Entités de lieux sur carte, réseaux de personnages et de cooccurrences, polarités textuelles</p></span>
+        <span class="rubrique-title"><h3>{{ _("Visualisation") }}</h3></span>
+        <span class="rubrique-text"><p>{{ _("Entités de lieux sur carte") }}, {{ _("réseaux de personnages et de cooccurrences") }}, {{ _("polarités textuelles") }}</p></span>
       </div>
       <div class="box-outil-accueil shadow" onclick="window.location.href='{{ url_for('collecter_corpus') }}';">
         <div class="rubrique-icon"><img alt="Collecte de corpus" src="{{url_for('static', filename='img/icons/corpus.png')}}"></div>
@@ -149,7 +149,7 @@
       <div class="box-outil-accueil shadow" onclick="window.location.href='{{ url_for('generation_texte') }}';">
         <div class="rubrique-icon"><img alt="Génération de texte" src="{{url_for('static', filename='img/icons/traduction.png')}}"></div>
         <span class="rubrique-title"><h3>{{ _('Génération de texte') }}</h3></span>
-        <span class="rubrique-text"><p>Complétion de texte, Questions/réponses et conversations, Traduction, Ajustement du niveau de lecture du texte, Summarizer</p></span>
+        <span class="rubrique-text"><p>{{ _("Complétion de texte") }}, {{ _("Questions/réponses et conversations") }}, {{ _("Traduction") }}, {{ _("Ajustement du niveau de lecture du texte") }}, Summarizer</p></span>
       </div>
     </div>
   </div>

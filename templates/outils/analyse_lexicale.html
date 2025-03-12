@@ -6,49 +6,49 @@
 <div class="outil">
     <div class="fil"><a href="{{ url_for('analyses')}}"><< {{ _('Retour aux tâches') }}</a></div>
     <div>
-        <h3>Analyse lexicale</h3>
-        <p>Cette page permet d'opérer divers types d'analyses lexicales sur un ou plusieurs documents soumis.<br>
+        <h3>{{ _('Analyse lexicale') }}</h3>
+        <p>{{ _("Cette page permet d'opérer divers types d'analyses lexicales sur un ou plusieurs documents soumis") }}.<br>
             <br>
         <ul class="item-list" style="margin-left: 3em;">
-            <li><strong>Dispersion lexicale</strong> : Mesure montrant la distribution et l'occurrence de mots spécifiques dans un texte</li>
-            <li><strong>Diversité lexicale</strong> : Mesure de la diversité du vocabulaire d'un texte en évaluant le nombre et la variété des mots utilisés</li>
-            <li><strong>Relations lexicales</strong> : Analyse des liens entre les mots et leur fréquence d'apparition conjointe</li>
-            <li><strong>Spécificités lexicales</strong> : Score identifiant le caractère unique d'un mot ou d'une phrase dans un document par rapport à un corpus de texte plus vaste</li>
+            <li><strong>{{ _('Dispersion lexicale') }}</strong> : {{ _("Mesure montrant la distribution et l'occurrence de mots spécifiques dans un texte") }}</li>
+            <li><strong>{{ _('Diversité lexicale') }}</strong> : {{ _("Mesure de la diversité du vocabulaire d'un texte en évaluant le nombre et la variété des mots utilisés") }}</li>
+            <li><strong>{{ _('Relations lexicales') }}</strong> : {{ _("Analyse des liens entre les mots et leur fréquence d'apparition conjointe") }}</li>
+            <li><strong>{{ _('Spécificités lexicales') }}</strong> : {{ _("Score identifiant le caractère unique d'un mot ou d'une phrase") }} {{ _('dans un document par rapport à un corpus de texte plus vaste') }}</li>
         </ul></p>
     </div>
     <br>
     <form action="{{ url_for('analyze_lexicale') }}" id="linguistic-form" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
         <div class="centered-div">
-            <label for="analysis_type">Choisir le type d'analyse :</label>
+            <label for="analysis_type">{{ _("Choisir le type d'analyse") }} :</label>
             <select class="styled-select" name="analysis_type" id="analysis_type" required>
-                <option value="lexical_dispersion">Dispersion lexicale</option>
-                <option value="lexical_diversity">Diversité lexicale</option>
-                <option value="lexical_relationships">Relations lexicales</option>
-                <option value="lexical_specificity">Spécificités lexicales</option>
+                <option value="lexical_dispersion">{{ _('Dispersion lexicale') }}</option>
+                <option value="lexical_diversity">{{ _('Diversité lexicale') }}</option>
+                <option value="lexical_relationships">{{ _('Relations lexicales') }}</option>
+                <option value="lexical_specificity">{{ _('Spécificités lexicales') }}</option>
             </select>
         </div>
         {{ form.csrf_token }}
         <br>
         <div class="centered-input-div" id="words_to_analyze_container" style="display: none;">
-            <label for="words_to_analyze_input">Mots à analyser (séparation : ";") :</label>
+            <label for="words_to_analyze_input">{{ _('Mots à analyser') }} ({{ _('séparation') }} : ";") :</label>
             <input type="text" id="words_to_analyze_input" name="words_to_analyze"><br>
         </div>
         
         <div class="centered-input-div" id="word_container" style="display: none;">
-            <label for="word_input">Mot à analyser :</label>
+            <label for="word_input">{{ _('Mot à analyser') }} :</label>
             <input type="text" id="word_input" name="word"><br>
         </div>
         
         <div class="centered-input-div" id="words_list_container" style="display: none;">
-            <label for="words_list_input">Mots à analyser (séparation : ";") :</label>
+            <label for="words_list_input">{{ _('Mots à analyser') }} ({{ _('séparation') }} : ";") :</label>
             <input type="text" id="words_list_input" name="words_list"><br>
         </div>
         <div class="dropzone" style="margin:25px auto;">
             <input type="file" id="files" name="files" accept="text/plain" multiple required>
-            <p id="form_msg">Déposer le(s) fichier(s) ou cliquer ici.</p>
+            <p id="form_msg">{{ _("Déposer le(s) fichier(s) ou cliquer ici") }}.</p>
         </div>
         <input id="csrf_token" name="csrf_token" type="hidden" value="{{ csrf_token() }}">
-        <button type="submit" style="display:block;margin:auto;margin-top:20px;">Lancer l'analyse</button>
+        <button type="submit" style="display:block;margin:auto;margin-top:20px;">{{ _("Lancer l'analyse") }}</button>
     </form>
     {% if msg != "" %}
     <div><p>{{ msg }}</p></div>

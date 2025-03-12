@@ -6,42 +6,42 @@
 <div class="outil">
     <div class="fil"><a href="{{ url_for('pretraitement')}}"><< {{ _('Retour aux tâches') }}</a></div>
     <div>
-    <h3>Normalisation de texte</h3>
-    <p>Cette page permet de transformer, de diverses manières, un ou plusieurs documents soumis.<br>
+    <h3>{{ _('Normalisation de texte') }}</h3>
+    <p>{{ _('Cette page permet de transformer, de diverses manières, un ou plusieurs documents soumis') }}.<br>
         <br>
     <ul class="item-list" style="margin-left: 3em;">
-        <li><hi style="font-weight: bold;">Tokenisation (Option 1)</hi> : Découpage du texte en chaque instance séparée par un espace et/ou un signe de ponctuation</li>
-        <li><hi style="font-weight: bold;">Lemmatisation (Option 2)</hi> : Récupération de chaque élément du texte sous sa forme lemmatisé, c'est-à-dire sa forme canonique.</li>
+        <li><hi style="font-weight: bold;">{{ _('Tokenisation') }} (Option 1)</hi> : {{ _('Découpage du texte en chaque instance séparée par un espace et/ou un signe de ponctuation') }}</li>
+        <li><hi style="font-weight: bold;">{{ _('Lemmatisation') }} (Option 2)</hi> : {{ _("Récupération de chaque élément du texte sous sa forme lemmatisé, c'est-à-dire sa forme canonique") }}.</li>
     </ul></p></div>
     <br>
-    <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_preprocessing') }}"  target="_blank">{{ _('Voir la documentation') }}</a></p>
+    <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_preprocessing') }}"  target="_blank">{{ _('Voir la documentation') }}</a></p>
     <br>
     <div class="infos_outil" style="display: block;margin: 0 auto 15px auto;">
         <input id="show" type=checkbox><label for="show" class="infos_title"><i class="fa-solid fa-circle-info"></i> {{ _("Informations sur l'outil") }}<i class="fa-solid fa-angle-right" style="float:right;margin-top:5px;margin-left:15px;cursor: pointer;"></i></label>
         <div class="info_popped">
           <p>Natural Language Toolkit (NLTK) / SpaCy
-      <p>{{ _("Formats d'entrée :")}} <i class="fa-regular fa-file-lines"></i> texte brut (.txt)</p>
-      <p>{{ _("Formats de sortie :")}} <i class="fa-regular fa-file-lines"></i> texte brut (.txt)</p>
-      <p>Encodage : UTF-8</p>
+      <p>{{ _("Formats d'entrée :")}} <i class="fa-regular fa-file-lines"></i> {{ _('texte brut') }} (.txt)</p>
+      <p>{{ _("Formats de sortie :")}} <i class="fa-regular fa-file-lines"></i> {{ _('texte brut') }} (.txt)</p>
+      <p>{{ _("Encodage")}} : UTF-8</p>
       </div>
   </div>
   <br>
     <form action="{{ url_for('normalize_text') }}" id="linguistic-form" method="post" enctype="multipart/form-data" onsubmit="showloader('loader')">
         <div class="centered-div">
-            <label for="normalisation_type">Choisir le type d'analyse :</label>
+            <label for="normalisation_type">{{ _("Choisir le type d'analyse") }} :</label>
             <select class="styled-select" name="normalisation_type" id="normalisation_type" required>
                 <option value="tokens">Option 1</option>
-                <option value="tokens_lower">Option 1 (Minuscules)</option>
+                <option value="tokens_lower">Option 1 ({{ _('Minuscules') }})</option>
                 <option value="lemmas">Option 2 </option>
-                <option value="lemmas_lower">Option 2 (Minuscules)</option>
-                <option value="tokens_lemmas">Options 1 et 2</option>
-                <option value="tokens_lemmas_lower">Options 1 et 2 (Minuscules)</option>
+                <option value="lemmas_lower">Option 2 ({{ _('Minuscules') }})</option>
+                <option value="tokens_lemmas">{{ _('Options 1 et 2') }}</option>
+                <option value="tokens_lemmas_lower">{{ _('Options 1 et 2') }} ({{ _('Minuscules') }})</option>
             </select>
         </div>
     <br>
         {{ form.csrf_token }}
         <div class="centered-input-div" id="lemma_fields" style="display: none;">
-            <label for="selected_language">Choisissez la langue :</label>
+            <label for="selected_language">{{ _('Choisissez la langue') }} :</label>
                 <select name="selected_language" id="selected_language">
                     <option value="german">{{ _('Allemand') }} (de)</option>
                     <option value="english">{{ _('Anglais') }} (eng)</option>
@@ -60,10 +60,10 @@
         <br>
         <div class="dropzone" style="margin:25px auto;">
             <input type="file" id="files" name="files" accept="text/plain" multiple required>
-            <p id="form_msg">Déposer le(s) fichier(s) ou cliquer ici.</p>
+            <p id="form_msg">{{ _("Déposer le(s) fichier(s) ou cliquer ici") }}.</p>
         </div>
         <input id="csrf_token" name="csrf_token" type="hidden" value="{{ csrf_token() }}">
-        <button style="display:block;margin:auto;margin-top:20px;">Prétraitement</button>
+        <button style="display:block;margin:auto;margin-top:20px;">{{ _('Prétraitement') }}</button>
     </form>
     {% if msg != "" %}
     <div> <p>{{ msg }}</p></div>
