@@ -3587,7 +3587,7 @@ def run_ocr_ner():
     entities = txt_ner_params(contenu, moteur_REN, modele_REN, encodage=encodage)
     # Writing in stream
     output_stream = StringIO()
-    output = rand_name + ".ann"
+    output = rand_name + ".txt"
     writer = csv.writer(output_stream, delimiter="\t")
     for nth, entity in enumerate(entities, 1):
         ne_type, start, end, text = entity
