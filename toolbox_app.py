@@ -115,6 +115,35 @@ app.add_url_rule("/uploads/<name>", endpoint="download_file", build_only=True)
 csrf.init_app(app)
 
 
+#--------------------------------------------------------------
+# Generic functions
+#-------------------------------------------------------------
+
+def create_zip_and_response(result_path, rand_name):
+    if len(os.listdir(result_path)) > 0:
+        shutil.make_archive(result_path, 'zip', result_path)
+        output_stream = BytesIO()
+        with open(str(result_path) + '.zip', 'rb') as res:
+            content = res.read()
+        output_stream.write(content)
+        response = Response(
+            output_stream.getvalue(),
+            mimetype='application/zip',
+            headers={"Content-disposition": f"attachment; filename={rand_name}.zip"}
+        )
+        output_stream.seek(0)
+        output_stream.truncate(0)
+        shutil.rmtree(result_path)
+        os.remove(str(result_path) + '.zip')
+        return response
+    else:
+        return Response(
+            json.dumps({"error": "Aucune donnée à archiver."}),
+            status=500,
+            mimetype='application/json'
+        )
+
+
 #-----------------------------------------------------------------
 # error handlers to catch CSRF errors gracefully
 #-----------------------------------------------------------------
@@ -591,19 +620,8 @@ def automatic_speech_recognition():
                     out.write(result['text'])
 
 
-    if len(os.listdir(result_path)) > 0:
-        shutil.make_archive(result_path, 'zip', result_path)
-        output_stream = BytesIO()
-        with open(str(result_path) + '.zip', 'rb') as res:
-            content = res.read()
-        output_stream.write(content)
-        response = Response(output_stream.getvalue(), mimetype='application/zip',
-                            headers={"Content-disposition": "attachment; filename=" + rand_name + '.zip'})
-        output_stream.seek(0)
-        output_stream.truncate(0)
-        shutil.rmtree(result_path)
-        os.remove(str(result_path) + '.zip')
-        return response
+    response = create_zip_and_response(result_path, rand_name)
+    return response
 
     return Response(json.dumps({"error": "Une erreur est survenue dans le traitement des fichiers."}), status=500, mimetype='application/json')
 
@@ -718,19 +736,8 @@ def removing_elements():
         finally:
             f.close()
 
-    if len(os.listdir(result_path)) > 0:
-        shutil.make_archive(result_path, 'zip', result_path)
-        output_stream = BytesIO()
-        with open(str(result_path) + '.zip', 'rb') as res:
-            content = res.read()
-        output_stream.write(content)
-        response = Response(output_stream.getvalue(), mimetype='application/zip',
-                            headers={"Content-disposition": "attachment; filename=" + rand_name + '.zip'})
-        output_stream.seek(0)
-        output_stream.truncate(0)
-        shutil.rmtree(result_path)
-        os.remove(str(result_path) + '.zip')
-        return response
+    response = create_zip_and_response(result_path, rand_name)
+    return response
 
     return Response(json.dumps({"error": "Une erreur est survenue dans le traitement des fichiers."}), status=500, mimetype='application/json')
 
@@ -829,19 +836,8 @@ def normalize_text():
         finally:
             f.close()
 
-    if len(os.listdir(result_path)) > 0:
-        shutil.make_archive(result_path, 'zip', result_path)
-        output_stream = BytesIO()
-        with open(str(result_path) + '.zip', 'rb') as res:
-            content = res.read()
-        output_stream.write(content)
-        response = Response(output_stream.getvalue(), mimetype='application/zip',
-                            headers={"Content-disposition": "attachment; filename=" + rand_name + '.zip'})
-        output_stream.seek(0)
-        output_stream.truncate(0)
-        shutil.rmtree(result_path)
-        os.remove(str(result_path) + '.zip')
-        return response
+    response = create_zip_and_response(result_path, rand_name)
+    return response
 
     return Response(json.dumps({"error": "Une erreur est survenue dans le traitement des fichiers."}), status=500, mimetype='application/json')
 
@@ -890,19 +886,8 @@ def split_text():
         finally:
             f.close()
 
-    if len(os.listdir(result_path)) > 0:
-        shutil.make_archive(result_path, 'zip', result_path)
-        output_stream = BytesIO()
-        with open(str(result_path) + '.zip', 'rb') as res:
-            content = res.read()
-        output_stream.write(content)
-        response = Response(output_stream.getvalue(), mimetype='application/zip',
-                            headers={"Content-disposition": "attachment; filename=" + rand_name + '.zip'})
-        output_stream.seek(0)
-        output_stream.truncate(0)
-        shutil.rmtree(result_path)
-        os.remove(str(result_path) + '.zip')
-        return response
+    response = create_zip_and_response(result_path, rand_name)
+    return response
 
     return Response(json.dumps({"error": "Une erreur est survenue dans le traitement des fichiers."}), status=500, mimetype='application/json')
 
@@ -1271,19 +1256,8 @@ def pos_tagging():
         finally:
             f.close()
 
-    if len(os.listdir(result_path)) > 0:
-        shutil.make_archive(result_path, 'zip', result_path)
-        output_stream = BytesIO()
-        with open(str(result_path) + '.zip', 'rb') as res:
-            content = res.read()
-        output_stream.write(content)
-        response = Response(output_stream.getvalue(), mimetype='application/zip',
-                            headers={"Content-disposition": "attachment; filename=" + rand_name + '.zip'})
-        output_stream.seek(0)
-        output_stream.truncate(0)
-        shutil.rmtree(result_path)
-        os.remove(str(result_path) + '.zip')
-        return response
+    response = create_zip_and_response(result_path, rand_name)
+    return response
 
     return Response(json.dumps({"error": "Une erreur est survenue dans le traitement des fichiers."}), status=500, mimetype='application/json')
 
@@ -1787,19 +1761,8 @@ def quotation():
         finally:
             f.close()
 
-    if len(os.listdir(result_path)) > 0:
-        shutil.make_archive(result_path, 'zip', result_path)
-        output_stream = BytesIO()
-        with open(str(result_path) + '.zip', 'rb') as res:
-            content = res.read()
-        output_stream.write(content)
-        response = Response(output_stream.getvalue(), mimetype='application/zip',
-                            headers={"Content-disposition": "attachment; filename=" + rand_name + '.zip'})
-        output_stream.seek(0)
-        output_stream.truncate(0)
-        shutil.rmtree(result_path)
-        os.remove(str(result_path) + '.zip')
-        return response
+    response = create_zip_and_response(result_path, rand_name)
+    return response
 
     return Response(json.dumps({"error": "Une erreur est survenue dans le traitement des fichiers."}), status=500, mimetype='application/json')
 
@@ -2012,19 +1975,8 @@ def analyze_linguistic():
         finally:
             f.close()
 
-    if len(os.listdir(result_path)) > 0:
-        shutil.make_archive(result_path, 'zip', result_path)
-        output_stream = BytesIO()
-        with open(str(result_path) + '.zip', 'rb') as res:
-            content = res.read()
-        output_stream.write(content)
-        response = Response(output_stream.getvalue(), mimetype='application/zip',
-                            headers={"Content-disposition": "attachment; filename=" + rand_name + '.zip'})
-        output_stream.seek(0)
-        output_stream.truncate(0)
-        shutil.rmtree(result_path)
-        os.remove(str(result_path) + '.zip')
-        return response
+    response = create_zip_and_response(result_path, rand_name)
+    return response
 
     return Response(json.dumps({"error": "Une erreur est survenue dans le traitement des fichiers."}), status=500, mimetype='application/json')
 
@@ -2235,19 +2187,8 @@ def analyze_statistic():
         finally:
             f.close()
 
-    if len(os.listdir(result_path)) > 0:
-        shutil.make_archive(result_path, 'zip', result_path)
-        output_stream = BytesIO()
-        with open(str(result_path) + '.zip', 'rb') as res:
-            content = res.read()
-        output_stream.write(content)
-        response = Response(output_stream.getvalue(), mimetype='application/zip',
-                            headers={"Content-disposition": "attachment; filename=" + rand_name + '.zip'})
-        output_stream.seek(0)
-        output_stream.truncate(0)
-        shutil.rmtree(result_path)
-        os.remove(str(result_path) + '.zip')
-        return response
+    response = create_zip_and_response(result_path, rand_name)
+    return response
 
     return Response(json.dumps({"error": "Une erreur est survenue dans le traitement des fichiers."}), status=500, mimetype='application/json')
 
@@ -2621,19 +2562,8 @@ def analyze_text():
                 out.write(f"\nFlesch Reading Ease Score: {flesch_reading_ease}\n\n")
 
 
-    if len(os.listdir(result_path)) > 0:
-        shutil.make_archive(result_path, 'zip', result_path)
-        output_stream = BytesIO()
-        with open(str(result_path) + '.zip', 'rb') as res:
-            content = res.read()
-        output_stream.write(content)
-        response = Response(output_stream.getvalue(), mimetype='application/zip',
-                            headers={"Content-disposition": "attachment; filename=" + rand_name + '.zip'})
-        output_stream.seek(0)
-        output_stream.truncate(0)
-        shutil.rmtree(result_path)
-        os.remove(str(result_path) + '.zip')
-        return response
+    response = create_zip_and_response(result_path, rand_name)
+    return response
 
     return Response(json.dumps({"error": "Une erreur est survenue dans le traitement des fichiers."}), status=500, mimetype='application/json')
 
@@ -2803,19 +2733,8 @@ def embedding_tool():
         response = {"error": str(e)}
         return Response(json.dumps(response), status=500, mimetype='application/json')
 
-    if len(os.listdir(result_path)) > 0:
-        shutil.make_archive(result_path, 'zip', result_path)
-        output_stream = BytesIO()
-        with open(str(result_path) + '.zip', 'rb') as res:
-            content = res.read()
-        output_stream.write(content)
-        response = Response(output_stream.getvalue(), mimetype='application/zip',
-                            headers={"Content-disposition": "attachment; filename=" + rand_name + '.zip'})
-        output_stream.seek(0)
-        output_stream.truncate(0)
-        shutil.rmtree(result_path)
-        os.remove(str(result_path) + '.zip')
-        return response
+    response = create_zip_and_response(result_path, rand_name)
+    return response
 
     return Response(json.dumps({"error": "Une erreur est survenue dans le traitement des fichiers."}), status=500, mimetype='application/json')
 
@@ -3276,19 +3195,8 @@ def normalisation_graphies():
         finally:
             f.close()
 
-    if len(os.listdir(result_path)) > 0:
-        shutil.make_archive(result_path, 'zip', result_path)
-        output_stream = BytesIO()
-        with open(str(result_path) + '.zip', 'rb') as res:
-            content = res.read()
-        output_stream.write(content)
-        response = Response(output_stream.getvalue(), mimetype='application/zip',
-                            headers={"Content-disposition": "attachment; filename=" + rand_name + '.zip'})
-        output_stream.seek(0)
-        output_stream.truncate(0)
-        shutil.rmtree(result_path)
-        os.remove(str(result_path) + '.zip')
-        return response
+    response = create_zip_and_response(result_path, rand_name)
+    return response
 
     return Response(json.dumps({"error": "Une erreur est survenue dans le traitement des fichiers."}), status=500, mimetype='application/json')
 
@@ -3327,19 +3235,8 @@ def autocorrect():
         finally:
             f.close()
 
-    if len(os.listdir(result_path)) > 0:
-        shutil.make_archive(result_path, 'zip', result_path)
-        output_stream = BytesIO()
-        with open(str(result_path) + '.zip', 'rb') as res:
-            content = res.read()
-        output_stream.write(content)
-        response = Response(output_stream.getvalue(), mimetype='application/zip',
-                            headers={"Content-disposition": "attachment; filename=" + rand_name + '.zip'})
-        output_stream.seek(0)
-        output_stream.truncate(0)
-        shutil.rmtree(result_path)
-        os.remove(str(result_path) + '.zip')
-        return response
+    response = create_zip_and_response(result_path, rand_name)
+    return response
 
     return Response(json.dumps({"error": "Une erreur est survenue dans le traitement des fichiers."}), status=500, mimetype='application/json')
 
