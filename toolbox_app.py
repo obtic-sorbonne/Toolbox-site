@@ -75,8 +75,6 @@ try:
 except Exception as e:
     print(f"Warning: NLTK data download error: {e}")
 
-stop_words = set(stopwords.words('english'))
-
 
 UPLOAD_FOLDER = 'uploads'
 MODEL_FOLDER = 'static/models'
@@ -530,6 +528,16 @@ def run_tesseract():
 
 
 #-------------- Reconnaissance de discours --------------
+
+# Variable globale pour stocker le modèle après le premier chargement
+model_cache = None
+
+def get_model():
+    global model_cache
+    if model_cache is None:
+        model_cache = whisper.load_model("base")  # Chargement différé
+    return model_cache
+
 @app.route('/automatic_speech_recognition', methods=['POST'])
 def automatic_speech_recognition():
     if 'files' not in request.files and 'audio_urls' not in request.form and 'video_urls' not in request.form:
@@ -545,7 +553,8 @@ def automatic_speech_recognition():
     result_path = os.path.join(UPLOAD_FOLDER, rand_name)
     os.makedirs(result_path, exist_ok=True)
 
-    model = whisper.load_model("base")
+    # Appel différé et conditionnel au modèle
+    model = get_model()
 
 
     if file_type == 'audio_urls':
@@ -604,46 +613,35 @@ def automatic_speech_recognition():
 
 #-------------- Nettoyage de texte -------------------------
 
-# Importer les stopwords pour chaque langue
-stop_words_english = set(stopwords.words('english'))
-stop_words_french = set(stopwords.words('french'))
-stop_words_spanish = set(stopwords.words('spanish'))
-stop_words_german = set(stopwords.words('german'))
-stop_words_danish = set(stopwords.words('danish'))
-stop_words_finnish = set(stopwords.words('finnish'))
-stop_words_greek = set(stopwords.words('greek'))
-stop_words_italian = set(stopwords.words('italian'))
-stop_words_dutch = set(stopwords.words('dutch'))
-#stop_words_polish = set(stopwords.words('polish'))
-stop_words_portuguese = set(stopwords.words('portuguese'))
-stop_words_russian = set(stopwords.words('russian'))
+loaded_stopwords = {}
 
-# Fonction pour obtenir les stopwords en fonction de la langue
 def get_stopwords(language):
-    if language == 'english':
-        return stop_words_english
-    elif language == 'french':
-        return stop_words_french
-    elif language == 'spanish':
-        return stop_words_spanish
-    elif language == 'german':
-        return stop_words_german
-    elif language == 'danish':
-        return stop_words_danish
-    elif language == 'finnish':
-        return stop_words_finnish
-    elif language == 'greek':
-        return stop_words_greek
-    elif language == 'italian':
-        return stop_words_italian
-    elif language == 'dutch':
-        return stop_words_dutch
-    elif language == 'portuguese':
-        return stop_words_portuguese
-    elif language == 'russian':
-        return stop_words_russian
-    else:
-        return set()
+    if language not in loaded_stopwords:
+        if language == 'english':
+            loaded_stopwords[language] = set(stopwords.words('english'))
+        elif language == 'french':
+            loaded_stopwords[language] = set(stopwords.words('french'))
+        elif language == 'spanish':
+            loaded_stopwords[language] = set(stopwords.words('spanish'))
+        elif language == 'german':
+            loaded_stopwords[language] = set(stopwords.words('german'))
+        elif language == 'danish':
+            loaded_stopwords[language] = set(stopwords.words('danish'))
+        elif language == 'finnish':
+            loaded_stopwords[language] = set(stopwords.words('finnish'))
+        elif language == 'greek':
+            loaded_stopwords[language] = set(stopwords.words('greek'))
+        elif language == 'italian':
+            loaded_stopwords[language] = set(stopwords.words('italian'))
+        elif language == 'dutch':
+            loaded_stopwords[language] = set(stopwords.words('dutch'))
+        elif language == 'portuguese':
+            loaded_stopwords[language] = set(stopwords.words('portuguese'))
+        elif language == 'russian':
+            loaded_stopwords[language] = set(stopwords.words('russian'))
+        else:
+            return set()
+    return loaded_stopwords[language]
 
 
 def keep_accented_only(tokens):
@@ -739,47 +737,38 @@ def removing_elements():
 
 #-------------- Normalisation de texte -------------------------
 
-
-nlp_eng = spacy.load('en_core_web_sm')
-nlp_fr = spacy.load('fr_core_news_sm')
-nlp_es = spacy.load('es_core_news_sm')
-nlp_de = spacy.load('de_core_news_sm')
-nlp_it = spacy.load('it_core_news_sm')
-nlp_da = spacy.load("da_core_news_sm")
-nlp_nl = spacy.load("nl_core_news_sm")
-nlp_fi = spacy.load("fi_core_news_sm")
-nlp_pl = spacy.load("pl_core_news_sm")
-nlp_pt = spacy.load("pt_core_news_sm")
-nlp_el = spacy.load("el_core_news_sm")
-nlp_ru = spacy.load("ru_core_news_sm")
+loaded_nlp_models = {}
 
 def get_nlp(language):
-    if language == 'english':
-        return nlp_eng
-    elif language == 'french':
-        return nlp_fr
-    elif language == 'spanish':
-        return nlp_es
-    elif language == 'german':
-        return nlp_de
-    elif language == 'italian':
-        return nlp_it
-    elif language == 'danish':
-        return nlp_da
-    elif language == 'dutch':
-        return nlp_nl
-    elif language == 'finnish':
-        return nlp_fi
-    elif language == 'polish':
-        return nlp_pl
-    elif language == 'portuguese':
-        return nlp_pt
-    elif language == 'greek':
-        return nlp_el
-    elif language == 'russian':
-        return nlp_ru
-    else:
-        return set()
+    if language not in loaded_nlp_models:
+        if language == 'english':
+            loaded_nlp_models[language] = spacy.load('en_core_web_sm')
+        elif language == 'french':
+            loaded_nlp_models[language] = spacy.load('fr_core_news_sm')
+        elif language == 'spanish':
+            loaded_nlp_models[language] = spacy.load('es_core_news_sm')
+        elif language == 'german':
+            loaded_nlp_models[language] = spacy.load('de_core_news_sm')
+        elif language == 'italian':
+            loaded_nlp_models[language] = spacy.load('it_core_news_sm')
+        elif language == 'danish':
+            loaded_nlp_models[language] = spacy.load("da_core_news_sm")
+        elif language == 'dutch':
+            loaded_nlp_models[language] = spacy.load("nl_core_news_sm")
+        elif language == 'finnish':
+            loaded_nlp_models[language] = spacy.load("fi_core_news_sm")
+        elif language == 'polish':
+            loaded_nlp_models[language] = spacy.load("pl_core_news_sm")
+        elif language == 'portuguese':
+            loaded_nlp_models[language] = spacy.load("pt_core_news_sm")
+        elif language == 'greek':
+            loaded_nlp_models[language] = spacy.load("el_core_news_sm")
+        elif language == 'russian':
+            loaded_nlp_models[language] = spacy.load("ru_core_news_sm")
+        else:
+            return set()
+    return loaded_nlp_models[language]
+
 
 @app.route('/normalize_text', methods=['POST'])
 def normalize_text():
@@ -2433,6 +2422,16 @@ def analyze_lexicale():
 
 #--------------- Analyse de texte --------------------------
 
+# Cache des pipelines
+pipeline_cache = {}
+
+def get_pipeline(task, model, **kwargs):
+    key = f"{task}_{model}"
+    if key not in pipeline_cache:
+        pipeline_cache[key] = pipeline(task, model=model, **kwargs)
+    return pipeline_cache[key]
+
+
 @app.route('/analyze_text', methods=['POST'])
 def analyze_text():
     if 'input_text' not in request.form:
@@ -2444,10 +2443,6 @@ def analyze_text():
     analysis_type = request.form['analysis_type']
     emotion_type = request.form['emotion_type']
 
-    classifier1 = pipeline('text-classification', model='GroNLP/mdebertav3-subjectivity-multilingual')
-    classifier2 = pipeline("sentiment-analysis", model="nlptown/bert-base-multilingual-uncased-sentiment")
-    classifier_distilbert = pipeline("text-classification", model='bhadresh-savani/distilbert-base-uncased-emotion', return_all_scores=True, top_k=None)
-    classifier_roberta = pipeline("text-classification", model="SamLowe/roberta-base-go_emotions", return_all_scores=True, top_k=None)
 
     rand_name = 'textanalysis_' + ''.join(random.choice(string.ascii_lowercase) for x in range(5))
     result_path = os.path.join(os.getcwd(), rand_name)
@@ -2458,6 +2453,7 @@ def analyze_text():
         output_name = 'subjectivity_detection.txt'
         with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
             for text in input_text:
+                classifier1 = get_pipeline('text-classification', model='GroNLP/mdebertav3-subjectivity-multilingual')
                 result = classifier1(text)[0]
                 label = "objective" if result['label'] == "LABEL_0" else "subjective"
                 out.write(f"The sentence: [{text}] is {label} (Score: {result['score']:.2f})\n\n")
@@ -2465,6 +2461,7 @@ def analyze_text():
         output_name = 'sentiment_analysis.txt'
         with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
             for text in input_text:
+                classifier2 = get_pipeline("sentiment-analysis", model="nlptown/bert-base-multilingual-uncased-sentiment")
                 results = classifier2(text)
                 star_rating = int(results[0]['label'].split()[0])
                 sentiment = "negative" if star_rating in [1, 2] else "neutral" if star_rating == 3 else "positive"
@@ -2473,8 +2470,10 @@ def analyze_text():
         output_name = 'subjectivity_sentiment.txt'
         with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
             for text in input_text:
+                classifier1 = get_pipeline('text-classification', model='GroNLP/mdebertav3-subjectivity-multilingual')
                 result = classifier1(text)[0]
                 label = "objective" if result['label'] == "LABEL_0" else "subjective"
+                classifier2 = get_pipeline("sentiment-analysis", model="nlptown/bert-base-multilingual-uncased-sentiment")
                 results = classifier2(text)
                 star_rating = int(results[0]['label'].split()[0])
                 sentiment = "negative" if star_rating in [1, 2] else "neutral" if star_rating == 3 else "positive"
@@ -2484,11 +2483,14 @@ def analyze_text():
         output_name = 'subjectivity_sentiment_emotion.txt'
         with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
             for text in input_text:
+                classifier1 = get_pipeline('text-classification', model='GroNLP/mdebertav3-subjectivity-multilingual')
                 result = classifier1(text)[0]
                 label = "objective" if result['label'] == "LABEL_0" else "subjective"
+                classifier2 = get_pipeline("sentiment-analysis", model="nlptown/bert-base-multilingual-uncased-sentiment")
                 results = classifier2(text)
                 star_rating = int(results[0]['label'].split()[0])
                 sentiment = "negative" if star_rating in [1, 2] else "neutral" if star_rating == 3 else "positive"
+                classifier_distilbert = get_pipeline("text-classification", model='bhadresh-savani/distilbert-base-uncased-emotion', return_all_scores=True, top_k=None)
                 vis1 = classifier_distilbert(text)
                 emotions = [result['label'] for result in vis1[0]]
                 scores = [result['score'] for result in vis1[0]]
@@ -2502,8 +2504,10 @@ def analyze_text():
         output_name = 'subjectivity_emotion.txt'
         with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
             for text in input_text:
+                classifier1 = get_pipeline('text-classification', model='GroNLP/mdebertav3-subjectivity-multilingual')
                 result = classifier1(text)[0]
                 label = "objective" if result['label'] == "LABEL_0" else "subjective"
+                classifier_distilbert = get_pipeline("text-classification", model='bhadresh-savani/distilbert-base-uncased-emotion', return_all_scores=True, top_k=None)
                 vis1 = classifier_distilbert(text)
                 emotions = [result['label'] for result in vis1[0]]
                 scores = [result['score'] for result in vis1[0]]
@@ -2516,9 +2520,11 @@ def analyze_text():
         output_name = 'sentiment_emotion.txt'
         with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
             for text in input_text:
+                classifier2 = get_pipeline("sentiment-analysis", model="nlptown/bert-base-multilingual-uncased-sentiment")
                 results = classifier2(text)
                 star_rating = int(results[0]['label'].split()[0])
                 sentiment = "negative" if star_rating in [1, 2] else "neutral" if star_rating == 3 else "positive"
+                classifier_distilbert = get_pipeline("text-classification", model='bhadresh-savani/distilbert-base-uncased-emotion', return_all_scores=True, top_k=None)
                 vis1 = classifier_distilbert(text)
                 emotions = [result['label'] for result in vis1[0]]
                 scores = [result['score'] for result in vis1[0]]
@@ -2533,6 +2539,7 @@ def analyze_text():
             with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
                 for text in input_text:
                     #Sortie
+                    classifier_distilbert = get_pipeline("text-classification", model='bhadresh-savani/distilbert-base-uncased-emotion', return_all_scores=True, top_k=None)
                     vis1 = classifier_distilbert(text)
                     emotions = [result['label'] for result in vis1[0]]
                     scores = [result['score'] for result in vis1[0]]
@@ -2561,6 +2568,7 @@ def analyze_text():
             #Visualisation2
             text_base = "emotion_viz2_"  # Chaîne de caractères de base
             for i, text in enumerate(input_text):  # input_text est une liste de textes à analyser
+                classifier_roberta = get_pipeline("text-classification", model="SamLowe/roberta-base-go_emotions", return_all_scores=True, top_k=None)
                 vis2 = classifier_roberta(text)
                 labels = [emotion['label'] for emotion in vis2[0]]
                 scores = [emotion['score'] for emotion in vis2[0]]
@@ -2593,11 +2601,14 @@ def analyze_text():
         output_name = 'subjectivity_sentiment_emotion_readability.txt'
         with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
             for text in input_text:
+                classifier1 = get_pipeline('text-classification', model='GroNLP/mdebertav3-subjectivity-multilingual')
                 result = classifier1(text)[0]
                 label = "objective" if result['label'] == "LABEL_0" else "subjective"
+                classifier2 = get_pipeline("sentiment-analysis", model="nlptown/bert-base-multilingual-uncased-sentiment")
                 results = classifier2(text)
                 star_rating = int(results[0]['label'].split()[0])
                 sentiment = "negative" if star_rating in [1, 2] else "neutral" if star_rating == 3 else "positive"
+                classifier_distilbert = get_pipeline("text-classification", model='bhadresh-savani/distilbert-base-uncased-emotion', return_all_scores=True, top_k=None)
                 vis1 = classifier_distilbert(text)
                 emotions = [result['label'] for result in vis1[0]]
                 scores = [result['score'] for result in vis1[0]]
@@ -2727,6 +2738,15 @@ def compare():
 
 
 #--------------- Embeddings --------------------------
+model_glove_cache = None # Cache pour le modèle
+
+def get_glove_model():
+    global model_glove_cache
+    if model_glove_cache is None:
+        model_glove_cache = api.load("glove-wiki-gigaword-100")  # Chargement unique
+    return model_glove_cache
+
+
 @app.route('/embedding_tool', methods=['POST'])
 def embedding_tool():
     analysis_type = request.form['analysis_type']
@@ -2737,7 +2757,7 @@ def embedding_tool():
     words_list = str(request.form.get('words_list'))
     analyzed_words = words_list.split(';')
 
-    model_glove = api.load("glove-wiki-gigaword-100")
+    model_glove = get_glove_model()
 
     rand_name = 'embedding_' + ''.join(random.choice(string.ascii_lowercase) for x in range(5))
     result_path = os.path.join(os.getcwd(), rand_name)
