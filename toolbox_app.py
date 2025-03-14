@@ -143,6 +143,36 @@ def create_zip_and_response(result_path, rand_name):
             mimetype='application/json'
         )
 
+def generate_rand_name(prefix, length=5):
+    """
+    Génère un nom unique avec un préfixe et une chaîne aléatoire.
+
+    Args:
+        prefix (str): Le préfixe pour le nom généré.
+        length (int): Longueur de la chaîne aléatoire (par défaut 5).
+
+    Returns:
+        str: Nom généré unique.
+    """
+    return prefix + ''.join(random.choice(string.ascii_lowercase) for _ in range(length))
+
+def create_named_directory(rand_name, base_dir=None):
+    """
+    Crée un répertoire avec un nom spécifique fourni.
+
+    Args:
+        rand_name (str): Le nom unique du répertoire à créer.
+        base_dir (str, optional): Le répertoire de base où le répertoire sera créé.
+                                  Par défaut, le répertoire de travail actuel (`os.getcwd()`).
+
+    Returns:
+        str: Le chemin complet du répertoire créé.
+    """
+    base_dir = base_dir or os.getcwd()
+    result_path = os.path.join(base_dir, rand_name)
+    os.makedirs(result_path, exist_ok=True)
+    return result_path
+
 
 #-----------------------------------------------------------------
 # error handlers to catch CSRF errors gracefully
@@ -545,7 +575,7 @@ def run_tesseract():
 
 
         up_folder = app.config['UPLOAD_FOLDER']
-        rand_name =  'ocr_' + ''.join((random.choice(string.ascii_lowercase) for x in range(8)))
+        rand_name =  generate_rand_name('ocr_')
 
 
         text = ocr.tesseract_to_txt(uploaded_files, model, model_bis, rand_name, ROOT_FOLDER, up_folder)
@@ -578,9 +608,9 @@ def automatic_speech_recognition():
 
     file_type = request.form['file_type']
 
-    rand_name = 'asr_' + ''.join(random.choice(string.ascii_lowercase) for x in range(5))
-    result_path = os.path.join(UPLOAD_FOLDER, rand_name)
-    os.makedirs(result_path, exist_ok=True)
+    rand_name = generate_rand_name("asr_")  # Génère le nom
+    result_path = create_named_directory(rand_name, base_dir=UPLOAD_FOLDER)
+
 
     # Appel différé et conditionnel au modèle
     model = get_model()
@@ -684,7 +714,7 @@ def removing_elements():
     removing_type = request.form['removing_type']
     selected_language = request.form['selected_language']
 
-    rand_name = 'removing_' + ''.join(random.choice(string.ascii_lowercase) for x in range(5))
+    rand_name = generate_rand_name('removing_')
     result_path = os.path.join(os.getcwd(), rand_name)
     os.makedirs(result_path, exist_ok=True)
 
@@ -791,7 +821,7 @@ def normalize_text():
     normalisation_type = request.form['normalisation_type']
     selected_language = request.form['selected_language']
 
-    rand_name = 'normalized_' + ''.join(random.choice(string.ascii_lowercase) for x in range(5))
+    rand_name = generate_rand_name('normalized_')
     result_path = os.path.join(os.getcwd(), rand_name)
     os.makedirs(result_path, exist_ok=True)
 
@@ -856,7 +886,7 @@ def split_text():
 
     split_type = request.form['split_type']
 
-    rand_name = 'splittext_' + ''.join(random.choice(string.ascii_lowercase) for x in range(5))
+    rand_name = generate_rand_name('splittext_')
     result_path = os.path.join(os.getcwd(), rand_name)
     os.makedirs(result_path, exist_ok=True)
 
@@ -1237,7 +1267,7 @@ def pos_tagging():
 
     selected_language = request.form['selected_language']
 
-    rand_name = 'postagging_' + ''.join(random.choice(string.ascii_lowercase) for x in range(5))
+    rand_name = generate_rand_name('postagging_')
     result_path = os.path.join(os.getcwd(), rand_name)
     os.makedirs(result_path, exist_ok=True)
 
@@ -1276,7 +1306,7 @@ def named_entity_recognition():
             abort(400)
     
     # Prépare le dossier résultat
-    rand_name =  'ner_' + ''.join((random.choice(string.ascii_lowercase) for x in range(8)))
+    rand_name =  generate_rand_name('ner_')
     result_path = ROOT_FOLDER / os.path.join(UPLOAD_FOLDER, rand_name)
     os.mkdir(result_path)
 
@@ -1731,7 +1761,7 @@ def quotation():
         response = {"error": "No selected files"}
         return Response(json.dumps(response), status=400, mimetype='application/json')
 
-    rand_name = 'quotation_' + ''.join(random.choice(string.ascii_lowercase) for x in range(5))
+    rand_name = generate_rand_name('quotation_')
     result_path = os.path.join(os.getcwd(), rand_name)
     os.makedirs(result_path, exist_ok=True)
 
@@ -1803,7 +1833,7 @@ def analyze_linguistic():
     n = int(request.form.get('n', 2))  # Default n-gram length to 2 if not provided
     r = int(request.form.get('r', 5)) 
 
-    rand_name = 'linguistic_' + ''.join(random.choice(string.ascii_lowercase) for x in range(5))
+    rand_name = generate_rand_name('linguistic_')
     result_path = os.path.join(os.getcwd(), rand_name)
     os.makedirs(result_path, exist_ok=True)
 
@@ -1997,7 +2027,7 @@ def analyze_statistic():
     context_window = int(request.form.get('context_window', 2)) 
     target_word = str(request.form.get('target_word'))
 
-    rand_name = 'statistics_' + ''.join(random.choice(string.ascii_lowercase) for x in range(5))
+    rand_name = generate_rand_name('statistics_')
     result_path = os.path.join(os.getcwd(), rand_name)
     os.makedirs(result_path, exist_ok=True)
 
@@ -2230,7 +2260,7 @@ def analyze_lexicale():
 
     # Create result directory with error handling
     try:
-        rand_name = 'lexicale_' + ''.join(random.choice(string.ascii_lowercase) for x in range(5))
+        rand_name = generate_rand_name('lexicale_')
         result_path = os.path.join(os.getcwd(), rand_name)
         os.makedirs(result_path, exist_ok=True)
     except Exception as e:
@@ -2385,7 +2415,7 @@ def analyze_text():
     emotion_type = request.form['emotion_type']
 
 
-    rand_name = 'textanalysis_' + ''.join(random.choice(string.ascii_lowercase) for x in range(5))
+    rand_name = generate_rand_name('textanalysis_')
     result_path = os.path.join(os.getcwd(), rand_name)
     os.makedirs(result_path, exist_ok=True)
 
@@ -2640,7 +2670,7 @@ def compare():
     if len(file_paths) >= 2:
         text1 = read_file(file_paths[0])
         text2 = read_file(file_paths[1])
-        rand_name = 'comparison_' + ''.join(random.choice(string.ascii_lowercase) for x in range(5))
+        rand_name = generate_rand_name('comparison_')
         result_path = os.path.join(os.getcwd(), rand_name)
         os.makedirs(result_path, exist_ok=True)
         
@@ -2689,7 +2719,7 @@ def embedding_tool():
 
     model_glove = get_glove_model()
 
-    rand_name = 'embedding_' + ''.join(random.choice(string.ascii_lowercase) for x in range(5))
+    rand_name = generate_rand_name('embedding_')
     result_path = os.path.join(os.getcwd(), rand_name)
     os.makedirs(result_path, exist_ok=True)
 
@@ -3056,7 +3086,7 @@ def extract_gallica():
         arks_list = re.split(r"[~\r\n]+", request.form['ark_input'])
 
     # Prépare le dossier résultat
-    rand_name =  'corpus_gallica_' + ''.join((random.choice(string.ascii_lowercase) for x in range(8)))
+    rand_name =  generate_rand_name('corpus_gallica_')
     result_path = ROOT_FOLDER / os.path.join(UPLOAD_FOLDER, rand_name)
     os.mkdir(result_path)
 
@@ -3177,7 +3207,7 @@ def normalisation_graphies():
         response = {"error": "No selected files"}
         return Response(json.dumps(response), status=400, mimetype='application/json')
 
-    rand_name = 'normgraph_' + ''.join(random.choice(string.ascii_lowercase) for x in range(5))
+    rand_name = generate_rand_name('normgraph_')
     result_path = os.path.join(os.getcwd(), rand_name)
     os.makedirs(result_path, exist_ok=True)
 
@@ -3214,12 +3244,12 @@ def autocorrect():
         response = {"error": "No selected files"}
         return Response(json.dumps(response), status=400, mimetype='application/json')
 
-
     selected_language = request.form['selected_language']
     nlp = get_nlp(selected_language)
-    contextualSpellCheck.add_to_pipe(nlp)
+    if 'contextual spellchecker' not in nlp.pipe_names:
+        contextualSpellCheck.add_to_pipe(nlp)
 
-    rand_name = 'autocorrected_' + ''.join(random.choice(string.ascii_lowercase) for x in range(5))
+    rand_name = generate_rand_name('autocorrected_')
     result_path = os.path.join(os.getcwd(), rand_name)
     os.makedirs(result_path, exist_ok=True)
 
@@ -3485,7 +3515,7 @@ def run_ocr_ner():
     moteur_REN = request.form['moteur_REN']
     modele_REN = request.form['modele_REN']
 
-    rand_name =  'ocr_ner_' + ''.join((random.choice(string.ascii_lowercase) for x in range(8)))
+    rand_name =  generate_rand_name('ocr_ner_')
     if ocr_model != "raw_text":
         contenu = ocr.tesseract_to_txt(uploaded_files, ocr_model, '', rand_name, ROOT_FOLDER, up_folder)
     else:
@@ -3553,7 +3583,7 @@ def run_ocr_map():
     moteur_REN = request.form['moteur_REN']
     modele_REN = request.form['modele_REN']
 
-    rand_name =  'ocr_ner_' + ''.join((random.choice(string.ascii_lowercase) for x in range(8)))
+    rand_name =  generate_rand_name('ocr_ner_')
     if ocr_model != "raw_text":
         contenu = ocr.tesseract_to_txt(uploaded_files, ocr_model, '', rand_name, ROOT_FOLDER, up_folder)
     else:
@@ -3609,7 +3639,7 @@ def run_ocr_map_intersection():
     # print(moteur_REN1, moteur_REN2)
 
     if request.form.get("do_ocr"):
-        rand_name =  'ocr_ner_' + ''.join((random.choice(string.ascii_lowercase) for x in range(8)))
+        rand_name =  generate_rand_name('ocr_ner_')
         contenu = ocr.tesseract_to_txt(uploaded_files, lang, '', rand_name, ROOT_FOLDER, up_folder)
         print("Numérisation en cours...")
     else:
