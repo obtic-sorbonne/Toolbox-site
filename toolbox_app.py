@@ -715,8 +715,7 @@ def removing_elements():
     selected_language = request.form['selected_language']
 
     rand_name = generate_rand_name('removing_')
-    result_path = os.path.join(os.getcwd(), rand_name)
-    os.makedirs(result_path, exist_ok=True)
+    result_path = create_named_directory(rand_name)
 
     for f in files:
         try:
@@ -822,8 +821,7 @@ def normalize_text():
     selected_language = request.form['selected_language']
 
     rand_name = generate_rand_name('normalized_')
-    result_path = os.path.join(os.getcwd(), rand_name)
-    os.makedirs(result_path, exist_ok=True)
+    result_path = create_named_directory(rand_name)
 
     for f in files:
         try:
@@ -887,8 +885,7 @@ def split_text():
     split_type = request.form['split_type']
 
     rand_name = generate_rand_name('splittext_')
-    result_path = os.path.join(os.getcwd(), rand_name)
-    os.makedirs(result_path, exist_ok=True)
+    result_path = create_named_directory(rand_name)
 
     for f in files:
         try:
@@ -1268,8 +1265,7 @@ def pos_tagging():
     selected_language = request.form['selected_language']
 
     rand_name = generate_rand_name('postagging_')
-    result_path = os.path.join(os.getcwd(), rand_name)
-    os.makedirs(result_path, exist_ok=True)
+    result_path = create_named_directory(rand_name)
 
     for f in files:
         try:
@@ -1307,8 +1303,7 @@ def named_entity_recognition():
     
     # Prépare le dossier résultat
     rand_name =  generate_rand_name('ner_')
-    result_path = ROOT_FOLDER / os.path.join(UPLOAD_FOLDER, rand_name)
-    os.mkdir(result_path)
+    result_path = create_named_directory(rand_name)
 
     # Paramètres généraux
     input_format = request.form['input_format']
@@ -1366,20 +1361,8 @@ def named_entity_recognition():
         finally: # ensure file is closed
             f.close()
 
-    # ZIP le dossier résultat
-    if len(os.listdir(result_path)) > 0:
-        shutil.make_archive(result_path, 'zip', result_path)
-        output_stream = BytesIO()
-        with open(str(result_path) + '.zip', 'rb') as res:
-            content = res.read()
-        output_stream.write(content)
-        response = Response(output_stream.getvalue(), mimetype='application/zip',
-                                    headers={"Content-disposition": "attachment; filename=" + rand_name + '.zip'})
-        output_stream.seek(0)
-        output_stream.truncate(0)
-        return response
-    else:
-        os.remove(result_path)
+    response = create_zip_and_response(result_path, rand_name)
+    return response
 
     render_template('entites_nommees.html', erreur=erreur)
         
@@ -1762,8 +1745,7 @@ def quotation():
         return Response(json.dumps(response), status=400, mimetype='application/json')
 
     rand_name = generate_rand_name('quotation_')
-    result_path = os.path.join(os.getcwd(), rand_name)
-    os.makedirs(result_path, exist_ok=True)
+    result_path = create_named_directory(rand_name)
 
     for f in files:
         try:
@@ -1834,8 +1816,7 @@ def analyze_linguistic():
     r = int(request.form.get('r', 5)) 
 
     rand_name = generate_rand_name('linguistic_')
-    result_path = os.path.join(os.getcwd(), rand_name)
-    os.makedirs(result_path, exist_ok=True)
+    result_path = create_named_directory(rand_name)
 
     for f in files:
         try:
@@ -2028,8 +2009,7 @@ def analyze_statistic():
     target_word = str(request.form.get('target_word'))
 
     rand_name = generate_rand_name('statistics_')
-    result_path = os.path.join(os.getcwd(), rand_name)
-    os.makedirs(result_path, exist_ok=True)
+    result_path = create_named_directory(rand_name)
 
     for f in files:
         try:
@@ -2261,8 +2241,7 @@ def analyze_lexicale():
     # Create result directory with error handling
     try:
         rand_name = generate_rand_name('lexicale_')
-        result_path = os.path.join(os.getcwd(), rand_name)
-        os.makedirs(result_path, exist_ok=True)
+        result_path = create_named_directory(rand_name)
     except Exception as e:
         return Response(json.dumps({"error": f"Failed to create result directory: {str(e)}"}), 
                        status=500, mimetype='application/json')
@@ -2416,8 +2395,7 @@ def analyze_text():
 
 
     rand_name = generate_rand_name('textanalysis_')
-    result_path = os.path.join(os.getcwd(), rand_name)
-    os.makedirs(result_path, exist_ok=True)
+    result_path = create_named_directory(rand_name)
 
     
     if analysis_type == 'subjectivity_detection':
@@ -2671,8 +2649,7 @@ def compare():
         text1 = read_file(file_paths[0])
         text2 = read_file(file_paths[1])
         rand_name = generate_rand_name('comparison_')
-        result_path = os.path.join(os.getcwd(), rand_name)
-        os.makedirs(result_path, exist_ok=True)
+        result_path = create_named_directory(rand_name)
         
         output_file = os.path.join(result_path, 'comparison.html')
         compare_texts(text1, text2, output_file)
@@ -2720,8 +2697,7 @@ def embedding_tool():
     model_glove = get_glove_model()
 
     rand_name = generate_rand_name('embedding_')
-    result_path = os.path.join(os.getcwd(), rand_name)
-    os.makedirs(result_path, exist_ok=True)
+    result_path = create_named_directory(rand_name)
 
     try:
         if analysis_type == 'similarity':
@@ -3087,8 +3063,7 @@ def extract_gallica():
 
     # Prépare le dossier résultat
     rand_name =  generate_rand_name('corpus_gallica_')
-    result_path = ROOT_FOLDER / os.path.join(UPLOAD_FOLDER, rand_name)
-    os.mkdir(result_path)
+    result_path = create_named_directory(rand_name)
 
     
     for arkEntry in arks_list:
@@ -3164,21 +3139,8 @@ def extract_gallica():
             report.write("{} documents ont bien été téléchargés.\n".format(res))
             report.write(res_ok)
 
-    # ZIP le dossier résultat
-    if len(os.listdir(result_path)) > 0:
-        shutil.make_archive(result_path, 'zip', result_path)
-        output_stream = BytesIO()
-        with open(str(result_path) + '.zip', 'rb') as res:
-            content = res.read()
-        output_stream.write(content)
-        response = Response(output_stream.getvalue(), mimetype='application/zip',
-                                    headers={"Content-disposition": "attachment; filename=" + rand_name + '.zip'})
-        output_stream.seek(0)
-        output_stream.truncate(0)
-        return response
-        
-    else:
-        os.remove(result_path)
+    response = create_zip_and_response(result_path, rand_name)
+    return response
 
     return render_template('extraction_gallica', form=form)
 
@@ -3208,8 +3170,7 @@ def normalisation_graphies():
         return Response(json.dumps(response), status=400, mimetype='application/json')
 
     rand_name = generate_rand_name('normgraph_')
-    result_path = os.path.join(os.getcwd(), rand_name)
-    os.makedirs(result_path, exist_ok=True)
+    result_path = create_named_directory(rand_name)
 
     for f in files:
         try:
@@ -3250,8 +3211,7 @@ def autocorrect():
         contextualSpellCheck.add_to_pipe(nlp)
 
     rand_name = generate_rand_name('autocorrected_')
-    result_path = os.path.join(os.getcwd(), rand_name)
-    os.makedirs(result_path, exist_ok=True)
+    result_path = create_named_directory(rand_name)
 
     for f in files:
         try:
