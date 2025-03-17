@@ -2984,19 +2984,8 @@ def corpus_from_url():
 
 
         # ZIP le dossier résultat
-        if len(os.listdir(result_path)) > 0:
-            shutil.make_archive(result_path, 'zip', result_path)
-            output_stream = BytesIO()
-            with open(str(result_path) + '.zip', 'rb') as res:
-                content = res.read()
-            output_stream.write(content)
-            response = Response(output_stream.getvalue(), mimetype='application/zip',
-                                    headers={"Content-disposition": "attachment; filename=" + rand_name + '.zip'})
-            output_stream.seek(0)
-            output_stream.truncate(0)
-            return response
-        else:
-            os.remove(result_path)
+        response = create_zip_and_response(result_path, rand_name)
+        return response
 
     return render_template('collecter_corpus.html')
 
