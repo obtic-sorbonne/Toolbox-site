@@ -3230,62 +3230,6 @@ def autocorrect():
 
     return Response(json.dumps({"error": "Une erreur est survenue dans le traitement des fichiers."}), status=500, mimetype='application/json')
 
-
-"""
-def autocorrect():
-    if request.method == 'POST':
-        uploaded_files = request.files.getlist("uploaded_files")
-
-        # Initialisation du correcteur
-        modelpath = str(ROOT_FOLDER / os.path.join(app.config['MODEL_FOLDER'], 'fr.bin'))
-        jsp = jamspell.TSpellCorrector()
-        assert jsp.LoadLangModel(modelpath) # modèle de langue
-
-        # Nom de dossier aléatoire pour le résultat de la requête
-        rand_name =  'autocorrect_' + ''.join((random.choice(string.ascii_lowercase) for x in range(5)))
-        result_path = ROOT_FOLDER / os.path.join(app.config['UPLOAD_FOLDER'], rand_name)
-        os.mkdir(result_path)
-        print(result_path)
-
-        for f in uploaded_files:
-            filename, file_extension = os.path.splitext(f.filename)
-            output_name = filename + '_OK.txt'             # Texte corrigé
-            #tabfile_name = filename + '_corrections.tsv'   # Liste des corrections
-
-            byte_str = f.read()
-            f.close()
-
-            # Prétraitements du texte d'entrée
-            texte = byte_str.decode('UTF-8')
-            texte = re.sub(" +", " ", texte) # Suppression espaces multiples
-            texte = texte.replace("'", "’") # Guillemet français
-            phrases = sentencizer(texte)
-
-            with open(ROOT_FOLDER / os.path.join(result_path, output_name), 'a+', encoding="utf-8") as out:
-                for sent in phrases:
-                    correction = jsp.FixFragment(sent)
-                    out.write(correction)
-
-        # ZIP le dossier résultat
-        shutil.make_archive(result_path, 'zip', result_path)
-        output_stream = BytesIO()
-        with open(str(result_path) + '.zip', 'rb') as res:
-            content = res.read()
-        output_stream.write(content)
-        response = Response(output_stream.getvalue(), mimetype='application/zip',
-                                headers={"Content-disposition": "attachment; filename=" + rand_name + '.zip'})
-        output_stream.seek(0)
-        output_stream.truncate(0)
-
-        # Nettoie le dossier de travail
-        shutil.rmtree(result_path)
-
-        return response
-
-    return render_template('/correction_erreur.html')
-
-"""
-
 #-----------------------------------------------------------------
 # Génération de texte
 #-----------------------------------------------------------------
