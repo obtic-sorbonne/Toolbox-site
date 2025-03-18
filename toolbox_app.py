@@ -1799,6 +1799,64 @@ def generate_ngrams(input_text, n, r):
     most_frequent_ngrams = n_grams_counts.most_common(r)
     return most_frequent_ngrams
 
+def write_to_file(filepath, content):
+    with open(filepath, 'w', encoding='utf-8') as out:
+        out.write(content)
+
+def analyze_hapax(filename, result_path, hapaxes_list):
+    output_name = filename + '_hapaxes.txt'
+    write_to_file(os.path.join(result_path, output_name), "The hapaxes are: " + ", ".join(hapaxes_list))
+
+def analyze_ngrams(filename, result_path, input_text, n, r):
+    most_frequent_ngrams = generate_ngrams(input_text, n, r)
+    output_name = filename + '_ngrams.txt'
+    with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
+        for n_gram, count in most_frequent_ngrams:
+            out.write(f"{n}-gram: {' '.join(n_gram)} --> Count: {count}\n")
+
+def analyze_dependency(filename, result_path, input_text, nlp_eng):
+    doc = nlp_eng(input_text)
+    syntax_info = "\n".join(
+        [f"{token.text} ({token.pos_}) <--{token.dep_} ({spacy.explain(token.dep_)})-- {token.head.text} ({token.head.pos_})"
+         for token in doc]
+    )
+    # Write dependency parsing text
+    output_name_text = filename + '_syntax.txt'
+    write_to_file(os.path.join(result_path, output_name_text), syntax_info)
+
+    # Write SVG visualization
+    svg = displacy.render(doc, style='dep', jupyter=False)
+    output_name_svg = filename + '_syntax.svg'
+    write_to_file(os.path.join(result_path, output_name_svg), svg)
+
+def analyze_combined(filename, result_path, analysis_type, hapaxes_list, detected_languages_str, input_text, n, r, nlp_eng):
+    content = ""
+    if 'lang' in analysis_type:
+        content += f"Detected languages:\n{detected_languages_str}\n\n"
+    if 'hapax' in analysis_type:
+        content += "The hapaxes are: " + ", ".join(hapaxes_list) + "\n\n"
+    if 'ngrams' in analysis_type:
+        most_frequent_ngrams = generate_ngrams(input_text, n, r)
+        for n_gram, count in most_frequent_ngrams:
+            content += f"{n}-gram: {' '.join(n_gram)} --> Count: {count}\n"
+        content += "\n\n"
+    if 'dependency' in analysis_type:
+        doc = nlp_eng(input_text)
+        syntax_info = "\n".join(
+            [f"{token.text} ({token.pos_}) <--{token.dep_} ({spacy.explain(token.dep_)})-- {token.head.text} ({token.head.pos_})"
+             for token in doc]
+        )
+        content += syntax_info
+        # Write SVG visualization
+        svg = displacy.render(doc, style='dep', jupyter=False)
+        output_name_svg = filename + '_syntax.svg'
+        write_to_file(os.path.join(result_path, output_name_svg), svg)
+    
+    # Write combined content
+    output_name = filename + f'_{analysis_type}.txt'
+    write_to_file(os.path.join(result_path, output_name), content)
+
+
 @app.route('/analyze_linguistic', methods=['POST'])
 def analyze_linguistic():
     if 'files' not in request.files:
@@ -1815,6 +1873,8 @@ def analyze_linguistic():
     n = int(request.form.get('n', 2))  # Default n-gram length to 2 if not provided
     r = int(request.form.get('r', 5)) 
 
+    nlp_eng = spacy.load('en_core_web_sm')
+
     rand_name = generate_rand_name('linguistic_')
     result_path = create_named_directory(rand_name)
 
@@ -1828,160 +1888,14 @@ def analyze_linguistic():
             filename, file_extension = os.path.splitext(f.filename)
 
             if analysis_type == 'hapax':
-                output_name = filename + '_hapaxes.txt'
-                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-                    out.write("The hapaxes are: " + ", ".join(hapaxes_list))
-            
+                analyze_hapax(filename, result_path, hapaxes_list)
             elif analysis_type == 'n_gram':
-                most_frequent_ngrams = generate_ngrams(input_text, n, r)
-                output_name = filename + '_ngrams.txt'
-                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-                    for n_gram, count in most_frequent_ngrams:
-                        out.write(f"{n}-gram: {' '.join(n_gram)} --> Count: {count}\n")
-            
-            elif analysis_type == 'detect_lang':
-                output_name = filename + '_detected_languages.txt'
-                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-                    out.write(f"Detected languages:\n{detected_languages_str}\n")
-            
+                analyze_ngrams(filename, result_path, input_text, n, r)
             elif analysis_type == 'dependency':
-                # Dependency parsing
-                doc = nlp_eng(input_text)
-                syntax_info = "\n".join([f"{token.text} ({token.pos_}) <--{token.dep_} ({spacy.explain(token.dep_)})-- {token.head.text} ({token.head.pos_})" for token in doc])
-                output_name_text = filename + '_syntax.txt'
-                with open(os.path.join(result_path, output_name_text), 'w', encoding='utf-8') as out:
-                    out.write(syntax_info)
+                analyze_dependency(filename, result_path, input_text, nlp_eng)
+            else:
+                analyze_combined(filename, result_path, analysis_type, hapaxes_list, detected_languages_str, input_text, n, r, nlp_eng)
 
-                # Visualization with displacy
-                svg = displacy.render(doc, style='dep', jupyter=False)
-                output_name_svg = filename + '_syntax.svg'
-                with open(os.path.join(result_path, output_name_svg), 'w', encoding='utf-8') as out:
-                    out.write(svg)
-            
-            elif analysis_type == "lang_hapax":
-                output_name = filename + '_lang_hapax.txt'
-                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-                    out.write(f"Detected languages:\n{detected_languages_str}\n\n")
-                    out.write("The hapaxes are: " + ", ".join(hapaxes_list))
-            
-            elif analysis_type == "lang_ngrams":
-                most_frequent_ngrams = generate_ngrams(input_text, n, r)
-                output_name = filename + '_lang_ngrams.txt'
-                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-                    out.write(f"Detected languages:\n{detected_languages_str}\n\n")
-                    for n_gram, count in most_frequent_ngrams:
-                        out.write(f"{n}-gram: {' '.join(n_gram)} --> Count: {count}\n")
-            
-            elif analysis_type == "lang_dependency":
-                output_name = filename + '_lang_dependency.txt'
-                doc = nlp_eng(input_text)
-                syntax_info = "\n".join([f"{token.text} ({token.pos_}) <--{token.dep_} ({spacy.explain(token.dep_)})-- {token.head.text} ({token.head.pos_})" for token in doc])
-                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-                    out.write(f"Detected languages:\n{detected_languages_str}\n\n")
-                    out.write(syntax_info)
-
-                # Visualization with displacy
-                svg = displacy.render(doc, style='dep', jupyter=False)
-                output_name_svg = filename + '_syntax.svg'
-                with open(os.path.join(result_path, output_name_svg), 'w', encoding='utf-8') as out:
-                    out.write(svg)
-            
-            elif analysis_type == 'hapax_ngrams':
-                most_frequent_ngrams = generate_ngrams(input_text, n, r)
-                output_name = filename + '_hapax_ngrams.txt'
-                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-                    out.write("The hapaxes are: " + ", ".join(hapaxes_list) + "\n\n")
-                    for n_gram, count in most_frequent_ngrams:
-                        out.write(f"{n}-gram: {' '.join(n_gram)} --> Count: {count}\n")
-            
-            elif analysis_type == "hapax_dependency":
-                output_name = filename + '_hapax_dependency.txt'
-                doc = nlp_eng(input_text)
-                syntax_info = "\n".join([f"{token.text} ({token.pos_}) <--{token.dep_} ({spacy.explain(token.dep_)})-- {token.head.text} ({token.head.pos_})" for token in doc])
-                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-                    out.write("The hapaxes are: " + ", ".join(hapaxes_list)+"\n\n")
-                    out.write(syntax_info)
-
-                # Visualization with displacy
-                svg = displacy.render(doc, style='dep', jupyter=False)
-                output_name_svg = filename + '_syntax.svg'
-                with open(os.path.join(result_path, output_name_svg), 'w', encoding='utf-8') as out:
-                    out.write(svg)
-            
-            elif analysis_type == "ngrams_dependency":
-                most_frequent_ngrams = generate_ngrams(input_text, n, r)
-                output_name = filename + '_ngrams_dependency.txt'
-                doc = nlp_eng(input_text)
-                syntax_info = "\n".join([f"{token.text} ({token.pos_}) <--{token.dep_} ({spacy.explain(token.dep_)})-- {token.head.text} ({token.head.pos_})" for token in doc])
-                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-                    for n_gram, count in most_frequent_ngrams:
-                        out.write(f"{n}-gram: {' '.join(n_gram)} --> Count: {count}\n")
-                    out.write("\n\n" + syntax_info)
-
-                # Visualization with displacy
-                svg = displacy.render(doc, style='dep', jupyter=False)
-                output_name_svg = filename + '_syntax.svg'
-                with open(os.path.join(result_path, output_name_svg), 'w', encoding='utf-8') as out:
-                    out.write(svg)
-            
-            elif analysis_type == "lang_hapax_ngrams":
-                most_frequent_ngrams = generate_ngrams(input_text, n, r)
-                output_name = filename + '_lang_hapax_ngrams.txt'
-                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-                    out.write(f"Detected languages:\n{detected_languages_str}\n\n")
-                    out.write("The hapaxes are: " + ", ".join(hapaxes_list)+"\n\n")
-                    for n_gram, count in most_frequent_ngrams:
-                        out.write(f"{n}-gram: {' '.join(n_gram)} --> Count: {count}\n")
-            
-            elif analysis_type == "lang_hapax_dependency":
-                output_name = filename + '_lang_hapax_dependency.txt'
-                doc = nlp_eng(input_text)
-                syntax_info = "\n".join([f"{token.text} ({token.pos_}) <--{token.dep_} ({spacy.explain(token.dep_)})-- {token.head.text} ({token.head.pos_})" for token in doc])
-                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-                    out.write(f"Detected languages:\n{detected_languages_str}\n\n")
-                    out.write("The hapaxes are: " + ", ".join(hapaxes_list)+"\n\n")
-                    out.write(syntax_info)
-
-                # Visualization with displacy
-                svg = displacy.render(doc, style='dep', jupyter=False)
-                output_name_svg = filename + '_syntax.svg'
-                with open(os.path.join(result_path, output_name_svg), 'w', encoding='utf-8') as out:
-                    out.write(svg)
-            
-            elif analysis_type == "hapax_ngrams_dependency":
-                most_frequent_ngrams = generate_ngrams(input_text, n, r)
-                output_name = filename + '_hapax_ngrams_dependency.txt'
-                doc = nlp_eng(input_text)
-                syntax_info = "\n".join([f"{token.text} ({token.pos_}) <--{token.dep_} ({spacy.explain(token.dep_)})-- {token.head.text} ({token.head.pos_})" for token in doc])
-                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-                    out.write("The hapaxes are: " + ", ".join(hapaxes_list)+"\n\n")
-                    for n_gram, count in most_frequent_ngrams:
-                        out.write(f"{n}-gram: {' '.join(n_gram)} --> Count: {count}\n")
-                    out.write("\n\n"+syntax_info)
-
-                # Visualization with displacy
-                svg = displacy.render(doc, style='dep', jupyter=False)
-                output_name_svg = filename + '_syntax.svg'
-                with open(os.path.join(result_path, output_name_svg), 'w', encoding='utf-8') as out:
-                    out.write(svg)
-            
-            elif analysis_type == "lang_hapax_ngrams_dependency":
-                most_frequent_ngrams = generate_ngrams(input_text, n, r)
-                output_name = filename + '_lang_hapax_ngrams_dependency.txt'
-                doc = nlp_eng(input_text)
-                syntax_info = "\n".join([f"{token.text} ({token.pos_}) <--{token.dep_} ({spacy.explain(token.dep_)})-- {token.head.text} ({token.head.pos_})" for token in doc])
-                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-                    out.write(f"Detected languages:\n{detected_languages_str}\n\n")
-                    out.write("The hapaxes are: " + ", ".join(hapaxes_list)+"\n\n")
-                    for n_gram, count in most_frequent_ngrams:
-                        out.write(f"{n}-gram: {' '.join(n_gram)} --> Count: {count}\n")
-                    out.write("\n\n"+syntax_info)
-
-                # Visualization with displacy
-                svg = displacy.render(doc, style='dep', jupyter=False)
-                output_name_svg = filename + '_syntax.svg'
-                with open(os.path.join(result_path, output_name_svg), 'w', encoding='utf-8') as out:
-                    out.write(svg)
 
         finally:
             f.close()
