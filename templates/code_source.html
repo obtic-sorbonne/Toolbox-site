@@ -3,46 +3,59 @@
 {% block content %}
 
 <style>
-.list-item {
-    list-style: none;
-    padding: 0;
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  font-size: 18px;
+  font-family: Arial, sans-serif;
+  text-align: left;
 }
 
-.item-list {
-    list-style: none;
-    padding: 0;
-    margin-bottom: 2em;
+thead tr {
+  background-color: #26458A; /* Bleu foncé */
 }
 
-.item-list li {
-    margin: 10px;
-    display: flex;
-    align-items: center;
+th {
+  color: #F39508; /* Orange vif */
+  padding: 12px 15px;
+  border: 1px solid #F39508; /* Ligne orange */
 }
 
-.item-list img {
-    max-width: 130px; /* Ajustez la largeur maximale de l'image selon vos besoins */
-    height: auto;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    margin-right: 30px; /* Ajoute un espace entre l'image et le texte */
+td {
+  background-color: #ffffff; /* Fond blanc */
+  color: #26458A; /* Texte noir */
+  padding: 12px 15px;
+  border: 1px solid #F39508; /* Ligne orange */
 }
 
-.item-list p {
-    margin: 5px 0 0;
-}
-.item-list li:hover {
-    color:#f2a800;
-  cursor: pointer;
+td:nth-child(1) {
+  width: 35%; /* Ajustement de la largeur de la colonne "Tache" */
 }
 
-.item-list a:hover {
-    color:#f2a800;
-  cursor: pointer;
+td:nth-child(2) {
+  width: 25%; /* Ajustement de la largeur de la colonne "Outil" */
 }
 
-.item-list a {
-    color:#263e8d;
+td:nth-child(3) {
+  width: 25%; /* Ajustement de la largeur de la colonne "Type" */
+}
+
+td:nth-child(4) {
+  width: 15%; /* Ajustement de la largeur de la colonne "Lien" */
+}
+
+tbody tr:nth-child(even) {
+  background-color: #F7D8B5; /* Couleur douce inspirée de l'orange */
+}
+
+a {
+  color: #26458A; /* Bleu foncé */
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
 }
 
 </style>
@@ -55,48 +68,164 @@
   <h3></h3>
 
   <div id="summary">
-    <ul class="list-item">
-        <li style="font-weight: bold;">{{ _('Reconnaissance automatique de texte (ATR)') }}</li>
-        <ul class="item-list" style="margin-left: 3em;">
-            <li>Tesseract &nbsp <a href="https://github.com/tesseract-ocr/tessdoc" target="_blank"><i class="fa-brands fa-github"></i> {{ _('Code source') }}</a></li>
-            <li>eScriptorium &nbsp <a href="https://gitlab.com/scripta/escriptorium"><i class="fa-brands fa-gitlab"></i> {{ _('Code source') }}</a></li>
-            <li>Transkribus &nbsp <a href="https://www.transkribus.org/">Site web</a></li>
-        </ul>
-        <li style="font-weight: bold;">{{ _('Conversion de formats') }}</li>
-        <ul class="item-list" style="margin-left: 3em;">
-            <li>Teinte &nbsp <a href="https://github.com/OBVIL/teinte_obtic" target="_blank"><i class="fa-brands fa-github"></i> {{ _('Code source') }}</a></li>
-        </ul>
-        <li style="font-weight: bold;">{{ _("Tâches d'annotation automatique") }}</li>
-        <ul class="item-list" style="margin-left: 3em;">
-            <li>Étiquetages morphosyntaxiques &nbsp <a href="https://github.com/YoannDupont/SEM" target="_blank"><i class="fa-brands fa-github"></i> {{ _('Code source') }}</a></li>
-            <li>Textolab &nbsp <a href="https://github.com/obtic-sorbonne/Textolab/tree/dev" target="_blank"><i class="fa-brands fa-github"></i> {{ _('Code source') }}</a></li>
-        </ul>
-        <li style="font-weight: bold;">{{ _("Extraction d'information") }}</li>
-        <ul class="item-list" style="margin-left: 3em;">
-            <li>Extraction de mots-clés &nbsp <a href="https://github.com/MaartenGr/KeyBERT" target="_blank"><i class="fa-brands fa-github"></i> {{ _('Code source') }}</a></li>
-            <li>Summarizer &nbsp <a href="https://github.com/obtic-sorbonne/Summarization" target="_blank"><i class="fa-brands fa-github"></i> {{ _('Code source') }}</a></li>
-        </ul>
-        <li style="font-weight: bold;">Visualisation</li>
-        <ul class="item-list" style="margin-left: 3em;">
-            <li>Tanagra &nbsp <a href="https://github.com/obtic-sorbonne/Tanagra" target="_blank"><i class="fa-brands fa-github"></i> {{ _('Code source') }}</a></li>
-            <li>Renard &nbsp <a href="https://compnet.github.io/Renard/introduction.html" target="_blank"><i class="fa-brands fa-github"></i> {{ _('Code source') }}</a></li>
-            <li>Minerva &nbsp <a href="https://github.com/YoannDupont/minerva" target="_blank"><i class="fa-brands fa-github"></i> {{ _('Code source') }}</a></li>
-        </ul>
-        <li style="font-weight: bold;">{{ _('Collecte de corpus') }}</li>
-        <ul class="item-list" style="margin-left: 3em;">
-            <li>Wikisource &nbsp <a href="https://fr.wikisource.org/wiki/Wikisource:Accueil">Site web</a></li>
-            <li>Gallica &nbsp <a href="https://gallica.bnf.fr/">Site web</a></li>
-        </ul>
-        <li style="font-weight: bold;">{{ _('Correction textuelle') }}</li>
-        <ul class="item-list" style="margin-left: 3em;">
-            <li>Correction d’erreur &nbsp <a href="https://github.com/bakwc/JamSpell" target="_blank"><i class="fa-brands fa-github"></i> {{ _('Code source') }}</a></li>
-            <li>Normalisa &nbsp <a href="https://github.com/ljpetkovic/Normalisa/tree/dev" target="_blank"><i class="fa-brands fa-github"></i> {{ _('Code source') }}</a></li>
-        </ul>
-        <li style="font-weight: bold;">{{ _('Chaînes de traitement') }}</li>
-        <ul class="item-list" style="margin-left: 3em;">
-            <li>Épiméthée &nbsp <a href="https://github.com/These-SCAI2023/EPIMETHEE" target="_blank"><i class="fa-brands fa-github"></i> {{ _('Code source') }}</a></li>
-        </ul>
-    </ul>
+    <table>
+  <thead>
+    <tr>
+      <th>Tâche</th>
+      <th>Outil</th>
+      <th>Type</th>
+      <th>Lien</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td rowspan="3">Reconnaissance automatique de texte (ATR)</td>
+      <td>Tesseract</td>
+      <td>GitHub</td>
+      <td><a href="https://github.com/tesseract-ocr/tessdoc" target="_blank">Lien</a></td>
+    </tr>
+    <tr>
+      <td>Whisper</td>
+      <td>Site web</td>
+      <td><a href="https://openai.com/index/whisper/" target="_blank">Lien</a></td>
+    </tr>
+    <tr>
+      <td>eScriptorium</td>
+      <td>Instance ObTIC</td>
+      <td><a href="https://obtic-gpu1.mesu.sorbonne-universite.fr:8501/" target="_blank">Lien</a></td>
+    </tr>
+    <tr>
+      <td rowspan="3">Prétraitement</td>
+      <td>Natural Language Tool Kit (NTLK)</td>
+      <td>Site web</td>
+      <td><a href="https://www.nltk.org/" target="_blank">Lien</a></td>
+    </tr>
+    <tr>
+      <td>SpaCy</td>
+      <td>Site web</td>
+      <td><a href="https://spacy.io/" target="_blank">Lien</a></td>
+    </tr>
+    <tr>
+      <td>Python</td>
+      <td>Site web</td>
+      <td><a href="https://www.python.org/" target="_blank">Lien</a></td>
+    </tr>
+    <tr>
+      <td rowspan="2">Conversion de formats</td>
+      <td>TEI</td>
+      <td>Site web</td>
+      <td><a href="https://tei-c.org/release/doc/tei-p5-doc/en/html/index.html" target="_blank">Lien</a></td>
+    </tr>
+    <tr><td>Teinte</td>
+      <td>GitHub</td>
+      <td><a href="https://github.com/OBVIL/teinte_obtic" target="_blank">Lien</a></td>
+  </tr>
+    <tr>
+      <td rowspan="4">Tâches d'annotation automatique</td>
+      <td>Flair</td>
+      <td>GitHub</td>
+      <td><a href="https://github.com/flairNLP/flair" target="_blank">Lien</a></td>
+    </tr>
+    <tr>
+      <td>SpaCy</td>
+      <td>Site web</td>
+      <td><a href="https://spacy.io/" target="_blank">Lien</a></td>
+    </tr>
+    <tr>
+      <td>BERT</td>
+      <td>Site web</td>
+      <td><a href="https://huggingface.co/google-bert" target="_blank">Lien</a></td>
+    </tr>
+    <tr>
+      <td>Textolab</td>
+      <td>GitHub</td>
+      <td><a href="https://github.com/obtic-sorbonne/Textolab/tree/dev" target="_blank">Lien</a></td>
+    </tr>
+    <tr>
+      <td rowspan="2">Extraction d'information</td>
+      <td>KeyBERT</td>
+      <td>GitHub</td>
+      <td><a href="https://github.com/MaartenGr/KeyBERT" target="_blank">Lien</a></td>
+    </tr>
+    <tr>
+      <td>Regex</td>
+      <td>Site web</td>
+      <td><a href="https://regex101.com/" target="_blank">Lien</a></td>
+  </tr>
+  <tr>
+      <td>Analyses</td>
+      <td></td>
+      <td></td>
+      <td><a href="" target="_blank">Lien</a></td>
+    </tr>
+     <tr>
+      <td rowspan="2">Visualisation</td>
+      <td>Ariane</td>
+      <td>Site web</td>
+      <td><a href="https://obtic.huma-num.fr/ariane/" target="_blank">Lien</a></td>
+    </tr>
+    <tr>
+      <td>Gallica-Obvie</td>
+      <td>Site web</td>
+      <td><a href="https://obtic.huma-num.fr/gallica-obvie/" target="_blank">Lien</a></td>
+    </tr>
+    <tr>
+      <td rowspan="4">Visualisation</td>
+      <td>Tanagra v1</td>
+      <td>Instance</td>
+      <td><a href="https://obtic.sorbonne-universite.fr/tanagra/map" target="_blank">Lien</a></td>
+    </tr>
+    <tr>
+      <td>Tanagra v2</td>
+      <td>GitHub</td>
+      <td><a href="https://github.com/obtic-sorbonne/Tanagra2/blob/main/Tanagra.ipynb" target="_blank">Lien</a></td>
+    </tr>
+    <tr>
+      <td>Renard</td>
+      <td>GitHub</td>
+      <td><a href="https://compnet.github.io/Renard/introduction.html" target="_blank">Lien</a></td>
+    </tr>
+    <tr>
+      <td>Minerva</td>
+      <td>GitHub</td>
+      <td><a href="https://github.com/YoannDupont/minerva" target="_blank">Lien</a></td>
+    </tr>
+    <tr>
+      <td rowspan="2">Collecte de corpus</td>
+      <td>Wikisource</td>
+      <td>Site web</td>
+      <td><a href="https://fr.wikisource.org/wiki/Wikisource:Accueil" target="_blank">Lien</a></td>
+    </tr>
+    <tr>
+      <td>Gallica</td>
+      <td>Site web</td>
+      <td><a href="https://gallica.bnf.fr/" target="_blank">Lien</a></td>
+    </tr>
+    <tr>
+      <td rowspan="2">Correction textuelle</td>
+      <td>ContextualSpellCheck</td>
+      <td>Site Web</td>
+      <td><a href="https://spacy.io/universe/project/contextualSpellCheck" target="_blank">Lien</a></td>
+    </tr>
+    <tr>
+      <td>Modernisation</td>
+      <td>GitHub</td>
+      <td><a href="https://github.com/obtic-sorbonne/Modernisation" target="_blank">Lien</a></td>
+    </tr>
+    <tr>
+      <td>Chaînes de traitement</td>
+      <td>Épiméthée</td>
+      <td>GitHub</td>
+      <td><a href="https://github.com/These-SCAI2023/EPIMETHEE" target="_blank">Lien</a></td>
+    </tr>
+    <tr>
+      <td>Génération de texte</td>
+      <td>Summarizer</td>
+      <td>GitHub</td>
+      <td><a href="https://github.com/obtic-sorbonne/Summarization" target="_blank">Lien</a></td>
+    </tr>
+  </tbody>
+</table>
   </div>
 </div>
 {% endblock %}
