@@ -3,40 +3,126 @@
 {% block content %}
 
 <style>
-.item-list {
-    list-style: none;
-    padding: 0;
+.outil li {
+    margin-left: 3em;
 }
 
-.item-list li {
-    margin: 10px;
-    display: flex;
-    align-items: center;
+.outil strong {
+    color: #f2a800;
 }
 
-.item-list img {
-    max-width: 130px; /* Ajustez la largeur maximale de l'image selon vos besoins */
-    height: auto;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    margin-right: 30px; /* Ajoute un espace entre l'image et le texte */
+.outil h4{
+  font-family: 'Roboto', sans-serif;
+  font-size:1.2em;
+  margin:28px 0;
+  border-left: 5px solid #f2a800;
+  color: #263e8d;
+  padding:10px;
 }
-
-.item-list p {
-    margin: 5px 0 0;
-}
-.item-list li:hover {
-    color:#f2a800;
-	cursor: pointer;
-}
-
 </style>
 
 <div class="outil">
-	<div class="doc-intro">
-	<h2 style="font-family:'Comprehension', serif;">Prétraitement</h2>
-	<p>Documentation à venir</p>
-	</div>
+	 <div class="fil"> </div>
+    <div class="tool-box">
+        <h2>Nettoyage de texte</h2>
+        <p>
+            Dans le traitement automatique du langage naturel (NLP), plusieurs techniques de prétraitement du texte permettent de simplifier et d’homogénéiser les données textuelles, facilitant ainsi leur analyse et leur exploitation par des algorithmes.
+        </p>
+        <h4>La ponctuation</h4>
+        <p>
+            Tout d'abord, la <strong>ponctuation</strong>, constituée de symboles comme les points, les virgules ou les points d'interrogation, joue un rôle essentiel dans la structuration et la clarté des phrases. Cependant, dans certaines tâches de traitement, la ponctuation peut être supprimée pour simplifier les données et réduire les variations inutiles. Cette étape est particulièrement utile dans des applications telles que l'analyse statistique, la classification ou la création de modèles d'apprentissage automatique, car elle permet de se concentrer sur les éléments de contenu significatifs.
+        </p>
+        <h4>Les mots-vides ou stopwords</h4>
+        <p>
+            Ensuite, la <strong>suppression des mots à haute fréquence</strong>, ou mots vides ("stop words"), comme "le", "de", "à", "the" ou "a", est une autre technique couramment utilisée. Ces mots, bien qu’indispensables à la construction grammaticale, apportent peu de valeur sémantique et risquent d’alourdir les analyses. En les éliminant, on peut non seulement simplifier les représentations textuelles, mais aussi optimiser la taille des structures de données telles que les index inversés, utilisés pour des tâches comme la recherche d’information. Cela permet de focaliser les efforts de traitement sur les termes porteurs de sens et d’améliorer la pertinence des résultats.
+        </p>
+        <h4>La mise en minuscule</h4>
+        <p>
+            Enfin, la <strong>mise en minuscule</strong>, ou "case folding", consiste à convertir toutes les lettres d’un texte en minuscules. Cette méthode élimine les distinctions de casse, par exemple entre "Paris", "paris" et "PARIS", pour les traiter comme un seul et même mot. Cela uniformise le texte, simplifie les comparaisons et est particulièrement utile dans les tâches de recherche ou d’analyse où la différence entre majuscules et minuscules n’a pas d’impact sur le sens.
+        </p>
+        <p>
+            En appliquant ces trois techniques de manière combinée, on obtient des données plus cohérentes, uniformes et prêtes à être traitées efficacement par les algorithmes de NLP, ce qui améliore globalement la qualité et l’efficacité des analyses.
+        </p>
+
+        <h2>Normalisation de texte</h2>
+        <p>
+            La normalisation de texte est un processus essentiel dans le traitement automatique du langage naturel (NLP), visant à convertir les données textuelles en une forme standardisée et plus pratique pour l’analyse. Elle joue un rôle fondamental dans de nombreuses tâches, en facilitant l’uniformisation et la structuration des textes. Voici une exploration détaillée des différentes étapes et techniques impliquées dans la normalisation de texte.
+        </p>
+
+        <h4>Qu’est-ce que la normalisation de texte ?</h4>
+        <p>
+            La <strong>normalisation de texte</strong> consiste à transformer un texte brut en une forme standard qui simplifie son traitement et son analyse par des systèmes automatisés. Cela peut inclure des étapes comme la séparation des mots, l’uniformisation des formats (comme la mise en minuscule), ou encore la réduction des variations lexicales. Les expressions régulières jouent souvent un rôle clé dans ces opérations pour identifier et manipuler les structures textuelles.
+        </p>
+
+        <h4>Les principales étapes de la normalisation de texte</h4>
+        <h4>La tokenisation</h4>
+        <p>
+            La <strong>tokenisation</strong> est l'une des premières étapes du traitement de texte. Elle consiste à diviser un texte en unités appelées "tokens", qui peuvent être des mots, des parties de mots ou même des caractères. Bien que les mots en anglais soient généralement séparés par des espaces, cela ne suffit pas toujours. Par exemple, des expressions comme "New York" ou "rock ’n’ roll" peuvent être traitées comme des entités uniques malgré les espaces qu’elles contiennent. À l'inverse, des contractions comme "I’m" doivent être divisées en deux tokens : "I" et "am". La tokenisation est cruciale car la plupart des analyses linguistiques nécessitent des données segmentées de manière cohérente.
+        </p>
+
+        <h4>La lemmatisation</h4>
+        <p>
+            La <strong>lemmatisation</strong> est une autre composante importante de la normalisation, qui vise à réduire les mots à leur forme de base ou "lemme". Cela permet de regrouper différentes formes d’un même mot sous une seule représentation. Par exemple, "sang", "sung" et "sings" sont toutes des variantes du verbe "sing" et seront ramenées à cette forme canonique. La lemmatisation est particulièrement utile pour réduire la complexité lexicale, améliorer la généralisation et obtenir des analyses plus précises dans des tâches comme la recherche ou la classification.
+        </p>
+
+        <h4>Cas particulier : le choix entre versions avec ou sans casse</h4>
+        <p> 
+            La <strong>mise en minuscule</strong>, ou case folding, est une étape simple mais efficace de normalisation. Elle consiste à convertir toutes les lettres d’un texte en minuscules afin d’uniformiser les données. Par exemple, "Woodchuck" et "woodchuck" seront traités de manière identique, ce qui facilite la généralisation dans des tâches comme la recherche d'information ou la reconnaissance vocale.
+            Pour certaines applications, il est courant de proposer les deux options : une version avec casse qui conserve les distinctions entre majuscules et minuscules, et une version sans casse qui applique la mise en minuscule. Ce choix dépend du contexte et des besoins spécifiques de l’analyse.
+        </p>
+
+        <h4>Pourquoi la normalisation de texte est-elle cruciale ?</h4>
+        <p>
+            La normalisation de texte permet de résoudre des incohérences dans les données, d'améliorer la comparabilité entre différents échantillons et de réduire les variations inutiles. Elle constitue un prérequis indispensable pour de nombreuses tâches de NLP, telles que la classification de textes, l'extraction d'information ou encore la traduction automatique. Sans ces étapes de normalisation, les systèmes risquent de produire des résultats incohérents ou moins fiables en raison de la complexité brute des données textuelles.
+        </p>
+        <p>
+            En somme, la normalisation de texte est une fondation indispensable pour garantir l'efficacité et la précision des analyses de langage naturel. En combinant des techniques comme la tokenisation, la mise en minuscule et la lemmatisation, les données deviennent plus homogènes et mieux adaptées aux traitements automatisés. Cela ouvre la voie à des performances optimales pour les modèles linguistiques et les applications basées sur le NLP.
+        </p>
+
+        <h2>Séparation de texte</h2>
+        <p>
+            La <strong>séparation de texte</strong> est une étape clé dans le processus de normalisation, permettant de structurer les données textuelles pour une analyse plus précise et efficace. Elle peut se faire à différents niveaux, notamment par phrases (segmentation en phrases) ou par lignes. Ces techniques jouent un rôle essentiel dans le traitement automatique du langage (NLP) et reposent sur l’utilisation de divers indices textuels.
+        </p>
+
+        <h4>Segmentation par phrases</h4>
+        <p>
+            La <strong>segmentation par phrases</strong> consiste à diviser un texte en unités syntaxiques appelées phrases, en utilisant des indices comme la ponctuation. Cette méthode est cruciale pour de nombreuses applications en NLP, telles que la traduction automatique, la classification ou l’analyse de sentiments. Voici quelques aspects essentiels de ce processus :
+        </p>
+        <ul>
+            <li><strong>Utilisation des marques de ponctuation</strong> : Les points (.), les points d’interrogation (?) et les points d’exclamation (!) sont les indices les plus courants pour marquer les limites des phrases. Les points d’interrogation et d’exclamation sont relativement non ambigus et sont donc des marqueurs clairs de fin de phrase.</li>
+            <li><strong>Ambiguïté des points</strong> : Le caractère "." peut être ambigu, car il peut marquer à la fois une fin de phrase et une abréviation, comme dans "M." (Monsieur) ou "Inc." (Incorporated). Cette ambiguïté est                 coïncide également avec la fin d’une phrase. Par exemple : "La société Tech Inc. a été fondée en 2020." Ici, le point final de "Inc." sert à la fois d’abréviation et de marqueur de fin de phrase.
+            </li>
+        </ul>
+        <p>
+            Pour résoudre cette ambiguïté, la segmentation par phrases est souvent combinée avec la tokenisation des mots, permettant aux algorithmes de mieux interpréter le contexte et de distinguer les usages des points.
+        </p>
+
+        <h4>Séparation par lignes</h4>
+        <p>
+            La <strong>séparation par lignes</strong> consiste à diviser le texte en unités sur la base des sauts de ligne. Contrairement à la segmentation par phrases, elle s’appuie sur la structure visuelle ou formatée du texte, souvent marquée par des retours à la ligne (\n ou \r\n). Cette technique est couramment utilisée dans des contextes où les phrases ne sont pas naturellement délimitées par la ponctuation, comme dans les listes, les poèmes ou certains documents formalisés.
+        </p>
+        <p>Voici quelques cas d’utilisation :</p>
+        <ul>
+            <li>
+                <strong>Analyse de documents structurés</strong> : 
+                Dans des textes comme des CV, des rapports ou des formulaires, la séparation par lignes permet d’identifier distinctement les sections ou les items.
+            </li>
+            <li>
+                <strong>Extraction d’informations</strong> : 
+                Lorsqu’un texte suit une structure hiérarchique (titres, sous-titres, paragraphes), la séparation par lignes aide à segmenter les données en blocs logiques pour une analyse ciblée.
+            </li>
+        </ul>
+
+        <h4>Intégration des deux approches</h4>
+        <p>
+            Dans certains cas, il est pertinent de combiner segmentation par phrases et séparation par lignes. Par exemple, pour analyser des dialogues, un texte brut peut être segmenté par lignes (chaque ligne correspondant à une réplique) puis par phrases au sein de ces répliques. Cela permet de capter à la fois les structures syntaxiques et les délimitations visuelles du texte.
+        </p>
+
+        <h4>Conclusion</h4>
+        <p>
+            La séparation de texte, qu’elle se fasse par phrases ou par lignes, est une étape essentielle pour structurer les données textuelles et améliorer leur exploitation. La segmentation par phrases utilise principalement des indices linguistiques comme la ponctuation, tandis que la séparation par lignes s’appuie davantage sur la structure visuelle. Ces méthodes, seules ou combinées, jouent un rôle fondamental dans diverses tâches de NLP, en rendant les textes plus accessibles et compréhensibles pour les algorithmes. Cela renforce la précision et l’efficacité des analyses, ouvrant ainsi la voie à des traitements automatisés toujours plus performants.
+        </p>
+    </div>
 </div>
 {% endblock %}
 

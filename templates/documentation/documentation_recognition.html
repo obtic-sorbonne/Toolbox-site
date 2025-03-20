@@ -3,41 +3,154 @@
 {% block content %}
 
 <style>
-.item-list {
-    list-style: none;
-    padding: 0;
+.outil li {
+    margin-left: 3em;
 }
 
-.item-list li {
-    margin: 10px;
-    display: flex;
-    align-items: center;
+.outil strong {
+    color: #f2a800;
 }
 
-.item-list img {
-    max-width: 130px; /* Ajustez la largeur maximale de l'image selon vos besoins */
-    height: auto;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    margin-right: 30px; /* Ajoute un espace entre l'image et le texte */
+.outil h4{
+  font-family: 'Roboto', sans-serif;
+  font-size:1.2em;
+  margin:28px 0;
+  border-left: 5px solid #f2a800;
+  color: #263e8d;
+  padding:10px;
 }
 
-.item-list p {
-    margin: 5px 0 0;
-}
-.item-list li:hover {
-    color:#f2a800;
-	cursor: pointer;
-}
 
 </style>
 
 <div class="outil">
-	<div class="doc-intro">
-	<h2 style="font-family:'Comprehension', serif;">Reconnaissance de texte</h2>
-	<p>Documentation à venir</p>
-	</div>
+    <div class="fil"> </div>
+<div class="tool-box">
+        <h2>Reconnaissance automatique de texte (ATR)</h2>
+        <p>
+            La reconnaissance automatique de texte (ATR, ou "Automatic Text Recognition") désigne l’ensemble des technologies utilisées pour extraire des données textuelles numériques à partir de documents analogiques numérisés. Elle se divise en deux domaines :
+        </p>
+        <ol>
+            <li><strong>L'OCR (Optical Character Recognition)</strong>, ou reconnaissance optique de caractères, qui se concentre sur l’extraction de texte à partir de documents imprimés.</li>
+            <li><strong>L'HTR (Handwritten Text Recognition)</strong>, ou reconnaissance de texte manuscrit, qui se focalise sur la conversion d'écritures manuscrites en données numériques exploitables.</li>
+        </ol>
+        <p>
+            Ces technologies reposent sur l’intelligence artificielle, en particulier sur l'apprentissage automatique (machine learning), pour analyser et interpréter le contenu des images.
+        </p>
+        <br>
+
+        <h4>Les étapes du processus</h4>
+        <p>La reconnaissance de caractères suit deux grandes étapes :</p>
+        <ol>
+            <li>
+                <strong>Segmentation</strong> : Cette étape identifie les zones de texte dans l’image et détermine leur organisation en lignes, facilitant ainsi le traitement. 
+                Pour les manuscrits, cette phase peut nécessiter une intervention manuelle en raison de la variabilité des écritures.
+            </li>
+            <li>
+                <strong>Reconnaissance des caractères</strong> : Une fois les lignes de texte isolées, le système identifie chaque caractère et le transforme en texte numérique. 
+                Pour l’OCR, ces deux étapes sont souvent réalisées simultanément grâce aux capacités avancées des algorithmes modernes.
+            </li>
+        </ol>
+        <br>
+
+        <h4>Conditions pour une reconnaissance optimale</h4>
+        <p>
+            Pour maximiser la qualité de la reconnaissance, il est essentiel que les images répondent à plusieurs critères :
+        </p>
+        <ul>
+            <li><strong>Netteté</strong> : Les images floues compromettent l’identification des caractères.</li>
+            <li><strong>Contraste</strong> : Le texte doit se détacher clairement du fond.</li>
+            <li><strong>Alignement</strong> : Les lignes de texte doivent être droites pour simplifier leur détection.</li>
+        </ul>
+        <br>
+
+        <h4>Performance et limites actuelles</h4>
+        <p>
+            Pour les langues utilisant des caractères latins, les logiciels d’OCR modernes atteignent généralement un taux de reconnaissance supérieur à 90 %, assurant une conversion très fiable des textes imprimés. Cependant, les résultats peuvent être altérés par des images de mauvaise qualité ou des écritures manuscrites particulièrement complexes.
+        </p>
+        <br>
+
+        <h4>Adaptabilité avec des outils avancés</h4>
+        <p>
+            Dans les cas où les images ne remplissent pas parfaitement les critères précédents (par exemple : présence de bruit ou de fond complexe), des outils comme <strong>eScriptorium</strong> offrent une solution performante. Cette plateforme, accessible via 
+            <a href="https://obtic-gpu1.mesu.sorbonne-universite.fr:8501/">ce lien</a>, est capable de gérer des contraintes spécifiques et d’améliorer les résultats de reconnaissance grâce à ses fonctionnalités avancées.
+        </p>
+        <br>
+        <h2>Reconnaissance Automatique de la Parole (ASR)</h2>
+        <p>
+            La reconnaissance automatique de la parole (ASR, pour "Automatic Speech Recognition") est une technologie qui permet de convertir la parole humaine en texte écrit. 
+            Elle repose sur des avancées en intelligence artificielle, notamment l'apprentissage profond, et trouve des applications dans de nombreux domaines.
+        </p>
+        <br>
+
+        <h4>Applications de l'ASR</h4>
+        <ul>
+            <li>
+                <strong>Assistants vocaux et appareils intelligents</strong> : 
+                L'ASR est au cœur des assistants personnels comme Siri, Alexa ou Google Assistant, permettant une interaction naturelle avec les appareils.
+            </li>
+            <li>
+                <strong>Accessibilité</strong> : 
+                Elle joue un rôle clé pour les personnes en situation de handicap, en facilitant la communication et l'accès à l'information.
+            </li>
+            <li>
+                <strong>Transcription automatique</strong> : 
+                Utilisée pour générer des sous-titres en temps réel pour des vidéos, des films ou des conférences, elle améliore l'accessibilité et l'efficacité.
+            </li>
+            <li>
+                <strong>Domaines spécialisés</strong> : 
+                Dans le secteur juridique, l'ASR est utilisée pour transcrire des dictées ou des audiences. En médecine, elle aide à la transcription des notes cliniques.
+            </li>
+        </ul>
+        <br>
+
+
+        <h4>Fonctionnement de l'ASR</h4>
+        <p>L'ASR repose sur plusieurs étapes :</p>
+        <ol>
+            <li>
+                <strong>Prétraitement du signal audio</strong> : 
+                Le son est transformé en spectrogramme pour être analysé par des modèles d'apprentissage.
+            </li>
+            <li>
+                <strong>Modèles acoustiques et linguistiques</strong> : 
+                Ces modèles identifient les phonèmes et les mots en fonction du contexte.
+            </li>
+            <li>
+                <strong>Post-traitement</strong> : 
+                Les transcriptions sont enrichies avec des éléments comme la ponctuation et la capitalisation grâce au traitement du langage naturel (NLP).
+            </li>
+        </ol>
+        <br>
+
+        <h4>Défis et innovations</h4>
+        <ul>
+            <li>
+                <strong>Variabilité de la parole</strong> : 
+                Les accents, les intonations et le bruit ambiant compliquent la tâche des systèmes ASR.
+            </li>
+            <li>
+                <strong>Langues sous-représentées</strong> : 
+                Les progrès se concentrent souvent sur les langues les plus parlées, laissant de côté certaines langues ou dialectes.
+            </li>
+            <li>
+                <strong>Adaptation aux accents</strong> : 
+                Les systèmes modernes intègrent des mécanismes pour mieux gérer les variations d'accent.
+            </li>
+        </ul>
+        <br>
+
+        <h4>Technologies émergentes</h4>
+        <p>
+            Les modèles d'apprentissage profond, comme ceux basés sur les réseaux neuronaux récurrents (RNN) ou les transformateurs, ont considérablement amélioré la précision des systèmes ASR. 
+            Des approches comme le modèle "end-to-end" simplifient les pipelines traditionnels en intégrant toutes les étapes dans un seul réseau.
+        </p>
+
+    <br>
+    <br>
+    </div>
 </div>
+
 {% endblock %}
 
 {% block footer %} {{ super() }} {% endblock %}
