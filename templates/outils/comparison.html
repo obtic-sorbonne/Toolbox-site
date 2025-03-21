@@ -9,6 +9,8 @@
         <h3>{{ _('Comparaison') }}</h3>
     <p>{{ _("Cet outil permet d'observer les différences qui existent entre deux textes donnés") }}.</p></div>
     <br>
+    <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_analyses') }}"  target="_blank">{{ _('Voir la documentation') }}</a></p>
+    <br>
     <div class="infos_outil" style="display: block;margin: 0 auto 15px auto;">
         <input id="show" type=checkbox><label for="show" class="infos_title"><i class="fa-solid fa-circle-info"></i> {{ _("Informations sur l'outil") }}<i class="fa-solid fa-angle-right" style="float:right;margin-top:5px;margin-left:15px;cursor: pointer;"></i></label>
         <div class="info_popped"><p>Textdistance, Difflib</p>
