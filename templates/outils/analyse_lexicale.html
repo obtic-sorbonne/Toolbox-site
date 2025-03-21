@@ -16,6 +16,9 @@
             <li><strong>{{ _('Spécificités lexicales') }}</strong> : {{ _("Score identifiant le caractère unique d'un mot ou d'une phrase") }} {{ _('dans un document par rapport à un corpus de texte plus vaste') }}</li>
         </ul></p>
     </div>
+    
+    <br>
+    <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_analyses') }}"  target="_blank">{{ _('Voir la documentation') }}</a></p>
     <br>
     <form action="{{ url_for('analyze_lexicale') }}" id="linguistic-form" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
         <div class="centered-div">
