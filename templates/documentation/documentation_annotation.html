@@ -20,6 +20,32 @@
   padding:10px;
 }
 
+
+table {
+    width: 100%; /* Le tableau occupe la largeur totale */
+    border-collapse: collapse; /* Fusionne les bordures pour un rendu plus net */
+}
+
+th, td {
+    border: 2px solid black; /* Lignes noires de 2px autour des cellules */
+    padding: 10px; /* Ajoute de l’espace à l’intérieur des cellules */
+    text-align: left; /* Aligne le contenu à gauche */
+}
+
+th {
+    background-color: #f4f4f4; /* Ajoute un fond légèrement gris pour les en-têtes */
+}
+
+colgroup col:nth-child(1) {
+    width: 20%; /* Première colonne - 20% */
+}
+
+colgroup col:nth-child(2), 
+colgroup col:nth-child(3) {
+    width: 40%; /* Deuxième et troisième colonnes - 40% chacune */
+}
+
+
 </style>
 
 <div class="outil">
