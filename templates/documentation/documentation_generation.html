@@ -27,103 +27,89 @@
     <div class="fil"> </div>
 	<div style="text-align: left;"><a href="{{ url_for('documentation_correction')}}" style="color:#f2a800; text-decoration:none;"><< {{ _('Documentation précédente') }}</a></div>
     <div class="tool-box">
-    <h2>Introduction à la génération de texte</h2>
+    <h2>{{ _("Introduction à la génération de texte") }}</h2>
     <p>
-        La <strong>génération de texte</strong> est une capacité clé des modèles de traitement automatique du langage naturel (NLP), qui consiste 
-        à produire du contenu textuel basé sur des données ou des instructions données. Elle repose sur des modèles de langage, tels que ceux 
-        basés sur les architectures de transformateurs, qui prédisent les prochains mots ou phrases en fonction d’un contexte donné. Ces techniques 
-        sont à la base de nombreuses applications pratiques, allant de la complétion de texte à la traduction automatique, en passant par 
-        l’ajustement du niveau de lecture et le résumé de documents.
+        {{ _("La <strong>génération de texte</strong> est une capacité clé des modèles de traitement automatique du langage naturel (NLP), qui consiste à produire du contenu textuel basé sur des données ou des instructions données") }}. {{ _("Elle repose sur des modèles de langage, tels que ceux basés sur les architectures de transformateurs, qui prédisent les prochains mots ou phrases en fonction d’un contexte donné") }}. {{ _("Ces techniques sont à la base de nombreuses applications pratiques, allant de la complétion de texte à la traduction automatique, en passant par l’ajustement du niveau de lecture et le résumé de documents") }}.
     </p>
     <hr>
-    <h2>Complétion de texte</h2>
+    <h2>{{ _("Complétion de texte") }}</h2>
     <p>
-        La <strong>complétion de texte</strong> consiste à fournir une continuation plausible à une séquence textuelle donnée (appelée "préfixe"). 
-        Les modèles de langage modernes, comme ceux basés sur des transformateurs, utilisent le contexte fourni ainsi que leur propre production 
-        au cours de la génération, ce qui leur confère une forte capacité d'adaptation.
+        {{ _("La <strong>complétion de texte</strong> consiste à fournir une continuation plausible à une séquence textuelle donnée (appelée 'préfixe')") }}. {{ _("Les modèles de langage modernes, comme ceux basés sur des transformateurs, utilisent le contexte fourni ainsi que leur propre production au cours de la génération, ce qui leur confère une forte capacité d'adaptation") }}.
     </p>
-    <h4>Caractéristiques :</h4>
+    <h4>{{ _("Caractéristiques ") }}:</h4>
     <ul>
-        <li>Ces modèles exploitent un large contexte disponible dans une fenêtre donnée pour générer du texte fluide et cohérent.</li>
-        <li>La complétion repose sur la prédiction des mots ou tokens les plus probables à chaque étape.</li>
+        <li>{{ _("Ces modèles exploitent un large contexte disponible dans une fenêtre donnée pour générer du texte fluide et cohérent") }}.</li>
+        <li>{{ _("La complétion repose sur la prédiction des mots ou tokens les plus probables à chaque étape") }}.</li>
     </ul>
     <h4>Applications :</h4>
     <ul>
-        <li><strong>Assistants d’écriture</strong> : Proposer des suggestions ou des continuations dans des outils comme les éditeurs de texte.</li>
-        <li><strong>Scénarisation</strong> : Compléter automatiquement des dialogues ou des récits.</li>
-        <li><strong>Modélisation multitâche</strong> : Transformer diverses tâches NLP en problèmes de prédiction de mots.</li>
+        <li><strong>{{ _("Assistants d’écriture") }}</strong> : {{ _("Proposer des suggestions ou des continuations dans des outils comme les éditeurs de texte") }}.</li>
+        <li><strong>{{ _("Scénarisation") }}</strong> : {{ _("Compléter automatiquement des dialogues ou des récits") }}.</li>
+        <li><strong>{{ _("Modélisation multitâche") }}</strong> : {{ _("Transformer diverses tâches NLP en problèmes de prédiction de mots") }}.</li>
     </ul>
     <hr>
-    <h2>Questions/réponses et conversations</h2>
+    <h2>{{ _("Questions/réponses et conversations") }}</h2>
     <p>
-        Les systèmes de <strong>questions/réponses (QA)</strong> et de <strong>conversation</strong> s’appuient sur des modèles capables de répondre à des 
-        questions ou de maintenir des interactions fluides avec les utilisateurs. Cette catégorie est souvent divisée en deux approches :
+        {{ _("Les systèmes de <strong>questions/réponses (QA)</strong> et de <strong>conversation</strong> s’appuient sur des modèles capables de répondre à des questions ou de maintenir des interactions fluides avec les utilisateurs. Cette catégorie est souvent divisée en deux approches ") }}:
     </p>
     <ul>
-        <li><strong>Open book QA</strong> : La réponse est trouvée dans un ou plusieurs documents fournis, comme pour les tâches de compréhension de lecture.</li>
-        <li><strong>Closed book QA</strong> : Le modèle génère les réponses uniquement à partir de ses connaissances préalablement entraînées, sans accès à des documents.</li>
+        <li><strong>Open book QA</strong> : {{ _("La réponse est trouvée dans un ou plusieurs documents fournis, comme pour les tâches de compréhension de lecture") }}.</li>
+        <li><strong>Closed book QA</strong> : {{ _("Le modèle génère les réponses uniquement à partir de ses connaissances préalablement entraînées, sans accès à des documents") }}.</li>
     </ul>
-    <h4>Dimensions d’analyse :</h4>
+    <h4>{{ _("Dimensions d’analyse ") }}:</h4>
     <ul>
-        <li><strong>Format des réponses</strong> : Libre (freeform) ou choix multiple.</li>
-        <li><strong>Techniques de guidage</strong> : Zero-shot (aucun exemple fourni) ou few-shot (exemples de questions similaires donnés au modèle).</li>
+        <li><strong>{{ _("Format des réponses") }}</strong> : {{ _("Libre (freeform) ou choix multiple") }}.</li>
+        <li><strong>{{ _("Techniques de guidage") }}</strong> : {{ _("Zero-shot (aucun exemple fourni) ou few-shot (exemples de questions similaires donnés au modèle)") }}.</li>
     </ul>
     <h4>Applications :</h4>
     <ul>
-        <li><strong>Support client</strong> : Répondre automatiquement aux requêtes des utilisateurs.</li>
-        <li><strong>Apprentissage et recherche</strong> : Fournir des réponses précises pour des questions éducatives ou académiques.</li>
+        <li><strong>{{ _("Support client") }}</strong> : {{ _("Répondre automatiquement aux requêtes des utilisateurs") }}.</li>
+        <li><strong>{{ _("Apprentissage et recherche") }}</strong> : {{ _("Fournir des réponses précises pour des questions éducatives ou académiques") }}.</li>
     </ul>
     <hr>
-    <h2>Traduction automatique</h2>
+    <h2>{{ _("Traduction automatique") }}</h2>
     <p>
-        La <strong>traduction automatique</strong> est une méthode qui utilise des modèles pour convertir du texte d'une langue à une autre. 
-        Bien que la traduction littéraire ou poétique reste une tâche humaine riche et complexe, les systèmes de traduction actuels s’attaquent 
-        principalement à des problèmes pratiques, comme la traduction de documents techniques ou des conversations.
+        {{ _("La <strong>traduction automatique</strong> est une méthode qui utilise des modèles pour convertir du texte d'une langue à une autre") }}. {{ _("Bien que la traduction littéraire ou poétique reste une tâche humaine riche et complexe, les systèmes de traduction actuels s’attaquent principalement à des problèmes pratiques, comme la traduction de documents techniques ou des conversations") }}.
     </p>
-    <h4>Caractéristiques :</h4>
+    <h4>{{ _("Caractéristiques ") }}:</h4>
     <ul>
-        <li>Repose sur des architectures de réseaux neuronaux, souvent basées sur des transformateurs.</li>
-        <li>Capacité d’adaptation contextuelle pour maintenir le sens et la fluidité dans les langues cibles.</li>
+        <li>{{ _("Repose sur des architectures de réseaux neuronaux, souvent basées sur des transformateurs") }}.</li>
+        <li>{{ _("Capacité d’adaptation contextuelle pour maintenir le sens et la fluidité dans les langues cibles") }}.</li>
     </ul>
     <h4>Applications :</h4>
     <ul>
-        <li><strong>Communication multilingue</strong> : Faciliter les échanges entre locuteurs de langues différentes.</li>
-        <li><strong>Globalisation des entreprises</strong> : Traduction de contenu marketing ou technique à grande échelle.</li>
+        <li><strong>{{ _("Communication multilingue") }}</strong> : {{ _("Faciliter les échanges entre locuteurs de langues différentes") }}.</li>
+        <li><strong>{{ _("Globalisation des entreprises") }}</strong> : {{ _("Traduction de contenu marketing ou technique à grande échelle") }}.</li>
     </ul>
     <hr>
-    <h2>Ajustement du niveau de lecture</h2>
+    <h2>{{ _("Ajustement du niveau de lecture") }}</h2>
     <p>
-        L’<strong>ajustement du niveau de lecture</strong> consiste à transformer un texte pour le rendre plus accessible ou adapté à un public cible. 
-        Cela peut inclure la simplification du vocabulaire, la réduction de la complexité syntaxique ou l’adaptation des phrases.
+        {{ _("L’<strong>ajustement du niveau de lecture</strong> consiste à transformer un texte pour le rendre plus accessible ou adapté à un public cible") }}. {{ _("Cela peut inclure la simplification du vocabulaire, la réduction de la complexité syntaxique ou l’adaptation des phrases") }}.
     </p>
     <h4>Applications :</h4>
     <ul>
-        <li><strong>Accessibilité</strong> : Produire des textes adaptés aux enfants ou aux apprenants non natifs.</li>
-        <li><strong>Éducation</strong> : Ajuster le contenu pour différents niveaux scolaires.</li>
+        <li><strong>{{ _("Accessibilité") }}</strong> : {{ _("Produire des textes adaptés aux enfants ou aux apprenants non natifs") }}.</li>
+        <li><strong>{{ _("Éducation") }}</strong> : {{ _("Ajuster le contenu pour différents niveaux scolaires") }}.</li>
     </ul>
     <hr>
-    <h2>Résumé de texte (Summarization)</h2>
+    <h2>{{ _("Résumé de texte (Summarization)") }}</h2>
     <p>
-        Le <strong>résumé de texte</strong> est une tâche qui consiste à générer un texte court synthétisant le contenu d’un document plus long. 
-        Les modèles de langage utilisent des techniques de génération conditionnelle pour produire des résumés informatifs et concis.
+        {{ _("Le <strong>résumé de texte</strong> est une tâche qui consiste à générer un texte court synthétisant le contenu d’un document plus long. Les modèles de langage utilisent des techniques de génération conditionnelle pour produire des résumés informatifs et concis") }}.
     </p>
-    <h4>Méthodes :</h4>
+    <h4>{{ _("Méthodes ") }}:</h4>
     <ul>
-        <li>Les résumés peuvent être générés en guidant le modèle avec des tokens spécifiques comme "tl;dr", qui indiquent qu’un résumé est attendu.</li>
-        <li>Les modèles interprètent ces instructions à partir de données d’entraînement incluant des exemples similaires.</li>
+        <li>{{ _("Les résumés peuvent être générés en guidant le modèle avec des tokens spécifiques comme 'tl;dr', qui indiquent qu’un résumé est attendu") }}.</li>
+        <li>{{ _("Les modèles interprètent ces instructions à partir de données d’entraînement incluant des exemples similaires") }}.</li>
     </ul>
     <h4>Applications :</h4>
     <ul>
-        <li><strong>Lecture rapide</strong> : Synthétiser des articles complexes ou volumineux.</li>
-        <li><strong>Recherche documentaire</strong> : Permettre un aperçu rapide des contenus d’un corpus.</li>
+        <li><strong>{{ _("Lecture rapide") }}</strong> : {{ _("Synthétiser des articles complexes ou volumineux") }}.</li>
+        <li><strong>{{ _("Recherche documentaire") }}</strong> : {{ _("Permettre un aperçu rapide des contenus d’un corpus") }}.</li>
     </ul>
     <hr>
     <h2>Conclusion</h2>
     <p>
-        La génération de texte, qu’il s’agisse de complétion, de questions/réponses, de traduction, d’ajustement de lecture ou de résumé, est 
-        une compétence puissante des modèles de NLP modernes. Grâce à des techniques avancées, ces modèles peuvent transformer et synthétiser 
-        des contenus textuels de manière fluide, cohérente et adaptée aux besoins de leurs utilisateurs. Ces capacités ouvrent la voie à des interactions 
-        homme-machine plus intuitives et à des solutions pratiques pour les défis linguistiques complexes.
+        {{ _("La génération de texte, qu’il s’agisse de complétion, de questions/réponses, de traduction, d’ajustement de lecture ou de résumé, est une compétence puissante des modèles de NLP modernes") }}. {{ _("Grâce à des techniques avancées, ces modèles peuvent transformer et synthétiser des contenus textuels de manière fluide, cohérente et adaptée aux besoins de leurs utilisateurs") }}. {{ _("Ces capacités ouvrent la voie à des interactions homme-machine plus intuitives et à des solutions pratiques pour les défis linguistiques complexes") }}.
     </p>
 	</div>
 </div>

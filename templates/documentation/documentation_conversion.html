@@ -27,157 +27,142 @@
 	 <div style="text-align: left;"><a href="{{ url_for('documentation_preprocessing')}}" style="color:#f2a800; text-decoration:none;"><< {{ _('Documentation précédente') }}</a></div>
     <div style="text-align: right;"><a href="{{ url_for('documentation_annotation')}}" style="color:#f2a800; text-decoration:none;">{{ _('Documentation suivante') }} >></a></div>
 <div class="tool-box">
-    <h2>Conversion en XML-TEI</h2>
-    <h4>Qu’est-ce que le XML ?</h4>
+    <h2>{{ _("Conversion en XML-TEI") }}</h2>
+    <h4>{{ _("Qu’est-ce que le XML ") }}?</h4>
     <p>
-        Le <strong>XML</strong> (Extensible Markup Language) est un langage de balisage générique conçu pour structurer, 
-        stocker et transporter des données de manière lisible aussi bien par des humains que par des machines. Contrairement 
-        aux formats strictement visuels comme HTML, XML ne se concentre pas sur la présentation, mais sur la structuration 
-        logique et hiérarchique des informations.
+        {{ _("Le <strong>XML</strong> (Extensible Markup Language) est un langage de balisage générique conçu pour structurer, stocker et transporter des données de manière lisible aussi bien par des humains que par des machines") }}. {{ _("Contrairement aux formats strictement visuels comme HTML, XML ne se concentre pas sur la présentation, mais sur la structuration logique et hiérarchique des informations") }}.
     </p>
-    <h4>Caractéristiques principales du XML :</h4>
+    <h4>{{ _("Caractéristiques principales du XML ") }}:</h4>
     <ul>
-        <li><strong>Extensibilité</strong> : XML permet de définir ses propres balises (tags) adaptées aux besoins spécifiques d’un projet ou d’un domaine, rendant le langage polyvalent.</li>
-        <li><strong>Lisibilité universelle</strong> : Les fichiers XML peuvent être lus par des logiciels très variés et sont indépendants des plateformes ou applications.</li>
-        <li><strong>Hiérarchie des données</strong> : XML organise les informations en arbre, avec des relations parent-enfant (par exemple, un élément principal contenant des sous-éléments imbriqués).</li>
-        <li><strong>Interopérabilité</strong> : Utilisé comme pont entre différentes applications, XML assure que des systèmes informatiques hétérogènes puissent échanger des données.</li>
+        <li><strong>{{ _("Extensibilité") }}</strong> : {{ _("XML permet de définir ses propres balises (tags) adaptées aux besoins spécifiques d’un projet ou d’un domaine, rendant le langage polyvalent") }}.</li>
+        <li><strong>{{ _("Lisibilité universelle") }}</strong> : {{ _("Les fichiers XML peuvent être lus par des logiciels très variés et sont indépendants des plateformes ou applications") }}.</li>
+        <li><strong>{{ _("Hiérarchie des données") }}</strong> : {{ _("XML organise les informations en arbre, avec des relations parent-enfant (par exemple, un élément principal contenant des sous-éléments imbriqués)") }}.</li>
+        <li><strong>{{ _("Interopérabilité") }}</strong> : {{ _("Utilisé comme pont entre différentes applications, XML assure que des systèmes informatiques hétérogènes puissent échanger des données") }}.</li>
     </ul>
-    <h4>À quoi sert le XML ?</h4>
+    <h4>{{ _("À quoi sert le XML ") }}?</h4>
     <ul>
-        <li><strong>Échanger des données entre applications</strong> : Par exemple, des API (interfaces de programmation) utilisent souvent XML pour transmettre des informations structurées.</li>
-        <li><strong>Représenter des bases de données</strong> : Les fichiers XML peuvent stocker des données hiérarchiques, comme des catalogues ou des inventaires.</li>
-        <li><strong>Codage d’informations complexes</strong> : XML est couramment utilisé dans des formats spécialisés, tels que les fichiers SVG pour les graphiques ou MathML pour les formules mathématiques.</li>
+        <li><strong>{{ _("Échanger des données entre applications") }}</strong> : {{ _("Par exemple, des API (interfaces de programmation) utilisent souvent XML pour transmettre des informations structurées") }}.</li>
+        <li><strong>{{ _("Représenter des bases de données") }}</strong> : {{ _("Les fichiers XML peuvent stocker des données hiérarchiques, comme des catalogues ou des inventaires") }}.</li>
+        <li><strong>{{ _("Codage d’informations complexes") }}</strong> : {{ _("XML est couramment utilisé dans des formats spécialisés, tels que les fichiers SVG pour les graphiques ou MathML pour les formules mathématiques") }}.</li>
     </ul>
     <hr>
-    <h2>Conversion de formats</h2>
-    <h4>Introduction à la conversion de formats</h4>
+    <h2>{{ _("Conversion de formats") }}</h2>
+    <h4>{{ _("Introduction à la conversion de formats") }}</h4>
     <p>
-        La conversion de formats est le processus qui consiste à transformer un document d'un format donné vers un autre. 
-        Ce processus est essentiel pour garantir la compatibilité entre différents outils, plateformes ou logiciels, et pour 
-        adapter les contenus aux besoins spécifiques de divers contextes d'utilisation (lecture, analyse, partage ou publication). 
-        Chaque format a ses propres caractéristiques, avantages et inconvénients, et le choix du format dépend des usages envisagés.
+        {{ _("La conversion de formats est le processus qui consiste à transformer un document d'un format donné vers un autre") }}. {{ _("Ce processus est essentiel pour garantir la compatibilité entre différents outils, plateformes ou logiciels, et pour adapter les contenus aux besoins spécifiques de divers contextes d'utilisation (lecture, analyse, partage ou publication)") }}. {{ _("Chaque format a ses propres caractéristiques, avantages et inconvénients, et le choix du format dépend des usages envisagés") }}.
     </p>
     <p>
-        Les formats que nous allons examiner en détail—TEI, DOCX, HTML, EPUB et Markdown—sont largement utilisés dans divers domaines, 
-        de la documentation technique à l'édition numérique, en passant par le traitement de texte.
+        {{ _("Les formats que nous allons examiner en détail—TEI, DOCX, HTML, EPUB et Markdown—sont largement utilisés dans divers domaines, de la documentation technique à l'édition numérique, en passant par le traitement de texte") }}.
     </p>
 
     <h4>TEI (Text Encoding Initiative)</h4>
     <p>
-        Le format <strong>TEI</strong> est un standard pour l’encodage et la représentation de textes électroniques, particulièrement 
-        utilisé dans le domaine des sciences humaines et sociales. Il repose sur XML (Extensible Markup Language) et permet d’annoter des 
-        textes avec des balises structurées et sémantiques, adaptées à la nature du document.
+        {{ _("Le format <strong>TEI</strong> est un standard pour l’encodage et la représentation de textes électroniques, particulièrement utilisé dans le domaine des sciences humaines et sociales") }}. {{ _("Il repose sur XML (Extensible Markup Language) et permet d’annoter des textes avec des balises structurées et sémantiques, adaptées à la nature du document") }}.
     </p>
     <ul>
-        <li><strong>Usage principal</strong> : Archivage, analyse textuelle, recherche et publication scientifique.</li>
-        <li><strong>Avantages</strong> :
+        <li>{{ _("<strong>Usage principal</strong> : Archivage, analyse textuelle, recherche et publication scientifique") }}.</li>
+        <li><strong>{{ _("Avantages") }}</strong> :
             <ul>
-                <li>Structure riche et personnalisable, idéale pour les corpus de données complexes comme les manuscrits ou les œuvres littéraires.</li>
-                <li>Interopérabilité avec d'autres outils basés sur XML.</li>
-                <li>Balises dédiées pour marquer des entités spécifiques, comme les noms propres, les dates ou les références bibliographiques.</li>
+                <li>{{ _("Structure riche et personnalisable, idéale pour les corpus de données complexes comme les manuscrits ou les œuvres littéraires") }}.</li>
+                <li>{{ _("Interopérabilité avec d'autres outils basés sur XML") }}.</li>
+                <li>{{ _("Balises dédiées pour marquer des entités spécifiques, comme les noms propres, les dates ou les références bibliographiques") }}.</li>
             </ul>
         </li>
-        <li><strong>Inconvénients</strong> :
+        <li><strong>{{ _("Inconvénients") }}</strong> :
             <ul>
-                <li>Courbe d’apprentissage relativement élevée pour les utilisateurs novices.</li>
-                <li>Nécessite des outils spécialisés pour l’édition (ex. oXygen XML Editor).</li>
+                <li>{{ _("Courbe d’apprentissage relativement élevée pour les utilisateurs novices") }}.</li>
+                <li>{{ _("Nécessite des outils spécialisés pour l’édition (ex. oXygen XML Editor)") }}.</li>
             </ul>
         </li>
     </ul>
 
     <h4>DOCX</h4>
     <p>
-        Le format <strong>DOCX</strong> est le standard des documents produits par Microsoft Word. Il est basé sur un format XML compressé 
-        (OpenXML) et contient diverses données comme le texte, les images, les styles et les métadonnées.
+        {{ _("Le format <strong>DOCX</strong> est le standard des documents produits par Microsoft Word. Il est basé sur un format XML compressé (OpenXML) et contient diverses données comme le texte, les images, les styles et les métadonnées") }}.
     </p>
     <ul>
-        <li><strong>Usage principal</strong> : Traitement de texte, création de documents bureautiques ou académiques.</li>
-        <li><strong>Avantages</strong> :
+        <li>{{ _("<strong>Usage principal</strong> : Traitement de texte, création de documents bureautiques ou académiques") }}.</li>
+        <li><strong>{{ _("Avantages") }}</strong> :
             <ul>
-                <li>Hautement compatible avec les suites bureautiques, notamment Microsoft Office.</li>
-                <li>Prise en charge des styles, tableaux, graphiques et fonctionnalités avancées (comme le suivi des modifications).</li>
-                <li>Facilement convertible en PDF ou en d'autres formats.</li>
+                <li>{{ _("Hautement compatible avec les suites bureautiques, notamment Microsoft Office") }}.</li>
+                <li>{{ _("Prise en charge des styles, tableaux, graphiques et fonctionnalités avancées (comme le suivi des modifications)") }}.</li>
+                <li>{{ _("Facilement convertible en PDF ou en d'autres formats") }}.</li>
             </ul>
         </li>
-        <li><strong>Inconvénients</strong> :
+        <li><strong>{{ _("Inconvénients") }}</strong> :
             <ul>
-                <li>Moins adapté pour les tâches d’analyse de texte en masse.</li>
-                <li>Peut contenir des données "lourdes" ou inutiles qui augmentent la taille du fichier.</li>
+                <li>{{ _("Moins adapté pour les tâches d’analyse de texte en masse") }}.</li>
+                <li>{{ _("Peut contenir des données 'lourdes' ou inutiles qui augmentent la taille du fichier") }}.</li>
             </ul>
         </li>
     </ul>
 
     <h4>HTML (HyperText Markup Language)</h4>
     <p>
-        Le format <strong>HTML</strong> est le langage standard pour la création et la structuration de pages web. Il utilise des balises pour 
-        organiser le contenu, comme les paragraphes, les titres, les images et les liens hypertextes.
+        {{ _("Le format <strong>HTML</strong> est le langage standard pour la création et la structuration de pages web") }}. {{ _("Il utilise des balises pour organiser le contenu, comme les paragraphes, les titres, les images et les liens hypertextes") }}.
     </p>
     <ul>
-        <li><strong>Usage principal</strong> : Développement web et affichage de contenu en ligne.</li>
-        <li><strong>Avantages</strong> :
+        <li>{{ _("<strong>Usage principal</strong> : Développement web et affichage de contenu en ligne") }}.</li>
+        <li><strong>{{ _("Avantages") }}</strong> :
             <ul>
-                <li>Largement pris en charge par tous les navigateurs web.</li>
-                <li>Souple, il permet de structurer des documents simples ou complexes.</li>
-                <li>Facilement intégrable avec d'autres technologies, comme CSS (pour le style) et JavaScript (pour l'interactivité).</li>
+                <li>{{ _("Largement pris en charge par tous les navigateurs web") }}.</li>
+                <li>{{ _("Souple, il permet de structurer des documents simples ou complexes") }}.</li>
+                <li>{{ _("Facilement intégrable avec d'autres technologies, comme CSS (pour le style) et JavaScript (pour l'interactivité)") }}.</li>
             </ul>
         </li>
-        <li><strong>Inconvénients</strong> :
+        <li><strong>{{ _("Inconvénients") }}</strong> :
             <ul>
-                <li>Nécessite parfois des ajustements pour être conforme aux standards ou compatible avec tous les navigateurs.</li>
-                <li>Pas idéal pour l’archivage à long terme sans métadonnées additionnelles.</li>
+                <li>{{ _("Nécessite parfois des ajustements pour être conforme aux standards ou compatible avec tous les navigateurs") }}.</li>
+                <li>{{ _("Pas idéal pour l’archivage à long terme sans métadonnées additionnelles") }}.</li>
             </ul>
         </li>
     </ul>
 
     <h4>EPUB (Electronic Publication)</h4>
     <p>
-        Le format <strong>EPUB</strong> est un standard ouvert pour les livres numériques (eBooks), conçu pour s’adapter à différents appareils 
-        comme les liseuses, tablettes et smartphones. Il est basé sur XML et HTML.
+        {{ _("Le format <strong>EPUB</strong> est un standard ouvert pour les livres numériques (eBooks), conçu pour s’adapter à différents appareils comme les liseuses, tablettes et smartphones. Il est basé sur XML et HTML") }}.
     </p>
     <ul>
-        <li><strong>Usage principal</strong> : Distribution et lecture de livres numériques.</li>
-        <li><strong>Avantages</strong> :
+        <li>{{ _("<strong>Usage principal</strong> : Distribution et lecture de livres numériques") }}.</li>
+        <li><strong>{{ _("Avantages") }}</strong> :
             <ul>
-                <li>Mise en page adaptable (responsive), assurant une lecture confortable sur tous les écrans.</li>
-                <li>Peut intégrer du multimédia (images, audio, vidéos) et des annotations interactives.</li>
-                <li>Compatible avec la majorité des liseuses et logiciels de lecture (comme Calibre).</li>
+                <li>{{ _("Mise en page adaptable (responsive), assurant une lecture confortable sur tous les écrans") }}.</li>
+                <li>{{ _("Peut intégrer du multimédia (images, audio, vidéos) et des annotations interactives") }}.</li>
+                <li>{{ _("Compatible avec la majorité des liseuses et logiciels de lecture (comme Calibre)") }}.</li>
             </ul>
         </li>
-        <li><strong>Inconvénients</strong> :
+        <li><strong>{{ _("Inconvénients") }}</strong> :
             <ul>
-                <li>Les fonctionnalités interactives peuvent être limitées selon les appareils.</li>
-                <li>Nécessite parfois des outils spécialisés pour l’édition ou la conversion.</li>
+                <li>{{ _("Les fonctionnalités interactives peuvent être limitées selon les appareils") }}.</li>
+                <li>{{ _("Nécessite parfois des outils spécialisés pour l’édition ou la conversion") }}.</li>
             </ul>
         </li>
     </ul>
 
     <h4>Markdown</h4>
     <p>
-        Le format <strong>Markdown</strong> est un langage de balisage léger, conçu pour rédiger du texte qui peut être facilement converti en HTML ou d’autres formats.
+        {{ _("Le format <strong>Markdown</strong> est un langage de balisage léger, conçu pour rédiger du texte qui peut être facilement converti en HTML ou d’autres formats") }}.
     </p>
     <ul>
-        <li><strong>Usage principal</strong> : Documentation technique, blogs, README de projets, et autres contenus destinés à être convertis en formats web.</li>
-        <li><strong>Avantages</strong> :
+        <li>{{ _("<strong>Usage principal</strong> : Documentation technique, blogs, README de projets, et autres contenus destinés à être convertis en formats web") }}.</li>
+        <li><strong>{{ _("Avantages") }}</strong> :
             <ul>
-                <li>Simple et lisible en texte brut, avec une syntaxe facile à apprendre (par ex. utiliser <code>**</code> pour mettre en gras).</li>
-                <li>Convertissable en HTML, PDF ou DOCX avec des outils comme Pandoc.</li>
-                <li>Idéal pour les développeurs et les auteurs de documentation.</li>
+                <li>{{ _("Simple et lisible en texte brut, avec une syntaxe facile à apprendre (par ex. utiliser <code>**</code> pour mettre en gras)") }}.</li>
+                <li>{{ _("Convertissable en HTML, PDF ou DOCX avec des outils comme Pandoc") }}.</li>
+                <li>{{ _("Idéal pour les développeurs et les auteurs de documentation") }}.</li>
             </ul>
         </li>
-        <li><strong>Inconvénients</strong> :
+        <li><strong>{{ _("Inconvénients") }}</strong> :
             <ul>
-                <li>Moins adapté pour les documents nécessitant une mise en page complexe (comme des tableaux détaillés ou des graphes).</li>
-                <li>Nécessite un outil ou un logiciel pour être rendu visuellement riche.</li>
+                <li>{{ _("Moins adapté pour les documents nécessitant une mise en page complexe (comme des tableaux détaillés ou des graphes)") }}.</li>
+                <li>{{ _("Nécessite un outil ou un logiciel pour être rendu visuellement riche") }}.</li>
             </ul>
         </li>
     </ul>
 
     <h4>Conclusion</h4>
     <p>
-        La conversion de formats est indispensable dans des contextes variés, chaque format ayant des particularités qui répondent à des besoins spécifiques. 
-        Que ce soit pour un archivage scientifique avec TEI, une documentation technique avec Markdown, ou une publication numérique avec EPUB, 
-        le choix du format dépendra toujours des objectifs visés et des contraintes techniques. La maîtrise de ces formats et des outils de conversion associés 
-        permet de s’assurer une flexibilité et une interopérabilité maximales dans la gestion des contenus numériques.
+        {{ _("La conversion de formats est indispensable dans des contextes variés, chaque format ayant des particularités qui répondent à des besoins spécifiques. Que ce soit pour un archivage scientifique avec TEI, une documentation technique avec Markdown, ou une publication numérique avec EPUB, le choix du format dépendra toujours des objectifs visés et des contraintes techniques") }}. {{ _("La maîtrise de ces formats et des outils de conversion associés permet de s’assurer une flexibilité et une interopérabilité maximales dans la gestion des contenus numériques") }}.
     </p>
 
 </div>

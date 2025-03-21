@@ -27,126 +27,110 @@
     <div class="fil"> </div>
     <div style="text-align: right;"><a href="{{ url_for('documentation_preprocessing')}}" style="color:#f2a800; text-decoration:none;">{{ _('Documentation suivante') }} >></a></div>
 <div class="tool-box">
-        <h2>Reconnaissance automatique de texte (ATR)</h2>
+        <h2>{{ _("Reconnaissance automatique de texte") }} (ATR)</h2>
         <p>
-            La reconnaissance automatique de texte (ATR, ou "Automatic Text Recognition") désigne l’ensemble des technologies utilisées pour extraire des données textuelles numériques à partir de documents analogiques numérisés. Elle se divise en deux domaines :
+            {{ _("La reconnaissance automatique de texte (ATR, ou "Automatic Text Recognition") désigne l’ensemble des technologies utilisées pour extraire des données textuelles numériques à partir de documents analogiques numérisés") }}. {{ _("Elle se divise en deux domaines ") }}:
         </p>
         <ol>
-            <li><strong>L'OCR (Optical Character Recognition)</strong>, ou reconnaissance optique de caractères, qui se concentre sur l’extraction de texte à partir de documents imprimés.</li>
-            <li><strong>L'HTR (Handwritten Text Recognition)</strong>, ou reconnaissance de texte manuscrit, qui se focalise sur la conversion d'écritures manuscrites en données numériques exploitables.</li>
+            <li><strong>{{ _("L'OCR ") }}(Optical Character Recognition)</strong>, {{ _("ou reconnaissance optique de caractères, qui se concentre sur l’extraction de texte à partir de documents imprimés") }}.</li>
+            <li><strong>{{ _("L'HTR ") }}(Handwritten Text Recognition)</strong>, {{ _("ou reconnaissance de texte manuscrit, qui se focalise sur la conversion d'écritures manuscrites en données numériques exploitables") }}.</li>
         </ol>
         <p>
-            Ces technologies reposent sur l’intelligence artificielle, en particulier sur l'apprentissage automatique (machine learning), pour analyser et interpréter le contenu des images.
+            {{ _("Ces technologies reposent sur l’intelligence artificielle, en particulier sur l'apprentissage automatique (machine learning), pour analyser et interpréter le contenu des images") }}.
         </p>
         <br>
 
-        <h4>Les étapes du processus</h4>
-        <p>La reconnaissance de caractères suit deux grandes étapes :</p>
+        <h4>{{ _("Les étapes du processus") }}</h4>
+        <p>{{ _("La reconnaissance de caractères suit deux grandes étapes ") }}:</p>
         <ol>
             <li>
-                <strong>Segmentation</strong> : Cette étape identifie les zones de texte dans l’image et détermine leur organisation en lignes, facilitant ainsi le traitement. 
-                Pour les manuscrits, cette phase peut nécessiter une intervention manuelle en raison de la variabilité des écritures.
+                <strong>Segmentation</strong> : {{ _("Cette étape identifie les zones de texte dans l’image et détermine leur organisation en lignes, facilitant ainsi le traitement") }}. {{ _("Pour les manuscrits, cette phase peut nécessiter une intervention manuelle en raison de la variabilité des écritures") }}.
             </li>
             <li>
-                <strong>Reconnaissance des caractères</strong> : Une fois les lignes de texte isolées, le système identifie chaque caractère et le transforme en texte numérique. 
-                Pour l’OCR, ces deux étapes sont souvent réalisées simultanément grâce aux capacités avancées des algorithmes modernes.
+                <strong>{{ _("Reconnaissance des caractères</strong> : {{ _("Une fois les lignes de texte isolées, le système identifie chaque caractère et le transforme en texte numérique") }}. {{ _("Pour l’OCR, ces deux étapes sont souvent réalisées simultanément grâce aux capacités avancées des algorithmes modernes") }}.
             </li>
         </ol>
         <br>
 
-        <h4>Conditions pour une reconnaissance optimale</h4>
+        <h4>{{ _("Conditions pour une reconnaissance optimale") }}</h4>
         <p>
-            Pour maximiser la qualité de la reconnaissance, il est essentiel que les images répondent à plusieurs critères :
+            {{ _("Pour maximiser la qualité de la reconnaissance, il est essentiel que les images répondent à plusieurs critères ") }}:
         </p>
         <ul>
-            <li><strong>Netteté</strong> : Les images floues compromettent l’identification des caractères.</li>
-            <li><strong>Contraste</strong> : Le texte doit se détacher clairement du fond.</li>
-            <li><strong>Alignement</strong> : Les lignes de texte doivent être droites pour simplifier leur détection.</li>
+            <li><strong>{{ _("Netteté") }}</strong> : {{ _("Les images floues compromettent l’identification des caractères") }}.</li>
+            <li><strong>{{ _("Contraste") }}</strong> : {{ _("Le texte doit se détacher clairement du fond") }}.</li>
+            <li><strong>{{ _("Alignement") }}</strong> : {{ _("Les lignes de texte doivent être droites pour simplifier leur détection") }}.</li>
         </ul>
         <br>
 
-        <h4>Performance et limites actuelles</h4>
+        <h4>{{ _("Performance et limites actuelles") }}</h4>
         <p>
-            Pour les langues utilisant des caractères latins, les logiciels d’OCR modernes atteignent généralement un taux de reconnaissance supérieur à 90 %, assurant une conversion très fiable des textes imprimés. Cependant, les résultats peuvent être altérés par des images de mauvaise qualité ou des écritures manuscrites particulièrement complexes.
+            {{ _("Pour les langues utilisant des caractères latins, les logiciels d’OCR modernes atteignent généralement un taux de reconnaissance supérieur à 90 %, assurant une conversion très fiable des textes imprimés") }}. {{ _("Cependant, les résultats peuvent être altérés par des images de mauvaise qualité ou des écritures manuscrites particulièrement complexes") }}.
         </p>
         <br>
 
-        <h4>Adaptabilité avec des outils avancés</h4>
+        <h4>{{ _("Adaptabilité avec des outils avancés") }}</h4>
         <p>
-            Dans les cas où les images ne remplissent pas parfaitement les critères précédents (par exemple : présence de bruit ou de fond complexe), des outils comme <strong>eScriptorium</strong> offrent une solution performante. Cette plateforme, accessible via 
-            <a href="https://obtic-gpu1.mesu.sorbonne-universite.fr:8501/">ce lien</a>, est capable de gérer des contraintes spécifiques et d’améliorer les résultats de reconnaissance grâce à ses fonctionnalités avancées.
+            {{ _("Dans les cas où les images ne remplissent pas parfaitement les critères précédents (par exemple : présence de bruit ou de fond complexe), des outils comme <strong>eScriptorium</strong> offrent une solution performante") }}. {{ _("Cette plateforme, accessible via ") }}<a href="https://obtic-gpu1.mesu.sorbonne-universite.fr:8501/">{{ _("ce lien") }}</a>, {{ _("est capable de gérer des contraintes spécifiques et d’améliorer les résultats de reconnaissance grâce à ses fonctionnalités avancées") }}.
         </p>
         <hr>
-        <h2>Reconnaissance Automatique de la Parole (ASR)</h2>
+        <h2>{{ _("Reconnaissance Automatique de la Parole") }} (ASR)</h2>
         <p>
-            La reconnaissance automatique de la parole (ASR, pour "Automatic Speech Recognition") est une technologie qui permet de convertir la parole humaine en texte écrit. 
-            Elle repose sur des avancées en intelligence artificielle, notamment l'apprentissage profond, et trouve des applications dans de nombreux domaines.
+            {{ _("La reconnaissance automatique de la parole (ASR, pour "Automatic Speech Recognition") est une technologie qui permet de convertir la parole humaine en texte écrit") }}. {{ _("Elle repose sur des avancées en intelligence artificielle, notamment l'apprentissage profond, et trouve des applications dans de nombreux domaines") }}.
         </p>
         <br>
 
-        <h4>Applications de l'ASR</h4>
+        <h4>{{ _("Applications de l'ASR") }}</h4>
         <ul>
             <li>
-                <strong>Assistants vocaux et appareils intelligents</strong> : 
-                L'ASR est au cœur des assistants personnels comme Siri, Alexa ou Google Assistant, permettant une interaction naturelle avec les appareils.
+                <strong>{{ _("Assistants vocaux et appareils intelligents") }}</strong> : {{ _("L'ASR est au cœur des assistants personnels comme Siri, Alexa ou Google Assistant, permettant une interaction naturelle avec les appareils") }}.
             </li>
             <li>
-                <strong>Accessibilité</strong> : 
-                Elle joue un rôle clé pour les personnes en situation de handicap, en facilitant la communication et l'accès à l'information.
+                <strong>{{ _("Accessibilité") }}</strong> : {{ _("Elle joue un rôle clé pour les personnes en situation de handicap, en facilitant la communication et l'accès à l'information") }}.
             </li>
             <li>
-                <strong>Transcription automatique</strong> : 
-                Utilisée pour générer des sous-titres en temps réel pour des vidéos, des films ou des conférences, elle améliore l'accessibilité et l'efficacité.
+                <strong>{{ _("Transcription automatique") }}</strong> : {{ _("Utilisée pour générer des sous-titres en temps réel pour des vidéos, des films ou des conférences, elle améliore l'accessibilité et l'efficacité") }}.
             </li>
             <li>
-                <strong>Domaines spécialisés</strong> : 
-                Dans le secteur juridique, l'ASR est utilisée pour transcrire des dictées ou des audiences. En médecine, elle aide à la transcription des notes cliniques.
+                <strong>{{ _("Domaines spécialisés") }}</strong> : {{ _("Dans le secteur juridique, l'ASR est utilisée pour transcrire des dictées ou des audiences") }}. {{ _("En médecine, elle aide à la transcription des notes cliniques") }}.
             </li>
         </ul>
         <br>
 
 
-        <h4>Fonctionnement de l'ASR</h4>
-        <p>L'ASR repose sur plusieurs étapes :</p>
+        <h4>{{ _("Fonctionnement de l'ASR") }}</h4>
+        <p>{{ _("L'ASR repose sur plusieurs étapes ") }}:</p>
         <ol>
             <li>
-                <strong>Prétraitement du signal audio</strong> : 
-                Le son est transformé en spectrogramme pour être analysé par des modèles d'apprentissage.
+                <strong>{{ _("Prétraitement du signal audio") }}</strong> : {{ _("Le son est transformé en spectrogramme pour être analysé par des modèles d'apprentissage") }}.
             </li>
             <li>
-                <strong>Modèles acoustiques et linguistiques</strong> : 
-                Ces modèles identifient les phonèmes et les mots en fonction du contexte.
+                <strong>{{ _("Modèles acoustiques et linguistiques") }}</strong> : {{ _("Ces modèles identifient les phonèmes et les mots en fonction du contexte") }}.
             </li>
             <li>
-                <strong>Post-traitement</strong> : 
-                Les transcriptions sont enrichies avec des éléments comme la ponctuation et la capitalisation grâce au traitement du langage naturel (NLP).
+                <strong>{{ _("Post-traitement") }}</strong> : {{ _("Les transcriptions sont enrichies avec des éléments comme la ponctuation et la capitalisation grâce au traitement du langage naturel") }} (NLP).
             </li>
         </ol>
         <br>
 
-        <h4>Défis et innovations</h4>
+        <h4>{{ _("Défis et innovations") }}</h4>
         <ul>
             <li>
-                <strong>Variabilité de la parole</strong> : 
-                Les accents, les intonations et le bruit ambiant compliquent la tâche des systèmes ASR.
+                <strong>{{ _("Variabilité de la parole") }}</strong> : {{ _("Les accents, les intonations et le bruit ambiant compliquent la tâche des systèmes ASR") }}.
             </li>
             <li>
-                <strong>Langues sous-représentées</strong> : 
-                Les progrès se concentrent souvent sur les langues les plus parlées, laissant de côté certaines langues ou dialectes.
+                <strong>{{ _("Langues sous-représentées") }}</strong> : {{ _("Les progrès se concentrent souvent sur les langues les plus parlées, laissant de côté certaines langues ou dialectes") }}.
             </li>
             <li>
-                <strong>Adaptation aux accents</strong> : 
-                Les systèmes modernes intègrent des mécanismes pour mieux gérer les variations d'accent.
+                <strong>{{ _("Adaptation aux accents") }}</strong> : {{ _("Les systèmes modernes intègrent des mécanismes pour mieux gérer les variations d'accent") }}.
             </li>
         </ul>
         <br>
 
-        <h4>Technologies émergentes</h4>
+        <h4>{{ _("Technologies émergentes") }}</h4>
         <p>
-            Les modèles d'apprentissage profond, comme ceux basés sur les réseaux neuronaux récurrents (RNN) ou les transformateurs, ont considérablement amélioré la précision des systèmes ASR. 
-            Des approches comme le modèle "end-to-end" simplifient les pipelines traditionnels en intégrant toutes les étapes dans un seul réseau.
+            {{ _("Les modèles d'apprentissage profond, comme ceux basés sur les réseaux neuronaux récurrents (RNN) ou les transformateurs, ont considérablement amélioré la précision des systèmes ASR") }}. {{ _("Des approches comme le modèle "end-to-end" simplifient les pipelines traditionnels en intégrant toutes les étapes dans un seul réseau") }}.
         </p>
-
     <br>
     <br>
     </div>
