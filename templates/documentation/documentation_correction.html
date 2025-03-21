@@ -3,39 +3,131 @@
 {% block content %}
 
 <style>
-.item-list {
-    list-style: none;
-    padding: 0;
+.outil li {
+    margin-left: 3em;
 }
 
-.item-list li {
-    margin: 10px;
-    display: flex;
-    align-items: center;
+.outil strong {
+    color: #f2a800;
 }
 
-.item-list img {
-    max-width: 130px; /* Ajustez la largeur maximale de l'image selon vos besoins */
-    height: auto;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    margin-right: 30px; /* Ajoute un espace entre l'image et le texte */
-}
-
-.item-list p {
-    margin: 5px 0 0;
-}
-.item-list li:hover {
-    color:#f2a800;
-	cursor: pointer;
+.outil h4{
+  font-family: 'Roboto', sans-serif;
+  font-size:1.2em;
+  margin:28px 0;
+  border-left: 5px solid #f2a800;
+  color: #263e8d;
+  padding:10px;
 }
 
 </style>
 
 <div class="outil">
-	<div class="doc-intro">
-	<h2 style="font-family:'Comprehension', serif;">Correction de texte</h2>
-	<p>Documentation à venir</p>
+	<div class="fil"> </div>
+<div class="tool-box">
+    <h2>Corrections et graphies</h2>
+    <p>
+        La correction des erreurs et la prise en compte des graphies anciennes jouent un rôle fondamental dans l’analyse et l’interprétation 
+        de textes anciens ou modernes. Voici une explication détaillée de ce qu’est la <strong>graphie ancienne</strong>, de ce à quoi elle 
+        peut ressembler, des types de documents où on la trouve et du processus de <strong>normalisation</strong>. Nous aborderons aussi 
+        les erreurs courantes et les techniques de correction orthographique.
+    </p>
+    <hr>
+    <h2>Qu’est-ce que la graphie ancienne ?</h2>
+    <p>
+        La <strong>graphie ancienne</strong> désigne l’écriture et l’orthographe utilisées dans des périodes historiques passées. Elle inclut des 
+        formes de mots, des conventions orthographiques ou des caractères qui diffèrent de ceux utilisés dans l’orthographe contemporaine. 
+        Ces particularités reflètent l’évolution des langues au fil des siècles.
+    </p>
+    <h4>À quoi cela peut ressembler :</h4>
+    <ul>
+        <li><strong>Variations orthographiques</strong> : Par exemple, "voulentiers" au lieu de "volontiers", ou "roy" pour "roi".</li>
+        <li><strong>Caractères spécifiques</strong> : Des lettres aujourd’hui disparues, comme le long "s" (ƒ) utilisé en ancien français ou en anglais élisabéthain.</li>
+        <li><strong>Différentes écritures manuscrites</strong> : Des styles calligraphiques, comme la gothique, qui rendent la lecture complexe pour les lecteurs modernes.</li>
+    </ul>
+    <h4>Types de documents où on la trouve :</h4>
+    <ul>
+        <li><strong>Textes manuscrits anciens</strong> : Lettres, journaux, manuscrits littéraires ou administratifs.</li>
+        <li><strong>Imprimés anciens</strong> : Livres datant des débuts de l’imprimerie (XVe-XVIIe siècle).</li>
+        <li><strong>Documents historiques</strong> : Contrats, registres paroissiaux, archives judiciaires.</li>
+    </ul>
+    <hr>
+    <h2>La normalisation des graphies</h2>
+    <p>
+        La <strong>normalisation</strong> consiste à transformer les graphies anciennes en leur forme contemporaine tout en respectant 
+        le sens du texte. Ce processus est crucial pour rendre ces textes plus accessibles et exploitables, notamment dans des 
+        contextes numériques ou d’analyse linguistique.
+    </p>
+    <h4>Objectifs de la normalisation :</h4>
+    <ul>
+        <li>Uniformiser l'orthographe pour faciliter la recherche et l’analyse.</li>
+        <li>Conserver les particularités historiques dans des éditions critiques.</li>
+        <li>Aider les algorithmes à comprendre et traiter des textes anciens.</li>
+    </ul>
+    <h4>Exemples de normalisation :</h4>
+    <ul>
+        <li><strong>Texte original</strong> : "Au lieu que le Roy vint en son pais."</li>
+        <li><strong>Texte normalisé</strong> : "Au lieu que le roi vint en son pays."</li>
+    </ul>
+    <p>
+        La normalisation peut être effectuée manuellement par des éditeurs ou de façon semi-automatisée grâce à des outils d'OCR spécialisés.
+    </p>
+    <hr>
+    <h2>Correction des erreurs orthographiques</h2>
+    <p>
+        La correction des erreurs est une autre dimension importante, qui intervient lorsque des mots sont mal écrits ou mal reconnus, que ce soit dans des textes anciens ou modernes.
+    </p>
+    <h4>Méthodes de correction :</h4>
+    <ul>
+        <li>
+            <strong>Proximité orthographique</strong> : Identifier les mots proches en termes de distance d'édition. Par exemple :
+            <ul>
+                <li>Mot erroné : "graffe"</li>
+                <li>Suggestions : "giraffe" (diffère par une seule lettre, donc plus probable), "grail", "graf".</li>
+            </ul>
+        </li>
+        <li>
+            <strong>Approches contextuelles</strong> : Les modèles modernes, comme ceux basés sur les transformateurs, utilisent le contexte pour proposer des corrections plus pertinentes.
+        </li>
+    </ul>
+    <h4>Applications :</h4>
+    <ul>
+        <li>Correction automatique dans des éditeurs de texte.</li>
+        <li>Prétraitement dans des projets d’analyse textuelle ou de reconnaissance de texte (OCR).</li>
+    </ul>
+    <hr>
+    <h2>Illustrations d'exemples</h2>
+    <ul>
+        <li>
+            <strong>Graphie ancienne et normalisation</strong>  
+            <ul>
+                <li>Texte original : "Que cecy soit vne leçon pour les enfans."</li>
+                <li>Texte normalisé : "Que ceci soit une leçon pour les enfants."</li>
+            </ul>
+        </li>
+        <li>
+            <strong>Correction orthographique</strong>  
+            <ul>
+                <li>Texte erroné : "Les giraphes vivent en Afrique."</li>
+                <li>Correction suggérée : "Les girafes vivent en Afrique."</li>
+            </ul>
+        </li>
+        <li>
+            <strong>Graphie spécifique (long "s")</strong>  
+            <ul>
+                <li>Texte original (XVIIe siècle) : "ſavons que chacun a raison."</li>
+                <li>Texte normalisé : "savons que chacun a raison."</li>
+            </ul>
+        </li>
+    </ul>
+    <hr>
+    <h2>Conclusion</h2>
+    <p>
+        La prise en compte des graphies anciennes et la correction des erreurs orthographiques sont des éléments essentiels pour préserver et rendre 
+        accessible le patrimoine linguistique. La <strong>normalisation</strong> permet d’adapter les textes anciens à des normes contemporaines sans 
+        en perdre l’essence historique, tandis que les techniques de <strong>correction automatique</strong> facilitent leur exploitation pour des analyses modernes. 
+        Avec des outils avancés et des algorithmes, ces processus deviennent plus précis et efficaces, contribuant à la valorisation et à l’étude des textes anciens ou erronés.
+    </p>
 	</div>
 </div>
 {% endblock %}
