@@ -3,39 +3,32 @@
 {% block content %}
 
 <style>
-.item-list {
-    list-style: none;
-    padding: 0;
+.outil li {
+    margin-left: 3em;
 }
 
-.item-list li {
-    margin: 10px;
-    display: flex;
-    align-items: center;
+.outil strong {
+    color: #f2a800;
 }
 
-.item-list img {
-    max-width: 130px; /* Ajustez la largeur maximale de l'image selon vos besoins */
-    height: auto;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    margin-right: 30px; /* Ajoute un espace entre l'image et le texte */
-}
-
-.item-list p {
-    margin: 5px 0 0;
-}
-.item-list li:hover {
-    color:#f2a800;
-	cursor: pointer;
+.outil h4{
+  font-family: 'Roboto', sans-serif;
+  font-size:1.2em;
+  margin:28px 0;
+  border-left: 5px solid #f2a800;
+  color: #263e8d;
+  padding:10px;
 }
 
 </style>
 
 <div class="outil">
-	<div class="doc-intro">
-	<h2 style="font-family:'Comprehension', serif;">Analyses</h2>
-	<p>Tutoriel à venir</p>
+	<div class="fil"> </div>
+    <div style="text-align: left;"><a href="{{ url_for('tutoriel_extraction')}}" style="color:#f2a800; text-decoration:none;"><< {{ _('Tutoriel précédent') }}</a></div>
+    <div style="text-align: right;"><a href="{{ url_for('tutoriel_generation')}}" style="color:#f2a800; text-decoration:none;">{{ _('Tutoriel suivant') }} >></a></div>
+    <div class="fil"> </div>
+    <div class="tool-box">
+        <p>Tutoriel à venir</p>
 	</div>
 </div>
 {% endblock %}
