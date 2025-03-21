@@ -7,7 +7,7 @@
 
   <h2>{{ _('Étiquetage morphosyntaxique') }}</h2>
   <p>{{ _("Cette section permet d'annoter la catégorie grammaticale de chaque mot d'un texte avec")}} <a href="https://spacy.io/usage/linguistic-features#pos-tagging" target="_blank">{{ _("l'outil POS tagging de spaCy") }}</a>. <br>{{ _("Le document renvoyé précise le token récupéré et son étiquette morphosyntaxique")}}.</p>
-  <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_annotation') }}" target="_blank">{{ _("Voir la documentation") }}</a> / <a href="{{ url_for('tutoriel_annotation') }}"  target="_blank">{{ _('Voir le tutoriel') }}</a></p>
+  <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_annotation') }}" target="_blank">{{ _("Voir la documentation") }}</a></p>
   <div class="infos_outil" style="display: block;margin: 0 auto 15px auto;">
         <input id="show" type=checkbox><label for="show" class="infos_title"><i class="fa-solid fa-circle-info"></i> {{ _("Informations sur les classes d'étiquettes") }}<i class="fa-solid fa-angle-right" style="float:right;margin-top:5px;margin-left:15px;cursor: pointer;"></i></label></p>
         <div class="info_popped">

@@ -15,6 +15,9 @@
         <li><hi style="font-weight: bold;">N-Grams (Option 3)</hi> : {{ _('Détection de séquences contiguës de n éléments (mots, caractères ou symboles)') }} {{ _('dans un texte ou un discours donné') }}</li>
         <li><hi style="font-weight: bold;">{{ _('Analyse des dépendances') }} (Option 4)</hi> : {{ _("Identification des relations entre les mots d'une phrase, en reliant chacun d'eux") }} {{ _('en fonction de sa fonction grammaticale comme sujet, objet, complément ou modificateur') }}</li>
     </ul></p></div>
+    
+    <br>
+    <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_analyses') }}"  target="_blank">{{ _('Voir la documentation') }}</a></p>
     <br>
     <form action="{{ url_for('analyze_linguistic') }}" id="linguistic-form" method="post" enctype="multipart/form-data" onsubmit="showloader('loader')">
         <div class="centered-div">

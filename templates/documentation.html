@@ -3,31 +3,20 @@
 {% block content %}
 
 <style>
-.item-list {
-    list-style: none;
-    padding: 0;
+.container {
+  display: flex;
+  flex-wrap: wrap; /* Permet le retour à la ligne */
+  align-items: stretch;
+  justify-content: space-between; /* Espace équilibré entre les colonnes */
+  gap: 20px; /* Espacement horizontal et vertical entre les colonnes */
+  width: 70%;
+  margin: auto;
+  margin-top: 35px;
 }
 
-.item-list li {
-    margin: 10px;
-    display: flex;
-    align-items: center;
-}
-
-.item-list img {
-    max-width: 130px; /* Ajustez la largeur maximale de l'image selon vos besoins */
-    height: auto;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    margin-right: 30px; /* Ajoute un espace entre l'image et le texte */
-}
-
-.item-list p {
-    margin: 5px 0 0;
-}
-.item-list li:hover {
-    color:#f2a800;
-	cursor: pointer;
+.container > * {
+  flex: 1 1 calc(33.33% - 20px); /* 33.33% pour 3 colonnes, moins l'espacement */
+  box-sizing: border-box; /* Inclut le padding et la bordure dans la taille */
 }
 
 </style>
@@ -38,40 +27,45 @@
 	<p>{{ _("La boîte à outils Pandore a été conçue de manière à prendre en entrée un corpus, quel qu'il soit") }}, {{ _("et de fournir directement le résultat des traitements de ce corpus") }}. 
 		{{ _('Pour ce faire, de nombreux outils et diverses techniques sont exposés') }}. <br>
 	{{ _('Les sections suivantes détaillent ces outils de Pandore et sont classées par tâche') }}.</p>
+	<p>{{ _("Cette documentation a été réalisée à partir de la documentation de la première version de Pandore, du livre") }} <em>Speech and Language Processing: An Introduction to Natural Language Processing, Computational Linguistics, and Speech Recognition with Language Models, 3rd edition.</em> (2025) {{ _("de") }} Daniel Jurafsky and James H. Martin. 2025 ({{ _("lien") }} <a href="https://web.stanford.edu/~jurafsky/slp3" target="_blank">{{ _("ici") }}</a>), {{ _("et de l'IA") }} <a href="https://copilot.microsoft.com/" target="_blank">Copilot</a>.</p>
 	</div>
 	<h3>{{ _('Sommaire') }}</h3>
-
-	<div id="summary">
-		<ul class="item-list">
-			<li onclick="window.open('{{ url_for('documentation_recognition') }}');">
-				<p>{{ _('Reconnaissance automatique') }}</p>
-			</li>
-			<li onclick="window.open('{{ url_for('documentation_preprocessing') }}');">
-				<p>{{ _('Prétraitement') }}</p>
-			</li>
-			<li onclick="window.open('{{ url_for('documentation_conversion') }}');">
-				<p>{{ _('Conversion') }}</p>
-			</li>
-			<li onclick="window.open('{{ url_for('documentation_annotation') }}');">
-				<p>{{ _("Tâches d'annotation") }}</p>
-			</li>
-			<li onclick="window.open('{{ url_for('documentation_extraction') }}');">
-				<p>{{ _("Extraction d'informations") }}</p>
-			</li>
-			<li onclick="window.open('{{ url_for('documentation_analyses') }}');">
-				<p>{{ _('Analyses') }}</p>
-			</li>
-			<li onclick="window.open('{{ url_for('documentation_correction') }}');">
-				<p>{{ _('Corrections') }}</p>
-			</li>
-			<li onclick="window.open('{{ url_for('documentation_workflow') }}');">
-				<p>{{ _('Chaînes de traitement') }}</p>
-			</li>
-			<li onclick="window.open('{{ url_for('documentation_generation') }}');">
-				<p>{{ _('Génération de texte') }}</p>
-			</li>
-		</ul>
-	</div>
+<div class="bandeau-outils">
+    <div class="container">
+      <div class="box-outil-accueil shadow" onclick="window.location.href='{{ url_for('documentation_recognition') }}';">
+        <div class="rubrique-icon"><img alt="OCR/HTR" src="{{url_for('static', filename='img/icons/text_recognition.png')}}"></div>
+        <span class="rubrique-title"><h3>{{ _('Reconnaissance automatique de texte (ATR)') }}</h3></span>
+      </div>
+      <div class="box-outil-accueil shadow" onclick="window.location.href='{{ url_for('documentation_preprocessing') }}';">
+        <div class="rubrique-icon"><img alt="Prétraitement" src="{{url_for('static', filename='img/icons/text_cleaning.png')}}"></div>
+        <span class="rubrique-title"><h3>{{ _('Prétraitement') }}</h3></span>
+      </div>
+      <div class="box-outil-accueil shadow" onclick="window.location.href='{{ url_for('documentation_conversion') }}';">
+        <div class="rubrique-icon"><img alt="Conversion de formats" src="{{url_for('static', filename='img/icons/conversion_xml.png')}}"></div>
+        <span class="rubrique-title"><h3>{{ _('Conversion de formats') }}</h3></span>
+      </div>
+      <div class="box-outil-accueil shadow" onclick="window.location.href='{{ url_for('documentation_annotation') }}';">
+        <div class="rubrique-icon"><img alt="Tâches d'annotation automatique" src="{{url_for('static', filename='img/icons/annotation.png')}}"></div>
+        <span class="rubrique-title"><h3>{{ _("Tâches d'annotation automatique") }}</h3></span>
+      </div>
+      <div class="box-outil-accueil shadow" onclick="window.location.href='{{ url_for('documentation_extraction') }}';">
+        <div class="rubrique-icon"><img alt="Extraction d'information" src="{{url_for('static', filename='img/icons/information_extraction.png')}}"></div>
+        <span class="rubrique-title"><h3>{{ _("Extraction d'information") }}</h3></span>
+      </div>
+      <div class="box-outil-accueil shadow" onclick="window.location.href='{{ url_for('documentation_analyses') }}';">
+        <div class="rubrique-icon"><img alt="Analyses" src="{{url_for('static', filename='img/icons/analytics.png')}}"></div>
+        <span class="rubrique-title"><h3>{{ _('Analyses') }}</h3></span>
+      </div>
+      <div class="box-outil-accueil shadow" onclick="window.location.href='{{ url_for('documentation_correction') }}';">
+        <div class="rubrique-icon"><img alt="Correction textuelle" src="{{ url_for('static', filename='img/icons/correction.png') }}"></div>
+        <span class="rubrique-title"><h3>{{ _('Correction textuelle') }}</h3></span>
+      </div>
+      <div class="box-outil-accueil shadow" onclick="window.location.href='{{ url_for('documentation_generation') }}';">
+        <div class="rubrique-icon"><img alt="Génération de texte" src="{{url_for('static', filename='img/icons/traduction.png')}}"></div>
+        <span class="rubrique-title"><h3>{{ _('Génération de texte') }}</h3></span>
+      </div>
+    </div>
+  </div>
 </div>
 {% endblock %}
 

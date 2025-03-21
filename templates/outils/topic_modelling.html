@@ -6,8 +6,7 @@
 <div class="outil">
     <div class="fil"><a href="{{ url_for('extraction_information')}}"><< {{ _('Retour aux tâches') }}</a></div>
     <h2>Topic Modelling</h2>
-    <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_extraction') }}" target="_blank">{{ _("Voir la documentation") }}</a></p>
-    <p style="text-align: center;padding:20px"><a href="{{ url_for('tutoriel_extraction') }}" target="_blank">{{ _("Voir le tutoriel") }}</a></p>
+    <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_extraction') }}" target="_blank">{{ _("Voir la documentation") }}</a> / <a href="{{ url_for('tutoriel_extraction') }}" target="_blank">{{ _("Voir le tutoriel") }}</a></p>
     <div class="container_two_columns">
         <div class="item">
             <h3>{{ _("Chargement des fichiers") }}</h3>
@@ -39,7 +38,7 @@
         </div>
         <div class="item">
             <h3>{{ _("Résultats") }}</h3>
-            <div class="loader"><div class="loadingio-spinner-ball-205vl2x7f7n"><div class="ldio-b8p5li8dt1u"><div></div></div></div><p>{{ _("Traitement en cours...") }}</p></div>
+            <div class="loader"><div class="loadingio-spinner-ball-205vl2x7f7n"><div class="ldio-b8p5li8dt1u"><div></div></div></div><p>{{ _("Traitement en cours...") }}</p></div>
             {% if msg != "" %}
             <p>{{ msg }}</p>
             {% endif %}

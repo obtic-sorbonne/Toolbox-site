@@ -15,6 +15,9 @@
         <li><hi style="font-weight: bold;">{{ _("Analyse d'émotions") }} (Option 3)</hi> : {{ _("Processus d'identification d'émotions spécifiques exprimées dans un texte") }} : {{ _('joie, colère, tristesse...') }}</li>
         <li><hi style="font-weight: bold;">{{ _('Score de lecture') }} (Option 4)</hi> : {{ _("Outils utilisés pour évaluer la lisibilité d'un texte écrit et") }} {{ _('fournissant une mesure quantitative de la facilité ou de la difficulté à comprendre un texte') }}</li>
     </ul></p></div>
+    
+    <br>
+    <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_analyses') }}"  target="_blank">{{ _('Voir la documentation') }}</a></p>
     <br>
     <form action="{{ url_for('analyze_text') }}" id="linguistic-form" method="post" enctype="multipart/form-data" onsubmit="showloader('loader')">
         <div class="centered-div">
