@@ -3,39 +3,107 @@
 {% block content %}
 
 <style>
-.item-list {
-    list-style: none;
-    padding: 0;
+.outil li {
+    margin-left: 3em;
 }
 
-.item-list li {
-    margin: 10px;
-    display: flex;
-    align-items: center;
+.outil strong {
+    color: #f2a800;
 }
 
-.item-list img {
-    max-width: 130px; /* Ajustez la largeur maximale de l'image selon vos besoins */
-    height: auto;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    margin-right: 30px; /* Ajoute un espace entre l'image et le texte */
+.outil h4{
+  font-family: 'Roboto', sans-serif;
+  font-size:1.2em;
+  margin:28px 0;
+  border-left: 5px solid #f2a800;
+  color: #263e8d;
+  padding:10px;
 }
 
-.item-list p {
-    margin: 5px 0 0;
+table {
+    width: 100%; /* Le tableau occupe la largeur totale */
+    border-collapse: collapse; /* Fusionne les bordures pour un rendu plus net */
 }
-.item-list li:hover {
-    color:#f2a800;
-	cursor: pointer;
+
+th, td {
+    border: 2px solid black; /* Lignes noires de 2px autour des cellules */
+    padding: 10px; /* Ajoute de l’espace à l’intérieur des cellules */
+    text-align: left; /* Aligne le contenu à gauche */
 }
+
+th {
+    background-color: #f4f4f4; /* Ajoute un fond légèrement gris pour les en-têtes */
+}
+
+colgroup col:nth-child(1) {
+    width: 20%; /* Première colonne - 20% */
+}
+
+colgroup col:nth-child(2), 
+colgroup col:nth-child(3) {
+    width: 40%; /* Deuxième et troisième colonnes - 40% chacune */
+}
+
 
 </style>
 
 <div class="outil">
-	<div class="doc-intro">
-	<h2 style="font-family:'Comprehension', serif;">Conversion</h2>
-	<p>Tutoriel à venir</p>
+	<div class="fil"> </div>
+    <div style="text-align: right;"><a href="{{ url_for('tutoriel_annotation')}}" style="color:#f2a800; text-decoration:none;">{{ _('Tutoriel suivant') }} >></a></div>
+    <div class="fil"> </div>
+    <div class="tool-box">
+        <table>
+  <thead>
+    <tr>
+      <th>Balise</th>
+      <th>Explication</th>
+      <th>Exemple</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>&lt;titleStmt&gt;</strong></td>
+      <td>Indique les informations liées au titre de l'œuvre ou du document. Cela inclut le titre lui-même et les auteurs ou autres contributeurs principaux.</td>
+      <td><code>&lt;titleStmt&gt; &lt;title&gt;La Divina Commedia&lt;/title&gt; &lt;author&gt;Dante Alighieri&lt;/author&gt; &lt;/titleStmt&gt;</code></td>
+    </tr>
+    <tr>
+      <td><strong>&lt;respStmt&gt;</strong></td>
+      <td>Identifie les responsables ou collaborateurs associés à l'œuvre ou au projet, avec leurs rôles précisés.</td>
+      <td><code>&lt;respStmt&gt; &lt;resp&gt;Editor&lt;/resp&gt; &lt;name&gt;John Doe&lt;/name&gt; &lt;/respStmt&gt;</code></td>
+    </tr>
+    <tr>
+      <td><strong>&lt;publicationStmt&gt;</strong></td>
+      <td>Contient les informations liées à la publication du document : éditeur, lieu, date de publication, et droits associés.</td>
+      <td><code>&lt;publicationStmt&gt; &lt;publisher&gt;Oxford University Press&lt;/publisher&gt; &lt;date&gt;2023&lt;/date&gt; &lt;availability&gt;Open Access&lt;/availability&gt; &lt;/publicationStmt&gt;</code></td>
+    </tr>
+    <tr>
+      <td><strong>&lt;sourceDesc&gt;</strong></td>
+      <td>Fournit des détails sur la source ou l'origine du texte encodé : manuscrit, édition imprimée, etc.</td>
+      <td><code>&lt;sourceDesc&gt; &lt;bibl&gt;Original manuscript: Bibliothèque nationale de France, MS fr. 123&lt;/bibl&gt; &lt;/sourceDesc&gt;</code></td>
+    </tr>
+    <tr>
+      <td><strong>&lt;profileDesc&gt;</strong></td>
+      <td>Décrit le contenu général du document (thèmes, langues utilisées, etc.) et autres caractéristiques textuelles : chronologie, géographie, etc.</td>
+      <td><code>&lt;profileDesc&gt; &lt;langUsage&gt; &lt;language ident="fre"&gt;French&lt;/language&gt; &lt;/langUsage&gt; &lt;/profileDesc&gt;</code></td>
+    </tr>
+    <tr>
+      <td><strong>&lt;projectDesc&gt;</strong></td>
+      <td>Donne des informations sur le projet dans lequel le texte a été encodé, comme ses objectifs et son cadre institutionnel.</td>
+      <td><code>&lt;projectDesc&gt; &lt;p&gt;This project aims to digitize medieval manuscripts for linguistic research.&lt;/p&gt; &lt;/projectDesc&gt;</code></td>
+    </tr>
+    <tr>
+      <td><strong>&lt;editorialDecl&gt;</strong></td>
+      <td>Spécifie les choix éditoriaux et conventions appliquées lors de l’encodage du texte, comme les suppressions ou corrections effectuées.</td>
+      <td><code>&lt;editorialDecl&gt; &lt;p&gt;The encoding follows standard TEI guidelines for modernizing spelling.&lt;/p&gt; &lt;/editorialDecl&gt;</code></td>
+    </tr>
+    <tr>
+      <td><strong>&lt;revisionDesc&gt;</strong></td>
+      <td>Fournit un historique des modifications et révisions appliquées au fichier TEI.</td>
+      <td><code>&lt;revisionDesc&gt; &lt;change when="2025-03-20" who="editor"&gt;Updated spelling of certain archaic terms.&lt;/change&gt; &lt;/revisionDesc&gt;</code></td>
+    </tr>
+  </tbody>
+</table>
+
 	</div>
 </div>
 {% endblock %}
