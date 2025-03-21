@@ -54,120 +54,103 @@ colgroup col:nth-child(3) {
     <div style="text-align: right;"><a href="{{ url_for('tutoriel_extraction')}}" style="color:#f2a800; text-decoration:none;">{{ _('Tutoriel suivant') }} >></a></div>
     <div class="fil"> </div>
     <div class="tool-box">
-    <h2>Tutoriel : Reconnaissance des Entités Nommées (NER)</h2>
+    <h2>{{ _("Tutoriel : Reconnaissance des Entités Nommées") }} (NER)</h2>
     <p>
-        La reconnaissance des entités nommées (NER) est une tâche essentielle dans le traitement automatique du langage naturel (NLP). 
-        Elle permet d’identifier et de classer automatiquement des entités clés d’un texte, comme les noms de personnes, les lieux, les organisations 
-        ou encore les dates. Cette fonctionnalité est utilisée dans divers contextes, allant de l’extraction d’information au développement d’applications intelligentes.
+        {{ _("La reconnaissance des entités nommées (NER) est une tâche essentielle dans le traitement automatique du langage naturel") }} (NLP). {{ _("Elle permet d’identifier et de classer automatiquement des entités clés d’un texte, comme les noms de personnes, les lieux, les organisations ou encore les dates") }}. {{ _("Cette fonctionnalité est utilisée dans divers contextes, allant de l’extraction d’information au développement d’applications intelligentes") }}.
     </p>
-    <h4>Pourquoi utiliser la NER ?</h4>
-    <p>L’intérêt de la reconnaissance des entités nommées réside dans :</p>
+    <h4>{{ _("Pourquoi utiliser la NER ") }}?</h4>
+    <p>{{ _("L’intérêt de la reconnaissance des entités nommées réside dans ") }}:</p>
     <ul>
-        <li><strong>Gain de temps</strong> : Automatiser l’extraction d’informations spécifiques dans de grands corpus textuels.</li>
-        <li><strong>Structuration des données</strong> : Organiser des textes bruts en données exploitables pour des analyses ultérieures.</li>
-        <li><strong>Applications spécifiques</strong> : Identifier des entités liées à un domaine précis comme le médical (maladies, médicaments) 
-            ou le juridique (lois, noms d’avocats).</li>
-        <li><strong>Optimisation des processus</strong> : La NER alimente de nombreux systèmes d’intelligence artificielle, comme les moteurs de 
-            recherche ou les assistants virtuels.</li>
+        <li><strong>{{ _("Gain de temps") }}</strong> : {{ _("Automatiser l’extraction d’informations spécifiques dans de grands corpus textuels") }}.</li>
+        <li><strong>{{ _("Structuration des données") }}</strong> : {{ _("Organiser des textes bruts en données exploitables pour des analyses ultérieures") }}.</li>
+        <li><strong>{{ _("Applications spécifiques") }}</strong> : {{ _("Identifier des entités liées à un domaine précis comme le médical (maladies, médicaments) ou le juridique (lois, noms d’avocats)") }}.</li>
+        <li><strong>{{ _("Optimisation des processus") }}</strong> : {{ _("La NER alimente de nombreux systèmes d’intelligence artificielle, comme les moteurs de recherche ou les assistants virtuels") }}.</li>
     </ul>
-    <h4>Les modèles populaires pour la NER</h4>
+    <h4>{{ _("Les modèles populaires pour la NER") }}</h4>
     <p>
-        Pour effectuer une NER efficace, plusieurs outils et bibliothèques existent, chacun ayant des caractéristiques et des avantages spécifiques. 
-        Voici un aperçu des trois modèles les plus largement utilisés :
+        {{ _("Pour effectuer une NER efficace, plusieurs outils et bibliothèques existent, chacun ayant des caractéristiques et des avantages spécifiques") }}. {{ _("Voici un aperçu des trois modèles les plus largement utilisés ") }}:
     </p>
     <table>
         <thead>
             <tr>
-                <th>Modèle</th>
+                <th>{{ _("Modèle") }}</th>
                 <th>Description</th>
-                <th>Avantages</th>
-                <th>Limites</th>
+                <th>{{ _("Avantages") }}</th>
+                <th>{{ _("Limites") }}</th>
             </tr>
         </thead>
         <tbody>
             <tr>
                 <td><strong>SpaCy</strong></td>
                 <td>
-                    SpaCy est une bibliothèque Python complète et rapide pour le traitement automatique de texte. 
-                    Elle offre des modèles pré-entraînés pour la NER, adaptés à des langues comme l’anglais et le français, et intègre de nombreuses 
-                    fonctionnalités NLP comme la tokénisation et l’analyse syntaxique.
+                    {{ _("SpaCy est une bibliothèque Python complète et rapide pour le traitement automatique de texte") }}. {{ _("Elle offre des modèles pré-entraînés pour la NER, adaptés à des langues comme l’anglais et le français, et intègre de nombreuses fonctionnalités NLP comme la tokénisation et l’analyse syntaxique") }}.
                 </td>
                 <td>
-                    - Simple à utiliser et rapide.<br>
-                    - Modèles performants pour les langues majoritaires.<br>
-                    - Documentation bien structurée.
+                    - {{ _("Simple à utiliser et rapide") }}.<br>
+                    - {{ _("Modèles performants pour les langues majoritaires") }}.<br>
+                    - {{ _("Documentation bien structurée") }}.
                 </td>
                 <td>
-                    - Moins performant pour les langues sous-représentées.<br>
-                    - Moins flexible pour les entités spécifiques à un domaine particulier.
+                    - {{ _("Moins performant pour les langues sous-représentées") }}.<br>
+                    - {{ _("Moins flexible pour les entités spécifiques à un domaine particulier") }}.
                 </td>
             </tr>
             <tr>
                 <td><strong>Flair</strong></td>
                 <td>
-                    Flair est une bibliothèque open-source qui propose des modèles dynamiques basés sur les embeddings contextuels, facilitant 
-                    la reconnaissance d’entités dans des langues et domaines variés.
+                    {{ _("Flair est une bibliothèque open-source qui propose des modèles dynamiques basés sur les embeddings contextuels, facilitant la reconnaissance d’entités dans des langues et domaines variés") }}.
                 </td>
                 <td>
-                    - Très bonne prise en charge des langues minoritaires.<br>
-                    - Flexible et facile à personnaliser.<br>
-                    - Intègre des représentations contextuelles pour des performances améliorées.
+                    - {{ _("Très bonne prise en charge des langues minoritaires") }}.<br>
+                    - {{ _("Flexible et facile à personnaliser") }}.<br>
+                    - {{ _("Intègre des représentations contextuelles pour des performances améliorées") }}.
                 </td>
                 <td>
-                    - Moins performant que SpaCy pour les langues majoritaires.<br>
-                    - Un peu plus lent à exécuter.
+                    - {{ _("Moins performant que SpaCy pour les langues majoritaires") }}.<br>
+                    - {{ _("Un peu plus lent à exécuter") }}.
                 </td>
             </tr>
             <tr>
                 <td><strong>BERT</strong></td>
                 <td>
-                    Basé sur les transformateurs, BERT fournit des représentations contextuelles riches des mots. 
-                    Il excelle dans des tâches complexes, en prenant en compte l’intégralité du contexte dans une phrase pour identifier avec précision 
-                    les entités nommées.
+                    {{ _("Basé sur les transformateurs, BERT fournit des représentations contextuelles riches des mots") }}. {{ _("Il excelle dans des tâches complexes, en prenant en compte l’intégralité du contexte dans une phrase pour identifier avec précision les entités nommées") }}.
                 </td>
                 <td>
-                    - Performances de pointe grâce à l’analyse contextuelle.<br>
-                    - Adapté aux tâches complexes et aux domaines spécialisés.<br>
-                    - Précision élevée, notamment avec des variantes comme CamemBERT pour le français.
+                    - {{ _("Performances de pointe grâce à l’analyse contextuelle") }}.<br>
+                    - {{ _("Adapté aux tâches complexes et aux domaines spécialisés") }}.<br>
+                    - {{ _("Précision élevée, notamment avec des variantes comme CamemBERT pour le français") }}.
                 </td>
                 <td>
-                    - Modèle plus lourd nécessitant des ressources importantes.<br>
-                    - Courbe d’apprentissage plus élevée pour sa mise en œuvre.<br>
-                    - Temps d’exécution plus long dans certains contextes.
+                    - {{ _("Modèle plus lourd nécessitant des ressources importantes") }}.<br>
+                    - {{ _("Courbe d’apprentissage plus élevée pour sa mise en œuvre") }}.<br>
+                    - {{ _("Temps d’exécution plus long dans certains contextes") }}.
                 </td>
             </tr>
         </tbody>
     </table>
-    <h4>Mise en œuvre pratique</h4>
-    <h5>Choisir un modèle adapté :</h5>
+    <h4>{{ _("Mise en œuvre pratique") }}</h4>
+    <h5>{{ _("Choisir un modèle adapté ") }}:</h5>
     <ul>
-        <li><strong>Débutants</strong> : SpaCy est idéal pour sa facilité d’utilisation et sa rapidité.</li>
-        <li><strong>Analyse multilingue ou spécifique</strong> : Flair propose des modèles pour des langues ou tâches sous-représentées.</li>
-        <li><strong>Projets avancés</strong> : BERT et ses variantes comme CamemBERT offrent une précision inégalée pour des analyses complexes ou contextualisées.</li>
-        <li><strong>Résultat attendu :</strong>
+        <li><strong>{{ _("Débutants") }}</strong> : {{ _("SpaCy est idéal pour sa facilité d’utilisation et sa rapidité") }}.</li>
+        <li><strong>{{ _("Analyse multilingue ou spécifique") }}</strong> : {{ _("Flair propose des modèles pour des langues ou tâches sous-représentées") }}.</li>
+        <li><strong>{{ _("Projets avancés") }}</strong> : {{ _("BERT et ses variantes comme CamemBERT offrent une précision inégalée pour des analyses complexes ou contextualisées") }}.</li>
+        <li><strong>{{ _("Résultat attendu ") }}:</strong>
             <ul>
-                <li>Entité : Albert Einstein, Type : PERSON</li>
-                <li>Entité : Ulm, Type : GPE</li>
-                <li>Entité : Germany, Type : GPE</li>
-                <li>Entité : 1879, Type : DATE</li>
+                <li>{{ _("Entité ") }}: Albert Einstein, Type : PERSON</li>
+                <li>{{ _("Entité ") }}: Ulm, Type : GPE</li>
+                <li>{{ _("Entité ") }}: Germany, Type : GPE</li>
+                <li>{{ _("Entité ") }}: 1879, Type : DATE</li>
             </ul>
     </li></ul>
     <br>
     <h4>Conclusion</h4>
     <p>
-        La reconnaissance des entités nommées (NER) est une technologie incontournable pour structurer et exploiter des données textuelles de manière efficace. 
-        Grâce à des outils comme SpaCy, Flair ou BERT, vous pouvez identifier rapidement des informations précieuses et automatiser des tâches complexes. 
-        À vous de choisir le modèle qui correspond le mieux à vos besoins !
+        {{ _("La reconnaissance des entités nommées (NER) est une technologie incontournable pour structurer et exploiter des données textuelles de manière efficace") }}. {{ _("Grâce à des outils comme SpaCy, Flair ou BERT, vous pouvez identifier rapidement des informations précieuses et automatiser des tâches complexes") }}.
     </p>
     <hr>
-    <h2>Tutoriel : Catégories sémantiques</h2>
+    <h2>{{ _("Tutoriel : Catégories sémantiques") }}</h2>
     <p>
-        Le processus d’étiquetage dans Textolab est itératif et permet de localiser, grâce à des règles heuristiques, des patrons linguistiques sous forme 
-        de chaînes de caractères, d’expressions régulières ou de métadonnées (annotations existantes). Les règles sont déclaratives et ordonnables selon 
-        la priorité. Les règles permettent de lever l'ambiguïté sur certains marqueurs à l'aide d'indices contextuels qui confirment ou qui affinent 
-        l’annotation. La présence d'autres indices infirmatifs permet d'annuler l’annotation en cours. Si toutes les conditions d'une règle sont satisfaites, 
-        une étiquette est attribuée au passage textuel en question (par exemple modalité, polarité, intensité, entité nommée, etc.). 
-        Textolab offre une interface qui permet à l'utilisateur d'exécuter les différentes fonctionnalités de l'outil.
+        {{ _("Le processus d’étiquetage dans Textolab est itératif et permet de localiser, grâce à des règles heuristiques, des patrons linguistiques sous forme de chaînes de caractères, d’expressions régulières ou de métadonnées (annotations existantes)") }}. {{ _("Les règles sont déclaratives et ordonnables selon la priorité") }}. {{ _("Les règles permettent de lever l'ambiguïté sur certains marqueurs à l'aide d'indices contextuels qui confirment ou qui affinent l’annotation") }}. {{ _("La présence d'autres indices infirmatifs permet d'annuler l’annotation en cours") }}. {{ _("Si toutes les conditions d'une règle sont satisfaites, une étiquette est attribuée au passage textuel en question (par exemple modalité, polarité, intensité, entité nommée, etc.)") }}. {{ _("Textolab offre une interface qui permet à l'utilisateur d'exécuter les différentes fonctionnalités de l'outil") }}.
     </p>
 	</div>
 </div>
