@@ -28,9 +28,9 @@
 	<div style="text-align: left;"><a href="{{ url_for('documentation_extraction')}}" style="color:#f2a800; text-decoration:none;"><< {{ _('Documentation précédente') }}</a></div>
     <div style="text-align: right;"><a href="{{ url_for('documentation_correction')}}" style="color:#f2a800; text-decoration:none;">{{ _('Documentation suivante') }} >></a></div>
     <div class="tool-box">
-    <h2>{{ _("Introduction à l’analyse linguistique") }}</h2>
+    <h2>{{ _("Introduction à l'analyse linguistique") }}</h2>
     <p>
-        {{ _("L’analyse linguistique est une discipline clé dans le traitement automatique du langage naturel (NLP), qui consiste à étudier et modéliser les propriétés et structures du langage") }}. {{ _("Elle permet d’extraire des informations grammaticales, syntaxiques, et sémantiques à partir de textes, afin de mieux comprendre leur contenu et d'en tirer des conclusions exploitables") }}. {{ _("L'analyse linguistique repose sur plusieurs processus tels que la détection du langage, l’identification des hapax, les n-grams et l’analyse des dépendances syntaxiques (<em>dependency parsing</em>)") }}.
+        {{ _("L'analyse linguistique est une discipline clé dans le traitement automatique du langage naturel (NLP), qui consiste à étudier et modéliser les propriétés et structures du langage") }}. {{ _("Elle permet d'extraire des informations grammaticales, syntaxiques, et sémantiques à partir de textes, afin de mieux comprendre leur contenu et d'en tirer des conclusions exploitables") }}. {{ _("L'analyse linguistique repose sur plusieurs processus tels que la détection du langage, l'identification des hapax, les n-grams et l'analyse des dépendances syntaxiques (<em>dependency parsing</em>)") }}.
     </p>
     <br>
     <h4>{{ _("Détection du langage") }}</h4>
@@ -56,8 +56,8 @@
     <br>
     <h5>{{ _("Applications principales ") }}:</h5>
     <ul>
-        <li>{{ _("<strong>Études lexicales</strong> : Évaluer la richesse d’un texte en identifiant les mots uniques") }}.</li>
-        <li>{{ _("<strong>Analyse de style</strong> : Les hapax sont souvent révélateurs de l’auteur, notamment dans des études d’attribution d’auteurs") }}.</li>
+        <li>{{ _("<strong>Études lexicales</strong> : Évaluer la richesse d'un texte en identifiant les mots uniques") }}.</li>
+        <li>{{ _("<strong>Analyse de style</strong> : Les hapax sont souvent révélateurs de l'auteur, notamment dans des études d'attribution d'auteurs") }}.</li>
         <li>{{ _("<strong>Détection de bruits ou erreurs</strong> : Les hapax peuvent parfois refléter des fautes typographiques ou des termes mal reconnus") }}.</li>
     </ul>
     <br>
@@ -68,24 +68,24 @@
     <br>
     <h4>N-Grams</h4>
     <p>
-        {{ _("Les <strong>n-grams</strong> sont des séquences de n unités consécutives, généralement des mots ou caractères, extraites d’un texte") }}. {{ _("Par exemple, dans la phrase <em>'Le chat dort'</em>, les bi-grams (n=2) seraient <em>'Le chat'</em> et <em>'chat dort'</em>") }}. {{ _("Cette méthode est couramment utilisée pour capturer des relations locales ou contextuelles entre les mots") }}.
+        {{ _("Les <strong>n-grams</strong> sont des séquences de n unités consécutives, généralement des mots ou caractères, extraites d'un texte") }}. {{ _("Par exemple, dans la phrase <em>'Le chat dort'</em>, les bi-grams (n=2) seraient <em>'Le chat'</em> et <em>'chat dort'</em>") }}. {{ _("Cette méthode est couramment utilisée pour capturer des relations locales ou contextuelles entre les mots") }}.
     </p>
     <br>
     <h5>{{ _("Applications principales ") }}:</h5>
     <ul>
-        <li>{{ _("<strong>Modèles de langage</strong> : Évaluer la probabilité d’occurrence d’une séquence de mots dans un texte") }}.</li>
+        <li>{{ _("<strong>Modèles de langage</strong> : Évaluer la probabilité d'occurrence d'une séquence de mots dans un texte") }}.</li>
         <li>{{ _("<strong>Analyse de similarité</strong> : Comparer des documents pour identifier des phrases ou expressions partagées") }}.</li>
         <li>{{ _("<strong>Détection de cooccurrences</strong> : Mettre en évidence les associations fréquentes entre des mots, ce qui est utile en lexicographie ou en analyse sémantique") }}.</li>
     </ul>
     <br>
     <h5>{{ _("Avantages ") }}:</h5>
     <p>
-        {{ _("Les n-grams fournissent une base simple et puissante pour modéliser la structure locale des textes, mais leur portée se limite aux relations de proximité immédiates, ce qui peut être complété par des approches plus globales comme l’analyse des dépendances") }}.
+        {{ _("Les n-grams fournissent une base simple et puissante pour modéliser la structure locale des textes, mais leur portée se limite aux relations de proximité immédiates, ce qui peut être complété par des approches plus globales comme l'analyse des dépendances") }}.
     </p>
     <br>
     <h4>{{ _("Analyse des dépendances syntaxiques (Dependency Parsing)") }}</h4>
     <p>
-        {{ _("L’analyse des dépendances syntaxiques décrit la structure grammaticale d’une phrase en mettant en relation les mots sous la forme de relations binaires entre un <strong>nœud central</strong> (le <strong>head</strong>) et un <strong>dépendant</strong> (le <strong>modifier</strong>)") }}. {{ _("Contrairement à d’autres formalismes syntaxiques basés sur des règles de structure phrastique, cette méthode s’intéresse aux relations entre mots et leurs rôles dans une phrase") }}.
+        {{ _("L'analyse des dépendances syntaxiques décrit la structure grammaticale d'une phrase en mettant en relation les mots sous la forme de relations binaires entre un <strong>nœud central</strong> (le <strong>head</strong>) et un <strong>dépendant</strong> (le <strong>modifier</strong>)") }}. {{ _("Contrairement à d'autres formalismes syntaxiques basés sur des règles de structure phrastique, cette méthode s'intéresse aux relations entre mots et leurs rôles dans une phrase") }}.
     </p>
     <br>
     <h5>{{ _("Principes fondamentaux ") }}:</h5>
@@ -101,7 +101,7 @@
         <li>
             <strong>{{ _("Relations entre mots") }}</strong> :
             <ul>
-                <li>{{ _("Les relations décrivent des concepts grammaticaux comme le sujet, l’objet ou les modificateurs (ex. : adjectifs, adverbes)") }}.</li>
+                <li>{{ _("Les relations décrivent des concepts grammaticaux comme le sujet, l'objet ou les modificateurs (ex. : adjectifs, adverbes)") }}.</li>
                 <li>{{ _("Par exemple, dans 'Le chat dort', 'chat' est la tête de 'le', et 'dort' est la tête de 'chat'") }}.</li>
             </ul>
         </li>
@@ -121,7 +121,7 @@
     <br>
     <h4>Conclusion</h4>
     <p>
-        {{ _("L’analyse linguistique, à travers des tâches comme la détection du langage, l’identification des hapax, les n-grams et l’analyse des dépendances syntaxiques, offre des outils puissants pour comprendre et traiter les données textuelles") }}. {{ _("Chaque méthode aborde un aspect unique du langage : la détection du langage cible les contextes multilingues, les hapax analysent les spécificités lexicales, les n-grams modélisent les relations locales, et l’analyse des dépendances explore les structures syntaxiques globales") }}. {{ _("Ensemble, ces approches contribuent à transformer les textes bruts en connaissances exploitables par des algorithmes et des systèmes intelligents") }}.
+        {{ _("L'analyse linguistique, à travers des tâches comme la détection du langage, l'identification des hapax, les n-grams et l'analyse des dépendances syntaxiques, offre des outils puissants pour comprendre et traiter les données textuelles") }}. {{ _("Chaque méthode aborde un aspect unique du langage : la détection du langage cible les contextes multilingues, les hapax analysent les spécificités lexicales, les n-grams modélisent les relations locales, et l'analyse des dépendances explore les structures syntaxiques globales") }}. {{ _("Ensemble, ces approches contribuent à transformer les textes bruts en connaissances exploitables par des algorithmes et des systèmes intelligents") }}.
     </p>
 <hr>
     <h2>{{ _("Introduction aux analyses statistiques en linguistique") }}</h2>
@@ -131,7 +131,7 @@
     <br>
     <h4>{{ _("Longueur moyenne de phrase") }}</h4>
     <p>
-        {{ _("La <strong>longueur moyenne de phrase</strong> est une mesure simple qui calcule le nombre moyen de mots par phrase dans un texte") }}. {{ _("Elle fournit des informations sur la structure syntaxique et le style d’écriture") }}.
+        {{ _("La <strong>longueur moyenne de phrase</strong> est une mesure simple qui calcule le nombre moyen de mots par phrase dans un texte") }}. {{ _("Elle fournit des informations sur la structure syntaxique et le style d'écriture") }}.
     </p>
     <br>
     <h5>Applications :</h5>
@@ -143,23 +143,23 @@
     <br>
     <h5>{{ _("Méthode ") }}:</h5>
     <p>
-        {{ _("Cette métrique s’obtient en divisant le total des mots par le nombre de phrases, souvent après une segmentation précise des phrases") }}.
+        {{ _("Cette métrique s'obtient en divisant le total des mots par le nombre de phrases, souvent après une segmentation précise des phrases") }}.
     </p>
     <br>
     <h4>{{ _("Fréquences de mots") }}</h4>
     <p>
-       {{ _(" Les <strong>fréquences de mots</strong> mesurent combien de fois chaque mot apparaît dans un texte ou un corpus") }}. {{ _("Cette approche de base peut fournir un aperçu des termes les plus courants, mais elle présente des limites pour l'analyse sémantique fine") }}.
+       {{ _("Les <strong>fréquences de mots</strong> mesurent combien de fois chaque mot apparaît dans un texte ou un corpus") }}. {{ _("Cette approche de base peut fournir un aperçu des termes les plus courants, mais elle présente des limites pour l'analyse sémantique fine") }}.
     </p>
     <br>
     <h5>{{ _("Problèmes liés à la fréquence brute ") }}:</h5>
     <ul>
         <li>{{ _("<strong>Non-discrimination</strong> : Les mots fréquents comme 'le', 'de' ou 'et' ne portent pas de signification particulière et apparaissent dans presque tous les textes") }}.</li>
-        <li>{{ _("<strong>Importance contextuelle</strong> : Un mot utilisé 100 fois dans un document n’est pas forcément 100 fois plus pertinent pour son contenu") }}.</li>
+        <li>{{ _("<strong>Importance contextuelle</strong> : Un mot utilisé 100 fois dans un document n'est pas forcément 100 fois plus pertinent pour son contenu") }}.</li>
     </ul>
     <br>
     <h5>{{ _("Solutions courantes ") }}:</h5>
     <ul>
-        <li><strong>{{ _("Pondération") }} tf-idf (Term Frequency-Inverse Document Frequency)</strong> : {{ _("Mesure l’importance relative d’un mot dans un document par rapport à sa fréquence dans l’ensemble du corpus") }}.</li>
+        <li><strong>{{ _("Pondération") }} tf-idf (Term Frequency-Inverse Document Frequency)</strong> : {{ _("Mesure l'importance relative d'un mot dans un document par rapport à sa fréquence dans l'ensemble du corpus") }}.</li>
         <li><strong>PPMI (Positive Pointwise Mutual Information)</strong> : {{ _("Identifie des associations contextuelles entre mots en mettant en avant les cooccurrences importantes plutôt que les simples fréquences") }}.</li>
     </ul>
     <br>
@@ -185,7 +185,7 @@
         {{ _("Les cooccurrences permettent d'explorer les liens implicites dans un texte, contribuant à des analyses plus riches et détaillées") }}.
     </p>
     <br>
-    <h4>Embeddings{{ _(" (Représentations vectorielles)") }}</h4>
+    <h4>Embeddings {{ _("(Représentations vectorielles)") }}</h4>
     <p>
         {{ _("Les <strong>embeddings</strong> représentent les mots sous forme de vecteurs dans un espace sémantique multidimensionnel, capturant leurs significations et relations contextuelles") }}. {{ _("Cette méthode s'appuie sur la distribution des mots voisins dans les textes") }}.
     </p>
@@ -194,7 +194,7 @@
     <ul>
         <li>{{ _("<strong>Sémantique vectorielle</strong> : Chaque mot est positionné dans un espace où les vecteurs proches représentent des mots sémantiquement similaires") }}.</li>
         <li><strong>Static embeddings</strong> : {{ _("Modèles comme Word2Vec ou GloVe, où chaque mot a une seule représentation vectorielle") }}.</li>
-        <li><strong>Dynamic embeddings</strong> : {{ _("Modèles modernes (ex. BERT) qui tiennent compte du contexte d’apparition des mots") }}.</li>
+        <li><strong>Dynamic embeddings</strong> : {{ _("Modèles modernes (ex. BERT) qui tiennent compte du contexte d'apparition des mots") }}.</li>
     </ul>
     <br>
     <h5>{{ _("Visualisation ") }}:</h5>
@@ -211,28 +211,28 @@
     <br>
     <h4>Conclusion</h4>
     <p>
-        {{ _("Les analyses statistiques en linguistique, qu’elles portent sur la longueur des phrases, les fréquences, les cooccurrences ou les représentations vectorielles, permettent d’explorer les textes de manière rigoureuse et approfondie") }}. {{ _("En combinant ces méthodes, il devient possible de mieux comprendre la structure et le contenu des données textuelles, tout en fournissant des bases solides pour des applications avancées comme la traduction automatique, l’analyse de sentiments ou encore la recherche d’information") }}.
+        {{ _("Les analyses statistiques en linguistique, qu'elles portent sur la longueur des phrases, les fréquences, les cooccurrences ou les représentations vectorielles, permettent d'explorer les textes de manière rigoureuse et approfondie") }}. {{ _("En combinant ces méthodes, il devient possible de mieux comprendre la structure et le contenu des données textuelles, tout en fournissant des bases solides pour des applications avancées comme la traduction automatique, l'analyse de sentiments ou encore la recherche d'information") }}.
     </p>
 <hr>
     <h2>{{ _("Introduction aux analyses lexicales") }}</h2>
     <p>
-        {{ _("Les analyses lexicales constituent un ensemble de méthodes utilisées pour étudier le vocabulaire d’un texte ou d’un corpus, en mettant en lumière sa structure, ses caractéristiques et ses spécificités") }}. {{ _("Elles jouent un rôle essentiel dans les disciplines comme la linguistique, le traitement automatique du langage naturel (NLP) ou encore les études littéraires") }}. {{ _("Ces analyses permettent de comprendre la richesse lexicale, les relations entre les termes, ainsi que les particularités qui émergent dans un document") }}.
+        {{ _("Les analyses lexicales constituent un ensemble de méthodes utilisées pour étudier le vocabulaire d'un texte ou d'un corpus, en mettant en lumière sa structure, ses caractéristiques et ses spécificités") }}. {{ _("Elles jouent un rôle essentiel dans les disciplines comme la linguistique, le traitement automatique du langage naturel (NLP) ou encore les études littéraires") }}. {{ _("Ces analyses permettent de comprendre la richesse lexicale, les relations entre les termes, ainsi que les particularités qui émergent dans un document") }}.
     </p>
     <br>
     <h4>{{ _("Dispersion lexicale") }}</h4>
     <p>
-        {{ _("La <strong>dispersion lexicale</strong> analyse la répartition des termes au sein d’un texte ou d’un corpus. Elle examine dans quelle mesure un mot spécifique est uniformément distribué ou concentré dans certaines parties du document") }}.
+        {{ _("La <strong>dispersion lexicale</strong> analyse la répartition des termes au sein d'un texte ou d'un corpus. Elle examine dans quelle mesure un mot spécifique est uniformément distribué ou concentré dans certaines parties du document") }}.
     </p>
     <br>
     <h5>Applications :</h5>
     <ul>
-        <li>{{ _("<strong>Études thématiques</strong> : Identifier les sections d’un texte où un mot-clé est particulièrement récurrent, indiquant des passages thématiques importants") }}.</li>
+        <li>{{ _("<strong>Études thématiques</strong> : Identifier les sections d'un texte où un mot-clé est particulièrement récurrent, indiquant des passages thématiques importants") }}.</li>
         <li>{{ _("<strong>Analyse de style</strong> : Étudier si la répartition des mots varie selon les auteurs ou les genres littéraires") }}.</li>
     </ul>
     <br>
     <h5>{{ _("Outils ") }}:</h5>
     <p>
-        {{ _("Les graphiques de dispersion sont souvent utilisés pour visualiser la répartition des mots, facilitant l’identification de motifs ou de regroupements") }}.
+        {{ _("Les graphiques de dispersion sont souvent utilisés pour visualiser la répartition des mots, facilitant l'identification de motifs ou de regroupements") }}.
     </p>
     <br>
     <h4>{{ _("Diversité lexicale") }}</h4>
@@ -242,40 +242,40 @@
     <br>
     <h5>Applications :</h5>
     <ul>
-        <li>{{ _("<strong>Analyse de style d’auteur</strong> : Déterminer si un auteur emploie un vocabulaire varié ou répétitif") }}.</li>
-        <li>{{ _("<strong>Études comparatives</strong> : Évaluer la richesse lexicale entre différents textes ou traductions d’une même œuvre") }}.</li>
+        <li>{{ _("<strong>Analyse de style d'auteur</strong> : Déterminer si un auteur emploie un vocabulaire varié ou répétitif") }}.</li>
+        <li>{{ _("<strong>Études comparatives</strong> : Évaluer la richesse lexicale entre différents textes ou traductions d'une même œuvre") }}.</li>
     </ul>
     <br>
     <h5>{{ _("Limites ") }}:</h5>
     <p>
-        {{ _("La diversité lexicale peut être influencée par la longueur du texte ; des méthodes comme l’indice de Herdan ou la mesure de Guiraud compensent cette limitation") }}.
+        {{ _("La diversité lexicale peut être influencée par la longueur du texte ; des méthodes comme l'indice de Herdan ou la mesure de Guiraud compensent cette limitation") }}.
     </p>
     <br>
     <h4>{{ _("Relations lexicales") }}</h4>
     <p>
-        {{ _("Les <strong>relations lexicales</strong> explorent les liens entre différents termes au sein d’un texte") }}. {{ _("Ces relations peuvent inclure des relations synonymiques, antonymiques, hypernymiques (relation 'is-a'), ou encore des cooccurrences contextuelles") }}.
+        {{ _("Les <strong>relations lexicales</strong> explorent les liens entre différents termes au sein d'un texte") }}. {{ _("Ces relations peuvent inclure des relations synonymiques, antonymiques, hypernymiques (relation 'is-a'), ou encore des cooccurrences contextuelles") }}.
     </p>
     <br>
     <h5>Applications :</h5>
     <ul>
         <li>{{ _("<strong>Cartographie sémantique</strong> : Créer des réseaux de termes pour visualiser les relations entre les mots") }}.</li>
-        <li>{{ _("<strong>Extraction d’information</strong> : Identifier des associations importantes entre concepts, comme 'maladie' et 'traitement' dans un texte médical") }}.</li>
+        <li>{{ _("<strong>Extraction d'information</strong> : Identifier des associations importantes entre concepts, comme 'maladie' et 'traitement' dans un texte médical") }}.</li>
     </ul>
     <br>
     <h5>{{ _("Outils ") }}:</h5>
     <p>
-        {{ _("Des techniques comme la matrice de cooccurrence ou les graphes de relations permettent de visualiser et d’exploiter ces liens") }}.
+        {{ _("Des techniques comme la matrice de cooccurrence ou les graphes de relations permettent de visualiser et d'exploiter ces liens") }}.
     </p>
     <br>
     <h4>{{ _("Spécificités lexicales") }}</h4>
     <p>
-        {{ _("Les <strong>spécificités lexicales</strong> identifient les termes qui apparaissent de manière notable dans un corpus donné, comparé à un corpus de référence") }}. {{ _("Ces mots-clés spécifiques peuvent signaler les particularités d’un texte ou d’un domaine") }}.
+        {{ _("Les <strong>spécificités lexicales</strong> identifient les termes qui apparaissent de manière notable dans un corpus donné, comparé à un corpus de référence") }}. {{ _("Ces mots-clés spécifiques peuvent signaler les particularités d'un texte ou d'un domaine") }}.
     </p>
     <br>
     <h5>Applications :</h5>
     <ul>
         <li>{{ _("<strong>Analyse de discours</strong> : Mettre en évidence les spécificités lexicales propres à un genre ou un auteur") }}.</li>
-        <li>{{ _("<strong>Études comparatives</strong> : Identifier les termes caractéristiques d’un corpus (ex. vocabulaire politique vs vocabulaire scientifique)") }}.</li>
+        <li>{{ _("<strong>Études comparatives</strong> : Identifier les termes caractéristiques d'un corpus (ex. vocabulaire politique vs vocabulaire scientifique)") }}.</li>
     </ul>
     <br>
     <h5>{{ _("Méthodes ") }}:</h5>
@@ -285,7 +285,7 @@
     <br>
     <h4>Conclusion</h4>
     <p>
-        {{ _("Les analyses lexicales offrent des perspectives riches et variées pour explorer la structure et le contenu d’un texte ou d’un corpus") }}. {{ _("Que ce soit pour comprendre la distribution des mots, mesurer la diversité lexicale, explorer leurs relations ou identifier leurs spécificités, ces analyses permettent d'approfondir la compréhension et la caractérisation des données textuelles") }}. {{ _("Elles sont particulièrement utiles dans les domaines académiques, professionnels et technologiques, où la maîtrise du langage joue un rôle central") }}.
+        {{ _("Les analyses lexicales offrent des perspectives riches et variées pour explorer la structure et le contenu d'un texte ou d'un corpus") }}. {{ _("Que ce soit pour comprendre la distribution des mots, mesurer la diversité lexicale, explorer leurs relations ou identifier leurs spécificités, ces analyses permettent d'approfondir la compréhension et la caractérisation des données textuelles") }}. {{ _("Elles sont particulièrement utiles dans les domaines académiques, professionnels et technologiques, où la maîtrise du langage joue un rôle central") }}.
     </p>
 <hr>
     <h2>{{ _("Introduction aux analyses de texte") }}</h2>
@@ -295,13 +295,13 @@
     <br>
     <h4>{{ _("Détection de subjectivité") }}</h4>
     <p>
-        {{ _("La <strong>détection de subjectivité</strong> consiste à identifier les éléments d'un texte exprimant des opinions, évaluations, émotions ou spéculations subjectives") }}. {{ _("Contrairement aux faits objectifs, ces éléments reflètent les <strong>'états privés'</strong> d’un locuteur ou d’un écrivain, comme ses croyances ou attitudes") }}.
+        {{ _("La <strong>détection de subjectivité</strong> consiste à identifier les éléments d'un texte exprimant des opinions, évaluations, émotions ou spéculations subjectives") }}. {{ _("Contrairement aux faits objectifs, ces éléments reflètent les <strong>'états privés'</strong> d'un locuteur ou d'un écrivain, comme ses croyances ou attitudes") }}.
     </p>
     <br>
     <h5>{{ _("Méthodes ") }}:</h5>
     <ul>
         <li>
-            {{ _("L’utilisation de <strong>lexiques de polarité</strong>, comme ceux développés par Hatzivassiloglou et McKeown, qui cataloguent des termes porteurs     d’émotions ou de jugements (positifs ou négatifs)") }}.
+            {{ _("L'utilisation de <strong>lexiques de polarité</strong>, comme ceux développés par Hatzivassiloglou et McKeown, qui cataloguent des termes porteurs d'émotions ou de jugements (positifs ou négatifs)") }}.
         </li>
         <li>
             {{ _("Identification des phrases ou fragments contenant des opinions marquées, en distinguant les locuteurs ou personnages exprimant ces idées") }}.
@@ -316,24 +316,24 @@
     <br>
     <h4>{{ _("Analyse de sentiments") }}</h4>
     <p>
-        {{ _("L’<strong>analyse de sentiments</strong> vise à extraire et à interpréter l’orientation positive, négative ou neutre exprimée dans un texte") }}. {{ _("Elle permet d’identifier ce qu’un auteur ressent ou pense à propos d’un sujet spécifique, comme un produit, une personne ou une action") }}.
+        {{ _("L'<strong>analyse de sentiments</strong> vise à extraire et à interpréter l'orientation positive, négative ou neutre exprimée dans un texte") }}. {{ _("Elle permet d'identifier ce qu'un auteur ressent ou pense à propos d'un sujet spécifique, comme un produit, une personne ou une action") }}.
     </p>
     <br>
     <h5>{{ _("Exemples ") }}:</h5>
     <ul>
-        <li>{{ _("Une critique positive d’un film reflète un sentiment favorable envers le film") }}.</li>
+        <li>{{ _("Une critique positive d'un film reflète un sentiment favorable envers le film") }}.</li>
         <li>{{ _("Une opinion politique peut exprimer un avis négatif envers un candidat ou une décision") }}.</li>
     </ul>
     <br>
     <h5>Applications :</h5>
     <ul>
         <li>{{ _("<strong>Marketing</strong> : Mesurer les avis consommateurs à travers des critiques de produits") }}.</li>
-        <li>{{ _("<strong>Politique</strong> : Évaluer l’opinion publique sur des candidats ou politiques à partir d'éditoriaux ou de tweets") }}.</li>
+        <li>{{ _("<strong>Politique</strong> : Évaluer l'opinion publique sur des candidats ou politiques à partir d'éditoriaux ou de tweets") }}.</li>
     </ul>
     <br>
-    <h4>{{ _("Analyse d’émotions") }}</h4>
+    <h4>{{ _("Analyse d'émotions") }}</h4>
     <p>
-        {{ _("L’<strong>analyse d’émotions</strong> va au-delà de l’analyse de sentiments en se concentrant sur des <strong>émotions spécifiques</strong> (par exemple : colère, joie, peur, tristesse)") }}. {{ _("Scherer (2000) définit une émotion comme une <strong>réaction brève</strong> à un événement perçu comme significatif") }}.
+        {{ _("L'<strong>analyse d'émotions</strong> va au-delà de l'analyse de sentiments en se concentrant sur des <strong>émotions spécifiques</strong> (par exemple : colère, joie, peur, tristesse)") }}. {{ _("Scherer (2000) définit une émotion comme une <strong>réaction brève</strong> à un événement perçu comme significatif") }}.
     </p>
     <br>
     <h5>Applications :</h5>
@@ -357,7 +357,7 @@
     <br>
     <h4>{{ _("Score de lecture") }}</h4>
     <p>
-        {{ _("Le <strong>score de lecture</strong> est une mesure quantitative qui évalue la complexité d’un texte en fonction de paramètres comme la longueur des phrases ou la fréquence des mots complexes") }}. {{ _("Ces scores sont utilisés pour déterminer si un texte est adapté à un public cible, qu’il s’agisse d’enfants, d’adultes ou de lecteurs spécialisés") }}.
+        {{ _("Le <strong>score de lecture</strong> est une mesure quantitative qui évalue la complexité d'un texte en fonction de paramètres comme la longueur des phrases ou la fréquence des mots complexes") }}. {{ _("Ces scores sont utilisés pour déterminer si un texte est adapté à un public cible, qu'il s'agisse d'enfants, d'adultes ou de lecteurs spécialisés") }}.
     </p>
     <br>
     <h5>Applications :</h5>
@@ -368,7 +368,7 @@
     <br>
     <h4>{{ _("Comparaison et distance d'édition") }}</h4>
     <p>
-        {{ _("La <strong>comparaison textuelle</strong> utilise des algorithmes pour mesurer les similarités ou différences entre deux chaînes de caractères") }}. {{ _("La <strong>distance d’édition (Edit Distance)</strong> calcule le nombre minimal d’opérations nécessaires (insertions, suppressions, substitutions) pour transformer une chaîne en une autre") }}.
+        {{ _("La <strong>comparaison textuelle</strong> utilise des algorithmes pour mesurer les similarités ou différences entre deux chaînes de caractères") }}. {{ _("La <strong>distance d'édition (Edit Distance)</strong> calcule le nombre minimal d'opérations nécessaires (insertions, suppressions, substitutions) pour transformer une chaîne en une autre") }}.
     </p>
     <br>
     <h5>Applications :</h5>
@@ -380,12 +380,12 @@
     <br>
     <h5>{{ _("Avantages ") }}:</h5>
     <p>
-        {{ _("La distance d’édition est une méthode quantitative utile pour comparer des textes tout en maintenant une certaine flexibilité pour les variations syntaxiques ou lexicales") }}.
+        {{ _("La distance d'édition est une méthode quantitative utile pour comparer des textes tout en maintenant une certaine flexibilité pour les variations syntaxiques ou lexicales") }}.
     </p>
     <br>
     <h4>Conclusion</h4>
     <p>
-        {{ _("Les analyses de texte, qu’il s’agisse de la détection de subjectivité, de l’analyse de sentiments et d’émotions, du calcul de scores de lecture ou des comparaisons textuelles, offrent des perspectives riches pour comprendre et exploiter les données textuelles") }}. {{ _("Elles trouvent des applications dans des domaines variés, allant des interactions homme-machine à la recherche sociale, en fournissant des outils pour analyser et interpréter les textes sous différentes dimensions") }}.
+        {{ _("Les analyses de texte, qu'il s'agisse de la détection de subjectivité, de l'analyse de sentiments et d'émotions, du calcul de scores de lecture ou des comparaisons textuelles, offrent des perspectives riches pour comprendre et exploiter les données textuelles") }}. {{ _("Elles trouvent des applications dans des domaines variés, allant des interactions homme-machine à la recherche sociale, en fournissant des outils pour analyser et interpréter les textes sous différentes dimensions") }}.
     </p>
 	</div>
 </div>

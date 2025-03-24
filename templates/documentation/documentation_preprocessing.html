@@ -28,7 +28,7 @@
     <div class="tool-box">
         <h2>{{ _("Nettoyage de texte") }}</h2>
         <p>
-            {{ _("Dans le traitement automatique du langage naturel (NLP), plusieurs techniques de prétraitement du texte permettent de simplifier et d’homogénéiser les données textuelles, facilitant ainsi leur analyse et leur exploitation par des algorithmes") }}.
+            {{ _("Dans le traitement automatique du langage naturel (NLP), plusieurs techniques de prétraitement du texte permettent de simplifier et d'homogénéiser les données textuelles, facilitant ainsi leur analyse et leur exploitation par des algorithmes") }}.
         </p>
         <h4>{{ _("La ponctuation") }}</h4>
         <p>
@@ -36,41 +36,41 @@
         </p>
         <h4>{{ _("Les mots-vides ou stopwords") }}</h4>
         <p>
-            {{ _("Ensuite, la <strong>suppression des mots à haute fréquence</strong>, ou mots vides ('stop words'), comme 'le', 'de', 'à', 'the' ou 'a', est une autre technique couramment utilisée") }}. {{ _("Ces mots, bien qu’indispensables à la construction grammaticale, apportent peu de valeur sémantique et risquent d’alourdir les analyses") }}. {{ _("En les éliminant, on peut non seulement simplifier les représentations textuelles, mais aussi optimiser la taille des structures de données telles que les index inversés, utilisés pour des tâches comme la recherche d’information") }}. {{ _("Cela permet de focaliser les efforts de traitement sur les termes porteurs de sens et d’améliorer la pertinence des résultats") }}.
+            {{ _("Ensuite, la <strong>suppression des mots à haute fréquence</strong>, ou mots vides ('stop words'), comme 'le', 'de', 'à', 'the' ou 'a', est une autre technique couramment utilisée") }}. {{ _("Ces mots, bien qu'indispensables à la construction grammaticale, apportent peu de valeur sémantique et risquent d'alourdir les analyses") }}. {{ _("En les éliminant, on peut non seulement simplifier les représentations textuelles, mais aussi optimiser la taille des structures de données telles que les index inversés, utilisés pour des tâches comme la recherche d'information") }}. {{ _("Cela permet de focaliser les efforts de traitement sur les termes porteurs de sens et d'améliorer la pertinence des résultats") }}.
         </p>
         <h4>{{ _("La mise en minuscule") }}</h4>
         <p>
-            {{ _("Enfin, la <strong>mise en minuscule</strong>, ou 'case folding', consiste à convertir toutes les lettres d’un texte en minuscules") }}. {{ _("Cette méthode élimine les distinctions de casse, par exemple entre 'Paris', 'paris' et 'PARIS', pour les traiter comme un seul et même mot") }}. {{ _("Cela uniformise le texte, simplifie les comparaisons et est particulièrement utile dans les tâches de recherche ou d’analyse où la différence entre majuscules et minuscules n’a pas d’impact sur le sens") }}.
+            {{ _("Enfin, la <strong>mise en minuscule</strong>, ou 'case folding', consiste à convertir toutes les lettres d'un texte en minuscules") }}. {{ _("Cette méthode élimine les distinctions de casse, par exemple entre 'Paris', 'paris' et 'PARIS', pour les traiter comme un seul et même mot") }}. {{ _("Cela uniformise le texte, simplifie les comparaisons et est particulièrement utile dans les tâches de recherche ou d'analyse où la différence entre majuscules et minuscules n'a pas d'impact sur le sens") }}.
         </p>
         <p>
-            {{ _("En appliquant ces trois techniques de manière combinée, on obtient des données plus cohérentes, uniformes et prêtes à être traitées efficacement par les algorithmes de NLP, ce qui améliore globalement la qualité et l’efficacité des analyses") }}.
+            {{ _("En appliquant ces trois techniques de manière combinée, on obtient des données plus cohérentes, uniformes et prêtes à être traitées efficacement par les algorithmes de NLP, ce qui améliore globalement la qualité et l'efficacité des analyses") }}.
         </p>
         <hr>
 
         <h2>{{ _("Normalisation de texte") }}</h2>
         <p>
-            {{ _("La normalisation de texte est un processus essentiel dans le traitement automatique du langage naturel (NLP), visant à convertir les données textuelles en une forme standardisée et plus pratique pour l’analyse") }}. {{ _("Elle joue un rôle fondamental dans de nombreuses tâches, en facilitant l’uniformisation et la structuration des textes") }}. {{ _("Voici une exploration détaillée des différentes étapes et techniques impliquées dans la normalisation de texte") }}.
+            {{ _("La normalisation de texte est un processus essentiel dans le traitement automatique du langage naturel (NLP), visant à convertir les données textuelles en une forme standardisée et plus pratique pour l'analyse") }}. {{ _("Elle joue un rôle fondamental dans de nombreuses tâches, en facilitant l'uniformisation et la structuration des textes") }}. {{ _("Voici une exploration détaillée des différentes étapes et techniques impliquées dans la normalisation de texte") }}.
         </p>
 
-        <h4>{{ _("Qu’est-ce que la normalisation de texte ") }}?</h4>
+        <h4>{{ _("Qu'est-ce que la normalisation de texte ") }}?</h4>
         <p>
-            {{ _("La <strong>normalisation de texte</strong> consiste à transformer un texte brut en une forme standard qui simplifie son traitement et son analyse par des systèmes automatisés") }}. {{ _("Cela peut inclure des étapes comme la séparation des mots, l’uniformisation des formats (comme la mise en minuscule), ou encore la réduction des variations lexicales") }}. {{ _("Les expressions régulières jouent souvent un rôle clé dans ces opérations pour identifier et manipuler les structures textuelles") }}.
+            {{ _("La <strong>normalisation de texte</strong> consiste à transformer un texte brut en une forme standard qui simplifie son traitement et son analyse par des systèmes automatisés") }}. {{ _("Cela peut inclure des étapes comme la séparation des mots, l'uniformisation des formats (comme la mise en minuscule), ou encore la réduction des variations lexicales") }}. {{ _("Les expressions régulières jouent souvent un rôle clé dans ces opérations pour identifier et manipuler les structures textuelles") }}.
         </p>
 
         <h4>{{ _("Les principales étapes de la normalisation de texte") }}</h4>
         <h4>{{ _("La tokenisation") }}</h4>
         <p>
-            {{ _("La <strong>tokenisation</strong> est l'une des premières étapes du traitement de texte") }}. {{ _("Elle consiste à diviser un texte en unités appelées 'tokens', qui peuvent être des mots, des parties de mots ou même des caractères") }}. {{ _("Bien que les mots en anglais soient généralement séparés par des espaces, cela ne suffit pas toujours") }}. {{ _("Par exemple, des expressions comme 'New York' ou 'rock ’n’ roll' peuvent être traitées comme des entités uniques malgré les espaces qu’elles contiennent") }}. {{ _("À l'inverse, des contractions comme 'I’m' doivent être divisées en deux tokens : 'I' et 'am'. La tokenisation est cruciale car la plupart des analyses linguistiques nécessitent des données segmentées de manière cohérente") }}.
+            {{ _("La <strong>tokenisation</strong> est l'une des premières étapes du traitement de texte") }}. {{ _("Elle consiste à diviser un texte en unités appelées 'tokens', qui peuvent être des mots, des parties de mots ou même des caractères") }}. {{ _("Bien que les mots en anglais soient généralement séparés par des espaces, cela ne suffit pas toujours") }}. {{ _("Par exemple, des expressions comme 'New York' ou 'rock 'n' roll' peuvent être traitées comme des entités uniques malgré les espaces qu'elles contiennent") }}. {{ _("À l'inverse, des contractions comme 'I'm' doivent être divisées en deux tokens : 'I' et 'am'. La tokenisation est cruciale car la plupart des analyses linguistiques nécessitent des données segmentées de manière cohérente") }}.
         </p>
 
         <h4>{{ _("La lemmatisation") }}</h4>
         <p>
-            {{ _("La <strong>lemmatisation</strong> est une autre composante importante de la normalisation, qui vise à réduire les mots à leur forme de base ou 'lemme'") }}. {{ _("Cela permet de regrouper différentes formes d’un même mot sous une seule représentation. Par exemple, 'sang', 'sung' et 'sings' sont toutes des variantes du verbe 'sing' et seront ramenées à cette forme canonique") }}. {{ _("La lemmatisation est particulièrement utile pour réduire la complexité lexicale, améliorer la généralisation et obtenir des analyses plus précises dans des tâches comme la recherche ou la classification") }}.
+            {{ _("La <strong>lemmatisation</strong> est une autre composante importante de la normalisation, qui vise à réduire les mots à leur forme de base ou 'lemme'") }}. {{ _("Cela permet de regrouper différentes formes d'un même mot sous une seule représentation. Par exemple, 'sang', 'sung' et 'sings' sont toutes des variantes du verbe 'sing' et seront ramenées à cette forme canonique") }}. {{ _("La lemmatisation est particulièrement utile pour réduire la complexité lexicale, améliorer la généralisation et obtenir des analyses plus précises dans des tâches comme la recherche ou la classification") }}.
         </p>
 
         <h4>{{ _("Cas particulier : le choix entre versions avec ou sans casse") }}</h4>
-        <p> {{ _("La <strong>mise en minuscule</strong>, ou case folding, est une étape simple mais efficace de normalisation. Elle consiste à convertir toutes les lettres d’un texte en minuscules afin d’uniformiser les données") }}. {{ _("Par exemple, 'Woodchuck' et 'woodchuck' seront traités de manière identique, ce qui facilite la généralisation dans des tâches comme la recherche d'information ou la reconnaissance vocale") }}.
-            {{ _("Pour certaines applications, il est courant de proposer les deux options : une version avec casse qui conserve les distinctions entre majuscules et minuscules, et une version sans casse qui applique la mise en minuscule") }}. {{ _("Ce choix dépend du contexte et des besoins spécifiques de l’analyse") }}.
+        <p> {{ _("La <strong>mise en minuscule</strong>, ou case folding, est une étape simple mais efficace de normalisation. Elle consiste à convertir toutes les lettres d'un texte en minuscules afin d'uniformiser les données") }}. {{ _("Par exemple, 'Woodchuck' et 'woodchuck' seront traités de manière identique, ce qui facilite la généralisation dans des tâches comme la recherche d'information ou la reconnaissance vocale") }}.
+            {{ _("Pour certaines applications, il est courant de proposer les deux options : une version avec casse qui conserve les distinctions entre majuscules et minuscules, et une version sans casse qui applique la mise en minuscule") }}. {{ _("Ce choix dépend du contexte et des besoins spécifiques de l'analyse") }}.
         </p>
 
         <h4>{{ _("Pourquoi la normalisation de texte est-elle cruciale ") }}?</h4>
@@ -84,16 +84,16 @@
 
         <h2>{{ _("Séparation de texte") }}</h2>
         <p>
-            {{ _("La <strong>séparation de texte</strong> est une étape clé dans le processus de normalisation, permettant de structurer les données textuelles pour une analyse plus précise et efficace") }}. {{ _("Elle peut se faire à différents niveaux, notamment par phrases (segmentation en phrases) ou par lignes") }}. {{ _("Ces techniques jouent un rôle essentiel dans le traitement automatique du langage (NLP) et reposent sur l’utilisation de divers indices textuels") }}.
+            {{ _("La <strong>séparation de texte</strong> est une étape clé dans le processus de normalisation, permettant de structurer les données textuelles pour une analyse plus précise et efficace") }}. {{ _("Elle peut se faire à différents niveaux, notamment par phrases (segmentation en phrases) ou par lignes") }}. {{ _("Ces techniques jouent un rôle essentiel dans le traitement automatique du langage (NLP) et reposent sur l'utilisation de divers indices textuels") }}.
         </p>
 
         <h4>{{ _("Segmentation par phrases") }}</h4>
         <p>
-            {{ _("La <strong>segmentation par phrases</strong> consiste à diviser un texte en unités syntaxiques appelées phrases, en utilisant des indices comme la ponctuation") }}. {{ _("Cette méthode est cruciale pour de nombreuses applications en NLP, telles que la traduction automatique, la classification ou l’analyse de sentiments") }}. {{ _("Voici quelques aspects essentiels de ce processus ") }}:
+            {{ _("La <strong>segmentation par phrases</strong> consiste à diviser un texte en unités syntaxiques appelées phrases, en utilisant des indices comme la ponctuation") }}. {{ _("Cette méthode est cruciale pour de nombreuses applications en NLP, telles que la traduction automatique, la classification ou l'analyse de sentiments") }}. {{ _("Voici quelques aspects essentiels de ce processus ") }}:
         </p>
         <ul>
-            <li><strong>{{ _("Utilisation des marques de ponctuation") }}</strong> : {{ _("Les points (.), les points d’interrogation (?) et les points d’exclamation (!) sont les indices les plus courants pour marquer les limites des phrases") }}. {{ _("Les points d’interrogation et d’exclamation sont relativement non ambigus et sont donc des marqueurs clairs de fin de phrase") }}.</li>
-            <li><strong>{{ _("Ambiguïté des points") }}</strong> : {{ _("Le caractère '.'' peut être ambigu, car il peut marquer à la fois une fin de phrase et une abréviation, comme dans 'M.' (Monsieur) ou 'Inc.' (Incorporated). Cette ambiguïté coïncide également avec la fin d’une phrase") }}. {{ _("Par exemple : 'La société Tech Inc. a été fondée en 2020.' Ici, le point final de 'Inc.' sert à la fois d’abréviation et de marqueur de fin de phrase") }}.
+            <li><strong>{{ _("Utilisation des marques de ponctuation") }}</strong> : {{ _("Les points (.), les points d'interrogation (?) et les points d'exclamation (!) sont les indices les plus courants pour marquer les limites des phrases") }}. {{ _("Les points d'interrogation et d'exclamation sont relativement non ambigus et sont donc des marqueurs clairs de fin de phrase") }}.</li>
+            <li><strong>{{ _("Ambiguïté des points") }}</strong> : {{ _("Le caractère '.' peut être ambigu, car il peut marquer à la fois une fin de phrase et une abréviation, comme dans 'M.' (Monsieur) ou 'Inc.' (Incorporated). Cette ambiguïté coïncide également avec la fin d'une phrase") }}. {{ _("Par exemple : 'La société Tech Inc. a été fondée en 2020.' Ici, le point final de 'Inc.' sert à la fois d'abréviation et de marqueur de fin de phrase") }}.
             </li>
         </ul>
         <p>
@@ -102,15 +102,15 @@
 
         <h4>{{ _("Séparation par lignes") }}</h4>
         <p>
-            {{ _("La <strong>séparation par lignes</strong> consiste à diviser le texte en unités sur la base des sauts de ligne. Contrairement à la segmentation par phrases, elle s’appuie sur la structure visuelle ou formatée du texte, souvent marquée par des retours à la ligne (\n ou \r\n)") }}. {{ _("Cette technique est couramment utilisée dans des contextes où les phrases ne sont pas naturellement délimitées par la ponctuation, comme dans les listes, les poèmes ou certains documents formalisés") }}.
+            {{ _("La <strong>séparation par lignes</strong> consiste à diviser le texte en unités sur la base des sauts de ligne. Contrairement à la segmentation par phrases, elle s'appuie sur la structure visuelle ou formatée du texte, souvent marquée par des retours à la ligne (\n ou \r\n)") }}. {{ _("Cette technique est couramment utilisée dans des contextes où les phrases ne sont pas naturellement délimitées par la ponctuation, comme dans les listes, les poèmes ou certains documents formalisés") }}.
         </p>
-        <p>{{ _("Voici quelques cas d’utilisation ") }}:</p>
+        <p>{{ _("Voici quelques cas d'utilisation ") }}:</p>
         <ul>
             <li>
-                <strong>{{ _("Analyse de documents structurés") }}</strong> : {{ _("Dans des textes comme des CV, des rapports ou des formulaires, la séparation par lignes permet d’identifier distinctement les sections ou les items") }}.
+                <strong>{{ _("Analyse de documents structurés") }}</strong> : {{ _("Dans des textes comme des CV, des rapports ou des formulaires, la séparation par lignes permet d'identifier distinctement les sections ou les items") }}.
             </li>
             <li>
-                <strong>{{ _("Extraction d’informations") }}</strong> :{{ _(" Lorsqu’un texte suit une structure hiérarchique (titres, sous-titres, paragraphes), la séparation par lignes aide à segmenter les données en blocs logiques pour une analyse ciblée") }}.
+                <strong>{{ _("Extraction d'informations") }}</strong> : {{ _("Lorsqu'un texte suit une structure hiérarchique (titres, sous-titres, paragraphes), la séparation par lignes aide à segmenter les données en blocs logiques pour une analyse ciblée") }}.
             </li>
         </ul>
 
@@ -121,7 +121,7 @@
 
         <h4>Conclusion</h4>
         <p>
-            {{ _("La séparation de texte, qu’elle se fasse par phrases ou par lignes, est une étape essentielle pour structurer les données textuelles et améliorer leur exploitation") }}. {{ _("La segmentation par phrases utilise principalement des indices linguistiques comme la ponctuation, tandis que la séparation par lignes s’appuie davantage sur la structure visuelle") }}. {{ _("Ces méthodes, seules ou combinées, jouent un rôle fondamental dans diverses tâches de NLP, en rendant les textes plus accessibles et compréhensibles pour les algorithmes") }}. {{ _("Cela renforce la précision et l’efficacité des analyses, ouvrant ainsi la voie à des traitements automatisés toujours plus performants") }}.
+            {{ _("La séparation de texte, qu'elle se fasse par phrases ou par lignes, est une étape essentielle pour structurer les données textuelles et améliorer leur exploitation") }}. {{ _("La segmentation par phrases utilise principalement des indices linguistiques comme la ponctuation, tandis que la séparation par lignes s'appuie davantage sur la structure visuelle") }}. {{ _("Ces méthodes, seules ou combinées, jouent un rôle fondamental dans diverses tâches de NLP, en rendant les textes plus accessibles et compréhensibles pour les algorithmes") }}. {{ _("Cela renforce la précision et l'efficacité des analyses, ouvrant ainsi la voie à des traitements automatisés toujours plus performants") }}.
         </p>
     </div>
 </div>

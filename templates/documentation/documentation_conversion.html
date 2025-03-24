@@ -28,13 +28,13 @@
     <div style="text-align: right;"><a href="{{ url_for('documentation_annotation')}}" style="color:#f2a800; text-decoration:none;">{{ _('Documentation suivante') }} >></a></div>
 <div class="tool-box">
     <h2>{{ _("Conversion en XML-TEI") }}</h2>
-    <h4>{{ _("Qu’est-ce que le XML ") }}?</h4>
+    <h4>{{ _("Qu'est-ce que le XML ") }}?</h4>
     <p>
         {{ _("Le <strong>XML</strong> (Extensible Markup Language) est un langage de balisage générique conçu pour structurer, stocker et transporter des données de manière lisible aussi bien par des humains que par des machines") }}. {{ _("Contrairement aux formats strictement visuels comme HTML, XML ne se concentre pas sur la présentation, mais sur la structuration logique et hiérarchique des informations") }}.
     </p>
     <h4>{{ _("Caractéristiques principales du XML ") }}:</h4>
     <ul>
-        <li><strong>{{ _("Extensibilité") }}</strong> : {{ _("XML permet de définir ses propres balises (tags) adaptées aux besoins spécifiques d’un projet ou d’un domaine, rendant le langage polyvalent") }}.</li>
+        <li><strong>{{ _("Extensibilité") }}</strong> : {{ _("XML permet de définir ses propres balises (tags) adaptées aux besoins spécifiques d'un projet ou d'un domaine, rendant le langage polyvalent") }}.</li>
         <li><strong>{{ _("Lisibilité universelle") }}</strong> : {{ _("Les fichiers XML peuvent être lus par des logiciels très variés et sont indépendants des plateformes ou applications") }}.</li>
         <li><strong>{{ _("Hiérarchie des données") }}</strong> : {{ _("XML organise les informations en arbre, avec des relations parent-enfant (par exemple, un élément principal contenant des sous-éléments imbriqués)") }}.</li>
         <li><strong>{{ _("Interopérabilité") }}</strong> : {{ _("Utilisé comme pont entre différentes applications, XML assure que des systèmes informatiques hétérogènes puissent échanger des données") }}.</li>
@@ -43,7 +43,7 @@
     <ul>
         <li><strong>{{ _("Échanger des données entre applications") }}</strong> : {{ _("Par exemple, des API (interfaces de programmation) utilisent souvent XML pour transmettre des informations structurées") }}.</li>
         <li><strong>{{ _("Représenter des bases de données") }}</strong> : {{ _("Les fichiers XML peuvent stocker des données hiérarchiques, comme des catalogues ou des inventaires") }}.</li>
-        <li><strong>{{ _("Codage d’informations complexes") }}</strong> : {{ _("XML est couramment utilisé dans des formats spécialisés, tels que les fichiers SVG pour les graphiques ou MathML pour les formules mathématiques") }}.</li>
+        <li><strong>{{ _("Codage d'informations complexes") }}</strong> : {{ _("XML est couramment utilisé dans des formats spécialisés, tels que les fichiers SVG pour les graphiques ou MathML pour les formules mathématiques") }}.</li>
     </ul>
     <hr>
     <h2>{{ _("Conversion de formats") }}</h2>
@@ -57,7 +57,7 @@
 
     <h4>TEI (Text Encoding Initiative)</h4>
     <p>
-        {{ _("Le format <strong>TEI</strong> est un standard pour l’encodage et la représentation de textes électroniques, particulièrement utilisé dans le domaine des sciences humaines et sociales") }}. {{ _("Il repose sur XML (Extensible Markup Language) et permet d’annoter des textes avec des balises structurées et sémantiques, adaptées à la nature du document") }}.
+        {{ _("Le format <strong>TEI</strong> est un standard pour l'encodage et la représentation de textes électroniques, particulièrement utilisé dans le domaine des sciences humaines et sociales") }}. {{ _("Il repose sur XML (Extensible Markup Language) et permet d'annoter des textes avec des balises structurées et sémantiques, adaptées à la nature du document") }}.
     </p>
     <ul>
         <li>{{ _("<strong>Usage principal</strong> : Archivage, analyse textuelle, recherche et publication scientifique") }}.</li>
@@ -70,8 +70,8 @@
         </li>
         <li><strong>{{ _("Inconvénients") }}</strong> :
             <ul>
-                <li>{{ _("Courbe d’apprentissage relativement élevée pour les utilisateurs novices") }}.</li>
-                <li>{{ _("Nécessite des outils spécialisés pour l’édition (ex. oXygen XML Editor)") }}.</li>
+                <li>{{ _("Courbe d'apprentissage relativement élevée pour les utilisateurs novices") }}.</li>
+                <li>{{ _("Nécessite des outils spécialisés pour l'édition (ex. oXygen XML Editor)") }}.</li>
             </ul>
         </li>
     </ul>
@@ -91,7 +91,7 @@
         </li>
         <li><strong>{{ _("Inconvénients") }}</strong> :
             <ul>
-                <li>{{ _("Moins adapté pour les tâches d’analyse de texte en masse") }}.</li>
+                <li>{{ _("Moins adapté pour les tâches d'analyse de texte en masse") }}.</li>
                 <li>{{ _("Peut contenir des données 'lourdes' ou inutiles qui augmentent la taille du fichier") }}.</li>
             </ul>
         </li>
@@ -113,14 +113,14 @@
         <li><strong>{{ _("Inconvénients") }}</strong> :
             <ul>
                 <li>{{ _("Nécessite parfois des ajustements pour être conforme aux standards ou compatible avec tous les navigateurs") }}.</li>
-                <li>{{ _("Pas idéal pour l’archivage à long terme sans métadonnées additionnelles") }}.</li>
+                <li>{{ _("Pas idéal pour l'archivage à long terme sans métadonnées additionnelles") }}.</li>
             </ul>
         </li>
     </ul>
 
     <h4>EPUB (Electronic Publication)</h4>
     <p>
-        {{ _("Le format <strong>EPUB</strong> est un standard ouvert pour les livres numériques (eBooks), conçu pour s’adapter à différents appareils comme les liseuses, tablettes et smartphones. Il est basé sur XML et HTML") }}.
+        {{ _("Le format <strong>EPUB</strong> est un standard ouvert pour les livres numériques (eBooks), conçu pour s'adapter à différents appareils comme les liseuses, tablettes et smartphones. Il est basé sur XML et HTML") }}.
     </p>
     <ul>
         <li>{{ _("<strong>Usage principal</strong> : Distribution et lecture de livres numériques") }}.</li>
@@ -134,14 +134,14 @@
         <li><strong>{{ _("Inconvénients") }}</strong> :
             <ul>
                 <li>{{ _("Les fonctionnalités interactives peuvent être limitées selon les appareils") }}.</li>
-                <li>{{ _("Nécessite parfois des outils spécialisés pour l’édition ou la conversion") }}.</li>
+                <li>{{ _("Nécessite parfois des outils spécialisés pour l'édition ou la conversion") }}.</li>
             </ul>
         </li>
     </ul>
 
     <h4>Markdown</h4>
     <p>
-        {{ _("Le format <strong>Markdown</strong> est un langage de balisage léger, conçu pour rédiger du texte qui peut être facilement converti en HTML ou d’autres formats") }}.
+        {{ _("Le format <strong>Markdown</strong> est un langage de balisage léger, conçu pour rédiger du texte qui peut être facilement converti en HTML ou d'autres formats") }}.
     </p>
     <ul>
         <li>{{ _("<strong>Usage principal</strong> : Documentation technique, blogs, README de projets, et autres contenus destinés à être convertis en formats web") }}.</li>
@@ -162,7 +162,7 @@
 
     <h4>Conclusion</h4>
     <p>
-        {{ _("La conversion de formats est indispensable dans des contextes variés, chaque format ayant des particularités qui répondent à des besoins spécifiques. Que ce soit pour un archivage scientifique avec TEI, une documentation technique avec Markdown, ou une publication numérique avec EPUB, le choix du format dépendra toujours des objectifs visés et des contraintes techniques") }}. {{ _("La maîtrise de ces formats et des outils de conversion associés permet de s’assurer une flexibilité et une interopérabilité maximales dans la gestion des contenus numériques") }}.
+        {{ _("La conversion de formats est indispensable dans des contextes variés, chaque format ayant des particularités qui répondent à des besoins spécifiques. Que ce soit pour un archivage scientifique avec TEI, une documentation technique avec Markdown, ou une publication numérique avec EPUB, le choix du format dépendra toujours des objectifs visés et des contraintes techniques") }}. {{ _("La maîtrise de ces formats et des outils de conversion associés permet de s'assurer une flexibilité et une interopérabilité maximales dans la gestion des contenus numériques") }}.
     </p>
 
 </div>

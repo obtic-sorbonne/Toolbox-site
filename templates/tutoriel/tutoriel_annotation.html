@@ -27,7 +27,7 @@ table {
 
 th, td {
     border: 2px solid black; /* Lignes noires de 2px autour des cellules */
-    padding: 10px; /* Ajoute de l’espace à l’intérieur des cellules */
+    padding: 10px; /* Ajoute de l'espace à l'intérieur des cellules */
     text-align: left; /* Aligne le contenu à gauche */
 }
 
@@ -56,15 +56,15 @@ colgroup col:nth-child(3) {
     <div class="tool-box">
     <h2>{{ _("Tutoriel : Reconnaissance des Entités Nommées") }} (NER)</h2>
     <p>
-        {{ _("La reconnaissance des entités nommées (NER) est une tâche essentielle dans le traitement automatique du langage naturel") }} (NLP). {{ _("Elle permet d’identifier et de classer automatiquement des entités clés d’un texte, comme les noms de personnes, les lieux, les organisations ou encore les dates") }}. {{ _("Cette fonctionnalité est utilisée dans divers contextes, allant de l’extraction d’information au développement d’applications intelligentes") }}.
+        {{ _("La reconnaissance des entités nommées (NER) est une tâche essentielle dans le traitement automatique du langage naturel") }} (NLP). {{ _("Elle permet d'identifier et de classer automatiquement des entités clés d'un texte, comme les noms de personnes, les lieux, les organisations ou encore les dates") }}. {{ _("Cette fonctionnalité est utilisée dans divers contextes, allant de l'extraction d'information au développement d'applications intelligentes") }}.
     </p>
     <h4>{{ _("Pourquoi utiliser la NER ") }}?</h4>
-    <p>{{ _("L’intérêt de la reconnaissance des entités nommées réside dans ") }}:</p>
+    <p>{{ _("L'intérêt de la reconnaissance des entités nommées réside dans ") }}:</p>
     <ul>
-        <li><strong>{{ _("Gain de temps") }}</strong> : {{ _("Automatiser l’extraction d’informations spécifiques dans de grands corpus textuels") }}.</li>
+        <li><strong>{{ _("Gain de temps") }}</strong> : {{ _("Automatiser l'extraction d'informations spécifiques dans de grands corpus textuels") }}.</li>
         <li><strong>{{ _("Structuration des données") }}</strong> : {{ _("Organiser des textes bruts en données exploitables pour des analyses ultérieures") }}.</li>
-        <li><strong>{{ _("Applications spécifiques") }}</strong> : {{ _("Identifier des entités liées à un domaine précis comme le médical (maladies, médicaments) ou le juridique (lois, noms d’avocats)") }}.</li>
-        <li><strong>{{ _("Optimisation des processus") }}</strong> : {{ _("La NER alimente de nombreux systèmes d’intelligence artificielle, comme les moteurs de recherche ou les assistants virtuels") }}.</li>
+        <li><strong>{{ _("Applications spécifiques") }}</strong> : {{ _("Identifier des entités liées à un domaine précis comme le médical (maladies, médicaments) ou le juridique (lois, noms d'avocats)") }}.</li>
+        <li><strong>{{ _("Optimisation des processus") }}</strong> : {{ _("La NER alimente de nombreux systèmes d'intelligence artificielle, comme les moteurs de recherche ou les assistants virtuels") }}.</li>
     </ul>
     <h4>{{ _("Les modèles populaires pour la NER") }}</h4>
     <p>
@@ -83,7 +83,7 @@ colgroup col:nth-child(3) {
             <tr>
                 <td><strong>SpaCy</strong></td>
                 <td>
-                    {{ _("SpaCy est une bibliothèque Python complète et rapide pour le traitement automatique de texte") }}. {{ _("Elle offre des modèles pré-entraînés pour la NER, adaptés à des langues comme l’anglais et le français, et intègre de nombreuses fonctionnalités NLP comme la tokénisation et l’analyse syntaxique") }}.
+                    {{ _("SpaCy est une bibliothèque Python complète et rapide pour le traitement automatique de texte") }}. {{ _("Elle offre des modèles pré-entraînés pour la NER, adaptés à des langues comme l'anglais et le français, et intègre de nombreuses fonctionnalités NLP comme la tokénisation et l'analyse syntaxique") }}.
                 </td>
                 <td>
                     - {{ _("Simple à utiliser et rapide") }}.<br>
@@ -98,7 +98,7 @@ colgroup col:nth-child(3) {
             <tr>
                 <td><strong>Flair</strong></td>
                 <td>
-                    {{ _("Flair est une bibliothèque open-source qui propose des modèles dynamiques basés sur les embeddings contextuels, facilitant la reconnaissance d’entités dans des langues et domaines variés") }}.
+                    {{ _("Flair est une bibliothèque open-source qui propose des modèles dynamiques basés sur les embeddings contextuels, facilitant la reconnaissance d'entités dans des langues et domaines variés") }}.
                 </td>
                 <td>
                     - {{ _("Très bonne prise en charge des langues minoritaires") }}.<br>
@@ -113,17 +113,17 @@ colgroup col:nth-child(3) {
             <tr>
                 <td><strong>BERT</strong></td>
                 <td>
-                    {{ _("Basé sur les transformateurs, BERT fournit des représentations contextuelles riches des mots") }}. {{ _("Il excelle dans des tâches complexes, en prenant en compte l’intégralité du contexte dans une phrase pour identifier avec précision les entités nommées") }}.
+                    {{ _("Basé sur les transformateurs, BERT fournit des représentations contextuelles riches des mots") }}. {{ _("Il excelle dans des tâches complexes, en prenant en compte l'intégralité du contexte dans une phrase pour identifier avec précision les entités nommées") }}.
                 </td>
                 <td>
-                    - {{ _("Performances de pointe grâce à l’analyse contextuelle") }}.<br>
+                    - {{ _("Performances de pointe grâce à l'analyse contextuelle") }}.<br>
                     - {{ _("Adapté aux tâches complexes et aux domaines spécialisés") }}.<br>
                     - {{ _("Précision élevée, notamment avec des variantes comme CamemBERT pour le français") }}.
                 </td>
                 <td>
                     - {{ _("Modèle plus lourd nécessitant des ressources importantes") }}.<br>
-                    - {{ _("Courbe d’apprentissage plus élevée pour sa mise en œuvre") }}.<br>
-                    - {{ _("Temps d’exécution plus long dans certains contextes") }}.
+                    - {{ _("Courbe d'apprentissage plus élevée pour sa mise en œuvre") }}.<br>
+                    - {{ _("Temps d'exécution plus long dans certains contextes") }}.
                 </td>
             </tr>
         </tbody>
@@ -131,7 +131,7 @@ colgroup col:nth-child(3) {
     <h4>{{ _("Mise en œuvre pratique") }}</h4>
     <h5>{{ _("Choisir un modèle adapté ") }}:</h5>
     <ul>
-        <li><strong>{{ _("Débutants") }}</strong> : {{ _("SpaCy est idéal pour sa facilité d’utilisation et sa rapidité") }}.</li>
+        <li><strong>{{ _("Débutants") }}</strong> : {{ _("SpaCy est idéal pour sa facilité d'utilisation et sa rapidité") }}.</li>
         <li><strong>{{ _("Analyse multilingue ou spécifique") }}</strong> : {{ _("Flair propose des modèles pour des langues ou tâches sous-représentées") }}.</li>
         <li><strong>{{ _("Projets avancés") }}</strong> : {{ _("BERT et ses variantes comme CamemBERT offrent une précision inégalée pour des analyses complexes ou contextualisées") }}.</li>
         <li><strong>{{ _("Résultat attendu ") }}:</strong>
@@ -150,7 +150,7 @@ colgroup col:nth-child(3) {
     <hr>
     <h2>{{ _("Tutoriel : Catégories sémantiques") }}</h2>
     <p>
-        {{ _("Le processus d’étiquetage dans Textolab est itératif et permet de localiser, grâce à des règles heuristiques, des patrons linguistiques sous forme de chaînes de caractères, d’expressions régulières ou de métadonnées (annotations existantes)") }}. {{ _("Les règles sont déclaratives et ordonnables selon la priorité") }}. {{ _("Les règles permettent de lever l'ambiguïté sur certains marqueurs à l'aide d'indices contextuels qui confirment ou qui affinent l’annotation") }}. {{ _("La présence d'autres indices infirmatifs permet d'annuler l’annotation en cours") }}. {{ _("Si toutes les conditions d'une règle sont satisfaites, une étiquette est attribuée au passage textuel en question (par exemple modalité, polarité, intensité, entité nommée, etc.)") }}. {{ _("Textolab offre une interface qui permet à l'utilisateur d'exécuter les différentes fonctionnalités de l'outil") }}.
+        {{ _("Le processus d'étiquetage dans Textolab est itératif et permet de localiser, grâce à des règles heuristiques, des patrons linguistiques sous forme de chaînes de caractères, d'expressions régulières ou de métadonnées (annotations existantes)") }}. {{ _("Les règles sont déclaratives et ordonnables selon la priorité") }}. {{ _("Les règles permettent de lever l'ambiguïté sur certains marqueurs à l'aide d'indices contextuels qui confirment ou qui affinent l'annotation") }}. {{ _("La présence d'autres indices infirmatifs permet d'annuler l'annotation en cours") }}. {{ _("Si toutes les conditions d'une règle sont satisfaites, une étiquette est attribuée au passage textuel en question (par exemple modalité, polarité, intensité, entité nommée, etc.)") }}. {{ _("Textolab offre une interface qui permet à l'utilisateur d'exécuter les différentes fonctionnalités de l'outil") }}.
     </p>
 	</div>
 </div>

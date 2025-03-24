@@ -29,14 +29,14 @@
 <div class="tool-box">
         <h2>{{ _("Reconnaissance automatique de texte") }} (ATR)</h2>
         <p>
-            {{ _("La reconnaissance automatique de texte (ATR, ou "Automatic Text Recognition") désigne l’ensemble des technologies utilisées pour extraire des données textuelles numériques à partir de documents analogiques numérisés") }}. {{ _("Elle se divise en deux domaines ") }}:
+            {{ _("La reconnaissance automatique de texte (ATR ou Automatic Text Recognition) désigne l'ensemble des technologies utilisées pour extraire des données textuelles numériques à partir de documents analogiques numérisés") }}. {{ _("Elle se divise en deux domaines ") }}:
         </p>
         <ol>
-            <li><strong>{{ _("L'OCR ") }}(Optical Character Recognition)</strong>, {{ _("ou reconnaissance optique de caractères, qui se concentre sur l’extraction de texte à partir de documents imprimés") }}.</li>
+            <li><strong>{{ _("L'OCR ") }}(Optical Character Recognition)</strong>, {{ _("ou reconnaissance optique de caractères, qui se concentre sur l'extraction de texte à partir de documents imprimés") }}.</li>
             <li><strong>{{ _("L'HTR ") }}(Handwritten Text Recognition)</strong>, {{ _("ou reconnaissance de texte manuscrit, qui se focalise sur la conversion d'écritures manuscrites en données numériques exploitables") }}.</li>
         </ol>
         <p>
-            {{ _("Ces technologies reposent sur l’intelligence artificielle, en particulier sur l'apprentissage automatique (machine learning), pour analyser et interpréter le contenu des images") }}.
+            {{ _("Ces technologies reposent sur l'intelligence artificielle, en particulier sur l'apprentissage automatique (machine learning), pour analyser et interpréter le contenu des images") }}.
         </p>
         <br>
 
@@ -44,10 +44,10 @@
         <p>{{ _("La reconnaissance de caractères suit deux grandes étapes ") }}:</p>
         <ol>
             <li>
-                <strong>Segmentation</strong> : {{ _("Cette étape identifie les zones de texte dans l’image et détermine leur organisation en lignes, facilitant ainsi le traitement") }}. {{ _("Pour les manuscrits, cette phase peut nécessiter une intervention manuelle en raison de la variabilité des écritures") }}.
+                <strong>Segmentation</strong> : {{ _("Cette étape identifie les zones de texte dans l'image et détermine leur organisation en lignes, facilitant ainsi le traitement") }}. {{ _("Pour les manuscrits, cette phase peut nécessiter une intervention manuelle en raison de la variabilité des écritures") }}.
             </li>
             <li>
-                <strong>{{ _("Reconnaissance des caractères</strong> : {{ _("Une fois les lignes de texte isolées, le système identifie chaque caractère et le transforme en texte numérique") }}. {{ _("Pour l’OCR, ces deux étapes sont souvent réalisées simultanément grâce aux capacités avancées des algorithmes modernes") }}.
+                <strong>{{ _("Reconnaissance des caractères") }}</strong> : {{ _("Une fois les lignes de texte isolées, le système identifie chaque caractère et le transforme en texte numérique") }}. {{ _("Pour l'OCR, ces deux étapes sont souvent réalisées simultanément grâce aux capacités avancées des algorithmes modernes") }}.
             </li>
         </ol>
         <br>
@@ -57,7 +57,7 @@
             {{ _("Pour maximiser la qualité de la reconnaissance, il est essentiel que les images répondent à plusieurs critères ") }}:
         </p>
         <ul>
-            <li><strong>{{ _("Netteté") }}</strong> : {{ _("Les images floues compromettent l’identification des caractères") }}.</li>
+            <li><strong>{{ _("Netteté") }}</strong> : {{ _("Les images floues compromettent l'identification des caractères") }}.</li>
             <li><strong>{{ _("Contraste") }}</strong> : {{ _("Le texte doit se détacher clairement du fond") }}.</li>
             <li><strong>{{ _("Alignement") }}</strong> : {{ _("Les lignes de texte doivent être droites pour simplifier leur détection") }}.</li>
         </ul>
@@ -65,18 +65,18 @@
 
         <h4>{{ _("Performance et limites actuelles") }}</h4>
         <p>
-            {{ _("Pour les langues utilisant des caractères latins, les logiciels d’OCR modernes atteignent généralement un taux de reconnaissance supérieur à 90 %, assurant une conversion très fiable des textes imprimés") }}. {{ _("Cependant, les résultats peuvent être altérés par des images de mauvaise qualité ou des écritures manuscrites particulièrement complexes") }}.
+            {{ _("Pour les langues utilisant des caractères latins, les logiciels d'OCR modernes atteignent généralement un taux de reconnaissance supérieur à 90") }} %, {{ _("assurant une conversion très fiable des textes imprimés") }}. {{ _("Cependant, les résultats peuvent être altérés par des images de mauvaise qualité ou des écritures manuscrites particulièrement complexes") }}.
         </p>
         <br>
 
         <h4>{{ _("Adaptabilité avec des outils avancés") }}</h4>
         <p>
-            {{ _("Dans les cas où les images ne remplissent pas parfaitement les critères précédents (par exemple : présence de bruit ou de fond complexe), des outils comme <strong>eScriptorium</strong> offrent une solution performante") }}. {{ _("Cette plateforme, accessible via ") }}<a href="https://obtic-gpu1.mesu.sorbonne-universite.fr:8501/">{{ _("ce lien") }}</a>, {{ _("est capable de gérer des contraintes spécifiques et d’améliorer les résultats de reconnaissance grâce à ses fonctionnalités avancées") }}.
+            {{ _("Dans les cas où les images ne remplissent pas parfaitement les critères précédents (par exemple : présence de bruit ou de fond complexe), des outils comme <strong>eScriptorium</strong> offrent une solution performante") }}. {{ _("Cette plateforme, accessible via ") }}<a href="https://obtic-gpu1.mesu.sorbonne-universite.fr:8501/">{{ _("ce lien") }}</a>, {{ _("est capable de gérer des contraintes spécifiques et d'améliorer les résultats de reconnaissance grâce à ses fonctionnalités avancées") }}.
         </p>
         <hr>
         <h2>{{ _("Reconnaissance Automatique de la Parole") }} (ASR)</h2>
         <p>
-            {{ _("La reconnaissance automatique de la parole (ASR, pour "Automatic Speech Recognition") est une technologie qui permet de convertir la parole humaine en texte écrit") }}. {{ _("Elle repose sur des avancées en intelligence artificielle, notamment l'apprentissage profond, et trouve des applications dans de nombreux domaines") }}.
+            {{ _("La reconnaissance automatique de la parole (ASR pour Automatic Speech Recognition) est une technologie qui permet de convertir la parole humaine en texte écrit") }}. {{ _("Elle repose sur des avancées en intelligence artificielle, notamment l'apprentissage profond, et trouve des applications dans de nombreux domaines") }}.
         </p>
         <br>
 
@@ -129,7 +129,7 @@
 
         <h4>{{ _("Technologies émergentes") }}</h4>
         <p>
-            {{ _("Les modèles d'apprentissage profond, comme ceux basés sur les réseaux neuronaux récurrents (RNN) ou les transformateurs, ont considérablement amélioré la précision des systèmes ASR") }}. {{ _("Des approches comme le modèle "end-to-end" simplifient les pipelines traditionnels en intégrant toutes les étapes dans un seul réseau") }}.
+            {{ _("Les modèles d'apprentissage profond, comme ceux basés sur les réseaux neuronaux récurrents (RNN) ou les transformateurs, ont considérablement amélioré la précision des systèmes ASR") }}. {{ _("Des approches comme le modèle 'end-to-end' simplifient les pipelines traditionnels en intégrant toutes les étapes dans un seul réseau") }}.
         </p>
     <br>
     <br>

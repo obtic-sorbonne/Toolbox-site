@@ -27,7 +27,7 @@ table {
 
 th, td {
     border: 2px solid black; /* Lignes noires de 2px autour des cellules */
-    padding: 10px; /* Ajoute de l’espace à l’intérieur des cellules */
+    padding: 10px; /* Ajoute de l'espace à l'intérieur des cellules */
     text-align: left; /* Aligne le contenu à gauche */
 }
 
@@ -55,12 +55,12 @@ colgroup col:nth-child(3) {
     <div class="tool-box">
         <h2>{{ _("Tutoriel : Extraction automatique de mots-clés avec KeyBERT") }}</h2>
     <p>
-        {{ _("L’extraction automatique de mots-clés est une tâche essentielle en traitement du langage naturel (NLP), permettant d'identifier les termes les plus représentatifs d'un texte ou d'un corpus") }}. {{ _("Ces mots-clés offrent une synthèse rapide du contenu et facilitent les recherches, résumés, ou analyses thématiques") }}. {{ _("L’outil <strong>KeyBERT</strong> est une solution particulièrement puissante pour ce type de tâches grâce à sa simplicité et ses performances") }}.
+        {{ _("L'extraction automatique de mots-clés est une tâche essentielle en traitement du langage naturel (NLP), permettant d'identifier les termes les plus représentatifs d'un texte ou d'un corpus") }}. {{ _("Ces mots-clés offrent une synthèse rapide du contenu et facilitent les recherches, résumés, ou analyses thématiques") }}. {{ _("L'outil <strong>KeyBERT</strong> est une solution particulièrement puissante pour ce type de tâches grâce à sa simplicité et ses performances") }}.
     </p>
     <h4>{{ _("Pourquoi utiliser KeyBERT pour l'extraction de mots-clés ") }}?</h4>
-    <p>KeyBERT {{ _("exploite les modèles basés sur les transformateurs pour encoder le texte et identifier les mots-clés pertinents. {{ _("Ses avantages incluent :</p>
+    <p>KeyBERT {{ _("exploite les modèles basés sur les transformateurs pour encoder le texte et identifier les mots-clés pertinents") }}. {{ _("Ses avantages incluent ") }}:</p>
     <ol>
-        <li><strong>{{ _("Facilité d’utilisation") }}</strong> : {{ _("L’outil est conçu pour une intégration rapide avec Python") }}.</li>
+        <li><strong>{{ _("Facilité d'utilisation") }}</strong> : {{ _("L'outil est conçu pour une intégration rapide avec Python") }}.</li>
         <li><strong>{{ _("Support multilingue") }}</strong> : {{ _("Le modèle distiluse-base-multilingual-cased-v1 prend en charge 15 langues") }}.</li>
         <li><strong>{{ _("Diversification des résultats") }}</strong> : {{ _("Grâce aux algorithmes de MMR (Maximal Marginal Relevance) et MSS (Maximal Sum Similarity)") }}, {{ _("il offre des options pour limiter la redondance ou explorer des nuances") }}.</li>
     </ol>
@@ -70,7 +70,7 @@ colgroup col:nth-child(3) {
         <li>
             <strong>{{ _("Encodage du texte") }}</strong> :
             <p>
-                KeyBERT {{ _("encode chaque phrase du document à l’aide de représentations vectorielles contextuelles") }}. {{ _("Le modèle utilisé") }}, <strong>distiluse-base-multilingual-cased-v1</strong>, {{ _("garantit une analyse cohérente dans plusieurs langues") }}.
+                KeyBERT {{ _("encode chaque phrase du document à l'aide de représentations vectorielles contextuelles") }}. {{ _("Le modèle utilisé") }}, <strong>distiluse-base-multilingual-cased-v1</strong>, {{ _("garantit une analyse cohérente dans plusieurs langues") }}.
             </p>
         </li>
         <li>
@@ -97,11 +97,11 @@ colgroup col:nth-child(3) {
             </ul>
         </li>
     </ol>
-    <h4>{{ _("Applications de l’extraction de mots-clés avec KeyBERT") }}</h4>
+    <h4>{{ _("Applications de l'extraction de mots-clés avec KeyBERT") }}</h4>
     <ul>
         <li><strong>{{ _("Résumé automatique") }}</strong> : {{ _("Obtenir une vue synthétique du contenu de textes volumineux") }}.</li>
         <li><strong>{{ _("Indexation documentaire") }}</strong> : {{ _("Générer des mots-clés pour organiser des corpus ou bases de données") }}.</li>
-        <li><strong>{{ _("Recherche avancée") }}</strong> : {{ _("Faciliter la recherche d’information en se basant sur des termes pertinents") }}.</li>
+        <li><strong>{{ _("Recherche avancée") }}</strong> : {{ _("Faciliter la recherche d'information en se basant sur des termes pertinents") }}.</li>
         <li><strong>{{ _("Analyse thématique") }}</strong> : {{ _("Explorer les idées principales dans des textes scientifiques, techniques ou marketing") }}.</li>
     </ul>
     <h4>Conclusion</h4>
@@ -109,18 +109,18 @@ colgroup col:nth-child(3) {
         {{ _("L'extraction automatique de mots-clés avec KeyBERT est une méthode puissante pour synthétiser et structurer du contenu textuel") }}. {{ _("Avec son support multilingue et ses algorithmes pour diversifier les résultats, il répond à des besoins variés allant de l'analyse thématique à l'indexation") }}.
     </p>
     <hr>
-    <h2>{{ _("Tutoriel : Modélisation de thématiques</h2>
+    <h2>{{ _("Tutoriel : Modélisation de thématiques") }}</h2>
     <p>
-        {{ _("La modélisation de thématiques est une méthode puissante en traitement automatique du langage naturel (NLP) qui permet d’identifier les thèmes récurrents dans un corpus textuel. {{ _("Elle regroupe les termes similaires en ensembles sémantiques cohérents, facilitant ainsi l’exploration, l’analyse et la visualisation des données textuelles. {{ _("Ce tutoriel vous guide dans les principes clés de la modélisation et dans l’utilisation des principales méthodes disponibles, sans nécessiter d'installation ou configuration technique complexe") }}.
+        {{ _("La modélisation de thématiques est une méthode puissante en traitement automatique du langage naturel (NLP) qui permet d'identifier les thèmes récurrents dans un corpus textuel") }}. {{ _("Elle regroupe les termes similaires en ensembles sémantiques cohérents, facilitant ainsi l'exploration, l'analyse et la visualisation des données textuelles") }}. {{ _("Ce tutoriel vous guide dans les principes clés de la modélisation et dans l'utilisation des principales méthodes disponibles, sans nécessiter d'installation ou configuration technique complexe") }}.
     </p>
-    <h4>{{ _("Qu’est-ce que la modélisation de thématiques ") }}?</h4>
+    <h4>{{ _("Qu'est-ce que la modélisation de thématiques ") }}?</h4>
     <p>
-        {{ _("La modélisation de thématiques consiste à analyser un corpus textuel pour identifier des groupes de mots-clés représentant des thèmes présents dans le contenu") }}. {{ _("Chaque document est associé à un ou plusieurs de ces thèmes en fonction des mots qu'il contient") }}. {{ _("Cela permet de structurer des ensembles de données volumineux et d’extraire des insights significatifs") }}.
+        {{ _("La modélisation de thématiques consiste à analyser un corpus textuel pour identifier des groupes de mots-clés représentant des thèmes présents dans le contenu") }}. {{ _("Chaque document est associé à un ou plusieurs de ces thèmes en fonction des mots qu'il contient") }}. {{ _("Cela permet de structurer des ensembles de données volumineux et d'extraire des insights significatifs") }}.
     </p>
     <br>
-    <h5>{{ _("Formats d’entrée et de sortie ") }}:</h5>
+    <h5>{{ _("Formats d'entrée et de sortie ") }}:</h5>
     <ul>
-        <li><strong>{{ _("Format d’entrée") }}</strong> : {{ _("Le corpus doit être constitué de fichiers texte au format") }} <code>.txt</code>.</li>
+        <li><strong>{{ _("Format d'entrée") }}</strong> : {{ _("Le corpus doit être constitué de fichiers texte au format") }} <code>.txt</code>.</li>
         <li><strong>{{ _("Format de sortie") }}</strong> : {{ _("Les résultats sont présentés sous forme de fichier CSV contenant les ensembles de mots-clés regroupés par thème") }}.</li>
     </ul>
     <h4>{{ _("Méthodes principales de modélisation") }}</h4>
@@ -129,14 +129,14 @@ colgroup col:nth-child(3) {
             <tr>
                 <th>{{ _("Méthode") }}</th>
                 <th>Description</th>
-                <th>{{ _("Cas d’utilisation") }}</th>
+                <th>{{ _("Cas d'utilisation") }}</th>
             </tr>
         </thead>
         <tbody>
             <tr>
                 <td><strong>{{ _("Factorisation par matrices non négatives") }} (NMF)</strong></td>
                 <td>{{ _("Identifie les thématiques en analysant la fréquence et la répartition des termes dans chaque document") }}. {{ _("Plus performante pour les textes courts") }}.</td>
-                <td>{{ _("Analyser des textes courts comme des tweets, des notes ou des paragraphes courts d’un corpus") }}.</td>
+                <td>{{ _("Analyser des textes courts comme des tweets, des notes ou des paragraphes courts d'un corpus") }}.</td>
             </tr>
             <tr>
                 <td><strong>{{ _("Allocation de Dirichlet latente") }} (LDA)</strong></td>
@@ -145,7 +145,7 @@ colgroup col:nth-child(3) {
             </tr>
         </tbody>
     </table>
-    <h4>{{ _("Fonctionnalités clés de l’outil") }}</h4>
+    <h4>{{ _("Fonctionnalités clés de l'outil") }}</h4>
     <h5>1. {{ _("Nombre de thématiques ") }}:</h5>
     <p>
         {{ _("Le nombre de thématiques détectées dépend de la taille du corpus") }}. {{ _("La sortie est plafonnée à <strong>8 thématiques</strong>") }}.
@@ -153,22 +153,22 @@ colgroup col:nth-child(3) {
     <br>
     <h5>2. {{ _("Lemmatisation optionnelle ") }}:</h5>
     <p>
-        {{ _("La <strong>lemmatisation</strong> est un processus qui réduit les mots à leur forme canonique ou "racine"") }}. {{ _("Par exemple, "mangeait" et "mangerons" seront ramenés à "manger"") }}.
+        {{ _("La <strong>lemmatisation</strong> est un processus qui réduit les mots à leur forme canonique ou 'racine'") }}. {{ _("Par exemple, 'mangeait' et 'mangerons' seront ramenés à 'manger'") }}.
     </p>
     <br>
-    <h5>{{ _("Exemple d’avant/après lemmatisation ") }}:</h5>
+    <h5>{{ _("Exemple d'avant/après lemmatisation ") }}:</h5>
     <ul>
-        <li><strong>{{ _("Texte original") }}</strong> : "{{ _("Les enfants jouaient joyeusement dans le parc") }}."</li>
-        <li><strong>{{ _("Avec lemmatisation") }}</strong> : "{{ _("enfant jouer joyeusement parc") }}."</li>
+        <li><strong>{{ _("Texte original") }}</strong> : '{{ _("Les enfants jouaient joyeusement dans le parc") }}.'</li>
+        <li><strong>{{ _("Avec lemmatisation") }}</strong> : '{{ _("enfant jouer joyeusement parc") }}.'</li>
     </ul>
-    <h4>{{ _("Étapes d’utilisation de l’outil") }}</h4>
+    <h4>{{ _("Étapes d'utilisation de l'outil") }}</h4>
     <ol>
         <li><strong>{{ _("Préparez votre corpus") }}</strong> : {{ _("Regroupez vos fichiers texte dans un dossier") }}. {{ _("Assurez-vous que chaque document est au format") }} <code>.txt</code>.</li>
         <li><strong>{{ _("Choisissez une méthode") }}</strong> : {{ _("NMF pour des textes courts ou LDA pour des corpus plus longs et complexes") }}.</li>
         <li><strong>{{ _("Appliquez la lemmatisation si nécessaire") }}</strong> : {{ _("Si votre corpus est très diversifié, la lemmatisation peut améliorer les résultats en homogénéisant les termes") }}.</li>
         <li><strong>{{ _("Recevez un fichier CSV") }}</strong> : {{ _("Chaque ligne du fichier décrit un thème détecté et les mots-clés qui le composent") }}.</li>
     </ol>
-    <h4>{{ _("Applications de la modélisation de thématiques</h4>
+    <h4>{{ _("Applications de la modélisation de thématiques") }}</h4>
     <ul>
         <li><strong>{{ _("Analyse de tendances") }}</strong> : {{ _("Identifiez les sujets récurrents dans des commentaires clients, des publications sur les réseaux sociaux ou des critiques en ligne") }}.</li>
         <li><strong>{{ _("Recherche documentaire") }}</strong> : {{ _("Groupez des documents académiques ou journalistiques selon leurs thématiques principales") }}.</li>
@@ -176,7 +176,7 @@ colgroup col:nth-child(3) {
     </ul>
     <h4>Conclusion</h4>
     <p>
-        {{ _("La modélisation de thématiques est une approche essentielle pour comprendre les données textuelles de manière structurée et synthétique") }}. {{ _("Que vous utilisiez <strong>NMF</strong> ou <strong>LDA</strong>, ces méthodes permettent de transformer un corpus brut en résultats exploitables, adaptés à vos besoins d’analyse") }}. {{ _("Intégrée dans des outils d’analyse avancés, cette technique ouvre des perspectives intéressantes pour la recherche, le marketing, et bien d'autres domaines") }}.
+        {{ _("La modélisation de thématiques est une approche essentielle pour comprendre les données textuelles de manière structurée et synthétique") }}. {{ _("Que vous utilisiez <strong>NMF</strong> ou <strong>LDA</strong>, ces méthodes permettent de transformer un corpus brut en résultats exploitables, adaptés à vos besoins d'analyse") }}. {{ _("Intégrée dans des outils d'analyse avancés, cette technique ouvre des perspectives intéressantes pour la recherche, le marketing, et bien d'autres domaines") }}.
     </p>
 	</div>
 </div>

@@ -28,7 +28,7 @@ table {
 
 th, td {
     border: 2px solid black; /* Lignes noires de 2px autour des cellules */
-    padding: 10px; /* Ajoute de l’espace à l’intérieur des cellules */
+    padding: 10px; /* Ajoute de l'espace à l'intérieur des cellules */
     text-align: left; /* Aligne le contenu à gauche */
 }
 
@@ -77,11 +77,11 @@ colgroup col:nth-child(3) {
         <li>
             <strong>{{ _("L'ambiguïté de segmentation") }}</strong>
             <p>
-                {{ _("La REN nécessite de délimiter correctement les entités nommées dans un texte, ce qui n’est pas toujours évident") }}. {{ _("Tous les mots ne sont pas des entités, et il peut être difficile de déterminer les frontières exactes des entités. Par exemple, dans 'Université Paris-Saclay', l’entité doit être reconnue comme un tout, plutôt qu’en parties distinctes") }}.
+                {{ _("La REN nécessite de délimiter correctement les entités nommées dans un texte, ce qui n'est pas toujours évident") }}. {{ _("Tous les mots ne sont pas des entités, et il peut être difficile de déterminer les frontières exactes des entités. Par exemple, dans 'Université Paris-Saclay', l'entité doit être reconnue comme un tout, plutôt qu'en parties distinctes") }}.
             </p>
         </li>
         <li>
-            <strong>{{ _("L’ambiguïté de type") }}</strong>
+            <strong>{{ _("L'ambiguïté de type") }}</strong>
             <p>
                 {{ _("Une même mention peut correspondre à plusieurs types d'entités selon le contexte") }}. {{ _("Le terme <strong>JFK</strong>, par exemple, peut désigner une personne (John F. Kennedy), un aéroport, ou même une école ou un pont") }}.
             </p>
@@ -89,7 +89,7 @@ colgroup col:nth-child(3) {
         <li>
             <strong>{{ _("Entités nouvelles ou inconnues") }}</strong>
             <p>
-                {{ _("Les systèmes de REN peuvent avoir des difficultés avec des noms ou expressions qu’ils n’ont jamais vus auparavant, comme des noms propres récents ou des abréviations spécifiques à un domaine") }}.
+                {{ _("Les systèmes de REN peuvent avoir des difficultés avec des noms ou expressions qu'ils n'ont jamais vus auparavant, comme des noms propres récents ou des abréviations spécifiques à un domaine") }}.
             </p>
         </li>
     </ol>
@@ -97,10 +97,10 @@ colgroup col:nth-child(3) {
     <h4>{{ _("Applications de la REN") }}</h4>
     <p>{{ _("La REN est utilisée dans de nombreux domaines et applications ") }}:</p>
     <ul>
-        <li><strong>{{ _("Extraction d’information") }}</strong> : {{ _("Identifier automatiquement des informations clés dans de vastes volumes de données, comme les noms des intervenants dans un texte ou les lieux d’un événement") }}.</li>
-        <li><strong>{{ _("Systèmes de recherche d’information") }}</strong> : {{ _("Améliorer la recherche documentaire en focalisant sur les entités nommées plutôt que sur des mots-clés généraux") }}.</li>
+        <li><strong>{{ _("Extraction d'information") }}</strong> : {{ _("Identifier automatiquement des informations clés dans de vastes volumes de données, comme les noms des intervenants dans un texte ou les lieux d'un événement") }}.</li>
+        <li><strong>{{ _("Systèmes de recherche d'information") }}</strong> : {{ _("Améliorer la recherche documentaire en focalisant sur les entités nommées plutôt que sur des mots-clés généraux") }}.</li>
         <li><strong>{{ _("Analyse de sentiments") }}</strong> : {{ _("Examiner les opinions ou sentiments associés à des entités spécifiques") }}.</li>
-        <li><strong>{{ _("Traduction automatique") }}</strong> : {{ _("Reconnaître et traduire correctement les noms propres ou entités spécifiques d’un texte source vers une langue cible") }}.</li>
+        <li><strong>{{ _("Traduction automatique") }}</strong> : {{ _("Reconnaître et traduire correctement les noms propres ou entités spécifiques d'un texte source vers une langue cible") }}.</li>
         <li><strong>{{ _("Reconnaissance vocale") }}</strong> : {{ _("Mieux interpréter les noms propres ou termes uniques dans les commandes vocales") }}.</li>
     </ul>
     <br>
@@ -108,13 +108,13 @@ colgroup col:nth-child(3) {
     <p>{{ _("La reconnaissance des entités nommées repose sur des approches variées ") }}:</p>
     <ul>
         <li>
-            {{ _("<strong>Basée sur des règles</strong> : Les premières méthodes s’appuyaient sur des règles linguistiques prédéfinies et des expressions régulières") }}.
+            {{ _("<strong>Basée sur des règles</strong> : Les premières méthodes s'appuyaient sur des règles linguistiques prédéfinies et des expressions régulières") }}.
         </li>
         <li>
-            {{ _("<strong>Apprentissage automatique</strong> : Les modèles modernes utilisent des algorithmes d’apprentissage supervisé, comme les CRF (Conditional Random Fields), ou non supervisé") }}.
+            {{ _("<strong>Apprentissage automatique</strong> : Les modèles modernes utilisent des algorithmes d'apprentissage supervisé, comme les CRF (Conditional Random Fields), ou non supervisé") }}.
         </li>
         <li>
-           {{ _(" <strong>Apprentissage profond</strong> : Des architectures comme les réseaux neuronaux récurrents (RNN), ou les modèles basés sur les transformeurs comme BERT, offrent des performances de pointe en REN") }}.
+           {{ _("<strong>Apprentissage profond</strong> : Des architectures comme les réseaux neuronaux récurrents (RNN), ou les modèles basés sur les transformeurs comme BERT, offrent des performances de pointe en REN") }}.
         </li>
     </ul>
     <p>
@@ -123,18 +123,18 @@ colgroup col:nth-child(3) {
     <br>
     <h4>Conclusion</h4>
     <p>
-        {{ _("La reconnaissance des entités nommées (REN) est un pilier fondamental du traitement automatique de texte, permettant d'extraire et de structurer des informations précieuses dans des données non structurées") }}. {{ _("Bien qu’elle présente des défis, notamment en termes d’ambiguïté et de segmentation, les avancées technologiques, notamment en apprentissage profond, ont considérablement amélioré sa précision") }}. {{ _("Avec des applications qui vont de l'extraction d'informations à l’analyse avancée des données textuelles, la REN continue de jouer un rôle crucial dans les domaines du NLP et au-delà") }}.
+        {{ _("La reconnaissance des entités nommées (REN) est un pilier fondamental du traitement automatique de texte, permettant d'extraire et de structurer des informations précieuses dans des données non structurées") }}. {{ _("Bien qu'elle présente des défis, notamment en termes d'ambiguïté et de segmentation, les avancées technologiques, notamment en apprentissage profond, ont considérablement amélioré sa précision") }}. {{ _("Avec des applications qui vont de l'extraction d'informations à l'analyse avancée des données textuelles, la REN continue de jouer un rôle crucial dans les domaines du NLP et au-delà") }}.
     </p>
     <hr>
-    <h2>{{ _("L’étiquetage morphosyntaxique (Part-of-Speech Tagging)") }}</h2>
+    <h2>{{ _("L'étiquetage morphosyntaxique (Part-of-Speech Tagging)") }}</h2>
     <p>
-        {{ _("L’étiquetage morphosyntaxique, également appelé <strong>Part-of-Speech tagging (POS tagging)</strong>, est une méthode de traitement automatique du langage naturel (NLP) qui consiste à attribuer une catégorie grammaticale à chaque mot d’un texte") }}. {{ _("Cette tâche est fondamentale pour analyser et structurer le contenu linguistique de manière automatisée. Elle repose sur deux grandes étapes ") }}:
+        {{ _("L'étiquetage morphosyntaxique, également appelé <strong>Part-of-Speech tagging (POS tagging)</strong>, est une méthode de traitement automatique du langage naturel (NLP) qui consiste à attribuer une catégorie grammaticale à chaque mot d'un texte") }}. {{ _("Cette tâche est fondamentale pour analyser et structurer le contenu linguistique de manière automatisée. Elle repose sur deux grandes étapes ") }}:
     </p>
     <ol>
-        <li>{{ _("<strong>Tokenisation</strong> : Le texte est d’abord segmenté en unités fondamentales, ici les mots, appelées 'tokens'") }}.</li>
+        <li>{{ _("<strong>Tokenisation</strong> : Le texte est d'abord segmenté en unités fondamentales, ici les mots, appelées 'tokens'") }}.</li>
         <li>{{ _("<strong>Étiquetage</strong> : Chaque token se voit assigner une catégorie grammaticale correspondant à son rôle dans la phrase") }}.</li>
     </ol>
-    <p>{{ _("Par exemple, l’analyse de la phrase <em>'Le petit chat dort.'</em> avec étiquetage morphosyntaxique donnerait ") }}:</p>
+    <p>{{ _("Par exemple, l'analyse de la phrase <em>'Le petit chat dort.'</em> avec étiquetage morphosyntaxique donnerait ") }}:</p>
     <ul>
         <li><strong>Le</strong> : DET ({{ _("déterminant") }})</li>
         <li><strong>petit</strong> : ADJ ({{ _("adjectif") }})</li>
@@ -143,19 +143,19 @@ colgroup col:nth-child(3) {
         <li><strong>.</strong> : PONCT ({{ _("ponctuation") }})</li>
     </ul>
     <br>
-    <h4>{{ _("À quoi sert l’étiquetage morphosyntaxique ") }}?</h4>
+    <h4>{{ _("À quoi sert l'étiquetage morphosyntaxique ") }}?</h4>
     <p>
         {{ _("Cet étiquetage fournit une analyse linguistique détaillée qui peut être utilisée dans diverses applications ") }}:
     </p>
     <ul>
-        <li>{{ _("<strong>Comparaison de traductions et éditions</strong> : Identifier les différences entre deux versions d’un même texte, notamment au niveau grammatical") }}.</li>
+        <li>{{ _("<strong>Comparaison de traductions et éditions</strong> : Identifier les différences entre deux versions d'un même texte, notamment au niveau grammatical") }}.</li>
         <li>{{ _("<strong>Filtrage de termes</strong> : Extraire les verbes, noms propres ou toute autre catégorie pour des analyses spécifiques") }}.</li>
-        <li>{{ _("<strong>Prétraitement pour des tâches complexes</strong> : Les modèles avancés comme ceux de traduction automatique ou d’analyse sémantique dépendent fortement de cette catégorisation") }}.</li>
+        <li>{{ _("<strong>Prétraitement pour des tâches complexes</strong> : Les modèles avancés comme ceux de traduction automatique ou d'analyse sémantique dépendent fortement de cette catégorisation") }}.</li>
     </ul>
     <br>
     <h4>{{ _("Les catégories morphosyntaxiques courantes") }}</h4>
     <p>
-       {{ _(" Voici les principales catégories de POS utilisées dans l’étiquetage morphosyntaxique, accompagnées de leurs explications ") }}:
+       {{ _("Voici les principales catégories de POS utilisées dans l'étiquetage morphosyntaxique, accompagnées de leurs explications ") }}:
         <table>
     <thead>
         <tr>
@@ -220,14 +220,14 @@ colgroup col:nth-child(3) {
     </p>
     <p>{{ _("Cette liste peut varier selon les langues et les corpus, mais elle constitue une base commune pour la plupart des systèmes") }}.</p>
     <br>
-    <h4>{{ _("Défis de l’étiquetage morphosyntaxique") }}</h4>
-    <p>{{ _("L’étiquetage morphosyntaxique est une tâche complexe pour plusieurs raisons ") }}:</p>
+    <h4>{{ _("Défis de l'étiquetage morphosyntaxique") }}</h4>
+    <p>{{ _("L'étiquetage morphosyntaxique est une tâche complexe pour plusieurs raisons ") }}:</p>
     <ul>
         <li>
             {{ _("<strong>Ambiguïté contextuelle</strong> : Certains mots peuvent appartenir à différentes catégories selon leur usage dans une phrase") }}. {{ _("Par exemple, le mot <em>'chat'</em> peut être un nom commun ou un verbe en anglais (<em>to chat</em>)") }}.
         </li>
         <li>
-            {{ _("<strong>Précision sur les frontières de tokens</strong> : La segmentation en unités comme les contractions ('n’est-ce pas') ou les expressions composées peut poser des problèmes") }}.
+            {{ _("<strong>Précision sur les frontières de tokens</strong> : La segmentation en unités comme les contractions ('n'est-ce pas') ou les expressions composées peut poser des problèmes") }}.
         </li>
         <li>
             {{ _("<strong>Complexité linguistique</strong> : Chaque langue a ses propres subtilités grammaticales, nécessitant une adaptation des modèles") }}.
@@ -236,7 +236,7 @@ colgroup col:nth-child(3) {
     <br>
     <h4>Conclusion</h4>
     <p>
-        {{ _("L’étiquetage morphosyntaxique est une étape fondamentale dans l’analyse linguistique automatique, offrant une compréhension détaillée des rôles grammaticaux des mots dans un texte") }}. {{ _("Grâce à l’utilisation de catégories comme les noms, adjectifs ou verbes, il permet d’extraire des informations précieuses et de servir de base pour des tâches complexes en NLP") }}. {{ _("Les défis liés à l’ambiguïté et à la richesse du langage nécessitent des algorithmes sophistiqués, mais les progrès technologiques dans ce domaine rendent cette analyse de plus en plus précise et utile") }}.
+        {{ _("L'étiquetage morphosyntaxique est une étape fondamentale dans l'analyse linguistique automatique, offrant une compréhension détaillée des rôles grammaticaux des mots dans un texte") }}. {{ _("Grâce à l'utilisation de catégories comme les noms, adjectifs ou verbes, il permet d'extraire des informations précieuses et de servir de base pour des tâches complexes en NLP") }}. {{ _("Les défis liés à l'ambiguïté et à la richesse du langage nécessitent des algorithmes sophistiqués, mais les progrès technologiques dans ce domaine rendent cette analyse de plus en plus précise et utile") }}.
     </p>
     <hr>
     <h2>{{ _("Introduction aux catégories sémantiques") }}</h2>
@@ -250,7 +250,7 @@ colgroup col:nth-child(3) {
     </p>
     <ul>
         <li>{{ _("<strong>Le sens partagé</strong> : Les mots ayant un sens commun (ex. : 'soleil', 'étoile', 'planète' pour la catégorie 'astres')") }}.</li>
-        <li>{{ _("<strong>La fonction ou le contexte</strong> : Les termes utilisés dans un contexte spécifique ou ayant une fonction similaire (ex. : 'manger', 'cuisiner', 'préparer' pour la catégorie 'actions liées à l’alimentation')") }}.</li>
+        <li>{{ _("<strong>La fonction ou le contexte</strong> : Les termes utilisés dans un contexte spécifique ou ayant une fonction similaire (ex. : 'manger', 'cuisiner', 'préparer' pour la catégorie 'actions liées à l'alimentation')") }}.</li>
         <li>{{ _("<strong>Les relations hiérarchiques ou associatives</strong> : Les termes liés par des relations comme la hiérarchie ou la complémentarité (ex. : 'mammifères' comme catégorie englobant 'chien' et 'chat')") }}.</li>
     </ul>
     <p>
@@ -263,21 +263,21 @@ colgroup col:nth-child(3) {
         {{ _("En regroupant des termes proches en catégories, les catégories sémantiques permettent de simplifier les analyses textuelles") }}. {{ _("Par exemple, au lieu d'examiner individuellement les mots 'pomme', 'banane' et 'orange', on peut traiter ces mots sous une seule catégorie 'fruits'") }}.
     </p>
     <br>
-    <h5>{{ _("2. Analyse et extraction d’informations") }}</h5>
+    <h5>{{ _("2. Analyse et extraction d'informations") }}</h5>
     <p>
         {{ _("Les catégories sémantiques sont largement utilisées dans l'extraction d'information pour identifier et organiser des éléments clés dans des textes volumineux. Par exemple ") }}:
     </p>
     <ul>
-        <li>{{ _("Identifier toutes les mentions de noms d’animaux dans un corpus scientifique") }}.</li>
-        <li>{{ _("Regrouper des événements similaires dans des articles d’actualité") }}.</li>
+        <li>{{ _("Identifier toutes les mentions de noms d'animaux dans un corpus scientifique") }}.</li>
+        <li>{{ _("Regrouper des événements similaires dans des articles d'actualité") }}.</li>
     </ul>
     <br>
-    <h5>{{ _("3. Résolution d’ambiguïté lexicale") }}</h5>
+    <h5>{{ _("3. Résolution d'ambiguïté lexicale") }}</h5>
     <p>
-        {{ _("Dans un contexte donné, un mot peut avoir plusieurs significations. Les catégories sémantiques aident à réduire cette ambiguïté") }}. {{ _("Par exemple, le mot 'banc' peut appartenir à la catégorie 'mobilier' (un banc pour s’asseoir) ou 'finance' (un établissement bancaire)") }}.
+        {{ _("Dans un contexte donné, un mot peut avoir plusieurs significations. Les catégories sémantiques aident à réduire cette ambiguïté") }}. {{ _("Par exemple, le mot 'banc' peut appartenir à la catégorie 'mobilier' (un banc pour s'asseoir) ou 'finance' (un établissement bancaire)") }}.
     </p>
     <br>
-    <h5>{{ _("4. Tâches d’apprentissage automatique (machine learning)") }}</h5>
+    <h5>{{ _("4. Tâches d'apprentissage automatique (machine learning)") }}</h5>
     <p>
         {{ _("Les catégories sémantiques sont intégrées dans les modèles NLP pour améliorer leur performance ") }}:
     </p>
@@ -289,19 +289,19 @@ colgroup col:nth-child(3) {
     <br>
     <h5>{{ _("5. Interaction homme-machine") }}</h5>
     <p>
-        {{ _("Les catégories sémantiques permettent de rendre les systèmes d'intelligence artificielle plus intuitifs") }}. {{ _("Par exemple, lorsqu’un utilisateur demande à un assistant vocal de 'montrer des recettes de fruits', le système peut chercher dans la catégorie des 'fruits' et lier cette requête à des recettes comprenant des pommes, des bananes") }}, etc.
+        {{ _("Les catégories sémantiques permettent de rendre les systèmes d'intelligence artificielle plus intuitifs") }}. {{ _("Par exemple, lorsqu'un utilisateur demande à un assistant vocal de 'montrer des recettes de fruits', le système peut chercher dans la catégorie des 'fruits' et lier cette requête à des recettes comprenant des pommes, des bananes") }}, etc.
     </p>
     <br>
-    <h4>{{ _("Exemples d’applications pratiques") }}</h4>
+    <h4>{{ _("Exemples d'applications pratiques") }}</h4>
     <ul>
-        <li><strong>{{ _("Base de données lexicales") }}</strong> : {{ _("Les ressources comme WordNet organisent les mots par catégories sémantiques, facilitant les recherches lexicales et la compréhension des relations entre termes") }}.</li>
-        <li><strong>{{ _("Analyse de corpus") }}</strong> : {{ _("Lorsqu’un linguiste étudie un texte, les catégories sémantiques permettent d’observer la fréquence d’apparition de certains types de mots (par exemple, les 'noms d’outils' dans une œuvre technique)") }}.</li>
-        <li><strong>{{ _("Éducation et apprentissage des langues") }}</strong> : {{ _("Les exercices de vocabulaire classent souvent les mots en catégories, aidant les apprenants à établir des connexions entre eux") }}.</li>
+        <li>{{ _("<strong>Base de données lexicales</strong> : Les ressources comme WordNet organisent les mots par catégories sémantiques, facilitant les recherches lexicales et la compréhension des relations entre termes") }}.</li>
+        <li>{{ _("<strong>Analyse de corpus</strong> : Lorsqu'un linguiste étudie un texte, les catégories sémantiques permettent d'observer la fréquence d'apparition de certains types de mots (par exemple, les 'noms d'outils' dans une œuvre technique)") }}.</li>
+        <li>{{ _("<strong>Éducation et apprentissage des langues</strong> : Les exercices de vocabulaire classent souvent les mots en catégories, aidant les apprenants à établir des connexions entre eux") }}.</li>
     </ul>
     <br>
     <h4>Conclusion</h4>
     <p>
-        {{ _("Les catégories sémantiques offrent une méthode puissante pour structurer, analyser et exploiter des données linguistiques complexes") }}. {{ _("Elles jouent un rôle clé dans divers domaines, allant de la recherche linguistique à l’intelligence artificielle, en passant par l’extraction d’informations") }}. {{ _("En regroupant les mots selon leur sens et leur contexte, elles permettent de simplifier les analyses, de résoudre les ambiguïtés et de construire des systèmes intelligents capables de mieux comprendre et interagir avec le langage humain") }}.
+        {{ _("Les catégories sémantiques offrent une méthode puissante pour structurer, analyser et exploiter des données linguistiques complexes") }}. {{ _("Elles jouent un rôle clé dans divers domaines, allant de la recherche linguistique à l'intelligence artificielle, en passant par l'extraction d'informations") }}. {{ _("En regroupant les mots selon leur sens et leur contexte, elles permettent de simplifier les analyses, de résoudre les ambiguïtés et de construire des systèmes intelligents capables de mieux comprendre et interagir avec le langage humain") }}.
     </p>
 	</div>
 </div>
