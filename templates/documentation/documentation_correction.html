@@ -3,39 +3,121 @@
 {% block content %}
 
 <style>
-.item-list {
-    list-style: none;
-    padding: 0;
+.outil li {
+    margin-left: 3em;
 }
 
-.item-list li {
-    margin: 10px;
-    display: flex;
-    align-items: center;
+.outil strong {
+    color: #f2a800;
 }
 
-.item-list img {
-    max-width: 130px; /* Ajustez la largeur maximale de l'image selon vos besoins */
-    height: auto;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    margin-right: 30px; /* Ajoute un espace entre l'image et le texte */
-}
-
-.item-list p {
-    margin: 5px 0 0;
-}
-.item-list li:hover {
-    color:#f2a800;
-	cursor: pointer;
+.outil h4{
+  font-family: 'Roboto', sans-serif;
+  font-size:1.2em;
+  margin:28px 0;
+  border-left: 5px solid #f2a800;
+  color: #263e8d;
+  padding:10px;
 }
 
 </style>
 
 <div class="outil">
-	<div class="doc-intro">
-	<h2 style="font-family:'Comprehension', serif;">Correction de texte</h2>
-	<p>Documentation à venir</p>
+    <div class="fil"> </div>
+    
+	<div style="text-align: left;"><a href="{{ url_for('documentation_analyses')}}" style="color:#f2a800; text-decoration:none;"><< {{ _('Documentation précédente') }}</a></div>
+    <div style="text-align: right;"><a href="{{ url_for('documentation_generation')}}" style="color:#f2a800; text-decoration:none;">{{ _('Documentation suivante') }} >></a></div>
+<div class="tool-box">
+    <h2>{{ _("Corrections et graphies") }}</h2>
+    <p>
+        {{ _("La correction des erreurs et la prise en compte des graphies anciennes jouent un rôle fondamental dans l'analyse et l'interprétation de textes anciens ou modernes") }}. {{ _("Voici une explication détaillée de ce qu'est la <strong>graphie ancienne</strong>, de ce à quoi elle peut ressembler, des types de documents où on la trouve et du processus de <strong>normalisation</strong>") }}. {{ _("Nous aborderons aussi les erreurs courantes et les techniques de correction orthographique") }}.
+    </p>
+    <hr>
+    <h2>{{ _("Qu'est-ce que la graphie ancienne ") }}?</h2>
+    <p>
+        {{ _("La <strong>graphie ancienne</strong> désigne l'écriture et l'orthographe utilisées dans des périodes historiques passées") }}. {{ _("Elle inclut des formes de mots, des conventions orthographiques ou des caractères qui diffèrent de ceux utilisés dans l'orthographe contemporaine") }}. {{ _("Ces particularités reflètent l'évolution des langues au fil des siècles") }}.
+    </p>
+    <h4>{{ _("À quoi cela peut ressembler ") }}:</h4>
+    <ul>
+        <li>{{ _("<strong>Variations orthographiques</strong> : Par exemple, 'voulentiers' au lieu de 'volontiers', ou 'roy' pour 'roi'") }}.</li>
+        <li>{{ _("<strong>Caractères spécifiques</strong> : Des lettres aujourd'hui disparues, comme le long 's' (ƒ) utilisé en ancien français ou en anglais élisabéthain") }}.</li>
+        <li>{{ _("<strong>Différentes écritures manuscrites</strong> : Des styles calligraphiques, comme la gothique, qui rendent la lecture complexe pour les lecteurs modernes") }}.</li>
+    </ul>
+    <h4>{{ _("Types de documents où on la trouve ") }}:</h4>
+    <ul>
+        <li>{{ _("<strong>Textes manuscrits anciens</strong> : Lettres, journaux, manuscrits littéraires ou administratifs") }}.</li>
+        <li>{{ _("<strong>Imprimés anciens</strong> : Livres datant des débuts de l'imprimerie (XVe-XVIIe siècle)") }}.</li>
+        <li>{{ _("<strong>Documents historiques</strong> : Contrats, registres paroissiaux, archives judiciaires") }}.</li>
+    </ul>
+    <hr>
+    <h2>{{ _("La normalisation des graphies") }}</h2>
+    <p>
+        {{ _("La <strong>normalisation</strong> consiste à transformer les graphies anciennes en leur forme contemporaine tout en respectant le sens du texte") }}. {{ _("Ce processus est crucial pour rendre ces textes plus accessibles et exploitables, notamment dans des contextes numériques ou d'analyse linguistique") }}.
+    </p>
+    <h4>{{ _("Objectifs de la normalisation ") }}:</h4>
+    <ul>
+        <li>{{ _("Uniformiser l'orthographe pour faciliter la recherche et l'analyse") }}.</li>
+        <li>{{ _("Conserver les particularités historiques dans des éditions critiques") }}.</li>
+        <li>{{ _("Aider les algorithmes à comprendre et traiter des textes anciens") }}.</li>
+    </ul>
+    <h4>{{ _("Exemples de normalisation ") }}:</h4>
+    <ul>
+        <li>{{ _("<strong>Texte original</strong> : 'Au lieu que le Roy vint en son pais.'") }}</li>
+        <li>{{ _("<strong>Texte normalisé</strong> : 'Au lieu que le roi vint en son pays.'") }}</li>
+    </ul>
+    <p>
+        {{ _("La normalisation peut être effectuée manuellement par des éditeurs ou de façon semi-automatisée grâce à des outils d'OCR spécialisés") }}.
+    </p>
+    <hr>
+    <h2>{{ _("Correction des erreurs orthographiques") }}</h2>
+    <p>
+        {{ _("La correction des erreurs est une autre dimension importante, qui intervient lorsque des mots sont mal écrits ou mal reconnus, que ce soit dans des textes anciens ou modernes") }}.
+    </p>
+    <h4>{{ _("Méthodes de correction ") }}:</h4>
+    <ul>
+        <li>
+            {{ _("<strong>Proximité orthographique</strong> : Identifier les mots proches en termes de distance d'édition. Par exemple ") }}:
+            <ul>
+                <li>{{ _("Mot erroné : 'graffe'") }}</li>
+                <li>{{ _("Suggestions : 'giraffe' (diffère par une seule lettre, donc plus probable), 'grail', 'graf'") }}.</li>
+            </ul>
+        </li>
+        <li>
+            {{ _("<strong>Approches contextuelles</strong> : Les modèles modernes, comme ceux basés sur les transformateurs, utilisent le contexte pour proposer des corrections plus pertinentes") }}.
+        </li>
+    </ul>
+    <h4>Applications :</h4>
+    <ul>
+        <li>{{ _("Correction automatique dans des éditeurs de texte") }}.</li>
+        <li>{{ _("Prétraitement dans des projets d'analyse textuelle ou de reconnaissance de texte (OCR)") }}.</li>
+    </ul>
+    <hr>
+    <h2>{{ _("Illustrations d'exemples") }}</h2>
+    <ul>
+        <li>
+            <strong>{{ _("Graphie ancienne et normalisation") }}</strong>  <ul>
+                <li>{{ _("Texte original : 'Que cecy soit vne leçon pour les enfans.'") }}</li>
+                <li>{{ _("Texte normalisé : 'Que ceci soit une leçon pour les enfants.'") }}</li>
+            </ul>
+        </li>
+        <li>
+            <strong>{{ _("Correction orthographique") }}</strong>  <ul>
+                <li>{{ _("Texte erroné : 'Les giraphes vivent en Afrique.'") }}</li>
+                <li>{{ _("Correction suggérée : 'Les girafes vivent en Afrique.'") }}</li>
+            </ul>
+        </li>
+        <li>
+            <strong>{{ _("Graphie spécifique (long 's')") }}</strong>  <ul>
+                <li>{{ _("Texte original (XVIIe siècle) : 'ſavons que chacun a raison.'") }}</li>
+                <li>{{ _("Texte normalisé : 'savons que chacun a raison.'") }}</li>
+            </ul>
+        </li>
+    </ul>
+    <hr>
+    <h2>Conclusion</h2>
+    <p>
+        {{ _("La prise en compte des graphies anciennes et la correction des erreurs orthographiques sont des éléments essentiels pour préserver et rendre accessible le patrimoine linguistique") }}. {{ _("La <strong>normalisation</strong> permet d'adapter les textes anciens à des normes contemporaines sans en perdre l'essence historique, tandis que les techniques de <strong>correction automatique</strong> facilitent leur exploitation pour des analyses modernes") }}. {{ _("Avec des outils avancés et des algorithmes, ces processus deviennent plus précis et efficaces, contribuant à la valorisation et à l'étude des textes anciens ou erronés") }}.
+    </p>
 	</div>
 </div>
 {% endblock %}

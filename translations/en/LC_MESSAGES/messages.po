@@ -1239,7 +1239,7 @@ msgstr ""
 "heuristic rules"
 
 msgid ""
-"L’annotation se fait au niveau de la surface, "
+"L'annotation se fait au niveau de la surface, "
 "sans analyse morphosyntaxique"
 msgstr ""
 "The annotation is done at the surface level, "
@@ -1297,8 +1297,8 @@ msgstr ""
 "(University of Chicago) in Spring 2018"
 
 msgid ""
-"NormaLisa s’appuie sur plusieurs bases lexicales ouvertes, "
-"développées par l’ATILF"
+"NormaLisa s'appuie sur plusieurs bases lexicales ouvertes, "
+"développées par l'ATILF"
 msgstr ""
 "NormaLisa relies on several open lexical databases, "
 "developed by ATILF"
@@ -2615,3 +2615,2678 @@ msgid ""
 "post-doctorant"
 msgstr ""
 "postdoctoral researcher"
+
+msgid ""
+"Cette documentation a été réalisée à partir de la documentation"
+" de la première version de Pandore, du livre"
+msgstr ""
+"This documentation has been made from the documentation"
+" of the first version of Pandore, from the book"
+
+msgid "et de l'IA"
+msgstr "and from AI"
+
+msgid "de"
+msgstr "of"
+
+msgid "lien"
+msgstr "link"
+
+msgid "ici"
+msgstr "here"
+
+msgid "Tutoriel précédent"
+msgstr "Previous tutorial"
+
+msgid "Tutoriel suivant"
+msgstr "Next tutorial"
+
+msgid "Documentation précédente"
+msgstr "Previous documentation"
+
+msgid "Documentation suivante"
+msgstr "Next documentation"
+
+msgid "Tutoriel : Conversion en XML-TEI"
+msgstr "Tutorial: Conversion to XML-TEI"
+
+msgid ""
+"Voici une description et des explications sur "
+"les divers éléments d'encodage XML-TEI utilisés ici"
+msgstr ""
+"Here is a description and explanations of "
+"the various XML-TEI encoding elements used here"
+
+msgid "Balise"
+msgstr "Tag"
+
+msgid "Explication"
+msgstr "Explanation"
+
+msgid "Exemple"
+msgstr "Example"
+
+msgid "Indique les informations liées au titre de l'œuvre ou du document"
+msgstr "Indicates information related to the title of the work or document"
+
+msgid "Cela inclut le titre lui-même et les auteurs ou autres contributeurs principaux"
+msgstr "This includes the title itself and the authors or other main contributors"
+
+msgid ""
+"Identifie les responsables ou collaborateurs associés "
+"à l'œuvre ou au projet, avec leurs rôles précisés"
+msgstr ""
+"Identifies the individuals responsible or collaborators associated "
+"with the work or project, with their roles specified"
+
+msgid "Contient les informations liées à la publication du document "
+msgstr "Contains information related to the publication of the document"
+
+msgid "éditeur, lieu, date de publication, et droits associés"
+msgstr "publisher, location, publication date, and associated rights"
+
+msgid "Fournit des détails sur la source ou l'origine du texte encodé "
+msgstr "Provides details about the source or origin of the encoded text"
+
+msgid "manuscrit, édition imprimée"
+msgstr "manuscript, printed edition"
+
+msgid "Décrit le contenu général du document (thèmes, langues utilisées, etc.) et"
+msgstr "Describes the general content of the document (themes, languages used, etc.) and"
+
+msgid "autres caractéristiques textuelles : chronologie, géographie"
+msgstr "other textual features: chronology, geography"
+
+msgid ""
+"Donne des informations sur le projet dans lequel "
+"le texte a été encodé, comme ses objectifs "
+"et son cadre institutionnel"
+msgstr ""
+"Provides information about the project in which "
+"the text was encoded, such as its objectives "
+"and institutional framework"
+
+msgid ""
+"Spécifie les choix éditoriaux et conventions appliquées "
+"lors de l'encodage du texte, comme les suppressions "
+"ou corrections effectuées"
+msgstr ""
+"Specifies the editorial choices and conventions applied "
+"during the encoding of the text, such as deletions "
+"or corrections made"
+
+msgid "Fournit un historique des modifications et révisions appliquées au fichier TEI"
+msgstr "Provides a history of modifications and revisions applied to the TEI file"
+
+msgid "Tutoriel : Extraction automatique de mots-clés avec KeyBERT"
+msgstr "Tutorial: Automatic Keyword Extraction with KeyBERT"
+
+msgid ""
+"L'extraction automatique de mots-clés est une tâche essentielle "
+"en traitement du langage naturel (NLP), permettant d'identifier "
+"les termes les plus représentatifs d'un texte ou d'un corpus"
+msgstr ""
+"Automatic keyword extraction is an essential task "
+"in natural language processing (NLP), allowing the identification "
+"of the most representative terms in a text or corpus"
+
+msgid ""
+"Ces mots-clés offrent une synthèse rapide du contenu "
+"et facilitent les recherches, résumés, ou analyses thématiques"
+msgstr ""
+"These keywords provide a quick summary of the content "
+"and facilitate searches, summaries, or thematic analyses"
+
+msgid ""
+"L'outil <strong>KeyBERT</strong> est une "
+"solution particulièrement puissante pour ce type de tâches "
+"grâce à sa simplicité et ses performances"
+msgstr ""
+"The <strong>KeyBERT</strong> tool is a "
+"particularly powerful solution for this type of task "
+"thanks to its simplicity and performance"
+
+msgid "Pourquoi utiliser KeyBERT pour l'extraction de mots-clés "
+msgstr "Why use KeyBERT for keyword extraction?"
+
+msgid "exploite les modèles basés sur les transformateurs pour encoder le texte et identifier les mots-clés pertinents"
+msgstr "leverages transformer-based models to encode text and identify relevant keywords"
+
+msgid "Ses avantages incluent "
+msgstr "Its advantages include"
+
+msgid "encode chaque phrase du document à l'aide de représentations vectorielles contextuelles"
+msgstr "encodes each sentence in the document using contextual vector representations"
+
+msgid "Le modèle utilisé"
+msgstr "The model used"
+
+msgid "garantit une analyse cohérente dans plusieurs langues"
+msgstr "ensures consistent analysis across multiple languages"
+
+msgid "Identification des mots-clés"
+msgstr "Keywords identification"
+
+msgid "Les mots ou groupes de mots sont classés selon leur proximité sémantique avec l'ensemble du texte"
+msgstr "Words or groups of words are classified according to their semantic proximity to the whole text"
+
+msgid "peut repérer les termes qui capturent les idées principales du document"
+msgstr "can identify terms that capture the main ideas of the document"
+
+msgid "Facilité d'utilisation"
+msgstr "Ease of use"
+
+msgid "L'outil est conçu pour une intégration rapide avec Python"
+msgstr "The tool is designed for quick integration with Python"
+
+msgid "Support multilingue"
+msgstr "Multilingual support"
+
+msgid "Le modèle distiluse-base-multilingual-cased-v1 prend en charge 15 langues"
+msgstr "The distiluse-base-multilingual-cased-v1 model supports 15 languages"
+
+msgid "Diversification des résultats"
+msgstr "Result diversification"
+
+msgid "Grâce aux algorithmes de MMR (Maximal Marginal Relevance) et MSS (Maximal Sum Similarity)"
+msgstr "Thanks to MMR (Maximal Marginal Relevance) and MSS (Maximal Sum Similarity) algorithms"
+
+msgid "il offre des options pour limiter la redondance ou explorer des nuances"
+msgstr "it offers options to limit redundancy or explore nuances"
+
+msgid "Comment fonctionne KeyBERT "
+msgstr "How does KeyBERT work?"
+
+msgid "Encodage du texte"
+msgstr "Text encoding"
+
+msgid ""
+"KeyBERT encode chaque phrase du document "
+"à l'aide de représentations vectorielles contextuelles"
+msgstr ""
+"KeyBERT encodes each sentence of the document "
+"using contextual vector representations"
+
+msgid "Le modèle utilisé"
+msgstr "The model used"
+
+msgid "garantit une analyse cohérente dans plusieurs langues"
+msgstr "ensures consistent analysis across multiple languages"
+
+msgid "Identification des mots-clés"
+msgstr "Keyword identification"
+
+msgid "Applications de l'extraction de mots-clés avec KeyBERT"
+msgstr "Applications of Keyword Extraction with KeyBERT"
+
+msgid ""
+"Les mots ou groupes de mots sont classés "
+"selon leur proximité sémantique "
+"avec l'ensemble du texte"
+msgstr ""
+"Words or word groups are ranked "
+"based on their semantic proximity "
+"to the entire text"
+
+msgid "KeyBERT peut repérer les termes qui capturent les idées principales du document"
+msgstr "KeyBERT can identify terms that capture the main ideas of the document"
+
+msgid "Filtre les mots-clés selon leur diversité"
+msgstr "Filters keywords based on their diversity"
+
+msgid ""
+"Avec un <strong>taux de diversité élevé</strong>, "
+"KeyBERT évite les redondances entre les mots-clés"
+msgstr ""
+"With a <strong>high diversity rate</strong>, "
+"KeyBERT avoids redundancy among keywords"
+
+msgid ""
+"Avec un <strong>taux faible</strong>, il cible "
+"des nuances autour des thèmes principaux du texte"
+msgstr ""
+"With a <strong>low rate</strong>, it targets "
+"nuances around the main themes of the text"
+
+msgid ""
+"Sélectionne les mots-clés avec la plus faible similarité "
+"entre eux, pour éviter les répétitions directes"
+msgstr ""
+"Selects keywords with the lowest similarity "
+"among them to avoid direct repetitions"
+
+msgid "Résumé automatique"
+msgstr "Automatic summarization"
+
+msgid "Obtenir une vue synthétique du contenu de textes volumineux"
+msgstr "Obtain a synthetic view of the content of large texts"
+
+msgid "Indexation documentaire"
+msgstr "Document indexing"
+
+msgid "Générer des mots-clés pour organiser des corpus ou bases de données"
+msgstr "Generate keywords to organize corpora or databases"
+
+msgid "Recherche avancée"
+msgstr "Advanced search"
+
+msgid "Faciliter la recherche d'information en se basant sur des termes pertinents"
+msgstr "Facilitate information retrieval based on relevant terms"
+
+msgid "Analyse thématique"
+msgstr "Thematic analysis"
+
+msgid "Explorer les idées principales dans des textes scientifiques, techniques ou marketing"
+msgstr "Explore the main ideas in scientific, technical, or marketing texts"
+
+msgid ""
+"L'extraction automatique de mots-clés avec KeyBERT "
+"est une méthode puissante pour synthétiser "
+"et structurer du contenu textuel"
+msgstr ""
+"Automatic keyword extraction with KeyBERT "
+"is a powerful method for synthesizing "
+"and structuring textual content"
+
+msgid ""
+"Avec son support multilingue et ses algorithmes pour "
+"diversifier les résultats, il répond à des besoins variés "
+"allant de l'analyse thématique à l'indexation"
+msgstr ""
+"With its multilingual support and algorithms to "
+"diversify results, it meets various needs ranging "
+"from thematic analysis to indexing"
+
+msgid "Tutoriel : Modélisation de thématiques"
+msgstr "Tutorial: Topic Modeling"
+
+msgid "La modélisation de thématiques est une méthode puissante en traitement automatique du langage naturel (NLP) qui permet d'identifier les thèmes récurrents dans un corpus textuel"
+msgstr "Topic modeling is a powerful method in natural language processing (NLP) that helps identify recurring themes in a text corpus"
+
+msgid "Elle regroupe les termes similaires en ensembles sémantiques cohérents, facilitant ainsi l'exploration, l'analyse et la visualisation des données textuelles"
+msgstr "It groups similar terms into coherent semantic sets, making text data exploration, analysis, and visualization easier"
+
+msgid "Ce tutoriel vous guide dans les principes clés de la modélisation et dans l'utilisation des principales méthodes disponibles, sans nécessiter d'installation ou configuration technique complexe"
+msgstr "This tutorial guides you through the key principles of modeling and the use of main available methods, without requiring complex installation or configuration"
+
+msgid "Qu'est-ce que la modélisation de thématiques "
+msgstr "What is Topic Modeling?"
+
+msgid "La modélisation de thématiques consiste à analyser un corpus textuel pour identifier des groupes de mots-clés représentant des thèmes présents dans le contenu"
+msgstr "Topic modeling involves analyzing a text corpus to identify keyword groups representing themes in the content"
+
+msgid "Chaque document est associé à un ou plusieurs de ces thèmes en fonction des mots qu'il contient"
+msgstr "Each document is associated with one or more of these themes based on the words it contains"
+
+msgid "Cela permet de structurer des ensembles de données volumineux et d'extraire des insights significatifs"
+msgstr "This helps structure large datasets and extract meaningful insights"
+
+msgid "Formats d'entrée et de sortie "
+msgstr "Input and Output Formats"
+
+msgid "Format d'entrée"
+msgstr "Input Format"
+
+msgid "Le corpus doit être constitué de fichiers texte au format"
+msgstr "The corpus must consist of text files in"
+
+msgid "Format de sortie"
+msgstr "Output Format"
+
+msgid "Les résultats sont présentés sous forme de fichier CSV contenant les ensembles de mots-clés regroupés par thème"
+msgstr "The results are presented as a CSV file containing keyword sets grouped by topic"
+
+msgid "Méthodes principales de modélisation"
+msgstr "Main Topic Modeling Methods"
+
+msgid "Méthode"
+msgstr "Method"
+
+msgid "Cas d'utilisation"
+msgstr "Use Cases"
+
+msgid "Factorisation par matrices non négatives"
+msgstr "Non-Negative Matrix Factorization"
+
+msgid "Identifie les thématiques en analysant la fréquence et la répartition des termes dans chaque document"
+msgstr "Identifies themes by analyzing the frequency and distribution of terms in each document"
+
+msgid "Plus performante pour les textes courts"
+msgstr "More efficient for short texts"
+
+msgid "Analyser des textes courts comme des tweets, des notes ou des paragraphes courts d'un corpus"
+msgstr "Analyze short texts such as tweets, notes, or short paragraphs in a corpus"
+
+msgid "Allocation de Dirichlet latente"
+msgstr "Latent Dirichlet Allocation"
+
+msgid "Utilise des hypothèses statistiques pour identifier les probabilités qu'un document contienne plusieurs thématiques, basées sur la répartition des mots"
+msgstr "Uses statistical assumptions to identify the probability that a document contains multiple topics based on word distribution"
+
+msgid "Convient aux corpus plus volumineux et lorsque les thèmes recouvrent plusieurs documents avec un chevauchement partiel entre eux"
+msgstr "Suitable for larger corpora and when themes overlap across multiple documents"
+
+msgid "Fonctionnalités clés de l'outil"
+msgstr "Key Features of the Tool"
+
+msgid "Nombre de thématiques "
+msgstr "Number of Topics"
+
+msgid "Le nombre de thématiques détectées dépend de la taille du corpus"
+msgstr "The number of detected topics depends on the corpus size"
+
+msgid "La sortie est plafonnée à <strong>8 thématiques</strong>"
+msgstr "The output is limited to <strong>8 topics</strong>"
+
+msgid "Lemmatisation optionnelle "
+msgstr "Optional Lemmatization"
+
+msgid "La <strong>lemmatisation</strong> est un processus qui réduit les mots à leur forme canonique ou 'racine'"
+msgstr "<strong>Lemmatization</strong> is a process that reduces words to their canonical or 'root' form"
+
+msgid "Par exemple, 'mangeait' et 'mangerons' seront ramenés à 'manger'"
+msgstr "For example, 'mangeait' and 'mangerons' are reduced to 'manger'"
+
+msgid "Exemple d'avant/après lemmatisation "
+msgstr "Example Before/After Lemmatization"
+
+msgid "Texte original"
+msgstr "Original Text"
+
+msgid "Les enfants jouaient joyeusement dans le parc"
+msgstr "The children played joyfully in the park"
+
+msgid "Avec lemmatisation"
+msgstr "With Lemmatization"
+
+msgid "enfant jouer joyeusement parc"
+msgstr "child play joyfully park"
+
+msgid "Étapes d'utilisation de l'outil"
+msgstr "Steps to Use the Tool"
+
+msgid "Préparez votre corpus"
+msgstr "Prepare your corpus"
+
+msgid "Regroupez vos fichiers texte dans un dossier"
+msgstr "Gather your text files in a folder"
+
+msgid "Assurez-vous que chaque document est au format"
+msgstr "Make sure each document is in"
+
+msgid "Choisissez une méthode"
+msgstr "Choose a Method"
+
+msgid "NMF pour des textes courts ou LDA pour des corpus plus longs et complexes"
+msgstr "NMF for short texts or LDA for longer and more complex corpora"
+
+msgid "Appliquez la lemmatisation si nécessaire"
+msgstr "Apply Lemmatization if Needed"
+
+msgid "Si votre corpus est très diversifié, la lemmatisation peut améliorer les résultats en homogénéisant les termes"
+msgstr "If your corpus is highly diverse, lemmatization can improve results by standardizing terms"
+
+msgid "Recevez un fichier CSV"
+msgstr "Receive a CSV File"
+
+msgid "Chaque ligne du fichier décrit un thème détecté et les mots-clés qui le composent"
+msgstr "Each row in the file describes a detected topic and the keywords associated with it"
+
+msgid "Applications de la modélisation de thématiques"
+msgstr "Applications of Topic Modeling"
+
+msgid "Analyse de tendances"
+msgstr "Trend Analysis"
+
+msgid "Identifiez les sujets récurrents dans des commentaires clients, des publications sur les réseaux sociaux ou des critiques en ligne"
+msgstr "Identify recurring topics in customer reviews, social media posts, or online reviews"
+
+msgid "Recherche documentaire"
+msgstr "Document Search"
+
+msgid "Groupez des documents académiques ou journalistiques selon leurs thématiques principales"
+msgstr "Group academic or journalistic documents by their main topics"
+
+msgid "Marketing et veille stratégique"
+msgstr "Marketing and Strategic Monitoring"
+
+msgid "Analysez les campagnes marketing pour détecter les thèmes les plus fréquents dans les retours des consommateurs"
+msgstr "Analyze marketing campaigns to detect the most common themes in consumer feedback"
+
+msgid "La modélisation de thématiques est une approche essentielle pour comprendre les données textuelles de manière structurée et synthétique"
+msgstr "Topic modeling is an essential approach for understanding text data in a structured and synthesized way"
+
+msgid "Que vous utilisiez <strong>NMF</strong> ou <strong>LDA</strong>, ces méthodes permettent de transformer un corpus brut en résultats exploitables, adaptés à vos besoins d'analyse"
+msgstr "Whether using <strong>NMF</strong> or <strong>LDA</strong>, these methods transform raw corpora into actionable results suited to your analytical needs"
+
+msgid "Intégrée dans des outils d'analyse avancés, cette technique ouvre des perspectives intéressantes pour la recherche, le marketing, et bien d'autres domaines"
+msgstr "Integrated into advanced analysis tools, this technique offers exciting prospects for research, marketing, and many other fields"
+
+
+msgid "Tutoriel : Reconnaissance des Entités Nommées"
+msgstr "Tutorial: Named Entity Recognition"
+
+msgid ""
+"La reconnaissance des entités nommées (NER) "
+"est une tâche essentielle dans "
+"le traitement automatique du langage naturel"
+msgstr ""
+"Named entity recognition (NER) "
+"is an essential task in "
+"natural language processing"
+
+msgid ""
+"Elle permet d'identifier et de classer automatiquement "
+"des entités clés d'un texte, comme les noms de personnes, "
+"les lieux, les organisations ou encore les dates"
+msgstr ""
+"It allows the automatic identification and classification "
+"of key entities in a text, such as names of people, "
+"places, organizations, or dates"
+
+msgid ""
+"Cette fonctionnalité est utilisée dans divers contextes, "
+"allant de l'extraction d'information au développement "
+"d'applications intelligentes"
+msgstr ""
+"This functionality is used in various contexts, "
+"ranging from information extraction to the development "
+"of intelligent applications"
+
+msgid "Pourquoi utiliser la NER "
+msgstr "Why use NER"
+
+msgid "L'intérêt de la reconnaissance des entités nommées réside dans "
+msgstr "The interest of named entity recognition lies in"
+
+msgid "Gain de temps"
+msgstr "Time-saving"
+
+msgid "Automatiser l'extraction d'informations spécifiques dans de grands corpus textuels"
+msgstr "Automate the extraction of specific information in large text corpora"
+
+msgid "Structuration des données"
+msgstr "Data structuring"
+
+msgid "Organiser des textes bruts en données exploitables pour des analyses ultérieures"
+msgstr "Organize raw texts into usable data for further analyses"
+
+msgid "Applications spécifiques"
+msgstr "Specific applications"
+
+msgid ""
+"Identifier des entités liées à un domaine précis "
+"comme le médical (maladies, médicaments) "
+"ou le juridique (lois, noms d'avocats)"
+msgstr ""
+"Identify entities related to a specific field "
+"such as medical (diseases, medications) "
+"or legal (laws, names of lawyers)"
+
+msgid "Optimisation des processus"
+msgstr "Process optimization"
+
+msgid ""
+"La NER alimente de nombreux systèmes d'intelligence artificielle, "
+"comme les moteurs de recherche ou les assistants virtuels"
+msgstr ""
+"NER powers many AI systems, "
+"such as search engines or virtual assistants"
+
+msgid "Les modèles populaires pour la NER"
+msgstr "Popular models for NER"
+
+msgid ""
+"Pour effectuer une NER efficace, plusieurs outils "
+"et bibliothèques existent, chacun ayant des "
+"caractéristiques et des avantages spécifiques"
+msgstr ""
+"To perform effective NER, several tools "
+"and libraries exist, each with "
+"specific features and advantages"
+
+msgid "Voici un aperçu des trois modèles les plus largement utilisés "
+msgstr "Here is an overview of the three most widely used models"
+
+msgid "Modèle"
+msgstr "Model"
+
+msgid "Avantages"
+msgstr "Advantages"
+
+msgid "Limites"
+msgstr "Limitations"
+
+msgid "SpaCy est une bibliothèque Python complète et rapide pour le traitement automatique de texte"
+msgstr "SpaCy is a fast and comprehensive Python library for natural language processing"
+
+msgid "Elle offre des modèles pré-entraînés pour la NER, adaptés à des langues comme l'anglais et le français, et intègre de nombreuses fonctionnalités NLP comme la tokénisation et l'analyse syntaxique"
+msgstr "It provides pre-trained models for NER, suited for languages like English and French, and includes various NLP features such as tokenization and syntactic analysis"
+
+msgid "Simple à utiliser et rapide"
+msgstr "Easy to use and fast"
+
+msgid "Modèles performants pour les langues majoritaires"
+msgstr "Efficient models for major languages"
+
+msgid "Documentation bien structurée"
+msgstr "Well-structured documentation"
+
+msgid "Moins performant pour les langues sous-représentées"
+msgstr "Less effective for underrepresented languages"
+
+msgid "Moins flexible pour les entités spécifiques à un domaine particulier"
+msgstr "Less flexible for domain-specific entities"
+
+msgid "Flair est une bibliothèque open-source qui propose des modèles dynamiques basés sur les embeddings contextuels, facilitant la reconnaissance d'entités dans des langues et domaines variés"
+msgstr "Flair is an open-source library offering dynamic models based on contextual embeddings, enhancing entity recognition across various languages and domains"
+
+msgid "Très bonne prise en charge des langues minoritaires"
+msgstr "Very good support for minority languages"
+
+msgid "Flexible et facile à personnaliser"
+msgstr "Flexible and easy to customize"
+
+msgid "Intègre des représentations contextuelles pour des performances améliorées"
+msgstr "Incorporates contextual embeddings for improved performance"
+
+msgid "Moins performant que SpaCy pour les langues majoritaires"
+msgstr "Less effective than SpaCy for major languages"
+
+msgid "Un peu plus lent à exécuter"
+msgstr "Slightly slower to execute"
+
+msgid "Basé sur les transformateurs, BERT fournit des représentations contextuelles riches des mots"
+msgstr "Based on transformers, BERT provides rich contextual word representations"
+
+msgid "Il excelle dans des tâches complexes, en prenant en compte l'intégralité du contexte dans une phrase pour identifier avec précision les entités nommées"
+msgstr "It excels in complex tasks, considering the full sentence context to accurately identify named entities"
+
+msgid "Performances de pointe grâce à l'analyse contextuelle"
+msgstr "State-of-the-art performance through contextual analysis"
+
+msgid "Adapté aux tâches complexes et aux domaines spécialisés"
+msgstr "Suited for complex tasks and specialized fields"
+
+msgid "Précision élevée, notamment avec des variantes comme CamemBERT pour le français"
+msgstr "High accuracy, especially with variants like CamemBERT for French"
+
+msgid "Modèle plus lourd nécessitant des ressources importantes"
+msgstr "Heavier model requiring significant resources"
+
+msgid "Courbe d'apprentissage plus élevée pour sa mise en œuvre"
+msgstr "Steeper learning curve for implementation"
+
+msgid "Temps d'exécution plus long dans certains contextes"
+msgstr "Longer execution time in some cases"
+
+msgid "Mise en œuvre pratique"
+msgstr "Practical implementation"
+
+msgid "Choisir un modèle adapté "
+msgstr "Choosing a suitable model"
+
+msgid "Débutants"
+msgstr "Beginners"
+
+msgid "SpaCy est idéal pour sa facilité d'utilisation et sa rapidité"
+msgstr "SpaCy is ideal for its ease of use and speed"
+
+msgid "Analyse multilingue ou spécifique"
+msgstr "Multilingual or specific analysis"
+
+msgid "Flair propose des modèles pour des langues ou tâches sous-représentées"
+msgstr "Flair offers models for underrepresented languages or tasks"
+
+msgid "Projets avancés"
+msgstr "Advanced projects"
+
+msgid "BERT et ses variantes comme CamemBERT offrent une précision inégalée pour des analyses complexes ou contextualisées"
+msgstr "BERT and its variants, such as CamemBERT, provide unmatched accuracy for complex or contextualized analyses"
+
+msgid "Résultat attendu "
+msgstr "Expected result"
+
+msgid "Entité "
+msgstr "Entity"
+
+msgid "La reconnaissance des entités nommées (NER) est une technologie incontournable pour structurer et exploiter des données textuelles de manière efficace"
+msgstr "Named Entity Recognition (NER) is an essential technology for structuring and extracting valuable insights from textual data efficiently"
+
+msgid "Grâce à des outils comme SpaCy, Flair ou BERT, vous pouvez identifier rapidement des informations précieuses et automatiser des tâches complexes"
+msgstr "With tools like SpaCy, Flair, or BERT, you can quickly identify valuable information and automate complex tasks"
+
+msgid "Tutoriel : Catégories sémantiques"
+msgstr "Tutorial: Semantic Categories"
+
+msgid ""
+"Le processus d'étiquetage dans Textolab est itératif "
+"et permet de localiser, grâce à des règles heuristiques, des patrons linguistiques "
+"sous forme de chaînes de caractères, d'expressions régulières "
+"ou de métadonnées (annotations existantes)"
+msgstr ""
+"The labeling process in Textolab is iterative "
+"and allows the localization of linguistic patterns using heuristics, "
+"including character strings, regular expressions, "
+"or metadata (existing annotations)"
+
+msgid "Les règles sont déclaratives et ordonnables selon la priorité"
+msgstr "The rules are declarative and can be ordered by priority"
+
+msgid ""
+"Les règles permettent de lever l'ambiguïté sur certains marqueurs "
+"à l'aide d'indices contextuels qui confirment ou qui affinent l'annotation"
+msgstr ""
+"The rules allow ambiguity resolution on certain markers "
+"using contextual clues that confirm or refine the annotation"
+
+msgid "La présence d'autres indices infirmatifs permet d'annuler l'annotation en cours"
+msgstr "The presence of other negating clues allows the cancellation of the current annotation"
+
+msgid ""
+"Si toutes les conditions d'une règle sont satisfaites, "
+"une étiquette est attribuée au passage textuel en question "
+"(par exemple modalité, polarité, intensité, entité nommée, etc.)"
+msgstr ""
+"If all the conditions of a rule are met, "
+"a label is assigned to the relevant text passage "
+"(e.g., modality, polarity, intensity, named entity, etc.)"
+
+msgid ""
+"Textolab offre une interface qui permet "
+"à l'utilisateur d'exécuter les différentes fonctionnalités de l'outil"
+msgstr ""
+"Textolab offers an interface allowing "
+"the user to execute various features of the tool"
+
+msgid "Reconnaissance automatique de texte"
+msgstr "Automatic Text Recognition"
+
+msgid ""
+"La reconnaissance automatique de texte (ATR ou Automatic Text Recognition) "
+"désigne l'ensemble des technologies utilisées pour extraire "
+"des données textuelles numériques à partir de documents analogiques numérisés"
+msgstr ""
+"Automatic Text Recognition (ATR) "
+"refers to the set of technologies used to extract "
+"digital textual data from digitized analog documents"
+
+msgid "Elle se divise en deux domaines "
+msgstr "It is divided into two areas"
+
+msgid "L'OCR "
+msgstr "OCR"
+
+msgid "ou reconnaissance optique de caractères, qui se concentre sur l'extraction de texte à partir de documents imprimés"
+msgstr "which focuses on extracting text from printed documents"
+
+msgid "L'HTR "
+msgstr "HTR"
+
+msgid "ou reconnaissance de texte manuscrit, qui se focalise sur la conversion d'écritures manuscrites en données numériques exploitables"
+msgstr "which focuses on converting handwritten texts into usable digital data"
+
+msgid ""
+"Ces technologies reposent sur l'intelligence artificielle, "
+"en particulier sur l'apprentissage automatique (machine learning), "
+"pour analyser et interpréter le contenu des images"
+msgstr ""
+"These technologies rely on artificial intelligence, "
+"particularly machine learning, "
+"to analyze and interpret the content of images"
+
+msgid "Les étapes du processus"
+msgstr "The process steps"
+
+msgid "La reconnaissance de caractères suit deux grandes étapes "
+msgstr "Character recognition follows two main steps"
+
+msgid "Cette étape identifie les zones de texte dans l'image et détermine leur organisation en lignes, facilitant ainsi le traitement"
+msgstr "This step identifies the areas of text in the image and determines their organization into lines, facilitating processing"
+
+msgid "Pour les manuscrits, cette phase peut nécessiter une intervention manuelle en raison de la variabilité des écritures"
+msgstr "For manuscripts, this phase may require manual intervention due to handwriting variability"
+
+msgid "Reconnaissance des caractères"
+msgstr "Character recognition"
+
+msgid "Une fois les lignes de texte isolées, le système identifie chaque caractère et le transforme en texte numérique"
+msgstr "Once the text lines are isolated, the system identifies each character and converts it into digital text"
+
+msgid "Pour l'OCR, ces deux étapes sont souvent réalisées simultanément grâce aux capacités avancées des algorithmes modernes"
+msgstr "For OCR, these two steps are often performed simultaneously thanks to the advanced capabilities of modern algorithms"
+
+msgid "Conditions pour une reconnaissance optimale"
+msgstr "Conditions for optimal recognition"
+
+msgid "Pour maximiser la qualité de la reconnaissance, il est essentiel que les images répondent à plusieurs critères "
+msgstr "To maximize recognition quality, it is essential that the images meet several criteria"
+
+msgid "Netteté"
+msgstr "Sharpness"
+
+msgid "Les images floues compromettent l'identification des caractères"
+msgstr "Blurred images compromise character identification"
+
+msgid "Contraste"
+msgstr "Contrast"
+
+msgid "Le texte doit se détacher clairement du fond"
+msgstr "The text must stand out clearly from the background"
+
+msgid "Alignement"
+msgstr "Alignment"
+
+msgid "Les lignes de texte doivent être droites pour simplifier leur détection"
+msgstr "Text lines must be straight to simplify their detection"
+
+msgid "Performance et limites actuelles"
+msgstr "Performance and current limitations"
+
+msgid ""
+"Pour les langues utilisant des caractères latins, "
+"les logiciels d'OCR modernes atteignent généralement "
+"un taux de reconnaissance supérieur à 90"
+msgstr ""
+"For languages using Latin characters, "
+"modern OCR software generally achieves "
+"a recognition rate above 90"
+
+msgid "assurant une conversion très fiable des textes imprimés"
+msgstr "ensuring highly reliable conversion of printed texts"
+
+msgid "Cependant, les résultats peuvent être altérés par des images de mauvaise qualité ou des écritures manuscrites particulièrement complexes"
+msgstr "However, the results may be affected by poor-quality images or particularly complex handwriting"
+
+msgid "Adaptabilité avec des outils avancés"
+msgstr "Adaptability with advanced tools"
+
+msgid ""
+"Dans les cas où les images ne remplissent pas parfaitement "
+"les critères précédents (par exemple : présence de bruit ou de fond complexe), "
+"des outils comme <strong>eScriptorium</strong> offrent une solution performante"
+msgstr ""
+"In cases where images do not perfectly meet "
+"the previous criteria (e.g., noise or complex background), "
+"tools like <strong>eScriptorium</strong> offer an effective solution"
+
+msgid "Cette plateforme, accessible via "
+msgstr "This platform, accessible via "
+
+msgid "ce lien"
+msgstr "this link"
+
+msgid "est capable de gérer des contraintes spécifiques et d'améliorer les résultats de reconnaissance grâce à ses fonctionnalités avancées"
+msgstr "is capable of handling specific constraints and improving recognition results through its advanced features"
+
+msgid "Reconnaissance Automatique de la Parole"
+msgstr "Automatic Speech Recognition"
+
+msgid ""
+"La reconnaissance automatique de la parole (ASR pour Automatic Speech Recognition) "
+"est une technologie qui permet de convertir la parole humaine en texte écrit"
+msgstr ""
+"Automatic Speech Recognition (ASR) "
+"is a technology that converts human speech into written text"
+
+msgid "Elle repose sur des avancées en intelligence artificielle, notamment l'apprentissage profond, et trouve des applications dans de nombreux domaines"
+msgstr "It relies on advances in artificial intelligence, including deep learning, and has applications in many areas"
+
+msgid "Applications de l'ASR"
+msgstr "Applications of ASR"
+
+msgid "Assistants vocaux et appareils intelligents"
+msgstr "Voice assistants and smart devices"
+
+msgid "L'ASR est au cœur des assistants personnels comme Siri, Alexa ou Google Assistant, permettant une interaction naturelle avec les appareils"
+msgstr "ASR is at the core of personal assistants like Siri, Alexa, or Google Assistant, enabling natural interaction with devices"
+
+msgid "Accessibilité"
+msgstr "Accessibility"
+
+msgid "Elle joue un rôle clé pour les personnes en situation de handicap, en facilitant la communication et l'accès à l'information"
+msgstr "It plays a key role for people with disabilities, facilitating communication and access to information"
+
+msgid "Transcription automatique"
+msgstr "Automatic transcription"
+
+msgid "Utilisée pour générer des sous-titres en temps réel pour des vidéos, des films ou des conférences, elle améliore l'accessibilité et l'efficacité"
+msgstr "Used to generate real-time subtitles for videos, movies, or conferences, it improves accessibility and efficiency"
+
+msgid "Domaines spécialisés"
+msgstr "Specialized domains"
+
+msgid "Dans le secteur juridique, l'ASR est utilisée pour transcrire des dictées ou des audiences"
+msgstr "In the legal sector, ASR is used to transcribe dictations or hearings"
+
+msgid "En médecine, elle aide à la transcription des notes cliniques"
+msgstr "In medicine, it helps transcribe clinical notes"
+
+msgid "Fonctionnement de l'ASR"
+msgstr "How ASR works"
+
+msgid "L'ASR repose sur plusieurs étapes "
+msgstr "ASR relies on several steps"
+
+msgid "Prétraitement du signal audio"
+msgstr "Audio signal preprocessing"
+
+msgid "Le son est transformé en spectrogramme pour être analysé par des modèles d'apprentissage"
+msgstr "The sound is transformed into a spectrogram to be analyzed by learning models"
+
+msgid "Modèles acoustiques et linguistiques"
+msgstr "Acoustic and linguistic models"
+
+msgid "Ces modèles identifient les phonèmes et les mots en fonction du contexte"
+msgstr "These models identify phonemes and words based on context"
+
+msgid "Post-traitement"
+msgstr "Post-processing"
+
+msgid "Les transcriptions sont enrichies avec des éléments comme la ponctuation et la capitalisation grâce au traitement du langage naturel"
+msgstr "Transcriptions are enhanced with elements such as punctuation and capitalization through natural language processing"
+
+msgid "Défis et innovations"
+msgstr "Challenges and innovations"
+
+msgid "Variabilité de la parole"
+msgstr "Speech variability"
+
+msgid "Les accents, les intonations et le bruit ambiant compliquent la tâche des systèmes ASR"
+msgstr "Accents, intonations, and background noise complicate the task of ASR systems"
+
+msgid "Langues sous-représentées"
+msgstr "Underrepresented languages"
+
+msgid "Les progrès se concentrent souvent sur les langues les plus parlées, laissant de côté certaines langues ou dialectes"
+msgstr "Progress often focuses on the most spoken languages, leaving some languages or dialects behind"
+
+msgid "Adaptation aux accents"
+msgstr "Accent adaptation"
+
+msgid "Les systèmes modernes intègrent des mécanismes pour mieux gérer les variations d'accent"
+msgstr "Modern systems incorporate mechanisms to better handle accent variations"
+
+msgid "Technologies émergentes"
+msgstr "Emerging technologies"
+
+msgid "Les modèles d'apprentissage profond, comme ceux basés sur les réseaux neuronaux récurrents (RNN) ou les transformateurs, ont considérablement amélioré la précision des systèmes ASR"
+msgstr "Deep learning models, such as those based on recurrent neural networks (RNNs) or transformers, have significantly improved ASR system accuracy"
+
+msgid "Des approches comme le modèle 'end-to-end' simplifient les pipelines traditionnels en intégrant toutes les étapes dans un seul réseau"
+msgstr "Approaches like the 'end-to-end' model simplify traditional pipelines by integrating all steps into a single network"
+
+msgid "Nettoyage de texte"
+msgstr "Text Cleaning"
+
+msgid ""
+"Dans le traitement automatique du langage naturel (NLP), "
+"plusieurs techniques de prétraitement du texte permettent de simplifier "
+"et d'homogénéiser les données textuelles, facilitant ainsi "
+"leur analyse et leur exploitation par des algorithmes"
+msgstr ""
+"In natural language processing (NLP), "
+"several text preprocessing techniques simplify "
+"and standardize textual data, facilitating "
+"analysis and exploitation by algorithms"
+
+msgid "La ponctuation"
+msgstr "Punctuation"
+
+msgid "Tout d'abord, la <strong>ponctuation</strong>, constituée de symboles comme les points, les virgules ou les points d'interrogation, joue un rôle essentiel dans la structuration et la clarté des phrases"
+msgstr "First, <strong>punctuation</strong>, consisting of symbols like periods, commas, or question marks, plays an essential role in the structuring and clarity of sentences"
+
+msgid "Cependant, dans certaines tâches de traitement, la ponctuation peut être supprimée pour simplifier les données et réduire les variations inutiles"
+msgstr "However, in some processing tasks, punctuation can be removed to simplify data and reduce unnecessary variations"
+
+msgid ""
+"Cette étape est particulièrement utile dans des applications "
+"telles que l'analyse statistique, la classification ou la création "
+"de modèles d'apprentissage automatique, car elle permet "
+"de se concentrer sur les éléments de contenu significatifs"
+msgstr ""
+"This step is particularly useful in applications "
+"such as statistical analysis, classification, or building "
+"machine learning models, as it helps "
+"focus on meaningful content elements"
+
+msgid "Les mots-vides ou stopwords"
+msgstr "Stopwords"
+
+msgid "Ensuite, la <strong>suppression des mots à haute fréquence</strong>, ou mots vides ('stop words'), comme 'le', 'de', 'à', 'the' ou 'a', est une autre technique couramment utilisée"
+msgstr "Next, the <strong>removal of high-frequency words</strong>, or stopwords, such as 'le', 'de', 'à', 'the' or 'a', is another commonly used technique"
+
+msgid "Ces mots, bien qu'indispensables à la construction grammaticale, apportent peu de valeur sémantique et risquent d'alourdir les analyses"
+msgstr "These words, while essential for grammatical structure, add little semantic value and may complicate analysis"
+
+msgid ""
+"En les éliminant, on peut non seulement simplifier "
+"les représentations textuelles, mais aussi optimiser la taille "
+"des structures de données telles que les index inversés, "
+"utilisés pour des tâches comme la recherche d'information"
+msgstr ""
+"By removing them, textual representations can be simplified, "
+"and the size of data structures like inverted indexes, "
+"used for tasks such as information retrieval, can be optimized"
+
+msgid "Cela permet de focaliser les efforts de traitement sur les termes porteurs de sens et d'améliorer la pertinence des résultats"
+msgstr "This focuses processing efforts on meaningful terms and improves result relevance"
+
+msgid "La mise en minuscule"
+msgstr "Lowercasing"
+
+msgid "Enfin, la <strong>mise en minuscule</strong>, ou 'case folding', consiste à convertir toutes les lettres d'un texte en minuscules"
+msgstr "Finally, <strong>lowercasing</strong>, or 'case folding', consists of converting all letters in a text to lowercase"
+
+msgid "Cette méthode élimine les distinctions de casse, par exemple entre 'Paris', 'paris' et 'PARIS', pour les traiter comme un seul et même mot"
+msgstr "This method removes case distinctions, such as between 'Paris', 'paris' and 'PARIS', treating them as a single word"
+
+msgid "Cela uniformise le texte, simplifie les comparaisons et est particulièrement utile dans les tâches de recherche ou d'analyse où la différence entre majuscules et minuscules n'a pas d'impact sur le sens"
+msgstr "This standardizes text, simplifies comparisons, and is particularly useful in search or analysis tasks where case differences do not affect meaning"
+
+msgid "En appliquant ces trois techniques de manière combinée, on obtient des données plus cohérentes, uniformes et prêtes à être traitées efficacement par les algorithmes de NLP, ce qui améliore globalement la qualité et l'efficacité des analyses"
+msgstr "By applying these three techniques together, data becomes more consistent, uniform, and ready for efficient processing by NLP algorithms, which overall improves the quality and efficiency of analyses"
+
+msgid "Normalisation de texte"
+msgstr "Text Normalization"
+
+msgid "La normalisation de texte est un processus essentiel dans le traitement automatique du langage naturel (NLP), visant à convertir les données textuelles en une forme standardisée et plus pratique pour l'analyse"
+msgstr "Text normalization is an essential process in natural language processing (NLP), aiming to convert textual data into a standardized and more practical form for analysis"
+
+msgid "Elle joue un rôle fondamental dans de nombreuses tâches, en facilitant l'uniformisation et la structuration des textes"
+msgstr "It plays a fundamental role in many tasks by facilitating text standardization and structuring"
+
+msgid "Voici une exploration détaillée des différentes étapes et techniques impliquées dans la normalisation de texte"
+msgstr "Here is a detailed exploration of the different steps and techniques involved in text normalization"
+
+msgid "Qu'est-ce que la normalisation de texte "
+msgstr "What is text normalization"
+
+msgid "La <strong>normalisation de texte</strong> consiste à transformer un texte brut en une forme standard qui simplifie son traitement et son analyse par des systèmes automatisés"
+msgstr "<strong>Text normalization</strong> involves transforming raw text into a standardized form that simplifies its processing and analysis by automated systems"
+
+msgid "Cela peut inclure des étapes comme la séparation des mots, l'uniformisation des formats (comme la mise en minuscule), ou encore la réduction des variations lexicales"
+msgstr "This may include steps such as word separation, format standardization (such as converting to lowercase), or reducing lexical variations"
+
+msgid "Les expressions régulières jouent souvent un rôle clé dans ces opérations pour identifier et manipuler les structures textuelles"
+msgstr "Regular expressions often play a key role in these operations to identify and manipulate text structures"
+
+msgid "Les principales étapes de la normalisation de texte"
+msgstr "The main steps of text normalization"
+
+msgid "La tokenisation"
+msgstr "Tokenization"
+
+msgid "La <strong>tokenisation</strong> est l'une des premières étapes du traitement de texte"
+msgstr "<strong>Tokenization</strong> is one of the first steps in text processing"
+
+msgid "Elle consiste à diviser un texte en unités appelées 'tokens', qui peuvent être des mots, des parties de mots ou même des caractères"
+msgstr "It involves dividing a text into units called 'tokens,' which can be words, parts of words, or even characters"
+
+msgid "Bien que les mots en anglais soient généralement séparés par des espaces, cela ne suffit pas toujours"
+msgstr "Although words in English are generally separated by spaces, this is not always sufficient"
+
+msgid "Par exemple, des expressions comme 'New York' ou 'rock 'n' roll' peuvent être traitées comme des entités uniques malgré les espaces qu'elles contiennent"
+msgstr "For example, expressions like 'New York' or 'rock 'n' roll' may be treated as single entities despite the spaces they contain"
+
+msgid "À l'inverse, des contractions comme 'I'm' doivent être divisées en deux tokens : 'I' et 'am'. La tokenisation est cruciale car la plupart des analyses linguistiques nécessitent des données segmentées de manière cohérente"
+msgstr "Conversely, contractions like 'I'm' must be split into two tokens: 'I' and 'am.' Tokenization is crucial because most linguistic analyses require consistently segmented data"
+
+msgid "La lemmatisation"
+msgstr "Lemmatization"
+
+msgid "La <strong>lemmatisation</strong> est une autre composante importante de la normalisation, qui vise à réduire les mots à leur forme de base ou 'lemme'"
+msgstr "<strong>Lemmatization</strong> is another important component of normalization, aiming to reduce words to their base form or 'lemma.'"
+
+msgid "Cela permet de regrouper différentes formes d'un même mot sous une seule représentation. Par exemple, 'sang', 'sung' et 'sings' sont toutes des variantes du verbe 'sing' et seront ramenées à cette forme canonique"
+msgstr "This allows different forms of the same word to be grouped under a single representation. For example, 'sang,' 'sung,' and 'sings' are all variants of the verb 'sing' and will be reduced to this canonical form"
+
+msgid "La lemmatisation est particulièrement utile pour réduire la complexité lexicale, améliorer la généralisation et obtenir des analyses plus précises dans des tâches comme la recherche ou la classification"
+msgstr "Lemmatization is particularly useful for reducing lexical complexity, improving generalization, and achieving more accurate analyses in tasks such as search or classification"
+
+msgid "Cas particulier : le choix entre versions avec ou sans casse"
+msgstr "Special case: the choice between case-sensitive and case-insensitive versions"
+
+msgid "La <strong>mise en minuscule</strong>, ou case folding, est une étape simple mais efficace de normalisation. Elle consiste à convertir toutes les lettres d'un texte en minuscules afin d'uniformiser les données"
+msgstr "<strong>Lowercasing</strong>, or case folding, is a simple but effective normalization step. It involves converting all text letters to lowercase to standardize the data"
+
+msgid "Par exemple, 'Woodchuck' et 'woodchuck' seront traités de manière identique, ce qui facilite la généralisation dans des tâches comme la recherche d'information ou la reconnaissance vocale"
+msgstr "For example, 'Woodchuck' and 'woodchuck' will be treated identically, which facilitates generalization in tasks such as information retrieval or voice recognition"
+
+msgid "Pour certaines applications, il est courant de proposer les deux options : une version avec casse qui conserve les distinctions entre majuscules et minuscules, et une version sans casse qui applique la mise en minuscule"
+msgstr "For some applications, it is common to offer both options: a case-sensitive version that preserves distinctions between uppercase and lowercase letters, and a case-insensitive version that applies lowercasing"
+
+msgid "Ce choix dépend du contexte et des besoins spécifiques de l'analyse"
+msgstr "This choice depends on the context and the specific needs of the analysis"
+
+msgid "Pourquoi la normalisation de texte est-elle cruciale "
+msgstr "Why is text normalization crucial"
+
+msgid "La normalisation de texte permet de résoudre des incohérences dans les données, d'améliorer la comparabilité entre différents échantillons et de réduire les variations inutiles"
+msgstr "Text normalization helps resolve inconsistencies in the data, improve comparability between different samples, and reduce unnecessary variations"
+
+msgid "Elle constitue un prérequis indispensable pour de nombreuses tâches de NLP, telles que la classification de textes, l'extraction d'information ou encore la traduction automatique"
+msgstr "It is an essential prerequisite for many NLP tasks, such as text classification, information extraction, or machine translation"
+
+msgid "Sans ces étapes de normalisation, les systèmes risquent de produire des résultats incohérents ou moins fiables en raison de la complexité brute des données textuelles"
+msgstr "Without these normalization steps, systems risk producing inconsistent or less reliable results due to the raw complexity of textual data"
+
+msgid "En somme, la normalisation de texte est une fondation indispensable pour garantir l'efficacité et la précision des analyses de langage naturel"
+msgstr "In short, text normalization is an indispensable foundation for ensuring the efficiency and accuracy of natural language analyses"
+
+msgid "En combinant des techniques comme la tokenisation, la mise en minuscule et la lemmatisation, les données deviennent plus homogènes et mieux adaptées aux traitements automatisés"
+msgstr "By combining techniques such as tokenization, lowercasing, and lemmatization, data becomes more homogeneous and better suited for automated processing"
+
+msgid "Cela ouvre la voie à des performances optimales pour les modèles linguistiques et les applications basées sur le NLP"
+msgstr "This paves the way for optimal performance in linguistic models and NLP-based applications"
+
+msgid "Séparation de texte"
+msgstr "Text Splitting"
+
+msgid "La <strong>séparation de texte</strong> est une étape clé dans le processus de normalisation, permettant de structurer les données textuelles pour une analyse plus précise et efficace"
+msgstr "<strong>Text splitting</strong> is a key step in the normalization process, structuring textual data for more precise and efficient analysis"
+
+msgid "Elle peut se faire à différents niveaux, notamment par phrases (segmentation en phrases) ou par lignes"
+msgstr "It can be done at different levels, notably by sentences (sentence segmentation) or by lines"
+
+msgid "Ces techniques jouent un rôle essentiel dans le traitement automatique du langage (NLP) et reposent sur l'utilisation de divers indices textuels"
+msgstr "These techniques play an essential role in natural language processing (NLP) and rely on various textual cues"
+
+msgid "Segmentation par phrases"
+msgstr "Sentence Segmentation"
+
+msgid "La <strong>segmentation par phrases</strong> consiste à diviser un texte en unités syntaxiques appelées phrases, en utilisant des indices comme la ponctuation"
+msgstr "<strong>Sentence segmentation</strong> involves dividing a text into syntactic units called sentences, using cues such as punctuation"
+
+msgid "Cette méthode est cruciale pour de nombreuses applications en NLP, telles que la traduction automatique, la classification ou l'analyse de sentiments"
+msgstr "This method is crucial for many NLP applications, such as machine translation, classification, or sentiment analysis"
+
+msgid "Voici quelques aspects essentiels de ce processus "
+msgstr "Here are some key aspects of this process"
+
+msgid "Utilisation des marques de ponctuation"
+msgstr "Use of punctuation marks"
+
+msgid "Les points (.), les points d'interrogation (?) et les points d'exclamation (!) sont les indices les plus courants pour marquer les limites des phrases"
+msgstr "Periods (.), question marks (?), and exclamation points (!) are the most common indicators for marking sentence boundaries"
+
+msgid "Les points d'interrogation et d'exclamation sont relativement non ambigus et sont donc des marqueurs clairs de fin de phrase"
+msgstr "Question marks and exclamation points are relatively unambiguous and are thus clear markers of sentence endings"
+
+msgid "Ambiguïté des points"
+msgstr "Ambiguity of periods"
+
+msgid "Le caractère '.' peut être ambigu, car il peut marquer à la fois une fin de phrase et une abréviation, comme dans 'M.' (Monsieur) ou 'Inc.' (Incorporated). Cette ambiguïté coïncide également avec la fin d'une phrase"
+msgstr "The character '.' can be ambiguous as it can indicate both the end of a sentence and an abbreviation, such as in 'M.' (Mister) or 'Inc.' (Incorporated). This ambiguity also coincides with sentence boundaries"
+
+msgid "Par exemple : 'La société Tech Inc. a été fondée en 2020.' Ici, le point final de 'Inc.' sert à la fois d'abréviation et de marqueur de fin de phrase"
+msgstr "For example: 'The company Tech Inc. was founded in 2020.' Here, the final period in 'Inc.' serves as both an abbreviation marker and a sentence-ending marker"
+
+msgid "Pour résoudre cette ambiguïté, la segmentation par phrases est souvent combinée avec la tokenisation des mots, permettant aux algorithmes de mieux interpréter le contexte et de distinguer les usages des points"
+msgstr "To resolve this ambiguity, sentence segmentation is often combined with word tokenization, allowing algorithms to better interpret context and distinguish period usage"
+
+msgid "Séparation par lignes"
+msgstr "Line separation"
+
+msgid "La <strong>séparation par lignes</strong> consiste à diviser le texte en unités sur la base des sauts de ligne. Contrairement à la segmentation par phrases, elle s'appuie sur la structure visuelle ou formatée du texte, souvent marquée par des retours à la ligne (\n ou \r\n)"
+msgstr "<strong>Line separation</strong> involves dividing text into units based on line breaks. Unlike sentence segmentation, it relies on the visual or formatted structure of the text, often marked by line breaks (\n or \r\n)"
+
+msgid "Cette technique est couramment utilisée dans des contextes où les phrases ne sont pas naturellement délimitées par la ponctuation, comme dans les listes, les poèmes ou certains documents formalisés"
+msgstr "This technique is commonly used in contexts where sentences are not naturally delimited by punctuation, such as in lists, poems, or certain structured documents"
+
+msgid "Voici quelques cas d'utilisation "
+msgstr "Here are some use cases"
+
+msgid "Analyse de documents structurés"
+msgstr "Analysis of structured documents"
+
+msgid "Dans des textes comme des CV, des rapports ou des formulaires, la séparation par lignes permet d'identifier distinctement les sections ou les items"
+msgstr "In texts such as resumes, reports, or forms, line separation helps to distinctly identify sections or items"
+
+msgid "Extraction d'informations"
+msgstr "Information extraction"
+
+msgid "Lorsqu'un texte suit une structure hiérarchique (titres, sous-titres, paragraphes), la séparation par lignes aide à segmenter les données en blocs logiques pour une analyse ciblée"
+msgstr "When a text follows a hierarchical structure (titles, subtitles, paragraphs), line separation helps segment data into logical blocks for targeted analysis"
+
+msgid "Intégration des deux approches"
+msgstr "Integration of both approaches"
+
+msgid "Dans certains cas, il est pertinent de combiner segmentation par phrases et séparation par lignes"
+msgstr "In some cases, it is relevant to combine sentence segmentation and line separation"
+
+msgid "Par exemple, pour analyser des dialogues, un texte brut peut être segmenté par lignes (chaque ligne correspondant à une réplique) puis par phrases au sein de ces répliques"
+msgstr "For example, to analyze dialogues, raw text can be segmented by lines (each line corresponding to a speech turn) and then by sentences within those turns"
+
+msgid "Cela permet de capter à la fois les structures syntaxiques et les délimitations visuelles du texte"
+msgstr "This makes it possible to capture both syntactic structures and the visual delimitations of the text"
+
+msgid "La séparation de texte, qu'elle se fasse par phrases ou par lignes, est une étape essentielle pour structurer les données textuelles et améliorer leur exploitation"
+msgstr "Text segmentation, whether by sentences or lines, is an essential step in structuring textual data and enhancing its usability"
+
+msgid "La segmentation par phrases utilise principalement des indices linguistiques comme la ponctuation, tandis que la séparation par lignes s'appuie davantage sur la structure visuelle"
+msgstr "Sentence segmentation primarily relies on linguistic cues such as punctuation, whereas line separation is more dependent on the visual structure"
+
+msgid "Ces méthodes, seules ou combinées, jouent un rôle fondamental dans diverses tâches de NLP, en rendant les textes plus accessibles et compréhensibles pour les algorithmes"
+msgstr "These methods, whether used alone or combined, play a fundamental role in various NLP tasks, making texts more accessible and understandable for algorithms"
+
+msgid "Cela renforce la précision et l'efficacité des analyses, ouvrant ainsi la voie à des traitements automatisés toujours plus performants"
+msgstr "This enhances the accuracy and efficiency of analyses, paving the way for increasingly powerful automated processing"
+
+msgid "Introduction à la génération de texte"
+msgstr "Introduction to Text Generation"
+
+msgid "La <strong>génération de texte</strong> est une capacité clé des modèles de traitement automatique du langage naturel (NLP), qui consiste à produire du contenu textuel basé sur des données ou des instructions données"
+msgstr "<strong>Text generation</strong> is a key capability of natural language processing (NLP) models, which involves producing textual content based on given data or instructions"
+
+msgid "Elle repose sur des modèles de langage, tels que ceux basés sur les architectures de transformateurs, qui prédisent les prochains mots ou phrases en fonction d'un contexte donné"
+msgstr "It relies on language models, such as those based on transformer architectures, which predict the next words or sentences based on a given context"
+
+msgid "Ces techniques sont à la base de nombreuses applications pratiques, allant de la complétion de texte à la traduction automatique, en passant par l'ajustement du niveau de lecture et le résumé de documents"
+msgstr "These techniques underpin many practical applications, ranging from text completion to machine translation, readability adjustment, and document summarization"
+
+msgid "Complétion de texte"
+msgstr "Text Completion"
+
+msgid "La <strong>complétion de texte</strong> consiste à fournir une continuation plausible à une séquence textuelle donnée (appelée 'préfixe')"
+msgstr "<strong>Text completion</strong> involves providing a plausible continuation for a given textual sequence (called 'prefix')"
+
+msgid "Les modèles de langage modernes, comme ceux basés sur des transformateurs, utilisent le contexte fourni ainsi que leur propre production au cours de la génération, ce qui leur confère une forte capacité d'adaptation"
+msgstr "Modern language models, such as those based on transformers, use the provided context as well as their own output during generation, giving them strong adaptability"
+
+msgid "Caractéristiques "
+msgstr "Characteristics"
+
+msgid "Ces modèles exploitent un large contexte disponible dans une fenêtre donnée pour générer du texte fluide et cohérent"
+msgstr "These models leverage a wide context within a given window to generate fluid and coherent text"
+
+msgid "La complétion repose sur la prédiction des mots ou tokens les plus probables à chaque étape"
+msgstr "Completion relies on predicting the most probable words or tokens at each step"
+
+msgid "Assistants d'écriture"
+msgstr "Writing assistants"
+
+msgid "Proposer des suggestions ou des continuations dans des outils comme les éditeurs de texte"
+msgstr "Offer suggestions or continuations in tools like text editors"
+
+msgid "Scénarisation"
+msgstr "Scenarisation"
+
+msgid "Compléter automatiquement des dialogues ou des récits"
+msgstr "Automatically complete dialogues or stories"
+
+msgid "Modélisation multitâche"
+msgstr "Multitasking modeling"
+
+msgid "Transformer diverses tâches NLP en problèmes de prédiction de mots"
+msgstr "Transforming various NLP tasks into word prediction problems"
+
+msgid "Questions/réponses et conversations"
+msgstr "Questions/Answers and Conversations"
+
+msgid "Les systèmes de <strong>questions/réponses (QA)</strong> et de <strong>conversation</strong> s'appuient sur des modèles capables de répondre à des questions ou de maintenir des interactions fluides avec les utilisateurs. Cette catégorie est souvent divisée en deux approches "
+msgstr "<strong>Questions/Answers (QA)</strong> and <strong>conversation</strong> systems rely on models capable of answering questions or maintaining fluid interactions with users. This category is often divided into two approaches"
+
+msgid "La réponse est trouvée dans un ou plusieurs documents fournis, comme pour les tâches de compréhension de lecture"
+msgstr "The answer is found in one or more provided documents, as in reading comprehension tasks"
+
+msgid "Le modèle génère les réponses uniquement à partir de ses connaissances préalablement entraînées, sans accès à des documents"
+msgstr "The model generates answers solely from its previously trained knowledge, without access to documents"
+
+msgid "Dimensions d'analyse "
+msgstr "Analysis dimensions"
+
+msgid "Format des réponses"
+msgstr "Response format"
+
+msgid "Libre (freeform) ou choix multiple"
+msgstr "Freeform or multiple choice"
+
+msgid "Techniques de guidage"
+msgstr "Guidance techniques"
+
+msgid "Zero-shot (aucun exemple fourni) ou few-shot (exemples de questions similaires donnés au modèle)"
+msgstr "Zero-shot (no examples provided) or few-shot (similar example questions given to the model)"
+
+msgid "Support client"
+msgstr "Customer support"
+
+msgid "Répondre automatiquement aux requêtes des utilisateurs"
+msgstr "Automatically respond to user queries"
+
+msgid "Apprentissage et recherche"
+msgstr "Learning and research"
+
+msgid "Fournir des réponses précises pour des questions éducatives ou académiques"
+msgstr "Provide accurate answers for educational or academic questions"
+
+msgid "Traduction automatique"
+msgstr "Machine Translation"
+
+msgid "La <strong>traduction automatique</strong> est une méthode qui utilise des modèles pour convertir du texte d'une langue à une autre"
+msgstr "<strong>Machine translation</strong> is a method that uses models to convert text from one language to another"
+
+msgid "Bien que la traduction littéraire ou poétique reste une tâche humaine riche et complexe, les systèmes de traduction actuels s'attaquent principalement à des problèmes pratiques, comme la traduction de documents techniques ou des conversations"
+msgstr "While literary or poetic translation remains a rich and complex human task, current translation systems primarily address practical problems, such as translating technical documents or conversations"
+
+msgid "Caractéristiques "
+msgstr "Characteristics"
+
+msgid "Repose sur des architectures de réseaux neuronaux, souvent basées sur des transformateurs"
+msgstr "Based on neural network architectures, often transformer-based"
+
+msgid "Capacité d'adaptation contextuelle pour maintenir le sens et la fluidité dans les langues cibles"
+msgstr "Contextual adaptation capability to maintain meaning and fluency in target languages"
+
+msgid "Communication multilingue"
+msgstr "Multilingual communication"
+
+msgid "Faciliter les échanges entre locuteurs de langues différentes"
+msgstr "Facilitating communication between speakers of different languages"
+
+msgid "Globalisation des entreprises"
+msgstr "Business globalization"
+
+msgid "Traduction de contenu marketing ou technique à grande échelle"
+msgstr "Translation of marketing or technical content at scale"
+
+msgid "Produire des textes adaptés aux enfants ou aux apprenants non natifs"
+msgstr "Produce texts suitable for children or non-native learners"
+
+msgid "Éducation"
+msgstr "Education"
+
+msgid "Ajuster le contenu pour différents niveaux scolaires"
+msgstr "Adjusting content for different grade levels"
+
+msgid "Ajustement du niveau de lecture"
+msgstr "Readability Adjustment"
+
+msgid "L'<strong>ajustement du niveau de lecture</strong> consiste à transformer un texte pour le rendre plus accessible ou adapté à un public cible"
+msgstr "<strong>Readability adjustment</strong> involves transforming a text to make it more accessible or suited to a target audience"
+
+msgid "Cela peut inclure la simplification du vocabulaire, la réduction de la complexité syntaxique ou l'adaptation des phrases"
+msgstr "This can include simplifying vocabulary, reducing syntactic complexity, or adapting sentences"
+
+msgid "Lecture rapide"
+msgstr "Speed reading"
+
+msgid "Synthétiser des articles complexes ou volumineux"
+msgstr "Synthesize complex or large articles"
+
+msgid "Recherche documentaire"
+msgstr "Documentary research"
+
+msgid "Permettre un aperçu rapide des contenus d'un corpus"
+msgstr "Allow a quick overview of the contents of a corpus"
+
+msgid "Résumé de texte (Summarization)"
+msgstr "Text Summarization"
+
+msgid "Le <strong>résumé de texte</strong> est une tâche qui consiste à générer un texte court synthétisant le contenu d'un document plus long. Les modèles de langage utilisent des techniques de génération conditionnelle pour produire des résumés informatifs et concis"
+msgstr "<strong>Text summarization</strong> is a task that involves generating a short text that synthesizes the content of a longer document. Language models use conditional generation techniques to produce informative and concise summaries"
+
+msgid "Les résumés peuvent être générés en guidant le modèle avec des tokens spécifiques comme 'tl;dr', qui indiquent qu'un résumé est attendu"
+msgstr "Summaries can be generated by guiding the model with specific tokens like 'tl;dr', which indicate that a summary is expected"
+
+msgid "Les modèles interprètent ces instructions à partir de données d'entraînement incluant des exemples similaires"
+msgstr "The models interpret these instructions based on training data that includes similar examples"
+
+msgid "La génération de texte, qu'il s'agisse de complétion, de questions/réponses, de traduction, d'ajustement de lecture ou de résumé, est une compétence puissante des modèles de NLP modernes"
+msgstr "Text generation, whether for completion, questions/answers, translation, readability adjustment, or summarization, is a powerful skill of modern NLP models"
+
+msgid "Grâce à des techniques avancées, ces modèles peuvent transformer et synthétiser des contenus textuels de manière fluide, cohérente et adaptée aux besoins de leurs utilisateurs"
+msgstr "Thanks to advanced techniques, these models can transform and synthesize textual content in a fluent, coherent, and user-oriented manner"
+
+msgid "Ces capacités ouvrent la voie à des interactions homme-machine plus intuitives et à des solutions pratiques pour les défis linguistiques complexes"
+msgstr "These capabilities pave the way for more intuitive human-machine interactions and practical solutions to complex linguistic challenges"
+
+msgid "Introduction à l'extraction d'informations (Information Extraction)"
+msgstr "Introduction to Information Extraction (IE)"
+
+msgid "L'extraction d'informations (IE) est un processus essentiel du traitement automatique des langues (NLP), qui vise à convertir des données textuelles non structurées en informations organisées et exploitables"
+msgstr "Information extraction (IE) is an essential process in natural language processing (NLP), aimed at converting unstructured textual data into organized and usable information"
+
+msgid "Cette technique permet de détecter, structurer et extraire des éléments clés d'un texte afin de les utiliser dans des bases de données relationnelles ou d'autres systèmes de traitement"
+msgstr "This technique allows for the detection, structuring, and extraction of key elements from text to be used in relational databases or other processing systems"
+
+msgid "Elle constitue une étape fondamentale pour automatiser l'analyse de grands corpus et transformer des textes bruts en données intelligentes"
+msgstr "It is a fundamental step in automating the analysis of large corpora and transforming raw texts into intelligent data"
+
+msgid "Extraction automatique de mots-clés"
+msgstr "Automatic Keyword Extraction"
+
+msgid "L'extraction automatique de mots-clés est une tâche visant à identifier les termes les plus représentatifs du contenu d'un document ou d'un corpus"
+msgstr "Automatic keyword extraction is a task aimed at identifying the terms most representative of the content of a document or corpus"
+
+msgid "Elle repose sur des algorithmes capables de "
+msgstr "It relies on algorithms capable of"
+
+msgid "Représentation mathématique"
+msgstr "Mathematical Representation"
+
+msgid "Construire une modélisation mathématique du document afin d'évaluer le poids de chaque mot ou segment"
+msgstr "Constructing a mathematical representation of the document to evaluate the weight of each word or segment"
+
+msgid "Analyse de similarité"
+msgstr "Similarity Analysis"
+
+msgid "Identifier les mots ou groupes de mots ayant une représentation proche de celle du document global"
+msgstr "Identifying words or groups of words with a representation close to that of the overall document"
+
+msgid "Applications principales "
+msgstr "Main Applications"
+
+msgid "Résumé rapide"
+msgstr "Quick Summary"
+
+msgid "Permet d'obtenir une vue synthétique du contenu des grands corpus"
+msgstr "Allows for a synthetic view of the content of large corpora"
+
+msgid "Optimisation des recherches"
+msgstr "Searches' Optimization"
+
+msgid "Facilite la recherche documentaire en concentrant l'analyse sur les termes significatifs"
+msgstr "Facilitates document search by focusing the analysis on significant terms"
+
+msgid "Avantages"
+msgstr "Advantages"
+
+msgid "Avantages "
+msgstr "Advantages"
+
+msgid "L'extraction de mots-clés est particulièrement utile pour traiter de vastes quantités de données textuelles"
+msgstr "Keyword extraction is particularly useful for processing large amounts of textual data"
+
+msgid "Elle offre une façon pratique de comprendre rapidement le contenu sans lire l'ensemble du document"
+msgstr "It provides a practical way to quickly understand content without reading the entire document"
+
+msgid "Le <strong>modélisation de sujets</strong> ou <strong>Topic Modelling</strong> est une méthode qui vise à identifier les structures thématiques dans un texte"
+msgstr "<strong>Topic Modelling</strong> is a method that aims to identify thematic structures within a text"
+
+msgid "Cette technique repose sur la notion de <strong>champs sémantiques</strong>, qui sont des ensembles de mots liés par un domaine ou une thématique. Par exemple "
+msgstr "This technique relies on the notion of <strong>semantic fields</strong>, which are sets of words linked by a domain or theme. For example"
+
+msgid "<strong>Hôpital</strong> : 'chirurgien', 'scalpel', 'infirmière', 'anesthésie'"
+msgstr "<strong>Hospital</strong>: 'surgeon', 'scalpel', 'nurse', 'anesthesia'"
+
+msgid "<strong>Restaurant</strong> : 'serveur', 'menu', 'assiette', 'chef'"
+msgstr "<strong>Restaurant</strong>: 'waiter', 'menu', 'plate', 'chef'"
+
+msgid "<strong>Maison</strong> : 'porte', 'toit', 'cuisine', 'lit'"
+msgstr "<strong>Home</strong>: 'door', 'roof', 'kitchen', 'bed'"
+
+msgid "Le Topic Modelling utilise des algorithmes d'apprentissage non supervisé comme le <strong>Latent Dirichlet Allocation (LDA)</strong> pour induire des groupes de mots associés à partir de textes"
+msgstr "Topic Modelling uses unsupervised learning algorithms such as <strong>Latent Dirichlet Allocation (LDA)</strong> to infer associated word groups from texts"
+
+msgid "Les champs sémantiques et le Topic Modelling sont extrêmement utiles pour découvrir les structures thématiques sous-jacentes dans de grands corpus documentaires"
+msgstr "Semantic fields and Topic Modelling are extremely useful for uncovering underlying thematic structures in large document corpora"
+
+msgid "Identifier les sujets dominants dans un texte"
+msgstr "Identify dominant topics in a text"
+
+msgid "Clustering automatique"
+msgstr "Automatic Clustering"
+
+msgid "Grouper des documents par similarité thématique"
+msgstr "Group documents by thematic similarity"
+
+msgid "Avantages et relations avec d'autres concepts"
+msgstr "Advantages and Relationships with Other Concepts"
+
+msgid "Avantages et relations avec d'autres concepts "
+msgstr "Advantages and Relationships with Other Concepts"
+
+msgid "<strong>Hyponymie ou IS-A</strong> : 'chien' est une instance de 'mammifère'"
+msgstr "<strong>Hyponymy</strong> or IS-A: 'dog' is an instance of 'mammal'"
+
+msgid "<strong>Antonymie</strong> : Relations d'opposition (ex. 'grand' vs 'petit')"
+msgstr "<strong>Antonymy</strong>: Relations of opposition (e.g., 'big' vs 'small')"
+
+msgid "<strong>Méronymie</strong> : Relations partie-tout (ex. 'toit' pour 'maison')"
+msgstr "<strong>Meronymy</strong>: Part-whole relations (e.g., 'roof' for 'house')"
+
+msgid "Extraction de citations (Quotation Extraction)"
+msgstr "Quotation Extraction"
+
+msgid "L'extraction de citations est une méthode visant à identifier et isoler des passages où des citations ou déclarations sont explicitement mentionnées"
+msgstr "Quotation extraction is a method aimed at identifying and isolating passages where quotes or statements are explicitly mentioned"
+
+msgid "Elle joue un rôle clé dans des domaines comme l'analyse journalistique, la recherche académique et le suivi médiatique"
+msgstr "It plays a key role in areas such as journalistic analysis, academic research, and media monitoring"
+
+msgid "Fonctionnement"
+msgstr "Functioning"
+
+msgid "Les algorithmes d'extraction de citations détectent les indices textuels tels que "
+msgstr "Quotation extraction algorithms detect textual cues such as"
+
+msgid "Les guillemets (« » ou \" \") qui encadrent la citation"
+msgstr "Quotation marks (« » or \" \") enclosing the quotation"
+
+msgid "Les verbes d'allocution ('dit', 'déclare', 'affirme'), qui introduisent ou signalent un discours direct"
+msgstr "Speech verbs ('says', 'declares', 'states'), which introduce or indicate direct speech"
+
+msgid "<strong>Suivi et analyse médiatique</strong> : Identifier des déclarations importantes dans des articles de presse"
+msgstr "<strong>Media Monitoring and Analysis</strong>: Identifying important statements in news articles"
+
+msgid "<strong>Recherche académique</strong> : Extraire des citations de sources pour les études comparatives"
+msgstr "<strong>Academic Research</strong>: Extracting quotations from sources for comparative studies"
+
+msgid "<strong>Documentation automatique</strong> : Regrouper les passages pertinents pour générer des synthèses ou des rapports"
+msgstr "<strong>Automatic Documentation</strong>: Grouping relevant passages to generate summaries or reports"
+
+msgid "L'extraction d'informations, qu'elle concerne des mots-clés, des sujets thématiques ou des citations, transforme des textes non structurés en données précieuses et exploitables"
+msgstr "Information extraction, whether related to keywords, thematic topics, or quotations, transforms unstructured texts into valuable and usable data"
+
+msgid "Ces techniques permettent de synthétiser, catégoriser et analyser les informations à grande échelle, en optimisant les processus de recherche et d'analyse"
+msgstr "These techniques make it possible to synthesize, categorize, and analyze information on a large scale, optimizing research and analysis processes"
+
+msgid "Grâce à des algorithmes avancés comme le Topic Modelling ou la détection automatique de citations, elles ouvrent des perspectives enrichissantes pour le traitement des corpus complexes et l'intégration de données dans des systèmes automatisés"
+msgstr "Thanks to advanced algorithms such as Topic Modelling or automatic quotation detection, they open up enriching perspectives for processing complex corpora and integrating data into automated systems"
+
+msgid "Corrections et graphies"
+msgstr "Corrections and Spellings"
+
+msgid "La correction des erreurs et la prise en compte des graphies anciennes jouent un rôle fondamental dans l'analyse et l'interprétation de textes anciens ou modernes"
+msgstr "The correction of errors and the consideration of ancient spellings play a fundamental role in the analysis and interpretation of ancient or modern texts"
+
+msgid "Voici une explication détaillée de ce qu'est la <strong>graphie ancienne</strong>, de ce à quoi elle peut ressembler, des types de documents où on la trouve et du processus de <strong>normalisation</strong>"
+msgstr "Here is a detailed explanation of what <strong>ancient spelling</strong> is, what it might look like, the types of documents where it is found, and the process of <strong>normalization</strong>"
+
+msgid "Nous aborderons aussi les erreurs courantes et les techniques de correction orthographique"
+msgstr "We will also discuss common errors and spelling correction techniques"
+
+msgid "Qu'est-ce que la graphie ancienne "
+msgstr "What is ancient spelling"
+
+msgid "La <strong>graphie ancienne</strong> désigne l'écriture et l'orthographe utilisées dans des périodes historiques passées"
+msgstr "<strong>Ancient spelling</strong> refers to the writing and orthography used in past historical periods"
+
+msgid "Elle inclut des formes de mots, des conventions orthographiques ou des caractères qui diffèrent de ceux utilisés dans l'orthographe contemporaine"
+msgstr "It includes word forms, spelling conventions, or characters that differ from those used in contemporary orthography"
+
+msgid "Ces particularités reflètent l'évolution des langues au fil des siècles"
+msgstr "These particularities reflect the evolution of languages over the centuries"
+
+msgid "À quoi cela peut ressembler "
+msgstr "What it might look like"
+
+msgid "<strong>Variations orthographiques</strong> : Par exemple, 'voulentiers' au lieu de 'volontiers', ou 'roy' pour 'roi'"
+msgstr "<strong>Spelling variations</strong>: For example, 'voulentiers' instead of 'volontiers', or 'roy' for 'roi'"
+
+msgid "<strong>Caractères spécifiques</strong> : Des lettres aujourd'hui disparues, comme le long 's' (ƒ) utilisé en ancien français ou en anglais élisabéthain"
+msgstr "<strong>Specific characters</strong>: Letters that have disappeared today, such as the long 's' (ƒ) used in Old French or Elizabethan English"
+
+msgid "<strong>Différentes écritures manuscrites</strong> : Des styles calligraphiques, comme la gothique, qui rendent la lecture complexe pour les lecteurs modernes"
+msgstr "<strong>Different handwritten scripts</strong>: Calligraphic styles, such as Gothic, which make reading complex for modern readers"
+
+msgid "Types de documents où on la trouve "
+msgstr "Types of documents where it is found"
+
+msgid "<strong>Textes manuscrits anciens</strong> : Lettres, journaux, manuscrits littéraires ou administratifs"
+msgstr "<strong>Ancient handwritten texts</strong>: Letters, journals, literary or administrative manuscripts"
+
+msgid "<strong>Imprimés anciens</strong> : Livres datant des débuts de l'imprimerie (XVe-XVIIe siècle)"
+msgstr "<strong>Ancient printed materials</strong>: Books dating back to the early days of printing (15th-17th century)"
+
+msgid "<strong>Documents historiques</strong> : Contrats, registres paroissiaux, archives judiciaires"
+msgstr "<strong>Historical documents</strong>: Contracts, parish registers, judicial archives"
+
+msgid "La normalisation des graphies"
+msgstr "Normalization of Spellings"
+
+msgid "La <strong>normalisation</strong> consiste à transformer les graphies anciennes en leur forme contemporaine tout en respectant le sens du texte"
+msgstr "<strong>Normalization</strong> consists of transforming ancient spellings into their contemporary form while respecting the meaning of the text"
+
+msgid "Ce processus est crucial pour rendre ces textes plus accessibles et exploitables, notamment dans des contextes numériques ou d'analyse linguistique"
+msgstr "This process is crucial for making these texts more accessible and usable, especially in digital or linguistic analysis contexts"
+
+msgid "Objectifs de la normalisation "
+msgstr "Objectives of Normalization"
+
+msgid "Uniformiser l'orthographe pour faciliter la recherche et l'analyse"
+msgstr "Standardize spelling to facilitate search and analysis"
+
+msgid "Conserver les particularités historiques dans des éditions critiques"
+msgstr "Preserve historical particularities in critical editions"
+
+msgid "Aider les algorithmes à comprendre et traiter des textes anciens"
+msgstr "Help algorithms understand and process ancient texts"
+
+msgid "Exemples de normalisation "
+msgstr "Examples of Normalization"
+
+msgid "<strong>Texte original</strong> : 'Au lieu que le Roy vint en son pais.'"
+msgstr "<strong>Original text</strong>: 'Au lieu que le Roy vint en son pais.'"
+
+msgid "<strong>Texte normalisé</strong> : 'Au lieu que le roi vint en son pays.'"
+msgstr "<strong>Normalized text</strong>: 'Au lieu que le roi vint en son pays.'"
+
+msgid "La normalisation peut être effectuée manuellement par des éditeurs ou de façon semi-automatisée grâce à des outils d'OCR spécialisés"
+msgstr "Normalization can be performed manually by editors or semi-automatically using specialized OCR tools"
+
+msgid "Correction des erreurs orthographiques"
+msgstr "Spelling Error Correction"
+
+msgid "La correction des erreurs est une autre dimension importante, qui intervient lorsque des mots sont mal écrits ou mal reconnus, que ce soit dans des textes anciens ou modernes"
+msgstr "Error correction is another important dimension, which comes into play when words are misspelled or misrecognized, whether in ancient or modern texts"
+
+msgid "Méthodes de correction "
+msgstr "Correction Methods"
+
+msgid "<strong>Proximité orthographique</strong> : Identifier les mots proches en termes de distance d'édition. Par exemple "
+msgstr "<strong>Orthographic proximity</strong>: Identifying words close in terms of edit distance. For example"
+
+msgid "Mot erroné : 'graffe'"
+msgstr "Misspelled word: 'graffe'"
+
+msgid "Suggestions : 'giraffe' (diffère par une seule lettre, donc plus probable), 'grail', 'graf'"
+msgstr "Suggestions: 'giraffe' (differs by only one letter, so more likely), 'grail', 'graf'"
+
+msgid "<strong>Approches contextuelles</strong> : Les modèles modernes, comme ceux basés sur les transformateurs, utilisent le contexte pour proposer des corrections plus pertinentes"
+msgstr "<strong>Contextual approaches</strong>: Modern models, such as those based on transformers, use context to propose more relevant corrections"
+
+msgid "Correction automatique dans des éditeurs de texte"
+msgstr "Automatic correction in text editors"
+
+msgid "Prétraitement dans des projets d'analyse textuelle ou de reconnaissance de texte (OCR)"
+msgstr "Preprocessing in text analysis or text recognition (OCR) projects"
+
+msgid "Illustrations d'exemples"
+msgstr "Examples and Illustrations"
+
+msgid "Graphie ancienne et normalisation"
+msgstr "Ancient Spelling and Normalization"
+
+msgid "Texte original : 'Que cecy soit vne leçon pour les enfans.'"
+msgstr "Original text: 'Que cecy soit vne leçon pour les enfans.'"
+
+msgid "Texte normalisé : 'Que ceci soit une leçon pour les enfants.'"
+msgstr "Normalized text: 'Que ceci soit une leçon pour les enfants.'"
+
+msgid "Correction orthographique"
+msgstr "Spelling Correction"
+
+msgid "Texte erroné : 'Les giraphes vivent en Afrique.'"
+msgstr "Erroneous text: 'Les giraphes vivent en Afrique.'"
+
+msgid "Correction suggérée : 'Les girafes vivent en Afrique.'"
+msgstr "Suggested correction: 'Les girafes vivent en Afrique.'"
+
+msgid "Graphie spécifique (long 's')"
+msgstr "Specific Spelling (long 's')"
+
+msgid "Texte original (XVIIe siècle) : 'ſavons que chacun a raison.'"
+msgstr "Original text (17th century): 'ſavons que chacun a raison.'"
+
+msgid "Texte normalisé : 'savons que chacun a raison.'"
+msgstr "Normalized text: 'savons que chacun a raison.'"
+
+msgid "La prise en compte des graphies anciennes et la correction des erreurs orthographiques sont des éléments essentiels pour préserver et rendre accessible le patrimoine linguistique"
+msgstr "Taking ancient spellings into account and correcting spelling errors are essential elements for preserving and making linguistic heritage accessible"
+
+msgid "La <strong>normalisation</strong> permet d'adapter les textes anciens à des normes contemporaines sans en perdre l'essence historique, tandis que les techniques de <strong>correction automatique</strong> facilitent leur exploitation pour des analyses modernes"
+msgstr "<strong>Normalization</strong> allows ancient texts to be adapted to contemporary standards without losing their historical essence, while <strong>automatic correction</strong> techniques facilitate their use in modern analyses"
+
+msgid "Avec des outils avancés et des algorithmes, ces processus deviennent plus précis et efficaces, contribuant à la valorisation et à l'étude des textes anciens ou erronés"
+msgstr "With advanced tools and algorithms, these processes become more precise and efficient, contributing to the enhancement and study of ancient or erroneous texts"
+
+msgid "Conversion en XML-TEI"
+msgstr "Conversion to XML-TEI"
+
+msgid "Qu'est-ce que le XML "
+msgstr "What is XML"
+
+msgid "Le <strong>XML</strong> (Extensible Markup Language) est un langage de balisage générique conçu pour structurer, stocker et transporter des données de manière lisible aussi bien par des humains que par des machines"
+msgstr "<strong>XML</strong> (Extensible Markup Language) is a generic markup language designed to structure, store, and transport data in a way that is readable by both humans and machines"
+
+msgid "Contrairement aux formats strictement visuels comme HTML, XML ne se concentre pas sur la présentation, mais sur la structuration logique et hiérarchique des informations"
+msgstr "Unlike strictly visual formats like HTML, XML focuses not on presentation but on the logical and hierarchical structuring of information"
+
+msgid "Caractéristiques principales du XML "
+msgstr "Main Features of XML"
+
+msgid "Extensibilité"
+msgstr "Extensibility"
+
+msgid "XML permet de définir ses propres balises (tags) adaptées aux besoins spécifiques d'un projet ou d'un domaine, rendant le langage polyvalent"
+msgstr "XML allows you to define your own tags tailored to the specific needs of a project or domain, making the language versatile"
+
+msgid "Lisibilité universelle"
+msgstr "Universal Readability"
+
+msgid "Les fichiers XML peuvent être lus par des logiciels très variés et sont indépendants des plateformes ou applications"
+msgstr "XML files can be read by a wide variety of software and are independent of platforms or applications"
+
+msgid "Hiérarchie des données"
+msgstr "Data Hierarchy"
+
+msgid "XML organise les informations en arbre, avec des relations parent-enfant (par exemple, un élément principal contenant des sous-éléments imbriqués)"
+msgstr "XML organizes information in a tree structure, with parent-child relationships (e.g., a main element containing nested sub-elements)"
+
+msgid "Interopérabilité"
+msgstr "Interoperability"
+
+msgid "Utilisé comme pont entre différentes applications, XML assure que des systèmes informatiques hétérogènes puissent échanger des données"
+msgstr "Used as a bridge between different applications, XML ensures that heterogeneous computer systems can exchange data"
+
+msgid "À quoi sert le XML "
+msgstr "What is XML used for"
+
+msgid "Échanger des données entre applications"
+msgstr "Exchanging data between applications"
+
+msgid "Par exemple, des API (interfaces de programmation) utilisent souvent XML pour transmettre des informations structurées"
+msgstr "For example, APIs (Application Programming Interfaces) often use XML to transmit structured information"
+
+msgid "Représenter des bases de données"
+msgstr "Representing databases"
+
+msgid "Les fichiers XML peuvent stocker des données hiérarchiques, comme des catalogues ou des inventaires"
+msgstr "XML files can store hierarchical data, such as catalogs or inventories"
+
+msgid "Codage d'informations complexes"
+msgstr "Encoding complex information"
+
+msgid "XML est couramment utilisé dans des formats spécialisés, tels que les fichiers SVG pour les graphiques ou MathML pour les formules mathématiques"
+msgstr "XML is commonly used in specialized formats, such as SVG files for graphics or MathML for mathematical formulas"
+
+msgid "Conversion de formats"
+msgstr "Format Conversion"
+
+msgid "Introduction à la conversion de formats"
+msgstr "Introduction to Format Conversion"
+
+msgid "La conversion de formats est le processus qui consiste à transformer un document d'un format donné vers un autre"
+msgstr "Format conversion is the process of transforming a document from one format to another"
+
+msgid "Ce processus est essentiel pour garantir la compatibilité entre différents outils, plateformes ou logiciels, et pour adapter les contenus aux besoins spécifiques de divers contextes d'utilisation (lecture, analyse, partage ou publication)"
+msgstr "This process is essential to ensure compatibility between different tools, platforms, or software, and to adapt content to the specific needs of various usage contexts (reading, analysis, sharing, or publication)"
+
+msgid "Chaque format a ses propres caractéristiques, avantages et inconvénients, et le choix du format dépend des usages envisagés"
+msgstr "Each format has its own characteristics, advantages, and disadvantages, and the choice of format depends on the intended use cases"
+
+msgid "Les formats que nous allons examiner en détail—TEI, DOCX, HTML, EPUB et Markdown—sont largement utilisés dans divers domaines, de la documentation technique à l'édition numérique, en passant par le traitement de texte"
+msgstr "The formats we will examine in detail—TEI, DOCX, HTML, EPUB, and Markdown—are widely used in various fields, from technical documentation to digital publishing and word processing"
+
+msgid "Le format <strong>TEI</strong> est un standard pour l'encodage et la représentation de textes électroniques, particulièrement utilisé dans le domaine des sciences humaines et sociales"
+msgstr "The <strong>TEI</strong> format is a standard for encoding and representing electronic texts, particularly used in the humanities and social sciences"
+
+msgid "Il repose sur XML (Extensible Markup Language) et permet d'annoter des textes avec des balises structurées et sémantiques, adaptées à la nature du document"
+msgstr "It is based on XML (Extensible Markup Language) and allows texts to be annotated with structured and semantic tags suited to the nature of the document"
+
+msgid "<strong>Usage principal</strong> : Archivage, analyse textuelle, recherche et publication scientifique"
+msgstr "<strong>Main usage</strong>: Archiving, text analysis, research, and scientific publishing"
+
+msgid "Structure riche et personnalisable, idéale pour les corpus de données complexes comme les manuscrits ou les œuvres littéraires"
+msgstr "Rich and customizable structure, ideal for complex data corpora such as manuscripts or literary works"
+
+msgid "Interopérabilité avec d'autres outils basés sur XML"
+msgstr "Interoperability with other XML-based tools"
+
+msgid "Balises dédiées pour marquer des entités spécifiques, comme les noms propres, les dates ou les références bibliographiques"
+msgstr "Dedicated tags to mark specific entities, such as proper names, dates, or bibliographic references"
+
+msgid "Courbe d'apprentissage relativement élevée pour les utilisateurs novices"
+msgstr "Relatively steep learning curve for novice users"
+
+msgid "Nécessite des outils spécialisés pour l'édition (ex. oXygen XML Editor)"
+msgstr "Requires specialized editing tools (e.g., oXygen XML Editor)"
+
+msgid "Le format <strong>DOCX</strong> est le standard des documents produits par Microsoft Word. Il est basé sur un format XML compressé (OpenXML) et contient diverses données comme le texte, les images, les styles et les métadonnées"
+msgstr "The <strong>DOCX</strong> format is the standard for documents produced by Microsoft Word. It is based on a compressed XML format (OpenXML) and contains various data such as text, images, styles, and metadata"
+
+msgid "<strong>Usage principal</strong> : Traitement de texte, création de documents bureautiques ou académiques"
+msgstr "<strong>Main usage</strong>: Word processing, creating office or academic documents"
+
+msgid "Hautement compatible avec les suites bureautiques, notamment Microsoft Office"
+msgstr "Highly compatible with office suites, particularly Microsoft Office"
+
+msgid "Prise en charge des styles, tableaux, graphiques et fonctionnalités avancées (comme le suivi des modifications)"
+msgstr "Supports styles, tables, charts, and advanced features (such as track changes)"
+
+msgid "Facilement convertible en PDF ou en d'autres formats"
+msgstr "Easily convertible to PDF or other formats"
+
+msgid "Moins adapté pour les tâches d'analyse de texte en masse"
+msgstr "Less suitable for large-scale text analysis tasks"
+
+msgid "Peut contenir des données 'lourdes' ou inutiles qui augmentent la taille du fichier"
+msgstr "May contain 'heavy' or unnecessary data that increase file size"
+
+msgid "Le format <strong>HTML</strong> est le langage standard pour la création et la structuration de pages web"
+msgstr "The <strong>HTML</strong> format is the standard language for creating and structuring web pages"
+
+msgid "Il utilise des balises pour organiser le contenu, comme les paragraphes, les titres, les images et les liens hypertextes"
+msgstr "It uses tags to organize content, such as paragraphs, headings, images, and hyperlinks"
+
+msgid "<strong>Usage principal</strong> : Développement web et affichage de contenu en ligne"
+msgstr "<strong>Main usage</strong>: Web development and online content display"
+
+msgid "Largement pris en charge par tous les navigateurs web"
+msgstr "Widely supported by all web browsers"
+
+msgid "Souple, il permet de structurer des documents simples ou complexes"
+msgstr "Flexible, it allows for structuring simple or complex documents"
+
+msgid "Facilement intégrable avec d'autres technologies, comme CSS (pour le style) et JavaScript (pour l'interactivité)"
+msgstr "Easily integrable with other technologies, such as CSS (for styling) and JavaScript (for interactivity)"
+
+msgid "Inconvénients"
+msgstr "Disadvantages"
+
+msgid "Inconvénients "
+msgstr "Disadvantages"
+
+msgid "Nécessite parfois des ajustements pour être conforme aux standards ou compatible avec tous les navigateurs"
+msgstr "Sometimes requires adjustments to comply with standards or be compatible with all browsers"
+
+msgid "Pas idéal pour l'archivage à long terme sans métadonnées additionnelles"
+msgstr "Not ideal for long-term archiving without additional metadata"
+
+msgid "Le format <strong>EPUB</strong> est un standard ouvert pour les livres numériques (eBooks), conçu pour s'adapter à différents appareils comme les liseuses, tablettes et smartphones. Il est basé sur XML et HTML"
+msgstr "The <strong>EPUB</strong> format is an open standard for eBooks, designed to adapt to different devices like e-readers, tablets, and smartphones. It is based on XML and HTML"
+
+msgid "<strong>Usage principal</strong> : Distribution et lecture de livres numériques"
+msgstr "<strong>Main Usage</strong>: Distribution and reading of eBooks"
+
+msgid "Mise en page adaptable (responsive), assurant une lecture confortable sur tous les écrans"
+msgstr "Responsive layout, ensuring comfortable reading on all screens"
+
+msgid "Peut intégrer du multimédia (images, audio, vidéos) et des annotations interactives"
+msgstr "Can integrate multimedia (images, audio, videos) and interactive annotations"
+
+msgid "Compatible avec la majorité des liseuses et logiciels de lecture (comme Calibre)"
+msgstr "Compatible with most e-readers and reading software (such as Calibre)"
+
+msgid "Les fonctionnalités interactives peuvent être limitées selon les appareils"
+msgstr "Interactive features may be limited depending on the device"
+
+msgid "Nécessite parfois des outils spécialisés pour l'édition ou la conversion"
+msgstr "Sometimes requires specialized tools for editing or conversion"
+
+msgid "Le format <strong>Markdown</strong> est un langage de balisage léger, conçu pour rédiger du texte qui peut être facilement converti en HTML ou d'autres formats"
+msgstr "The <strong>Markdown</strong> format is a lightweight markup language designed to write text that can be easily converted to HTML or other formats"
+
+msgid "<strong>Usage principal</strong> : Documentation technique, blogs, README de projets, et autres contenus destinés à être convertis en formats web"
+msgstr "<strong>Main Usage</strong>: Technical documentation, blogs, project READMEs, and other content intended to be converted into web formats"
+
+msgid "Simple et lisible en texte brut, avec une syntaxe facile à apprendre (par ex. utiliser <code>**</code> pour mettre en gras)"
+msgstr "Simple and readable in plain text, with an easy-to-learn syntax (e.g., use <code>**</code> for bold)"
+
+msgid "Convertissable en HTML, PDF ou DOCX avec des outils comme Pandoc"
+msgstr "Convertible to HTML, PDF, or DOCX with tools like Pandoc"
+
+msgid "Idéal pour les développeurs et les auteurs de documentation"
+msgstr "Ideal for developers and documentation writers"
+
+msgid "Moins adapté pour les documents nécessitant une mise en page complexe (comme des tableaux détaillés ou des graphes)"
+msgstr "Less suited for documents requiring complex layouts (such as detailed tables or graphs)"
+
+msgid "Nécessite un outil ou un logiciel pour être rendu visuellement riche"
+msgstr "Requires a tool or software to be visually enhanced"
+
+msgid "La conversion de formats est indispensable dans des contextes variés, chaque format ayant des particularités qui répondent à des besoins spécifiques. Que ce soit pour un archivage scientifique avec TEI, une documentation technique avec Markdown, ou une publication numérique avec EPUB, le choix du format dépendra toujours des objectifs visés et des contraintes techniques"
+msgstr "Format conversion is essential in various contexts, with each format having specific features that meet different needs. Whether for scientific archiving with TEI, technical documentation with Markdown, or digital publishing with EPUB, the choice of format will always depend on the intended goals and technical constraints"
+
+msgid "La maîtrise de ces formats et des outils de conversion associés permet de s'assurer une flexibilité et une interopérabilité maximales dans la gestion des contenus numériques"
+msgstr "Mastering these formats and the associated conversion tools ensures maximum flexibility and interoperability in managing digital content"
+
+msgid "Introduction à l'analyse linguistique"
+msgstr "Introduction to Linguistic Analysis"
+
+msgid "L'analyse linguistique est une discipline clé dans le traitement automatique du langage naturel (NLP), qui consiste à étudier et modéliser les propriétés et structures du langage"
+msgstr "Linguistic analysis is a key discipline in natural language processing (NLP), which involves studying and modeling the properties and structures of language"
+
+msgid "Elle permet d'extraire des informations grammaticales, syntaxiques, et sémantiques à partir de textes, afin de mieux comprendre leur contenu et d'en tirer des conclusions exploitables"
+msgstr "It allows for the extraction of grammatical, syntactic, and semantic information from texts to better understand their content and draw actionable conclusions"
+
+msgid "L'analyse linguistique repose sur plusieurs processus tels que la détection du langage, l'identification des hapax, les n-grams et l'analyse des dépendances syntaxiques (<em>dependency parsing</em>)"
+msgstr "Linguistic analysis relies on several processes such as language detection, hapax identification, n-grams, and syntactic dependency analysis (<em>dependency parsing</em>)"
+
+msgid "Détection du langage"
+msgstr "Language Detection"
+
+msgid "La détection du langage est une méthode fondamentale qui vise à identifier automatiquement la langue dans laquelle un texte est écrit"
+msgstr "Language detection is a fundamental method that aims to automatically identify the language in which a text is written"
+
+msgid "Cette tâche repose généralement sur des modèles statistiques ou des algorithmes de machine learning qui analysent la fréquence et la combinaison des caractères et des mots"
+msgstr "This task generally relies on statistical models or machine learning algorithms that analyze the frequency and combination of characters and words"
+
+msgid "Par exemple, une phrase contenant 'the' et 'is' sera plus probablement en anglais, tandis que des mots comme 'le' ou 'chien' indiqueront le français"
+msgstr "For example, a sentence containing 'the' and 'is' is more likely to be in English, whereas words like 'le' or 'chien' indicate French"
+
+msgid "<strong>Moteurs de recherche</strong> : Rediriger une requête vers des résultats spécifiques à la langue"
+msgstr "<strong>Search Engines</strong>: Redirecting a query to language-specific results"
+
+msgid "<strong>Traduction automatique</strong> : Identifier la langue source avant de traduire un texte"
+msgstr "<strong>Machine Translation</strong>: Identifying the source language before translating a text"
+
+msgid "<strong>Filtrage de contenu</strong> : Trier et classer des données textuelles multilingues"
+msgstr "<strong>Content Filtering</strong>: Sorting and classifying multilingual textual data"
+
+msgid "La détection automatique du langage est particulièrement utile pour le traitement de grandes quantités de données multilingues ou pour interagir avec des utilisateurs dans des contextes globaux"
+msgstr "Automatic language detection is particularly useful for processing large amounts of multilingual data or interacting with users in global contexts"
+
+msgid "Les <strong>hapax</strong> sont des mots qui apparaissent une seule fois dans un corpus donné. Leur analyse est essentielle en linguistique, car ils peuvent fournir des informations sur la diversité lexicale ou sur des termes rares et spécifiques à un sujet ou un contexte"
+msgstr "<strong>Hapax</strong> are words that appear only once in a given corpus. Their analysis is essential in linguistics, as they can provide insights into lexical diversity or terms that are rare and specific to a topic or context"
+
+msgid "<strong>Études lexicales</strong> : Évaluer la richesse d'un texte en identifiant les mots uniques"
+msgstr "<strong>Lexical Studies</strong>: Evaluating the richness of a text by identifying unique words"
+
+msgid "<strong>Analyse de style</strong> : Les hapax sont souvent révélateurs de l'auteur, notamment dans des études d'attribution d'auteurs"
+msgstr "<strong>Style Analysis</strong>: Hapax are often indicative of the author, particularly in authorship attribution studies"
+
+msgid "<strong>Détection de bruits ou erreurs</strong> : Les hapax peuvent parfois refléter des fautes typographiques ou des termes mal reconnus"
+msgstr "<strong>Noise or Error Detection</strong>: Hapax may sometimes reflect typographical errors or misrecognized terms"
+
+msgid "Limites"
+msgstr "Limitations"
+
+msgid "Limites "
+msgstr "Limitations"
+
+msgid "Bien que les hapax soient utiles, leur fréquence réduite peut rendre difficile leur exploitation dans des modèles automatiques"
+msgstr "Although hapax are useful, their low frequency can make their exploitation in automatic models difficult"
+
+msgid "Les <strong>n-grams</strong> sont des séquences de n unités consécutives, généralement des mots ou caractères, extraites d'un texte"
+msgstr "<strong>N-grams</strong> are sequences of n consecutive units, usually words or characters, extracted from a text"
+
+msgid "Par exemple, dans la phrase <em>'Le chat dort'</em>, les bi-grams (n=2) seraient <em>'Le chat'</em> et <em>'chat dort'</em>"
+msgstr "For example, in the sentence <em>'Le chat dort'</em>, the bigrams (n=2) would be <em>'Le chat'</em> and <em>'chat dort'</em>"
+
+msgid "Cette méthode est couramment utilisée pour capturer des relations locales ou contextuelles entre les mots"
+msgstr "This method is commonly used to capture local or contextual relationships between words"
+
+msgid "<strong>Modèles de langage</strong> : Évaluer la probabilité d'occurrence d'une séquence de mots dans un texte"
+msgstr "<strong>Language Models</strong>: Evaluating the likelihood of a sequence of words occurring in a text"
+
+msgid "<strong>Analyse de similarité</strong> : Comparer des documents pour identifier des phrases ou expressions partagées"
+msgstr "<strong>Similarity Analysis</strong>: Comparing documents to identify shared phrases or expressions"
+
+msgid "<strong>Détection de cooccurrences</strong> : Mettre en évidence les associations fréquentes entre des mots, ce qui est utile en lexicographie ou en analyse sémantique"
+msgstr "<strong>Co-occurrence Detection</strong>: Highlighting frequent word associations, useful in lexicography or semantic analysis"
+
+msgid "Les n-grams fournissent une base simple et puissante pour modéliser la structure locale des textes, mais leur portée se limite aux relations de proximité immédiates, ce qui peut être complété par des approches plus globales comme l'analyse des dépendances"
+msgstr "N-grams provide a simple and powerful basis for modeling the local structure of texts, but their scope is limited to immediate proximity relationships, which can be complemented by more global approaches like dependency analysis"
+
+msgid "Analyse des dépendances syntaxiques (Dependency Parsing)"
+msgstr "Syntactic Dependency Parsing (Dependency Parsing)"
+
+msgid "L'analyse des dépendances syntaxiques décrit la structure grammaticale d'une phrase en mettant en relation les mots sous la forme de relations binaires entre un <strong>nœud central</strong> (le <strong>head</strong>) et un <strong>dépendant</strong> (le <strong>modifier</strong>)"
+msgstr "Syntactic dependency analysis describes the grammatical structure of a sentence by relating words in the form of binary relationships between a <strong>central node</strong> (the <strong>head</strong>) and a <strong>dependent</strong> (the <strong>modifier</strong>)"
+
+msgid "Contrairement à d'autres formalismes syntaxiques basés sur des règles de structure phrastique, cette méthode s'intéresse aux relations entre mots et leurs rôles dans une phrase"
+msgstr "Unlike other syntactic formalisms based on phrase structure rules, this method focuses on the relationships between words and their roles in a sentence"
+
+msgid "Principes fondamentaux"
+msgstr "Fundamental Principles"
+
+msgid "Principes fondamentaux "
+msgstr "Fundamental Principles"
+
+msgid "Arbre de dépendance"
+msgstr "Dependency Tree"
+
+msgid "La phrase est représentée sous forme de graphe dirigé"
+msgstr "The sentence is represented as a directed graph"
+
+msgid "Il existe un seul <strong>nœud racine</strong> sans arcs entrants (souvent le verbe principal de la phrase)"
+msgstr "There is a single <strong>root node</strong> with no incoming arcs (often the main verb of the sentence)"
+
+msgid "Tous les autres mots ont exactement un lien sortant vers leur tête grammaticale, ce qui garantit la connectivité"
+msgstr "All other words have exactly one outgoing link to their grammatical head, ensuring connectivity"
+
+msgid "Relations entre mots"
+msgstr "Relationships between Words"
+
+msgid "Les relations décrivent des concepts grammaticaux comme le sujet, l'objet ou les modificateurs (ex. : adjectifs, adverbes)"
+msgstr "The relationships describe grammatical concepts such as the subject, object, or modifiers (e.g., adjectives, adverbs)"
+
+msgid "Par exemple, dans 'Le chat dort', 'chat' est la tête de 'le', et 'dort' est la tête de 'chat'"
+msgstr "For example, in 'Le chat dort', 'chat' is the head of 'le', and 'dort' is the head of 'chat'"
+
+msgid "<strong>Analyse syntaxique avancée</strong> : Étudier la structure des phrases pour en extraire des informations grammaticales"
+msgstr "<strong>Advanced Syntactic Analysis</strong>: Studying the structure of sentences to extract grammatical information"
+
+msgid "<strong>Traduction automatique</strong> : Maintenir la cohérence grammaticale lors de la traduction"
+msgstr "<strong>Machine Translation</strong>: Maintaining grammatical consistency during translation"
+
+msgid "<strong>Extraction d'information</strong> : Identifier des relations spécifiques, comme 'qui fait quoi'"
+msgstr "<strong>Information Extraction</strong>: Identifying specific relationships, such as 'who does what'"
+
+msgid "La méthode des dépendances permet une représentation concise et intuitive des relations syntaxiques d'une phrase, tout en garantissant une analyse cohérente grâce à sa structure arborescente"
+msgstr "The dependency method provides a concise and intuitive representation of the syntactic relationships in a sentence while ensuring consistent analysis through its tree structure"
+
+msgid "L'analyse linguistique, à travers des tâches comme la détection du langage, l'identification des hapax, les n-grams et l'analyse des dépendances syntaxiques, offre des outils puissants pour comprendre et traiter les données textuelles"
+msgstr "Linguistic analysis, through tasks such as language detection, hapax identification, n-grams, and syntactic dependency analysis, provides powerful tools for understanding and processing textual data"
+
+msgid "Chaque méthode aborde un aspect unique du langage : la détection du langage cible les contextes multilingues, les hapax analysent les spécificités lexicales, les n-grams modélisent les relations locales, et l'analyse des dépendances explore les structures syntaxiques globales"
+msgstr "Each method addresses a unique aspect of language: language detection targets multilingual contexts, hapax analyze lexical specifics, n-grams model local relationships, and dependency analysis explores global syntactic structures"
+
+msgid "Ensemble, ces approches contribuent à transformer les textes bruts en connaissances exploitables par des algorithmes et des systèmes intelligents"
+msgstr "Together, these approaches help transform raw texts into actionable knowledge for algorithms and intelligent systems"
+
+msgid "Introduction aux analyses statistiques en linguistique"
+msgstr "Introduction to Statistical Analysis in Linguistics"
+
+msgid "Les analyses statistiques appliquées à la linguistique permettent de mieux comprendre les caractéristiques et la structure des textes en examinant quantitativement leurs propriétés"
+msgstr "Statistical analyses applied to linguistics help better understand the characteristics and structure of texts by quantitatively examining their properties"
+
+msgid "Elles constituent un volet essentiel du traitement automatique du langage naturel (NLP), facilitant l'extraction d'informations, la comparaison de corpus, et l'identification des patterns récurrents"
+msgstr "They form an essential component of natural language processing (NLP), facilitating information extraction, corpus comparison, and the identification of recurring patterns"
+
+msgid "Ces analyses reposent sur différentes méthodes, telles que l'étude de la longueur moyenne des phrases, les fréquences de mots, les cooccurrences et les représentations vectorielles, ou <strong>embeddings</strong>"
+msgstr "These analyses rely on various methods, such as studying the average sentence length, word frequencies, co-occurrences, and vector representations, or <strong>embeddings</strong>"
+
+msgid "Longueur moyenne de phrase"
+msgstr "Average Sentence Length"
+
+msgid "La <strong>longueur moyenne de phrase</strong> est une mesure simple qui calcule le nombre moyen de mots par phrase dans un texte"
+msgstr "<strong>Average sentence length</strong> is a simple measure that calculates the average number of words per sentence in a text"
+
+msgid "Elle fournit des informations sur la structure syntaxique et le style d'écriture"
+msgstr "It provides insights into the syntactic structure and writing style"
+
+msgid "<strong>Analyse stylistique</strong> : Les textes littéraires complexes, comme ceux de Proust, tendent à avoir des phrases longues, tandis que les textes journalistiques sont généralement plus concis"
+msgstr "<strong>Stylistic Analysis</strong>: Complex literary texts, such as those by Proust, tend to have long sentences, while journalistic texts are generally more concise"
+
+msgid "<strong>Lisibilité</strong> : Une longueur moyenne élevée peut indiquer que le texte est difficile à lire"
+msgstr "<strong>Readability</strong>: A high average length may indicate that the text is difficult to read"
+
+msgid "<strong>Comparaison de corpus</strong> : Identifier des variations de style entre différents auteurs, genres ou époques"
+msgstr "<strong>Corpus Comparison</strong>: Identifying stylistic variations between different authors, genres, or eras"
+
+msgid "Méthode"
+msgstr "Method"
+
+msgid "Méthode "
+msgstr "Method"
+
+msgid "Cette métrique s'obtient en divisant le total des mots par le nombre de phrases, souvent après une segmentation précise des phrases"
+msgstr "This metric is obtained by dividing the total number of words by the number of sentences, often after precise sentence segmentation"
+
+msgid "Fréquences de mots"
+msgstr "Word Frequencies"
+
+msgid "Les <strong>fréquences de mots</strong> mesurent combien de fois chaque mot apparaît dans un texte ou un corpus"
+msgstr "<strong>Word frequencies</strong> measure how often each word appears in a text or corpus"
+
+msgid "Cette approche de base peut fournir un aperçu des termes les plus courants, mais elle présente des limites pour l'analyse sémantique fine"
+msgstr "This basic approach can provide an overview of the most common terms, but it has limitations for fine semantic analysis"
+
+msgid "Problèmes liés à la fréquence brute "
+msgstr "Issues with Raw Frequency"
+
+msgid "<strong>Non-discrimination</strong> : Les mots fréquents comme 'le', 'de' ou 'et' ne portent pas de signification particulière et apparaissent dans presque tous les textes"
+msgstr "<strong>Non-discrimination</strong>: Frequent words like 'le', 'de', or 'et' carry no particular meaning and appear in nearly all texts"
+
+msgid "<strong>Importance contextuelle</strong> : Un mot utilisé 100 fois dans un document n'est pas forcément 100 fois plus pertinent pour son contenu"
+msgstr "<strong>Contextual Importance</strong>: A word used 100 times in a document is not necessarily 100 times more relevant to its content"
+
+msgid "Solutions courantes "
+msgstr "Common Solutions"
+
+msgid "Pondération"
+msgstr "Weighting"
+
+msgid "Mesure l'importance relative d'un mot dans un document par rapport à sa fréquence dans l'ensemble du corpus"
+msgstr "Measures the relative importance of a word in a document compared to its frequency in the entire corpus"
+
+msgid "Identifie des associations contextuelles entre mots en mettant en avant les cooccurrences importantes plutôt que les simples fréquences"
+msgstr "Identifies contextual associations between words by highlighting significant co-occurrences rather than mere frequencies"
+
+msgid "Résumer rapidement les contenus textuels"
+msgstr "Quickly summarizing textual content"
+
+msgid "Identifier des termes spécifiques à un domaine ou thème particulier"
+msgstr "Identifying terms specific to a particular domain or theme"
+
+msgid "Cooccurrences de mots"
+msgstr "Word Co-occurrences"
+
+msgid "Les <strong>cooccurrences</strong> analysent les mots qui apparaissent fréquemment ensemble dans un contexte donné"
+msgstr "<strong>Co-occurrences</strong> analyze words that frequently appear together in a given context"
+
+msgid "Elles révèlent des relations sémantiques ou syntaxiques"
+msgstr "They reveal semantic or syntactic relationships"
+
+msgid "<strong>Construction de graphes lexicaux</strong> : Identifier des associations fortes entre termes (par exemple, 'pain' et 'fromage')"
+msgstr "<strong>Construction of lexical graphs</strong>: Identifying strong associations between terms (for example, 'bread' and 'cheese')"
+
+msgid "<strong>Découverte de champs sémantiques</strong> : Identifier des groupes de mots liés à une même thématique ou activité"
+msgstr "<strong>Discovery of semantic fields</strong>: Identifying groups of words related to the same theme or activity"
+
+msgid "Les cooccurrences permettent d'explorer les liens implicites dans un texte, contribuant à des analyses plus riches et détaillées"
+msgstr "Co-occurrences allow the exploration of implicit links in a text, contributing to richer and more detailed analyses"
+
+msgid "(Représentations vectorielles)"
+msgstr "(Vector Representations)"
+
+msgid "Les <strong>embeddings</strong> représentent les mots sous forme de vecteurs dans un espace sémantique multidimensionnel, capturant leurs significations et relations contextuelles"
+msgstr "<strong>Embeddings</strong> represent words as vectors in a multidimensional semantic space, capturing their meanings and contextual relationships"
+
+msgid "Cette méthode s'appuie sur la distribution des mots voisins dans les textes"
+msgstr "This method relies on the distribution of neighboring words in texts"
+
+msgid "Concepts clés "
+msgstr "Key Concepts"
+
+msgid "<strong>Sémantique vectorielle</strong> : Chaque mot est positionné dans un espace où les vecteurs proches représentent des mots sémantiquement similaires"
+msgstr "<strong>Vector semantics</strong>: Each word is positioned in a space where nearby vectors represent semantically similar words"
+
+msgid "Modèles comme Word2Vec ou GloVe, où chaque mot a une seule représentation vectorielle"
+msgstr "Models like Word2Vec or GloVe, where each word has a single vector representation"
+
+msgid "Modèles modernes (ex. BERT) qui tiennent compte du contexte d'apparition des mots"
+msgstr "Modern models (e.g., BERT) that take into account the context in which words appear"
+
+msgid "Visualisation "
+msgstr "Visualization"
+
+msgid "Pour des vecteurs de haute dimension, on peut visualiser les similarités en listant les mots les plus proches en termes de cosinus vectoriel (ex. : 'frog' → 'frogs', 'toad', 'lizard')"
+msgstr "For high-dimensional vectors, similarities can be visualized by listing the nearest words in terms of cosine similarity (e.g., 'frog' → 'frogs', 'toad', 'lizard')"
+
+msgid "<strong>Traduction automatique</strong> : Maintenir la cohérence sémantique entre langues"
+msgstr "<strong>Machine Translation</strong>: Maintaining semantic consistency across languages"
+
+msgid "<strong>Analyse thématique</strong> : Grouper des mots liés par le sens"
+msgstr "<strong>Thematic Analysis</strong>: Grouping words linked by meaning"
+
+msgid "<strong>Recherche documentaire</strong> : Trouver des termes similaires ou des concepts apparentés"
+msgstr "<strong>Documentary Research</strong>: Finding similar terms or related concepts"
+
+msgid "Les analyses statistiques en linguistique, qu'elles portent sur la longueur des phrases, les fréquences, les cooccurrences ou les représentations vectorielles, permettent d'explorer les textes de manière rigoureuse et approfondie"
+msgstr "Statistical analyses in linguistics, whether focused on sentence length, frequencies, co-occurrences, or vector representations, allow for rigorous and in-depth text exploration"
+
+msgid "En combinant ces méthodes, il devient possible de mieux comprendre la structure et le contenu des données textuelles, tout en fournissant des bases solides pour des applications avancées comme la traduction automatique, l'analyse de sentiments ou encore la recherche d'information"
+msgstr "By combining these methods, it becomes possible to better understand the structure and content of textual data, while providing solid foundations for advanced applications such as machine translation, sentiment analysis, or information retrieval"
+
+msgid "Introduction aux analyses lexicales"
+msgstr "Introduction to Lexical Analysis"
+
+msgid "Les analyses lexicales constituent un ensemble de méthodes utilisées pour étudier le vocabulaire d'un texte ou d'un corpus, en mettant en lumière sa structure, ses caractéristiques et ses spécificités"
+msgstr "Lexical analyses are a set of methods used to study the vocabulary of a text or corpus, highlighting its structure, characteristics, and specificities"
+
+msgid "Elles jouent un rôle essentiel dans les disciplines comme la linguistique, le traitement automatique du langage naturel (NLP) ou encore les études littéraires"
+msgstr "They play an essential role in disciplines such as linguistics, natural language processing (NLP), and literary studies"
+
+msgid "Ces analyses permettent de comprendre la richesse lexicale, les relations entre les termes, ainsi que les particularités qui émergent dans un document"
+msgstr "These analyses help understand lexical richness, relationships between terms, and the specific features that emerge in a document"
+
+msgid "La <strong>dispersion lexicale</strong> analyse la répartition des termes au sein d'un texte ou d'un corpus. Elle examine dans quelle mesure un mot spécifique est uniformément distribué ou concentré dans certaines parties du document"
+msgstr "<strong>Lexical dispersion</strong> analyzes the distribution of terms within a text or corpus. It examines how uniformly a specific word is distributed or concentrated in certain parts of the document"
+
+msgid "<strong>Études thématiques</strong> : Identifier les sections d'un texte où un mot-clé est particulièrement récurrent, indiquant des passages thématiques importants"
+msgstr "<strong>Thematic Studies</strong>: Identifying sections of a text where a keyword is particularly recurring, indicating important thematic passages"
+
+msgid "<strong>Analyse de style</strong> : Étudier si la répartition des mots varie selon les auteurs ou les genres littéraires"
+msgstr "<strong>Style Analysis</strong>: Studying whether word distribution varies according to authors or literary genres"
+
+msgid "Outils "
+msgstr "Tools"
+
+msgid "Les graphiques de dispersion sont souvent utilisés pour visualiser la répartition des mots, facilitant l'identification de motifs ou de regroupements"
+msgstr "Dispersion charts are often used to visualize word distribution, making it easier to identify patterns or groupings"
+
+msgid "La <strong>diversité lexicale</strong> mesure la richesse du vocabulaire employé dans un texte. Elle évalue la proportion de mots uniques (ou types) par rapport au nombre total de mots (ou tokens)"
+msgstr "<strong>Lexical diversity</strong> measures the richness of vocabulary used in a text. It assesses the proportion of unique words (or types) compared to the total number of words (or tokens)"
+
+msgid "Des métriques comme le Type-Token Ratio (TTR) sont couramment utilisées"
+msgstr "Metrics such as the Type-Token Ratio (TTR) are commonly used"
+
+msgid "<strong>Analyse de style d'auteur</strong> : Déterminer si un auteur emploie un vocabulaire varié ou répétitif"
+msgstr "<strong>Author Style Analysis</strong>: Determining whether an author uses varied or repetitive vocabulary"
+
+msgid "<strong>Études comparatives</strong> : Évaluer la richesse lexicale entre différents textes ou traductions d'une même œuvre"
+msgstr "<strong>Comparative Studies</strong>: Evaluating lexical richness across different texts or translations of the same work"
+
+msgid "La diversité lexicale peut être influencée par la longueur du texte ; des méthodes comme l'indice de Herdan ou la mesure de Guiraud compensent cette limitation"
+msgstr "Lexical diversity can be influenced by text length; methods such as Herdan's index or Guiraud's measure compensate for this limitation"
+
+msgid "Les <strong>relations lexicales</strong> explorent les liens entre différents termes au sein d'un texte"
+msgstr "<strong>Lexical relationships</strong> explore the links between different terms within a text"
+
+msgid "Ces relations peuvent inclure des relations synonymiques, antonymiques, hypernymiques (relation 'is-a'), ou encore des cooccurrences contextuelles"
+msgstr "These relationships may include synonymic, antonymic, hypernymic ('is-a' relationship), or contextual co-occurrences"
+
+msgid "<strong>Cartographie sémantique</strong> : Créer des réseaux de termes pour visualiser les relations entre les mots"
+msgstr "<strong>Semantic Mapping</strong>: Creating term networks to visualize relationships between words"
+
+msgid "<strong>Extraction d'information</strong> : Identifier des associations importantes entre concepts, comme 'maladie' et 'traitement' dans un texte médical"
+msgstr "<strong>Information Extraction</strong>: Identifying important associations between concepts, such as 'disease' and 'treatment' in a medical text"
+
+msgid "Des techniques comme la matrice de cooccurrence ou les graphes de relations permettent de visualiser et d'exploiter ces liens"
+msgstr "Techniques such as co-occurrence matrices or relationship graphs allow for visualizing and exploiting these links"
+
+msgid "Les <strong>spécificités lexicales</strong> identifient les termes qui apparaissent de manière notable dans un corpus donné, comparé à un corpus de référence"
+msgstr "<strong>Lexical specificities</strong> identify terms that appear notably in a given corpus compared to a reference corpus"
+
+msgid "Ces mots-clés spécifiques peuvent signaler les particularités d'un texte ou d'un domaine"
+msgstr "These specific keywords may indicate the peculiarities of a text or a domain"
+
+msgid "<strong>Analyse de discours</strong> : Mettre en évidence les spécificités lexicales propres à un genre ou un auteur"
+msgstr "<strong>Discourse Analysis</strong>: Highlighting lexical specificities unique to a genre or an author"
+
+msgid "<strong>Études comparatives</strong> : Identifier les termes caractéristiques d'un corpus (ex. vocabulaire politique vs vocabulaire scientifique)"
+msgstr "<strong>Comparative Studies</strong>: Identifying characteristic terms of a corpus (e.g., political vocabulary vs scientific vocabulary)"
+
+msgid "Méthodes"
+msgstr "Methods "
+
+msgid "Méthodes "
+msgstr "Methods "
+
+msgid "Les tests statistiques (comme le test de spécificité de Lebart) sont souvent employés pour quantifier et interpréter ces spécificités"
+msgstr "Statistical tests (such as Lebart's specificity test) are often used to quantify and interpret these specificities"
+
+msgid "Les analyses lexicales offrent des perspectives riches et variées pour explorer la structure et le contenu d'un texte ou d'un corpus"
+msgstr "Lexical analyses provide rich and varied perspectives for exploring the structure and content of a text or corpus"
+
+msgid "Que ce soit pour comprendre la distribution des mots, mesurer la diversité lexicale, explorer leurs relations ou identifier leurs spécificités, ces analyses permettent d'approfondir la compréhension et la caractérisation des données textuelles"
+msgstr "Whether it is to understand word distribution, measure lexical diversity, explore their relationships, or identify their specificities, these analyses deepen the understanding and characterization of textual data"
+
+msgid "Elles sont particulièrement utiles dans les domaines académiques, professionnels et technologiques, où la maîtrise du langage joue un rôle central"
+msgstr "They are particularly useful in academic, professional, and technological fields, where language proficiency plays a central role"
+
+msgid "Introduction aux analyses de texte"
+msgstr "Introduction to Text Analysis"
+
+msgid "Les analyses de texte jouent un rôle central dans le traitement automatique du langage naturel (NLP)"
+msgstr "Text analysis plays a central role in natural language processing (NLP)"
+
+msgid "Elles permettent de détecter et de comprendre les émotions, opinions et similarités exprimées dans les textes, que ce soit pour évaluer des états émotionnels, analyser des sentiments, détecter des subjectivités ou comparer des données textuelles"
+msgstr "They help detect and understand emotions, opinions, and similarities expressed in texts, whether to assess emotional states, analyze sentiments, detect subjectivity, or compare textual data"
+
+msgid "Ces outils sont essentiels dans des applications variées, allant du marketing à la recherche académique"
+msgstr "These tools are essential in various applications, ranging from marketing to academic research"
+
+msgid "Détection de subjectivité"
+msgstr "Subjectivity Detection"
+
+msgid "La <strong>détection de subjectivité</strong> consiste à identifier les éléments d'un texte exprimant des opinions, évaluations, émotions ou spéculations subjectives"
+msgstr "<strong>Subjectivity detection</strong> consists of identifying elements in a text that express opinions, evaluations, emotions, or subjective speculations"
+
+msgid "Contrairement aux faits objectifs, ces éléments reflètent les <strong>'états privés'</strong> d'un locuteur ou d'un écrivain, comme ses croyances ou attitudes"
+msgstr "Unlike objective facts, these elements reflect the <strong>'private states'</strong> of a speaker or writer, such as their beliefs or attitudes"
+
+msgid "L'utilisation de <strong>lexiques de polarité</strong>, comme ceux développés par Hatzivassiloglou et McKeown, qui cataloguent des termes porteurs d'émotions ou de jugements (positifs ou négatifs)"
+msgstr "The use of <strong>polarity lexicons</strong>, such as those developed by Hatzivassiloglou and McKeown, which catalog terms carrying emotions or judgments (positive or negative)"
+
+msgid "Identification des phrases ou fragments contenant des opinions marquées, en distinguant les locuteurs ou personnages exprimant ces idées"
+msgstr "Identification of sentences or fragments containing strong opinions, distinguishing the speakers or characters expressing these ideas"
+
+msgid "<strong>Analyse journalistique</strong> : Identifier les biais ou points de vue d'un article"
+msgstr "<strong>Journalistic analysis</strong>: Identify biases or viewpoints in an article"
+
+msgid "<strong>Suivi médiatique</strong> : Détecter des évaluations subjectives dans des revues ou réseaux sociaux"
+msgstr "<strong>Media monitoring</strong>: Detect subjective evaluations in reviews or social media"
+
+msgid "L'<strong>analyse de sentiments</strong> vise à extraire et à interpréter l'orientation positive, négative ou neutre exprimée dans un texte"
+msgstr "<strong>Sentiment analysis</strong> aims to extract and interpret the positive, negative, or neutral orientation expressed in a text"
+
+msgid "Elle permet d'identifier ce qu'un auteur ressent ou pense à propos d'un sujet spécifique, comme un produit, une personne ou une action"
+msgstr "It allows identifying what an author feels or thinks about a specific subject, such as a product, a person, or an action"
+
+msgid "Exemples "
+msgstr "Examples "
+
+msgid "Une critique positive d'un film reflète un sentiment favorable envers le film"
+msgstr "A positive movie review reflects a favorable sentiment towards the movie"
+
+msgid "Une opinion politique peut exprimer un avis négatif envers un candidat ou une décision"
+msgstr "A political opinion may express a negative view of a candidate or a decision"
+
+msgid "<strong>Marketing</strong> : Mesurer les avis consommateurs à travers des critiques de produits"
+msgstr "<strong>Marketing</strong>: Measure consumer opinions through product reviews"
+
+msgid "<strong>Politique</strong> : Évaluer l'opinion publique sur des candidats ou politiques à partir d'éditoriaux ou de tweets"
+msgstr "<strong>Politics</strong>: Assess public opinion on candidates or policies based on editorials or tweets"
+
+msgid "L'<strong>analyse d'émotions</strong> va au-delà de l'analyse de sentiments en se concentrant sur des <strong>émotions spécifiques</strong> (par exemple : colère, joie, peur, tristesse)"
+msgstr "<strong>Emotion analysis</strong> goes beyond sentiment analysis by focusing on <strong>specific emotions</strong> (e.g., anger, joy, fear, sadness)"
+
+msgid "Scherer (2000) définit une émotion comme une <strong>réaction brève</strong> à un événement perçu comme significatif"
+msgstr "Scherer (2000) defines an emotion as a <strong>brief reaction</strong> to an event perceived as significant"
+
+msgid "<strong>Interaction homme-machine</strong> : Les systèmes éducatifs ou de dialogue peuvent détecter si un utilisateur est frustré, confiant ou hésitant"
+msgstr "<strong>Human-computer interaction</strong>: Educational or dialogue systems can detect whether a user is frustrated, confident, or hesitant"
+
+msgid "<strong>NLP médical</strong> : Identifier des signaux émotionnels liés à la dépression ou à des tendances suicidaires à partir de blogs ou journaux personnels"
+msgstr "<strong>Medical NLP</strong>: Identifying emotional signals related to depression or suicidal tendencies from blogs or personal journals"
+
+msgid "<strong>Analyse littéraire</strong> : Étudier les émotions envers des personnages dans des romans, pour explorer les perceptions sociales à travers le temps"
+msgstr "<strong>Literary analysis</strong>: Studying emotions towards characters in novels to explore social perceptions over time"
+
+msgid "Exemples émotionnels "
+msgstr "Emotional examples "
+
+msgid "<strong>Positifs</strong> : Fierté, joie, élévation"
+msgstr "<strong>Positive</strong>: Pride, joy, elevation"
+
+msgid "<strong>Négatifs</strong> : Colère, désespoir, peur"
+msgstr "<strong>Negative</strong>: Anger, despair, fear"
+
+msgid "Le <strong>score de lecture</strong> est une mesure quantitative qui évalue la complexité d'un texte en fonction de paramètres comme la longueur des phrases ou la fréquence des mots complexes"
+msgstr "The <strong>reading score</strong> is a quantitative measure that evaluates text complexity based on parameters such as sentence length or the frequency of complex words"
+
+msgid "Ces scores sont utilisés pour déterminer si un texte est adapté à un public cible, qu'il s'agisse d'enfants, d'adultes ou de lecteurs spécialisés"
+msgstr "These scores are used to determine whether a text is suitable for a target audience, whether children, adults, or specialized readers"
+
+msgid "<strong>Éducation</strong> : Évaluer si un texte est lisible pour un niveau scolaire spécifique"
+msgstr "<strong>Education</strong>: Assess whether a text is readable for a specific school level"
+
+msgid "<strong>Accessibilité</strong> : Produire du contenu compréhensible pour un public général"
+msgstr "<strong>Accessibility</strong>: Produce content understandable for a general audience"
+
+msgid "Comparaison et distance d'édition"
+msgstr "Comparison and edit distance"
+
+msgid "La <strong>comparaison textuelle</strong> utilise des algorithmes pour mesurer les similarités ou différences entre deux chaînes de caractères"
+msgstr "<strong>Text comparison</strong> uses algorithms to measure similarities or differences between two character strings"
+
+msgid "La <strong>distance d'édition (Edit Distance)</strong> calcule le nombre minimal d'opérations nécessaires (insertions, suppressions, substitutions) pour transformer une chaîne en une autre"
+msgstr "The <strong>edit distance</strong> calculates the minimum number of operations required (insertions, deletions, substitutions) to transform one string into another"
+
+msgid "<strong>Correction orthographique</strong> : Proposer des corrections pour des mots mal orthographiés"
+msgstr "<strong>Spell checking</strong>: Suggest corrections for misspelled words"
+
+msgid "<strong>Reconnaissance vocale</strong> : Évaluer la similarité entre les chaînes transcrites et les textes de référence"
+msgstr "<strong>Speech recognition</strong>: Evaluate the similarity between transcribed strings and reference texts"
+
+msgid "<strong>Résolution de co-références</strong> : Identifier les éléments textuels représentant la même entité"
+msgstr "<strong>Coreference resolution</strong>: Identify textual elements representing the same entity"
+
+msgid "Avantages "
+msgstr "Advantages "
+
+msgid "La distance d'édition est une méthode quantitative utile pour comparer des textes tout en maintenant une certaine flexibilité pour les variations syntaxiques ou lexicales"
+msgstr "Edit distance is a useful quantitative method for comparing texts while maintaining some flexibility for syntactic or lexical variations"
+
+msgid "Les analyses de texte, qu'il s'agisse de la détection de subjectivité, de l'analyse de sentiments et d'émotions, du calcul de scores de lecture ou des comparaisons textuelles, offrent des perspectives riches pour comprendre et exploiter les données textuelles"
+msgstr "Text analysis, whether in subjectivity detection, sentiment and emotion analysis, reading score calculation, or textual comparisons, provides rich insights for understanding and leveraging textual data"
+
+msgid "Elles trouvent des applications dans des domaines variés, allant des interactions homme-machine à la recherche sociale, en fournissant des outils pour analyser et interpréter les textes sous différentes dimensions"
+msgstr "They find applications in various fields, ranging from human-computer interactions to social research, providing tools to analyze and interpret texts from different perspectives"
+
+msgid "La reconnaissance des entités nommées (REN)"
+msgstr "Named Entity Recognition (NER)"
+
+msgid "La <strong>reconnaissance des entités nommées (REN)</strong>, ou <strong>Named Entity Recognition (NER)</strong> en anglais, est une tâche clé du traitement automatique du langage naturel (NLP)"
+msgstr "<strong>Named Entity Recognition (NER)</strong> is a key task in natural language processing (NLP)"
+
+msgid "Elle consiste à identifier dans un texte des portions spécifiques qui correspondent à des entités et à leur attribuer un type particulier"
+msgstr "It involves identifying specific portions of text that correspond to entities and assigning them a particular type"
+
+msgid "Une entité nommée, de manière générale, désigne tout élément qui peut être référencé par un nom propre, comme une personne, un lieu ou une organisation"
+msgstr "A named entity generally refers to any element that can be referenced by a proper name, such as a person, place, or organization"
+
+msgid "Cependant, le concept d'entité nommée peut être élargi pour inclure des dates, des expressions temporelles, des prix ou d'autres formes d'expressions numériques"
+msgstr "However, the concept of a named entity can be expanded to include dates, temporal expressions, prices, or other forms of numerical expressions"
+
+msgid "Les étiquettes les plus courantes"
+msgstr "The most common labels"
+
+msgid "Dans le cadre de la REN, les entités détectées sont généralement classées sous des étiquettes standardisées "
+msgstr "In NER, detected entities are generally classified under standardized labels"
+
+msgid "Personnes (exemple : Albert Einstein)"
+msgstr "People (e.g., Albert Einstein)"
+
+msgid "Lieux géographiques (exemple : Mont Everest)"
+msgstr "Geographical locations (e.g., Mount Everest)"
+
+msgid "Organisations (exemple : Unesco)"
+msgstr "Organizations (e.g., UNESCO)"
+
+msgid "Entités géopolitiques comme des pays ou des villes (exemple : France, Tokyo)"
+msgstr "Geopolitical entities such as countries or cities (e.g., France, Tokyo)"
+
+msgid "D'autres catégories peuvent être ajoutées selon les besoins spécifiques d'un projet, comme les expressions temporelles ('20 mars 2025') ou les valeurs numériques ('100 €')"
+msgstr "Other categories can be added depending on the specific needs of a project, such as temporal expressions ('March 20, 2025') or numerical values ('100 €')"
+
+msgid "Défis de la REN"
+msgstr "Challenges of NER"
+
+msgid "Bien que la reconnaissance des entités nommées joue un rôle crucial dans l'analyse textuelle, elle présente plusieurs défis "
+msgstr "Although named entity recognition plays a crucial role in text analysis, it presents several challenges"
+
+msgid "L'ambiguïté de segmentation"
+msgstr "Segmentation ambiguity"
+
+msgid "La REN nécessite de délimiter correctement les entités nommées dans un texte, ce qui n'est pas toujours évident"
+msgstr "NER requires correctly delimiting named entities in a text, which is not always straightforward"
+
+msgid "Tous les mots ne sont pas des entités, et il peut être difficile de déterminer les frontières exactes des entités. Par exemple, dans 'Université Paris-Saclay', l'entité doit être reconnue comme un tout, plutôt qu'en parties distinctes"
+msgstr "Not all words are entities, and determining the exact boundaries of entities can be challenging. For example, in 'Université Paris-Saclay', the entity should be recognized as a whole rather than as separate parts"
+
+msgid "L'ambiguïté de type"
+msgstr "Type ambiguity"
+
+msgid "Une même mention peut correspondre à plusieurs types d'entités selon le contexte"
+msgstr "The same mention can correspond to multiple entity types depending on the context"
+
+msgid "Le terme <strong>JFK</strong>, par exemple, peut désigner une personne (John F. Kennedy), un aéroport, ou même une école ou un pont"
+msgstr "The term <strong>JFK</strong>, for example, can refer to a person (John F. Kennedy), an airport, or even a school or a bridge"
+
+msgid "Entités nouvelles ou inconnues"
+msgstr "New or unknown entities"
+
+msgid "Les systèmes de REN peuvent avoir des difficultés avec des noms ou expressions qu'ils n'ont jamais vus auparavant, comme des noms propres récents ou des abréviations spécifiques à un domaine"
+msgstr "NER systems may struggle with names or expressions they have never encountered before, such as newly coined proper names or domain-specific abbreviations"
+
+msgid "Applications de la REN"
+msgstr "Applications of NER"
+
+msgid "La REN est utilisée dans de nombreux domaines et applications "
+msgstr "NER is used in various fields and applications"
+
+msgid "Extraction d'information"
+msgstr "Information extraction"
+
+msgid "Identifier automatiquement des informations clés dans de vastes volumes de données, comme les noms des intervenants dans un texte ou les lieux d'un événement"
+msgstr "Automatically identifying key information in large volumes of data, such as the names of participants in a text or the locations of an event"
+
+msgid "Systèmes de recherche d'information"
+msgstr "Information retrieval systems"
+
+msgid "Améliorer la recherche documentaire en focalisant sur les entités nommées plutôt que sur des mots-clés généraux"
+msgstr "Improving document retrieval by focusing on named entities rather than general keywords"
+
+msgid "Examiner les opinions ou sentiments associés à des entités spécifiques"
+msgstr "Analyzing opinions or sentiments associated with specific entities"
+
+msgid "Reconnaître et traduire correctement les noms propres ou entités spécifiques d'un texte source vers une langue cible"
+msgstr "Recognizing and correctly translating proper names or specific entities from a source text into a target language"
+
+msgid "Reconnaissance vocale"
+msgstr "Speech recognition"
+
+msgid "Mieux interpréter les noms propres ou termes uniques dans les commandes vocales"
+msgstr "Better interpreting proper names or unique terms in voice commands"
+
+msgid "Méthodes et outils pour la REN"
+msgstr "Methods and tools for NER"
+
+msgid "La reconnaissance des entités nommées repose sur des approches variées "
+msgstr "Named entity recognition relies on various approaches"
+
+msgid "<strong>Basée sur des règles</strong> : Les premières méthodes s'appuyaient sur des règles linguistiques prédéfinies et des expressions régulières"
+msgstr "<strong>Rule-based</strong>: Early methods relied on predefined linguistic rules and regular expressions"
+
+msgid "<strong>Apprentissage automatique</strong> : Les modèles modernes utilisent des algorithmes d'apprentissage supervisé, comme les CRF (Conditional Random Fields), ou non supervisé"
+msgstr "<strong>Machine learning</strong>: Modern models use supervised learning algorithms, such as Conditional Random Fields (CRF), or unsupervised learning"
+
+msgid "<strong>Apprentissage profond</strong> : Des architectures comme les réseaux neuronaux récurrents (RNN), ou les modèles basés sur les transformeurs comme BERT, offrent des performances de pointe en REN"
+msgstr "<strong>Deep learning</strong>: Architectures such as recurrent neural networks (RNNs) or transformer-based models like BERT provide state-of-the-art performance in NER"
+
+msgid "Des outils comme <strong>SpaCy</strong>, <strong>Stanford NER</strong>, ou <strong>Pandore</strong> mettent ces techniques à disposition, offrant des performances robustes et adaptées à divers contextes linguistiques"
+msgstr "Tools such as <strong>SpaCy</strong>, <strong>Stanford NER</strong>, or <strong>Pandore</strong> provide access to these techniques, offering robust performance adapted to various linguistic contexts"
+
+msgid "La reconnaissance des entités nommées (REN) est un pilier fondamental du traitement automatique de texte, permettant d'extraire et de structurer des informations précieuses dans des données non structurées"
+msgstr "Named entity recognition (NER) is a fundamental pillar of text processing, enabling the extraction and structuring of valuable information from unstructured data"
+
+msgid "Bien qu'elle présente des défis, notamment en termes d'ambiguïté et de segmentation, les avancées technologiques, notamment en apprentissage profond, ont considérablement amélioré sa précision"
+msgstr "Although it presents challenges, particularly in terms of ambiguity and segmentation, technological advances, especially in deep learning, have significantly improved its accuracy"
+
+msgid "Avec des applications qui vont de l'extraction d'informations à l'analyse avancée des données textuelles, la REN continue de jouer un rôle crucial dans les domaines du NLP et au-delà"
+msgstr "With applications ranging from information extraction to advanced text data analysis, NER continues to play a crucial role in NLP and beyond"
+
+msgid "L'étiquetage morphosyntaxique (Part-of-Speech Tagging)"
+msgstr "Morphosyntactic tagging (Part-of-Speech Tagging)"
+
+msgid "L'étiquetage morphosyntaxique, également appelé <strong>Part-of-Speech tagging (POS tagging)</strong>, est une méthode de traitement automatique du langage naturel (NLP) qui consiste à attribuer une catégorie grammaticale à chaque mot d'un texte"
+msgstr "<strong>Part-of-Speech tagging (POS tagging)</strong> is a natural language processing (NLP) method that assigns a grammatical category to each word in a text"
+
+msgid "Cette tâche est fondamentale pour analyser et structurer le contenu linguistique de manière automatisée. Elle repose sur deux grandes étapes "
+msgstr "This task is fundamental for analyzing and structuring linguistic content automatically. It is based on two main steps"
+
+msgid "<strong>Tokenisation</strong> : Le texte est d'abord segmenté en unités fondamentales, ici les mots, appelées 'tokens'"
+msgstr "<strong>Tokenization</strong>: The text is first segmented into fundamental units, here words, called 'tokens'"
+
+msgid "<strong>Étiquetage</strong> : Chaque token se voit assigner une catégorie grammaticale correspondant à son rôle dans la phrase"
+msgstr "<strong>Tagging</strong>: Each token is assigned a grammatical category corresponding to its role in the sentence"
+
+msgid "Par exemple, l'analyse de la phrase <em>'Le petit chat dort.'</em> avec étiquetage morphosyntaxique donnerait "
+msgstr "For example, analyzing the sentence <em>'Le petit chat dort.'</em> with morphosyntactic tagging would yield"
+
+msgid "déterminant"
+msgstr "determiner"
+
+msgid "adjectif"
+msgstr "adjective"
+
+msgid "nom commun"
+msgstr "common noun"
+
+msgid "verbe"
+msgstr "verb"
+
+msgid "ponctuation"
+msgstr "punctuation"
+
+msgid "À quoi sert l'étiquetage morphosyntaxique "
+msgstr "What is the purpose of morphosyntactic tagging?"
+
+msgid "Cet étiquetage fournit une analyse linguistique détaillée qui peut être utilisée dans diverses applications "
+msgstr "This tagging provides a detailed linguistic analysis that can be used in various applications"
+
+msgid "<strong>Comparaison de traductions et éditions</strong> : Identifier les différences entre deux versions d'un même texte, notamment au niveau grammatical"
+msgstr "<strong>Comparison of translations and editions</strong>: Identifying differences between two versions of the same text, particularly at the grammatical level"
+
+msgid "<strong>Filtrage de termes</strong> : Extraire les verbes, noms propres ou toute autre catégorie pour des analyses spécifiques"
+msgstr "<strong>Term filtering</strong>: Extracting verbs, proper nouns, or any other category for specific analyses"
+
+msgid "<strong>Prétraitement pour des tâches complexes</strong> : Les modèles avancés comme ceux de traduction automatique ou d'analyse sémantique dépendent fortement de cette catégorisation"
+msgstr "<strong>Preprocessing for complex tasks</strong>: Advanced models, such as those for machine translation or semantic analysis, heavily rely on this categorization"
+
+msgid "Les catégories morphosyntaxiques courantes"
+msgstr "Common morphosyntactic categories"
+
+msgid "Voici les principales catégories de POS utilisées dans l'étiquetage morphosyntaxique, accompagnées de leurs explications "
+msgstr "Here are the main POS categories used in morphosyntactic tagging, along with their explanations"
+
+msgid "Catégorie"
+msgstr "Category"
+
+msgid "Abréviation"
+msgstr "Abbreviation"
+
+msgid "Description"
+msgstr "Description"
+
+msgid "Nom commun"
+msgstr "Noun"
+
+msgid "Désigne des objets ou concepts (ex. 'chat', 'table')"
+msgstr "Refers to objects or concepts (e.g., 'cat', 'table')"
+
+msgid "Nom propre"
+msgstr "Proper noun"
+
+msgid "Utilisé pour les noms de personnes, lieux, événements (ex. 'Paris', 'Marie')"
+msgstr "Used for names of people, places, events (e.g., 'Paris', 'Marie')"
+
+msgid "Verbe"
+msgstr "Verb"
+
+msgid "Identifie les actions ou états (ex. 'dormir', 'être')"
+msgstr "Identifies actions or states (e.g., 'to sleep', 'to be')"
+
+msgid "Adjectif"
+msgstr "Adjective"
+
+msgid "Qualifie ou décrit un nom (ex. 'petit', 'rapide')"
+msgstr "Qualifies or describes a noun (e.g., 'small', 'fast')"
+
+msgid "Déterminant"
+msgstr "Determiner"
+
+msgid "Introduit ou précise un nom (ex. 'le', 'un')"
+msgstr "Introduces or specifies a noun (e.g., 'the', 'a')"
+
+msgid "Adverbe"
+msgstr "Adverb"
+
+msgid "Modifie un verbe, un adjectif ou une phrase (ex. 'lentement', 'très')"
+msgstr "Modifies a verb, an adjective, or a sentence (e.g., 'slowly', 'very')"
+
+msgid "Conjonction"
+msgstr "Conjunction"
+
+msgid "Connecte des mots ou phrases (ex. 'et', 'mais')"
+msgstr "Connects words or sentences (e.g., 'and', 'but')"
+
+msgid "Préposition"
+msgstr "Preposition"
+
+msgid "Introduit un complément (ex. 'à', 'dans')"
+msgstr "Introduces a complement (e.g., 'to', 'in')"
+
+msgid "PONCT"
+msgstr "PUNCT"
+
+msgid "Marque les fins ou séparations (ex. '.', ',', '!')"
+msgstr "Marks sentence endings or separations (e.g., '.', ',', '!')"
+
+msgid "Pronom"
+msgstr "Pronoun"
+
+msgid "Remplace un nom ou indique une personne (ex. 'je', 'elle')"
+msgstr "Replaces a noun or indicates a person (e.g., 'I', 'she')"
+
+msgid "Cette liste peut varier selon les langues et les corpus, mais elle constitue une base commune pour la plupart des systèmes"
+msgstr "This list may vary depending on languages and corpora, but it forms a common basis for most systems"
+
+msgid "Défis de l'étiquetage morphosyntaxique"
+msgstr "Challenges of part-of-speech tagging"
+
+msgid "L'étiquetage morphosyntaxique est une tâche complexe pour plusieurs raisons "
+msgstr "Part-of-speech tagging is a complex task for several reasons"
+
+msgid "<strong>Ambiguïté contextuelle</strong> : Certains mots peuvent appartenir à différentes catégories selon leur usage dans une phrase"
+msgstr "<strong>Contextual ambiguity</strong>: Some words can belong to different categories depending on their use in a sentence"
+
+msgid "Par exemple, le mot <em>'chat'</em> peut être un nom commun ou un verbe en anglais (<em>to chat</em>)"
+msgstr "For example, the word <em>'chat'</em> can be a noun or a verb in English (<em>to chat</em>)"
+
+msgid "<strong>Précision sur les frontières de tokens</strong> : La segmentation en unités comme les contractions ('n'est-ce pas') ou les expressions composées peut poser des problèmes"
+msgstr "<strong>Token boundary precision</strong>: Segmentation into units like contractions ('isn't it') or compound expressions can pose challenges"
+
+msgid "<strong>Complexité linguistique</strong> : Chaque langue a ses propres subtilités grammaticales, nécessitant une adaptation des modèles"
+msgstr "<strong>Linguistic complexity</strong>: Each language has its own grammatical subtleties, requiring model adaptation"
+
+msgid "L'étiquetage morphosyntaxique est une étape fondamentale dans l'analyse linguistique automatique, offrant une compréhension détaillée des rôles grammaticaux des mots dans un texte"
+msgstr "Part-of-speech tagging is a fundamental step in automatic linguistic analysis, providing a detailed understanding of grammatical roles in a text"
+
+msgid "Grâce à l'utilisation de catégories comme les noms, adjectifs ou verbes, il permet d'extraire des informations précieuses et de servir de base pour des tâches complexes en NLP"
+msgstr "By using categories such as nouns, adjectives, or verbs, it enables the extraction of valuable information and serves as a foundation for complex NLP tasks"
+
+msgid "Les défis liés à l'ambiguïté et à la richesse du langage nécessitent des algorithmes sophistiqués, mais les progrès technologiques dans ce domaine rendent cette analyse de plus en plus précise et utile"
+msgstr "Challenges related to ambiguity and language richness require sophisticated algorithms, but technological advances in this field are making this analysis increasingly precise and useful"
+
+msgid "Introduction aux catégories sémantiques"
+msgstr "Introduction to semantic categories"
+
+msgid "Les <strong>catégories sémantiques</strong> jouent un rôle fondamental dans le domaine du traitement du langage naturel (NLP) et de l'analyse linguistique. Elles regroupent les mots ou expressions ayant des significations similaires ou appartenant à un même champ conceptuel"
+msgstr "<strong>Semantic categories</strong> play a fundamental role in natural language processing (NLP) and linguistic analysis. They group words or expressions with similar meanings or belonging to the same conceptual field"
+
+msgid "Par exemple, les mots 'chien', 'chat' et 'oiseau' peuvent être classés dans la catégorie sémantique des 'animaux'. Ces classifications permettent de structurer et d'organiser le sens des mots afin de faciliter leur analyse et leur traitement"
+msgstr "For example, the words 'dog', 'cat', and 'bird' can be classified into the semantic category of 'animals'. These classifications help structure and organize word meanings to facilitate analysis and processing"
+
+msgid "Définition des catégories sémantiques"
+msgstr "Definition of semantic categories"
+
+msgid "Les catégories sémantiques consistent à regrouper des termes selon leur signification ou leur rôle conceptuel. Ce regroupement se fait souvent en fonction de critères comme "
+msgstr "Semantic categories involve grouping terms based on their meaning or conceptual role. This grouping is often based on criteria such as"
+
+msgid "<strong>Le sens partagé</strong> : Les mots ayant un sens commun (ex. : 'soleil', 'étoile', 'planète' pour la catégorie 'astres')"
+msgstr "<strong>Shared meaning</strong>: Words with a common meaning (e.g., 'sun', 'star', 'planet' for the 'celestial bodies' category)"
+
+msgid "<strong>La fonction ou le contexte</strong> : Les termes utilisés dans un contexte spécifique ou ayant une fonction similaire (ex. : 'manger', 'cuisiner', 'préparer' pour la catégorie 'actions liées à l'alimentation')"
+msgstr "<strong>Function or context</strong>: Terms used in a specific context or with a similar function (e.g., 'eat', 'cook', 'prepare' for the 'food-related actions' category)"
+
+msgid "<strong>Les relations hiérarchiques ou associatives</strong> : Les termes liés par des relations comme la hiérarchie ou la complémentarité (ex. : 'mammifères' comme catégorie englobant 'chien' et 'chat')"
+msgstr "<strong>Hierarchical or associative relationships</strong>: Terms linked by relationships such as hierarchy or complementarity (e.g., 'mammals' as a category encompassing 'dog' and 'cat')"
+
+msgid "Ces catégories permettent de connecter les mots à des champs sémantiques plus larges, facilitant ainsi l'interprétation de leurs significations dans différents contextes"
+msgstr "These categories connect words to broader semantic fields, facilitating the interpretation of their meanings in different contexts"
+
+msgid "À quoi servent les catégories sémantiques "
+msgstr "What are semantic categories used for?"
+
+msgid "1. Organisation et simplification des données linguistiques"
+msgstr "1. Organization and simplification of linguistic data"
+
+msgid "En regroupant des termes proches en catégories, les catégories sémantiques permettent de simplifier les analyses textuelles"
+msgstr "By grouping related terms into categories, semantic categories help simplify text analysis"
+
+msgid "Par exemple, au lieu d'examiner individuellement les mots 'pomme', 'banane' et 'orange', on peut traiter ces mots sous une seule catégorie 'fruits'"
+msgstr "For example, instead of analyzing the words 'apple', 'banana', and 'orange' individually, they can be grouped under the 'fruits' category"
+
+msgid "2. Analyse et extraction d'informations"
+msgstr "2. Analysis and information extraction"
+
+msgid "Les catégories sémantiques sont largement utilisées dans l'extraction d'information pour identifier et organiser des éléments clés dans des textes volumineux. Par exemple "
+msgstr "Semantic categories are widely used in information extraction to identify and organize key elements in large texts. For example"
+
+msgid "Identifier toutes les mentions de noms d'animaux dans un corpus scientifique"
+msgstr "Identify all mentions of animal names in a scientific corpus"
+
+msgid "Regrouper des événements similaires dans des articles d'actualité"
+msgstr "Group similar events in news articles"
+
+msgid "3. Résolution d'ambiguïté lexicale"
+msgstr "3. Lexical ambiguity resolution"
+
+msgid "Dans un contexte donné, un mot peut avoir plusieurs significations. Les catégories sémantiques aident à réduire cette ambiguïté"
+msgstr "In a given context, a word can have multiple meanings. Semantic categories help reduce this ambiguity"
+
+msgid "Par exemple, le mot 'banc' peut appartenir à la catégorie 'mobilier' (un banc pour s'asseoir) ou 'finance' (un établissement bancaire)"
+msgstr "For example, the word 'banc' can belong to the 'furniture' category (a bench for sitting) or 'finance' (a banking institution)"
+
+msgid "4. Tâches d'apprentissage automatique (machine learning)"
+msgstr "4. Machine learning tasks"
+
+msgid "Les catégories sémantiques sont intégrées dans les modèles NLP pour améliorer leur performance "
+msgstr "Semantic categories are integrated into NLP models to improve their performance"
+
+msgid "<strong>Analyse de sentiments</strong> : Identifier les termes émotionnels pour détecter si un texte exprime une opinion positive, négative ou neutre"
+msgstr "<strong>Sentiment analysis</strong>: Identify emotional terms to detect whether a text expresses a positive, negative, or neutral opinion"
+
+msgid "<strong>Traduction automatique</strong> : Comprendre le contexte d'un mot pour choisir la traduction appropriée"
+msgstr "<strong>Machine translation</strong>: Understand the context of a word to choose the appropriate translation"
+
+msgid "<strong>Recherche documentaire</strong> : Classer les documents selon leurs thématiques en fonction des catégories sémantiques"
+msgstr "<strong>Document retrieval</strong>: Classify documents according to their themes based on semantic categories"
+
+msgid "5. Interaction homme-machine"
+msgstr "5. Human-machine interaction"
+
+msgid "Les catégories sémantiques permettent de rendre les systèmes d'intelligence artificielle plus intuitifs"
+msgstr "Semantic categories make artificial intelligence systems more intuitive"
+
+msgid "Par exemple, lorsqu'un utilisateur demande à un assistant vocal de 'montrer des recettes de fruits', le système peut chercher dans la catégorie des 'fruits' et lier cette requête à des recettes comprenant des pommes, des bananes"
+msgstr "For example, when a user asks a voice assistant to 'show fruit recipes,' the system can search in the 'fruits' category and link this request to recipes containing apples, bananas"
+
+msgid "Exemples d'applications pratiques"
+msgstr "Examples of practical applications"
+
+msgid "<strong>Base de données lexicales</strong> : Les ressources comme WordNet organisent les mots par catégories sémantiques, facilitant les recherches lexicales et la compréhension des relations entre termes"
+msgstr "<strong>Lexical databases</strong>: Resources like WordNet organize words by semantic categories, facilitating lexical searches and understanding relationships between terms"
+
+msgid "<strong>Analyse de corpus</strong> : Lorsqu'un linguiste étudie un texte, les catégories sémantiques permettent d'observer la fréquence d'apparition de certains types de mots (par exemple, les 'noms d'outils' dans une œuvre technique)"
+msgstr "<strong>Corpus analysis</strong>: When a linguist studies a text, semantic categories help observe the frequency of certain types of words (e.g., 'tool names' in a technical work)"
+
+msgid "<strong>Éducation et apprentissage des langues</strong> : Les exercices de vocabulaire classent souvent les mots en catégories, aidant les apprenants à établir des connexions entre eux"
+msgstr "<strong>Education and language learning</strong>: Vocabulary exercises often classify words into categories, helping learners establish connections between them"
+
+msgid "Les catégories sémantiques offrent une méthode puissante pour structurer, analyser et exploiter des données linguistiques complexes"
+msgstr "Semantic categories provide a powerful method for structuring, analyzing, and utilizing complex linguistic data"
+
+msgid "Elles jouent un rôle clé dans divers domaines, allant de la recherche linguistique à l'intelligence artificielle, en passant par l'extraction d'informations"
+msgstr "They play a key role in various fields, ranging from linguistic research to artificial intelligence and information extraction"
+
+msgid "En regroupant les mots selon leur sens et leur contexte, elles permettent de simplifier les analyses, de résoudre les ambiguïtés et de construire des systèmes intelligents capables de mieux comprendre et interagir avec le langage humain"
+msgstr "By grouping words according to their meaning and context, they simplify analyses, resolve ambiguities, and enable the development of intelligent systems capable of better understanding and interacting with human language"

@@ -15,6 +15,8 @@
         <li><hi style="font-weight: bold;">{{ _('Co-occurrences') }} (Option 3)</hi> : {{ _('Fréquence à laquelle deux éléments apparaissent ensemble dans un contexte') }}</li>
     </ul></p></div>
     <br>
+    <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_analyses') }}"  target="_blank">{{ _('Voir la documentation') }}</a></p>
+    <br>
     <form action="{{ url_for('analyze_statistic') }}" id="linguistic-form" method="post" enctype="multipart/form-data" onsubmit="showloader('loader')">
         <div class="centered-div">
             <label for="analysis_type">{{ _("Choisir le type d'analyse") }} :</label>

@@ -3,40 +3,101 @@
 {% block content %}
 
 <style>
-.item-list {
-    list-style: none;
-    padding: 0;
+.outil li {
+    margin-left: 3em;
 }
 
-.item-list li {
-    margin: 10px;
-    display: flex;
-    align-items: center;
+.outil strong {
+    color: #f2a800;
 }
 
-.item-list img {
-    max-width: 130px; /* Ajustez la largeur maximale de l'image selon vos besoins */
-    height: auto;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    margin-right: 30px; /* Ajoute un espace entre l'image et le texte */
-}
-
-.item-list p {
-    margin: 5px 0 0;
-}
-.item-list li:hover {
-    color:#f2a800;
-	cursor: pointer;
+.outil h4{
+  font-family: 'Roboto', sans-serif;
+  font-size:1.2em;
+  margin:28px 0;
+  border-left: 5px solid #f2a800;
+  color: #263e8d;
+  padding:10px;
 }
 
 </style>
 
 <div class="outil">
-	<div class="doc-intro">
-	<h2 style="font-family:'Comprehension', serif;">Extraction d'informations</h2>
-	<p>Documentation à venir</p>
-	</div>
+    <div class="fil"> </div>
+	<div style="text-align: left;"><a href="{{ url_for('documentation_annotation')}}" style="color:#f2a800; text-decoration:none;"><< {{ _('Documentation précédente') }}</a></div>
+    <div style="text-align: right;"><a href="{{ url_for('documentation_analyses')}}" style="color:#f2a800; text-decoration:none;">{{ _('Documentation suivante') }} >></a></div>
+<div class="tool-box">
+    <h2>{{ _("Introduction à l'extraction d'informations (Information Extraction)") }}</h2>
+    <p>
+        {{ _("L'extraction d'informations (IE) est un processus essentiel du traitement automatique des langues (NLP), qui vise à convertir des données textuelles non structurées en informations organisées et exploitables") }}. {{ _("Cette technique permet de détecter, structurer et extraire des éléments clés d'un texte afin de les utiliser dans des bases de données relationnelles ou d'autres systèmes de traitement") }}. {{ _("Elle constitue une étape fondamentale pour automatiser l'analyse de grands corpus et transformer des textes bruts en données intelligentes") }}.
+    </p>
+    <hr>
+    <h2>{{ _("Extraction automatique de mots-clés") }}</h2>
+    <p>
+        {{ _("L'extraction automatique de mots-clés est une tâche visant à identifier les termes les plus représentatifs du contenu d'un document ou d'un corpus") }}. {{ _("Elle repose sur des algorithmes capables de ") }}:
+    </p>
+    <ul>
+        <li><strong>{{ _("Représentation mathématique") }}</strong> : {{ _("Construire une modélisation mathématique du document afin d'évaluer le poids de chaque mot ou segment") }}.</li>
+        <li><strong>{{ _("Analyse de similarité") }}</strong> : {{ _("Identifier les mots ou groupes de mots ayant une représentation proche de celle du document global") }}.</li>
+    </ul>
+    <h4>{{ _("Applications principales ") }}:</h4>
+    <ul>
+        <li><strong>{{ _("Résumé rapide") }}</strong> : {{ _("Permet d'obtenir une vue synthétique du contenu des grands corpus") }}.</li>
+        <li><strong>{{ _("Optimisation des recherches") }}</strong> : {{ _("Facilite la recherche documentaire en concentrant l'analyse sur les termes significatifs") }}.</li>
+    </ul>
+    <h4>{{ _("Avantages ") }}:</h4>
+    <p>
+        {{ _("L'extraction de mots-clés est particulièrement utile pour traiter de vastes quantités de données textuelles") }}. {{ _("Elle offre une façon pratique de comprendre rapidement le contenu sans lire l'ensemble du document") }}.
+    </p>
+    <hr>
+    <h2>Topic Modelling</h2>
+    <p>
+        {{ _("Le <strong>modélisation de sujets</strong> ou <strong>Topic Modelling</strong> est une méthode qui vise à identifier les structures thématiques dans un texte") }}. {{ _("Cette technique repose sur la notion de <strong>champs sémantiques</strong>, qui sont des ensembles de mots liés par un domaine ou une thématique. Par exemple ") }}:
+    </p>
+    <ul>
+        <li>{{ _("<strong>Hôpital</strong> : 'chirurgien', 'scalpel', 'infirmière', 'anesthésie'") }}.</li>
+        <li>{{ _("<strong>Restaurant</strong> : 'serveur', 'menu', 'assiette', 'chef'") }}.</li>
+        <li>{{ _("<strong>Maison</strong> : 'porte', 'toit', 'cuisine', 'lit'") }}.</li>
+    </ul>
+    <p>
+        {{ _("Le Topic Modelling utilise des algorithmes d'apprentissage non supervisé comme le <strong>Latent Dirichlet Allocation (LDA)</strong> pour induire des groupes de mots associés à partir de textes") }}. {{ _("Les champs sémantiques et le Topic Modelling sont extrêmement utiles pour découvrir les structures thématiques sous-jacentes dans de grands corpus documentaires") }}.
+    </p>
+    <h4>Applications :</h4>
+    <ul>
+        <li><strong>{{ _("Analyse thématique") }}</strong> : {{ _("Identifier les sujets dominants dans un texte") }}.</li>
+        <li><strong>{{ _("Clustering automatique") }}</strong> : {{ _("Grouper des documents par similarité thématique") }}.</li>
+    </ul>
+    <h4>{{ _("Avantages et relations avec d'autres concepts ") }}:</h4>
+    <ul>
+        <li>{{ _("<strong>Hyponymie ou IS-A</strong> : 'chien' est une instance de 'mammifère'") }}.</li>
+        <li>{{ _("<strong>Antonymie</strong> : Relations d'opposition (ex. 'grand' vs 'petit')") }}.</li>
+        <li>{{ _("<strong>Méronymie</strong> : Relations partie-tout (ex. 'toit' pour 'maison')") }}.</li>
+    </ul>
+    <hr>
+    <h2>{{ _("Extraction de citations (Quotation Extraction)") }}</h2>
+    <p>
+        {{ _("L'extraction de citations est une méthode visant à identifier et isoler des passages où des citations ou déclarations sont explicitement mentionnées") }}. {{ _("Elle joue un rôle clé dans des domaines comme l'analyse journalistique, la recherche académique et le suivi médiatique") }}.
+    </p>
+    <h4>{{ _("Fonctionnement ") }}:</h4>
+    <p>
+        {{ _("Les algorithmes d'extraction de citations détectent les indices textuels tels que ") }}:
+    </p>
+    <ul>
+        <li>{{ _('Les guillemets (« » ou " ") qui encadrent la citation') }}.</li>
+        <li>{{ _("Les verbes d'allocution ('dit', 'déclare', 'affirme'), qui introduisent ou signalent un discours direct") }}.</li>
+    </ul>
+    <h4>{{ _("Applications principales ") }}:</h4>
+    <ul>
+        <li>{{ _("<strong>Suivi et analyse médiatique</strong> : Identifier des déclarations importantes dans des articles de presse") }}.</li>
+        <li>{{ _("<strong>Recherche académique</strong> : Extraire des citations de sources pour les études comparatives") }}.</li>
+        <li>{{ _("<strong>Documentation automatique</strong> : Regrouper les passages pertinents pour générer des synthèses ou des rapports") }}.</li>
+    </ul>
+    <hr>
+    <h2>Conclusion</h2>
+    <p>
+        {{ _("L'extraction d'informations, qu'elle concerne des mots-clés, des sujets thématiques ou des citations, transforme des textes non structurés en données précieuses et exploitables") }}. {{ _("Ces techniques permettent de synthétiser, catégoriser et analyser les informations à grande échelle, en optimisant les processus de recherche et d'analyse") }}. {{ _("Grâce à des algorithmes avancés comme le Topic Modelling ou la détection automatique de citations, elles ouvrent des perspectives enrichissantes pour le traitement des corpus complexes et l'intégration de données dans des systèmes automatisés") }}.
+    </p>
+</div>
 </div>
 {% endblock %}
 
