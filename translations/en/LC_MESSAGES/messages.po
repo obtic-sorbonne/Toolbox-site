@@ -5290,3 +5290,18 @@ msgstr "They play a key role in various fields, ranging from linguistic research
 
 msgid "En regroupant les mots selon leur sens et leur contexte, elles permettent de simplifier les analyses, de résoudre les ambiguïtés et de construire des systèmes intelligents capables de mieux comprendre et interagir avec le langage humain"
 msgstr "By grouping words according to their meaning and context, they simplify analyses, resolve ambiguities, and enable the development of intelligent systems capable of better understanding and interacting with human language"
+
+msgid "Lien"
+msgstr "Link"
+
+msgid "Site Web"
+msgstr "Website"
+
+msgid "Tâche"
+msgstr "Task"
+
+msgid "Outil"
+msgstr "Tool"
+
+msgid "Analyses linguistique, statistiques et lexicales"
+msgstr "Linguistic, statistical and lexical analyses"
