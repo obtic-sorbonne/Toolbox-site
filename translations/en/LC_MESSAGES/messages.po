@@ -5310,3 +5310,9 @@ msgstr "Linguistic, statistical and lexical analyses"
 
 msgid "L'outil spaCy permet de faire la reconnaissance d'entités nommées"
 msgstr "SpaCy tool allows you to do named entities recognition"
+
+msgid "Numérisation et reconnaissance d'entités nommées d'un seul clic"
+msgstr "One-click digitization and named entities recognition"
+
+msgid "Numérisation, reconnaissance de lieux géographiques et visualisation sur une carte d'un seul clic"
+msgstr "Digitization, recognizing geographic locations and viewing on a map with one click"
