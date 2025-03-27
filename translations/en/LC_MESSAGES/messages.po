@@ -5307,3 +5307,6 @@ msgstr "Tool"
 
 msgid "Analyses linguistique, statistiques et lexicales"
 msgstr "Linguistic, statistical and lexical analyses"
+
+msgid "L'outil spaCy permet de faire la reconnaissance d'entités nommées"
+msgstr "SpaCy tool allows you to do named entities recognition"
