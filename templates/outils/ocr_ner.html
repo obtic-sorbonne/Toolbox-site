@@ -18,8 +18,10 @@
   <div class="fil"><a href="{{ url_for('outils_pipeline')}}"><< {{ _('Retour aux tâches') }}</a></div>
   <h3>{{ _("Numérisation et reconnaissance d'entités nommées") }}</h3>
 
-  <p>{{ _("L'outil Tesseract permet de numériser des fichiers imprimés") }}.</p>
-  <p>La reconnaissance d'entités nommées se fait en utilisant soit l'outil <a href="https://spacy.io/" target="_blank">spaCy</a>, soit l'outil <a href="https://huggingface.co/flair" target="_blank">Flair</a>.</p>
+  <p>{{ _("L'outil Tesseract permet de numériser des fichiers imprimés") }}. {{ _("L'outil spaCy permet de faire la reconnaissance d'entités nommées") }}.</p>
+  <br>
+  <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_recognition') }}"  target="_blank">{{ _('Voir la documentation') }}</a> (ATR)</p>
+  <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_annotation') }}" target="_blank">{{ _("Voir la documentation") }}</a> / <a href="{{ url_for('tutoriel_annotation') }}"  target="_blank">{{ _('Voir le tutoriel') }}</a> (NER)</p>
   <br>
     <div class="infos_outil" style="display: block;margin: 0 auto 15px auto;">
         <input id="show" type=checkbox><label for="show" class="infos_title"><i class="fa-solid fa-circle-info"></i> {{ _("Informations sur l'outil") }}<i class="fa-solid fa-angle-right" style="float:right;margin-top:5px;margin-left:15px;cursor: pointer;"></i></label>
@@ -30,7 +32,7 @@
   </div>
   <div id="tess-form">
     <fieldset>
-        <legend>Tesseract</legend>
+        <legend>Configuration ATR : Tesseract</legend>
         <form action="{{ url_for('run_ocr_ner') }}" id="tesseract-form" method="post" enctype="multipart/form-data" onsubmit="showloader('tessloader')">
             {{ form.csrf_token }}
             <label for="model">Modèle</label>
@@ -49,18 +51,18 @@
             </select>
         </fieldset>
         <fieldset>
-            <legend>Configuration NER</legend>
-            <label for="encodage" style="display:inline-block;width:110px;">Encodage</label>
-            <input style="border: 1px solid #c1c1c1; font-weight: bold; box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);" type="text" name="encodage" id="encodage" required>
+            <legend>Configuration NER : spaCy</legend>
+            <label for="encodage" style="margin-right: 0.5em;">Encodage</label>
+            <input style="border: 1px solid #c1c1c1; font-weight: bold; box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);" type="text" name="encodage" id="encodage" value="utf-8" required>
             <br>
-            <label for="moteur_REN" style="display:inline-block;width:180px;">Moteur de REN</label>
+            <!--<label for="moteur_REN" style="display:inline-block;width:180px;">Moteur de REN</label>
             <select class="styled-select" name="moteur_REN" id="moteur_REN" onchange="detectChangeMoteur(this, 'modele_REN')">
                 <option value="spacy" selected="true">SpaCy</option>
                 <option value="flair">Flair</option>
-            </select>
-            <br />
-            <label for="modele_REN" style="display:inline-block;width:180px;">Modèle à utiliser</label>
-            <select class="styled-select" name="modele_REN" id="modele_REN" onchange="detectChange(this)">
+            </select>-->
+            <br/>
+            <label for="modele_REN">Modèle</label>
+            <select class="styled-select" name="modele_REN" id="modele_REN">
                 <option value="de_core_news_sm">{{ _('Allemand') }} (de)</option>
                 <option value="en_core_web_sm">{{ _('Anglais') }} (eng)</option>
                 <option value="da_core_news_sm">{{ _('Danois') }} (da)</option>
@@ -76,7 +78,7 @@
             <br />
         </fieldset>
         <div class="dropzone" style="margin:25px auto;">
-            <input type="file" id="files" name="files" accept="image/jpeg,image/png,application/pdf,image/tif,image/tiff,text/plain" multiple required>
+            <input type="file" id="files" name="inputfiles" accept="image/jpeg,image/png,application/pdf,image/tif,image/tiff,text/plain" multiple required>
             <p id="form_msg">{{ _("Déposer le(s) fichier(s) ou cliquer ici") }}.</p>
         </div>
         <input id="csrf_token" name="csrf_token" type="hidden" value="CSRF_TOKEN_STRING">

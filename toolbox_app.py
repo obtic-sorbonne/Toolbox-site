@@ -3311,51 +3311,54 @@ def display_topics(model, feature_names, no_top_words):
 @stream_with_context
 def run_ocr_ner():
     from txt_ner import txt_ner_params
-
-    # paramètres globaux
+    from ocr import tesseract_to_txt
+    # Récupération des fichiers uploadés
     uploaded_files = request.files.getlist("inputfiles")
-    # paramètres OCR
-    ocr_model = request.form['tessmodel']
-    # paramètres NER
-    up_folder = app.config['UPLOAD_FOLDER']
-    encodage = request.form['encodage']
-    moteur_REN = request.form['moteur_REN']
-    modele_REN = request.form['modele_REN']
+    if not uploaded_files:
+        return Response("Aucun fichier reçu", status=400)
 
-    rand_name =  generate_rand_name('ocr_ner_')
+    # Récupération des paramètres OCR et NER
+    ocr_model = request.form.get('tessmodel', 'default_model')
+    encodage = request.form.get('encodage', 'utf-8')
+    moteur_REN = "spaCy"
+    modele_REN = request.form.get('modele_REN', 'default_ner_model')
+
+    up_folder = app.config.get('UPLOAD_FOLDER', '/tmp')
+
+    # Génération d’un nom de fichier unique
+    rand_name = generate_rand_name('ocr_ner_')
+
+    # Extraction de texte via OCR ou lecture brute
     if ocr_model != "raw_text":
-        contenu = ocr.tesseract_to_txt(uploaded_files, ocr_model, '', rand_name, ROOT_FOLDER, up_folder)
+        contenu = tesseract_to_txt(uploaded_files, ocr_model, '', rand_name, ROOT_FOLDER, up_folder)
     else:
-        print(uploaded_files)
         liste_contenus = []
         for uploaded_file in uploaded_files:
             try:
                 liste_contenus.append(uploaded_file.read().decode(encodage))
-
-            finally: # ensure file is closed
-                uploaded_file.close()
+            except UnicodeDecodeError:
+                return Response(f"Erreur d'encodage du fichier {uploaded_file.filename}", status=400)
         contenu = "\n\n".join(liste_contenus)
 
-        del liste_contenus
-
+    # Extraction des entités nommées
     entities = txt_ner_params(contenu, moteur_REN, modele_REN, encodage=encodage)
-    # Writing in stream
+
+    # Création du fichier de sortie
     output_stream = StringIO()
     output = rand_name + ".txt"
     writer = csv.writer(output_stream, delimiter="\t")
+
     for nth, entity in enumerate(entities, 1):
         ne_type, start, end, text = entity
-        row = [f"T{nth}", f"{ne_type} {start} {end}", f"{text}"]
-        writer.writerow(row)
-    response = Response(
+        writer.writerow([f"T{nth}", f"{ne_type} {start} {end}", f"{text}"])
+
+    # Retourne le fichier en téléchargement
+    return Response(
         output_stream.getvalue(),
         mimetype='text/plain',
-        headers={"Content-disposition": "attachment; filename=" + output}
+        headers={"Content-Disposition": f"attachment; filename={output}"}
     )
-    output_stream.seek(0)
-    output_stream.truncate(0)
 
-    return response
 
 #--------------------------
 #OCR2MAP
