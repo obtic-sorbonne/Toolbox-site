@@ -5,12 +5,13 @@
 <link rel="stylesheet" href="{{ url_for('static', filename= 'css/elements.css') }}">
 <div class="outil">
     <div class="fil"><a href="{{ url_for('generation_texte')}}"><< {{ _('Retour aux tâches') }}</a></div>
-    <h2>Traduction</h2>
-    <p>Processus d'utilisation de modèles informatiques pour convertir du texte ou de la parole d'une langue à une autre, permettant ainsi la communication et la compréhension interlinguistiques.</p>
+    <h2>{{ _('Traduction') }}</h2>
+    <p>{{ _("Utilisation de modèles pour convertir du texte ou de la parole d'une langue à une autre, permettant ainsi la communication et la compréhension interlinguistiques") }}.</p>
     <br>
-    <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_generation') }}"  target="_blank">{{ _('Voir la documentation') }}</a> / <a href="{{ url_for('tutoriel_generation') }}"  target="_blank">{{ _('Voir le tutoriel') }}</a></p>
+    <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_generation') }}"  target="_blank">{{ _('Voir la documentation') }}</a> / <a href="{{ url_for('tutoriel_generation') }}"  target="_blank">{{ _('Voir le tutoriel') }}</a></p>
     <br>
-    <form action="{{ url_for('split_sentences') }}" id="linguistic-form" method="post" enctype="multipart/form-data" onsubmit="showloader('loader')">
+    <p style="text-align: center;">{{ _("Outil à venir") }}</p>
+    <!-- <form action="{{ url_for('split_text') }}" id="linguistic-form" method="post" enctype="multipart/form-data" onsubmit="showloader('loader')">
         {{ form.csrf_token }}
         <div class="dropzone" style="margin:25px auto;">
             <input type="file" id="files" name="files" accept="text/plain" multiple required>
@@ -25,7 +26,7 @@
     <div class="loader" id="loader">
         <div class="loadingio-spinner-ball-205vl2x7f7n"><div class="ldio-b8p5li8dt1u"><div></div></div></div>
         <p>Traitement en cours...</p>
-    </div>
+    </div>-->
 <script>
 /* MAJ de la zone de glisser-déposer */ 
 $('form input').change(function () {

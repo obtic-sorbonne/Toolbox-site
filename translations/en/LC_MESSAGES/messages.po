@@ -5316,3 +5316,6 @@ msgstr "One-click digitization and named entities recognition"
 
 msgid "Numérisation, reconnaissance de lieux géographiques et visualisation sur une carte d'un seul clic"
 msgstr "Digitization, recognizing geographic locations and viewing on a map with one click"
+
+msgid "Outil à venir"
+msgstr "Tool coming soon"
