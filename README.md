@@ -28,7 +28,7 @@ Pandore est une boîte à outils conçue pour les chercheurs, les enseignants et
   - _413.html_, _500.html_, _500_custom.html_, _validation_contact.html_, _contact.html_, _code_source.html_, _copyright.html_, _projet.html_ : pages d'informations spécifiques
   - _documentation.html_, _index.html_, _pandore.html_, _tutoriel.html_ : pages de navigation
 - **translations** : Traduction anglaise du contenu de l'instance
-- _toolbox_app.py_ : Fichier de fonctionnement de l'instance (importation des libraires, déclaraction des routes et des fonctions de l'application)
+- _toolbox_app.py_ : Fichier de fonctionnement de l'instance (importation des libraires, déclaration des routes et des fonctions de l'application)
 - _ner_camembert.py_, _ocr.py_, _tei_ner.py_, _txt_ner.py_ : Fonctions supplémentaires
 - _requirements.txt_, _requirements_new.txt_ : Fichier de libraires pour l'installation locale
 - _README.md_, _README_en.md_ : Présentation de la boîte à outils
