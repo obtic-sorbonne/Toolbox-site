@@ -5290,3 +5290,31 @@ msgstr "They play a key role in various fields, ranging from linguistic research
 
 msgid "En regroupant les mots selon leur sens et leur contexte, elles permettent de simplifier les analyses, de résoudre les ambiguïtés et de construire des systèmes intelligents capables de mieux comprendre et interagir avec le langage humain"
 msgstr "By grouping words according to their meaning and context, they simplify analyses, resolve ambiguities, and enable the development of intelligent systems capable of better understanding and interacting with human language"
+
+
+msgid "Les oeuvres présentes sur le site Project Gutenberg sont identifiés selon un système d'ID. Ce module permet d'"
+msgstr "Works on the Project Gutenberg site are identified using an ID system. This module allows you to"
+
+msgid "extraire des oeuvres du catalogue Project Gutenberg"
+msgstr " extract works from the Project Gutenberg catalog"
+
+msgid "à partir de leur ID, soit au"
+msgstr "from their ID, either in"
+
+msgid "format ePUB"
+msgstr "ePUB format"
+
+msgid "lorsque cela est disponible"
+msgstr "when available"
+
+msgid "Cela permettra de récupérer les oeuvres <em>Pride and Prejudice</em> de Jane Austen et <em>Frankenstein</em> de Mary Shelley"
+msgstr "This will allow the recovery of the works <em>Pride and Prejudice</em> by Jane Austen and <em>Frankenstein</em> by Mary Shelley"
+
+msgid "Extraire les livres"
+msgstr "Extract books"
+
+msgid "Interrogation de Project Gutenberg en cours"
+msgstr "Project Gutenberg Query in Progress"
+
+msgid "Extraction de livres sur Project Gutenberg"
+msgstr "Extracting books from Project Gutenberg"
