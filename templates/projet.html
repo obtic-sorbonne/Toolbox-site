@@ -6,6 +6,42 @@
     font-family:'Comprehension', serif;
     font-size:32px;
   }
+  .box-outil-accueil {
+  background-color: #f6f6f6;
+  border: 1px solid #263e8d;
+  min-width: 290px;
+  flex: 0 0 0px;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  padding: 1em;
+  text-align: center;
+}
+.container{
+  display:flex;
+  flex-wrap:wrap;
+  align-items:stretch;
+  justify-content:center;
+  gap:35px 20px;
+  width:70%;
+  margin:auto;
+  margin-top:35px;
+}
+  .name {
+    flex-basis: 50%;
+    font-weight: bold;
+  }
+
+  .appartenance {
+    flex-basis: 30%;
+  }
+
+  .travail {
+    flex-basis: 20%;
+    font-style: italic;
+    color: #555;
+  }
+
 </style>
 
 <div class="presentation">
@@ -14,29 +50,71 @@
       <p>{{ _("Pandore a été conçue par les membres de l'équipe-projet") }} <em><a href="https://obtic.sorbonne-universite.fr/" target="_blank">ObTIC</a></em> (SCAI - Sorbonne Université).<br/>
         {{ _("Il s'agit d'une interface qui permet d'utiliser en ligne un ensemble d'outils de manipulation et de traitement de corpus textuels") }}. {{ _('Les tâches couvertes sont les tâches essentielles le plus souvent réalisées dans les études de corpus') }} : {{ _('la numérisation (OCR/HTR), la conversion entre différents formats de données (notamment XML-TEI)') }}, {{ _("l'analyse automatique du texte (reconnaissance d'entités nommées) et la visualisation des données") }}. {{ _("Les fonctionnalités implémentées sont basées soit sur des outils externes donnant des résultats état de l'art dans les tâches concernées") }}, {{ _("soit sur des scripts ou applications développés par l'équipe ObTIC (Ariane, Tanagra, etc)") }}.</p>
     </div>
+    <hr>
     <h2>{{ _("L'équipe") }}</h2>
     <div class="rubrique">
       <h3>{{ _('Membres actuels') }}</h3>
-      <ul>
-        <li><em>Glenn Roe</em>, {{ _('professeur') }}, Sorbonne Université ({{ _('responsable du projet, conception') }})</li>
-        <li><em>Motasem Alrahabi</em>, {{ _('ingénieur de recherche') }}, Sorbonne Université ({{ _('conception, développement') }})</li>
-        <li><em>Ljudmila Petković</em>, {{ _('doctorante') }}, Sorbonne Université ({{ _('beta-test, développement') }})</li>
-        <li><em>Floriane Chiffoleau</em>, {{ _("ingénieure d'études en Humanités Numériques") }}, Sorbonne Université ({{ _('développement') }})</li>
-        <li><em>Mikhail Biriuchinskii</em>, {{ _("ingénieur d'études en Traitement Automatique de Langues") }}, Sorbonne Université ({{ _('développement') }})</li>
-      </ul>
+      <div class="container">
+        <div class="box-outil-accueil shadow" onclick="window.open('https://obtic.sorbonne-universite.fr/equipe-permanente/glenn-roe/')">
+          <span class="name">Glenn Roe</span>
+          <span class="appartenance">{{ _('Professeur') }}, Sorbonne Université</span>
+          <span class="travail">{{ _('responsable du projet, conception') }}</span>
+        </div>
+
+        <div class="box-outil-accueil shadow" onclick="window.open('https://obtic.sorbonne-universite.fr/equipe-permanente/motasem-alrahabi/')">
+          <span class="name">Motasem Alrahabi</span>
+          <span class="appartenance">{{ _('Ingénieur de recherche') }}, Sorbonne Université</span>
+          <span class="travail">{{ _('conception, développement') }}</span>
+        </div>
+
+        <div class="box-outil-accueil shadow" onclick="window.open('https://obtic.sorbonne-universite.fr/equipe-permanente/ljudmila-petkovic-2/')">
+          <span class="name">Ljudmila Petković</span>
+          <span class="appartenance">{{ _('Doctorante') }}, Sorbonne Université</span>
+          <span class="travail">{{ ("beta-test, développement") }}</span>
+        </div>
+
+        <div class="box-outil-accueil shadow" onclick="window.open('https://obtic.sorbonne-universite.fr/equipe-permanente/floriane-chiffoleau/')">
+          <span class="name">Floriane Chiffoleau</span>
+          <span class="appartenance">{{ _("Ingénieure d'études en Humanités Numériques") }}, Sorbonne Université</span>
+          <span class="travail">{{ _('développement') }}</span>
+        </div>
+
+        <div class="box-outil-accueil shadow" onclick="window.open('https://obtic.sorbonne-universite.fr/equipe-permanente/mikhail/')">
+          <span class="name">Mikhail Biriuchinskii</span>
+          <span class="appartenance">{{ _("Ingénieur d'études en Traitement Automatique de Langues") }}, Sorbonne Université</span>
+          <span class="travail">{{ _('développement') }}</span>
+        </div>
+        </div>
       <br>
       <h3>{{ _('Anciens membres') }}</h3>
-      <ul>
-        <li><em>Johanna Cordova</em>, {{ _("ingénieure d'études") }}, Sorbonne Université ({{ _('conception, développement') }})</li>
-        <li><em>Yoann Dupont</em>, {{ _('post-doctorant') }} ({{ _('conception, développement') }})</li>
-        <li><em>Caroline Parfait</em>, {{ _('doctorante') }}, Sorbonne Université ({{ _('conception, développement') }})</li>
-      </ul>
+
+      <div class="container">
+        <div class="box-outil-accueil shadow" onclick="window.open('https://www.inalco.fr/annuaire-enseignement-recherche/cordova-johanna')">
+          <span class="name">Johanna Cordova</span>
+          <span class="appartenance">{{ _("Ingénieure d'études") }}, Sorbonne Université</span>
+          <span class="travail">{{ _('conception, développement') }}</span>
+        </div>
+
+        <div class="box-outil-accueil shadow" onclick="window.open('https://obtic.sorbonne-universite.fr/equipe-permanente/ing-post-doctorat/yoann-dupont/')">
+          <span class="name">Yoann Dupont</span>
+          <span class="appartenance">{{ _('Post-doctorant') }}</span>
+          <span class="travail">{{ _('conception, développement') }}</span>
+        </div>
+
+        <div class="box-outil-accueil shadow" onclick="window.open('https://obtic.sorbonne-universite.fr/equipe-permanente/caroline-parfait/')">
+          <span class="name">Caroline Parfait</span>
+          <span class="appartenance">{{ _('Doctorante') }}, Sorbonne Université</span>
+          <span class="travail">{{ _('conception, développement') }}</span>
+        </div>
+        </div>
     </div>
     <!--<h2>Partenaires</h2>
     <p></p>-->
+    <hr>
     <h2>Publications</h2>
     <div class="rubrique">
       <ul>
+        <li>Floriane Chiffoleau, Mikhail Biriuchinskii, Motasem Alrahabi, Glenn Roe. <i>Pandore: automating text-processing workflows for humanities researchers</i>. DH2025 - Accessibility & Citizenship, Jul 2025, Lisbon, Portugal. ⟨<a href="https://hal.science/hal-04986730" target="_blank">hal-04986730</a>⟩</li>
         <li>Motasem ALRAHABI, Valentina FEDCHENKO, Ljudmila PETKOVIC, Glenn ROE, Johanna CORDOVA. Pandore: a toolbox for digital humanities text-based workflows. [soumission acceptée <a href="https://dh2023.adho.org/?page_id=390" target="_blank">DH2023</a>]
         <li>Johanna Mayra Cordova, Yoann Dupont, Ljudmila Petkovic, James Gawley, Motasem Alrahabi, et al.. Toolbox : une chaîne de traitement de corpus pour les humanités numériques. <i>Traitement Automatique des Langues Naturelles</i>, 2022, Avignon, France. pp.11-13. ⟨<a href="https://hal.archives-ouvertes.fr/TALN-RECITAL2022/hal-03701464" target="_blank">hal-03701464</a>⟩</li>
       </ul>

@@ -42,7 +42,7 @@
         </div>
         <div id="embedding_clustering" class="centered-input-div">
             <label for="inputText" style="display: block; text-align: center;">{{ _('Mots à grouper') }} :</label><br>
-            <textarea style="width: auto;" id="words_list" name="words_list" placeholder="Fill in here with words divided by a semicolon (;)" required></textarea>
+            <textarea style="width: auto;" id="words_list" name="words_list" placeholder="Separate words with a semicolon (;)" required></textarea>
         </div>
         <input id="csrf_token" name="csrf_token" type="hidden" value="{{ csrf_token() }}">
         <button style="display:block;margin:auto;margin-top:20px;">{{ _("Lancer l'analyse") }}</button>

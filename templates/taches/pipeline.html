@@ -8,14 +8,14 @@
   <p style="text-align: center;">{{ _("Cette page offre deux chaînes d'entraînements qui combinent plusieurs outils proposés dans la toolbox") }}.</p>
   <div class="container">
     <div class="box-outil-accueil" onclick="window.location.href='{{ url_for('ocr_ner') }}'">
-      <div class="rubrique-icon"><img alt="OCR -> NER" src="{{ url_for('static', filename='img/ocr_ner.png')}}"></div>
+      <div class="rubrique-icon"><img alt="OCR -> NER" src="{{ url_for('static', filename='img/icons/ocr_ner.png')}}"></div>
       <span class="rubrique-title"><h3>OCR -> NER</h3></span>
-      <span class="rubrique-text"><p>{{ _('Entrée : textes non numérisés') }} <br>{{ _('Sortie : textes annotés') }}</p></span>
+      <span class="rubrique-text"><p>{{ _("Numérisation et reconnaissance d'entités nommées d'un seul clic") }}.</p></span>
     </div>
     <div class="box-outil-accueil" onclick="window.location.href='{{ url_for('ocr_map') }}'">
-      <div class="rubrique-icon"><img alt="Épiméthée" src="{{ url_for('static', filename='img/ocr_map.png')}}"></div>
-      <span class="rubrique-title"><h3>Épiméthée</h3></span>
-      <span class="rubrique-text"><p>OCR -> Map<br>{{ _('Entrée : textes numérisés ou non') }} <br>{{ _('Sortie : coordonnées géographiques des entités de lieux et leur visualisation sur une carte') }}.</p></span>
+      <div class="rubrique-icon"><img alt="Épiméthée" src="{{ url_for('static', filename='img/icons/ocr_map.png')}}"></div>
+      <span class="rubrique-title"><h3>OCR -> Map <br>(Épiméthée)</h3></span>
+      <span class="rubrique-text"><p>{{ _("Numérisation, reconnaissance de lieux géographiques et visualisation sur une carte d'un seul clic") }}.</p></span>
     </div>
   </div>
   <!--<div class="box-outil-visu">

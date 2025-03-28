@@ -33,18 +33,18 @@
         {{ form.csrf_token }}
         <br>
         <div class="centered-input-div" id="words_to_analyze_container" style="display: none;">
-            <label for="words_to_analyze_input">{{ _('Mots à analyser') }} ({{ _('séparation') }} : ";") :</label>
-            <input type="text" id="words_to_analyze_input" name="words_to_analyze"><br>
+            <label for="words_to_analyze_input">{{ _('Mots à analyser') }} :</label>
+            <input type="text" id="words_to_analyze_input" name="words_to_analyze" placeholder="Separate words with a semicolon (;)"><br>
         </div>
         
         <div class="centered-input-div" id="word_container" style="display: none;">
             <label for="word_input">{{ _('Mot à analyser') }} :</label>
-            <input type="text" id="word_input" name="word"><br>
+            <input type="text" id="word_input" name="word" placeholder="Fill it with a single word"><br>
         </div>
         
         <div class="centered-input-div" id="words_list_container" style="display: none;">
-            <label for="words_list_input">{{ _('Mots à analyser') }} ({{ _('séparation') }} : ";") :</label>
-            <input type="text" id="words_list_input" name="words_list"><br>
+            <label for="words_list_input">{{ _('Mots à analyser') }} :</label>
+            <input type="text" id="words_list_input" name="words_list" placeholder="Separate words with a semicolon (;)"><br>
         </div>
         <div class="dropzone" style="margin:25px auto;">
             <input type="file" id="files" name="files" accept="text/plain" multiple required>
