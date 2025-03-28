@@ -1,34 +1,78 @@
-# Toolbox-site
+# Pandore : une boîte à outil pour les humanités numériques
+
+Version anglaise de ce README : https://github.com/obtic-sorbonne/Toolbox-site/blob/main/README_en.md
+
+-----
+## Sommaire de ce README
+* [Présentation du projet](https://github.com/obtic-sorbonne/Toolbox-site/blob/main/README.md#présentation-du-projet)
+* [Contenu du dépôt GitHub](https://github.com/obtic-sorbonne/Toolbox-site/blob/main/README.md#contenu-du-dépôt-github)
+* [Installation locale (Linux / Mac)](https://github.com/obtic-sorbonne/Toolbox-site/blob/main/README.md#installation-locale-linux--mac)
+* [Pandore en ligne](https://github.com/obtic-sorbonne/Toolbox-site/blob/main/README.md#pandore-en-ligne)
+* [Bibliographie](https://github.com/obtic-sorbonne/Toolbox-site/blob/main/README.md#bibliographie)
+* [Mentions légales](https://github.com/obtic-sorbonne/Toolbox-site/blob/main/README.md#mentions-légales)
+
+-----
+
+## Présentation du projet
+Pandore est une boîte à outils conçue pour les chercheurs, les enseignants et les étudiants en sciences humaines et sociales, en particulier ceux qui n'ont pas de compétences techniques avancées en programmation. Elle permet aux utilisateurs de gérer efficacement leurs données grâce à des interfaces graphiques intuitives, leur permettant de collecter, préparer, convertir et analyser leurs données, d'extraire des informations pertinentes et de créer des visualisations interprétatives. En s'appuyant sur les nombreux retours de la version bêta précédente, plusieurs améliorations ont été mises en œuvre, notamment la résolution de bugs identifiés et les améliorations de l'interface graphique pour améliorer l'expérience utilisateur. Des scripts Python interopérables et modulaires ont également été intégrés pour étendre les fonctionnalités de la plateforme. Des tutoriels ont été finalisés pour guider les utilisateurs dans la maîtrise des outils, et l'application a été déployée sur un serveur équipé d'un GPU pour optimiser les performances des tâches à forte intensité de calcul. Ces avancées positionnent Pandore comme un outil polyvalent et efficace pour les chercheurs dans un large éventail de disciplines des sciences humaines et sociales. 
+
+------
+
+## Contenu du dépôt GitHub
+- **static** : Fichiers pour le bon affichage de l'instance (css, images, fonts, etc.)
+- **swig** : Package nécessaire pour le fonctionnement de l'instance
+- **templates** :
+  - **documentation**, **tutoriel** : dossier contenant les documentation/tutoriel par tâche
+  - **taches** : pages de navigation vers les outils
+  - **outils** : outils par page
+  - _413.html_, _500.html_, _500_custom.html_, _validation_contact.html_, _contact.html_, _code_source.html_, _copyright.html_, _projet.html_ : pages d'informations spécifiques
+  - _documentation.html_, _index.html_, _pandore.html_, _tutoriel.html_ : pages de navigation
+- **translations** : Traduction anglaise du contenu de l'instance
+- _toolbox_app.py_ : Fichier de fonctionnement de l'instance (importation des libraires, déclaration des routes et des fonctions de l'application)
+- _ner_camembert.py_, _ocr.py_, _tei_ner.py_, _txt_ner.py_ : Fonctions supplémentaires
+- _requirements.txt_, _requirements_new.txt_ : Fichier de libraires pour l'installation locale
+- _README.md_, _README_en.md_ : Présentation de la boîte à outils
+- _cluster.py_, _environment.yml_, _forms.py_, _install.sh_, _nginx.conf_, _wsgi.py_ : TBD
+
+-----
 
 ## Installation locale (Linux / Mac)
-
+### Récupérer le dépôt GitHub
 - Créer un dossier ObTIC-Toolbox et ouvrir un terminal dans celui-ci.
 
 - Cloner le répertoire Toobox-site :
-
-`git clone https://github.com/obtic-scai/Toolbox-site.git`
+```bash
+git clone https://github.com/obtic-scai/Toolbox-site.git
+```
 
 - Créer et activer un environnement virtuel (Python 3.6 et au-dessus) :
-
-`python3 -m venv toolbox-env`
-
-`source toolbox-env/bin/activate`
+```bash
+python3 -m venv toolbox-env
+source toolbox-env/bin/activate
+```
 
 - Se placer dans le répertoire Toolbox-site :
+```bash
+cd Toolbox-site
+```
 
-`cd Toolbox-site`
+### Installer les éléments nécessaires
 
 - Il est nécessaire de [télécharger le paquet Swig](https://sourceforge.net/projects/swig/files/swig/swig-3.0.12/swig-3.0.12.tar.gz/download?use_mirror=netix). Pour l'installer, lancer :
-
-`./swig-3.0.12/configure && make && sudo make install`
+```bash
+./swig-3.0.12/configure && make && sudo make install
+```
 
 - Installer les paquets nécessaires à l'exécution de l'application :
-
-`pip install -r requirements.txt`
+```bash
+pip install -r requirements.txt
+```
 
 - Finalement, il faut lancer :
-
-`chmod +x install.sh` puis `bash install.sh`
+```bash
+chmod +x install.sh
+bash install.sh
+```
 
 Il se peut qu'il faille lancer les commandes suivantes : 
 
@@ -60,24 +104,25 @@ python3 toolbox_app.py
 
 Ouvrir le lien http://127.0.0.1:5000 dans un navigateur pour accéder à l'interface de la Toolbox ObTIC.
 
-## Version en ligne
+-----
+
+## Pandore en ligne
 
 Une [version de démonstration](https://obtic-gpu1.mesu.sorbonne-universite.fr:8550/) est disponible en ligne.
-Une nouvelle version pour diffusion plus large est en cours de conception.
 
-____
+-----
 
+## Bibliographie
 
+Floriane Chiffoleau, Mikhail Biriuchinskii, Motasem Alrahabi, Glenn Roe. _Pandore: automating text-processing workflows for humanities researchers_. DH2025 - Accessibility & Citizenship, Jul 2025, Lisbon, Portugal. ⟨[hal-04986730]()https://hal.science/hal-04986730⟩ 
 
-# Bibliographie
+Motasem ALRAHABI, Valentina FEDCHENKO, Ljudmila PETKOVIC, Glenn ROE. _Pandore: a toolbox for digital humanities text-based workflows_. [soumission acceptée [DH2023](https://dh2023.adho.org/?page_id=390)]
 
-Motasem ALRAHABI, Valentina FEDCHENKO, Ljudmila PETKOVIC, Glenn ROE. Pandore: a toolbox for digital humanities text-based workflows. [soumission acceptée [DH2023](https://dh2023.adho.org/?page_id=390)]
+Johanna Cordova, Yoann Dupont, Ljudmila Petkovic, James Gawley, Motasem Alrahabi, et al.. _Toolbox : une chaîne de traitement de corpus pour les humanités numériques_. Traitement Automatique des Langues Naturelles, 2022, Avignon, France. pp.11-13. ⟨[hal-03701464](https://hal.archives-ouvertes.fr/TALN-RECITAL2022/hal-03701464)⟩
 
-Johanna Cordova, Yoann Dupont, Ljudmila Petkovic, James Gawley, Motasem Alrahabi, et al.. Toolbox : une chaîne de traitement de corpus pour les humanités numériques. *Traitement Automatique des Langues Naturelles*, 2022, Avignon, France. pp.11-13. ⟨[hal-03701464](https://hal.archives-ouvertes.fr/TALN-RECITAL2022/hal-03701464)⟩
+-----
 
-
-# Mentions légales
+## Mentions légales
 
 Le code est distribué sous licence [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/) par l'[équipe ObTIC](https://obtic.sorbonne-universite.fr/) (Sorbonne Université).
 
-# 
