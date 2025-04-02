@@ -57,7 +57,7 @@ import numpy as np
 import torch
 import unicodedata
 import whisper
-
+from newspaper import Article
 
 # Local application imports
 from forms import ContactForm, SearchForm
@@ -479,6 +479,11 @@ def extraction_wikisource():
 def extraction_gutenberg():
     form = FlaskForm()
     return render_template('outils/extraction_gutenberg.html', form=form)
+
+@app.route('/extraction_urls')
+def extraction_urls():
+    form = FlaskForm()
+    return render_template('outils/extraction_urls.html', form=form)
 
 @app.route('/correction_erreur')
 def correction_erreur():
@@ -3102,6 +3107,41 @@ def extract_gutenberg():
         except Exception as e:
             print(f"Une erreur est survenue : {str(e)}")
 
+    response = create_zip_and_response(result_path, rand_name)
+    return response
+
+    return Response(json.dumps({"error": "Une erreur est survenue dans le traitement des fichiers."}), status=500, mimetype='application/json')
+
+#---------------- URL EXTRACTION ------------------------
+
+@app.route('/extract_urls', methods=['POST'])
+def extract_urls():
+    if 'files' not in request.form:
+        return Response(json.dumps({"error": "URLs not specified"}), status=400, mimetype='application/json')
+    
+    input_text = request.form.get('files', '').strip()
+    if not input_text:
+        return Response(json.dumps({"error": "No URLs provided"}), status=400, mimetype='application/json')
+    
+    urls = input_text.splitlines()
+    rand_name = generate_rand_name('extract_urls_')
+    result_path = create_named_directory(rand_name)
+    
+    for url in urls:
+        try:
+            article = Article(url)
+            article.download()
+            article.parse()
+            text_content = article.text[:1000]
+            
+            filename = os.path.join(result_path, f"{url.replace('https://', '').replace('http://', '').replace('/', '_')}.txt")
+            with open(filename, 'w', encoding='utf-8') as file:
+                file.write(text_content)
+        except Exception as e:
+            error_filename = os.path.join(result_path, f"error_{url.replace('https://', '').replace('http://', '').replace('/', '_')}.txt")
+            with open(error_filename, 'w', encoding='utf-8') as file:
+                file.write(f"Error extracting content: {str(e)}")
+    
     response = create_zip_and_response(result_path, rand_name)
     return response
 

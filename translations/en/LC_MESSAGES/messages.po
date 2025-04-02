@@ -5346,3 +5346,27 @@ msgstr "Project Gutenberg Query in Progress"
 
 msgid "Extraction de livres sur Project Gutenberg"
 msgstr "Extracting books from Project Gutenberg"
+
+msgid "Récupération d'URLs"
+msgstr "URL Retrieval"
+
+msgid "Utilisation d'outils de scraping Web pour extraire des informations de sites Web accessibles au public"
+msgstr "Using web scraping tools to extract information from publicly accessible websites"
+
+msgid "Cela permettra de récupérer les 1000 premiers caractères des pages Wikipédia française et anglaise de Paris"
+msgstr "This will retrieve the first 1000 characters of the French and English Wikipedia pages for Paris"
+
+msgid "Extraction de texte"
+msgstr "Text extraction"
+
+msgid "Extraire le texte"
+msgstr "Extract the text"
+
+msgid "Interrogation des URLs en cours"
+msgstr "Querying URLs in progress"
+
+msgid "Collecte de textes, sous différents formats, depuis diverses sources"
+msgstr "Collection of texts, in different formats, from various sources"
+
+msgid "Cette page répertorie plusieurs types de bibliothèques numériques de texte, depuis lesquels il est possible de récupérer des documents"
+msgstr "This page lists several types of digital text libraries from which documents can be retrieved"
