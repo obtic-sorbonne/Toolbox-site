@@ -20,7 +20,14 @@
           <span class="visu-title"><a href="{{ url_for('extraction_gallica') }}"><h3 style="font-family:'Comprehension', serif;">Gallica</h3></a></span>
           <span class="visu-text"><p></p></span>
         </div>
+      <div class="box-outil-visu">
+          <div class="visu-img"><a href="{{ url_for('extraction_gutenberg') }}"><img src="{{ url_for('static', filename='img/gutenberg.jpg')}}" width="25"></a></div>
+          <span class="visu-title"><a href="{{ url_for('extraction_gutenberg') }}"><h3 style="font-family:'Comprehension', serif;">Project Gutenberg</h3></a></span>
+          <span class="visu-text"><p></p></span>
+        </div>
       </div>
+<br>
+      
 
   </div>
   {% endblock %}
