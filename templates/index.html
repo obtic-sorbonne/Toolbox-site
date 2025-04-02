@@ -41,7 +41,7 @@
         <li class="obtic-tool"><a href="{{ url_for('outils_pipeline') }}">{{ _('Chaînes de traitement') }}</a></li>
         <li class="obtic-tool"><a href="{{ url_for('collecter_corpus') }}">{{ _('Collecte de corpus') }}</a></li>
         <li class="obtic-tool"><a href="{{ url_for('conversion') }}">{{ _('Conversion de formats') }}</a></li>
-        <li class="obtic-tool"><a href="{{ url_for('outils_corpus') }}">{{ _('Correction textuelle') }}</a></li>
+        <li class="obtic-tool"><a href="{{ url_for('outils_correction') }}">{{ _('Correction textuelle') }}</a></li>
         <li class="obtic-tool"><a href="{{ url_for('search_tools') }}">{{ _("Exploration") }}</a></li>
         <li class="obtic-tool"><a href="{{ url_for('extraction_information') }}">{{ _("Extraction d'information") }}</a></li>
         <li class="obtic-tool"><a href="{{ url_for('generation_texte') }}">{{ _('Génération de texte') }}</a></li>
@@ -136,7 +136,7 @@
         <span class="rubrique-title"><h3>{{ _('Collecte de corpus') }}</h3></span>
         <span class="rubrique-text"><p>{{ _('Collecte de textes, sous différents formats, depuis diverses sources') }}</p></span>
       </div>
-      <div class="box-outil-accueil shadow" onclick="window.location.href='{{ url_for('outils_corpus') }}';">
+      <div class="box-outil-accueil shadow" onclick="window.location.href='{{ url_for('outils_correction') }}';">
         <div class="rubrique-icon"><img alt="Correction textuelle" src="{{ url_for('static', filename='img/icons/correction.png') }}"></div>
         <span class="rubrique-title"><h3>{{ _('Correction textuelle') }}</h3></span>
         <span class="rubrique-text"><p>{{ _("Correction d'erreurs et normalisation pour corpus à la graphie non standard") }}</p></span>

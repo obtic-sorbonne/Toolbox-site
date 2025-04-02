@@ -346,9 +346,9 @@ def search_tools():
 def outils_visualisation():
     return render_template('taches/visualisation.html')
 
-@app.route('/outils_corpus')
-def outils_corpus():
-    return render_template('taches/corpus.html')
+@app.route('/outils_correction')
+def outils_correction():
+    return render_template('taches/correction.html')
 
 @app.route('/collecter_corpus')
 def collecter_corpus():
