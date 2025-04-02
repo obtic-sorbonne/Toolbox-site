@@ -5370,3 +5370,18 @@ msgstr "Collection of texts, in different formats, from various sources"
 
 msgid "Cette page répertorie plusieurs types de bibliothèques numériques de texte, depuis lesquels il est possible de récupérer des documents"
 msgstr "This page lists several types of digital text libraries from which documents can be retrieved"
+
+msgid "Utilisation de l'API Google Books pour récupérer, avec leur titre, les livres qui sont dans le domaine public et dont le PDF est disponible"
+msgstr "Using the Google Books API to retrieve, with their title, books that are in the public domain and whose PDF is available"
+
+msgid "Cela permettra de récupérer les ouvrages de <em>Pride and Prejudice</em> et <em>L'Illiade d'Homère</em>"
+msgstr "This will allow the recovery of the works of <em>Pride and Prejudice</em> and <em>Homer's Iliad</em>"
+
+msgid "Titres"
+msgstr "Titles"
+
+msgid "Interrogation de l'API en cours"
+msgstr "API query in progress"
+
+msgid "Extraire les livres Google"
+msgstr "Extract Google Books"

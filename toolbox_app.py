@@ -485,6 +485,11 @@ def extraction_urls():
     form = FlaskForm()
     return render_template('outils/extraction_urls.html', form=form)
 
+@app.route('/extraction_googlebooks')
+def extraction_googlebooks():
+    form = FlaskForm()
+    return render_template('outils/extraction_googlebooks.html', form=form)
+
 @app.route('/correction_erreur')
 def correction_erreur():
     form = FlaskForm()
@@ -3111,6 +3116,49 @@ def extract_gutenberg():
     return response
 
     return Response(json.dumps({"error": "Une erreur est survenue dans le traitement des fichiers."}), status=500, mimetype='application/json')
+
+#---------------- Google Books ------------------------
+
+@app.route('/download_google_books', methods=['POST'])
+def download_google_books():
+    if 'files' not in request.form:
+        return Response(json.dumps({"error": "Queries not specified"}), status=400, mimetype='application/json')
+    
+    input_text = request.form.get('files', '').strip()
+    if not input_text:
+        return Response(json.dumps({"error": "No queries provided"}), status=400, mimetype='application/json')
+    
+    queries = input_text.splitlines()
+    rand_name = generate_rand_name('google_books_')
+    result_path = create_named_directory(rand_name)
+    
+    for query in queries:
+        try:
+            url = f"https://www.googleapis.com/books/v1/volumes?q=intitle:{query}"
+            response = requests.get(url)
+            data = response.json()
+            
+            for item in data.get('items', []):
+                access_info = item['accessInfo']
+                if access_info.get('publicDomain', False) and access_info['pdf'].get('isAvailable', False):
+                    pdf_link = access_info['pdf'].get('downloadLink')
+                    if pdf_link:
+                        pdf_response = requests.get(pdf_link)
+                        if pdf_response.status_code == 200:
+                            filename = os.path.join(result_path, f"{query.replace(' ', '_')}.pdf")
+                            with open(filename, 'wb') as f:
+                                f.write(pdf_response.content)
+                        break
+        except Exception as e:
+            error_filename = os.path.join(result_path, f"error_{query.replace(' ', '_')}.txt")
+            with open(error_filename, 'w', encoding='utf-8') as file:
+                file.write(f"Error downloading book: {str(e)}")
+    
+    response = create_zip_and_response(result_path, rand_name)
+    return response
+
+    return Response(json.dumps({"error": "Une erreur est survenue dans le traitement des fichiers."}), status=500, mimetype='application/json')
+
 
 #---------------- URL EXTRACTION ------------------------
 

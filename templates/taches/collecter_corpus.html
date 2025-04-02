@@ -26,6 +26,11 @@
           <span class="visu-text"><p></p></span>
         </div>
         <div class="box-outil-visu">
+          <div class="visu-img"><a href="{{ url_for('extraction_googlebooks') }}"><img src="{{ url_for('static', filename='img/google_books.png')}}" width="25"></a></div>
+          <span class="visu-title"><a href="{{ url_for('extraction_googlebooks') }}"><h3 style="font-family:'Comprehension', serif;">Google Books</h3></a></span>
+          <span class="visu-text"><p></p></span>
+        </div>
+        <div class="box-outil-visu">
           <div class="visu-img"><a href="{{ url_for('extraction_urls') }}"><img src="{{ url_for('static', filename='img/icons/corpus.png')}}" width="25"></a></div>
           <span class="visu-title"><a href="{{ url_for('extraction_urls') }}"><h3 style="font-family:'Comprehension', serif;">{{ _("Récupération d'URLs") }}</h3></a></span>
           <span class="visu-text"><p></p></span>
