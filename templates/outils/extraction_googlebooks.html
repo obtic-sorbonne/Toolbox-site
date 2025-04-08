@@ -1,0 +1,87 @@
+{% extends "index.html" %}
+{% block header %} {{ super() }} {% endblock %}
+
+{% block content %}
+<style>
+	form{
+		display: block;
+		text-align:center;
+		margin-top:20px;
+		margin-bottom: 40px;
+	}
+	button{
+		display: block;
+		margin:auto;
+		margin-top:8px;
+	}
+	fieldset{
+		border: none;
+	}
+	legend{
+		color:#8A824C;
+		text-align: center;
+	}
+	h3{
+		font-weight: 500;
+		color:#2B3A67;
+	}
+
+</style>
+
+<div class="outil">
+	<div class="fil"><a href="{{ url_for('collecter_corpus')}}"><< {{ _('Retour aux tâches') }}</a></div>
+<h2>API Google Books</h2>
+<p>{{ _("Utilisation de l'API Google Books pour récupérer, avec leur titre, les livres qui sont dans le domaine public et dont le PDF est disponible") }}.</p>
+
+<div style="font-size: 0.9em;border:1px solid #8A824C; border-radius: 2px;padding:30px;margin-top: 20px;margin-bottom: 20px;">
+	<p class="how" style="margin-top:0">{{ _('Comment ça marche ') }}?</p>
+	<p style="border-left:1px solid #008CBA;padding:5px;margin:8px">{{ _('Exemple') }} :<br><span style="font-family: 'Courier New', Courier, monospace;">Pride and Prejudice<br>L'Illiade d'Homère</span></p>
+	<p>{{ _("Cela permettra de récupérer les ouvrages de <em>Pride and Prejudice</em> et <em>L'Illiade d'Homère</em>") }}.</p>
+</div>
+
+<h3>{{ _('Téléchargement de livres Google') }}</h3>
+
+<form action="{{ url_for('download_google_books') }}" method="POST" enctype="multipart/form-data">
+        <br>
+        {{ form.csrf_token }}
+        <div style="display: block; margin: auto; width: max-content;">
+          <label id="files" for="files" style="font-weight: bold;">{{ _("Titres") }}</label><br>
+          <textarea name="files" rows="4" cols="50" placeholder="One title per line"></textarea><br><br>
+        </div>
+        <br>
+        <input id="csrf_token" name="csrf_token" type="hidden" value="{{ csrf_token() }}">
+        <button type="submit">{{ _('Extraire les livres Google') }}</button>
+    </form>
+
+	<div class="loader" style="margin-top:10px">
+		<p>{{ _("Interrogation de l'API en cours") }}...</p>
+		<div class="loadingio-spinner-ball-205vl2x7f7n">
+		<div class="ldio-b8p5li8dt1u">
+			<div></div>
+		</div>
+		</div>
+	</div>
+</div>
+<script>
+	
+	/* MAJ de la zone de glisser-déposer */ 
+	$('form input').change(function (e) {
+		var fileName = e.target.files[0].name;
+		$('form #form_msg').text("Fichier sélectionné : " + fileName);
+	});
+</script>
+
+      <script type="text/javascript">
+        function openNav() {
+    document.getElementById("task-panel-gallica").style.width = "300px";
+  }
+/* Set the width of the sidebar to 0 (hide it) */
+  function closeNav() {
+    document.getElementById("task-panel-gallica").style.width = "0";
+  }
+
+
+      
+    </script>
+</div>
+{% endblock %}

@@ -5319,3 +5319,69 @@ msgstr "Digitization, recognizing geographic locations and viewing on a map with
 
 msgid "Outil à venir"
 msgstr "Tool coming soon"
+
+msgid "Les oeuvres présentes sur le site Project Gutenberg sont identifiés selon un système d'ID. Ce module permet d'"
+msgstr "Works on the Project Gutenberg site are identified using an ID system. This module allows you to"
+
+msgid "extraire des oeuvres du catalogue Project Gutenberg"
+msgstr " extract works from the Project Gutenberg catalog"
+
+msgid "à partir de leur ID, soit au"
+msgstr "from their ID, either in"
+
+msgid "format ePUB"
+msgstr "ePUB format"
+
+msgid "lorsque cela est disponible"
+msgstr "when available"
+
+msgid "Cela permettra de récupérer les oeuvres <em>Pride and Prejudice</em> de Jane Austen et <em>Frankenstein</em> de Mary Shelley"
+msgstr "This will allow the recovery of the works <em>Pride and Prejudice</em> by Jane Austen and <em>Frankenstein</em> by Mary Shelley"
+
+msgid "Extraire les livres"
+msgstr "Extract books"
+
+msgid "Interrogation de Project Gutenberg en cours"
+msgstr "Project Gutenberg Query in Progress"
+
+msgid "Extraction de livres sur Project Gutenberg"
+msgstr "Extracting books from Project Gutenberg"
+
+msgid "Récupération d'URLs"
+msgstr "URL Retrieval"
+
+msgid "Utilisation d'outils de scraping Web pour extraire des informations de sites Web accessibles au public"
+msgstr "Using web scraping tools to extract information from publicly accessible websites"
+
+msgid "Cela permettra de récupérer les 1000 premiers caractères des pages Wikipédia française et anglaise de Paris"
+msgstr "This will retrieve the first 1000 characters of the French and English Wikipedia pages for Paris"
+
+msgid "Extraction de texte"
+msgstr "Text extraction"
+
+msgid "Extraire le texte"
+msgstr "Extract the text"
+
+msgid "Interrogation des URLs en cours"
+msgstr "Querying URLs in progress"
+
+msgid "Collecte de textes, sous différents formats, depuis diverses sources"
+msgstr "Collection of texts, in different formats, from various sources"
+
+msgid "Cette page répertorie plusieurs types de bibliothèques numériques de texte, depuis lesquels il est possible de récupérer des documents"
+msgstr "This page lists several types of digital text libraries from which documents can be retrieved"
+
+msgid "Utilisation de l'API Google Books pour récupérer, avec leur titre, les livres qui sont dans le domaine public et dont le PDF est disponible"
+msgstr "Using the Google Books API to retrieve, with their title, books that are in the public domain and whose PDF is available"
+
+msgid "Cela permettra de récupérer les ouvrages de <em>Pride and Prejudice</em> et <em>L'Illiade d'Homère</em>"
+msgstr "This will allow the recovery of the works of <em>Pride and Prejudice</em> and <em>Homer's Iliad</em>"
+
+msgid "Titres"
+msgstr "Titles"
+
+msgid "Interrogation de l'API en cours"
+msgstr "API query in progress"
+
+msgid "Extraire les livres Google"
+msgstr "Extract Google Books"
