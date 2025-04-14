@@ -7,7 +7,7 @@
   <h2>{{ _('Correction de la graphie') }}</h2>
   <p style="text-align: center;">{{ _("Cette page répertorie divers outils pour modifier des sorties OCR, que cela soit des erreurs de prédiction ou des normalisations de graphie") }}.</p>
   <div class="container">
-    <div class="box-outil-accueil" onclick="window.location.href='{{ url_for('normalisation') }}'">
+    <div class="box-outil-accueil" onclick="window.location.href='{{ url_for('correction_graphie') }}'">
       <div class="rubrique-icon"><img alt="Normalisation" src="{{ url_for('static', filename='img/icons/graphie-ancienne.png')}}"></div>
       <span class="rubrique-title"><h3>{{ _('Normalisation de graphie ancienne') }}</h3></span>
       <span class="rubrique-text"><p>{{ _('Uniformisation des variations graphiques et équivalences en français moderne') }}.</p></span>

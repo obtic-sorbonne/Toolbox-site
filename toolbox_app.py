@@ -366,15 +366,15 @@ def generation_texte():
 # OUTILS
 #-----------------------------------------------------------------
 
-@app.route('/numeriser')
-def numeriser():
+@app.route('/text_recognition')
+def text_recognition():
     form = FlaskForm()
-    return render_template('outils/numeriser.html', form=form)
+    return render_template('outils/text_recognition.html', form=form)
 
-@app.route('/speech')
-def speech():
+@app.route('/speech_recognition')
+def speech_recognition():
     form = FlaskForm()
-    return render_template('outils/speech.html', form=form)
+    return render_template('outils/speech_recognition.html', form=form)
 
 @app.route('/nettoyage_texte')
 def nettoyage_texte():
@@ -495,9 +495,9 @@ def correction_erreur():
     form = FlaskForm()
     return render_template('outils/correction_erreur.html', form=form)
 
-@app.route('/normalisation')
-def normalisation():
-    return render_template('outils/normalisation.html')
+@app.route('/correction_graphie')
+def correction_graphie():
+    return render_template('outils/correction_graphie.html')
 
 @app.route('/ocr_ner')
 def ocr_ner():
