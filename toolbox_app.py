@@ -183,6 +183,8 @@ def load_text(source, encoding="latin-1"):
         response.encoding = encoding
         if response.status_code == 200:
             return response.text
+            print(response.status_code)  # Vérifie si le code est 200 (succès)
+            print(response.text[:500])
         else:
             raise ValueError(f"Erreur HTTP {response.status_code} en accédant à {source}")
     elif os.path.exists(source):
@@ -3231,7 +3233,7 @@ dict_AF_verbs = {} # dict ancien français verbes avec leurs conjugaisons vs inf
 dict_AF_names = {} # dict ancien français noms propres vs forme moderne
 
 # Ton URL ici (à remplacer par l'URL réelle)
-LGeRM = load_lines("https://drive.google.com/file/d/1LH9vW2bwJhHH889AoBH54pCMD6vQDr3n/view?usp=sharing")
+LGeRM = load_text("https://sharedocs.huma-num.fr/wl/?id=x9xWVNpPY0iz59AjxhZ10BpHUvVSD58e")
 formset = ""
 for line in LGeRM:
     # ta logique ici
@@ -3265,11 +3267,27 @@ for line in LGeRM:
     if formset != "":
         formset += line
 
-            
-dict_FM = {}
-Morphalou = load_lines("https://drive.google.com/file/d/1JMSKEZWVBqfvrHx2IcgWxXGxVn-07wav/view?usp=sharing")
+import re
+from io import StringIO
+import requests
+
+# Charger les lignes depuis une URL
+response = requests.get("https://sharedocs.huma-num.fr/wl/?id=zLLJeWlmCHJiVPX25LXJU3b1PjhalU9U")
+response.encoding = "ISO-8859-1"
+if response.status_code == 200:
+    text = response.text
+else:
+    raise ValueError(f"Erreur HTTP {response.status_code} lors de l'accès à l'URL")
+
+# Fournir une interface ligne par ligne
+lines = StringIO(text)
+
+# Initialiser les variables
 formset = ""
-for line in Morphalou:
+dict_FM = {}
+
+# Traiter les lignes
+for line in lines:
     if "<lexicalEntry" in line:
         formset += line
         continue
@@ -3277,17 +3295,22 @@ for line in Morphalou:
         formset += line
         match_words = re.findall(r'<inflection orthography="([^"]+)', formset, re.S)
         match_lemma = re.findall(r'<lexicalEntry lemma="([^"]+)', formset, re.S)
-        if match_words:
+        if match_words and match_lemma:
             lemma = match_lemma[0]
             for inflection in match_words:
                 dict_FM[inflection] = lemma
         formset = ""
+        continue
     if formset != "":
         formset += line
 
+# Afficher les résultats
+for key, value in dict_FM.items():
+    print(f"Inflection : {key}, Lemma : {value}")
+
 
 latin_exceptions = []
-text = load_text("https://drive.google.com/file/d/1HQmH5DkaSL2frKux3y0qqYtCcHQmp4dG/view?usp=sharing")
+text = load_text("https://sharedocs.huma-num.fr/wl/?id=whQo5cSgx8QgFGszqEcSooes05QrYEaq", encoding="utf-8")
 text = text.replace("\n", " ")
 tokens = text.split()
 for token in tokens:
