@@ -1,8 +1,7 @@
 # Pandore : une boîte à outil pour les humanités numériques
 
-Version anglaise de ce README : https://github.com/obtic-sorbonne/Toolbox-site/blob/main/README.md#pandore-a-toolbox-for-digital-humanities
+[English version of this README 🌍](https://github.com/obtic-sorbonne/Toolbox-site/blob/main/README.md#pandore-a-toolbox-for-digital-humanities)
 
------
 ## Sommaire de ce README
 * [Présentation du projet](https://github.com/obtic-sorbonne/Toolbox-site/blob/main/README.md#présentation-du-projet)
 * [Contenu du dépôt GitHub](https://github.com/obtic-sorbonne/Toolbox-site/blob/main/README.md#contenu-du-dépôt-github)
