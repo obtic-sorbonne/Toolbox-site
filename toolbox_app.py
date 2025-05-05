@@ -456,6 +456,11 @@ def embeddings():
     form = FlaskForm()
     return render_template('outils/embeddings.html', form=form)
 
+@app.route('/relations_lexicales')
+def relations_lexicales():
+    form = FlaskForm()
+    return render_template('outils/relations_lexicales.html', form=form)
+
 @app.route('/tanagra')
 def tanagra():
     return render_template('outils/tanagra.html')
@@ -2150,7 +2155,6 @@ def analyze_lexicale():
 
     # Initialize parameters with proper error handling
     analyzed_words = []
-    word = ''
     words_list = ''
 
     # Only get parameters needed for the specific analysis type
@@ -2159,10 +2163,6 @@ def analyze_lexicale():
         if not words_to_analyze:
             return Response(json.dumps({"error": "Words to analyze not specified"}), status=400, mimetype='application/json')
         analyzed_words = words_to_analyze.split(';')
-    elif analysis_type == 'lexical_relationships':
-        word = request.form.get('word')
-        if not word:
-            return Response(json.dumps({"error": "Word not specified"}), status=400, mimetype='application/json')
     elif analysis_type == 'lexical_specificity':
         words_list = request.form.get('words_list')
         if not words_list:
@@ -2217,21 +2217,7 @@ def analyze_lexicale():
                         color='black')
                 plt.savefig(os.path.join(result_path, f'{filename}_words_comparison.png'))
                 plt.close()
-
-            elif analysis_type == 'lexical_relationships':
-                synonyms, antonyms, hyponyms, hypernyms = set(), set(), set(), set()
-                for syn in wordnet.synsets(word):
-                    for lemma in syn.lemmas():
-                        synonyms.add(lemma.name())
-                        if lemma.antonyms():
-                            antonyms.add(lemma.antonyms()[0].name())
-                    hyponyms.update(lemma.name() for hypo in syn.hyponyms() for lemma in hypo.lemmas())
-                    hypernyms.update(lemma.name() for hyper in syn.hypernyms() for lemma in hyper.lemmas())
                 
-                with open(os.path.join(result_path, f'{filename}_relationships.txt'), 'w', encoding='utf-8') as out:
-                    out.write(f"Synonyms: {list(synonyms)}\nAntonyms: {list(antonyms)}\n"
-                            f"Hyponyms: {list(hyponyms)}\nHypernyms: {list(hypernyms)}")
-
             elif analysis_type == 'lexical_specificity':
                 if not words_list:
                     continue

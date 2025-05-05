@@ -12,6 +12,7 @@
         <ul class="item-list" style="margin-left: 3em;">
             <li><strong>{{ _('Dispersion lexicale') }}</strong> : {{ _("Mesure montrant la distribution et l'occurrence de mots spécifiques dans un texte") }}</li>
             <li><strong>{{ _('Diversité lexicale') }}</strong> : {{ _("Mesure de la diversité du vocabulaire d'un texte en évaluant le nombre et la variété des mots utilisés") }}</li>
+            <li><strong>{{ _('Relations lexicales') }}</strong> : {{ _("Analyse des liens entre les mots et leur fréquence d'apparition conjointe") }}</li>
             <li><strong>{{ _('Spécificités lexicales') }}</strong> : {{ _("Score identifiant le caractère unique d'un mot ou d'une phrase") }} {{ _('dans un document par rapport à un corpus de texte plus vaste') }}</li>
         </ul></p>
     </div>
@@ -25,6 +26,7 @@
             <select class="styled-select" name="analysis_type" id="analysis_type" required>
                 <option value="lexical_dispersion">{{ _('Dispersion lexicale') }}</option>
                 <option value="lexical_diversity">{{ _('Diversité lexicale') }}</option>
+                <option value="lexical_relationships">{{ _('Relations lexicales') }}</option>
                 <option value="lexical_specificity">{{ _('Spécificités lexicales') }}</option>
             </select>
         </div>
@@ -33,6 +35,11 @@
         <div class="centered-input-div" id="words_to_analyze_container" style="display: none;">
             <label for="words_to_analyze_input">{{ _('Mots à analyser') }} :</label>
             <input type="text" id="words_to_analyze_input" name="words_to_analyze" placeholder="Separate words with a semicolon (;)"><br>
+        </div>
+        
+        <div class="centered-input-div" id="word_container" style="display: none;">
+            <label for="word_input">{{ _('Mot à analyser') }} :</label>
+            <input type="text" id="word_input" name="word" placeholder="Fill it with a single word"><br>
         </div>
         
         <div class="centered-input-div" id="words_list_container" style="display: none;">
