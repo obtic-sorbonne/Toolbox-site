@@ -2,6 +2,26 @@
 {% block header %} {{ super() }} {% endblock %}
 
 {% block content %}
+<style>
+    .custom-list {
+    line-height: 1.5;
+    font-size: 18px;
+}
+
+.custom-list li {
+    margin-bottom: 10px;
+}
+
+.test {
+    display: block; 
+    margin: auto; 
+    width: max-content;
+    background-color: #f6f6f6;
+    padding: 20px; /* Espacement interne */
+    border: 2px solid #000;
+}
+
+</style>
 <link rel="stylesheet" href="{{ url_for('static', filename= 'css/elements.css') }}">
 <div class="outil">
     <div class="fil"><a href="{{ url_for('analyses')}}"><< {{ _('Retour aux tâches') }}</a></div>
@@ -9,159 +29,60 @@
         <h3>{{ _('Analyse lexicale') }}</h3>
         <p>{{ _("Cette page permet d'opérer divers types d'analyses lexicales sur un ou plusieurs documents soumis") }}.<br>
             <br>
-        <ul class="item-list" style="margin-left: 3em;">
-            <li><strong>{{ _('Dispersion lexicale') }}</strong> : {{ _("Mesure montrant la distribution et l'occurrence de mots spécifiques dans un texte") }}</li>
-            <li><strong>{{ _('Diversité lexicale') }}</strong> : {{ _("Mesure de la diversité du vocabulaire d'un texte en évaluant le nombre et la variété des mots utilisés") }}</li>
-            <li><strong>{{ _('Relations lexicales') }}</strong> : {{ _("Analyse des liens entre les mots et leur fréquence d'apparition conjointe") }}</li>
-            <li><strong>{{ _('Spécificités lexicales') }}</strong> : {{ _("Score identifiant le caractère unique d'un mot ou d'une phrase") }} {{ _('dans un document par rapport à un corpus de texte plus vaste') }}</li>
-        </ul></p>
+            <ul class="item-list" style="margin-left: 3em;">
+                <li><strong>Synonymie</strong> : Des mots qui ont un sens similaire ou identique (ex. : <em>rapide</em> et <em>vite</em> sont des synonymes).</li>
+                <li><strong>Antonymie</strong> : Des mots qui ont un sens opposé (ex. : <em>chaud</em> et <em>froid</em>).</li>
+                <li><strong>Hyponymie</strong> : Un mot plus spécifique qui appartient à une catégorie plus large (ex. : <em>rose</em> est un hyponyme de <em>fleur</em>).</li>
+                <li><strong>Hyperonymie</strong> : Un mot plus général qui englobe d'autres mots plus spécifiques (ex. : <em>animal</em> est un hyperonyme de <em>chat</em> ou <em>chien</em>).</li>
+                <li><strong>Méronymie</strong> : Une relation entre une partie et un tout (ex. : <em>roue</em> est un méronyme de <em>voiture</em>).</li>
+                <li><strong>Holonymie</strong> : L'inverse de la méronymie : le tout par rapport aux parties (ex. : <em>voiture</em> est un holonyme de <em>roue</em>).</li>
+            </ul></p>
     </div>
     
     <br>
     <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_analyses') }}"  target="_blank">{{ _('Voir la documentation') }}</a></p>
     <br>
-    <form action="{{ url_for('analyze_lexicale') }}" id="linguistic-form" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
-        <div class="centered-div">
-            <label for="analysis_type">{{ _("Choisir le type d'analyse") }} :</label>
-            <select class="styled-select" name="analysis_type" id="analysis_type" required>
-                <option value="lexical_dispersion">{{ _('Dispersion lexicale') }}</option>
-                <option value="lexical_diversity">{{ _('Diversité lexicale') }}</option>
-                <option value="lexical_relationships">{{ _('Relations lexicales') }}</option>
-                <option value="lexical_specificity">{{ _('Spécificités lexicales') }}</option>
-            </select>
-        </div>
-        {{ form.csrf_token }}
-        <br>
-        <div class="centered-input-div" id="words_to_analyze_container" style="display: none;">
-            <label for="words_to_analyze_input">{{ _('Mots à analyser') }} :</label>
-            <input type="text" id="words_to_analyze_input" name="words_to_analyze" placeholder="Separate words with a semicolon (;)"><br>
-        </div>
-        
-        <div class="centered-input-div" id="word_container" style="display: none;">
-            <label for="word_input">{{ _('Mot à analyser') }} :</label>
-            <input type="text" id="word_input" name="word" placeholder="Fill it with a single word"><br>
-        </div>
-        
-        <div class="centered-input-div" id="words_list_container" style="display: none;">
-            <label for="words_list_input">{{ _('Mots à analyser') }} :</label>
-            <input type="text" id="words_list_input" name="words_list" placeholder="Separate words with a semicolon (;)"><br>
-        </div>
-        <div class="dropzone" style="margin:25px auto;">
-            <input type="file" id="files" name="files" accept="text/plain" multiple required>
-            <p id="form_msg">{{ _("Déposer le(s) fichier(s) ou cliquer ici") }}.</p>
-        </div>
-        <input id="csrf_token" name="csrf_token" type="hidden" value="{{ csrf_token() }}">
-        <button type="submit" style="display:block;margin:auto;margin-top:20px;">{{ _("Lancer l'analyse") }}</button>
-    </form>
-    {% if msg != "" %}
-    <div><p>{{ msg }}</p></div>
-    {% endif %}
-    <div class="loader" id="loader" style="display: none;">
-        <div class="loadingio-spinner-ball-205vl2x7n"><div class="ldio-b8p5li8dt1u"><div></div></div></div>
-        <p>Traitement en cours...</p>
+    <form action="{{ url_for('lexical_relationships') }}" id="linguistic-form" method="post" enctype="multipart/form-data">
+    <div class="test">
+        <label for="language_choice">{{ _("Choisir la langue") }} :</label>
+        <select name="language_choice" id="language_choice" required>
+            <option value="eng">English</option>
+            <option value="fra">French</option>
+            <option value="spa">Spanish</option>
+        </select>
     </div>
 
+    <br>
+    <div class="test">
+        <label for="word">{{ _('Mot à analyser') }} :</label>
+        <input type="text" name="word" id="word" placeholder="Write a single word"><br>
+    </div>
+
+    <input id="csrf_token" name="csrf_token" type="hidden" value="{{ csrf_token() }}">
+    <br>
+
+    <button style="display:block;margin:auto;margin-top:20px;">{{ _("Lancer l'analyse") }}</button>
+</form>
+
+{% if msg != "" %}
+<div><p>{{ msg }}</p></div>
+{% endif %}
+
+<div class="loader" id="loader" style="display: none;">
+    <div class="loadingio-spinner-ball-205vl2x7n"><div class="ldio-b8p5li8dt1u"><div></div></div></div>
+    <p>Traitement en cours...</p>
+</div>
+
+{% if relationships_html %}
+<br>
+<div id="lexical-relationships">
+    {{ relationships_html | safe }}
+</div>
+{% endif %}
+
 <script>
-
-document.addEventListener("DOMContentLoaded", () => {
-    const form = document.getElementById("linguistic-form");
-    const analysisTypeSelect = document.getElementById("analysis_type");
-    const fileInput = document.getElementById("files");
-    const loader = document.getElementById("loader");
-    const formMsg = document.getElementById("form_msg");
-
-    // Function to handle file input display
-    const updateFileDisplay = () => {
-        if (fileInput.files.length > 0) {
-            const fileNames = Array.from(fileInput.files)
-                .map(file => file.name)
-                .join(', ');
-            formMsg.textContent = `Fichiers sélectionnés: ${fileNames}`;
-        } else {
-            formMsg.textContent = "Déposer le(s) fichier(s) ou cliquer ici.";
-        }
-    };
-
-    const toggleFieldsVisibility = () => {
-        const selectedAnalysis = analysisTypeSelect.value;
-        const wordsToAnalyze = document.getElementById("words_to_analyze_container");
-        const word = document.getElementById("word_container");
-        const wordsList = document.getElementById("words_list_container");
-        
-        [wordsToAnalyze, word, wordsList].forEach(container => {
-            if (container) {
-                container.style.display = "none";
-                const input = container.querySelector('input');
-                if (input) {
-                    input.removeAttribute('required');
-                }
-            }
-        });
-        
-        switch (selectedAnalysis) {
-            case "lexical_dispersion":
-                wordsToAnalyze.style.display = "block";
-                wordsToAnalyze.querySelector('input').setAttribute('required', 'required');
-                break;
-            case "lexical_relationships":
-                word.style.display = "block";
-                word.querySelector('input').setAttribute('required', 'required');
-                break;
-            case "lexical_specificity":
-                wordsList.style.display = "block";
-                wordsList.querySelector('input').setAttribute('required', 'required');
-                break;
-        }
-    };
-
-    // Add event listeners
-    analysisTypeSelect.addEventListener("change", toggleFieldsVisibility);
-    fileInput.addEventListener("change", updateFileDisplay);
-    
-    form.addEventListener("submit", () => {
-        loader.style.display = "block";
-    });
-
-    // Add response handler to hide loader when response is received
-    form.addEventListener("submit", async (e) => {
-        e.preventDefault();
-        loader.style.display = "block";
-        
-        try {
-            const formData = new FormData(form);
-            const response = await fetch(form.action, {
-                method: 'POST',
-                body: formData
-            });
-            
-            if (response.ok) {
-                // Handle successful response (download file)
-                const blob = await response.blob();
-                const url = window.URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = response.headers.get('Content-disposition').split('filename=')[1];
-                document.body.appendChild(a);
-                a.click();
-                window.URL.revokeObjectURL(url);
-                document.body.removeChild(a);
-            } else {
-                // Handle error response
-                const errorData = await response.json();
-                alert(errorData.error || 'An error occurred');
-            }
-        } catch (error) {
-            alert('An error occurred while processing your request');
-        } finally {
-            loader.style.display = "none";
-        }
-    });
-
-    // Initial setup
-    toggleFieldsVisibility();
-    updateFileDisplay();
-});
 </script>
 </div>
+
 {% endblock %}
 {% block footer %} {{ super() }} {% endblock %}

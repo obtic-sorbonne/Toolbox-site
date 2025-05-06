@@ -2217,7 +2217,7 @@ def analyze_lexicale():
                         color='black')
                 plt.savefig(os.path.join(result_path, f'{filename}_words_comparison.png'))
                 plt.close()
-                
+
             elif analysis_type == 'lexical_specificity':
                 if not words_list:
                     continue
@@ -2660,6 +2660,49 @@ def embedding_tool():
 
     return Response(json.dumps({"error": "Une erreur est survenue dans le traitement des fichiers."}), status=500, mimetype='application/json')
 
+
+#--------------- Relations lexicales --------------------------
+@app.route('/lexical_relationships', methods=['POST'])
+def lexical_relationships():
+    if 'word' not in request.form or not request.form['word'].strip():
+        response = {"error": "Le champ 'word' est manquant ou vide."}
+        return Response(json.dumps(response), status=400, mimetype='application/json')
+
+    try:
+        word = request.form.get('word')
+        language_choice = request.form.get('language_choice')
+
+        from nltk.corpus import wordnet as wn
+
+        synonyms, antonyms, hyponyms, hypernyms, meronyms, holonyms = set(), set(), set(), set(), set(), set()
+
+        for syn in wn.synsets(word, lang=language_choice):
+            for lemma in syn.lemmas(lang=language_choice):
+                synonyms.add(lemma.name())
+                if lemma.antonyms():
+                    antonyms.add(lemma.antonyms()[0].name())
+
+            hyponyms.update(lemma.name() for hypo in syn.hyponyms() for lemma in hypo.lemmas(lang=language_choice))
+            hypernyms.update(lemma.name() for hyper in syn.hypernyms() for lemma in hyper.lemmas(lang=language_choice))
+            meronyms.update(lemma.name() for part in syn.part_meronyms() for lemma in part.lemmas(lang=language_choice))
+            holonyms.update(lemma.name() for whole in syn.part_holonyms() for lemma in whole.lemmas(lang=language_choice))
+
+        relationships_html = f"""
+        <h3>Voici les relations lexicales de "{word}"</h3>
+            <ul class="custom-list">
+                <li><strong>Synonymes</strong> : {', '.join(s.replace('_', ' ') for s in sorted(synonyms)) or 'None'}</li>
+                <li><strong>Antonymes</strong> : {', '.join(s.replace('_', ' ') for s in sorted(antonyms)) or 'None'}</li>
+                <li><strong>Hyponymes</strong> : {', '.join(s.replace('_', ' ') for s in sorted(hyponyms)) or 'None'}</li>
+                <li><strong>Hyperonymes</strong> : {', '.join(s.replace('_', ' ') for s in sorted(hypernyms)) or 'None'}</li>
+                <li><strong>Méronymes</strong> : {', '.join(s.replace('_', ' ') for s in sorted(meronyms)) or 'None'}</li>
+                <li><strong>Holonymes</strong> : {', '.join(s.replace('_', ' ') for s in sorted(holonyms)) or 'None'}</li>
+        </ul>
+        """
+        return render_template("outils/relations_lexicales.html", word=word, relationships_html=relationships_html, msg="")
+
+    except Exception as e:
+        response = {"error": f"Erreur lors de l'analyse : {str(e)}"}
+        return Response(json.dumps(response), status=500, mimetype='application/json')
 
 
 #---------------------------------------------------------
