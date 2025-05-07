@@ -12,7 +12,6 @@
         <ul class="item-list" style="margin-left: 3em;">
             <li><strong>{{ _('Dispersion lexicale') }}</strong> : {{ _("Mesure montrant la distribution et l'occurrence de mots spécifiques dans un texte") }}</li>
             <li><strong>{{ _('Diversité lexicale') }}</strong> : {{ _("Mesure de la diversité du vocabulaire d'un texte en évaluant le nombre et la variété des mots utilisés") }}</li>
-            <li><strong>{{ _('Spécificités lexicales') }}</strong> : {{ _("Score identifiant le caractère unique d'un mot ou d'une phrase") }} {{ _('dans un document par rapport à un corpus de texte plus vaste') }}</li>
         </ul></p>
     </div>
     
@@ -25,7 +24,7 @@
             <select class="styled-select" name="analysis_type" id="analysis_type" required>
                 <option value="lexical_dispersion">{{ _('Dispersion lexicale') }}</option>
                 <option value="lexical_diversity">{{ _('Diversité lexicale') }}</option>
-                <option value="lexical_specificity">{{ _('Spécificités lexicales') }}</option>
+                <option value="dispersion_diversity">{{ _('Dispersion lexicale') }} / {{ _('Diversité lexicale') }}</option>
             </select>
         </div>
         {{ form.csrf_token }}
@@ -33,11 +32,6 @@
         <div class="centered-input-div" id="words_to_analyze_container" style="display: none;">
             <label for="words_to_analyze_input">{{ _('Mots à analyser') }} :</label>
             <input type="text" id="words_to_analyze_input" name="words_to_analyze" placeholder="Separate words with a semicolon (;)"><br>
-        </div>
-        
-        <div class="centered-input-div" id="words_list_container" style="display: none;">
-            <label for="words_list_input">{{ _('Mots à analyser') }} :</label>
-            <input type="text" id="words_list_input" name="words_list" placeholder="Separate words with a semicolon (;)"><br>
         </div>
         <div class="dropzone" style="margin:25px auto;">
             <input type="file" id="files" name="files" accept="text/plain" multiple required>
@@ -76,36 +70,26 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     const toggleFieldsVisibility = () => {
-        const selectedAnalysis = analysisTypeSelect.value;
-        const wordsToAnalyze = document.getElementById("words_to_analyze_container");
-        const word = document.getElementById("word_container");
-        const wordsList = document.getElementById("words_list_container");
-        
-        [wordsToAnalyze, word, wordsList].forEach(container => {
-            if (container) {
-                container.style.display = "none";
-                const input = container.querySelector('input');
-                if (input) {
-                    input.removeAttribute('required');
-                }
-            }
-        });
-        
-        switch (selectedAnalysis) {
-            case "lexical_dispersion":
-                wordsToAnalyze.style.display = "block";
-                wordsToAnalyze.querySelector('input').setAttribute('required', 'required');
-                break;
-            case "lexical_relationships":
-                word.style.display = "block";
-                word.querySelector('input').setAttribute('required', 'required');
-                break;
-            case "lexical_specificity":
-                wordsList.style.display = "block";
-                wordsList.querySelector('input').setAttribute('required', 'required');
-                break;
+    const selectedAnalysis = analysisTypeSelect.value;
+    const wordsToAnalyze = document.getElementById("words_to_analyze_container");
+
+    if (wordsToAnalyze) {
+        wordsToAnalyze.style.display = "none";
+        const input = wordsToAnalyze.querySelector('input');
+        if (input) {
+            input.removeAttribute('required');
         }
-    };
+    }
+
+    if (["lexical_dispersion", "dispersion_diversity"].includes(selectedAnalysis) && wordsToAnalyze) {
+        wordsToAnalyze.style.display = "block";
+        const input = wordsToAnalyze.querySelector('input');
+        if (input) {
+            input.setAttribute('required', 'required');
+        }
+    }
+};
+
 
     // Add event listeners
     analysisTypeSelect.addEventListener("change", toggleFieldsVisibility);

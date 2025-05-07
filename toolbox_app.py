@@ -2155,7 +2155,6 @@ def analyze_lexicale():
 
     # Initialize parameters with proper error handling
     analyzed_words = []
-    words_list = ''
 
     # Only get parameters needed for the specific analysis type
     if analysis_type == 'lexical_dispersion':
@@ -2163,10 +2162,6 @@ def analyze_lexicale():
         if not words_to_analyze:
             return Response(json.dumps({"error": "Words to analyze not specified"}), status=400, mimetype='application/json')
         analyzed_words = words_to_analyze.split(';')
-    elif analysis_type == 'lexical_specificity':
-        words_list = request.form.get('words_list')
-        if not words_list:
-            return Response(json.dumps({"error": "Words list not specified"}), status=400, mimetype='application/json')
 
     # Create result directory with error handling
     try:
@@ -2198,10 +2193,6 @@ def analyze_lexicale():
                 plt.close()
 
             elif analysis_type == 'lexical_diversity':
-                # Save diversity metrics
-                with open(os.path.join(result_path, f'{filename}_diversity.txt'), 'w', encoding='utf-8') as out:
-                    out.write(f"The lexical richness of the text is: {round(TTR, 2)}")
-
                 # Create visualization
                 plt.figure(figsize=(10, 6))
                 plt.bar(['Total Words', 'Unique Words'], 
@@ -2218,38 +2209,30 @@ def analyze_lexicale():
                 plt.savefig(os.path.join(result_path, f'{filename}_words_comparison.png'))
                 plt.close()
 
-            elif analysis_type == 'lexical_specificity':
-                if not words_list:
-                    continue
-                    
-                text_without_stopwords = [w for w in words_list.lower().split(";") if w not in stop_words]
-                if not text_without_stopwords:
-                    continue
-
-                # Calculate TF-IDF
-                tf = Counter(text_without_stopwords)
-                total_words = len(text_without_stopwords)
-                tf = {word: count / total_words for word, count in tf.items()}
-                word_doc_counts = {word: sum(1 for doc in [input_text] if word in doc.lower().split()) 
-                                 for word in tf}
-                idf = {word: math.log(1 / max(count, 1)) for word, count in word_doc_counts.items()}
-                tf_idf = {word: tf[word] * idf[word] for word in tf}
-                sorted_tf_idf = sorted(tf_idf.items(), key=lambda item: item[1], reverse=True)
-
-                # Save results
-                with open(os.path.join(result_path, f'{filename}_specificity.txt'), 'w', encoding='utf-8') as out:
-                    out.write(f"Results: {sorted_tf_idf}")
-
-                # Create visualization
-                words, scores = zip(*sorted_tf_idf[:10])  # Only show top 10 words
+            elif analysis_type == 'dispersion_diversity':
                 plt.figure(figsize=(10, 6))
-                plt.bar(words, scores, color='grey')
-                plt.xticks(rotation=45)
-                plt.xlabel('Words')
-                plt.ylabel('TF-IDF Score')
-                plt.title('TF-IDF Scores for Words in Text')
+                Text(tokens).dispersion_plot(analyzed_words)
+                plt.xlabel('Word Offset')
+                plt.ylabel('Frequency')
+                plt.title('Lexical Dispersion Plot')
                 plt.tight_layout()
-                plt.savefig(os.path.join(result_path, f'{filename}_specificity.png'))
+                vis_path = os.path.join(result_path, f'{filename}_dispersion_plot.png')
+                plt.savefig(vis_path, format='png')
+                plt.close()
+
+                plt.figure(figsize=(10, 6))
+                plt.bar(['Total Words', 'Unique Words'], 
+                       [total_number_words, number_unique_words], 
+                       color=['blue', 'green'])
+                plt.ylabel('Count')
+                plt.title('Total Words vs Unique Words')
+                plt.text(0.5, max(total_number_words, number_unique_words)/2, 
+                        f'Type-Token Ratio (TTR): {round(TTR, 2)}', 
+                        horizontalalignment='center', 
+                        verticalalignment='center', 
+                        fontsize=12, 
+                        color='black')
+                plt.savefig(os.path.join(result_path, f'{filename}_words_comparison.png'))
                 plt.close()
 
     except Exception as e:
