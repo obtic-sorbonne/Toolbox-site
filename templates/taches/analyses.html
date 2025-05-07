@@ -20,7 +20,7 @@
     <div class="box-outil-accueil" onclick="window.location.href='{{ url_for('analyse_lexicale') }}'">
       <div class="rubrique-icon"><img alt="Analyse lexicale" src="{{ url_for('static', filename='img/icons/analyse-lexicale.png')}}" width="100%"></div>
       <span class="rubrique-title"><h3>{{ _("Analyse lexicale") }}</h3></span>
-      <span class="rubrique-text"><p>{{ _("Dispersion lexicale") }}, {{ _("Diversité lexicale") }}, {{ _("Relations lexicales") }}, {{ _("Spécificités lexicales") }}</p></span>
+      <span class="rubrique-text"><p>{{ _("Dispersion lexicale") }}, {{ _("Diversité lexicale") }}, {{ _("Spécificités lexicales") }}</p></span>
     </div>
     <div class="box-outil-accueil" onclick="window.location.href='{{ url_for('analyse_texte') }}'">
       <div class="rubrique-icon"><img alt="Analyse de texte" src="{{ url_for('static', filename='img/icons/analyse-de-texte.png')}}" width="100%"></div>
@@ -36,6 +36,11 @@
       <div class="rubrique-icon"><img alt="Embeddings" src="{{ url_for('static', filename='img/icons/cluster.png')}}" width="100%"></div>
       <span class="rubrique-title"><h3>{{ _("Embeddings") }}</h3></span>
       <span class="rubrique-text"><p>{{ _("Similarités") }}, Relations, Clustering</p></span>
+    </div>
+    <div class="box-outil-accueil" onclick="window.location.href='{{ url_for('relations_lexicales') }}'">
+      <div class="rubrique-icon"><img alt="Analyse lexicale" src="{{ url_for('static', filename='img/icons/relations-lexicales.png')}}" width="100%"></div>
+      <span class="rubrique-title"><h3>{{ _("Relations lexicales") }}</h3></span>
+      <span class="rubrique-text"><p>{{ _("Synonymes") }}, {{ _("Antonymes") }}, {{ _("Hyponymes") }}, {{ _("Hyperonymes") }}, {{ _("Méronymes") }}, {{ _("Holonymes") }}</p></span>
     </div>
   </div>
     <br>

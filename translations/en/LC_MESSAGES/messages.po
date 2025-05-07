@@ -5385,3 +5385,96 @@ msgstr "API query in progress"
 
 msgid "Extraire les livres Google"
 msgstr "Extract Google Books"
+
+msgid "Mot à analyser"
+msgstr "Word to analyze"
+
+msgid "Cette page permet d'obtenir les diverses relations lexicales d'un mot donné"
+msgstr "This page allows you to obtain various lexical relationships of a given word."
+
+msgid "<strong>Synonymie</strong> : Une relation entre des mots qui ont un sens proche ou identique, permettant de remplacer l’un par l’autre dans un contexte donné"
+msgstr "<strong>Synonymy</strong>: A relationship between words that have a similar or identical meaning, allowing one to be replaced by the other in a given context."
+
+msgid "Elle est essentielle pour enrichir le vocabulaire et éviter les répétitions. (Ex. : <em>rapide</em> et <em>vite</em> sont des synonymes, car ils expriment la même idée de célérité.)"
+msgstr "It is essential for enriching vocabulary and avoiding repetition. (Ex: <em>fast</em> and <em>quick</em> are synonyms because they express the same idea of speed.)"
+
+msgid "<strong>Antonymie</strong> : Une relation entre des mots ayant des significations opposées, souvent utilisée pour exprimer des contrastes ou des oppositions claires"
+msgstr "<strong>Antonymy</strong>: A relationship between words with opposite meanings, often used to express contrasts or clear oppositions."
+
+msgid "Les antonymes peuvent être **gradables** (ex. : <em>chaud</em> et <em>froid</em>) ou **complémentaires** (ex. : <em>vivant</em> et <em>mort</em>, où aucun état intermédiaire n'existe)"
+msgstr "Antonyms can be **gradable** (ex: <em>hot</em> and <em>cold</em>) or **complementary** (ex: <em>alive</em> and <em>dead</em>, where no intermediate state exists)."
+
+msgid "<strong>Hyponymie</strong> : Une relation hiérarchique où un mot plus spécifique appartient à une catégorie plus générale. Elle est utile pour organiser les concepts de manière logique"
+msgstr "<strong>Hyponymy</strong>: A hierarchical relationship where a more specific word belongs to a broader category. It is useful for logically organizing concepts."
+
+msgid "(Ex. : <em>rose</em> est un **hyponyme** de <em>fleur</em>, car une rose est un type particulier de fleur.)"
+msgstr "(Ex: <em>rose</em> is a **hyponym** of <em>flower</em>, as a rose is a specific type of flower.)"
+
+msgid "<strong>Hyperonymie</strong> : L’inverse de l’hyponymie, un mot plus général englobant plusieurs mots plus spécifiques. Cette relation permet de regrouper des concepts similaires sous un terme commun"
+msgstr "<strong>Hyperonymy</strong>: The opposite of hyponymy, where a more general word encompasses several more specific words. This relationship helps group similar concepts under a common term."
+
+msgid "(Ex. : <em>animal</em> est un **hyperonyme** de <em>chat</em> et <em>chien</em>, car ces derniers appartiennent à la catégorie des animaux.)"
+msgstr "(Ex: <em>animal</em> is a **hypernym** of <em>cat</em> and <em>dog</em>, as these belong to the category of animals.)"
+
+msgid "<strong>Méronymie</strong> : Une relation où un mot représente une partie d’un tout. Elle est fréquemment utilisée pour décrire des structures ou des objets complexes"
+msgstr "<strong>Meronymy</strong>: A relationship where a word represents a part of a whole. It is frequently used to describe structures or complex objects."
+
+msgid "(Ex. : <em>roue</em> est un **méronyme** de <em>voiture</em>, car une roue fait partie intégrante d’un véhicule.)"
+msgstr "(Ex: <em>wheel</em> is a **meronym** of <em>car</em>, as a wheel is an integral part of a vehicle.)"
+
+msgid "<strong>Holonymie</strong> : L’inverse de la méronymie, où un mot désigne l’ensemble dont une partie fait partie. Elle est essentielle pour comprendre la composition des objets et des systèmes"
+msgstr "<strong>Holonymy</strong>: The opposite of meronymy, where a word refers to the whole that includes a part. It is essential for understanding the composition of objects and systems."
+
+msgid "(Ex. : <em>voiture</em> est un **holonyme** de <em>roue</em>, car une voiture contient des roues dans sa structure.)"
+msgstr "(Ex: <em>car</em> is a **holonym** of <em>wheel</em>, as a car contains wheels in its structure.)"
+
+msgid "Chinois Mandarin"
+msgstr "Mandarin Chinese"
+
+msgid "Grec"
+msgstr "Greek"
+
+msgid "Hébreu"
+msgstr "Hebrew"
+
+msgid "Italien"
+msgstr "Italian"
+
+msgid "Japonais"
+msgstr "Japanese"
+
+msgid "Néerlandais"
+msgstr "Dutch"
+
+msgid "Polonais"
+msgstr "Polish"
+
+msgid "Portugais"
+msgstr "Portuguese"
+
+msgid "Slovaque"
+msgstr "Slovak"
+
+msgid "Choisir la langue"
+msgstr "Choose the language"
+
+msgid "Voici les relations lexicales de"
+msgstr "Here are the lexical relationships of"
+
+msgid "Synonymes"
+msgstr "Synonyms"
+
+msgid "Antonymes"
+msgstr "Antonyms"
+
+msgid "Hyponymes"
+msgstr "Hyponyms"
+
+msgid "Hyperonymes"
+msgstr "Hypernyms"
+
+msgid "Méronymes"
+msgstr "Meronyms"
+
+msgid "Holonymes"
+msgstr "Holonyms"
