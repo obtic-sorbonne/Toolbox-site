@@ -8,46 +8,65 @@
     <h2>{{ _('Traduction') }}</h2>
     <p>{{ _("Utilisation de modèles pour convertir du texte ou de la parole d'une langue à une autre, permettant ainsi la communication et la compréhension interlinguistiques") }}.</p>
     <br>
-    <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_generation') }}"  target="_blank">{{ _('Voir la documentation') }}</a> / <a href="{{ url_for('tutoriel_generation') }}"  target="_blank">{{ _('Voir le tutoriel') }}</a></p>
+    <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_generation') }}" target="_blank">{{ _('Voir la documentation') }}</a> / <a href="{{ url_for('tutoriel_generation') }}" target="_blank">{{ _('Voir le tutoriel') }}</a></p>
     <br>
-    <p style="text-align: center;">{{ _("Outil à venir") }}</p>
-    <!-- <form action="{{ url_for('split_text') }}" id="linguistic-form" method="post" enctype="multipart/form-data" onsubmit="showloader('loader')">
-        {{ form.csrf_token }}
-        <div class="dropzone" style="margin:25px auto;">
-            <input type="file" id="files" name="files" accept="text/plain" multiple required>
-            <p id="form_msg">Déposer le(s) fichier(s) ou cliquer ici.</p>
+    
+    <form action="{{ url_for('traduction') }}" method="post" enctype="multipart/form-data" onsubmit="showloader('loader')">
+        <div class="form-group">
+            <label for="source_lang">{{ _('Langue source') }} :</label>
+            <select name="source_lang" id="source_lang">
+                <option value="en" {% if request.form.source_lang == 'en' %}selected{% endif %}>{{ _('Anglais') }}</option>
+                <option value="fr" {% if request.form.source_lang == 'fr' %}selected{% endif %}>{{ _('Français') }}</option>
+                <option value="de" {% if request.form.source_lang == 'de' %}selected{% endif %}>{{ _('Allemand') }}</option>
+                <option value="es" {% if request.form.source_lang == 'es' %}selected{% endif %}>{{ _('Espagnol') }}</option>
+            </select>
         </div>
+        
+        <div class="form-group">
+            <label for="target_lang">{{ _('Langue cible') }} :</label>
+            <select name="target_lang" id="target_lang">
+                <option value="fr" {% if request.form.target_lang == 'fr' %}selected{% endif %}>{{ _('Français') }}</option>
+                <option value="en" {% if request.form.target_lang == 'en' %}selected{% endif %}>{{ _('Anglais') }}</option>
+                <option value="de" {% if request.form.target_lang == 'de' %}selected{% endif %}>{{ _('Allemand') }}</option>
+                <option value="es" {% if request.form.target_lang == 'es' %}selected{% endif %}>{{ _('Espagnol') }}</option>
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <label for="text">{{ _('Texte à traduire') }} :</label>
+            <textarea name="text" id="text" rows="5" cols="50" required>{% if request.form.text %}{{ request.form.text }}{% else %}The Transformers library by Hugging Face is a powerful tool for natural language processing.{% endif %}</textarea>
+        </div>
+        
         <input id="csrf_token" name="csrf_token" type="hidden" value="{{ csrf_token() }}">
-        <button style="display:block;margin:auto;margin-top:20px;">Télécharger les fichiers</button>
+        
+        <button type="submit" style="display:block;margin:auto;margin-top:20px;">{{ _('Traduire') }}</button>
     </form>
-    {% if msg != "" %}
-    <div> <p>{{ msg }}</p></div>
-    {% endif %}
-    <div class="loader" id="loader">
-        <div class="loadingio-spinner-ball-205vl2x7f7n"><div class="ldio-b8p5li8dt1u"><div></div></div></div>
-        <p>Traitement en cours...</p>
-    </div>-->
-<script>
-/* MAJ de la zone de glisser-déposer */ 
-$('form input').change(function () {
-    var nb_files = this.files.length;
-    $('form #form_msg').text(nb_files + " fichier(s) selectionné(s)");
 
-    /* Prévisualisation des fichiers chargés (max 3 visibles) */
-    if(nb_files > 3){
-        var num = nb_files - 3;
-        for(i=0; i < 3; i++){
-            $("#form_msg").append('<br/><span class="filename_preview">' + this.files[i].name + '</span>');
+    <div class="loader" id="loader">
+        <div class="loadingio-spinner-ball-205vl2x7n"><div class="ldio-b8p5li8dt1u"><div></div></div></div>
+        <p>Traitement en cours...</p>
+    </div>
+
+    {% if error %}
+    <div class="error-message">
+        <p>{{ error }}</p>
+    </div>
+    {% endif %}
+
+    {% if result %}
+    <div class="result-container">
+        <h4>{{ _('Texte traduit') }} :</h4>
+        <div class="result-text">
+            {{ result }}
+        </div>
+    </div>
+    {% endif %}
+    
+    <script>
+        function showloader(id) {
+            document.getElementById(id).style.display = 'block';
         }
-        $("#form_msg").append('<span class="filename_preview"> et ' + num + ' autres.</span>');
-    }
-    else{
-        for(i=0; i < nb_files; i++){
-            $("#form_msg").append('<br/><span class="filename_preview">' + this.files[i].name + '</span>');
-        }
-    }
-});
-</script>
+    </script>
 </div>
 {% endblock %}
 {% block footer %} {{ super() }} {% endblock %}

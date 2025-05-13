@@ -1,3 +1,4 @@
+# Core dependencies
 beautifulsoup4==4.11.1
 blis==0.7.8
 Bottleneck>=1.3.6
@@ -116,7 +117,7 @@ srsly==2.4.3
 tabulate==0.8.10
 thinc==8.1.0
 threadpoolctl==3.1.0
-tokenizers==0.12.1
+tokenizers>=0.12.1
 torch>=2.0.0,!=2.0.1 # changed from torch==1.12.1
 tqdm==4.64.1
 transformers>=4.30.2,<5.0.0 # changed from transformers==4.22.1
@@ -135,7 +136,10 @@ zipp==3.8.1
 openai-whisper
 yt-dlp
 # Note: These require system-level ffmpeg installation
+newspaper3k
+lxml_html_clean
 
-
-
-
+# New dependencies for text generation features
+accelerate>=0.21.0
+protobuf==3.20.3
+tensorflow>=2.12.0

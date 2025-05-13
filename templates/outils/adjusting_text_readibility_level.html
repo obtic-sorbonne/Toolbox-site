@@ -8,48 +8,58 @@
     <h2>{{ _('Ajustement du niveau de lecture du texte') }}</h2>
     <p>{{ _("Rendu plus accessible d'un contenu en utilisant la simplification lexicale, le raccourcissement des phrases et la notation de lisibilité pour modifier la complexité du texte") }}.</p>
     <br>
-    <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_generation') }}"  target="_blank">{{ _('Voir la documentation') }}</a> / <a href="{{ url_for('tutoriel_generation') }}"  target="_blank">{{ _('Voir le tutoriel') }}</a></p>
+    <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_generation') }}" target="_blank">{{ _('Voir la documentation') }}</a> / <a href="{{ url_for('tutoriel_generation') }}" target="_blank">{{ _('Voir le tutoriel') }}</a></p>
     <br>
-    <p style="text-align: center;">{{ _("Outil à venir") }}</p>
-    <!-- <form action="{{ url_for('split_text') }}" id="linguistic-form" method="post" enctype="multipart/form-data" onsubmit="showloader('loader')">
-        {{ form.csrf_token }}
-        <div class="dropzone" style="margin:25px auto;">
-            <input type="file" id="files" name="files" accept="text/plain" multiple required>
-            <p id="form_msg">Déposer le(s) fichier(s) ou cliquer ici.</p>
+    
+    <form action="{{ url_for('ajustement_text_readibility_level') }}" method="post" enctype="multipart/form-data" onsubmit="showloader('loader')">
+        <div class="form-group">
+            <label for="text">{{ _('Texte à ajuster') }} :</label>
+            <textarea name="text" id="text" rows="6" cols="50" required>{% if request.form.text %}{{ request.form.text }}{% else %}Climate change is a significant global issue that requires immediate attention and action from all countries. Rising temperatures, melting ice caps, and increasing frequency of extreme weather events are just a few of the consequences of unchecked greenhouse gas emissions.{% endif %}</textarea>
         </div>
+        
+        <div class="form-group">
+            <label for="target_level">{{ _('Niveau cible') }} :</label>
+            <select name="target_level" id="target_level">
+                <option value="2" {% if request.form.target_level == '2' %}selected{% endif %}>{{ _('CP/CE1 (7 ans)') }}</option>
+                <option value="4" {% if request.form.target_level == '4' %}selected{% endif %}>{{ _('CE2/CM1 (9 ans)') }}</option>
+                <option value="6" {% if request.form.target_level == '6' or not request.form.target_level %}selected{% endif %}>{{ _('CM2/6ème (11 ans)') }}</option>
+                <option value="8" {% if request.form.target_level == '8' %}selected{% endif %}>{{ _('5ème/4ème (13 ans)') }}</option>
+                <option value="10" {% if request.form.target_level == '10' %}selected{% endif %}>{{ _('3ème/2nde (15 ans)') }}</option>
+                <option value="12" {% if request.form.target_level == '12' %}selected{% endif %}>{{ _('1ère/Term (17 ans)') }}</option>
+                <option value="16" {% if request.form.target_level == '16' %}selected{% endif %}>{{ _('Universitaire') }}</option>
+            </select>
+        </div>
+        
         <input id="csrf_token" name="csrf_token" type="hidden" value="{{ csrf_token() }}">
-        <button style="display:block;margin:auto;margin-top:20px;">Télécharger les fichiers</button>
+        
+        <button type="submit" style="display:block;margin:auto;margin-top:20px;">{{ _('Ajuster le texte') }}</button>
     </form>
-    {% if msg != "" %}
-    <div> <p>{{ msg }}</p></div>
-    {% endif %}
+
     <div class="loader" id="loader">
-        <div class="loadingio-spinner-ball-205vl2x7f7n"><div class="ldio-b8p5li8dt1u"><div></div></div></div>
+        <div class="loadingio-spinner-ball-205vl2x7n"><div class="ldio-b8p5li8dt1u"><div></div></div></div>
         <p>Traitement en cours...</p>
-    </div>-->
-<script>
-/* MAJ de la zone de glisser-déposer */ 
-$('form input').change(function () {
-    var nb_files = this.files.length;
-    $('form #form_msg').text(nb_files + " fichier(s) selectionné(s)");
+    </div>
 
-    /* Prévisualisation des fichiers chargés (max 3 visibles) */
-    if(nb_files > 3){
-        var num = nb_files - 3;
-        for(i=0; i < 3; i++){
-            $("#form_msg").append('<br/><span class="filename_preview">' + this.files[i].name + '</span>');
-        }
-        $("#form_msg").append('<span class="filename_preview"> et ' + num + ' autres.</span>');
-    }
-    else{
-        for(i=0; i < nb_files; i++){
-            $("#form_msg").append('<br/><span class="filename_preview">' + this.files[i].name + '</span>');
-        }
-    }
-});
-</script>
-</div>
-</div>
+    {% if error %}
+    <div class="error-message">
+        <p>{{ error }}</p>
+    </div>
+    {% endif %}
 
+    {% if result %}
+    <div class="result-container">
+        <h4>{{ _('Texte ajusté') }} :</h4>
+        <div class="result-text">
+            {{ result }}
+        </div>
+    </div>
+    {% endif %}
+    
+    <script>
+        function showloader(id) {
+            document.getElementById(id).style.display = 'block';
+        }
+    </script>
+</div>
 {% endblock %}
 {% block footer %} {{ super() }} {% endblock %}
