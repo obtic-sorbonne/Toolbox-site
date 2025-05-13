@@ -115,6 +115,19 @@ app.add_url_rule("/uploads/<name>", endpoint="download_file", build_only=True)
 
 csrf.init_app(app)
 
+#-----------------------------------------------------------------
+# Model caching for better performance
+#-----------------------------------------------------------------
+model_cache = {}
+
+def get_model(task, model_name):
+    """Get a model from cache or load it if not cached"""
+    key = f"{task}_{model_name}"
+    if key not in model_cache:
+        from transformers import pipeline
+        model_cache[key] = pipeline(task, model=model_name)
+    return model_cache[key]
+
 
 #--------------------------------------------------------------
 # Generic functions
@@ -173,7 +186,6 @@ def create_named_directory(rand_name, base_dir=None):
     result_path = os.path.join(base_dir, rand_name)
     os.makedirs(result_path, exist_ok=True)
     return result_path
-
 
 #-----------------------------------------------------------------
 # error handlers to catch CSRF errors gracefully
@@ -3290,12 +3302,113 @@ def autocorrect():
 #-----------------------------------------------------------------
 
 #------------- Complétion de texte ---------------------
+@app.route('/completion_text', methods=['GET', 'POST'])
+def completion_text():
+    form = FlaskForm()
+    result = None
+    
+    if request.method == 'POST':
+        prompt = request.form.get('prompt', '')
+        max_length = int(request.form.get('max_length', 60))
+        
+        try:
+            generator = get_model("text-generation", "distilgpt2")
+            result = generator(prompt, max_length=max_length, num_return_sequences=1)[0]['generated_text']
+        except Exception as e:
+            return render_template('outils/text_completion.html', form=form, error=str(e))
+            
+    return render_template('outils/text_completion.html', form=form, result=result)
 
-#------------- Q/A ---------------------
+#------------- Q/A and Conversation ---------------------
+@app.route('/qa_function', methods=['GET', 'POST'])
+def qa_function():
+    form = FlaskForm()
+    qa_result = None
+    conversation_result = None
+    
+    if request.method == 'POST':
+        tool_type = request.form.get('tool_type')
+        
+        if tool_type == 'qa':
+            context = request.form.get('context', '')
+            question = request.form.get('question', '')
+            
+            try:
+                qa_pipeline = get_model("question-answering", "distilbert-base-cased-distilled-squad")
+                qa_result = qa_pipeline(context=context, question=question)
+            except Exception as e:
+                return render_template('outils/qa_and_conversation.html', form=form, error=str(e))
+                
+        elif tool_type == 'conversation':
+            history = request.form.get('history', '')
+            user_input = request.form.get('user_input', '')
+            
+            try:
+                chatbot = get_model("text-generation", "microsoft/DialoGPT-small")
+                
+                # Append user input to history
+                if history:
+                    updated_history = f"{history}\nUser: {user_input}\n"
+                else:
+                    updated_history = f"User: {user_input}\n"
+                
+                response = chatbot(updated_history, max_length=100, pad_token_id=50256)[0]["generated_text"]
+                bot_response = response.split("\n")[-1]
+                
+                conversation_result = {
+                    'history': updated_history,
+                    'response': bot_response
+                }
+            except Exception as e:
+                return render_template('outils/qa_and_conversation.html', form=form, error=str(e))
+                
+    return render_template('outils/qa_and_conversation.html', form=form, qa_result=qa_result, conversation_result=conversation_result)
 
 #------------- Traduction ---------------------
+@app.route('/traduction', methods=['GET', 'POST'])
+def traduction():
+    form = FlaskForm()
+    result = None
+    
+    if request.method == 'POST':
+        text = request.form.get('text', '')
+        source_lang = request.form.get('source_lang', 'en')
+        target_lang = request.form.get('target_lang', 'fr')
+        
+        try:
+            # Define translation model based on language pair
+            model_name = f"Helsinki-NLP/opus-mt-{source_lang}-{target_lang}"
+            translator = get_model("translation", model_name)
+            
+            result = translator(text, max_length=512)[0]['translation_text']
+        except Exception as e:
+            return render_template('outils/translation.html', form=form, error=str(e))
+            
+    return render_template('outils/translation.html', form=form, result=result)
 
 #------------- Ajustement du niveau de lecture ---------------------
+@app.route('/ajustement_text_readibility_level', methods=['GET', 'POST'])
+def ajustement_text_readibility_level():
+    form = FlaskForm()
+    result = None
+    
+    if request.method == 'POST':
+        text = request.form.get('text', '')
+        target_level = request.form.get('target_level', '6')
+        
+        try:
+            # Use a text-to-text model from Hugging Face
+            generator = get_model("text2text-generation", "google/flan-t5-small")
+            
+            # Create prompt
+            prompt = f"Rewrite the following text to be at a {target_level}-grade readability level:\n\n{text}"
+            
+            # Generate rewritten text
+            result = generator(prompt, max_length=512, num_return_sequences=1)[0]['generated_text']
+        except Exception as e:
+            return render_template('outils/adjusting_text_readibility_level.html', form=form, error=str(e))
+            
+    return render_template('outils/adjusting_text_readibility_level.html', form=form, result=result)
 
 
 #-----------------------------------------------------------------

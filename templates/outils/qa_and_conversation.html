@@ -6,49 +6,180 @@
 <div class="outil">
     <div class="fil"><a href="{{ url_for('generation_texte')}}"><< {{ _('Retour aux tâches') }}</a></div>
     <h2>{{ _('Questions/réponses et conversations') }}</h2>
-    <p>{{ _('Modèles capables de comprendre et de répondre aux questions posées en langage humain avec des réponses précises et contextuellement pertinentes') }}.</p>
+    <p>{{ _("Modèles capables de comprendre et de répondre aux questions posées en langage humain avec des réponses précises et contextuellement pertinentes") }}.</p>
     <br>
-    <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_generation') }}"  target="_blank">{{ _('Voir la documentation') }}</a> / <a href="{{ url_for('tutoriel_generation') }}"  target="_blank">{{ _('Voir le tutoriel') }}</a></p>
+    <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_generation') }}" target="_blank">{{ _('Voir la documentation') }}</a> / <a href="{{ url_for('tutoriel_generation') }}" target="_blank">{{ _('Voir le tutoriel') }}</a></p>
     <br>
-    <p style="text-align: center;">{{ _("Outil à venir") }}</p>
-    <!-- <form action="{{ url_for('split_text') }}" id="linguistic-form" method="post" enctype="multipart/form-data" onsubmit="showloader('loader')">
-        {{ form.csrf_token }}
-        <div class="dropzone" style="margin:25px auto;">
-            <input type="file" id="files" name="files" accept="text/plain" multiple required>
-            <p id="form_msg">Déposer le(s) fichier(s) ou cliquer ici.</p>
+    
+    <div class="tool-tabs">
+        <button class="tab-button active" onclick="switchTab('qa')">{{ _('Questions & Réponses') }}</button>
+        <button class="tab-button" onclick="switchTab('conversation')">{{ _('Conversation') }}</button>
+    </div>
+    
+    <div id="qa-tab" class="tab-content active">
+        <form action="{{ url_for('qa_function') }}" method="post" enctype="multipart/form-data" onsubmit="showloader('loader')">
+            <input type="hidden" name="tool_type" value="qa">
+            
+            <div class="form-group">
+                <label for="context">{{ _('Contexte') }} :</label>
+                <textarea name="context" id="context" rows="5" cols="50" required>{% if request.form.context %}{{ request.form.context }}{% else %}The Transformers library by Hugging Face is a powerful tool for natural language processing.{% endif %}</textarea>
+            </div>
+            
+            <div class="form-group">
+                <label for="question">{{ _('Question') }} :</label>
+                <input type="text" name="question" id="question" value="{% if request.form.question %}{{ request.form.question }}{% else %}What is Transformers library used for?{% endif %}" required>
+            </div>
+            
+            <input id="csrf_token" name="csrf_token" type="hidden" value="{{ csrf_token() }}">
+            
+            <button type="submit" style="display:block;margin:auto;margin-top:20px;">{{ _('Obtenir une réponse') }}</button>
+        </form>
+        
+        {% if qa_result %}
+        <div class="result-container">
+            <h4>{{ _('Réponse') }} :</h4>
+            <div class="result-text">
+                <p><strong>{{ _('Réponse trouvée') }}: </strong>{{ qa_result.answer }}</p>
+                <p><strong>{{ _('Score') }}: </strong>{{ "%.2f"|format(qa_result.score) }}</p>
+                <p><strong>{{ _('Début') }}: </strong>{{ qa_result.start }}</p>
+                <p><strong>{{ _('Fin') }}: </strong>{{ qa_result.end }}</p>
+            </div>
         </div>
-        <input id="csrf_token" name="csrf_token" type="hidden" value="{{ csrf_token() }}">
-        <button style="display:block;margin:auto;margin-top:20px;">Télécharger les fichiers</button>
-    </form>
-    {% if msg != "" %}
-    <div> <p>{{ msg }}</p></div>
-    {% endif %}
+        {% endif %}
+    </div>
+    
+    <div id="conversation-tab" class="tab-content">
+        <form action="{{ url_for('qa_function') }}" method="post" enctype="multipart/form-data" onsubmit="showloader('loader')">
+            <input type="hidden" name="tool_type" value="conversation">
+            <input type="hidden" name="history" id="history" value="{% if conversation_result %}{{ conversation_result.history }}{% endif %}">
+            
+            <div class="form-group">
+                <label for="chat-display">{{ _('Conversation') }} :</label>
+                <div id="chat-display" class="chat-display">
+                    {% if conversation_result %}
+                        {% for line in conversation_result.history.split('\n') %}
+                            {% if line %}
+                                <div class="chat-message {% if 'User:' in line %}user{% else %}bot{% endif %}">
+                                    {{ line }}
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="user_input">{{ _('Votre message') }} :</label>
+                <input type="text" name="user_input" id="user_input" placeholder="I would like to watch a movie today, any suggestion?" required>
+            </div>
+            
+            <input id="csrf_token" name="csrf_token" type="hidden" value="{{ csrf_token() }}">
+            
+            <button type="submit" style="display:block;margin:auto;margin-top:20px;">{{ _('Envoyer') }}</button>
+        </form>
+    </div>
+    
     <div class="loader" id="loader">
-        <div class="loadingio-spinner-ball-205vl2x7f7n"><div class="ldio-b8p5li8dt1u"><div></div></div></div>
+        <div class="loadingio-spinner-ball-205vl2x7n"><div class="ldio-b8p5li8dt1u"><div></div></div></div>
         <p>Traitement en cours...</p>
-    </div>-->
-<script>
-/* MAJ de la zone de glisser-déposer */ 
-$('form input').change(function () {
-    var nb_files = this.files.length;
-    $('form #form_msg').text(nb_files + " fichier(s) selectionné(s)");
+    </div>
 
-    /* Prévisualisation des fichiers chargés (max 3 visibles) */
-    if(nb_files > 3){
-        var num = nb_files - 3;
-        for(i=0; i < 3; i++){
-            $("#form_msg").append('<br/><span class="filename_preview">' + this.files[i].name + '</span>');
+    {% if error %}
+    <div class="error-message">
+        <p>{{ error }}</p>
+    </div>
+    {% endif %}
+    
+    <script>
+        function showloader(id) {
+            document.getElementById(id).style.display = 'block';
         }
-        $("#form_msg").append('<span class="filename_preview"> et ' + num + ' autres.</span>');
-    }
-    else{
-        for(i=0; i < nb_files; i++){
-            $("#form_msg").append('<br/><span class="filename_preview">' + this.files[i].name + '</span>');
+        
+        function switchTab(tabName) {
+            // Hide all tabs
+            const tabContents = document.getElementsByClassName('tab-content');
+            for (let i = 0; i < tabContents.length; i++) {
+                tabContents[i].classList.remove('active');
+            }
+            
+            // Deactivate all buttons
+            const tabButtons = document.getElementsByClassName('tab-button');
+            for (let i = 0; i < tabButtons.length; i++) {
+                tabButtons[i].classList.remove('active');
+            }
+            
+            // Show selected tab
+            document.getElementById(tabName + '-tab').classList.add('active');
+            
+            // Activate selected button
+            document.querySelector(`.tab-button[onclick="switchTab('${tabName}')"]`).classList.add('active');
         }
-    }
-});
-</script>
-</div>
+        
+        // Initialize with active tab if form was submitted
+        {% if request.method == 'POST' %}
+            {% if request.form.tool_type == 'conversation' %}
+                switchTab('conversation');
+            {% else %}
+                switchTab('qa');
+            {% endif %}
+        {% endif %}
+    </script>
+    
+    <style>
+        .tool-tabs {
+            display: flex;
+            margin-bottom: 20px;
+        }
+        
+        .tab-button {
+            padding: 10px 20px;
+            cursor: pointer;
+            background-color: #f0f0f0;
+            border: 1px solid #ccc;
+            border-bottom: none;
+            margin-right: 5px;
+        }
+        
+        .tab-button.active {
+            background-color: #fff;
+            border-bottom: 2px solid #fff;
+        }
+        
+        .tab-content {
+            display: none;
+            padding: 20px;
+            border: 1px solid #ccc;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .chat-display {
+            height: 250px;
+            overflow-y: auto;
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: #f9f9f9;
+        }
+        
+        .chat-message {
+            margin-bottom: 10px;
+            padding: 8px;
+            border-radius: 5px;
+        }
+        
+        .chat-message.user {
+            background-color: #e3f2fd;
+            text-align: right;
+        }
+        
+        .chat-message.bot {
+            background-color: #f5f5f5;
+            text-align: left;
+        }
+    </style>
 </div>
 {% endblock %}
 {% block footer %} {{ super() }} {% endblock %}
