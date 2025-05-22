@@ -24,15 +24,15 @@
 <div class="outil">
 	<div class="fil"><a href="{{ url_for('outils_visualisation')}}"><< {{ _('Retour aux tâches') }}</a></div>
 	<h2>Renard</h2>
-	<p>L'outil <a href="https://compnet.github.io/Renard/introduction.html" target="_blank">Renard <i class="fa-solid fa-arrow-up-right-from-square"></i></a> ({{ _('pour') }} <span style="font-style:italic">Relationships Extraction from NARrative Documents</span>) {{ _ ("permet d'extraire les entités de personnes d'un texte littéraire et visualiser les réseaux de personnages sous forme de graphes") }}.</p>
+	<p>{{ _("L'outil") }} <a href="https://compnet.github.io/Renard/introduction.html" target="_blank">Renard <i class="fa-solid fa-arrow-up-right-from-square"></i></a> ({{ _('pour') }} <span style="font-style:italic">Relationships Extraction from NARrative Documents</span>) {{ _ ("permet d'extraire les entités de personnes d'un texte littéraire et visualiser les réseaux de personnages sous forme de graphes") }}.</p>
 	<div class="infos_outil" style="display: block;margin: 0 auto 15px auto;">
         <input id="show" type=checkbox><label for="show" class="infos_title"><i class="fa-solid fa-circle-info"></i> {{ _("Informations sur l'outil") }}<i class="fa-solid fa-angle-right" style="float:right;margin-top:5px;margin-left:15px;cursor: pointer;"></i></label></p>
         <div class="info_popped">
-		<p>Renard v.0.3.0</p>
+		<p>Renard v.0.6.5</p>
 		<p>{{ _("Format d'entrée :")}} <i class="fa-regular fa-file-lines"></i> {{ _('fichier TXT') }}</p>
-		<p>{{ _('Formats générés :')}} <li style="text-decoration: none; margin-left: 20px;"><i class="fa-regular fa-image"></i> graphe PNG</li> 
-			<li style="text-decoration: none; margin-left: 20px;"><i class="fa-solid fa-file-code"></i> fichier GEXF</li></ul></p>
-		<p>Limite de taille : 150 Mo</p>
+		<p>{{ _('Formats générés :')}} <li style="text-decoration: none; margin-left: 20px;"><i class="fa-regular fa-image"></i> {{ _('graphe PNG') }}</li> 
+			<li style="text-decoration: none; margin-left: 20px;"><i class="fa-solid fa-file-code"></i> {{ _('fichier GEXF') }}</li></ul></p>
+		<p>{{ _('Limite de taille ')}}: 150 Mo</p>
       <p><i class="fa-solid fa-triangle-exclamation"></i> {{ _("Attention : Assurez-vous que les noms de vos fichiers d'entrée ne soient pas trop longs")}}<br>
       {{ _("et ne contiennent pas de caractères problématiques")}} ([\/:*"&gt;&lt;|])</p>
 		</p>
@@ -44,27 +44,27 @@
 		<div id="parameters">
 			<fieldset><legend style="color:#263e8d;">{{ _('Paramètres') }}</legend>
 			<label for="toollang"><i class="fa-regular fa-flag"></i> {{ _("Langue du texte") }}</label>
-			<select name="toollang" id="toollang" class="sel sel--black-panther">
+			<select name="toollang" id="toollang" class="styled-select">
 				<option value="fra" selected="true">{{ _('Français') }}</option>
 				<option value="eng">{{ _('Anglais') }}</option>
 				<option value="spa">{{ _('Espagnol') }}</option>
 			</select>
 			<br>
-			<label for="min_appearances">{{ _('Nombre minimal de mentions du personnage') }}</label>
+			<label for="min_appearances"><i class="fa-regular fa-user"></i> {{ _('Nombre minimal de mentions du personnage') }}</label>
 			<input type="number" id="min_appearances" name="min_appearances" min="1" max="50" value="10"></fieldset>
 		</div>
 
 		 <div class="container" id="renard_container">
 			<div class="dropzone">
 				<input type="file" id="renard_upload" name="renard_upload" accept="text/plain">
-				<p id="form_msg"><span style="font-size: 2em;color: #c0c0c0;"><i class="fa-solid fa-arrow-up-from-bracket"></i></span><br>Déposer un fichier ou cliquer ici.</p>
+				<p id="form_msg"><span style="font-size: 2em;color: #c0c0c0;"><i class="fa-solid fa-arrow-up-from-bracket"></i></span><br>{{ _('Déposer le(s) fichier(s) ou cliquer ici.' )}}</p>
 			</div>
-			<textarea name="renard_txt_input" id="renard_txt_input" style="width:500px" placeholder="Coller votre texte ici"></textarea>
+			<textarea name="renard_txt_input" id="renard_txt_input" style="width:500px" placeholder="Put your text here"></textarea>
 			<input id="csrf_token" name="csrf_token" type="hidden" value="CSRF_TOKEN_STRING">
 		 </div>
-			<button type="submit" style="display:block;margin:auto;margin-top:15px;">Envoyer</button>
+			<button type="submit" style="display:block;margin:auto;margin-top:15px;">{{ _('Envoyer')}}</button>
 		</form>
-		<div class="loader"><div class="loadingio-spinner-ball-205vl2x7f7n"><div class="ldio-b8p5li8dt1u"><div></div></div></div><p>Traitement en cours...</p></div>
+		<div class="loader"><div class="loadingio-spinner-ball-205vl2x7f7n"><div class="ldio-b8p5li8dt1u"><div></div></div></div><p>{{ _('Traitement en cours...') }}</p></div>
 	</div>
 
 	{% if graph != "" %}
@@ -74,7 +74,7 @@
 	{% endif %}
 
 	{% if fname != "" %}
-	<button style="display:block;margin:20px auto;" onclick="window.location.href='{{ url_for('get_file', filename=fname) }}';">Télécharger le graphe (.png)</button>
+	<button style="display:block;margin:20px auto;" onclick="window.location.href='{{ url_for('get_file', filename=fname) }}';">{{ _('Télécharger le graphe')}}</button>
 	{% endif %}
 
 	<div class="bibliography">

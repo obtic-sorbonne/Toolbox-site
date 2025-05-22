@@ -5484,3 +5484,42 @@ msgstr "Warning; Make sure your input filenames are not too long"
 
 msgid "et ne contiennent pas de caractères problématiques"
 msgstr "and do not contain problematic characters"
+
+msgid "Cartographie des lieux dans les textes"
+msgstr "Mapping places in texts"
+
+msgid "Analyse de sentiments et cartographie des lieux dans les textes"
+msgstr "Sentiment analysis and place mapping in texts"
+
+msgid "pour"
+msgstr "for"
+
+msgid "permet d'extraire les entités de personnes d'un texte littéraire et visualiser les réseaux de personnages sous forme de graphes"
+msgstr "allows you to extract person entities from a literary text and visualize character networks in the form of graphs"
+
+msgid "fichier GEXF"
+msgstr "GEXF file"
+
+msgid "graphe PNG"
+msgstr "PNG graph"
+
+msgid "Télécharger le graphe"
+msgstr "Download the graph"
+
+msgid "Documentation de l'outil Renard"
+msgstr "Documentation of the Renard tool"
+
+msgid "L'outil"
+msgstr "The tool"
+
+msgid "Références"
+msgstr "References"
+
+msgid "Paramètres"
+msgstr "Parameters"
+
+msgid "Langue du texte"
+msgstr "Language of the text"
+
+msgid "Nombre minimal de mentions du personnage"
+msgstr "Minimum number of character mentions"
