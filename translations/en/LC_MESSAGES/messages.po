@@ -5478,3 +5478,9 @@ msgstr "Meronyms"
 
 msgid "Holonymes"
 msgstr "Holonyms"
+
+msgid "Attention : Assurez-vous que les noms de vos fichiers d'entrée ne soient pas trop longs"
+msgstr "Warning; Make sure your input filenames are not too long"
+
+msgid "et ne contiennent pas de caractères problématiques"
+msgstr "and do not contain problematic characters"
