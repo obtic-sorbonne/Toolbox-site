@@ -99,7 +99,7 @@ app.config['SECRET_KEY'] = '6kGcDYu04nLGQZXGv8Sqg0YzTeE8yeyL'
 app.config['WTF_CSRF_TIME_LIMIT'] = None  # No time limit on tokens
 app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=1)  # Session lasts 1 day
 
-app.config['MAX_CONTENT_LENGTH'] = 50 * 1024 * 1024 # Limit file upload to 35MB
+app.config['MAX_CONTENT_LENGTH'] = 150 * 1024 * 1024 # Limit file upload to 150MB
 app.config['CHUNK_SIZE'] = 1024 * 1024 # 1MB chunks for processing
 
 
