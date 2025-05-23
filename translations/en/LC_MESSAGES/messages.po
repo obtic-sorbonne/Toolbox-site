@@ -5523,3 +5523,12 @@ msgstr "Language of the text"
 
 msgid "Nombre minimal de mentions du personnage"
 msgstr "Minimum number of character mentions"
+
+msgid "Indéfini"
+msgstr "Undefined"
+
+msgid "Lettre"
+msgstr "Letter"
+
+msgid "Rapport"
+msgstr "Report"

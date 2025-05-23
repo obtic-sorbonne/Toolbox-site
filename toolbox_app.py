@@ -948,57 +948,80 @@ def split_text():
 @stream_with_context
 def xmlconverter():
     if request.method == 'POST':
-        fields = {}
-        fields['title'] = request.form['title']
-        fields['title_lang'] = request.form['title_lang'] # required
-        fields['author'] = request.form.get('author')
-        fields['respStmt_name'] = request.form.get('nameresp')
-        fields['respStmt_resp'] = request.form.get('resp')
-        fields['pubStmt'] = request.form['pubStmt'] # required
-        fields['sourceDesc'] = request.form['sourceDesc'] # required
-        fields['revisionDesc_change'] = request.form['change']
-        fields['change_who'] = request.form['who']
-        fields['change_when'] = request.form['when']
-        fields['licence'] = request.form['licence']
-        fields['divtype'] = request.form['divtype']
-        fields["creation"] = request.form['creation']
-        fields["lang"] = request.form['lang']
-        fields["projet_p"] = request.form['projet_p']
-        fields["edit_correction_p"] = request.form['edit_correction_p']
-        fields["edit_hyphen_p"] = request.form['edit_hyphen_p']
+
+        if 'file' not in request.files:
+            response = {"error": "No files part"}
+            return Response(json.dumps(response), status=400, mimetype='application/json')
 
         files = request.files.getlist('file')
-        zip_buffer = BytesIO()
+        if not files or all(f.filename == '' for f in files):
+            response = {"error": "No selected files"}
+            return Response(json.dumps(response), status=400, mimetype='application/json')
 
-        with zipfile.ZipFile(zip_buffer, 'a', zipfile.ZIP_DEFLATED, False) as zip_file:
+        fields = {
+            'title': request.form.get('title', ''),
+            'title_lang': request.form.get('title_lang', ''),
+            'author': request.form.get('author'),
+            'respStmt_name': request.form.get('nameresp'),
+            'respStmt_resp': request.form.get('resp'),
+            'pubStmt': request.form.get('pubStmt', ''),
+            'sourceDesc': request.form.get('sourceDesc', ''),
+            'revisionDesc_change': request.form.get('change', ''),
+            'change_who': request.form.get('who', ''),
+            'change_when': request.form.get('when', ''),
+            'licence': request.form.get('licence', ''),
+            'divtype': request.form.get('divtype', ''),
+            'creation': request.form.get('creation', ''),
+            'lang': request.form.get('lang', ''),
+            'projet_p': request.form.get('projet_p', ''),
+            'edit_correction_p': request.form.get('edit_correction_p', ''),
+            'edit_hyphen_p': request.form.get('edit_hyphen_p', '')
+        }
+
+        rand_name = generate_rand_name("tei_")
+        result_path = create_named_directory(rand_name)
+
+        try:
             for f in files:
                 filename = secure_filename(f.filename)
-                path_to_file = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+                if filename == '':
+                    continue
+
+                # Sauvegarder TXT temporairement
+                path_to_file = os.path.join(result_path, filename)
                 f.save(path_to_file)
 
+                # Vérifier UTF-8 lisibilité
                 try:
-                    with open(path_to_file, "r") as file:
-                        for l in file:
-                            break
-
-                    # Returning xml string
-                    root = txt_to_xml(path_to_file, fields)
-
-                    # Writing in stream
-                    output_stream = BytesIO()
-                    output_filename = os.path.splitext(filename)[0] + '.xml'
-                    etree.ElementTree(root).write(output_stream, xml_declaration=True, encoding="utf-8")
-                    output_stream.seek(0)
-                    zip_file.writestr(output_filename, output_stream.getvalue())
-                    output_stream.truncate(0)
-
+                    with open(path_to_file, "r", encoding="utf-8") as file_check:
+                        _ = file_check.read(1024)
                 except UnicodeDecodeError:
-                    return 'format de fichier incorrect'
+                    return Response(json.dumps({"error": "Format de fichier incorrect (UTF-8 requis)."}),
+                                    status=400, mimetype='application/json')
 
-        zip_buffer.seek(0)
-        return send_file(zip_buffer, mimetype='application/zip', as_attachment=True, download_name='encoded_files.zip')
+                # Conversion en XML TEI
+                root = txt_to_xml(path_to_file, fields)
 
-    return render_template("/conversion_xml")
+                # Supprimer TXT juste après conversion
+                os.remove(path_to_file)
+
+                # Nom fichier XML
+                output_filename = os.path.splitext(filename)[0] + '.xml'
+                xml_path = os.path.join(result_path, output_filename)
+
+                # Sauvegarder XML
+                with open(xml_path, 'wb') as out_xml:
+                    etree.ElementTree(root).write(out_xml, xml_declaration=True, encoding="utf-8")
+
+            # Créer réponse ZIP avec seulement les XML dans result_path
+            response = create_zip_and_response(result_path, rand_name)
+            return response
+
+        finally:
+            pass  # nettoyage géré dans create_zip_and_response
+
+    return render_template("conversion_xml.html")
+
 
 # CONVERSION XML-TEI
 # Construit un fichier TEI à partir des métadonnées renseignées dans le formulaire.
@@ -1008,112 +1031,567 @@ def xmlconverter():
 # - fields : dictionnaire des champs présents dans le form metadata
 import xml.etree.ElementTree as etree
 
-def encode_text(filename, is_text_standard=True, is_poem=False, is_play=False, is_book=False):
+import re
+from lxml import etree
+
+
+def encode_text(filename, doc_type="undefined"):
     div = etree.Element("div")
 
     with open(filename, "r", encoding="utf-8") as f:
         lines = f.readlines()
-    
-    if is_poem:
-        stanza = []
-        for line in lines:
-            if line.strip() == "":
-                if stanza:
-                    stanza_element = etree.Element("lg", type="stanza")
-                    for verse in stanza:
-                        verse_element = etree.Element("l")
-                        verse_element.text = verse.strip()
-                        stanza_element.append(verse_element)
-                    div.append(stanza_element)
-                    stanza = []
-            else:
-                stanza.append(line)
-        
-        if stanza:
-            stanza_element = etree.Element("lg", type="stanza")
-            for verse in stanza:
-                verse_element = etree.Element("l")
-                verse_element.text = verse.strip()
-                stanza_element.append(verse_element)
-            div.append(stanza_element)
-    elif is_play:
-        scene = []
-        acte_element = None
-        scene_element = None
 
-        for line in lines:
-            if re.match(r"Act|Acte", line.strip()):
-                if acte_element is not None:
-                    div.append(acte_element)
-                acte_element = etree.Element("div")
-                acte_element.set("type", "act")
-                head_element = etree.Element("head")
-                head_element.text = line.strip()
-                acte_element.append(head_element)
-                scene = []
-
-            elif re.match(r"Scène|Scene", line.strip()):
-                if scene_element is not None:
-                    acte_element.append(scene_element)
-                scene_element = etree.Element("div")
-                scene_element.set("type", "scene")
-                head_element = etree.Element("head")
-                head_element.text = line.strip()
-                scene_element.append(head_element)
-                scene = []
-
-            else:
-                scene.append(line)
-
-        if scene_element is not None:
-            for dialogue in scene:
-                dialogue_element = etree.Element("p")
-                dialogue_element.text = dialogue.strip()
-                scene_element.append(dialogue_element)
-            acte_element.append(scene_element)
-
-        if acte_element is not None:
-            div.append(acte_element)
-
-    elif is_book:
-        scene = []
-        chapter_element = None
-        text_element = None
-
-        for line in lines:
-            if re.match(r"Chapter|Chapitre", line.strip()):
-                if chapter_element is not None:
-                    div.append(chapter_element)
-                chapter_element = etree.Element("div")
-                chapter_element.set("type", "chapter")
-                head_element = etree.Element("head")
-                head_element.text = line.strip()
-                chapter_element.append(head_element)
-                scene = []
-            else:
-                scene.append(line)
-
-        if chapter_element is not None:
-            text_element = etree.Element("div")
-            text_element.set("type", "text")
-            for dialogue in scene:
-                dialogue_element = etree.Element("p")
-                dialogue_element.text = dialogue.strip()
-                text_element.append(dialogue_element)
-            chapter_element.append(text_element)
-            div.append(chapter_element)
-
-
+    if doc_type == "poem":
+        _handle_poem(lines, div)
+    elif doc_type == "play":
+        _handle_play(lines, div)
+    elif doc_type == "book":
+        _handle_book(lines, div)
+    elif doc_type == "report":
+        _handle_report(lines, div)
+    elif doc_type == "letter":
+        _handle_letter(lines, div)
     else:
-        file = "".join(lines)
-        file = file.replace(".\n", ".[$]")
-        ptext = file.split("[$]")
-        for line in ptext:
-            paragraph = etree.Element("p")
-            paragraph.text = line.strip()
-            div.append(paragraph)
-    
+        _handle_generic_text(lines, div)
+
     return div
+
+def _handle_poem(lines, div):
+    if not lines:
+        return
+
+    # Titre = première ligne
+    title = lines[0].strip()
+    head_element = etree.Element("head")
+    head_element.text = title
+    div.append(head_element)
+
+    # Regex pour détecter une ligne du type : par / de / by / from + nom
+    author_pattern = re.compile(r'^\s*(par|de|by|from)\s+.+', re.IGNORECASE)
+
+    stanza_start = 1  # par défaut, on commence à la 2e ligne
+    if len(lines) > 1 and author_pattern.match(lines[1]):
+        author = lines[1].strip()
+        byline_element = etree.Element("byline")
+        byline_element.text = author
+        div.append(byline_element)
+        stanza_start = 2  # on commence les strophes à la 3e ligne
+
+    def add_stanza_to_div(stanza, number):
+        stanza_element = etree.Element("lg", type="stanza", n=str(number))
+        for verse in stanza:
+            verse_element = etree.Element("l")
+            verse_element.text = verse.strip()
+            stanza_element.append(verse_element)
+        div.append(stanza_element)
+
+    stanza = []
+    stanza_count = 1
+
+    for line in lines[stanza_start:]:
+        if not line.strip():
+            if stanza:
+                add_stanza_to_div(stanza, stanza_count)
+                stanza = []
+                stanza_count += 1
+        else:
+            stanza.append(line)
+
+    if stanza:
+        add_stanza_to_div(stanza, stanza_count)
+
+
+def _handle_play(lines, div):
+    acte_element = None
+    scene_element = None
+
+    ACT_REGEX = re.compile(r"^\s*(acte|act|act\s+\w+).*", re.IGNORECASE)
+    SCENE_REGEX = re.compile(r"^\s*(scène|scene|sc\.\s*\w+).*", re.IGNORECASE)
+    # Ligne qui contient un seul "mot" alphabétique éventuellement suivi de ':' et rien d'autre
+    SPEAKER_REGEX = re.compile(r"^\s*([A-Za-zÀ-ÖØ-öø-ÿ\-]+):?\s*$")  
+
+    current_sp = None
+    current_speaker_name = None
+    current_paragraph_lines = []
+
+    def flush_current_sp():
+        nonlocal current_sp, current_paragraph_lines, scene_element
+        if current_sp is not None and current_paragraph_lines:
+            p = etree.Element("p")
+            p.text = " ".join(line.strip() for line in current_paragraph_lines)
+            current_sp.append(p)
+            current_paragraph_lines = []
+
+    for line in lines:
+        stripped = line.strip()
+
+        if not stripped:
+            # Ignorer lignes vides ou que blancs
+            continue
+
+        if ACT_REGEX.match(stripped):
+            flush_current_sp()
+            if scene_element is not None and acte_element is not None:
+                acte_element.append(scene_element)
+                scene_element = None
+            if acte_element is not None:
+                div.append(acte_element)
+
+            acte_element = etree.Element("div", type="act")
+            head = etree.Element("head")
+            head.text = stripped
+            acte_element.append(head)
+
+            scene_element = None
+            current_sp = None
+            current_speaker_name = None
+            current_paragraph_lines = []
+
+        elif SCENE_REGEX.match(stripped):
+            flush_current_sp()
+            if scene_element is not None and acte_element is not None:
+                acte_element.append(scene_element)
+
+            scene_element = etree.Element("div", type="scene")
+            head = etree.Element("head")
+            head.text = stripped
+            scene_element.append(head)
+
+            current_sp = None
+            current_speaker_name = None
+            current_paragraph_lines = []
+
+        elif SPEAKER_REGEX.match(stripped):
+            flush_current_sp()
+
+            speaker_name = SPEAKER_REGEX.match(stripped).group(1).strip()
+            current_sp = etree.Element("sp")
+            speaker_elem = etree.Element("speaker")
+            speaker_elem.text = speaker_name
+            current_sp.append(speaker_elem)
+
+            if scene_element is None:
+                scene_element = etree.Element("div", type="scene")
+                head = etree.Element("head")
+                head.text = "Scène non nommée"
+                scene_element.append(head)
+
+            scene_element.append(current_sp)
+            current_speaker_name = speaker_name
+            current_paragraph_lines = []
+
+        else:
+            if current_sp is None:
+                current_sp = etree.Element("sp")
+                speaker_elem = etree.Element("speaker")
+                speaker_elem.text = "Inconnu"
+                current_sp.append(speaker_elem)
+
+                if scene_element is None:
+                    scene_element = etree.Element("div", type="scene")
+                    head = etree.Element("head")
+                    head.text = "Scène non nommée"
+                    scene_element.append(head)
+
+                scene_element.append(current_sp)
+                current_speaker_name = "Inconnu"
+                current_paragraph_lines = []
+
+            current_paragraph_lines.append(stripped)
+
+    flush_current_sp()
+    if scene_element is not None and acte_element is not None:
+        acte_element.append(scene_element)
+    if acte_element is not None:
+        div.append(acte_element)
+
+def _handle_book(lines, div):
+    import re
+
+    PAGE_NUM_ONLY_REGEX = re.compile(r"^\s*(\d+)\s*$")
+    CHAPTER_REGEX = re.compile(r"^\s*(chapitre|chapter|ch\.?|chapter)\s+[\w\s\-–—]*$", re.IGNORECASE)
+
+    # Regex pour détecter un numéro de page en début ou fin de ligne, avec éventuellement un header dans la ligne
+    PAGE_HEADER_REGEX = re.compile(r"^\s*(\d+)?\s*(.*?)(\d+)?\s*$")
+
+    def looks_like_header(text):
+        stripped = text.strip()
+        # Simple check : au moins une lettre majuscule, et pas vide
+        if not stripped:
+            return False
+        # Vérifie que le texte contient au moins une majuscule
+        return any(c.isupper() for c in stripped)
+
+    current_section = etree.Element("div", type="text")
+    div.append(current_section)
+
+    paragraph_lines = []
+
+    for line in lines:
+        stripped = line.strip()
+
+        # Ligne avec juste un numéro de page
+        if PAGE_NUM_ONLY_REGEX.match(stripped):
+            if paragraph_lines:
+                _finalize_paragraph(paragraph_lines, current_section)
+                paragraph_lines = []
+
+            pb = etree.Element("pb")
+            pb.set("n", stripped)
+            current_section.append(pb)
+
+            note = etree.Element("note", type="foliation")
+            note.text = stripped
+            current_section.append(note)
+            continue
+
+        # Ligne avec numéro de page au début ou à la fin, et header entre les deux
+        m = PAGE_HEADER_REGEX.match(stripped)
+        if m:
+            start_page, middle_text, end_page = m.groups()
+            # Choisir le numéro de page, priorité à début, sinon fin
+            page_num = start_page or end_page
+
+            # Si on a un numéro et que le texte ressemble à un header
+            if page_num and looks_like_header(middle_text):
+                if paragraph_lines:
+                    _finalize_paragraph(paragraph_lines, current_section)
+                    paragraph_lines = []
+
+                pb = etree.Element("pb")
+                pb.set("n", page_num)
+                current_section.append(pb)
+
+                note = etree.Element("note", type="foliation")
+                note.text = page_num
+                current_section.append(note)
+
+                fw = etree.Element("fw", type="header")
+                fw.text = middle_text.strip()
+                current_section.append(fw)
+                continue
+
+        # Détection chapitre
+        if CHAPTER_REGEX.match(stripped):
+            if paragraph_lines:
+                _finalize_paragraph(paragraph_lines, current_section)
+                paragraph_lines = []
+
+            current_section = etree.Element("div", type="chapter")
+            head = etree.Element("head")
+            head.text = stripped
+            current_section.append(head)
+            div.append(current_section)
+            continue
+
+        # Ajout au paragraphe courant
+        if stripped:
+            paragraph_lines.append(stripped)
+            if stripped[-1] in ".!?…":
+                _finalize_paragraph(paragraph_lines, current_section)
+                paragraph_lines = []
+
+    # Fin dernier paragraphe
+    if paragraph_lines:
+        _finalize_paragraph(paragraph_lines, current_section)
+
+
+def _finalize_paragraph(paragraph_lines, parent):
+    if paragraph_lines:
+        # Fusionner les mots coupés par un tiret suivi d'un saut de ligne
+        merged_lines = []
+        skip_next = False
+        for i, line in enumerate(paragraph_lines):
+            if skip_next:
+                skip_next = False
+                continue
+
+            if line.endswith("-") and i + 1 < len(paragraph_lines):
+                # Retirer le tiret et concaténer sans espace avec la ligne suivante
+                merged_word = line[:-1] + paragraph_lines[i + 1].lstrip()
+                merged_lines.append(merged_word)
+                skip_next = True
+            else:
+                merged_lines.append(line)
+
+        # Joindre les lignes corrigées avec espace
+        p = etree.Element("p")
+        p.text = ' '.join(merged_lines)
+        parent.append(p)
+
+def _handle_report(lines, div):
+    import re
+
+    # Chiffres romains validés (de 1 à 3999) + ponctuation obligatoire
+    ROMAN_NUMERAL_REGEX = re.compile(
+        r"^\s*(M{0,4}(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3}))[\.\)\-:]\s+")
+    SUBSECTION_REGEX = re.compile(r"^\s*([0-9]|[a-z])\s*[\)\-]\s+(.*)",
+        re.IGNORECASE)
+    PAGE_NUM_REGEX = re.compile(r"^-+\s*([1-9]\d*)\s*-+$")
+
+    def looks_like_title(line):
+        stripped = line.strip()
+        return stripped.isupper() and len(stripped) > 0
+
+    current_section = etree.Element("div", type="section")
+    div.append(current_section)
+    current_subsection = None
+    paragraph_lines = []
+
+    def _finalize_paragraphs(target):
+        nonlocal paragraph_lines
+        if paragraph_lines:
+            merged_lines = []
+            skip_next = False
+            for i, line in enumerate(paragraph_lines):
+                if skip_next:
+                    skip_next = False
+                    continue
+                # Fusionner mots coupés par tiret + espace
+                if line.endswith("-") and i + 1 < len(paragraph_lines):
+                    merged_word = line[:-1] + paragraph_lines[i + 1].lstrip()
+                    merged_lines.append(merged_word)
+                    skip_next = True
+                else:
+                    merged_lines.append(line)
+            p = etree.Element("p")
+            p.text = " ".join(merged_lines)
+            target.append(p)
+            paragraph_lines = []
+
+    for line in lines:
+        stripped = line.strip()
+        if not stripped:
+            continue
+
+        # Numéro de page encadré par tirets
+        page_match = PAGE_NUM_REGEX.match(stripped)
+        if page_match:
+            _finalize_paragraphs(current_subsection if current_subsection is not None else current_section)
+
+            page_num = page_match.group(1)
+            pb = etree.Element("pb")
+            pb.set("n", page_num)
+            div.append(pb)
+
+            note = etree.Element("note", type="foliation")
+            note.text = page_num
+            div.append(note)
+            continue
+
+        # Titre tout en MAJ -> nouvelle section
+        if looks_like_title(stripped):
+            _finalize_paragraphs(current_subsection if current_subsection is not None else current_section)
+
+            current_section = etree.Element("div", type="section")
+            div.append(current_section)
+            current_subsection = None
+
+            head = etree.Element("head")
+            head.text = stripped
+            current_section.append(head)
+            continue
+
+        # Section chiffre romain + ponctuation obligatoire
+        if ROMAN_NUMERAL_REGEX.match(stripped):
+            _finalize_paragraphs(current_subsection if current_subsection is not None else current_section)
+
+            current_section = etree.Element("div", type="section")
+            div.append(current_section)
+            current_subsection = None
+
+            head = etree.Element("head")
+            head.text = stripped
+            current_section.append(head)
+            continue
+
+        # Sous-section chiffre + ponctuation + texte
+        sub_match = SUBSECTION_REGEX.match(stripped)
+        if sub_match:
+            _finalize_paragraphs(current_subsection if current_subsection is not None else current_section)
+
+            number = sub_match.group(1)
+            text = sub_match.group(2)
+
+            current_subsection = etree.Element("div", type="subsection")
+            current_section.append(current_subsection)
+
+            head = etree.Element("head")
+            head.text = f"{number}. {text}"
+            current_subsection.append(head)
+            continue
+
+        # Ajout aux paragraphes
+        paragraph_lines.append(stripped)
+        if stripped[-1] in ".!?…":
+            _finalize_paragraphs(current_subsection if current_subsection is not None else current_section)
+
+    _finalize_paragraphs(current_subsection if current_subsection is not None else current_section)
+
+def _handle_letter(lines, div):
+    salutation_done = False
+    closing_started = False
+    postscript_started = False
+    paragraph_lines = []
+
+    def looks_like_title(line):
+        stripped = line.strip()
+        return stripped.isupper() and len(stripped) > 0
+
+    def looks_like_date(line):
+        return bool(DATE_LINE_REGEX.match(line.strip()))
+
+    def _finalize_paragraphs(target):
+        nonlocal paragraph_lines
+        if paragraph_lines:
+            merged_lines = []
+            skip_next = False
+            for i, line in enumerate(paragraph_lines):
+                if skip_next:
+                    skip_next = False
+                    continue
+                if line.endswith("-") and i + 1 < len(paragraph_lines):
+                    merged_word = line[:-1] + paragraph_lines[i + 1].lstrip()
+                    merged_lines.append(merged_word)
+                    skip_next = True
+                else:
+                    merged_lines.append(line)
+
+            paragraph_text = " ".join(merged_lines).strip()
+
+            # Si le paragraphe contient uniquement une date (pas de ponctuation, pas de mot de liaison)
+            if looks_like_date(paragraph_text):
+                date_el = etree.Element("date")
+                date_el.text = paragraph_text
+                target.append(date_el)
+            else:
+                p = etree.Element("p")
+                p.text = paragraph_text
+                target.append(p)
+
+            paragraph_lines = []
+
+    current_block = div
+
+    PAGE_NUM_REGEX = re.compile(r"-\s*([0-9]+)\s*-")
+    DATE_LINE_REGEX = re.compile(
+        r'^[A-Za-zÀ-ÖØ-öø-ÿ-]+(( |-)[A-Za-zÀ-ÖØ-öø-ÿ-]+)?, (le |on )?[0-9]{1,2}(er|e|)?[ ]?(January|February|March|April|May|June|July|August|September|October|November|December|janvier|février|mars|avril|mai|juin|juillet|août|septembre|octobre|novembre|décembre) [12][0-9]{3}\.?\s*$',
+        re.IGNORECASE
+    )
+    SALUTATION_REGEX = re.compile(r'^(Dear|My dear|Mon cher|Ma chère)\b')
+    SIGNATURE_REGEX = re.compile(r'^(Yours|Sincerely|Faithfully|Votre|Affectueusement)')
+    POSTSCRIPT_REGEX = re.compile(r"^P\s*\.?\s*S(?:\.|,)?[-:]?")
+
+    postscript_element = None
+
+    for line in lines:
+        stripped = line.strip()
+        if not stripped:
+            continue
+
+        # Page number: "- 4 -"
+        if PAGE_NUM_REGEX.match(stripped):
+            _finalize_paragraphs(current_block)
+            page_num = PAGE_NUM_REGEX.match(stripped).group(1)
+            pb = etree.Element("pb", n=page_num)
+            div.append(pb)
+
+            note = etree.Element("note", type="foliation")
+            note.text = stripped
+            div.append(note)
+            continue
+
+        # Title in uppercase
+        if looks_like_title(stripped):
+            _finalize_paragraphs(current_block)
+            head = etree.Element("head")
+            head.text = stripped
+            div.append(head)
+            continue
+
+        # Dateline (dates seules, sans contexte)
+        if looks_like_date(stripped):
+            _finalize_paragraphs(current_block)
+            dateline = etree.Element("dateline")
+            dateline.text = stripped
+            div.append(dateline)
+            continue
+
+        # Salutation (opener)
+        if not salutation_done and SALUTATION_REGEX.match(stripped):
+            _finalize_paragraphs(current_block)
+            opener = etree.Element("opener")
+            p = etree.Element("salute")
+            p.text = stripped
+            opener.append(p)
+            div.append(opener)
+            salutation_done = True
+            continue
+
+        # Signature (closer)
+        if SIGNATURE_REGEX.match(stripped):
+            _finalize_paragraphs(current_block)
+            closer = etree.Element("closer")
+            signed = etree.Element("signed")
+            signed.text = stripped
+            closer.append(signed)
+            div.append(closer)
+            closing_started = True
+            continue
+
+        # Postscript
+        if POSTSCRIPT_REGEX.match(stripped):
+            _finalize_paragraphs(current_block)
+            postscript_started = True
+            postscript_element = etree.Element("postscript")
+            label = etree.Element("label")
+            label.text = POSTSCRIPT_REGEX.match(stripped).group(0).strip()
+            postscript_element.append(label)
+            div.append(postscript_element)
+            current_block = postscript_element
+            content = POSTSCRIPT_REGEX.sub("", stripped, count=1).strip()
+            if content:
+                paragraph_lines.append(content)
+            continue
+
+        # Regular paragraph
+        paragraph_lines.append(stripped)
+        if stripped.endswith((".", "!", "?", "…")):
+            _finalize_paragraphs(current_block)
+
+    # Final flush
+    _finalize_paragraphs(current_block)
+
+
+def _handle_generic_text(lines, parent):
+    text_div = etree.Element("div", type="text")
+    paragraph_lines = []
+
+    def _finalize_paragraph():
+        nonlocal paragraph_lines
+        if paragraph_lines:
+            merged = " ".join(paragraph_lines).strip()
+            if merged:
+                p = etree.Element("p")
+                p.text = merged
+                text_div.append(p)
+            paragraph_lines = []
+
+    for line in lines:
+        stripped = line.strip()
+        if not stripped:
+            _finalize_paragraph()
+            continue
+
+        paragraph_lines.append(stripped)
+
+        # Si la ligne finit par une ponctuation forte, on clôt le paragraphe
+        if stripped.endswith((".", "!", "?", "…")):
+            _finalize_paragraph()
+
+    _finalize_paragraph()  # Dernier flush
+    parent.append(text_div)
+
 
 def txt_to_xml(filename, fields):
     # Initialise TEI
@@ -1260,12 +1738,13 @@ def txt_to_xml(filename, fields):
     body.append(div)
 
     # Utilisation de la fonction encode_text
-    content_div = encode_text(filename, is_text_standard=(fields["divtype"] == "text"), is_poem=(fields["divtype"] == "poem"), is_play=(fields["divtype"] == "play"), is_book=(fields["divtype"] == "book"))
+    content_div = encode_text(filename, doc_type=fields["divtype"])
     div.extend(content_div)
 
     root.append(text)
 
     return root
+    
 #-----------------------------------------------------------------
 # Annotation automatique
 #-----------------------------------------------------------------

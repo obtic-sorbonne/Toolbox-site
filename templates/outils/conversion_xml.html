@@ -37,7 +37,7 @@
             <option value="de">{{ _('Allemand') }}</option>
             <option value="es">{{ _('Espagnol') }}</option>
           </select>
-          <input class="styled-select" type="text" name="title" id="title" required>
+          <input class="styled-select" type="text" name="title" id="title">
           <br/>
           <label for="author" style="display:inline-block;width:102px;margin-left:12px;">{{ _('Auteur') }}</label>
           <input class="styled-select" type="text" name="author" id="author">
@@ -56,10 +56,10 @@
           <fieldset>
           <label class="labelxml" for="pubStmt">{{ _('Publication du document') }} (publicationStmt)<hi style="color: red;">*</hi></label>
           <p style="font-size:8px;">{{ _("Entrer les noms des éditeurs séparés par un retour à la ligne") }}</p>
-          <textarea  class="styled-select" cols="25" rows="3" id="pubStmt" name="pubStmt" placeholder="{{ _('Publié par') }}..." required></textarea>
+          <textarea  class="styled-select" cols="25" rows="3" id="pubStmt" name="pubStmt" placeholder="{{ _('Publié par') }}..."></textarea>
           <br/>
           <label for="licence" style="margin-left:12px;display:inline-block;width:90px;">{{ _('Licence') }}<hi style="color: red;">*</hi></label>
-          <select class="styled-select" name="licence" id="licence" required>
+          <select class="styled-select" name="licence" id="licence">
             <option value="CC-BY">CC-BY</option>
             <option value="CC-BY-SA">CC-BY-SA</option>
             <option value="CC-BY-ND">CC-BY-ND</option>
@@ -121,13 +121,13 @@
           <fieldset>
           <p class="labelxml">{{ _('Révision du document') }} (revisionDesc)<hi style="color: red;">*</hi></p>
           <label for="when" style="margin-left:12px;display:inline-block;">{{ _('Date de la révision') }}</label>
-          <input class="styled-select" type="date" name="when" id="when" required>
+          <input class="styled-select" type="date" name="when" id="when">
           <br/>
           <label for="who" style="margin-left:12px;display:inline-block;">{{ _('Responsable de la révision') }}</label>
-          <input class="styled-select" type="text" name="who" id="who" required>
+          <input class="styled-select" type="text" name="who" id="who">
           <br/>
           <label for="change" style="margin-left:12px;display:inline-block;">{{ _('Quelle révision a été effectué ') }}?</label>
-          <input class="styled-select" type="text" name="change" id="change" required>
+          <input class="styled-select" type="text" name="change" id="change">
           <br/>
           </fieldset>
           <br/>
@@ -135,11 +135,13 @@
           <fieldset>
           <p class="labelxml">{{ _('Type de document') }}</p>
           <label for="divtype" style="display:inline-block;margin-left:12px;">{{ _('Quelle est la nature du document ') }}?</label>
-          <select class="styled-select" name="divtype" id="divtype" required>
-            <option value="text">{{ _('Texte') }}</option>
+          <select class="styled-select" name="divtype" id="divtype">
+            <option value="text">{{ _('Indéfini') }}</option>
             <option value="poem">{{ _('Poème') }}</option>
             <option value="play">{{ _('Pièce de théâtre') }}</option>
             <option value="book">{{ _('Livre') }}</option>
+            <option value="letter">{{ _('Lettre') }}</option>
+            <option value="report">{{ _('Rapport') }}</option>
           </select>
           <br/>
           </fieldset>
@@ -150,7 +152,7 @@
       </div>
         <div id="div-upload">
           <div class="dropzone" style="margin:25px auto;">
-            <input class="styled-select" type="file" id="rax-text-file" name="file" accept=".txt" multiple required />
+            <input class="styled-select" type="file" id="rax-text-file" name="file" accept=".txt" multiple />
               <p id="form_msg"><i class="fa-solid fa-upload"></i><br/>{{ _('Déposer le(s) fichier(s) ou cliquer ici.')}}</p>
             </div>
           <input id="csrf_token" name="csrf_token" type="hidden" value="CSRF_TOKEN_STRING">
