@@ -17,6 +17,8 @@
       <p>{{ _("Formats d'entrée :")}} <i class="fa-regular fa-file-lines"></i> {{ _('fichier texte') }} (.txt)</p>
       <p>{{ _('Format généré :')}} <i class="fa-solid fa-file-code"></i> {{ _('fichier') }} HTML</p>
       <p>{{ _("Limite d'ajout : 2 fichiers max") }}</p>
+      <p><i class="fa-solid fa-triangle-exclamation"></i> {{ _("Attention : Assurez-vous que les noms de vos fichiers d'entrée ne soient pas trop longs")}}<br>
+      {{ _("et ne contiennent pas de caractères problématiques")}} ([\/:*"&gt;&lt;|])</p>
       </div>
     </div>
     <form action="{{ url_for('compare') }}" id="linguistic-form" method="post" enctype="multipart/form-data" onsubmit="showloader('loader')">
