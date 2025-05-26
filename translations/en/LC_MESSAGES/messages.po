@@ -5386,6 +5386,9 @@ msgstr "API query in progress"
 msgid "Extraire les livres Google"
 msgstr "Extract Google Books"
 
+msgid "Téléchargement de livres Google"
+msgstr "Downloading of Google Books"
+
 msgid "Mot à analyser"
 msgstr "Word to analyze"
 
