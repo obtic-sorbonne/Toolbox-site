@@ -2,6 +2,79 @@
 {% block header %} {{ super() }} {% endblock %}
 
 {% block content %}
+        <style>
+  #form-container {
+    width: 90%;
+    max-width: 1200px;
+    margin: auto;
+  }
+
+  form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+
+  fieldset {
+    flex: 1 1 calc(50% - 20px);
+    min-width: 400px;
+    margin: 0;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    background-color: #f9f9f9;
+    box-sizing: border-box;
+  }
+
+  label {
+    font-weight: bold;
+    display: block;
+    margin-top: 10px;
+    margin-bottom: 4px; /* Réduit l’espace sous le label */
+  }
+
+  input, select, textarea {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+    border: 1px solid #ddd; /* Contour léger gris clair */
+    border-radius: 4px;
+    background-color: #fff;
+  }
+
+  legend {
+    font-size: 1.1em;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+
+  /* Spécifique au fieldset "Corps du texte" */
+  fieldset:last-of-type {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  @media (max-width: 900px) {
+    fieldset {
+      flex: 1 1 100%;
+    }
+
+    #divtype, .divtype-info {
+      width: 100%;
+    }
+  }
+
+  p[style*="margin-top:20px"] {
+    flex: 1 1 100%;
+  }
+
+
+</style>
+
+
     <div class="outil" id="t3">
       <div class="fil"><a href="{{ url_for('conversion')}}"><< {{ _('Retour aux tâches') }}</a></div>
       <h3>{{ _('Conversion XML-TEI') }}</h3>
@@ -10,7 +83,7 @@
       <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_conversion') }}" target="_blank">{{ _('Voir la documentation') }}</a> / <a href="{{ url_for('tutoriel_conversion') }}" target="_blank">{{ _('Voir le tutoriel') }}</a></p>
 
       <div class="infos_outil" style="display: block;margin: 0 auto 15px auto;">
-          <input id="show" type="checkbox"><label for="show" class="infos_title"><i class="fa-solid fa-circle-info"></i> {{ _("Informations sur l'outil") }}<i class="fa-solid fa-angle-right" style="float:right;margin-top:5px;margin-left:15px;cursor: pointer;"></i></label>
+          <input id="show" type="checkbox"><label for="show" class="infos_title" style="font-weight: normal;"><i class="fa-solid fa-circle-info"></i> {{ _("Informations sur l'outil") }}<i class="fa-solid fa-angle-right" style="float:right;margin-top:5px;margin-left:15px;cursor: pointer;"></i></label>
           <div class="info_popped">
               <p>{{ _('LXML, expressions régulières (Regex) et XML-TEI') }}</p>
               <p>{{ _("Formats d'entrée :")}} <i class="fa-regular fa-file-lines"></i> {{ _('texte brut') }} (.txt)</p>
@@ -20,138 +93,134 @@
       {{ _("et ne contiennent pas de caractères problématiques")}} ([\/:*"&gt;&lt;|])</p>
           </div>
       </div>
-      <div id="divform">
+      <br>
+      <br>
+      <div id="form-container">
 
         <form action="{{ url_for('xmlconverter') }}" id="metadata-form" method="post" enctype="multipart/form-data">
           {{ form.csrf_token }}
-        <div id="div-metadata" style="display:flex; flex-wrap:wrap; gap: 15px;">
-          <div style="flex: 1; min-width: 49%;">
-          <br/>
-          <legend>{{ _("Métadonnées") }}</legend>
-          <fieldset>
-          <p class="labelxml">Titre du document (titleStmt)<hi style="color: red;">*</hi></p>
-          <label for="title" style="display:inline-block;width:102px;margin-left:12px;">{{ _('Titre') }}</label>
-          <select class="styled-select" name="title_lang" id="title_lang">
-            <option value="fr">{{ _('Français') }}</option>
-            <option value="en">{{ _('Anglais') }}</option>
-            <option value="de">{{ _('Allemand') }}</option>
-            <option value="es">{{ _('Espagnol') }}</option>
-          </select>
-          <input class="styled-select" type="text" name="title" id="title">
-          <br/>
-          <label for="author" style="display:inline-block;width:102px;margin-left:12px;">{{ _('Auteur') }}</label>
-          <input class="styled-select" type="text" name="author" id="author">
-        </fieldset>
-          <fieldset>
-            <details>
-          <summary class="labelxml">{{ _('Responsabilité du document') }} (respStmt)</summary>
-          <label for="resp" style="margin-left:12px;display:inline-block;width:90px;">{{ _('Action faite') }}</label>
-          <input class="styled-select" type="text" name="resp" id="resp" placeholder="{{ _('Encodé par/Transcrit par/etc') }}.">
-          <br/>
-          <label for="nameresp" style="margin-left:12px; display:inline-block;width:90px;">{{ _('Nom') }}</label>
-          <input class="styled-select" type="text" name="nameresp" id="nameresp">
-          <br/>
-        </details>
-          </fieldset>
-          <fieldset>
-          <label class="labelxml" for="pubStmt">{{ _('Publication du document') }} (publicationStmt)<hi style="color: red;">*</hi></label>
-          <p style="font-size:8px;">{{ _("Entrer les noms des éditeurs séparés par un retour à la ligne") }}</p>
-          <textarea  class="styled-select" cols="25" rows="3" id="pubStmt" name="pubStmt" placeholder="{{ _('Publié par') }}..."></textarea>
-          <br/>
-          <label for="licence" style="margin-left:12px;display:inline-block;width:90px;">{{ _('Licence') }}<hi style="color: red;">*</hi></label>
-          <select class="styled-select" name="licence" id="licence">
-            <option value="CC-BY">CC-BY</option>
-            <option value="CC-BY-SA">CC-BY-SA</option>
-            <option value="CC-BY-ND">CC-BY-ND</option>
-            <option value="CC-BY-NC">CC-BY-NC</option>
-          </select>
-          <br/>
-          </fieldset>
-          <fieldset>
-          <label class="labelxml" for="sourceDesc">{{ _('Description bibliographique de la source') }} (sourceDesc)<hi style="color: red;">*</hi></label>
-          <br/>
-          <textarea class="styled-select" cols="25" rows="3" id="sourceDesc" name="sourceDesc" placeholder="{{ _('Description bibliographique de la source') }}"></textarea>
-          <br/>
-          </fieldset>
-          </div> 
-          <div style="flex: 1; min-width: 49%;">
-            <br/>
-            <br/>
-            <br/>
-          <fieldset>
-           <details>
-            <summary class="labelxml">{{ _('Profil du document') }} (profileDesc)</summary>
-          <label for="creation" style="margin-left:12px;display:inline-block;">{{ _('Quelle est la date de création du document ') }}?</label>
-          <input class="styled-select" type="text" name="creation" id="creation" placeholder="YYYY">
-          <br/>
-          <label for="lang" style="display:inline-block;margin-left:12px;">{{ _('Quel est la langue du document ') }}?</label>
-          <select class="styled-select" name="lang" id="lang">
-            <option value="">--{{ _('Choisissez une option') }}--</option>
-            <option value="fr">{{ _('Français') }}</option>
-            <option value="en">{{ _('Anglais') }}</option>
-            <option value="de">{{ _('Allemand') }}</option>
-            <option value="es">{{ _('Espagnol') }}</option>
-          </select>
-        </details>
-          <br/>
-          </fieldset>
-          <fieldset>
-           <details>
-            <summary class="labelxml">{{ _('Description du projet') }} (projectDesc)</summary>
-          <label for="projet_p" style="margin-left:12px;display:inline-block;">Description</label>
-          <input class="styled-select" type="text" name="projet_p" id="projet_p" >
-          </details>
-          </fieldset>
-          <fieldset>
-           <details>
-            <summary class="labelxml">{{ _('Choix éditoriaux') }} (editorialDecl)</summary>
-          <label for="edit_correction_p" style="margin-left:12px;display:inline-block;">{{ _('Quelle(s) correction(s) a(ont) été faite(s) ') }}?</label>
-          <input class="styled-select" type="text" name="edit_correction_p" id="edit_correction_p" >
-          <br/>
-          <label for="edit_hyphen_p" style="display:inline-block;margin-left:12px;">{{ _("Quel système de traits d'union a été choisi ") }}?</label>
-          <select class="styled-select"  name="edit_hyphen_p" id="edit_hyphen_p">
-            <option value="all end-of-line hyphenation has been retained, even though the lineation of the original may not have been">{{ _("Maintien des traits d'union de fin de ligne, même si non respect de la linéation de l'original") }}.</option>
-            <option value="end-of-line hyphenation has been retained in some cases">{{ _("Maintien partiel des traits d'union de fin de ligne") }}</option>
-            <option value="all soft end-of-line hyphenation has been removed: any remaining end-of-line hyphenation should be retained">{{ _("Suppression des césures de fin de ligne souples, maintien des autres") }}</option>
-            <option value="all end-of-line hyphenation has been removed: any remaining hyphenation occurred within the line">{{ _("Suppression des césures de fin de ligne, restantes viennent de l'intérieur de la ligne") }}</option>
-          </select>
-          <br/>
-        </details>
-          </fieldset>
-          <fieldset>
-          <p class="labelxml">{{ _('Révision du document') }} (revisionDesc)<hi style="color: red;">*</hi></p>
-          <label for="when" style="margin-left:12px;display:inline-block;">{{ _('Date de la révision') }}</label>
-          <input class="styled-select" type="date" name="when" id="when">
-          <br/>
-          <label for="who" style="margin-left:12px;display:inline-block;">{{ _('Responsable de la révision') }}</label>
-          <input class="styled-select" type="text" name="who" id="who">
-          <br/>
-          <label for="change" style="margin-left:12px;display:inline-block;">{{ _('Quelle révision a été effectué ') }}?</label>
-          <input class="styled-select" type="text" name="change" id="change">
-          <br/>
-          </fieldset>
-          <br/>
-          <legend>{{ _('Corps du texte') }}</legend>
-          <fieldset>
-          <p class="labelxml">{{ _('Type de document') }}</p>
-          <label for="divtype" style="display:inline-block;margin-left:12px;">{{ _('Quelle est la nature du document ') }}?</label>
-          <select class="styled-select" name="divtype" id="divtype">
-            <option value="text">{{ _('Indéfini') }}</option>
-            <option value="poem">{{ _('Poème') }}</option>
-            <option value="play">{{ _('Pièce de théâtre') }}</option>
-            <option value="book">{{ _('Livre') }}</option>
-            <option value="letter">{{ _('Lettre') }}</option>
-            <option value="report">{{ _('Rapport') }}</option>
-          </select>
-          <br/>
-          </fieldset>
-          <br/>
-        </div>
-          <p style="margin:25px auto; color: red; font-size: 9pt;">{{ _("Tous les champs accompagnés d'un * doivent obligatoirement être remplies") }}</p>
-          <br/>
-      </div>
+
+    <!-- Métadonnées -->
+    <fieldset>
+      <legend>{{ _('Métadonnées') }}</legend>
+      <label for="title"><strong>{{ _('Titre du document') }} (titleStmt)</strong> <span style="color: red;">*</span></label><br>
+      <select name="title_lang" id="title_lang">
+        <option value="fr">{{ _('Français') }}</option>
+        <option value="en">{{ _('Anglais') }}</option>
+        <option value="de">{{ _('Allemand') }}</option>
+        <option value="es">{{ _('Espagnol') }}</option>
+      </select>
+      <input type="text" name="title" id="title" placeholder="Title of the document"><br>
+
+      <label for="author"><strong>{{ _('Auteur') }}</strong></label><br>
+      <input type="text" name="author" id="author" placeholder="Author of the document"><br>
+    </fieldset>
+
+    <!-- Responsabilité -->
+    <fieldset>
+      <legend>{{ _('Responsabilité du document') }} (respStmt)</legend>
+      <label for="resp"><strong>{{ _('Action faite') }}</strong></label><br>
+      <input type="text" name="resp" id="resp" placeholder="Encoded by/Transcribed by/etc."><br>
+
+      <label for="nameresp"><strong>{{ _('Nom') }}</strong></label><br>
+      <input type="text" name="nameresp" id="nameresp" placeholder="Name of the person responsible for the action"><br>
+    </fieldset>
+
+    <!-- Publication -->
+    <fieldset>
+      <legend>{{ _('Publication du document') }} (publicationStmt) <span style="color: red;">*</span></legend>
+      <small>{{ _('Entrer les noms des éditeurs séparés par un retour à la ligne') }}</small><br>
+      <textarea name="pubStmt" id="pubStmt" rows="3" placeholder="Example: Sorbonne Université"></textarea><br>
+
+      <label for="licence"><strong>{{ _('Licence') }}</strong> <span style="color: red;">*</span></label><br>
+      <select name="licence" id="licence">
+        <option value="CC-BY">CC-BY (Attribution)</option>
+        <option value="CC-BY-SA">CC-BY-SA ({{ _("Attribution et partage dans les mêmes conditions") }})</option>
+        <option value="CC-BY-ND">CC-BY-ND ({{ _("Attribution mais pas de modification") }})</option>
+        <option value="CC-BY-NC">CC-BY-NC ({{ _("Attribution mais pas d’utilisation commerciale") }})</option>
+        <option value="CC-BY-ND-NC">CC-BY-ND-NC ({{ _("Attribution mais pas de modification ou d’utilisation commercial") }})</option>
+        <option value="CC-BY-NC-SA">CC-BY-NC-SA ({{ _("Attribution mais pas d’utilisation commerciale et partage dans les mêmes conditions") }})</option>
+      </select><br>
+    </fieldset>
+
+    <!-- Source -->
+    <fieldset>
+      <legend>{{ _('Description bibliographique de la source') }} (sourceDesc) <span style="color: red;">*</span></legend>
+      <textarea name="sourceDesc" id="sourceDesc" rows="3" placeholder="Example: The first folio of Shakespeare, prepared by Charlton Hinman (The Norton Facsimile, 1968)"></textarea>
+    </fieldset>
+
+    <!-- Profil -->
+    <fieldset>
+      <legend>{{ _('Profil du document') }} (profileDesc)</legend>
+      <label for="creation"><strong>{{ _('Date de création') }}</strong></label><br>
+      <input type="text" name="creation" id="creation" placeholder="YYYY"><br>
+
+      <label for="lang"><strong>{{ _('Langue du document') }}</strong></label><br>
+      <select name="lang" id="lang">
+        <option value="fr">{{ _('Français') }}</option>
+        <option value="en">{{ _('Anglais') }}</option>
+        <option value="de">{{ _('Allemand') }}</option>
+        <option value="es">{{ _('Espagnol') }}</option>
+      </select><br>
+    </fieldset>
+
+    <!-- Projet -->
+    <fieldset>
+      <legend>{{ _('Description du projet') }} (projectDesc)</legend>
+      <textarea name="projet_p" id="projet_p" rows="3" placeholder="Example: Texts collected for use in the Claremont Shakespeare Clinic, June 1990"></textarea>
+    </fieldset>
+
+    <!-- Choix éditoriaux -->
+    <fieldset>
+      <legend>{{ _('Choix éditoriaux') }} (editorialDecl)</legend>
+      <label for="edit_correction_p"><strong>{{ _('Corrections effectuées') }}</strong></label><br>
+      <textarea rows="3" name="edit_correction_p" id="edit_correction_p" placeholder="Example: Errors in transcription controlled by using the WordPerfect spelling checker."></textarea><br>
+
+      <label for="edit_hyphen_p"><strong>{{ _('Système de traits d’union') }}</strong></label><br>
+      <select name="edit_hyphen_p" id="edit_hyphen_p">
+        <option value="all end-of-line hyphenation has been retained, even though the lineation of the original may not have been">{{ _("Maintien des traits d'union de fin de ligne, même si non respect de la linéation de l'original") }}</option>
+        <option value="end-of-line hyphenation has been retained in some cases">{{ _('Maintien partiel') }}</option>
+        <option value="all soft end-of-line hyphenation has been removed: any remaining end-of-line hyphenation should be retained">{{ _('Suppression des césures souples, maintien des autres') }}</option>
+        <option value="all end-of-line hyphenation has been removed: any remaining hyphenation occurred within the line">{{ _('Suppression totale des césures') }}</option>
+      </select><br>
+    </fieldset>
+
+    <!-- Révision -->
+    <fieldset>
+      <legend>{{ _('Révision du document') }} (revisionDesc) <span style="color: red;">*</span></legend>
+      <label for="when"><strong>{{ _('Date de la révision') }}</strong></label><br>
+      <input type="date" name="when" id="when"><br>
+
+      <label for="who"><strong>{{ _('Responsable') }}</strong></label><br>
+      <input type="text" name="who" id="who" placeholder="Id of the person"><br>
+
+      <label for="change"><strong>{{ _('Révision effectuée') }}</strong></label><br>
+      <textarea rows="3" name="change" id="change" placeholder="Encoding of the metadata/Encoding of the body/Encoding of the metadata and body"></textarea><br>
+    </fieldset>
+
+    <!-- Corps -->
+    <fieldset>
+  <legend>{{ _('Corps du texte') }}</legend>
+  <label for="divtype"><strong>{{ _("Type de document") }}</strong></label><br>
+  <select name="divtype" id="divtype">
+    <option value="text">{{ _("Indéfini") }}</option>
+    <option value="book">{{ _("Livre") }}</option>
+    <option value="letter">{{ _("Lettre") }}</option>
+    <option value="play">{{ _("Pièce de théâtre") }}</option>
+    <option value="poem">{{ _("Poème") }}</option>
+    <option value="report">{{ _("Rapport") }}</option>
+  </select>
+  <div style="font-size: smaller;">
+    <i>{{ _("Choisissez le type correspondant à la structure du texte. Le choix de <b>Poème</b> encodera votre texte avec des balises &lt;l&gt; et &lt;lg&gt;, qui signalent les vers et les couplets. Le choix de <b>Pièce de théâtre</b> encodera votre texte selon les séparations d'actes et de scènes et prendra comme un bloc les &lt;speaker&gt; et leur dialogue") }}. {{ _("Le choix de <b>Livre</b> encodera votre texte selon les chapitres, avec des &lt;div&gt; et les séparations de pages avec des &lt;pb&gt;. Le choix de <b>Lettre</b> encodera votre texte en prenant en compte les éléments tels que des date, salutations, signature, etc, avec notamment un &lt;opener&gt; et &lt;closer&gt;") }}. {{ _("Le choix de de <b>Rapport</b> encodera votre texte en section, avec des &lt;div&gt;, selon les numérotations par lettres, chiffres ou alphabets romans. Enfin, le choix de <b>Indéfini</b> encodera votre texte par paragraphe principalement, avec des &lt;p&gt;") }}.</i>
+  </div>
+</fieldset>
+
+
+    <p style="margin-top:20px; color: red; font-size: 9pt; text-align: center">{{ _("Tous les champs accompagnés d'un * doivent obligatoirement être remplis.") }}</p>
+
+
         <div id="div-upload">
-          <div class="dropzone" style="margin:25px auto;">
+          <div class="dropzone">
             <input class="styled-select" type="file" id="rax-text-file" name="file" accept=".txt" multiple />
               <p id="form_msg"><i class="fa-solid fa-upload"></i><br/>{{ _('Déposer le(s) fichier(s) ou cliquer ici.')}}</p>
             </div>
