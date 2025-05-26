@@ -110,7 +110,7 @@
         <option value="de">{{ _('Allemand') }}</option>
         <option value="es">{{ _('Espagnol') }}</option>
       </select>
-      <input type="text" name="title" id="title" placeholder="Title of the document"><br>
+      <input type="text" name="title" id="title" placeholder="Title of the document" required><br>
 
       <label for="author"><strong>{{ _('Auteur') }}</strong></label><br>
       <input type="text" name="author" id="author" placeholder="Author of the document"><br>
@@ -130,10 +130,10 @@
     <fieldset>
       <legend>{{ _('Publication du document') }} (publicationStmt) <span style="color: red;">*</span></legend>
       <small>{{ _('Entrer les noms des éditeurs séparés par un retour à la ligne') }}</small><br>
-      <textarea name="pubStmt" id="pubStmt" rows="3" placeholder="Example: Sorbonne Université"></textarea><br>
+      <textarea name="pubStmt" id="pubStmt" rows="3" placeholder="Example: Sorbonne Université" required></textarea><br>
 
       <label for="licence"><strong>{{ _('Licence') }}</strong> <span style="color: red;">*</span></label><br>
-      <select name="licence" id="licence">
+      <select name="licence" id="licence" required>
         <option value="CC-BY">CC-BY (Attribution)</option>
         <option value="CC-BY-SA">CC-BY-SA ({{ _("Attribution et partage dans les mêmes conditions") }})</option>
         <option value="CC-BY-ND">CC-BY-ND ({{ _("Attribution mais pas de modification") }})</option>
@@ -192,20 +192,20 @@
     <fieldset>
       <legend>{{ _('Révision du document') }} (revisionDesc) <span style="color: red;">*</span></legend>
       <label for="when"><strong>{{ _('Date de la révision') }}</strong></label><br>
-      <input type="date" name="when" id="when"><br>
+      <input type="date" name="when" id="when" required><br>
 
       <label for="who"><strong>{{ _('Responsable') }}</strong></label><br>
-      <input type="text" name="who" id="who" placeholder="Id of the person"><br>
+      <input type="text" name="who" id="who" placeholder="Id of the person" required><br>
 
       <label for="change"><strong>{{ _('Révision effectuée') }}</strong></label><br>
-      <textarea rows="3" name="change" id="change" placeholder="Encoding of the metadata/Encoding of the body/Encoding of the metadata and body"></textarea><br>
+      <textarea rows="3" name="change" id="change" placeholder="Encoding of the metadata/Encoding of the body/Encoding of the metadata and body" required></textarea><br>
     </fieldset>
 
     <!-- Corps -->
     <fieldset>
   <legend>{{ _('Corps du texte') }}</legend>
   <label for="divtype"><strong>{{ _("Type de document") }}</strong></label><br>
-  <select name="divtype" id="divtype">
+  <select name="divtype" id="divtype" required>
     <option value="text">{{ _("Indéfini") }}</option>
     <option value="book">{{ _("Livre") }}</option>
     <option value="letter">{{ _("Lettre") }}</option>
@@ -224,7 +224,7 @@
 
         <div id="div-upload">
           <div class="dropzone">
-            <input class="styled-select" type="file" id="rax-text-file" name="file" accept=".txt" multiple />
+            <input class="styled-select" type="file" id="rax-text-file" name="file" accept=".txt" multiple required/>
               <p id="form_msg"><i class="fa-solid fa-upload"></i><br/>{{ _('Déposer le(s) fichier(s) ou cliquer ici.')}}</p>
             </div>
           <input id="csrf_token" name="csrf_token" type="hidden" value="CSRF_TOKEN_STRING">
