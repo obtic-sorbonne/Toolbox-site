@@ -5532,3 +5532,45 @@ msgstr "Letter"
 
 msgid "Rapport"
 msgstr "Report"
+
+msgid "Titre du document"
+msgstr "Title of the document"
+
+msgid "Date de création"
+msgstr "Creation date"
+
+msgid "Langue du document"
+msgstr "Langage of the document"
+
+msgid "Corrections effectuées"
+msgstr "Corrections done"
+
+msgid "Système de traits d’union"
+msgstr "Hyphens system"
+
+msgid "Révision effectuée"
+msgstr "Revision done"
+
+msgid "Choisissez le type correspondant à la structure du texte. Le choix de <b>Poème</b> encodera votre texte avec des balises &lt;l&gt; et &lt;lg&gt;, qui signalent les vers et les couplets. Le choix de <b>Pièce de théâtre</b> encodera votre texte selon les séparations d'actes et de scènes et prendra comme un bloc les &lt;speaker&gt; et leur dialogue"
+msgstr "Choose the type that matches the structure of your text. Choosing <b>Poem</b> will encode your text with &lt;l&gt; and &lt;lg&gt; tags, which indicate verses and couplets. Choosing <b>Play</b> will encode your text according to the act and scene divisions and will take the &lt;speaker&gt; and their dialogue as a single block."
+
+msgid "Le choix de <b>Livre</b> encodera votre texte selon les chapitres, avec des &lt;div&gt; et les séparations de pages avec des &lt;pb&gt;. Le choix de <b>Lettre</b> encodera votre texte en prenant en compte les éléments tels que des date, salutations, signature, etc, avec notamment un &lt;opener&gt; et &lt;closer&gt;"
+msgstr "Choosing <b>Book</b> will encode your text according to chapters, with &lt;div&gt; and page separations with &lt;pb&gt;. Choosing <b>Letter</b> will encode your text taking into account elements such as dates, salutations, signatures, etc., including an &lt;opener&gt; and &lt;closer&gt;"
+
+msgid "Le choix de de <b>Rapport</b> encodera votre texte en section, avec des &lt;div&gt;, selon les numérotations par lettres, chiffres ou alphabets romans. Enfin, le choix de <b>Indéfini</b> encodera votre texte par paragraphe principalement, avec des &lt;p&gt;"
+msgstr "Choosing <b>Report</b> will encode your text in sections, with &lt;div&gt;, according to the numbering by letters, numbers or Roman alphabets. Finally, choosing <b>Indefinite</b> will encode your text mainly by paragraph, with &lt;p&gt;"
+
+msgid "Attribution et partage dans les mêmes conditions"
+msgstr "Attribution and sharing under the same conditions"
+
+msgid "Attribution mais pas de modification"
+msgstr "Attribution but no modification"
+
+msgid "Attribution mais pas d’utilisation commerciale"
+msgstr "Attribution but no commercial use"
+
+msgid "Attribution mais pas de modification ou d’utilisation commercial"
+msgstr "Attribution but no modification or commercial use"
+
+msgid "Attribution mais pas d’utilisation commerciale et partage dans les mêmes conditions"
+msgstr "Attribution but no commercial use and share-alike"

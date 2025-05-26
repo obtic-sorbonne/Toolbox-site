@@ -1657,6 +1657,10 @@ def txt_to_xml(filename, fields):
         licence.set("target", "https://creativecommons.org/licenses/by-nd/4.0/")
     if licence.text == "CC-BY-NC":
         licence.set("target", "https://creativecommons.org/licenses/by-nc/4.0/")
+    if licence.text == "CC-BY-ND-NC":
+        licence.set("target", "https://creativecommons.org/licenses/by-nc-nd/4.0/")
+    if licence.text == "CC-BY-NC-SA":
+        licence.set("target", "https://creativecommons.org/licenses/by-nc-sa/4.0/")
     availability.append(licence)
     publicationStmt.append(availability)
 
