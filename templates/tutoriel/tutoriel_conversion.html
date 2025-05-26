@@ -39,9 +39,21 @@ colgroup col:nth-child(1) {
     width: 20%; /* Première colonne - 20% */
 }
 
-colgroup col:nth-child(2), 
+colgroup col:nth-child(2) {
+    width: 30%; /* Deuxième et troisième colonnes - 40% chacune */
+}
+ 
 colgroup col:nth-child(3) {
-    width: 40%; /* Deuxième et troisième colonnes - 40% chacune */
+    width: 50%; /* Deuxième et troisième colonnes - 40% chacune */
+}
+
+pre code {
+  background-color: #f9f9f9;
+  padding: 10px;
+  display: block;
+  white-space: pre-wrap; /* Pour éviter le débordement */
+  border: 1px solid #ddd;
+  border-radius: 4px;
 }
 
 
@@ -68,42 +80,64 @@ colgroup col:nth-child(3) {
     <tr>
       <td><strong>&lt;titleStmt&gt;</strong></td>
       <td>{{ _("Indique les informations liées au titre de l'œuvre ou du document") }}. {{ _("Cela inclut le titre lui-même et les auteurs ou autres contributeurs principaux") }}.</td>
-      <td><code>&lt;titleStmt&gt; &lt;title&gt;La Divina Commedia&lt;/title&gt; &lt;author&gt;Dante Alighieri&lt;/author&gt; &lt;/titleStmt&gt;</code></td>
+      <td><pre><code>&lt;titleStmt&gt; 
+          &lt;title&gt;La Divina Commedia&lt;/title&gt; 
+          &lt;author&gt;Dante Alighieri&lt;/author&gt; 
+        &lt;/titleStmt&gt;</code></pre></td>
     </tr>
     <tr>
       <td><strong>&lt;respStmt&gt;</strong></td>
       <td>{{ _("Identifie les responsables ou collaborateurs associés à l'œuvre ou au projet, avec leurs rôles précisés") }}.</td>
-      <td><code>&lt;respStmt&gt; &lt;resp&gt;Editor&lt;/resp&gt; &lt;name&gt;John Doe&lt;/name&gt; &lt;/respStmt&gt;</code></td>
+      <td><pre><code>&lt;respStmt&gt; 
+        &lt;resp&gt;Editor&lt;/resp&gt; 
+        &lt;name&gt;John Doe&lt;/name&gt; 
+      &lt;/respStmt&gt;</code></pre></td>
     </tr>
     <tr>
       <td><strong>&lt;publicationStmt&gt;</strong></td>
       <td>{{ _("Contient les informations liées à la publication du document ") }}: {{ _("éditeur, lieu, date de publication, et droits associés") }}.</td>
-      <td><code>&lt;publicationStmt&gt; &lt;publisher&gt;Oxford University Press&lt;/publisher&gt; &lt;date&gt;2023&lt;/date&gt; &lt;availability&gt;Open Access&lt;/availability&gt; &lt;/publicationStmt&gt;</code></td>
+      <td><pre><code>&lt;publicationStmt&gt; 
+        &lt;publisher&gt;Oxford University Press&lt;/publisher&gt; 
+        &lt;date&gt;2023&lt;/date&gt; 
+        &lt;availability&gt;Open Access&lt;/availability&gt; 
+    &lt;/publicationStmt&gt;</code></pre></td>
     </tr>
     <tr>
       <td><strong>&lt;sourceDesc&gt;</strong></td>
       <td>{{ _("Fournit des détails sur la source ou l'origine du texte encodé ") }}: {{ _("manuscrit, édition imprimée") }}, etc.</td>
-      <td><code>&lt;sourceDesc&gt; &lt;bibl&gt;Original manuscript: Bibliothèque nationale de France, MS fr. 123&lt;/bibl&gt; &lt;/sourceDesc&gt;</code></td>
+      <td><pre><code>&lt;sourceDesc&gt; 
+        &lt;bibl&gt;Original manuscript: Bibliothèque nationale de France, MS fr. 123&lt;/bibl&gt; 
+      &lt;/sourceDesc&gt;</code></pre></td>
     </tr>
     <tr>
       <td><strong>&lt;profileDesc&gt;</strong></td>
       <td>{{ _("Décrit le contenu général du document (thèmes, langues utilisées, etc.) et") }} {{ _("autres caractéristiques textuelles : chronologie, géographie") }}, etc.</td>
-      <td><code>&lt;profileDesc&gt; &lt;langUsage&gt; &lt;language ident="fre"&gt;French&lt;/language&gt; &lt;/langUsage&gt; &lt;/profileDesc&gt;</code></td>
+      <td><pre><code>&lt;profileDesc&gt; 
+        &lt;langUsage&gt; 
+          &lt;language ident="fre"&gt;French&lt;/language&gt; 
+        &lt;/langUsage&gt; 
+      &lt;/profileDesc&gt;</code></pre></td>
     </tr>
     <tr>
       <td><strong>&lt;projectDesc&gt;</strong></td>
       <td>{{ _("Donne des informations sur le projet dans lequel le texte a été encodé, comme ses objectifs et son cadre institutionnel") }}.</td>
-      <td><code>&lt;projectDesc&gt; &lt;p&gt;This project aims to digitize medieval manuscripts for linguistic research.&lt;/p&gt; &lt;/projectDesc&gt;</code></td>
+      <td><pre><code>&lt;projectDesc&gt; 
+        &lt;p&gt;This project aims to digitize medieval manuscripts for linguistic research.&lt;/p&gt; 
+      &lt;/projectDesc&gt;</code></pre></td>
     </tr>
     <tr>
       <td><strong>&lt;editorialDecl&gt;</strong></td>
       <td>{{ _("Spécifie les choix éditoriaux et conventions appliquées lors de l'encodage du texte, comme les suppressions ou corrections effectuées") }}.</td>
-      <td><code>&lt;editorialDecl&gt; &lt;p&gt;The encoding follows standard TEI guidelines for modernizing spelling.&lt;/p&gt; &lt;/editorialDecl&gt;</code></td>
+      <td><pre><code>&lt;editorialDecl&gt; 
+        &lt;p&gt;The encoding follows standard TEI guidelines for modernizing spelling.&lt;/p&gt; 
+      &lt;/editorialDecl&gt;</code></pre></td>
     </tr>
     <tr>
       <td><strong>&lt;revisionDesc&gt;</strong></td>
       <td>{{ _("Fournit un historique des modifications et révisions appliquées au fichier TEI") }}.</td>
-      <td><code>&lt;revisionDesc&gt; &lt;change when="2025-03-20" who="editor"&gt;Updated spelling of certain archaic terms.&lt;/change&gt; &lt;/revisionDesc&gt;</code></td>
+      <td><pre><code>&lt;revisionDesc&gt; 
+        &lt;change when="2025-03-20" who="editor"&gt;Updated spelling of certain archaic terms.&lt;/change&gt; 
+      &lt;/revisionDesc&gt;</code></pre></td>
     </tr>
   </tbody>
 </table>
