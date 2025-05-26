@@ -141,6 +141,9 @@
         <option value="CC-BY-ND-NC">CC-BY-ND-NC ({{ _("Attribution mais pas de modification ou d’utilisation commercial") }})</option>
         <option value="CC-BY-NC-SA">CC-BY-NC-SA ({{ _("Attribution mais pas d’utilisation commerciale et partage dans les mêmes conditions") }})</option>
       </select><br>
+
+      <label for="publication_date"><strong>{{ _('Date de publication') }}</strong></label><br>
+      <input type="number" name="publication_date" id="publication_date" min="1900" max="2099" step="1" value="2025"><br>
     </fieldset>
 
     <!-- Source -->
@@ -153,7 +156,7 @@
     <fieldset>
       <legend>{{ _('Profil du document') }} (profileDesc)</legend>
       <label for="creation"><strong>{{ _('Date de création') }}</strong></label><br>
-      <input type="text" name="creation" id="creation" placeholder="YYYY"><br>
+      <input type="number" name="creation" id="creation" min="0" max="2099" step="1" value="2025"><br>
 
       <label for="lang"><strong>{{ _('Langue du document') }}</strong></label><br>
       <select name="lang" id="lang">

@@ -975,7 +975,8 @@ def xmlconverter():
             'lang': request.form.get('lang', ''),
             'projet_p': request.form.get('projet_p', ''),
             'edit_correction_p': request.form.get('edit_correction_p', ''),
-            'edit_hyphen_p': request.form.get('edit_hyphen_p', '')
+            'edit_hyphen_p': request.form.get('edit_hyphen_p', ''),
+            'publication_date' : request.form.get('publication_date', '')
         }
 
         rand_name = generate_rand_name("tei_")
@@ -1637,6 +1638,16 @@ def txt_to_xml(filename, fields):
 
         titleStmt.append(respStmt)
 
+    #-- Automatic encoding info
+    respStmt_auto = etree.Element("respStmt")
+    resp_auto = etree.Element("resp")
+    resp_auto.text = "Encoded by"
+    name_auto = etree.Element("name")
+    name_auto.text = "Pandore Toolbox"
+    respStmt_auto.append(resp_auto)
+    respStmt_auto.append(name_auto)
+    titleStmt.append(respStmt_auto)
+
     #- PublicationStmt
     publishers_list = fields['pubStmt'].split('\n') # Get publishers list
     publishers_list = list(map(str.strip, publishers_list)) # remove trailing characters
@@ -1663,6 +1674,12 @@ def txt_to_xml(filename, fields):
         licence.set("target", "https://creativecommons.org/licenses/by-nc-sa/4.0/")
     availability.append(licence)
     publicationStmt.append(availability)
+
+    if fields['publication_date']:
+        date = etree.Element("date")
+        publication_date = fields['publication_date']
+        date.set('when-iso', publication_date)
+        publicationStmt.append(date)
 
     #- SourceDesc
     paragraphs = fields['sourceDesc'].split('\n')
