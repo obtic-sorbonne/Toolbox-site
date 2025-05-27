@@ -87,7 +87,17 @@ $('form input').change(function () {
             var emotion_type = document.getElementById("emotion_type");
             if (analysisType === "emotion_analysis") {
                 emotion_type.style.display = "block";
-            } else {
+            }
+            else if (analysisType === "subjectivity_emotion") {
+                emotion_type.style.display = "block";
+            } 
+            else if (analysisType === "subjectivity_sentiment_emotion") {
+                emotion_type.style.display = "block";
+            }
+            else if (analysisType === "subjectivity_sentiment_emotion_readability") {
+                emotion_type.style.display = "block";
+            }
+            else {
                 emotion_type.style.display = "none";
             }
         }
