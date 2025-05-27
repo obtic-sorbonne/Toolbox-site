@@ -1759,8 +1759,8 @@ msgstr ""
 "an ASR system developed by OpenAI and trained on hundreds of thousands "
 "of hours of web data is used"
 
-msgid "vidéo"
-msgstr "video"
+msgid "Vidéo"
+msgstr "Video"
 
 msgid "audio"
 msgstr "audio"
