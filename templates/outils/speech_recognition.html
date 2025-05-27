@@ -39,9 +39,9 @@
     </div>
     <br>
     <form action="{{ url_for('automatic_speech_recognition') }}" method="POST" enctype="multipart/form-data">
-      <div style="display: block; margin: auto; width: max-content; border: solid #263e8d; padding: 10px;">
+      <div class="relations-input">
             <label for="file_type">{{ _('Choisir le type de document') }} : </label>
-            <select class="styled-select" name="file_type" id="file_type" required>
+            <select name="file_type" id="file_type" required>
                 <option value="audio_urls">Audio</option>
                 <option value="video_urls">{{ _('Vidéo') }}</option>
             </select>

@@ -19,9 +19,9 @@
     <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_analyses') }}"  target="_blank">{{ _('Voir la documentation') }}</a></p>
     <br>
     <form action="{{ url_for('analyze_lexicale') }}" id="linguistic-form" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
-        <div class="centered-div">
+        <div class="relations-input">
             <label for="analysis_type">{{ _("Choisir le type d'analyse") }} :</label>
-            <select class="styled-select" name="analysis_type" id="analysis_type" required>
+            <select name="analysis_type" id="analysis_type" required>
                 <option value="lexical_dispersion">{{ _('Dispersion lexicale') }}</option>
                 <option value="lexical_diversity">{{ _('Diversité lexicale') }}</option>
                 <option value="dispersion_diversity">{{ _('Dispersion lexicale') }} / {{ _('Diversité lexicale') }}</option>
@@ -29,7 +29,7 @@
         </div>
         {{ form.csrf_token }}
         <br>
-        <div class="centered-input-div" id="words_to_analyze_container" style="display: none;">
+        <div class="relations-input" id="words_to_analyze_container" style="display: none;">
             <label for="words_to_analyze_input">{{ _('Mots à analyser') }} :</label>
             <input type="text" id="words_to_analyze_input" name="words_to_analyze" placeholder="Separate words with a semicolon (;)"><br>
         </div>

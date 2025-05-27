@@ -18,7 +18,6 @@
 
 
     <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_extraction') }}" target="_blank">{{ _("Voir la documentation") }}</a> / <a href="{{ url_for('tutoriel_extraction') }}"  target="_blank">{{ _('Voir le tutoriel') }}</a></p>
-    <div class="container_two_columns">
         <div class="item">
             <h3>{{ _("Chargement des fichiers") }}</h3>
             <form action="{{ url_for('keyword_extraction') }}" method="post" enctype="multipart/form-data" class="drag-drop-form" id="kw_form">
@@ -26,19 +25,21 @@
                 <div class="form_opt">
                 <fieldset>
                     <legend>{{ _("Méthode de calcul des mots-clés") }}</legend>
-                    <input type="checkbox" name="extraction-method" value="default" id="def" checked><label for="default">{{ _("Par défaut") }}</label>
-                    <input type="checkbox" name="extraction-method" value="mmr" id="mmr"><label for="mmr">MMR</label>
-                    <input type="checkbox" name="extraction-method" value="mss" id="mss"><label for="mss">MSS</label>
+                    <input type="checkbox" name="extraction-method" value="default" id="def" checked style="margin-left: 1em;">  <label for="default">{{ _("Par défaut") }}</label>
+                    <input type="checkbox" name="extraction-method" value="mmr" id="mmr" style="margin-left: 1em;">  <label for="mmr">MMR</label>
+                    <input type="checkbox" name="extraction-method" value="mss" id="mss" style="margin-left: 1em;">  <label for="mss">MSS</label>
 
                     <div id="diversity_opt" style="display:none;padding:5px;"><input type="range" name="diversity" min="0" max="10" value="7"><label for="diversity">{{ _("Diversité (MMR)") }}</label></div>
                 </fieldset>
                 </div>
+                <div  style="width: 500px; margin: 0 auto;">
                 <div class="dropzone" id="kw_dropzone">
                 <input type="file" name="keywd-extract" accept="text/plain" multiple required>
                 <p id="form_msg">{{ _("Déposer le(s) fichier(s) ou cliquer ici.") }}</p>
                 </div>
                 <input id="csrf_token" name="csrf_token" type="hidden" value="CSRF_TOKEN_STRING">
                 <button type="submit">{{ _('Envoyer') }}</button>
+            </div>
             </form>
             
             <!-- the loader -->
@@ -85,8 +86,9 @@
             <button class="download-button" id="download_btn" onclick="download_res()">
                 <i class="fa-solid fa-download"></i> {{ _("Télécharger") }}
             </button>
+            <br>
+            <br>
         </div>
-    </div>
 
 <script>
     /* MAJ de la zone de glisser-déposer */ 

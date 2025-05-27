@@ -30,9 +30,9 @@
   </div>
       <br>
     <form action="{{ url_for('removing_elements') }}" id="linguistic-form" method="post" enctype="multipart/form-data" onsubmit="showloader('loader')">
-        <div class="centered-div">
+        <div class="relations-input">
             <label for="removing_type">{{ _('Choisir le type de modification') }} :</label>
-            <select class="styled-select" name="removing_type" id="removing_type" required>
+            <select name="removing_type" id="removing_type" required>
                 <option value="lowercases">Option 1</option>
                 <option value="punctuation">Option 2</option>
                 <option value="stopwords">Option 3</option>
@@ -44,7 +44,7 @@
         </div>
     <br>
         {{ form.csrf_token }}
-        <div class="centered-input-div" id="stopwords_fields" style="display: none;">
+        <div class="relations-input" id="stopwords_fields" style="display: none;">
             <label for="selected_language">{{ _('Choisissez la langue') }} :</label>
                 <select name="selected_language" id="selected_language">
                     <option value="german">{{ _('Allemand') }} (de)</option>

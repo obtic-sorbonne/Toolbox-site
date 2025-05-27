@@ -7,7 +7,6 @@
     <div class="fil"><a href="{{ url_for('extraction_information')}}"><< {{ _('Retour aux tâches') }}</a></div>
     <h2>Topic Modelling</h2>
     <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_extraction') }}" target="_blank">{{ _("Voir la documentation") }}</a> / <a href="{{ url_for('tutoriel_extraction') }}" target="_blank">{{ _("Voir le tutoriel") }}</a></p>
-    <div class="container_two_columns">
         <div class="item">
             <h3>{{ _("Chargement des fichiers") }}</h3>
             <form action="{{ url_for('topic_extraction') }}" method="post" enctype="multipart/form-data" class="drag-drop-form" id="tm_form">
@@ -17,8 +16,8 @@
                     <legend>Options</legend>
                     <div style="padding:5px;">
                         <span>{{ _("Méthodes de calcul des thématiques :") }} </span>
-                        <input type="checkbox" name="modelling-method" value="nmf" id="nmf" checked><label for="nmf">NMF</label>
-                        <input type="checkbox" name="modelling-method" value="lda" id="lda" checked><label for="lda">LDA</label>
+                        <input type="checkbox" name="modelling-method" value="nmf" id="nmf" checked style="margin-left: 1em;">  <label for="nmf">NMF</label>
+                        <input type="checkbox" name="modelling-method" value="lda" id="lda" checked style="margin-left: 1em;">  <label for="lda">LDA</label>
                     </div>
                         <label class="switch">
                             <span style="margin-left:72px;cursor: pointer;">Lemmatisation</span>
@@ -28,12 +27,14 @@
                         <span class="time_alert"><i class="fa-solid fa-triangle-exclamation"></i> {{ _("Le traitement peut être très long.")}}</span>
                 </fieldset>
                 </div>
+                <div  style="width: 500px; margin: 0 auto;">
                 <div class="dropzone">
                 <input type="file" name="topic_model" accept="text/plain" multiple required>
                 <p id="form_msg">{{ _("Déposer le(s) fichier(s) ou cliquer ici.")}}</p>
                 </div>
                 <input id="csrf_token" name="csrf_token" type="hidden" value="CSRF_TOKEN_STRING">
                 <button type="submit">{{ _("Envoyer") }}</button>
+            </div>
             </form>
         </div>
         <div class="item">
@@ -55,8 +56,9 @@
                 </tr>
             </table>
             <button class="download-button" id="download_btn" onclick="download_res({{ res }})"><i class="fa-solid fa-download"></i> {{ _("Télécharger") }}</button>
+            <br>
+            <br>
         </div>
-    </div>
 
 
     <script>

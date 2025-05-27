@@ -479,6 +479,7 @@ display: table;
 
 .form_opt{
   width: 400px;
+  margin: 25px auto;
 }
 
 .item h3{
@@ -1051,4 +1052,29 @@ legend {
 
 label {
   font-size: 12pt;
+}
+
+.relations-input {
+    display: block; 
+    margin: auto; 
+    width: max-content;
+    background-color: #f9f9f9;
+    padding: 20px; /* Espacement interne */
+    border: 2px solid #263e8d;
+}
+
+.relations-input input {
+    width: max-content;
+    padding: 5px; /* Espacement interne */
+    margin-bottom: 10px; /* Espacement sous chaque champ */
+    border: 1px solid #263e8d;
+    font-weight: bold; /* Texte en gras */
+}
+
+.relations-input select {
+    width: max-content;
+    padding: 5px; /* Espacement interne */
+    margin-bottom: 10px; /* Espacement sous chaque champ */
+    border: 1px solid #263e8d;
+    font-weight: bold; /* Texte en gras */
 }

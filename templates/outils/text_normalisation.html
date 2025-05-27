@@ -27,9 +27,9 @@
   </div>
   <br>
     <form action="{{ url_for('normalize_text') }}" id="linguistic-form" method="post" enctype="multipart/form-data" onsubmit="showloader('loader')">
-        <div class="centered-div">
+        <div class="relations-input">
             <label for="normalisation_type">{{ _("Choisir le type d'analyse") }} :</label>
-            <select class="styled-select" name="normalisation_type" id="normalisation_type" required>
+            <select name="normalisation_type" id="normalisation_type" required>
                 <option value="tokens">Option 1</option>
                 <option value="tokens_lower">Option 1 ({{ _('Minuscules') }})</option>
                 <option value="lemmas">Option 2 </option>
@@ -40,7 +40,7 @@
         </div>
     <br>
         {{ form.csrf_token }}
-        <div class="centered-input-div" id="lemma_fields" style="display: none;">
+        <div class="relations-input" id="lemma_fields" style="display: none;">
             <label for="selected_language">{{ _('Choisissez la langue') }} :</label>
                 <select name="selected_language" id="selected_language">
                     <option value="german">{{ _('Allemand') }} (de)</option>

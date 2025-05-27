@@ -47,6 +47,7 @@
         <div id="tess-form">
     <form action="{{ url_for('autocorrect') }}" id="correction-form" method="post" enctype="multipart/form-data">
         {{ form.csrf_token }}
+        <div class="relations-input">
         <label for="selected_language">{{ _('Modèle') }}</label>
         <select name="selected_language">
             <option value="german">{{ _('Allemand') }} (de)</option>
@@ -62,6 +63,7 @@
             <option value="portuguese">{{ _('Portugais') }} (pt)</option>
             <option value="russian">{{ _('Russe') }} (ru)</option>
         </select>
+      </div>
         <div class="dropzone" style="margin:25px auto;">
             <input type="file" id="files" name="files" accept="text/plain" multiple required>
             <p id="form_msg">{{ _("Déposer le(s) fichier(s) ou cliquer ici") }}.</p>

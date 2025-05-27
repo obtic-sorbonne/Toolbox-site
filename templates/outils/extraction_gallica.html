@@ -18,7 +18,7 @@
 		border: none;
 	}
 	legend{
-		color:#8A824C;
+		color:#263e8d;
 	}
 	h3{
 		font-weight: 500;
@@ -101,7 +101,7 @@ input[type="radio"]{
 <p>{{ _('Les documents consultables dans Gallica sont identifiés selon un système normalisé, ARK (pour') }} <span style="font-style:italic">Archival Resource Key</span>) 
 	{{ _('qui permet de garantir la pérennité des URL (voir la') }} <a href="https://www.bnf.fr/fr/lidentifiant-ark-archival-resource-key#bnf-ark-qu-est-ce-que-c-est-" target="_blank">{{ _('notice sur ARK') }} <i class="fa-solid fa-arrow-up-right-from-square"></i></a> {{ _("sur le site de la BnF). Ce module permet d'") }}<em>{{ _('extraire des documents du catalogue Gallica') }}</em> {{ _('à partir de leur ARK, soit au') }} <em>{{ _('format IIIF') }}</em>, {{ _('soit au') }} <em>{{ _('format texte') }}</em> {{ _('lorsque celui-ci est disponible') }}.</p>
 
-<div style="font-size: 0.9em;border:1px solid #8A824C; border-radius: 2px;padding:30px;margin-top: 20px;margin-bottom: 20px;">
+<div style="font-size: 0.9em;border:1px solid #263e8d; border-radius: 2px;padding:30px;margin-top: 20px;margin-bottom: 20px;">
 	<p class="how" style="margin-top:0">{{ _('Comment ça marche ') }}?</p>
 	<p>{{ _("Vous pouvez charger un fichier contenant une liste d'ARK ou coller directement cette liste dans le formulaire dédié") }}.<br> {{ _('Il est possible de sélectionner une plage de pages à télécharger') }} {{ _('en indiquant le numéro de la première page désirée et le nombre de pages après celle-ci, séparés par une tabulation') }}.</p>
 	<p style="border-left:1px solid #008CBA;padding:5px;margin:8px">{{ _('Exemple') }} :&Tab;<span style="font-family: 'Courier New', Courier, monospace;">bpt6k6138851t&Tab;144&Tab;21</span></p>
@@ -123,7 +123,7 @@ input[type="radio"]{
 		  </label>
 	</div>
 	</fieldset>
-	<p style="margin-top:15px;color:#8A824C">{{ _('Liste des arks correspondant aux documents à télécharger') }}</p>
+	<p style="margin-top:15px;color:#263e8d">{{ _('Liste des arks correspondant aux documents à télécharger') }}</p>
 	<div class="container" style="width:85%">
 		<div class="dropzone">
 			<input type="file" id="ark_upload" name="ark_upload" accept="text/plain">
@@ -131,7 +131,7 @@ input[type="radio"]{
 		</div>
 		<div class="textarea_w_msg">
 			<span id="error_msg_ark"></span>
-			<textarea name="ark_input" id="arks" cols="17" rows="9" placeholder="... Or paste ARKs here, divided by a newline."></textarea>
+			<textarea name="ark_input" id="arks" cols="17" rows="8" placeholder="... Or paste ARKs here, divided by a newline."></textarea>
 		</div>
 	</div>
 	<input id="csrf_token" name="csrf_token" type="hidden" value="CSRF_TOKEN_STRING">

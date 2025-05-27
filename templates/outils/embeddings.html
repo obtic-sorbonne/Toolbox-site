@@ -18,9 +18,9 @@
     <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_analyses') }}"  target="_blank">{{ _('Voir la documentation') }}</a></p>
     <br>
     <form action="{{ url_for('embedding_tool') }}" id="linguistic-form" method="post" enctype="multipart/form-data" onsubmit="showloader('loader')">
-        <div class="centered-div">
+        <div class="relations-input">
             <label for="analysis_type">{{ _("Choisir le type d'analyse") }} :</label>
-            <select class="styled-select" name="analysis_type" id="analysis_type" required>
+            <select name="analysis_type" id="analysis_type" required>
                 <option value="similarity">{{ _('Similarité') }}</option>
                 <option value="relations">Relations</option>
                 <option value="clustering">Clustering</option>
@@ -28,11 +28,11 @@
         </div>
         {{ form.csrf_token }}
         <br>
-        <div id="embedding_similarity" class="centered-input-div">
+        <div id="embedding_similarity" class="relations-input">
             <label for="inputText">{{ _('Mot à analyser') }} :</label>
             <input type="text" id="inputText" name="inputText" placeholder="Word to analyze" required>
         </div>
-        <div id="embedding_relations" class="centered-input-div">
+        <div id="embedding_relations" class="relations-input">
             <div style="margin-bottom: 25px; margin-top: 25px;"><label for="inputText">{{ _('Mot à analyser') }} :</label>
             <input type="text" id="input1" name="input1" placeholder="Example: 'woman'" required></div>
             <div style="margin-bottom: 25px;"><label for="inputText">{{ _('Référence') }} :</label>
@@ -40,7 +40,7 @@
             <div style="margin-bottom: 25px;"><label for="inputText">{{ _('Référence') }} :</label>
             <input type="text" id="input3" name="input3" placeholder="Example: 'man'" required></div>
         </div>
-        <div id="embedding_clustering" class="centered-input-div">
+        <div id="embedding_clustering" class="relations-input">
             <label for="inputText" style="display: block; text-align: center;">{{ _('Mots à grouper') }} :</label><br>
             <textarea style="width: auto;" id="words_list" name="words_list" placeholder="Separate words with a semicolon (;)" required></textarea>
         </div>

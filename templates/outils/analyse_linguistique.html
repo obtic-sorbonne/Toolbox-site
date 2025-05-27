@@ -20,9 +20,9 @@
     <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_analyses') }}"  target="_blank">{{ _('Voir la documentation') }}</a></p>
     <br>
     <form action="{{ url_for('analyze_linguistic') }}" id="linguistic-form" method="post" enctype="multipart/form-data" onsubmit="showloader('loader')">
-        <div class="centered-div">
+        <div class="relations-input">
             <label for="analysis_type">{{ _("Choisir le type d'analyse") }} :</label>
-            <select class="styled-select" name="analysis_type" id="analysis_type" required>
+            <select name="analysis_type" id="analysis_type" required>
                 <option value="detect_lang">Option 1</option>
                 <option value="hapax">Option 2</option>
                 <option value="n_gram">Option 3</option>
@@ -41,7 +41,7 @@
         </div>
         {{ form.csrf_token }}
         <br>
-        <div class="centered-input-div" id="ngram_fields" style="display: none;">
+        <div class="relations-input" id="ngram_fields" style="display: none;">
             <label for="n">{{ _('Longueur des n-grams') }} :</label>
             <input type="number" id="n" name="n" min="1" value="2"><br>
             <label for="r">{{ _('Nombre de n-grams à afficher') }} :</label>

@@ -49,6 +49,7 @@
     <div id="tess-form">
     <form action="{{ url_for('run_tesseract') }}" id="tesseract-form" method="post" enctype="multipart/form-data" onsubmit="showloader('loader')">
       {{ form.csrf_token }}
+      <div class="relations-input">
       <label for="tessmodel">{{ _('Modèle') }}</label>
       <select name="tessmodel" id="tessmodel" class="sel sel--black-panther">
         <option value="fra" selected>{{ _('Français') }} (fra)</option>
@@ -77,6 +78,8 @@
           <option value="por">{{ _('Portugais') }} (por)</option>
         </select><span style="padding:10px" id="remove_model"><i class="fa-solid fa-circle-xmark"></i></span>
       </div>
+    </div>
+    <br>
       <div class="dropzone">
         <input type="file" name="tessfiles" id="tessfiles" accept="image/jpeg,image/png,application/pdf,image/tif,image/tiff" multiple required onchange="fileValidation()">
         <p id="form_msg">{{ _('Déposer le(s) fichier(s) ou cliquer ici.' )}}</p>

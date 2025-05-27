@@ -18,9 +18,9 @@
     <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_analyses') }}"  target="_blank">{{ _('Voir la documentation') }}</a></p>
     <br>
     <form action="{{ url_for('analyze_statistic') }}" id="linguistic-form" method="post" enctype="multipart/form-data" onsubmit="showloader('loader')">
-        <div class="centered-div">
+        <div class="relations-input">
             <label for="analysis_type">{{ _("Choisir le type d'analyse") }} :</label>
-            <select class="styled-select" name="analysis_type" id="analysis_type" required>
+            <select name="analysis_type" id="analysis_type" required>
                 <option value="sentence_length_average">Option 1</option>
                 <option value="words_frequency">Option 2</option>
                 <option value="cooccurrences">Option 3</option>
@@ -32,7 +32,7 @@
         </div>
         {{ form.csrf_token }}
         <br>
-        <div class="centered-input-div" id="cooccurrences_fields" style="display: none;">
+        <div class="relations-input" id="cooccurrences_fields" style="display: none;">
             <label for="context_window">{{ _('Fenêtre de contexte') }} :</label>
             <input type="number" id="context_window" name="context_window" min="1" value="2"><br>
             <label for="target_word">{{ _('Mot cible') }} :</label>

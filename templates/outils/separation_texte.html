@@ -23,9 +23,9 @@
   </div>
   <br>
     <form action="{{ url_for('split_text') }}" id="linguistic-form" method="post" enctype="multipart/form-data" onsubmit="showloader('loader')">
-        <div class="centered-div">
+        <div class="relations-input">
             <label for="split_type">{{ _('Choisir le type de séparation') }} :</label>
-            <select class="styled-select" name="split_type" id="split_type" required>
+            <select name="split_type" id="split_type" required>
                 <option value="sentences">{{ _('Phrases') }}</option>
                 <option value="lines">{{ _('Lignes') }}</option>
                 <option value="sentences_lines">{{ _('Phrases + Lignes') }}</option>
