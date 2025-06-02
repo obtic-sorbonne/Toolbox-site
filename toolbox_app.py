@@ -3984,160 +3984,139 @@ def to_geoJSON_point(coordinates, name):
         },
     }
 
-
-@app.route("/run_ocr_map", methods=["POST"])
-def run_ocr_map():
-    from txt_ner import txt_ner_params
-    from geopy.geocoders import Nominatim
-    geolocator = Nominatim(user_agent="http")
-
-    # paramètres globaux
-    uploaded_files = request.files.getlist("inputfiles")
-    # paramètres OCR
-    ocr_model = request.form['tessmodel']
-    # paramètres NER
-    up_folder = app.config['UPLOAD_FOLDER']
-    encodage = request.form['encodage']
-    moteur_REN = request.form['moteur_REN']
-    modele_REN = request.form['modele_REN']
-
-    rand_name =  generate_rand_name('ocr_ner_')
-    if ocr_model != "raw_text":
-        contenu = ocr.tesseract_to_txt(uploaded_files, ocr_model, '', rand_name, ROOT_FOLDER, up_folder)
-    else:
-        liste_contenus = []
-        for uploaded_file in uploaded_files:
-            try:
-                liste_contenus.append(uploaded_file.read().decode(encodage))
-            finally: # ensure file is closed
-                uploaded_file.close()
-        contenu = "\n\n".join(liste_contenus)
-
-        del liste_contenus
-
-    entities = txt_ner_params(contenu, moteur_REN, modele_REN, encodage=encodage)
-    ensemble_mentions = set(text for label, start, end, text in entities if label == "LOC")
-    coordonnees = []
-    for texte in ensemble_mentions:
-        location = geolocator.geocode(texte, timeout=30)
-        if location:
-            coordonnees.append(to_geoJSON_point(location, texte))
-
-    return {"points": coordonnees}
-
 #---------------------------------------------------------
 #AFFICHAGE MAP des résultats pour plusieurs outils de NER
 #---------------------------------------------------------
 
 @app.route("/run_ocr_map_intersection", methods=["GET", "POST"])
 def run_ocr_map_intersection():
+    import asyncio
+    import aiohttp
+    import json
+    import os
+    from collections import Counter
+    from tqdm.auto import tqdm
     from txt_ner import txt_ner_params
-    from geopy.geocoders import Nominatim
-    geolocator = Nominatim(user_agent="http")
-    # paramètres globaux
-    uploaded_files = request.files.getlist("inputfiles")
-    #print(uploaded_files)
-    lang = request.form.get('toollang')
-    # paramètres OCR
-    #ocr_model = request.form['tessmodel']
+    from ocr import tesseract_to_txt
 
-    # paramètres NER
+    geo_cache_file = "cache_geoloc.json"
+    if os.path.exists(geo_cache_file):
+        with open(geo_cache_file, "r", encoding="utf-8") as f:
+            geo_cache = json.load(f)
+    else:
+        geo_cache = {}
+
+    uploaded_files = request.files.getlist("inputfiles")
+    ocr_model = request.form['tessmodel']
     up_folder = app.config['UPLOAD_FOLDER']
     encodage = request.form['encodage']
     moteur_REN1 = request.form['moteur_REN1']
     modele_REN1 = request.form['modele_REN1']
     moteur_REN2 = request.form['moteur_REN2']
     modele_REN2 = request.form['modele_REN2']
-    frequences_1 = collections.Counter()
-    frequences_2 = collections.Counter()
-    frequences = collections.Counter()
+    frequences_1 = Counter()
+    frequences_2 = Counter()
+    frequences = Counter()
     outil_1 = f"{moteur_REN1}/{modele_REN1}"
-    outil_2 = (f"{moteur_REN2}/{modele_REN2}" if moteur_REN2 != "aucun" else "aucun")
+    outil_2 = (f"{moteur_REN2}/{modele_REN2}" if moteur_REN2 != "None" else "None")
 
-    # print(moteur_REN1, moteur_REN2)
+    rand_name = generate_rand_name('ocr_ner_')
 
-    if request.form.get("do_ocr"):
-        rand_name =  generate_rand_name('ocr_ner_')
-        contenu = ocr.tesseract_to_txt(uploaded_files, lang, '', rand_name, ROOT_FOLDER, up_folder)
-        print("Numérisation en cours...")
+    if ocr_model != "raw_text":
+        contenu = tesseract_to_txt(uploaded_files, ocr_model, '', rand_name, ROOT_FOLDER, up_folder)
     else:
-        liste_contenus = []
-        for uploaded_file in uploaded_files:
-            #print(uploaded_file)
-            try:
-                f = uploaded_file.read()
-                liste_contenus.append(f.decode(encodage))
-                #print(liste_contenus)
-            finally: # ensure file is closed
-                uploaded_file.close()
+        liste_contenus = [uploaded_file.read().decode(encodage) for uploaded_file in uploaded_files]
         contenu = "\n\n".join(liste_contenus)
 
-        del liste_contenus
-
-    # TODO: ajout cumul
     entities_1 = txt_ner_params(contenu, moteur_REN1, modele_REN1, encodage=encodage)
-    ensemble_mentions_1 = set(text for label, start, end, text in entities_1 if label == "LOC")
-    ensemble_positions_1 = set((text, start, end) for label, start, end, text in entities_1 if label == "LOC")
-    ensemble_positions = set((text, start, end) for label, start, end, text in entities_1 if label == "LOC")
+    ensemble_mentions_1 = {text for label, start, end, text in entities_1 if label == "LOC"}
+    ensemble_positions_1 = {(text, start, end) for label, start, end, text in entities_1 if label == "LOC"}
+    ensemble_positions = set(ensemble_positions_1)
 
-    # TODO: ajout cumul
-    if moteur_REN2 != "aucun":
+    if moteur_REN2 != "None":
         entities_2 = txt_ner_params(contenu, moteur_REN2, modele_REN2, encodage=encodage)
-        ensemble_mentions_2 = set(text for label, start, end, text in entities_2 if label == "LOC")
-        ensemble_positions_2 = set((text, start, end) for label, start, end, text in entities_2 if label == "LOC")
-        ensemble_positions |= set((text, start, end) for label, start, end, text in entities_2 if label == "LOC")
+        ensemble_mentions_2 = {text for label, start, end, text in entities_2 if label == "LOC"}
+        ensemble_positions_2 = {(text, start, end) for label, start, end, text in entities_2 if label == "LOC"}
+        ensemble_positions |= ensemble_positions_2
     else:
         entities_2 = ()
-        ensemble_positions_2 = set()
         ensemble_mentions_2 = set()
+        ensemble_positions_2 = set()
 
     ensemble_mentions_commun = ensemble_mentions_1 & ensemble_mentions_2
     ensemble_mentions_1 -= ensemble_mentions_commun
     ensemble_mentions_2 -= ensemble_mentions_commun
 
-    for text, start, end in ensemble_positions_1:
+    for text, _, _ in ensemble_positions_1:
         frequences_1[text] += 1
-    for text, start, end in ensemble_positions_2:
+    for text, _, _ in ensemble_positions_2:
         frequences_2[text] += 1
-    for text, start, end in ensemble_positions:
+    for text, _, _ in ensemble_positions:
         frequences[text] += 1
 
-    # print("TEST1")
-
     text2coord = {}
-    for text in set(p[0] for p in ensemble_positions):
-        text2coord[text] = geolocator.geocode(text, timeout=30) # check for everyone
 
-    # TODO: faire clustering pour cumul + outil 1 / outil 2 / commun
+    async def fetch_geocode(session, semaphore, text):
+        cleaned_text = text.strip().lower()
+        if len(cleaned_text) < 3:
+            return text, None
+
+        if cleaned_text in geo_cache:
+            return text, geo_cache[cleaned_text]
+
+        url = "https://nominatim.openstreetmap.org/search"
+        params = {"q": cleaned_text, "format": "json", "limit": 1}
+        headers = {"User-Agent": "your-app-name/1.0 (your-email@example.com)"}
+
+        async with semaphore:
+            try:
+                async with session.get(url, params=params, headers=headers, timeout=30) as resp:
+                    if resp.status == 200:
+                        data = await resp.json()
+                        if data:
+                            lat = float(data[0]["lat"])
+                            lon = float(data[0]["lon"])
+                            result = [lat, lon]
+                            geo_cache[cleaned_text] = result
+                            return text, result
+            except Exception as e:
+                print(f"Error for {text}: {e}")
+        return text, None
+
+    async def geocode_all(texts):
+        semaphore = asyncio.Semaphore(5)
+        async with aiohttp.ClientSession() as session:
+            tasks = [fetch_geocode(session, semaphore, text) for text in texts]
+            for future in asyncio.as_completed(tasks):
+                text, coords = await future
+                if coords:
+                    text2coord[text] = coords
+
+    asyncio.run(geocode_all({p[0] for p in ensemble_positions}))
+
+    with open(geo_cache_file, "w", encoding="utf-8") as f:
+        json.dump(geo_cache, f, ensure_ascii=False, indent=2)
+
     clusters_1 = freqs2clustering(frequences_1)
     clusters_2 = freqs2clustering(frequences_2)
     clusters = freqs2clustering(frequences)
 
-    # print("TEST2")
-    frequences_cumul_1 = {}
-    for centroid in clusters_1:
-        frequences_cumul_1[centroid] = 0
-        for forme_equivalente in clusters_1[centroid]["Termes"]:
-            frequences_cumul_1[centroid] += frequences_1[forme_equivalente]
-    frequences_cumul_2 = {}
-    for centroid in clusters_2:
-        frequences_cumul_2[centroid] = 0
-        for forme_equivalente in clusters_2[centroid]["Termes"]:
-            frequences_cumul_2[centroid] += frequences_2[forme_equivalente]
-    frequences_cumul = {}
-    for centroid in clusters:
-        frequences_cumul[centroid] = 0
-        for forme_equivalente in clusters[centroid]["Termes"]:
-            frequences_cumul[centroid] += frequences[forme_equivalente]
+    def cumulative_freq(clusters, freqs):
+        return {
+            centroid: sum(freqs[form] for form in clusters[centroid]["Termes"])
+            for centroid in clusters
+        }
 
-    # print("TEST3")
+    frequences_cumul_1 = cumulative_freq(clusters_1, frequences_1)
+    frequences_cumul_2 = cumulative_freq(clusters_2, frequences_2)
+    frequences_cumul = cumulative_freq(clusters, frequences)
 
-    # TODO: ajout cumul
-    liste_keys = ["commun", outil_1, outil_2]
+    liste_keys = ["Common", outil_1, outil_2]
     liste_ensemble_mention = [ensemble_mentions_commun, ensemble_mentions_1, ensemble_mentions_2]
     dico_mention_marker = {key: [] for key in liste_keys}
+
     for key, ensemble in zip(liste_keys, liste_ensemble_mention):
-        if key == "commun":
+        if key == "Common":
             my_clusters = clusters
             my_frequences = frequences_cumul
         elif key == outil_1:
@@ -4146,59 +4125,83 @@ def run_ocr_map_intersection():
         elif key == outil_2:
             my_clusters = clusters_2
             my_frequences = frequences_cumul_2
+        else:
+            raise NotImplementedError(f"Clustering pour {key} non implémenté")
+
         sous_ensemble = [texte for texte in my_frequences if texte in ensemble]
         for texte in sous_ensemble:
-            # forms = (" / ".join(my_clusters[texte]["Termes"]) if my_clusters else "")
-            #SAVE forms = [(form, [0, 0]) for form in my_clusters[texte]["Termes"]]
-            forms = []
-            for form in my_clusters[texte]["Termes"]:
-                coords = text2coord[form]
-                if coords:
-                    coords = [text2coord[form].latitude, text2coord[form].longitude]
-                else:
-                    coords = [0.0, 0.0]
-                forms.append([form, coords])
-            # location = geolocator.geocode(texte, timeout=30) # déjà fait avant
-            location = text2coord[texte]
-            # print(location, file=sys.stderr)
+            forms = [[form, text2coord.get(form, [0.0, 0.0])] for form in my_clusters[texte]["Termes"]]
+            location = text2coord.get(texte)
             if location:
-                dico_mention_marker[key].append((
-                    location.latitude,
-                    location.longitude,
-                    texte,
-                    my_frequences[texte],
-                    forms
-                ))
-
-    # for key, value in dico_mention_marker.items():
-    #     print(key, value, file=sys.stderr)
+                dico_mention_marker[key].append((location[0], location[1], texte, my_frequences[texte], forms))
 
     return dico_mention_marker
 
 
-@app.route("/nermap_to_csv", methods=['GET', "POST"])
+@app.route("/nermap_to_csv2", methods=['GET', "POST"])
 @stream_with_context
-def nermap_to_csv():
-    input_json_str = request.data
-    print(input_json_str)
-    input_json = json.loads(input_json_str)
-    print(input_json)
-    keys = ["nom", "latitude", "longitude", "outil", "fréquence", "cluster"]
+def nermap_to_csv2():
+    from lxml import etree
+
+    keys = ["nom", "latitude", "longitude", "outil", "cluster"]
     output_stream = StringIO()
-    writer = csv.DictWriter(output_stream, fieldnames=keys, delimiter="\t")
+    writer = csv.DictWriter(output_stream, fieldnames=keys, delimiter=",")
     writer.writeheader()
-    for point in input_json["data"]:
-        row = {
-            "latitude" : point[0],
-            "longitude" : point[1],
-            "nom" : point[2],
-            "outil" : point[3],
-            "fréquence" : point[4],
-            "cluster" : point[5],
-        }
-        writer.writerow(row)
-    # name not useful, will be handled in javascript
-    response = Response(output_stream.getvalue(), mimetype='text/csv', headers={"Content-disposition": "attachment; filename=export.csv"})
+
+    input_json = json.loads(request.data)
+    html = etree.fromstring(input_json["html"])
+    base_clusters = input_json["clusters"]
+    name2coordinates = {}
+    print(base_clusters)
+    for root_cluster in base_clusters.values():
+        for *_, clusters in root_cluster:
+            for txt, coords in clusters:
+                name2coordinates[txt] = coords
+        for e in root_cluster:
+            coords = [e[0], e[1]]
+            name2coordinates[e[2]] = coords
+
+    print(name2coordinates)
+
+    for toolnode in list(html):
+        for item in list(toolnode):
+            tool = item.text.strip()
+            for centroid_node in list(list(item)[0]):
+                print(centroid_node)
+                centroid = etree.tostring(next(centroid_node.iterfind("div")), method="text", encoding=str).strip()
+                # centroid = centroid_node.text_content().strip()
+                try:
+                    data = next(centroid_node.iterfind('ol'))
+                except StopIteration:  # cluster with no children
+                    data = []
+                the_cluster = []
+                for cluster_item_node in list(data):
+                    try:
+                        cluster_item = etree.tostring(cluster_item_node, method="text", encoding=str).strip()
+                        the_cluster.append(cluster_item.split(" / ")[0])
+                    except Exception:
+                        stderr.write("\t\tDid not work")
+                nom = centroid  # .split(' / ')[0]
+                #  latitude = centroid.split(' / ')[1].split(',')[0],
+                #  longitude = centroid.split(' / ')[1].split(',')[1],
+                print(nom, nom in name2coordinates)
+                try:
+                    latitude, longitude = name2coordinates[nom]
+                except KeyError:
+                    stderr.write(f"Could not find {nom} in coordinates")
+                    continue
+                writer.writerow(
+                    {
+                        "nom": nom,
+                        "latitude": latitude,
+                        "longitude": longitude,
+                        "outil": tool,
+                        "cluster": ', '.join(the_cluster),
+                    }
+                )
+
+    response = Response(output_stream.getvalue(), mimetype='text/csv',
+                        headers={"Content-disposition": "attachment; filename=export.csv"})
     output_stream.seek(0)
     output_stream.truncate(0)
     return response

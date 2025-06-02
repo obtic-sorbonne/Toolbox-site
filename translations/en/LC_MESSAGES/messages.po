@@ -5577,3 +5577,54 @@ msgstr "Attribution but no modification or commercial use"
 
 msgid "Attribution mais pas d’utilisation commerciale et partage dans les mêmes conditions"
 msgstr "Attribution but no commercial use and share-alike"
+
+msgid "Multilingue"
+msgstr "Multilingual"
+
+msgid "Fichiers"
+msgstr "Files"
+
+msgid "Formats possibles pour les fichiers d'entrée pour le NER seul :"
+msgstr "Possible formats for input files for NER alone:"
+
+msgid "Cette chaîne de traitement permet d'extraire les entités nommées de lieu dans un texte (numérisé ou non), puis de récupérer leurs coordonnées géographiques (Geopy) afin de les cartographier."
+msgstr "This processing pipeline extracts named location entities from a text (digitized or not), then retrieves their geographical coordinates (via Geopy) in order to map them."
+
+msgid "La chaîne de traitement peut prendre un certain temps en fonction de la taille<br> des fichiers et du nombre de fichiers à traiter"
+msgstr "The processing pipeline may take some time depending on the size<br> of the files and the number of files to process"
+
+msgid "La carte générée nécessite de télécharger les emplacements des entités<br> nommées de lieu pour être affichée"
+msgstr "The generated map requires downloading the locations of<br> named location entities in order to be displayed"
+
+msgid "Configuration ATR "
+msgstr "ATR Configuration"
+
+msgid "Configuration NER"
+msgstr "NER Configuration"
+
+msgid "Configuration outil 1"
+msgstr "Tool 1 Configuration"
+
+msgid "Configuration outil 2"
+msgstr "Tool 2 Configuration"
+
+msgid "Moteur de REN"
+msgstr "NER Engine"
+
+msgid "Fichier CSV des entités de lieu et leurs coordonnées"
+msgstr "CSV file of location entities and their coordinates"
+
+msgid "Télécharger les clusters triés"
+msgstr "Download sorted clusters"
+
+msgid "Aucun"
+msgstr "None"
+
+msgid "Chinois simplifié"
+msgstr "Simplified Chinese"
+
+msgid "Chinois traditionnel"
+msgstr "Traditional Chinese"
+
+msgid "Grec ancien"
+msgstr "Ancient Greek"

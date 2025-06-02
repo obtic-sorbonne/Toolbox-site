@@ -1,327 +1,203 @@
 {% extends "index.html" %}
-{% block header %} {{ super() }} {% endblock %}
+{% block header %}
+{{ super() }}
+
+<script src="https://code.jquery.com/jquery-3.6.1.min.js"
+            integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+    <style>
+        .styled-select {
+        font-weight: bold; /* Texte en gras */
+        background-color: #fff; /* Couleur de fond blanche */
+        color: #000; /* Couleur du texte noire */
+        padding: 10px; /* Espacement interne */
+        margin-top: 10px; /* Espacement au-dessus du select */
+        border: 2px solid #000;
+        width: 50%; /* Largeur complète */
+        box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2); /* Ombre pour effet */
+    }
+
+        /* The Modal (background) */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1000; /* Sit on top */
+            right: 0;
+            top: 0;
+            width: 90%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0, 0, 0); /* Fallback color */
+            background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+        }
+
+        /* Modal Content/Box */
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto; /* 15% from the top and centered */
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%; /* Could be more or less, depending on screen size */
+        }
+
+        /* The Close Button */
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nestablejs@latest/dist/nestable.css">
+    <script src="https://cdn.jsdelivr.net/npm/nestablejs@latest/dist/nestable.js"></script>
+
+{% endblock %}
 
 {% block content %}
-<script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
-<style>
-/* Grille CSS */
-.parent {
-  display: grid;
-  grid-template-columns: 1fr 2fr;
-  grid-template-rows: 1fr;
-  margin-left:-100px;
-  grid-gap: 25px;
-  width:150%;
-  }
-.col_1{
-  grid-column: 1;
-}
-.col_2{
-  grid-column: 2;
-}
-
-
-.down {
-    transform: rotate(90deg); /* or the necessary rotation to make it point downwards */
-}
-
-</style>
 
 
 
-<style>
-    /* The Modal (background) */
-    .modal {
-      display: none; /* Hidden by default */
-      position: fixed; /* Stay in place */
-      z-index: 1000; /* Sit on top */
-      right: 0;
-      top: 0;
-      width: 90%; /* Full width */
-      height: 100%; /* Full height */
-      overflow: auto; /* Enable scroll if needed */
-      background-color: rgb(0,0,0); /* Fallback color */
-      background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-    }
-    
-    /* Modal Content/Box */
-    .modal-content {
-      background-color: #fefefe;
-      margin: 15% auto; /* 15% from the top and centered */
-      padding: 20px;
-      border: 1px solid #888;
-      width: 80%; /* Could be more or less, depending on screen size */
-    }
-    
-    /* The Close Button */
-    .close {
-      color: #aaa;
-      float: right;
-      font-size: 28px;
-      font-weight: bold;
-    }
-    
-    .close:hover,
-    .close:focus {
-      color: black;
-      text-decoration: none;
-      cursor: pointer;
-    }
+    <div class="outil">
+    <div class="fil"><a href="{{ url_for('outils_pipeline') }}"><< {{ _('Retour aux tâches') }}</a></div>
 
-    form p{
-      text-align: center;
-      margin:15px auto;
-      color:#8A824C;
-      font-size: medium;
-    }
-</style>
+    <h3>Épiméthée (OCR MAP)</h3>
+    <p>{{ _("Cette chaîne de traitement permet d'extraire les entités nommées de lieu dans un texte (numérisé ou non), puis de récupérer leurs coordonnées géographiques (Geopy) afin de les cartographier.") }}</p>
+    <br>
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nestablejs@latest/dist/nestable.css">
-<script src="https://cdn.jsdelivr.net/npm/nestablejs@latest/dist/nestable.js"></script>
+    <div>
 
+                <div class="infos_outil" style="display: block;margin: 0 auto 15px auto;">
+                <input id="show" type=checkbox><label for="show" class="infos_title"><i class="fa-solid fa-circle-info"></i> {{ _("Informations sur l'outil") }}<i class="fa-solid fa-angle-right" style="float:right;margin-top:5px;margin-left:15px;cursor: pointer;"></i></label>
+                    <div class="info_popped">
+                  <p>{{ _("Formats possibles pour les fichiers d'entrée à OCRiser :") }} <i class="fa-regular fa-image"></i> PNG, JPG, TIFF, PDF.</p>
+                  <p>{{ _("Formats possibles pour les fichiers d'entrée pour le NER seul :") }} <i class="fa-regular fa-file-lines"></i> TXT.</p>
+                    <p>{{ _("Format de sortie :") }}</p>
+                    <ul style="list-style-position: inside; list-style-type: '- ';">
+                        <li>{{ _("Visualisation interactive") }} <i class="fa-solid fa-map-location-dot"></i></li>
+                        <li>{{ _("Fichier CSV des entités de lieu et leurs coordonnées") }} <i class="fa-solid fa-file-csv"></i></li>
+                    </ul>
+                    <p>{{ _("La chaîne de traitement peut prendre un certain temps en fonction de la taille<br> des fichiers et du nombre de fichiers à traiter") }}.<br>
+                    {{ _("La carte générée nécessite de télécharger les emplacements des entités<br> nommées de lieu pour être affichée") }}.</p>
+                </div>
+            </div>
+            <br>
 
+                
+                <div id="tess-form">
+                    <form id="ocrmap-form" method="post" enctype="multipart/form-data"
+                          onsubmit="showloader('tessloader')">
+                        {{ form.csrf_token }}
+                        <fieldset>
+                        <legend>{{ _("Configuration ATR ") }}: Tesseract</legend>
+                        <label for="model">{{ _('Modèle') }}</label>
+                        <select class="styled-select" name="tessmodel" id="tessmodel">
+                            <option value="raw_text" selected>{{ _('Pas de numérisation') }}</option>
+                            <option value="fra">{{ _('Français') }} (fra)</option>
+                            <option value="eng">{{ _('Anglais') }} (eng)</option>
+                            <option value="chi_sim">{{ _('Chinois simplifié') }} (chi_sim)</option>
+                            <option value="chi_tra">{{ _('Chinois traditionnel') }} (chi_tra)</option>
+                            <option value="spa">{{ _('Espagnol') }} (spa)</option>
+                            <option value="spa_old">{{ _('Espagnol ancien') }} (spa_old)</option>
+                            <option value="frk">{{ _('Fraktur') }} (frk)</option>
+                            <option value="grc">{{ _('Grec ancien') }} (grc)</option>
+                            <option value="lat">{{ _('Latin') }} (lat)</option>
+                            <option value="por">{{ _('Portugais') }} (por)</option>
+                            </select>
+                    </fieldset>
 
-<div class="outil">
-    <div class="fil"><a href="{{ url_for('outils_pipeline')}}"><< {{ _('Retour aux tâches') }}</a></div>
+                        <fieldset>
+                        <legend>{{ _('Configuration NER') }}</legend>
+                        <br>
+                        <label for="encodage" style="display:inline-block;width:110px;">{{ _('Encodage') }}</label>
+                        <input style="border: 1px solid #c1c1c1; font-weight: bold; box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);" type="text" name="encodage" id="encodage" value="UTF-8" required>
+                        <br>
+                        <fieldset>
+                            <legend>{{ _('Configuration outil 1') }}</legend>
+                            <label for="moteur_REN1">{{ _('Moteur de REN') }}</label>
+                            <select class="styled-select" name="moteur_REN1" id="moteur_REN1" onchange="detectChangeMoteur1(this)">
+                                <option value="spacy" selected>Spacy</option>
+                                <option value="flair">Flair</option>
+                            </select>
+                            <br>
+                            <label for="modele_REN1">{{ _('Modèle') }}</label>
+                            <select class="styled-select"  name="modele_REN1" id="modele_REN1">
+                                <option value="de_core_news_lg">{{ _('Allemand') }} (de)</option>
+                                <option value="en_core_web_lg">{{ _('Anglais') }} (eng)</option>
+                                <option value="da_core_news_lg">{{ _('Danois') }} (da)</option>
+                                <option value="es_core_news_lg">{{ _('Espagnol') }} (es)</option>
+                                <option value="fi_core_news_lg">{{ _('Finnois') }} (fi)</option>
+                                <option value="fr_core_news_lg" selected>{{ _('Français') }} (fr)</option>
+                                <option value="el_core_news_lg">{{ _('Grec') }} (el)</option>
+                                <option value="it_core_news_lg">{{ _('Italien') }} (it)</option>
+                                <option value="nl_core_news_lg">{{ _('Néerlandais') }} (nl)</option>
+                                <option value="pt_core_news_lg">{{ _('Portugais') }} (pt)</option>
+                                <option value="ru_core_news_lg">{{ _('Russe') }} (ru)</option>
+                            </select>
+                        </fieldset>
 
-  <h3>Épiméthée</h3>
-  <p>{{ _("Cette chaîne de traitement permet d'extraire les entités nommées de lieu dans un texte (numérisé ou non), puis de récupérer leurs coordonnées géographiques (Geopy) afin de les cartographier")}}.</p>
-  
-  <div class="parent" style="margin-top: 40px;">
-    <div class="col_1">
+                        <fieldset>
+                            <legend>{{ _('Configuration outil 2') }}</legend>
+                            <label for="moteur_REN2">{{ _('Moteur de REN') }}</label>
+                            <select class="styled-select" name="moteur_REN2" id="moteur_REN2" onchange="detectChangeMoteur2(this)">
+                                <option value="spacy">Spacy</option>
+                                <option value="flair">Flair</option>
+                                <option value="None" selected>{{ _('Aucun') }}</option>
+                            </select>
+                            <br>
 
-<!-- see: https://www.w3schools.com/howto/howto_css_modals.asp -->
-<div id="modal-clusters" class="modal">
-  <div class="modal-content">
-    <span id="clusters-close">&times;</span>
-    <p>Some text in the Modal..</p>
-    <div id="cluster-checkboxes"></div>
-  </div>
-</div>
+                            <label for="modele_REN2">{{ _('Modèle') }}</label>
+                            <select class="styled-select" name="modele_REN2" id="modele_REN2">
+                                <option value="de_core_news_lg">{{ _('Allemand') }} (de)</option>
+                                <option value="en_core_web_lg">{{ _('Anglais') }} (eng)</option>
+                                <option value="da_core_news_lg">{{ _('Danois') }} (da)</option>
+                                <option value="es_core_news_lg">{{ _('Espagnol') }} (es)</option>
+                                <option value="fi_core_news_lg">{{ _('Finnois') }} (fi)</option>
+                                <option value="fr_core_news_lg">{{ _('Français') }} (fr)</option>
+                                <option value="el_core_news_lg">{{ _('Grec') }} (el)</option>
+                                <option value="it_core_news_lg">{{ _('Italien') }} (it)</option>
+                                <option value="nl_core_news_lg">{{ _('Néerlandais') }} (nl)</option>
+                                <option value="pt_core_news_lg">{{ _('Portugais') }} (pt)</option>
+                                <option value="ru_core_news_lg">{{ _('Russe') }} (ru)</option>
+                                <option value="None" selected>{{ _('Aucun') }}</option>
+                            </select>
+                        </fieldset>
+                    </fieldset>
 
-    <div class="infos_outil" style="display: block;margin: 0 auto 15px auto;">
-        <input id="show" type=checkbox><label for="show" class="infos_title"><i class="fa-solid fa-circle-info"></i> {{ _("Informations sur l'outil") }}<i class="fa-solid fa-angle-right" style="float:right;margin-top:5px;margin-left:15px;cursor: pointer;"></i></label></p>
-        <div class="info_popped"><p>{{ _("Formats d'entrée :") }}</p>
-            <ul style="list-style-position: inside;list-style-type: '- ';">
-                <li>{{ _("pour les fichiers à OCRiser :") }} <i class="fa-regular fa-image"></i> PNG, JPG, TIFF, PDF</p></li>
-                <li>{{ _("pour les corpus numérisés :") }} <i class="fa-regular fa-file-lines"></i> TXT</li>
-            </ul>
-        <p>{{ _("Format de sortie :") }}</p>
-            <ul style="list-style-position: inside;list-style-type: '- ';">
-                <li>{{ _("Visualisation interactive") }} <i class="fa-solid fa-map-location-dot"></i></li>
-                <li>{{ _("Fichier TSV des entités de lieu et leurs coordonnées") }} <i class="fa-solid fa-file-csv"></i></li>
-            </ul></div>
-    </div>
-
-    <div id="tess-form">
-        <form id="ocrmap-form" method="post" enctype="multipart/form-data">
-          {{ form.csrf_token }}
-        <div class="language-selection">
-        <label for="toollang"><i class="fa-regular fa-flag"></i>{{ _("Dans quelle langue est votre texte ?") }}</label>
-        <select name="toollang" id="toollang" class="sel sel--black-panther">
-            <option value="fra" selected="true">{{ _('Français') }}</option>
-            <option value="eng">{{ _('Anglais') }}</option>
-            <option value="spa">{{ _('Espagnol') }}</option>
-        </select>
+                            <div class="dropzone" style="margin:25px auto;">
+                                <input type="file" id="inputfiles" name="inputfiles" accept=".jpeg,.jpg,.png,.tif,.tiff,.txt" multiple required>
+                                <p id="form_msg">{{ _("Déposer le(s) fichier(s) ou cliquer ici") }}.</p>
+                            </div>
+                        <input id="csrf_token" name="csrf_token" type="hidden" value="CSRF_TOKEN_STRING">
+                        <button id="ocrmap-button" style="display:block;margin:auto;margin-bottom:5px;">{{ _('Cartographier') }}</button>
+                        <button id="ocrmap-sortedclusters" style="display:block;margin:auto;margin-bottom:5px;">{{ _('Télécharger les clusters triés') }}
+                        </button>
+                        <br>
+                    </form>
+                    <!-- Loader -->
+                    <div class="loader">
+                        <p>{{ _("Traitement en cours...") }}</p>
+                        <div class="loadingio-spinner-ball-205vl2x7f7n">
+                            <div class="ldio-b8p5li8dt1u">
+                                <div></div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--end div loader-->
+                </div>
+                <div style="display: flex; justify-content: center; gap: 2vw;">
+                  <div id="map" style="height:60vh; width:45vw;"></div>
+                  <div id="clusters" style="width:45vw;"></div>
+                </div>
+                <br>
         </div>
-       <div class="box-step-form" id="step_1" onclick="toggleArrow('arrow-icon-1')">
-    {{ _("Étape 1 :") }} {{ _('numérisation') }} <span style="font-style:italic">(optionnelle)</span>&nbsp;
-    <i class="fa-solid fa-angle-right" id="arrow-icon-1"></i>
-</div>
-
-        <div id="step_ocr" style="text-align: center;margin:15px"><label for="do_ocr">Activer la numérisation</label> <input type="checkbox" id="do_ocr" name="do_ocr"/></div>
-
-        <div class="box-step-form" id="step_2" onclick="toggleArrow('arrow-icon-2')">{{ _("Étape 2 :") }} {{ _("configuration de l'extraction d'entités") }}&nbsp;
-    <i class="fa-solid fa-angle-right" id="arrow-icon-2"></i></div>
-
-
-
-
-
-        <div class="centerElem" id="ner_opt">
-          <p>Configuration NER</p>
-          <label for="encodage" style="display:inline-block;width:110px;">{{ _('Encodage') }}</label>
-          <input type="text" name="encodage" id="encodage" value="UTF-8" required>
-          <fieldset>
-              <legend>{{ _("Configuration outil") }} 1</legend>
-              <label for="moteur_REN1" style="display:inline-block;width:120px;">{{ _('Moteur de REN') }}</label>
-              <select name="moteur_REN1" id="moteur_REN1" onchange="detectChangeMoteur(this, 'modele_REN1')">
-              <option value="spacy" selected="true">SpaCy</option>
-              <option value="flair">Flair</option>
-              </select>
-              <br />
-              <label for="modele_REN1" style="display:inline-block;width:120px;">{{ _('Modèle') }}</label>
-              <select name="modele_REN1" id="modele_REN1">
-              <option value="fr_core_news_sm">fr_core_news_sm</option>
-              <option value="fr_core_news_md">fr_core_news_md</option>
-              <option value="fr_core_news_lg" selected="true">fr_core_news_lg</option>
-              </select>
-              <br />
-          </fieldset>
-          <fieldset>
-              <legend>{{ _("Configuration outil") }} 2</legend>
-              <label for="moteur_REN2" style="display:inline-block;width:120px;">{{ _('Moteur de REN') }}</label>
-              <select name="moteur_REN2" id="moteur_REN2" onchange="detectChangeMoteur(this, 'modele_REN2')">
-              <option value="aucun" selected="true">{{ _('aucun') }}</option>
-              <option value="spacy">SpaCy</option>
-              <option value="flair">Flair</option>
-              </select>
-              <br />
-              <label for="modele_REN2" style="display:inline-block;width:120px;">{{ _('Modèle') }}</label>
-              <select name="modele_REN2" id="modele_REN2">
-              <option value="aucun" selected="true">{{ _('aucun') }}</option>
-              </select>
-              <br />
-          </fieldset>
-        </div>
-
-      <div class="centerElem">
-        <p>{{ _('Entrée') }}</p>
-        <div class="dropzone">
-        <input type="file" id="file-input" name="inputfiles" accept="image/jpeg,image/png,application/pdf,image/tif,image/tiff,text/plain" multiple required onchange="fileValidation()"/>
-          <p id="form_msg"><i class="fa-solid fa-upload"></i><br>{{ _('Déposer le(s) fichier(s) ou cliquer ici.' )}}</p>
-        </div>
-      </div>
-      <input id="csrf_token" name="csrf_token" type="hidden" value="CSRF_TOKEN_STRING">
-      <button id="ocrmap-button" style="display:block;margin:auto;margin-top:8px;">{{ _('Cartographier') }}</button>
-      </form>
     </div>
-    </div><!-- end div col_1-->
-    <div class="col_2">
-     <div id="map" style="height:60vh; width:45vw;display:block;"></div>
-      <!-- Loader -->
-      <div style="width:45vw;">
-      <div class="loader">
-        <p>{{ _("Traitement en cours...") }}</p>
-        <div class="loadingio-spinner-ball-205vl2x7f7n">
-          <div class="ldio-b8p5li8dt1u">
-            <div></div>
-          </div>
-        </div>
-      </div>
-      <!--end div loader-->
-        <div id="clusters" style="height:max-content; width:45vw;display:inline-block;"></div>
-        <button id="ocrmap-csv" style="display:block;margin:auto;"><i class="fa-solid fa-download"></i> {{ _("Télécharger") }}</button>
-    </div>
-    </div>
-  </div><!-- end div parent-->
-</div>
-
-<script>
-    /* Navigation formulaire */
-    $("#step_ocr").hide();
-    $("#step_1").on( "click", function() { $("#step_ocr").toggle() } );
-    $("#step_2").on( "click", function() { $("#ner_opt").toggle() } );
-    localStorage.setItem('ner_lang', 'fra');
-
-    /* Store language */
-    $('#toollang').change(function(){
-        var lang = $('#toollang').val();
-        localStorage.setItem('ner_lang', lang);
-
-        var selected_option = $('#moteur_REN1 option:selected');
-        if (selected_option === "spacy"){
-            var html_options = availableSpacyModels(lang);
-        }
-        else if (selected_option === "flair"){
-            var html_options = availableFlairModels(lang);
-        }
-        else{
-            $("#moteur_REN1 option[value='spacy']").prop('selected', true);
-            $("#moteur_REN2 option[value='aucun']").prop('selected', true);
-            var html_options = availableSpacyModels(lang);
-        }
-        $("#modele_REN1").html(html_options);
-        $("#modele_REN2").html('<option value="aucun" selected="true">aucun</option>')
-    });
-    
-    function availableSpacyModels(lang){
-        var html_options; 
-        if (lang == 'fra'){
-            html_options = `<option value="fr_core_news_sm">fr_core_news_sm</option>
-            <option value="fr_core_news_md">fr_core_news_md</option>
-            <option value="fr_core_news_lg" selected="true">fr_core_news_lg</option>`;
-        }
-        else if (lang == 'eng'){
-            html_options = `<option value="en_core_web_sm">en_core_web_sm</option>
-            <option value="en_core_web_md">en_core_web_md</option>
-            <option value="en_core_web_lg" selected="true">en_core_web_lg</option>`;
-        }
-        else if (lang == 'spa'){
-            html_options = `<option value="es_core_news_sm">es_core_news_sm</option>
-            <option value="es_core_news_md">es_core_news_md</option>
-            <option value="es_core_news_lg" selected="true">es_core_news_lg</option>`;
-        }
-        return html_options;
-    }
-
-    function availableFlairModels(lang){
-        var html_options; 
-        if (lang == 'fra'){
-            html_options = `<option value="flair/ner-french">flair/ner-french</option>`;
-        }
-        else if (lang == 'eng'){
-            html_options = `<option value="flair/ner-english">flair/ner-english</option>`;
-        }
-        else if (lang == 'spa'){
-            html_options = `<option value="flair/ner-spanish-large">flair/ner-spanish-large</option>`;
-        }
-        return html_options;
-    }
-
-    function detectChangeMoteur(moteurREN, modelREN) {
-      var lang = localStorage.getItem('ner_lang');
-      var html_options_spacy = availableSpacyModels(lang);
-      var html_options_flair = availableFlairModels(lang);
-
-      var moteur = moteurREN.value;
-      if (moteur === "spacy") {
-        $('#' + modelREN).html(html_options_spacy);
-      }
-      else if (moteur === "flair") {
-        $('#' + modelREN).html(html_options_flair);
-      }
-      else if (moteur === "aucun"){
-        $('#' + modelREN).html('<option value="aucun" selected="true">aucun</option>');
-      }
-  }
-
-
-    /* MAJ de la zone de glisser-déposer */ 
-  $('form input').change(function () {
-
-    var nb_files = this.files.length;
-    $('form #form_msg').text(nb_files + " fichier(s) selectionné(s)");
-
-    /* Prévisualisation des fichiers chargés (max 3 visibles) */
-    if(nb_files > 3){
-        var num = nb_files - 3;
-        for(i=0; i < 3; i++){
-            $("#form_msg").append('<br/><span class="filename_preview">' + this.files[i].name + '</span>');
-        }
-        $("#form_msg").append('<span class="filename_preview"> et ' + num + ' autres.</span>');
-    }
-    else{
-        for(i=0; i < nb_files; i++){
-            $("#form_msg").append('<br/><span class="filename_preview">' + this.files[i].name + '</span>');
-        }
-    }
-    });
-
-    function fileValidation() {
-        var fileInput = document.getElementById('file-input');
-        var filePath = fileInput.value;       
-        // Allowing file type
-        var allowedExtensions = /(\.jpg|\.jpeg|\.|\.pdf|\.tif|\.tiff|\.png|\.txt)$/i;
-             
-        if (!allowedExtensions.exec(filePath)) {
-            alert("Ce type de fichier n'est pas reconnu. Extensions possibles : TXT, PNG, JPG, TIFF, PDF");
-            fileInput.value = '';
-            return false;
-        }
-}
-</script>
-
 
     <script>
 
@@ -333,32 +209,34 @@
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 18,
             attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
-            '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
-            'Imagery © <a href="http://mapbox.com">Mapbox</a>',
+                '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+                'Imagery © <a href="http://mapbox.com">Mapbox</a>',
             id: 'mapbox.streets'
         }).addTo(map);
         var layerControl = L.control.layers({}, {}).addTo(map); // L.control.layers(layers, overlays)
         var layer_groups = {
-            "commun" : null,
-            "outil 1" : null,
-            "outil 2" : null
+            "Common": null,
+            "outil 1": null,
+            "outil 2": null
         };
         var mapped_ner_tools = [];
     </script>
 
 
     <script type="text/javascript">
-    /* Gère les tokens CSRF à chaque requête */
-          var csrf_token = "{{ csrf_token() }}";
+        /* Gère les tokens CSRF à chaque requête */
+        var csrf_token = "{{ csrf_token() }}";
 
-          $.ajaxSetup({
-              beforeSend: function(xhr, settings) {
-                  if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type) && !this.crossDomain) {
-                      xhr.setRequestHeader("X-CSRFToken", csrf_token);
-                  }
-              }
-          });
+        $.ajaxSetup({
+            beforeSend: function (xhr, settings) {
+                if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type) && !this.crossDomain) {
+                    xhr.setRequestHeader("X-CSRFToken", csrf_token);
+                }
+            }
+        });
     </script>
+
+
 
     <script type="text/javascript">
         function onEachFeature(feature, layer) {
@@ -380,9 +258,9 @@
                 }
             }
             layer_groups = {
-                "commun" : null,
-                "outil 1" : null,
-                "outil 2" : null
+                "Common": null,
+                "outil 1": null,
+                "outil 2": null
             }
 
             layerControl.remove(map);
@@ -419,7 +297,7 @@
         }
 
         var nestable;
-        var nestables = [null, null, null];
+        var nestables = null;//[null, null, null];
         function updateModal(new_overlays) {
             // let div = document.getElementsById("cluster-checkboxes");
             let div = document.getElementById("clusters");
@@ -433,10 +311,10 @@
                 for (const cluster of clusters) {
                     let nom = cluster[2];
                     let forms = cluster[cluster.length - 1];
-                    innerHTML += "<li>" + nom + " / " + cluster[0] + "," + cluster[1];
+                    innerHTML += "<li>" + nom;// + " / " + cluster[0] + "," + cluster[1];
                     innerHTML += '<ol>';
-                    for(const [form, coords, freq] of forms) {
-                        innerHTML += '<li>' + form + ' / ' + coords + '</li>';
+                    for (const [form, coords, freq] of forms) {
+                        innerHTML += '<li>' + form + '</li>';// + ' / ' + coords + '</li>';
                     }
                     innerHTML += "</ol>";
                     innerHTML += "</li>";
@@ -449,83 +327,61 @@
             div.innerHTML = innerHTML;
 
             nth = 0;
+            nestables = new Map();
             for (const [tool, clusters] of Object.entries(new_overlays)) {
                 if (clusters.length > 0) {
-                    nestable = new Nestable("#clusters-" + nth);
+                    // nestable = new Nestable("#clusters-" + nth);
+                    // nestables.push(new Nestable("#clusters-" + nth));
+                    nestables.set(tool, new Nestable("#clusters-" + nth));
+                } else {
+                    nestables.set(tool, null);
                 }
                 nth += 1;
             }
-            /*let ul1 = document.createElement("ul");
-            //let li1, ol2, li2, ol3, li3;
-            for (const [tool, clusters] of Object.entries(new_overlays)) {
-                let li1 = ul1.appendChild(document.createElement("li"));
-                let ol2 = ul1.appendChild(document.createElement("ol"));
-                li1.innerText = tool;
-                ol2.style.marginLeft = "20px";
-                //console.log(tool);
-                for (const cluster of clusters) {
-                    let nom = cluster[2];
-                    let forms = cluster[cluster.length - 1];
-                    //console.log("===>" + nom + " - " + forms);
-                    let li2 = ol2.appendChild(document.createElement("li"));
-                    let ol3 = li2.appendChild(document.createElement("ol"));
-                    li2.innerText = nom;
-                    //console.log(li2);
-                    ol3.style.marginLeft = "40px";
-                    for(const form of forms.split(" / ")) {
-                        //console.log("=======>" + form);
-                        let li3 = ol3.appendChild(document.createElement("li"));
-                        let input3 = li3.appendChild(document.createElement("input"));
-                        input3.setAttribute("type", "checkbox");
-                        li3.innerText = form;
-                    }
-                }
-            }
-            div.appendChild(ul1);*/
         }
     </script>
 
     <script type="text/javascript">
-      var blueIcon = new L.Icon({
-    iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png',
-    shadowUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-shadow.png',
-    iconSize: [25, 41],
-    iconAnchor: [12, 41],
-    popupAnchor: [1, -34],
-    shadowSize: [41, 41]
-});
+        var blueIcon = new L.Icon({
+            iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png',
+            shadowUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-shadow.png',
+            iconSize: [25, 41],
+            iconAnchor: [12, 41],
+            popupAnchor: [1, -34],
+            shadowSize: [41, 41]
+        });
 
-var redIcon = new L.Icon({
-    iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
-    shadowUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-shadow.png',
-    iconSize: [25, 41],
-    iconAnchor: [12, 41],
-    popupAnchor: [1, -34],
-    shadowSize: [41, 41]
-});
+        var redIcon = new L.Icon({
+            iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
+            shadowUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-shadow.png',
+            iconSize: [25, 41],
+            iconAnchor: [12, 41],
+            popupAnchor: [1, -34],
+            shadowSize: [41, 41]
+        });
 
-var violetIcon = new L.Icon({
-    iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-violet.png',
-    shadowUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-shadow.png',
-    iconSize: [25, 41],
-    iconAnchor: [12, 41],
-    popupAnchor: [1, -34],
-    shadowSize: [41, 41]
-});
-var intersection_icon = {
-    "commun" : violetIcon,
-    "outil 1" : redIcon,
-    "outil 2" : blueIcon
-}
-var icons = [redIcon, blueIcon];
+        var violetIcon = new L.Icon({
+            iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-violet.png',
+            shadowUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-shadow.png',
+            iconSize: [25, 41],
+            iconAnchor: [12, 41],
+            popupAnchor: [1, -34],
+            shadowSize: [41, 41]
+        });
+        var intersection_icon = {
+            "Common": violetIcon,
+            "outil 1": redIcon,
+            "outil 2": blueIcon
+        }
+        var icons = [redIcon, blueIcon];
     </script>
 
-<script type="text/javascript">
-    $("#ocrmap-csv").hide()
-    const ocrmap_button = document.querySelector('#ocrmap-button');
-    ocrmap_button.onclick = (event) => {
-        event.preventDefault();
-        if ($("#file-input")[0].checkValidity()){
+    <script type="text/javascript">
+        var TMP_PASDINSPI = null;
+
+        const ocrmap_button = document.querySelector('#ocrmap-button');
+        ocrmap_button.onclick = (event) => {
+            event.preventDefault();
             $(".loader").css("display", "block");
             var form_data = new FormData($('#ocrmap-form').get(0));
             $.ajax({
@@ -535,82 +391,134 @@ var icons = [redIcon, blueIcon];
                 processData: false,
                 contentType: false,
                 success: function (response) {
-                event.preventDefault();
-                updateOverlays(response);
-                updateModal(response);
-                $(".loader").css("display", "none");
-                $("#ocrmap-csv").show()
-                //~ if (response.points.length > 0) {
+                    event.preventDefault();
+                    TMP_PASDINSPI = response;
+                    updateOverlays(response);
+                    updateModal(response);
+                    $(".loader").css("display", "none");
+                    //~ if (response.points.length > 0) {
                     //~ updatePoints(response.points);
-                //~ } else {
+                    //~ } else {
                     //~ alert("Aucun lieu trouvé / aucun lieu trouvé dans la base");
-                //~ }
-            },
-            error: function (XMLHttpRequest, textStatus, errorThrown) {
-                alert(textStatus + "\n" + "status: "+XMLHttpRequest.status + "\n" + "message: "+errorThrown);
-            }
+                    //~ }
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    alert(textStatus + "\n" + "status: " + XMLHttpRequest.status + "\n" + "message: " + errorThrown);
+                }
             });
-        }
-        else{
-            $("#file-input")[0].reportValidity()
-        }
-};   
-
-</script>
-
-    <script type="text/javascript">
-    
-    const download_data_button = document.querySelector('#ocrmap-csv');
-    download_data_button.onclick = (event) => {
-        event.preventDefault();
-        let items = {"data": mapped_ner_tools};
-        $.ajax({
-            type: 'POST',
-            url: "{{ url_for('nermap_to_csv') }}",
-            data: JSON.stringify(items),
-            processData: false,
-            contentType: "application/json; charset=UTF-8",
-            success: function (response) {
-                event.preventDefault();
-                let data_export = "data:text/csv;charset=utf-8," + encodeURIComponent(response);
-                let downloadAnchorNode = document.createElement('a');
-                downloadAnchorNode.setAttribute("href",     data_export);
-                downloadAnchorNode.setAttribute("download", "ner2map-export.tsv");
-                document.body.appendChild(downloadAnchorNode);
-                downloadAnchorNode.click();
-                downloadAnchorNode.remove();
-            }
-        });
-    };
+        };
     </script>
 
-<script>
-    var modal = document.getElementById('modal-clusters');
-    const clusters_button = document.getElementById('ocrmap-showclusters');
-    // Get the <span> element that closes the modal
-    var clusters_close_button = document.getElementById("clusters-close");
+    <script type="text/javascript">
+        function detectChangeMoteur1(moteurREN) {
+            var modeleREN = document.getElementById("modele_REN1");
+            if (moteurREN.value === "spacy") {
+                modeleREN.innerHTML = `
+                <option value="xx_ent_wiki_sm">{{ _('Multilingue') }}</option>
+            <option value="de_core_news_lg">{{ _('Allemand') }} (de)</option>
+        <option value="en_core_web_lg">{{ _('Anglais') }} (eng)</option>
+        <option value="da_core_news_lg">{{ _('Danois') }} (da)</option>
+        <option value="es_core_news_lg">{{ _('Espagnol') }} (es)</option>
+        <option value="fi_core_news_lg">{{ _('Finnois') }} (fi)</option>
+        <option value="fr_core_news_lg" selected>{{ _('Français') }} (fr)</option>
+        <option value="el_core_news_lg">{{ _('Grec') }} (el)</option>
+        <option value="it_core_news_lg">{{ _('Italien') }} (it)</option>
+        <option value="nl_core_news_lg">{{ _('Néerlandais') }} (nl)</option>
+        <option value="pt_core_news_lg">{{ _('Portugais') }} (pt)</option>
+        <option value="ru_core_news_lg">{{ _('Russe') }} (ru)</option>
+            `;
+            } else if (moteurREN.value === "flair") {
+                modeleREN.innerHTML = `
+                <option value="flair/ner-multi">{{ _('Multilingue') }}</option>
+            <option value="flair/ner-german">{{ _('Allemand') }} (de)</option>
+            <option value="flair/ner-english">{{ _('Anglais') }} (eng)</option>
+            <option value="flair/ner-danish">{{ _('Danois') }} (da)</option>
+            <option value="flair/ner-french" selected="true">{{ _('Français') }} (fr)</option>
+            <option value="flair/ner-spanish-large">{{ _('Espagnol') }} (es)</option>
+            <option value="flair/ner-dutch">{{ _('Néerlandais') }} (nl)</option>
+                `;
+            }
+        }
 
-    // When the user clicks on the button, open the modal
-    clusters_button.onclick = function() {
-        modal.style.display = "block";
+        function detectChangeMoteur2(moteurREN) {
+            var modeleREN = document.getElementById("modele_REN2");
+            if (moteurREN.value === "spacy") {
+                modeleREN.innerHTML = `
+                <option value="xx_ent_wiki_sm">{{ _('Multilingue') }}</option>
+            <option value="de_core_news_lg">{{ _('Allemand') }} (de)</option>
+        <option value="en_core_web_lg">{{ _('Anglais') }} (eng)</option>
+        <option value="da_core_news_lg">{{ _('Danois') }} (da)</option>
+        <option value="es_core_news_lg">{{ _('Espagnol') }} (es)</option>
+        <option value="fi_core_news_lg">{{ _('Finnois') }} (fi)</option>
+        <option value="fr_core_news_lg" selected>{{ _('Français') }} (fr)</option>
+        <option value="el_core_news_lg">{{ _('Grec') }} (el)</option>
+        <option value="it_core_news_lg">{{ _('Italien') }} (it)</option>
+        <option value="nl_core_news_lg">{{ _('Néerlandais') }} (nl)</option>
+        <option value="pt_core_news_lg">{{ _('Portugais') }} (pt)</option>
+        <option value="ru_core_news_lg">{{ _('Russe') }} (ru)</option>
+            `;
+            } else if (moteurREN.value === "flair") {
+                modeleREN.innerHTML = `
+                <option value="flair/ner-multi">{{ _('Multilingue') }}</option>
+            <option value="flair/ner-german">{{ _('Allemand') }} (de)</option>
+            <option value="flair/ner-english">{{ _('Anglais') }} (eng)</option>
+            <option value="flair/ner-danish">{{ _('Danois') }} (da)</option>
+            <option value="flair/ner-french" selected="true">{{ _('Français') }} (fr)</option>
+            <option value="flair/ner-spanish-large">{{ _('Espagnol') }} (es)</option>
+            <option value="flair/ner-dutch">{{ _('Néerlandais') }} (nl)</option>
+                `;
+            } else if (moteurREN.value === "None") {
+                modeleREN.innerHTML = `
+                <option value="None" selected="true">{{ _('Aucun') }}</option>
+                `;
+            }
+        }
+    </script>
+
+    <script>
+        const sorted_clusters_button = document.getElementById('ocrmap-sortedclusters');
+        sorted_clusters_button.onclick = (event) => {
+            event.preventDefault();
+            let element = document.getElementById("clusters");
+            let json_data = JSON.stringify({'html': element.outerHTML, 'clusters': TMP_PASDINSPI});
+            console.log(TMP_PASDINSPI);
+            $.ajax({
+                type: 'POST',
+                url: "{{ url_for('nermap_to_csv2') }}",
+                data: json_data,
+                processData: false,
+                contentType: "application/json; charset=UTF-8",
+                success: function (response) {
+                    event.preventDefault();
+                    let data_export = "data:text/csv;charset=utf-8," + encodeURIComponent(response);
+                    let downloadAnchorNode = document.createElement('a');
+                    downloadAnchorNode.setAttribute("href", data_export);
+                    downloadAnchorNode.setAttribute("download", "ner2map-clusters.csv");
+                    document.body.appendChild(downloadAnchorNode);
+                    downloadAnchorNode.click();
+                    downloadAnchorNode.remove();
+                }
+            });
+        };
+
+        /* MAJ de la zone de glisser-déposer */ 
+$('form input').change(function () {
+    var nb_files = this.files.length;
+    $('form #form_msg').text(nb_files + " fichier(s) selectionné(s)");
+
+    /* Prévisualisation des fichiers chargés (max 3 visibles) */
+    if(nb_files > 3){
+        var num = nb_files - 3;
+        for(i=0; i < 3; i++){
+            $("#form_msg").append('<br/><span class="filename_preview">' + this.files[i].name + '</span>');
+        }
+        $("#form_msg").append('<span class="filename_preview"> et ' + num + ' autres.</span>');
     }
-
-    // When the user clicks on <span> (x), close the modal
-    clusters_close_button.onclick = function() {
-        modal.style.display = "none";
-    }
-
-    // When the user clicks anywhere outside of the modal, close it
-    window.onclick = function(event) {
-        if (event.target == modal) {
-            modal.style.display = "none";
+    else{
+        for(i=0; i < nb_files; i++){
+            $("#form_msg").append('<br/><span class="filename_preview">' + this.files[i].name + '</span>');
         }
     }
-</script>
-<script type="text/javascript">
-    function toggleArrow(arrowId) {
-    var arrowIcon = document.getElementById(arrowId);
-    arrowIcon.classList.toggle("down");
-} 
-</script>
+});
+    </script>
 {% endblock %}
