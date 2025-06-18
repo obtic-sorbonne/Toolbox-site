@@ -5628,3 +5628,252 @@ msgstr "Traditional Chinese"
 
 msgid "Grec ancien"
 msgstr "Ancient Greek"
+
+msgid "Europe – Langues les plus répandues"
+msgstr "Europe – Most Widely Spoken Languages"
+
+msgid "Allemand"
+msgstr "German"
+
+msgid "Espagnol"
+msgstr "Spanish"
+
+msgid "Italien"
+msgstr "Italian"
+
+msgid "Néerlandais"
+msgstr "Dutch"
+
+msgid "Polonais"
+msgstr "Polish"
+
+msgid "Portugais"
+msgstr "Portuguese"
+
+msgid "Russe"
+msgstr "Russian"
+
+msgid "Suédois"
+msgstr "Swedish"
+
+msgid "Europe – Langues régionales ou moins répandues"
+msgstr "Europe – Regional or Less Common Languages"
+
+msgid "Albanais"
+msgstr "Albanian"
+
+msgid "Biélorusse"
+msgstr "Belarusian"
+
+msgid "Bosniaque"
+msgstr "Bosnian"
+
+msgid "Corse"
+msgstr "Corsican"
+
+msgid "Croate"
+msgstr "Croatian"
+
+msgid "Danois"
+msgstr "Danish"
+
+msgid "Estonien"
+msgstr "Estonian"
+
+msgid "Finnois"
+msgstr "Finnish"
+
+msgid "Francique (vieux haut allemand)"
+msgstr "Frankish (Old High German)"
+
+msgid "Gaélique écossais"
+msgstr "Scottish Gaelic"
+
+msgid "Galicien"
+msgstr "Galician"
+
+msgid "Gallois"
+msgstr "Welsh"
+
+msgid "Grec"
+msgstr "Greek"
+
+msgid "Hongrois"
+msgstr "Hungarian"
+
+msgid "Irlandais"
+msgstr "Irish"
+
+msgid "Islandais"
+msgstr "Icelandic"
+
+msgid "Italien ancien"
+msgstr "Old Italian"
+
+msgid "Letton"
+msgstr "Latvian"
+
+msgid "Lituanien"
+msgstr "Lithuanian"
+
+msgid "Luxembourgeois"
+msgstr "Luxembourgish"
+
+msgid "Macédonien"
+msgstr "Macedonian"
+
+msgid "Norvégien"
+msgstr "Norwegian"
+
+msgid "Occitan"
+msgstr "Occitan"
+
+msgid "Serbe (cyrillique)"
+msgstr "Serbian (Cyrillic)"
+
+msgid "Serbe (latin)"
+msgstr "Serbian (Latin)"
+
+msgid "Slovaque"
+msgstr "Slovak"
+
+msgid "Slovène"
+msgstr "Slovenian"
+
+msgid "Tchèque"
+msgstr "Czech"
+
+msgid "Moyen-Orient et Asie centrale"
+msgstr "Middle East and Central Asia"
+
+msgid "Arabe"
+msgstr "Arabic"
+
+msgid "Arménien"
+msgstr "Armenian"
+
+msgid "Géorgien"
+msgstr "Georgian"
+
+msgid "Géorgien ancien"
+msgstr "Old Georgian"
+
+msgid "Hébreu"
+msgstr "Hebrew"
+
+msgid "Kirghiz"
+msgstr "Kyrgyz"
+
+msgid "Kurde (kurmandji)"
+msgstr "Kurdish (Kurmanji)"
+
+msgid "Ouzbek (latin)"
+msgstr "Uzbek (Latin)"
+
+msgid "Ouzbek (cyrillique)"
+msgstr "Uzbek (Cyrillic)"
+
+msgid "Pachto"
+msgstr "Pashto"
+
+msgid "Persan"
+msgstr "Persian"
+
+msgid "Syriaque"
+msgstr "Syriac"
+
+msgid "Tadjik"
+msgstr "Tajik"
+
+msgid "Turc"
+msgstr "Turkish"
+
+msgid "Asie du Sud et Sud-Est"
+msgstr "South and Southeast Asia"
+
+msgid "Birman"
+msgstr "Burmese"
+
+msgid "Filipinois"
+msgstr "Filipino"
+
+msgid "Indonésien"
+msgstr "Indonesian"
+
+msgid "Laotien"
+msgstr "Lao"
+
+msgid "Malais"
+msgstr "Malay"
+
+msgid "Népali"
+msgstr "Nepali"
+
+msgid "Oriya"
+msgstr "Odia (Oriya)"
+
+msgid "Ourdou"
+msgstr "Urdu"
+
+msgid "Pendjabi"
+msgstr "Punjabi"
+
+msgid "Singhalais"
+msgstr "Sinhala"
+
+msgid "Tamoul"
+msgstr "Tamil"
+
+msgid "Télougou"
+msgstr "Telugu"
+
+msgid "Thaï"
+msgstr "Thai"
+
+msgid "Vietnamien"
+msgstr "Vietnamese"
+
+msgid "Asie de l’Est"
+msgstr "East Asia"
+
+msgid "Langues construites"
+msgstr "Constructed Languages"
+
+msgid "Espéranto"
+msgstr "Esperanto"
+
+msgid "Chinois simplifié (vertical)"
+msgstr "Simplified Chinese (vertical)"
+
+msgid "Chinois traditionnel (vertical)"
+msgstr "Traditional Chinese (vertical)"
+
+msgid "Coréen"
+msgstr "Korean"
+
+msgid "Coréen (vertical)"
+msgstr "Korean (vertical)"
+
+msgid "Japonais"
+msgstr "Japanese"
+
+msgid "Japonais (vertical)"
+msgstr "Japanese (vertical)"
+
+msgid "Mongol"
+msgstr "Mongolian"
+
+msgid "Tibétain"
+msgstr "Tibetan"
+
+msgid "Océanie"
+msgstr "Oceania"
+
+msgid "Afrique"
+msgstr "Africa"
+
+msgid "Amériques"
+msgstr "Americas"
+
+msgid "Haïtien (créole)"
+msgstr "Haitian Creole"
