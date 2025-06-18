@@ -352,7 +352,10 @@ msgstr "Next tasks"
 
 #: templates/numeriser.html:84
 msgid "Extraire les entités nommées"
-msgstr "Extract named entities"
+msgstr "Extract named entities
+
+msgid "Extraire les entités"
+msgstr "Extract entities"
 
 #: templates/numeriser.html:85
 msgid "Étiqueter en parties du discours"

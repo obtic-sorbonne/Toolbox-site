@@ -34,10 +34,10 @@
   </div>
   <div id="tess-form">
     <fieldset>
-        <legend>Configuration ATR : Tesseract</legend>
+        <legend>{{ _("Configuration ATR ") }}: Tesseract</legend>
         <form action="{{ url_for('run_ocr_ner') }}" id="tesseract-form" method="post" enctype="multipart/form-data" onsubmit="showloader('tessloader')">
             {{ form.csrf_token }}
-            <label for="model">Modèle</label>
+            <label for="model">{{ _('Modèle') }}</label>
             <select class="styled-select" name="tessmodel" id="tessmodel">
                 <option value="raw_text">{{ _('Pas de numérisation') }}</option>
                 <option disabled>--- {{ _('Europe – Langues les plus répandues') }} ---</option>
@@ -149,9 +149,9 @@
             </select>
         </fieldset>
         <fieldset>
-            <legend>Configuration NER : spaCy</legend>
-            <label for="encodage" style="margin-right: 0.5em;">Encodage</label>
-            <input style="border: 1px solid #c1c1c1; font-weight: bold; box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);" type="text" name="encodage" id="encodage" value="utf-8" required>
+            <legend>{{ _('Configuration NER') }} : spaCy</legend>
+            <label for="encodage" style="margin-right: 0.5em;">{{ _('Encodage') }}</label>
+            <input style="border: 1px solid #c1c1c1; font-weight: bold; box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);" type="text" name="encodage" id="encodage" value="UTF-8" required>
             <br>
             <!--<label for="moteur_REN" style="display:inline-block;width:180px;">Moteur de REN</label>
             <select class="styled-select" name="moteur_REN" id="moteur_REN" onchange="detectChangeMoteur(this, 'modele_REN')">
@@ -159,7 +159,7 @@
                 <option value="flair">Flair</option>
             </select>-->
             <br/>
-            <label for="modele_REN">Modèle</label>
+            <label for="modele_REN">{{ _('Modèle') }}</label>
             <select class="styled-select" name="modele_REN" id="modele_REN">
                 <option disabled>--- {{ _('Europe – Langues les plus répandues') }} ---</option>
                 <option value="de_core_news_sm">{{ _('Allemand') }} (de)</option>
