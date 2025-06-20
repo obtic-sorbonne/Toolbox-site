@@ -604,7 +604,7 @@ def run_tesseract():
                             headers={"Content-disposition": "attachment; filename=" + rand_name + '.txt'})
 
         return response
-    return render_template('numeriser.html', erreur=erreur)
+    return render_template('text_recognition.html', erreur=erreur)
 
 
 #-------------- Reconnaissance de discours --------------
@@ -3705,6 +3705,42 @@ def normalisation_graphies():
 
 #------------- Correction Erreurs ---------------------
 
+def languagetool_check(text, lang):
+    url = 'https://api.languagetool.org/v2/check'
+    data = {
+        'text': text,
+        'language': lang,
+        'enabledOnly': False,
+    }
+    response = requests.post(url, data=data)
+    response.raise_for_status()
+    return response.json()
+
+def highlight_corrections(text, matches):
+    """
+    Applique les corrections avec surlignage des modifications.
+    Les remplacements sont encadrés par [[...]].
+    """
+    corrections = []
+    for match in matches:
+        replacements = match.get('replacements')
+        if replacements:
+            replacement = replacements[0]['value']
+            offset = match['offset']
+            length = match['length']
+            corrections.append((offset, length, replacement))
+
+    # Appliquer les corrections en partant de la fin pour ne pas fausser les indices
+    corrected_text = text
+    for offset, length, replacement in sorted(corrections, key=lambda x: x[0], reverse=True):
+        corrected_text = (
+            corrected_text[:offset] +
+            "**" + replacement + "**" +
+            corrected_text[offset + length:]
+        )
+    return corrected_text
+
+
 @app.route('/autocorrect', methods=["GET", "POST"])
 def autocorrect():
     if 'files' not in request.files:
@@ -3716,10 +3752,7 @@ def autocorrect():
         response = {"error": "No selected files"}
         return Response(json.dumps(response), status=400, mimetype='application/json')
 
-    selected_language = request.form['selected_language']
-    nlp = get_nlp(selected_language)
-    if 'contextual spellchecker' not in nlp.pipe_names:
-        contextualSpellCheck.add_to_pipe(nlp)
+    selected_language = request.form.get('selected_language', 'fr')
 
     rand_name = generate_rand_name('autocorrected_')
     result_path = create_named_directory(rand_name)
@@ -3727,11 +3760,15 @@ def autocorrect():
     for f in files:
         try:
             input_text = f.read().decode('utf-8')
-            doc = nlp(input_text)
-            filename, file_extension = os.path.splitext(f.filename)
-            output_name = filename + '.txt'
+            # Appel API LanguageTool
+            result_json = languagetool_check(input_text, selected_language)
+            matches = result_json.get('matches', [])
+            highlighted_corrected_text = highlight_corrections(input_text, matches)
+
+            filename, _ = os.path.splitext(f.filename)
+            output_name = filename + '_corrected.txt'
             with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-                out.write("The input text was : \n" + str(input_text) + "\n\nThe corrected text is: \n" + str(doc._.outcome_spellCheck))
+                out.write(highlighted_corrected_text)
 
         finally:
             f.close()
@@ -3739,7 +3776,6 @@ def autocorrect():
     response = create_zip_and_response(result_path, rand_name)
     return response
 
-    return Response(json.dumps({"error": "Une erreur est survenue dans le traitement des fichiers."}), status=500, mimetype='application/json')
 
 #-----------------------------------------------------------------
 # Génération de texte

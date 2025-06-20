@@ -30,15 +30,16 @@
   <div class="outil">
     <div class="fil"><a href="{{ url_for('outils_correction')}}"><< {{ _('Retour aux tâches') }}</a></div>
       <h3>{{ _("Correction d'erreurs") }}</h3>
-      <p>{{ _("Cet outil permet d'appliquer le correcteur orthographique de") }} <a href="https://spacy.io/" target="_blank">spaCy</a> {{ _('sur des corpus bruités') }}.</p>
+      <p>{{ _("Cet outil permet de faire de la correction orthographique, mais aussi d'aider dans les erreurs de conjugaison, grammaticales, etc") }}.</p>
       <br>
       <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_correction') }}"  target="_blank">{{ _('Voir la documentation') }}</a></p>
       <div class="infos_outil" style="display: block;margin: 0 auto 15px auto;">
         <input id="show" type=checkbox><label for="show" class="infos_title"><i class="fa-solid fa-circle-info"></i> {{ _("Informations sur l'outil") }}<i class="fa-solid fa-angle-right" style="float:right;margin-top:5px;margin-left:15px;cursor: pointer;"></i></label>
         <div class="info_popped">
-          <p>contextualSpellCheck (spaCy)
+          <p>Language Tool
       <p>{{ _("Formats d'entrée :")}} <i class="fa-regular fa-file-lines"></i> {{ _('texte brut') }} (.txt)</p>
       <p>{{ _('Encodage') }} : UTF-8</p>
+      <p>{{ _('Limite de taille ')}}: 20k {{ _('caractères') }}</p>
       <p><i class="fa-solid fa-triangle-exclamation"></i> {{ _("Attention : Assurez-vous que les noms de vos fichiers d'entrée ne soient pas trop longs")}}<br>
       {{ _("et ne contiennent pas de caractères problématiques")}} ([\/:*"&gt;&lt;|])</p>
       </div>
@@ -50,18 +51,33 @@
         <div class="relations-input">
         <label for="selected_language">{{ _('Modèle') }}</label>
         <select name="selected_language">
-            <option value="german">{{ _('Allemand') }} (de)</option>
-            <option value="english">{{ _('Anglais') }} (eng)</option>
-            <option value="danish">{{ _('Danois') }} (da)</option>
-            <option value="spanish">{{ _('Espagnol') }} (es)</option>
-            <option value="finnish">{{ _('Finnois') }} (fi)</option>
-            <option value="french" selected>{{ _('Français') }} (fr)</option>
-            <option value="greek">{{ _('Grec') }} (el)</option>
-            <option value="italian">{{ _('Italien') }} (it)</option>
-            <option value="dutch">{{ _('Néerlandais') }} (nl)</option>
-            <option value="polish">{{ _('Polonais') }} (pl)</option>
-            <option value="portuguese">{{ _('Portugais') }} (pt)</option>
-            <option value="russian">{{ _('Russe') }} (ru)</option>
+            <option value="auto">{{ _('Détection automatique') }} (auto)</option>
+            <option value="ar">{{ _('Arabe') }} (ar)</option>
+            <option value="de">{{ _('Allemand') }} (de)</option>
+            <option value="en">{{ _('Anglais') }} (en)</option>
+            <option value="bg">{{ _('Bulgare') }} (bg)</option>
+            <option value="ca">{{ _('Catalan') }} (ca)</option>
+            <option value="zh">{{ _('Chinois') }} (zh)</option>
+            <option value="cs">{{ _('Tchèque') }} (cs)</option>
+            <option value="et">{{ _('Estonien') }} (et)</option>
+            <option value="es">{{ _('Espagnol') }} (es)</option>
+            <option value="fi">{{ _('Finnois') }} (fi)</option>
+            <option value="fr" selected>{{ _('Français') }} (fr)</option>
+            <option value="el">{{ _('Grec') }} (el)</option>
+            <option value="it">{{ _('Italien') }} (it)</option>
+            <option value="ja">{{ _('Japonais') }} (ja)</option>
+            <option value="lv">{{ _('Letton') }} (lv)</option>
+            <option value="lt">{{ _('Lituanien') }} (lt)</option>
+            <option value="nl">{{ _('Néerlandais') }} (nl)</option>
+            <option value="pl">{{ _('Polonais') }} (pl)</option>
+            <option value="pt">{{ _('Portugais') }} (pt)</option>
+            <option value="ro">{{ _('Roumain') }} (ro)</option>
+            <option value="ru">{{ _('Russe') }} (ru)</option>
+            <option value="sk">{{ _('Slovaque') }} (sk)</option>
+            <option value="sl">{{ _('Slovène') }} (sl)</option>
+            <option value="sv">{{ _('Suédois') }} (sv)</option>
+            <option value="uk">{{ _('Ukrainien') }} (uk)</option>
+
         </select>
       </div>
         <div class="dropzone" style="margin:25px auto;">

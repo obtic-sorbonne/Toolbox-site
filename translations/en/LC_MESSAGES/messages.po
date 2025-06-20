@@ -5880,3 +5880,24 @@ msgstr "Americas"
 
 msgid "Haïtien (créole)"
 msgstr "Haitian Creole"
+
+msgid "Bulgare"
+msgstr "Bulgarian"
+
+msgid "Ukrainien"
+msgstr "Ukrainian"
+
+msgid "Chinois"
+msgstr "Chinese"
+
+msgid "Roumain"
+msgstr "Romanian"
+
+msgid "Détection automatique"
+msgstr "Automatic detection"
+
+msgid "caractères"
+msgstr "characters"
+
+msgid "Cet outil permet de faire de la correction orthographique, mais aussi d'aider dans les erreurs de conjugaison, grammaticales, etc"
+msgstr "This tool allows you to correct spelling, but also helps with conjugation errors, grammatical errors, etc"
