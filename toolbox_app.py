@@ -5,27 +5,27 @@
 import collections
 import csv
 import json
+import math
 import os
 import random
 import re
 import shutil
 import string
-import math
+import unicodedata
+import urllib.request
 from datetime import timedelta
 from io import StringIO, BytesIO
 from pathlib import Path
-import urllib
-import urllib.request
 from urllib.parse import urlparse
 import zipfile
-import requests
 
 # Third-party imports
+import requests
 from bs4 import BeautifulSoup
 from flask import (
     Flask, abort, request, render_template, render_template_string, 
-    url_for, redirect, send_from_directory, Response, 
-    stream_with_context, session, send_file, jsonify
+    url_for, redirect, send_from_directory, Response, stream_with_context, 
+    session, send_file, jsonify
 )
 from flask_babel import Babel, get_locale
 from flask_wtf import FlaskForm
@@ -34,17 +34,15 @@ from langdetect import detect_langs
 from lxml import etree
 import matplotlib.pyplot as plt
 import nltk
-from nltk.tokenize import sent_tokenize, word_tokenize
 from nltk.corpus import stopwords, wordnet
-from nltk import ngrams, FreqDist, sent_tokenize, Text
-from collections import Counter
+from nltk.tokenize import sent_tokenize, word_tokenize
+from nltk import ngrams, FreqDist, Text
 import pandas as pd
 import spacy
 from spacy import displacy
 from werkzeug.utils import secure_filename
 from werkzeug.exceptions import HTTPException
 from wordcloud import WordCloud
-import contextualSpellCheck
 import textdistance
 import difflib
 from transformers import pipeline
@@ -55,7 +53,6 @@ from sklearn.decomposition import PCA
 import plotly.graph_objects as go
 import numpy as np
 import torch
-import unicodedata
 import whisper
 from newspaper import Article
 
@@ -101,8 +98,6 @@ app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=1)  # Session lasts 1 
 
 app.config['MAX_CONTENT_LENGTH'] = 150 * 1024 * 1024 # Limit file upload to 150MB
 app.config['CHUNK_SIZE'] = 1024 * 1024 # 1MB chunks for processing
-
-
 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['MODEL_FOLDER'] = MODEL_FOLDER
