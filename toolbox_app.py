@@ -2,10 +2,9 @@
 # -*- coding:utf-8 -*-
 
 # Standard library imports
-import collections
 import csv
+import difflib
 import json
-import math
 import os
 import random
 import re
@@ -14,54 +13,47 @@ import string
 import unicodedata
 import urllib.request
 from datetime import timedelta
-from io import StringIO, BytesIO
+from io import BytesIO, StringIO
 from pathlib import Path
 from urllib.parse import urlparse
-import zipfile
 
+import gensim.downloader as api
+import matplotlib.pyplot as plt
+import nltk
+import numpy as np
+import pandas as pd
+import plotly.graph_objects as go
 # Third-party imports
 import requests
+import spacy
+import textdistance
+import textstat
+import whisper
 from bs4 import BeautifulSoup
-from flask import (
-    Flask, abort, request, render_template, render_template_string, 
-    url_for, redirect, send_from_directory, Response, stream_with_context, 
-    session, send_file, jsonify
-)
+from flask import (Flask, Response, abort, jsonify, redirect, render_template,
+                   request, send_file, send_from_directory, session,
+                   stream_with_context, url_for)
 from flask_babel import Babel, get_locale
 from flask_wtf import FlaskForm
 from flask_wtf.csrf import CSRFError, CSRFProtect
 from langdetect import detect_langs
 from lxml import etree
-import matplotlib.pyplot as plt
-import nltk
-from nltk.corpus import stopwords, wordnet
+from newspaper import Article
+from nltk import FreqDist, Text, ngrams
+from nltk.corpus import stopwords
 from nltk.tokenize import sent_tokenize, word_tokenize
-from nltk import ngrams, FreqDist, Text
-import pandas as pd
-import spacy
-from spacy import displacy
-from werkzeug.utils import secure_filename
-from werkzeug.exceptions import HTTPException
-from wordcloud import WordCloud
-import textdistance
-import difflib
-from transformers import pipeline
-import textstat
-import gensim.downloader as api
 from sklearn.cluster import KMeans
 from sklearn.decomposition import PCA
-import plotly.graph_objects as go
-import numpy as np
-import torch
-import whisper
-from newspaper import Article
+from spacy import displacy
+from transformers import pipeline
+from werkzeug.exceptions import HTTPException
+from werkzeug.utils import secure_filename
+from wordcloud import WordCloud
 
-# Local application imports
-from forms import ContactForm, SearchForm
 import ocr
-import sem
 from cluster import freqs2clustering
-
+# Local application imports
+from forms import ContactForm
 
 # NLTK
 try:
@@ -1018,7 +1010,6 @@ def xmlconverter():
 
     return render_template("conversion_xml.html")
 
-
 # CONVERSION XML-TEI
 # Construit un fichier TEI à partir des métadonnées renseignées dans le formulaire.
 # Renvoie le chemin du fichier ainsi créé
@@ -1026,9 +1017,6 @@ def xmlconverter():
 # - filename : emplacement du fichier uploadé par l'utilisateur
 # - fields : dictionnaire des champs présents dans le form metadata
 import xml.etree.ElementTree as etree
-
-import re
-from lxml import etree
 
 
 def encode_text(filename, doc_type="undefined"):
@@ -1202,8 +1190,6 @@ def _handle_play(lines, div):
         div.append(acte_element)
 
 def _handle_book(lines, div):
-    import re
-
     PAGE_NUM_ONLY_REGEX = re.compile(r"^\s*(\d+)\s*$")
     CHAPTER_REGEX = re.compile(r"^\s*(chapitre|chapter|ch\.?|chapter)\s+[\w\s\-–—]*$", re.IGNORECASE)
 
@@ -1316,8 +1302,6 @@ def _finalize_paragraph(paragraph_lines, parent):
         parent.append(p)
 
 def _handle_report(lines, div):
-    import re
-
     # Chiffres romains validés (de 1 à 3999) + ponctuation obligatoire
     ROMAN_NUMERAL_REGEX = re.compile(
         r"^\s*(M{0,4}(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3}))[\.\)\-:]\s+")
@@ -1809,8 +1793,8 @@ def pos_tagging():
 @app.route('/named_entity_recognition', methods=["POST"])
 @stream_with_context
 def named_entity_recognition():
+
     from tei_ner import tei_ner_params
-    from lxml import etree
 
     uploaded_files = request.files.getlist("entityfiles")
     if uploaded_files == []:
@@ -1935,8 +1919,9 @@ def keyword_extraction():
 
             # Load models only when needed to save memory
             try:
-                import torch
                 import gc
+
+                import torch
                 from keybert import KeyBERT
                 from sentence_transformers import SentenceTransformer
                 print("Loading models...")
@@ -2104,10 +2089,9 @@ def topic_extraction():
                                         msg="Le texte est trop court, merci de charger un corpus plus grand pour des résultats significatifs. A défaut, vous pouvez utiliser l'outil d'extraction de mot-clés.")
 
             print("Loading required libraries...")
-            from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer
             from sklearn.decomposition import NMF, LatentDirichletAllocation
-            from pathlib import Path
-            import numpy as np
+            from sklearn.feature_extraction.text import (CountVectorizer,
+                                                         TfidfVectorizer)
 
             # Loading stop words
             stop_words_path = ROOT_FOLDER / os.path.join(app.config['UTILS_FOLDER'], "stop_words_fr.txt")
@@ -3215,17 +3199,16 @@ def run_renard():
             rand_name = 'renard_graph_' + ''.join(random.choice(string.ascii_lowercase) for _ in range(8)) + '.gexf'
             result_path = ROOT_FOLDER / os.path.join(app.config['UPLOAD_FOLDER'], rand_name)
 
-            from renard.pipeline import Pipeline
-            from renard.pipeline.tokenization import NLTKTokenizer
-            from renard.pipeline.ner import BertNamedEntityRecognizer
-            from renard.pipeline.character_unification import GraphRulesCharacterUnifier
-            from renard.pipeline.graph_extraction import CoOccurrencesGraphExtractor
-            from renard.graph_utils import graph_with_names
-            from renard.plot_utils import plot_nx_graph_reasonably
-            import matplotlib.pyplot as plt
-            import networkx as nx
             import base64
-            from io import BytesIO
+            from renard.graph_utils import graph_with_names
+            from renard.pipeline import Pipeline
+            from renard.pipeline.character_unification import \
+                GraphRulesCharacterUnifier
+            from renard.pipeline.graph_extraction import \
+                CoOccurrencesGraphExtractor
+            from renard.pipeline.ner import BertNamedEntityRecognizer
+            from renard.pipeline.tokenization import NLTKTokenizer
+            from renard.plot_utils import plot_nx_graph_reasonably
 
             BERT_MODELS = {
                 "fra": "compnet-renard/camembert-base-literary-NER",
@@ -3903,16 +3886,19 @@ def sentencizer(text):
 
     return sentences
 
-def spacy_lemmatizer(text):
-# Input : raw text
-# Ouput : lemmatized text
-    import spacy
+def spacy_lemmatizer(text: str) -> str:
+    """
+    Lemmatize the input French text using spaCy's 'fr_core_news_md' model.
+
+    Parameters:
+        text (str): Raw input text.
+
+    Returns:
+        str: Lemmatized text.
+    """
     nlp = spacy.load('fr_core_news_md')
     doc = nlp(text)
-    result = []
-    for d in doc:
-        result.append(d.lemma_)
-    return " ".join(result)
+    return " ".join([token.lemma_ for token in doc])
 
 def createRandomDir(prefix, length):
     rand_name =  prefix + ''.join((random.choice(string.ascii_lowercase) for x in range(length)))
@@ -3949,8 +3935,9 @@ def display_topics(model, feature_names, no_top_words):
 @app.route("/run_ocr_ner", methods=["POST"])
 @stream_with_context
 def run_ocr_ner():
-    from txt_ner import txt_ner_params
     from ocr import tesseract_to_txt
+    from txt_ner import txt_ner_params
+
     # Récupération des fichiers uploadés
     uploaded_files = request.files.getlist("inputfiles")
     if not uploaded_files:
@@ -4022,13 +4009,12 @@ def to_geoJSON_point(coordinates, name):
 @app.route("/run_ocr_map_intersection", methods=["GET", "POST"])
 def run_ocr_map_intersection():
     import asyncio
-    import aiohttp
-    import json
-    import os
     from collections import Counter
-    from tqdm.auto import tqdm
-    from txt_ner import txt_ner_params
+
+    import aiohttp
+
     from ocr import tesseract_to_txt
+    from txt_ner import txt_ner_params
 
     geo_cache_file = "cache_geoloc.json"
     if os.path.exists(geo_cache_file):
@@ -4172,7 +4158,6 @@ def run_ocr_map_intersection():
 @app.route("/nermap_to_csv2", methods=['GET', "POST"])
 @stream_with_context
 def nermap_to_csv2():
-    from lxml import etree
 
     keys = ["nom", "latitude", "longitude", "outil", "cluster"]
     output_stream = StringIO()
