@@ -5901,3 +5901,43 @@ msgstr "characters"
 
 msgid "Cet outil permet de faire de la correction orthographique, mais aussi d'aider dans les erreurs de conjugaison, grammaticales, etc"
 msgstr "This tool allows you to correct spelling, but also helps with conjugation errors, grammatical errors, etc"
+
+msgid "Cette tâche permet de rendre un texte plus accessible en adaptant sa complexité selon différents niveaux de lecture, allant du niveau CE2 (fin de primaire) jusqu'au niveau universitaire"
+msgstr "This task makes a text more accessible by adjusting its complexity according to different reading levels, ranging from CE2 (end of primary school) to university level"
+
+msgid "Pour cela, plusieurs techniques sont utilisées "
+msgstr "To do this, several techniques are used"
+
+msgid "La simplification lexicale, qui remplace les mots difficiles par des synonymes plus simples ou des expressions courantes"
+msgstr "Lexical simplification, which replaces difficult words with simpler synonyms or common expressions"
+
+msgid "Le raccourcissement des phrases longues et complexes pour faciliter la compréhension"
+msgstr "Shortening long and complex sentences to improve understanding"
+
+msgid "L'évaluation de la lisibilité à l'aide d'indices spécifiques, permettant de mesurer et d'ajuster la difficulté globale du texte"
+msgstr "Readability assessment using specific indices, allowing the measurement and adjustment of the overall text difficulty"
+
+msgid "L'objectif est d'obtenir un contenu clair et compréhensible, tout en respectant le sens et les informations essentielles, afin de toucher des publics très variés selon leurs capacités de lecture"
+msgstr "The goal is to produce clear and understandable content while preserving the meaning and essential information, in order to reach a wide range of audiences with varying reading abilities."
+
+msgid "L'outil propose deux modes d'interaction basés sur des modèles d'intelligence artificielle avancés "
+msgstr "The tool offers two interaction modes based on advanced artificial intelligence models"
+
+msgid "Q&A (Questions/Réponses) – Ce mode permet de poser une question précise en langage naturel et d'obtenir une réponse claire, concise et directement pertinente, grâce à l'analyse du contexte et du sujet"
+msgstr "Q&A (Questions and Answers) – This mode allows you to ask a precise question in natural language and receive a clear, concise, and directly relevant answer by analyzing the context and topic"
+
+msgid "Conversation – Ce mode offre une interaction plus libre et continue. L'outil garde le fil de l’échange, répond aux messages dans leur contexte, et s'adapte au style et aux intentions de l’utilisateur pour un dialogue fluide et naturel"
+msgstr "Conversation – This mode provides a freer, ongoing interaction. The tool keeps track of the exchange, responds to messages in context, and adapts to the user’s style and intentions for a smooth, natural dialogue"
+
+msgid "Ainsi, que vous recherchiez une réponse rapide à une question spécifique ou que vous souhaitiez engager une discussion, l'outil répond efficacement à votre besoin"
+msgstr "Whether you are looking for a quick answer to a specific question or want to engage in a discussion, the tool effectively meets your needs"
+
+msgid "Cet outil s'appuie sur des modèles de traduction automatiques pour convertir du texte ou de la parole d'une langue source vers une langue cible. Grâce à des algorithmes d'intelligence artificielle capables d'analyser le contexte, la structure et les nuances du message, il produit une traduction précise, naturelle et adaptée aux différents registres de langage"
+msgstr "This tool relies on automatic translation models to convert text or speech from a source language to a target language. Thanks to AI algorithms capable of analyzing the context, structure, and nuances of the message, it produces accurate, natural translations adapted to different language registers"
+
+msgid "Cet outil utilise des modèles d’intelligence artificielle entraînés sur de grandes quantités de texte pour produire des contenus à la demande. À partir d’une instruction ou d’un court message d’entrée, il analyse le contexte, comprend le sujet, puis génère une réponse complète et structurée, adaptée au style souhaité"
+msgstr "This tool uses artificial intelligence models trained on large amounts of text to produce content on demand. From an instruction or short input message, it analyzes the context, understands the subject, and then generates a complete, structured response adapted to the desired style"
+
+msgid "Grâce aux techniques de traitement du langage naturel, il peut créer rapidement des textes clairs, cohérents et sur mesure, que ce soit pour rédiger des descriptions, des articles, des emails ou d’autres contenus écrits. Facile à intégrer dans vos projets, il vous fait gagner du temps tout en garantissant une bonne qualité rédactionnelle"
+msgstr "Thanks to natural language processing techniques, it can quickly create clear, coherent, and customized texts, whether for writing descriptions, articles, emails, or other written content. Easy to integrate into your projects, it saves you time while ensuring good writing quality"
+

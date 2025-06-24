@@ -6,7 +6,13 @@
 <div class="outil">
     <div class="fil"><a href="{{ url_for('generation_texte')}}"><< {{ _('Retour aux tâches') }}</a></div>
     <h2>{{ _('Ajustement du niveau de lecture du texte') }}</h2>
-    <p>{{ _("Rendu plus accessible d'un contenu en utilisant la simplification lexicale, le raccourcissement des phrases et la notation de lisibilité pour modifier la complexité du texte") }}.</p>
+    <p>{{ _("Cette tâche permet de rendre un texte plus accessible en adaptant sa complexité selon différents niveaux de lecture, allant du niveau CE2 (fin de primaire) jusqu'au niveau universitaire") }}.<br>
+    {{ _("Pour cela, plusieurs techniques sont utilisées ") }}:<ul>
+    <li style="margin-left: 2em;">{{ _("La simplification lexicale, qui remplace les mots difficiles par des synonymes plus simples ou des expressions courantes") }},</li>
+    <li style="margin-left: 2em;">{{ _("Le raccourcissement des phrases longues et complexes pour faciliter la compréhension") }},</li>
+    <li style="margin-left: 2em;">{{ _("L'évaluation de la lisibilité à l'aide d'indices spécifiques, permettant de mesurer et d'ajuster la difficulté globale du texte") }}.</li>
+    </ul>
+    {{ _("L'objectif est d'obtenir un contenu clair et compréhensible, tout en respectant le sens et les informations essentielles, afin de toucher des publics très variés selon leurs capacités de lecture") }}.</p>
     <br>
     <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_generation') }}"  target="_blank">{{ _('Voir la documentation') }}</a> / <a href="{{ url_for('tutoriel_generation') }}"  target="_blank">{{ _('Voir le tutoriel') }}</a></p>
     <br>

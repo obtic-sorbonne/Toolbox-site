@@ -6,7 +6,11 @@
 <div class="outil">
     <div class="fil"><a href="{{ url_for('generation_texte')}}"><< {{ _('Retour aux tâches') }}</a></div>
     <h2>{{ _('Questions/réponses et conversations') }}</h2>
-    <p>{{ _('Modèles capables de comprendre et de répondre aux questions posées en langage humain avec des réponses précises et contextuellement pertinentes') }}.</p>
+    <p>{{ _("L'outil propose deux modes d'interaction basés sur des modèles d'intelligence artificielle avancés ") }}:<ul>
+        <li style="margin-left: 2em;">{{ _("Q&A (Questions/Réponses) – Ce mode permet de poser une question précise en langage naturel et d'obtenir une réponse claire, concise et directement pertinente, grâce à l'analyse du contexte et du sujet") }}.</li>
+        <li style="margin-left: 2em;">{{ _("Conversation – Ce mode offre une interaction plus libre et continue. L'outil garde le fil de l’échange, répond aux messages dans leur contexte, et s'adapte au style et aux intentions de l’utilisateur pour un dialogue fluide et naturel") }}.</li>
+    </ul>
+    {{ _("Ainsi, que vous recherchiez une réponse rapide à une question spécifique ou que vous souhaitiez engager une discussion, l'outil répond efficacement à votre besoin") }}.</p>
     <br>
     <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_generation') }}"  target="_blank">{{ _('Voir la documentation') }}</a> / <a href="{{ url_for('tutoriel_generation') }}"  target="_blank">{{ _('Voir le tutoriel') }}</a></p>
     <br>
