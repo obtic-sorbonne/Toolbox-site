@@ -2058,7 +2058,7 @@ msgstr ""
 "in various forms"
 
 msgid "Complétion de texte"
-msgstr "Text completion"
+msgstr "Text Completion"
 
 msgid ""
 "Génération automatique d'un texte cohérent et contextuellement pertinent "
@@ -2067,8 +2067,8 @@ msgstr ""
 "Automatic generation of a coherent and contextually relevant text "
 "based on a given prompt or input"
 
-msgid "Questions/réponses et conversations"
-msgstr "Questions/answers and conversations"
+msgid "Questions/Réponses et Conversations"
+msgstr "Questions/Answers and Conversations"
 
 msgid ""
 "Modèles capables de comprendre et de répondre aux questions posées "
@@ -2088,8 +2088,8 @@ msgstr ""
 "Using models to convert text or speech from one language to another, "
 "thus enabling cross-linguistic communication and understanding"
 
-msgid "Ajustement du niveau de lecture du texte"
-msgstr "Adjusting text readability level"
+msgid "Ajustement du Niveau de Lecture du Texte"
+msgstr "Adjusting Text Readability Level"
 
 msgid ""
 "Rendu plus accessible d'un contenu en utilisant la simplification lexicale, "
@@ -5941,3 +5941,86 @@ msgstr "This tool uses artificial intelligence models trained on large amounts o
 msgid "Grâce aux techniques de traitement du langage naturel, il peut créer rapidement des textes clairs, cohérents et sur mesure, que ce soit pour rédiger des descriptions, des articles, des emails ou d’autres contenus écrits. Facile à intégrer dans vos projets, il vous fait gagner du temps tout en garantissant une bonne qualité rédactionnelle"
 msgstr "Thanks to natural language processing techniques, it can quickly create clear, coherent, and customized texts, whether for writing descriptions, articles, emails, or other written content. Easy to integrate into your projects, it saves you time while ensuring good writing quality"
 
+msgid "CP/CE1 (7 ans)"
+msgstr "CP/CE1 (7 years old)"
+
+msgid "CE2/CM1 (9 ans)"
+msgstr "CE2/CM1 (9 years old)"
+
+msgid "CM2/6ème (11 ans)"
+msgstr "CM2/6th grade (11 years old)"
+
+msgid "5ème/4ème (13 ans)"
+msgstr "5th/4th grade (13 years old)"
+
+msgid "3ème/2nde (15 ans)"
+msgstr "3rd/2nd grade (15 years old)"
+
+msgid "1ère/Term (17 ans)"
+msgstr "1st/Final year (17 years old)"
+
+msgid "Universitaire"
+msgstr "University level"
+
+msgid "Niveau cible"
+msgstr "Target level"
+
+msgid "Texte à ajuster"
+msgstr "Text to adjust"
+
+msgid "Texte ajusté"
+msgstr "Adjusted text"
+
+msgid "Ajuster le texte"
+msgstr "Adjust the text"
+
+msgid "Questions & Réponses"
+msgstr "Questions & Answers"
+
+msgid "Contexte"
+msgstr "Context"
+
+msgid "Obtenir une réponse"
+msgstr "Get an answer"
+
+msgid "Votre message"
+msgstr "Your message"
+
+msgid "Envoyer"
+msgstr "Send"
+
+msgid "Texte à traduire"
+msgstr "Text to translate"
+
+msgid "Langue source"
+msgstr "Source language"
+
+msgid "Langue cible"
+msgstr "Target language"
+
+msgid "Texte à traduire"
+msgstr "Text to translate"
+
+msgid "Traduire"
+msgstr "Translate"
+
+msgid "Texte traduit"
+msgstr "Translated text"
+
+msgid "Amorce de texte (prompt)"
+msgstr "Text prompt"
+
+msgid "Longueur maximale (tokens)"
+msgstr "Maximum length (tokens)"
+
+msgid "Générer le texte"
+msgstr "Generate text"
+
+msgid "Réponse trouvée"
+msgstr "Answer found"
+
+msgid "Début"
+msgstr "Beginning"
+
+msgid "Fin"
+msgstr "End"
