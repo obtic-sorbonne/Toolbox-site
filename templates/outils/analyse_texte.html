@@ -6,7 +6,7 @@
 <div class="outil">
     <div class="fil"><a href="{{ url_for('analyses')}}"><< {{ _('Retour aux tâches') }}</a></div>
     <div>
-        <h3>{{ _('Analyse de texte') }}</h3>
+        <h2>{{ _('Analyse de texte') }}</h2>
     <p>{{ _("Cette page permet d'opérer divers types d'analyses textuelles sur un ou plusieurs documents soumis") }}.<br>
         <br>
     <ul class="item-list" style="margin-left: 3em;">
@@ -49,7 +49,7 @@
         </div>-->
         <div style="display: block; margin: auto; width: max-content;">
             <div id="input_text">
-          <textarea name="input_text" rows="4" cols="50" placeholder="Start a newline to add new sentences" maxlength="5000"></textarea><br><br>
+          <textarea style="border: 2px solid #263e8d;" name="input_text" rows="4" cols="50" placeholder="Start a newline to add new sentences" maxlength="5000"></textarea><br><br>
         </div>
       </div>
         <input id="csrf_token" name="csrf_token" type="hidden" value="{{ csrf_token() }}">

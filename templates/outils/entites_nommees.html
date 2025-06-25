@@ -128,7 +128,7 @@ form p{
 </style>
 <div class="outil">
   <div class="fil"><a href="{{ url_for('annotation_automatique')}}"><< {{ _('Retour aux tâches') }}</a></div>
-  <h3>{{ _("Reconnaissance d'entités nommées") }}</h3>
+  <h2>{{ _("Reconnaissance d'entités nommées") }}</h2>
 <p>{{ _("Cet outil permet d'identifier les entités nommées d'un corpus en utilisant au choix trois modèles : Spacy, Flair, ou un modèle Bert") }}. {{ _("Le corpus peut être au format texte ou au format XML-TEI") }}. {{ _("Dans ce dernier cas, les entités seront annotées directement dans le texte avec la balise")}} &lt;Entity&gt; {{ _("avec leur type en attribut annotation") }}. {{ _("A noter que ce processus ne conserve pas la structuration et le formatage à l'intérieur des balises parcourues ; tous les formatages à l'extérieur de ces balises sont en revanche restitués") }}.</p>
 <p>{{ _("L'utilisation de cette balise &lt;Entity&gt; rend utilisable le XML en sortie dans la plateforme") }} <a href="https://obtic.huma-num.fr/ariane" target="_blank">Ariane</a>.</p><p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_annotation') }}" target="_blank">{{ _("Voir la documentation") }}</a> / <a href="{{ url_for('tutoriel_annotation') }}"  target="_blank">{{ _('Voir le tutoriel') }}</a></p>
 <br>
