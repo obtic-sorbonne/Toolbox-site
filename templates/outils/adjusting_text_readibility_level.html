@@ -2,10 +2,43 @@
 {% block header %} {{ super() }} {% endblock %}
 
 {% block content %}
+<style>
+    
+  label, select {
+  display: inline-block; /* Pour qu'ils puissent être sur la même ligne */
+  vertical-align: middle; /* Aligne verticalement au centre si besoin */
+  margin-bottom: 0; /* Supprime le margin-bottom sur le select */
+}
+
+label {
+  margin-right: 10px; /* Un peu d'espacement entre le label et le select */
+  font-weight: bold;
+}
+
+select {
+  width: 30%; /* Ou une largeur fixe si tu veux */
+  padding: 8px;
+  box-sizing: border-box;
+  border: 2px solid #263e8d;
+  border-radius: 4px;
+  background-color: #fff;
+}
+  textarea {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+    border: 2px solid #263e8d;
+    border-radius: 4px;
+    background-color: #fff;
+  }
+
+</style>
+
 <link rel="stylesheet" href="{{ url_for('static', filename= 'css/elements.css') }}">
 <div class="outil">
     <div class="fil"><a href="{{ url_for('generation_texte')}}"><< {{ _('Retour aux tâches') }}</a></div>
-    <h2>{{ _('Ajustement du niveau de lecture du texte') }}</h2>
+    <h2>{{ _('Ajustement du Niveau de Lecture du Texte') }}</h2>
     <p>{{ _("Cette tâche permet de rendre un texte plus accessible en adaptant sa complexité selon différents niveaux de lecture, allant du niveau CE2 (fin de primaire) jusqu'au niveau universitaire") }}.<br>
     {{ _("Pour cela, plusieurs techniques sont utilisées ") }}:<ul>
     <li style="margin-left: 2em;">{{ _("La simplification lexicale, qui remplace les mots difficiles par des synonymes plus simples ou des expressions courantes") }},</li>
@@ -14,48 +47,65 @@
     </ul>
     {{ _("L'objectif est d'obtenir un contenu clair et compréhensible, tout en respectant le sens et les informations essentielles, afin de toucher des publics très variés selon leurs capacités de lecture") }}.</p>
     <br>
-    <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_generation') }}"  target="_blank">{{ _('Voir la documentation') }}</a> / <a href="{{ url_for('tutoriel_generation') }}"  target="_blank">{{ _('Voir le tutoriel') }}</a></p>
+    <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_generation') }}"  target="_blank">{{ _('Voir la documentation') }}</a></p>
     <br>
-    <p style="text-align: center;">{{ _("Outil à venir") }}</p>
-    <!-- <form action="{{ url_for('split_text') }}" id="linguistic-form" method="post" enctype="multipart/form-data" onsubmit="showloader('loader')">
-        {{ form.csrf_token }}
-        <div class="dropzone" style="margin:25px auto;">
-            <input type="file" id="files" name="files" accept="text/plain" multiple required>
-            <p id="form_msg">Déposer le(s) fichier(s) ou cliquer ici.</p>
+    <div class="infos_outil" style="display: block;margin: 0 auto 15px auto;">
+        <input id="show" type=checkbox><label for="show" class="infos_title" style="font-weight:normal;"><i class="fa-solid fa-circle-info"></i> {{ _("Informations sur l'outil") }}<i class="fa-solid fa-angle-right" style="float:right;margin-top:5px;margin-left:15px;cursor: pointer;"></i></label>
+        <div class="info_popped">
+          <p>Transformers
+      <p>{{ _("Modèle ")}}:  <a href="https://huggingface.co/mrm8488/t5-small-finetuned-text-simplification" target="_blank">mrm8488/t5-small-finetuned-text-simplification</a></p>
+      <p><i class="fa-solid fa-triangle-exclamation"></i> {{ _("Attention : Le modèle utilisé est assez lourd<br> donc le traitement peut être un peu long")}}.</p>
+      </div>
+  </div>
+  <br>
+    <form action="{{ url_for('ajustement_text_readibility_level') }}" method="post" onsubmit="showloader('loader')">
+        <div class="form-group">
+            <label style="margin-bottom: 10px;" for="text" class="style-select">{{ _('Texte à ajuster') }} :</label><br>
+            <textarea name="text" id="text" rows="6" cols="50" required>{% if request.form.text %}{{ request.form.text }}{% else %}{{ _('Saisissez votre texte ici...') }}{% endif %}</textarea>
         </div>
+        <br>
+        
+        <div class="form-group">
+            <label for="target_level">{{ _('Niveau cible') }} :</label>
+            <select style="border: 2px solid #263e8d; font-weight: bold;" name="target_level" id="target_level">
+            <option value="primary" {% if request.form.target_level == 'primary' %}selected{% endif %}>{{ _('Primaire (env. 7-10 ans)') }}</option>
+            <option value="middle_school" {% if request.form.target_level == 'middle_school' %}selected{% endif %}>{{ _('Collège (env. 11-14 ans)') }}</option>
+            <option value="high_school" {% if request.form.target_level == 'high_school' or not request.form.target_level %}selected{% endif %}>{{ _('Lycée (env. 15-18 ans)') }}</option>
+        </select>
+        </div>
+        <br>
+        
         <input id="csrf_token" name="csrf_token" type="hidden" value="{{ csrf_token() }}">
-        <button style="display:block;margin:auto;margin-top:20px;">Télécharger les fichiers</button>
+        
+        <button type="submit" style="display:block;margin:auto;margin-top:20px;">{{ _('Ajuster le texte') }}</button>
+        <br>
     </form>
-    {% if msg != "" %}
-    <div> <p>{{ msg }}</p></div>
-    {% endif %}
+
     <div class="loader" id="loader">
-        <div class="loadingio-spinner-ball-205vl2x7f7n"><div class="ldio-b8p5li8dt1u"><div></div></div></div>
-        <p>Traitement en cours...</p>
-    </div>-->
-<script>
-/* MAJ de la zone de glisser-déposer */ 
-$('form input').change(function () {
-    var nb_files = this.files.length;
-    $('form #form_msg').text(nb_files + " fichier(s) selectionné(s)");
+        <div class="loadingio-spinner-ball-205vl2x7n"><div class="ldio-b8p5li8dt1u"><div></div></div></div>
+        <p>{{ _('Traitement en cours...') }}</p>
+    </div>
 
-    /* Prévisualisation des fichiers chargés (max 3 visibles) */
-    if(nb_files > 3){
-        var num = nb_files - 3;
-        for(i=0; i < 3; i++){
-            $("#form_msg").append('<br/><span class="filename_preview">' + this.files[i].name + '</span>');
-        }
-        $("#form_msg").append('<span class="filename_preview"> et ' + num + ' autres.</span>');
-    }
-    else{
-        for(i=0; i < nb_files; i++){
-            $("#form_msg").append('<br/><span class="filename_preview">' + this.files[i].name + '</span>');
-        }
-    }
-});
-</script>
-</div>
-</div>
+    {% if error %}
+    <div class="error-message">
+        <p>{{ error }}</p>
+    </div>
+    {% endif %}
 
+    {% if result %}
+    <div class="result-container">
+        <h4>{{ _('Texte ajusté') }} :</h4>
+        <div class="result-text">
+            {{ result }}
+        </div>
+    </div>
+    {% endif %}
+    <br>
+    <script>
+        function showloader(id) {
+            document.getElementById(id).style.display = 'block';
+        }
+    </script>
+</div>
 {% endblock %}
 {% block footer %} {{ super() }} {% endblock %}

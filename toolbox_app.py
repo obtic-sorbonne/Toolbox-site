@@ -280,22 +280,6 @@ def tutoriel_annotation():
 @app.route('/tutoriel_extraction')
 def tutoriel_extraction():
     return render_template('tutoriel/tutoriel_extraction.html')
-
-@app.route('/tutoriel_analyses')
-def tutoriel_analyses():
-    return render_template('tutoriel/tutoriel_analyses.html')
-
-@app.route('/tutoriel_correction')
-def tutoriel_correction():
-    return render_template('tutoriel/tutoriel_correction.html')
-
-@app.route('/tutoriel_workflow')
-def tutoriel_workflow():
-    return render_template('tutoriel/tutoriel_workflow.html')
-
-@app.route('/tutoriel_generation')
-def tutoriel_generation():
-    return render_template('tutoriel/tutoriel_generation.html')
     
 #-----------------------------------------------------------------
 # TACHES
@@ -506,10 +490,10 @@ def text_completion():
     form = FlaskForm()
     return render_template('outils/text_completion.html', form=form)
 
-@app.route('/qa_and_conversation')
-def qa_and_conversation():
+@app.route('/questions_and_answers')
+def questions_and_answers():
     form = FlaskForm()
-    return render_template('outils/qa_and_conversation.html', form=form)
+    return render_template('outils/questions_and_answers.html', form=form)
 
 @app.route('/translation')
 def translation():
@@ -3759,13 +3743,166 @@ def autocorrect():
 # Génération de texte
 #-----------------------------------------------------------------
 
-#------------- Complétion de texte ---------------------
+import torch
 
-#------------- Q/A ---------------------
+#-----------------------------------------------------------------
+# Model caching for better performance
+#-----------------------------------------------------------------
+cache_model = {}
+
+def retrieve_model(task, model_name):
+    """Get a model from cache or load it if not cached"""
+    key = f"{task}_{model_name}"
+    if key not in cache_model:
+        from transformers import pipeline
+        cache_model[key] = pipeline(task, model=model_name)
+    return cache_model[key]
+
+
+#------------- Complétion de texte ---------------------
+@app.route('/completion_text', methods=['GET', 'POST'])
+def completion_text():
+    form = FlaskForm()
+    result = None
+    
+    if request.method == 'POST':
+        prompt = request.form.get('prompt', '')
+        max_length = int(request.form.get('max_length', 60))
+        
+        try:
+            # Chargement de la pipeline text-generation pour BLOOM-560m via retrieve_model
+            generator = retrieve_model("text-generation", "bigscience/bloom-560m")
+            
+            outputs = generator(
+                prompt,
+                max_length=max_length,
+                do_sample=True,
+                top_k=50,
+                top_p=0.9,
+                temperature=0.7,
+                repetition_penalty=1.2,
+                no_repeat_ngram_size=3,
+                num_return_sequences=1
+            )
+            result = outputs[0]['generated_text']
+        
+        except Exception as e:
+            return render_template('outils/text_completion.html', form=form, error=str(e))
+    
+    return render_template('outils/text_completion.html', form=form, result=result)
+
+#------------- Q/A and Conversation ---------------------
+@app.route('/qa_function', methods=['GET', 'POST'])
+def qa_function():
+    form = FlaskForm()
+    qa_result = None
+
+    if request.method == 'POST':
+        tool_type = request.form.get('tool_type')
+        
+        if tool_type == 'qa':
+            context = request.form.get('context', '')
+            question = request.form.get('question', '')
+            
+            try:
+                qa_pipeline = retrieve_model(
+                    "question-answering", 
+                    "distilbert-base-cased-distilled-squad"
+                )
+                qa_result = qa_pipeline(context=context, question=question)
+            except Exception as e:
+                return render_template(
+                    'outils/questions_and_answers.html',
+                    form=form,
+                    error=str(e)
+                )
+
+    return render_template(
+        'outils/questions_and_answers.html',
+        form=form,
+        qa_result=qa_result
+    )
 
 #------------- Traduction ---------------------
+@app.route('/traduction', methods=['GET', 'POST'])
+def traduction():
+    form = FlaskForm()
+    result = None
+    
+    if request.method == 'POST':
+        text = request.form.get('text', '')
+        source_lang = request.form.get('source_lang', 'en-fr')
+        
+        try:
+            # Define translation model based on language pair
+            model_name = f"Helsinki-NLP/opus-mt-{source_lang}"
+            translator = retrieve_model("translation", model_name)
+            
+            result = translator(text, max_length=512)[0]['translation_text']
+        except Exception as e:
+            return render_template('outils/translation.html', form=form, error=str(e))
+            
+    return render_template('outils/translation.html', form=form, result=result)
 
 #------------- Ajustement du niveau de lecture ---------------------
+@app.route('/ajustement_text_readibility_level', methods=['GET', 'POST'])
+def ajustement_text_readibility_level():
+    form = FlaskForm()
+    result = None
+
+    # Instructions for different levels
+    LEVEL_DESCRIPTIONS = {
+        "primary": "Use very short sentences and very simple vocabulary. Explain as if you were speaking to a young child in primary school.",
+        "middle_school": "Use short sentences and clear vocabulary. Explain as if you were teaching a middle school student. Avoid difficult concepts.",
+        "high_school": "Use straightforward sentences and vocabulary appropriate for a high school student. Explain thoroughly but clearly.",
+    }
+
+    # Token length limits for each level
+    LEVEL_MAX_LENGTH = {
+        "primary": 150,
+        "middle_school": 250,
+        "high_school": 350,
+    }
+
+    if request.method == 'POST':
+        text = request.form.get('text', '')
+        target_level = request.form.get('target_level', 'middle_school')
+        style_instruction = LEVEL_DESCRIPTIONS.get(target_level, LEVEL_DESCRIPTIONS['middle_school'])
+        max_len = LEVEL_MAX_LENGTH.get(target_level, 250)
+
+        try:
+            generator = retrieve_model(
+                "text2text-generation",
+                "mrm8488/t5-small-finetuned-text-simplification"
+            )
+
+            prompt = f"""Rewrite the following text in a simpler style. {style_instruction}
+            Text to simplify:
+            {text}
+            Simplified version:"""
+
+            result = generator(
+                prompt,
+                max_length=max_len,
+                num_return_sequences=1,
+                do_sample=True,
+                temperature=0.5,
+                top_p=0.9
+            )[0]['generated_text']
+
+        except Exception as e:
+            return render_template(
+                'outils/adjusting_text_readibility_level.html',
+                form=form,
+                error=str(e)
+            )
+
+    return render_template(
+        'outils/adjusting_text_readibility_level.html',
+        form=form,
+        result=result
+    )
+
 
 
 #-----------------------------------------------------------------
