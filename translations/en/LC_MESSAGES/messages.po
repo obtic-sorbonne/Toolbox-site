@@ -3826,11 +3826,8 @@ msgstr "Multitasking modeling"
 msgid "Transformer diverses tâches NLP en problèmes de prédiction de mots"
 msgstr "Transforming various NLP tasks into word prediction problems"
 
-msgid "Questions/réponses et conversations"
-msgstr "Questions/Answers and Conversations"
-
-msgid "Les systèmes de <strong>questions/réponses (QA)</strong> et de <strong>conversation</strong> s'appuient sur des modèles capables de répondre à des questions ou de maintenir des interactions fluides avec les utilisateurs. Cette catégorie est souvent divisée en deux approches "
-msgstr "<strong>Questions/Answers (QA)</strong> and <strong>conversation</strong> systems rely on models capable of answering questions or maintaining fluid interactions with users. This category is often divided into two approaches"
+msgid "Le système de <strong>questions/réponses (QA)</strong> s'appuie sur des modèles capables de répondre à des questions ou de maintenir des interactions fluides avec les utilisateurs. Cette catégorie est souvent divisée en deux approches "
+msgstr "<strong>Questions/Answers (QA)</strong> system rely on models capable of answering questions or maintaining fluid interactions with users. This category is often divided into two approaches"
 
 msgid "La réponse est trouvée dans un ou plusieurs documents fournis, comme pour les tâches de compréhension de lecture"
 msgstr "The answer is found in one or more provided documents, as in reading comprehension tasks"
@@ -6004,7 +6001,7 @@ msgstr "Text to translate"
 msgid "Traduire"
 msgstr "Translate"
 
-msgid "Texte traduit"
+msgid "Texte traduit "
 msgstr "Translated text"
 
 msgid "Amorce de texte (prompt)"
@@ -6016,6 +6013,9 @@ msgstr "Maximum length (tokens)"
 msgid "Générer le texte"
 msgstr "Generate text"
 
+msgid "Réponse "
+msgstr "Answer"
+
 msgid "Réponse trouvée"
 msgstr "Answer found"
 
@@ -6024,3 +6024,144 @@ msgstr "Beginning"
 
 msgid "Fin"
 msgstr "End"
+
+msgid "Texte généré"
+msgstr "Generated text"
+
+msgid "Modèle "
+msgstr "Model"
+
+msgid "Langues supportées "
+msgstr "Supported languages"
+
+msgid "Longueur : Entre 20 et 200 tokens"
+msgstr "Length: Between 20 and 200 tokens"
+
+msgid "Attention : Le modèle utilisé est assez lourd<br> donc le traitement peut être un peu long"
+msgstr "Please note: The model used is quite heavy<br> so processing may take a little while"
+
+msgid "46 langues (surtout langues occidentales)"
+msgstr "46 languages (mostly Western languages)"
+
+msgid "Allemand-Anglais"
+msgstr "German-English"
+
+msgid "Allemand-Espagnol"
+msgstr "German-Spanish"
+
+msgid "Allemand-Français"
+msgstr "German-French"
+
+msgid "Allemand-Italien"
+msgstr "German-Italian"
+
+msgid "Anglais-Tchèque"
+msgstr "English-Czech"
+
+msgid "Anglais-Allemand"
+msgstr "English-German"
+
+msgid "Anglais-Espagnol"
+msgstr "English-Spanish"
+
+msgid "Anglais-Finnois"
+msgstr "English-Finnish"
+
+msgid "Anglais-Français"
+msgstr "English-French"
+
+msgid "Anglais-Hindi"
+msgstr "English-Hindi"
+
+msgid "Anglais-Italien"
+msgstr "English-Italian"
+
+msgid "Anglais-Polonais"
+msgstr "English-Polish"
+
+msgid "Anglais-Russe"
+msgstr "English-Russian"
+
+msgid "Anglais-Suédois"
+msgstr "English-Swedish"
+
+msgid "Anglais-Vietnamien"
+msgstr "English-Vietnamese"
+
+msgid "Anglais-Chinois"
+msgstr "English-Chinese"
+
+msgid "Espagnol-Anglais"
+msgstr "Spanish-English"
+
+msgid "Espagnol-Français"
+msgstr "Spanish-French"
+
+msgid "Espagnol-Italien"
+msgstr "Spanish-Italian"
+
+msgid "Espagnol-Portugais"
+msgstr "Spanish-Portuguese"
+
+msgid "Finnois-Anglais"
+msgstr "Finnish-English"
+
+msgid "Français-Allemand"
+msgstr "French-German"
+
+msgid "Français-Anglais"
+msgstr "French-English"
+
+msgid "Français-Espagnol"
+msgstr "French-Spanish"
+
+msgid "Français-Italien"
+msgstr "French-Italian"
+
+msgid "Français-Portugais"
+msgstr "French-Portuguese"
+
+msgid "Italien-Anglais"
+msgstr "Italian-English"
+
+msgid "Italien-Français"
+msgstr "Italian-French"
+
+msgid "Polonais-Anglais"
+msgstr "Polish-English"
+
+msgid "Portugais-Anglais"
+msgstr "Portuguese-English"
+
+msgid "Russe-Anglais"
+msgstr "Russian-English"
+
+msgid "Suédois-Anglais"
+msgstr "Swedish-English"
+
+msgid "Primaire (env. 7-10 ans)"
+msgstr "Elementary (approx. 7-10 years old)"
+
+msgid "Collège (env. 11-14 ans)"
+msgstr "Middle school (approx. 11-14 years old)"
+
+msgid "Lycée (env. 15-18 ans)"
+msgstr "High school (approx. 15-18 years old)"
+
+msgid "L'outil propose un mode d’interaction dédié aux questions-réponses, reposant sur un modèle d’intelligence artificielle avancé"
+msgstr "The tool offers a dedicated question-and-answer interaction mode, based on an advanced artificial intelligence model"
+
+msgid "Ce mode vous permet de poser une question précise en langage naturel et d’obtenir une réponse claire, fiable et directement pertinente. Grâce à une analyse fine du contexte que vous fournissez, le modèle identifie les éléments importants et vous restitue une réponse structurée, concise et compréhensible, sans que vous ayez à effectuer de recherche complémentaire"
+msgstr "This mode allows you to ask a specific question in natural language and get a clear, reliable and directly relevant answer. Thanks to a detailed analysis of the context you provide, the model identifies the important elements and gives you a structured, concise and understandable answer, without you having to carry out additional research"
+
+msgid "Ainsi, que vous ayez besoin d’éclaircissements sur un sujet particulier, d’une explication rapide ou d’informations factuelles, l’outil répond efficacement à votre demande, en quelques instants seulement"
+msgstr "So, whether you need clarification on a particular topic, a quick explanation or factual information, the tool responds efficiently to your request, in just a few moments"
+
+msgid "Saisissez votre texte ici..."
+msgstr "Enter your text here..."
+
+msgid "Saisissez votre question ici..."
+msgstr "Enter your question here..."
+
+msgid "Tâches Hugging Face"
+msgstr "Hugging Face tasks"
