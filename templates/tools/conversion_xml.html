@@ -80,7 +80,7 @@
       <h2>{{ _('Conversion XML-TEI') }}</h2>
       <p>{{ _("L'outil ci-dessous permet de transformer un texte brut en format XML-TEI, un format courant en humanitiés numériques") }} {{ _("qui permet d'encoder les textes, en utilisant des balises prédefinies.") }}</p>
 
-      <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_conversion') }}" target="_blank">{{ _('Voir la documentation') }}</a> / <a href="{{ url_for('tutoriel_conversion') }}" target="_blank">{{ _('Voir le tutoriel') }}</a></p>
+      <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_conversion') }}" target="_blank">{{ _('Voir la documentation') }}</a> / <a href="{{ url_for('tutorial_conversion') }}" target="_blank">{{ _('Voir le tutoriel') }}</a></p>
 
       <div class="infos_outil" style="display: block;margin: 0 auto 15px auto;">
           <input id="show" type="checkbox"><label for="show" class="infos_title" style="font-weight: normal;"><i class="fa-solid fa-circle-info"></i> {{ _("Informations sur l'outil") }}<i class="fa-solid fa-angle-right" style="float:right;margin-top:5px;margin-left:15px;cursor: pointer;"></i></label>
@@ -237,9 +237,9 @@
 <div id="task-panel-ocr" class="sidepanel">
   <span class="closebtn" onclick="closeNav()">&times;</span>
   <h3 style="font-family: 'Comprehension', serif;">{{ _('Tâches suivantes')}}</h3>
-  <div class="side-item"><a href="{{ url_for('entites_nommees') }}">{{ _('Extraire les entités nommées') }}</a></div>
-  <div class="side-item"><a href="{{ url_for('etiquetage_morphosyntaxique') }}">{{ _('Étiqueter en parties du discours') }}</a></div>
-  <div class="side-item"><a href="{{ url_for('outils_visualisation') }}">{{ _('Visualisation') }}</a></div>
+  <div class="side-item"><a href="{{ url_for('named_entities_recognition') }}">{{ _('Extraire les entités nommées') }}</a></div>
+  <div class="side-item"><a href="{{ url_for('partofspeech_tagging') }}">{{ _('Étiqueter en parties du discours') }}</a></div>
+  <div class="side-item"><a href="{{ url_for('visualisation_tools') }}">{{ _('Visualisation') }}</a></div>
 </div>
     </div>
     <script type="text/javascript">

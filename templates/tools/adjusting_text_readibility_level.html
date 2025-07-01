@@ -37,7 +37,7 @@ select {
 
 <link rel="stylesheet" href="{{ url_for('static', filename= 'css/elements.css') }}">
 <div class="outil">
-    <div class="fil"><a href="{{ url_for('generation_texte')}}"><< {{ _('Retour aux tâches') }}</a></div>
+    <div class="fil"><a href="{{ url_for('text_generation')}}"><< {{ _('Retour aux tâches') }}</a></div>
     <h2>{{ _('Ajustement du Niveau de Lecture du Texte') }}</h2>
     <p>{{ _("Cette tâche permet de rendre un texte plus accessible en adaptant sa complexité selon différents niveaux de lecture, allant du niveau CE2 (fin de primaire) jusqu'au niveau universitaire") }}.<br>
     {{ _("Pour cela, plusieurs techniques sont utilisées ") }}:<ul>

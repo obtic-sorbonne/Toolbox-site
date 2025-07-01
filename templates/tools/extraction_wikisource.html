@@ -4,7 +4,7 @@
 {% block content %}
 <!-- CREATION CORPUS -->
   <div class="outil">
-    <div class="fil"><a href="{{ url_for('collecter_corpus')}}"><< {{ _('Retour aux tâches') }}</a></div>
+    <div class="fil"><a href="{{ url_for('corpus_collection')}}"><< {{ _('Retour aux tâches') }}</a></div>
     <h2>{{ _('Extraction Wikisource') }}</h2>
     <p>{{ _('La plateforme collaborative') }} <a href="https://fr.wikisource.org/wiki/Wikisource:Accueil" target="_blank">Wikisource</a> {{ _('contient de très nombreux textes littéraires libres de droits') }}.
       {{ _("L'outil ci-dessous permet de constituer un corpus à partir de ces textes, en renseignant leur URL") }}.
@@ -45,13 +45,13 @@
   </div>
  <span class="trigger-panel" onclick="openNav()">{{ _('Tâches suivantes')}}  <i class="fa-solid fa-angles-right"></i></span>
 
-<div id="task-panel-wiki" class="sidepanel">
+<div id="task-panel-gallica" class="sidepanel">
   <span class="closebtn" onclick="closeNav()">&times;</span>
   <h3 style="font-family: 'Comprehension', serif;">{{ _('Tâches suivantes')}}</h3>
-  <div class="side-item"><a href="{{ url_for('entites_nommees') }}">{{ _('Extraire les entités nommées') }}</a></div>
-  <div class="side-item"><a href="{{ url_for('etiquetage_morphosyntaxique') }}">{{ _('Étiqueter en parties du discours') }}</a></div>
+  <div class="side-item"><a href="{{ url_for('named_entities_recognition') }}">{{ _('Extraire les entités nommées') }}</a></div>
+  <div class="side-item"><a href="{{ url_for('partofspeech_tagging') }}">{{ _('Étiqueter en parties du discours') }}</a></div>
   <div class="side-item"><a href="https://obtic.huma-num.fr/teinte/">Teinte</a></div> 
-  <div class="side-item"><a href="{{ url_for('outils_visualisation') }}">{{ _('Visualisation') }}</a></div> 
+  <div class="side-item"><a href="{{ url_for('visualisation_tools') }}">{{ _('Visualisation') }}</a></div> 
 </div>
 
   <script type="text/javascript">

@@ -4,7 +4,7 @@
 {% block content %}
 <link rel="stylesheet" href="{{ url_for('static', filename= 'css/elements.css') }}">
 <div class="outil">
-    <div class="fil"><a href="{{ url_for('pretraitement')}}"><< {{ _('Retour aux tâches') }}</a></div>
+    <div class="fil"><a href="{{ url_for('preprocessing')}}"><< {{ _('Retour aux tâches') }}</a></div>
     <h2>{{ _('Séparation de texte') }}</h2>
     <p>{{ _("Division de textes en phrases et/ou lignes impliquant l'identification et") }} {{ _("la séparation de phrases/lignes individuelles d'un texte continu") }}.</p>
     <br>

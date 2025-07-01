@@ -2,8 +2,8 @@
 {% block header %} {{ super() }} {% endblock %}
 {% block content %}
 <div class="selection">
-  <div style="text-align: left;"><a href="{{ url_for('outils_correction')}}" style="color:#f2a800; text-decoration:none;"><< {{ _('Tâche précédente') }}</a></div>
-  <div style="text-align: right;"><a href="{{ url_for('generation_texte')}}" style="color:#f2a800; text-decoration:none;">{{ _('Tâche suivante') }} >></a></div>
+  <div style="text-align: left;"><a href="{{ url_for('correction_tools')}}" style="color:#f2a800; text-decoration:none;"><< {{ _('Tâche précédente') }}</a></div>
+  <div style="text-align: right;"><a href="{{ url_for('text_generation')}}" style="color:#f2a800; text-decoration:none;">{{ _('Tâche suivante') }} >></a></div>
   <h2>{{ _("Chaînes de traitement") }}</h2>
   <p style="text-align: center;">{{ _("Cette page offre deux chaînes d'entraînements qui combinent plusieurs outils proposés dans la toolbox") }}.</p>
   <div class="container">
@@ -18,11 +18,6 @@
       <span class="rubrique-text"><p>{{ _("Numérisation, reconnaissance de lieux géographiques et visualisation sur une carte d'un seul clic") }}.</p></span>
     </div>
   </div>
-  <!--<div class="box-outil-visu">
-    <div class="visu-img"><a href="{{ url_for('ocr_map') }}"></a></div>
-    <span class="visu-title"><a href="{{ url_for('ocr_map') }}"><h3 style="font-family:'Comprehension', serif;">Épiméthée</h3></a></span>
-    <span class="visu-text"><p>OCR -> Map<br>Permet de visualiser les entités de lieu d'un texte de façon interactive.</p></span>
-  </div>-->
 </div>
 {% endblock %}
 {% block footer %} {{ super() }} {% endblock %}

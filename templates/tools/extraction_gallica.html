@@ -96,7 +96,7 @@ input[type="radio"]{
 </style>
 
 <div class="outil">
-	<div class="fil"><a href="{{ url_for('collecter_corpus')}}"><< {{ _('Retour aux tâches') }}</a></div>
+	<div class="fil"><a href="{{ url_for('corpus_collection')}}"><< {{ _('Retour aux tâches') }}</a></div>
 <h2>API Gallica</h2>
 <p>{{ _('Les documents consultables dans Gallica sont identifiés selon un système normalisé, ARK (pour') }} <span style="font-style:italic">Archival Resource Key</span>) 
 	{{ _('qui permet de garantir la pérennité des URL (voir la') }} <a href="https://www.bnf.fr/fr/lidentifiant-ark-archival-resource-key#bnf-ark-qu-est-ce-que-c-est-" target="_blank">{{ _('notice sur ARK') }} <i class="fa-solid fa-arrow-up-right-from-square"></i></a> {{ _("sur le site de la BnF). Ce module permet d'") }}<em>{{ _('extraire des documents du catalogue Gallica') }}</em> {{ _('à partir de leur ARK, soit au') }} <em>{{ _('format IIIF') }}</em>, {{ _('soit au') }} <em>{{ _('format texte') }}</em> {{ _('lorsque celui-ci est disponible') }}.</p>
@@ -152,10 +152,10 @@ input[type="radio"]{
 <div id="task-panel-gallica" class="sidepanel">
   <span class="closebtn" onclick="closeNav()">&times;</span>
   <h3 style="font-family: 'Comprehension', serif;">{{ _('Tâches suivantes')}}</h3>
-  <div class="side-item"><a href="{{ url_for('entites_nommees') }}">{{ _('Extraire les entités nommées') }}</a></div>
-  <div class="side-item"><a href="{{ url_for('etiquetage_morphosyntaxique') }}">{{ _('Étiqueter en parties du discours') }}</a></div>
+  <div class="side-item"><a href="{{ url_for('named_entities_recognition') }}">{{ _('Extraire les entités nommées') }}</a></div>
+  <div class="side-item"><a href="{{ url_for('partofspeech_tagging') }}">{{ _('Étiqueter en parties du discours') }}</a></div>
   <div class="side-item"><a href="https://obtic.huma-num.fr/teinte/">Teinte</a></div> 
-  <div class="side-item"><a href="{{ url_for('outils_visualisation') }}">{{ _('Visualisation') }}</a></div> 
+  <div class="side-item"><a href="{{ url_for('visualisation_tools') }}">{{ _('Visualisation') }}</a></div> 
 </div>
 <script>
 	/*Validation dynamique des arks */

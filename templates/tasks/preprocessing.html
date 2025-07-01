@@ -7,7 +7,7 @@
   <h2>{{ _("Prétraitement") }}</h2>
   <p style="text-align: center;">{{ _("Cette page répertorie divers outils pour préparer et/ou nettoyer son texte avant de conduire une quelconque analyse") }}</p>
   <div class="container">
-    <div class="box-outil-accueil" onclick="window.location.href='{{ url_for('nettoyage_texte') }}'">
+    <div class="box-outil-accueil" onclick="window.location.href='{{ url_for('text_cleaning') }}'">
       <div class="rubrique-icon"><img alt='Nettoyage de texte © <a href="https://fr.freepik.com/icone/fichier_1954555">Icône de SBTS2018</a>' src="{{ url_for('static', filename='img/icons/text_cleaning.png')}}"></div>
       <span class="rubrique-title"><h3>{{ _('Nettoyage de texte') }}</h3></span>
       <span class="rubrique-text"><p>{{ _('Mise en minuscule, suppression des mots vides et de la punctuation') }}</p></span>
@@ -17,7 +17,7 @@
       <span class="rubrique-title"><h3>{{ _('Normalisation de texte') }}</h3></span>
       <span class="rubrique-text"><p>{{ _('Tokenisation et Lemmatisation') }}</p></span>
     </div>
-    <div class="box-outil-accueil" onclick="window.location.href='{{ url_for('separation_texte') }}'">
+    <div class="box-outil-accueil" onclick="window.location.href='{{ url_for('text_separation') }}'">
       <div class="rubrique-icon"><img alt="Séparation de texte" src="{{ url_for('static', filename='img/icons/text_separation.png')}}"></div>
       <span class="rubrique-title"><h3>{{ _('Séparation de texte') }}</h3></span>
       <span class="rubrique-text"><p>{{ _('Identification et séparations de phrases et/ou lignes individuelles dans un texte continu') }}</p></span>

@@ -4,9 +4,9 @@
 {% block content %}
 <link rel="stylesheet" href="{{ url_for('static', filename= 'css/elements.css') }}">
 <div class="outil">
-    <div class="fil"><a href="{{ url_for('extraction_information')}}"><< {{ _('Retour aux tâches') }}</a></div>
+    <div class="fil"><a href="{{ url_for('information_extraction')}}"><< {{ _('Retour aux tâches') }}</a></div>
     <h2>Topic Modelling</h2>
-    <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_extraction') }}" target="_blank">{{ _("Voir la documentation") }}</a> / <a href="{{ url_for('tutoriel_extraction') }}" target="_blank">{{ _("Voir le tutoriel") }}</a></p>
+    <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_extraction') }}" target="_blank">{{ _("Voir la documentation") }}</a> / <a href="{{ url_for('tutorial_extraction') }}" target="_blank">{{ _("Voir le tutoriel") }}</a></p>
         <div class="item">
             <h3>{{ _("Chargement des fichiers") }}</h3>
             <form action="{{ url_for('topic_extraction') }}" method="post" enctype="multipart/form-data" class="drag-drop-form" id="tm_form">

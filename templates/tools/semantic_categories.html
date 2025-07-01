@@ -3,7 +3,7 @@
 
 {% block content %}
 <div class="outil">
-  <div class="fil"><a href="{{ url_for('annotation_automatique')}}"><< {{ _('Retour aux tâches') }}</a></div>
+  <div class="fil"><a href="{{ url_for('automatic_annotation')}}"><< {{ _('Retour aux tâches') }}</a></div>
   <h2>{{ _('Catégories sémantiques') }}</h2>
   <h4>TextoLab</h4>
   <p>{{ _("Textolab est un outil d'annotation automatique de textes") }}. {{ _("Il permet d'identifier des patrons linguistiques à l'aide de règles heuristiques") }}. {{ _("L'annotation se fait au niveau de la surface, sans analyse morphosyntaxique") }}.</p>
@@ -14,7 +14,7 @@
     <li>{{ _('Téléchargez le dossier') }} <a href="{{url_for('download')}}">textolab.zip</a> {{ _('sur votre ordinateur et décompressez-le') }}.</li>
     <li>{{ _("Cliquer sur textolab.exe, et dans la fenêtre qui s'affiche, validez le chemin vers le projet textolab") }}. {{ _("Le logo de l'application doit s'afficher correctement") }}. <br><img alt="Logo textolab" src="{{url_for('static', filename='img/logo_textolab.png')}}" width="25%"></li>
   </ul></p>
-  <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_annotation') }}" target="_blank">{{ _('Voir la documentation') }}</a> / <a href="{{ url_for('tutoriel_annotation') }}" target="_blank">{{ _('Voir le tutoriel') }}</a></p>
+  <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_annotation') }}" target="_blank">{{ _('Voir la documentation') }}</a> / <a href="{{ url_for('tutorial_annotation') }}" target="_blank">{{ _('Voir le tutoriel') }}</a></p>
 </div>
 {% endblock %}
 {% block footer %} {{ super() }} {% endblock %}

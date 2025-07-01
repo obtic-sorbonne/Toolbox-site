@@ -4,21 +4,21 @@
 {% block content %}
   <div class="selection">
     <div style="text-align: left;"><a href="{{ url_for('conversion')}}" style="color:#f2a800; text-decoration:none;"><< {{ _('Tâche précédente') }}</a></div>
-    <div style="text-align: right;"><a href="{{ url_for('extraction_information')}}" style="color:#f2a800; text-decoration:none;">{{ _('Tâche suivante') }} >></a></div>
+    <div style="text-align: right;"><a href="{{ url_for('information_extraction')}}" style="color:#f2a800; text-decoration:none;">{{ _('Tâche suivante') }} >></a></div>
     <h2>{{ _("Tâches d'annotation automatique") }}</h2>
     <p style="text-align: center;">{{ _("Cette page répertorie diverses manières d'annoter automatiquement un texte") }}.</p>
     <div class="container">
-      <div class="box-outil-accueil" onclick="window.location.href='{{ url_for('etiquetage_morphosyntaxique') }}'">
+      <div class="box-outil-accueil" onclick="window.location.href='{{ url_for('partofspeech_tagging') }}'">
         <div class="rubrique-icon"><img alt="Étiquetages morphosyntaxiques" src="{{url_for('static', filename='img/icons/pos.png')}}"></div>
         <span class="rubrique-title"><h3>{{ _('Étiquetage morphosyntaxique') }}</h3></span>
         <span class="rubrique-text"><p>{{ _("Annotation de la catégorie grammaticale de chaque mot d'un texte") }}</p></span>
       </div>
-      <div class="box-outil-accueil" onclick="window.location.href='{{ url_for('entites_nommees') }}'">
+      <div class="box-outil-accueil" onclick="window.location.href='{{ url_for('named_entities_recognition') }}'">
         <div class="rubrique-icon"><img alt="Reconnaissance d'entités nommées" src="{{url_for('static', filename='img/icons/ner.png')}}"></div>
         <span class="rubrique-title"><h3>{{ _("Reconnaissance d'entités nommées") }}</h3></span>
         <span class="rubrique-text"><p>{{ _("Identification des entités nommées d'un corpus en choissisant son modèle (Spacy, Flair ou Bert)") }}</p></span>
       </div>
-      <div class="box-outil-accueil" onclick="window.location.href='{{ url_for('categories_semantiques') }}'">
+      <div class="box-outil-accueil" onclick="window.location.href='{{ url_for('semantic_categories') }}'">
         <div class="rubrique-icon"><img alt="Catégories sémantiques" src="{{ url_for('static', filename='img/icons/catsem.png')}}"></div>
         <span class="rubrique-title"><h3>{{ _('Catégories sémantiques') }}</h3></span>
         <span class="rubrique-text"><p>{{ _("Localisation, grâce à l'outil Textolab, de patrons linguistiques") }}</p></span>

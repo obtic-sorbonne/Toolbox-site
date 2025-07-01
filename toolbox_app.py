@@ -253,10 +253,6 @@ def documentation_analyses():
 def documentation_correction():
     return render_template('documentation/documentation_correction.html')
 
-@app.route('/documentation_workflow')
-def documentation_workflow():
-    return render_template('documentation/documentation_workflow.html')
-
 @app.route('/documentation_generation')
 def documentation_generation():
     return render_template('documentation/documentation_generation.html')
@@ -265,249 +261,249 @@ def documentation_generation():
 # TUTORIELS
 #-----------------------------------------------------------------
 
-@app.route('/tutoriel')
-def tutoriel():
-    return render_template('tutoriel.html')
+@app.route('/tutorial')
+def tutorial():
+    return render_template('tutorial.html')
     
 @app.route('/tutoriel_conversion')
-def tutoriel_conversion():
-    return render_template('tutoriel/tutoriel_conversion.html')
+def tutorial_conversion():
+    return render_template('tutorial/tutorial_conversion.html')
 
 @app.route('/tutoriel_annotation')
-def tutoriel_annotation():
-    return render_template('tutoriel/tutoriel_annotation.html')
+def tutorial_annotation():
+    return render_template('tutorial/tutorial_annotation.html')
 
 @app.route('/tutoriel_extraction')
-def tutoriel_extraction():
-    return render_template('tutoriel/tutoriel_extraction.html')
+def tutorial_extraction():
+    return render_template('tutorial/tutorial_extraction.html')
     
 #-----------------------------------------------------------------
-# TACHES
+# TASKS
 #-----------------------------------------------------------------
 
 @app.route('/atr_tools')
 def atr_tools():
-    return render_template('taches/atr_tools.html')
+    return render_template('tasks/atr_tools.html')
 
-@app.route('/pretraitement')
-def pretraitement():
-    return render_template('taches/pretraitement.html')
+@app.route('/preprocessing')
+def preprocessing():
+    return render_template('tasks/preprocessing.html')
 
 @app.route('/conversion')
 def conversion():
-    return render_template('taches/conversion.html')
+    return render_template('tasks/conversion.html')
 
-@app.route('/annotation_automatique')
-def annotation_automatique():
-    return render_template('taches/annotation_automatique.html')
+@app.route('/automatic_annotation')
+def automatic_annotation():
+    return render_template('tasks/automatic_annotation.html')
 
-@app.route('/extraction_information')
-def extraction_information():
-    return render_template('taches/extraction_information.html')
+@app.route('/information_extraction')
+def information_extraction():
+    return render_template('tasks/information_extraction.html')
 
 @app.route('/analyses')
 def analyses():
-    return render_template('taches/analyses.html')
+    return render_template('tasks/analyses.html')
 
 @app.route('/search_tools')
 def search_tools():
-    return render_template('taches/search_tools.html')
+    return render_template('tasks/search_tools.html')
 
-@app.route('/outils_visualisation')
-def outils_visualisation():
-    return render_template('taches/visualisation.html')
+@app.route('/visualisation_tools')
+def visualisation_tools():
+    return render_template('tasks/visualisation_tools.html')
 
-@app.route('/outils_correction')
-def outils_correction():
-    return render_template('taches/correction.html')
+@app.route('/correction_tools')
+def correction_tools():
+    return render_template('tasks/correction_tools.html')
 
-@app.route('/collecter_corpus')
-def collecter_corpus():
-    return render_template('taches/collecter_corpus.html')
+@app.route('/corpus_collection')
+def corpus_collection():
+    return render_template('tasks/corpus_collection.html')
 
-@app.route('/outils_pipeline')
-def outils_pipeline():
-    return render_template('taches/pipeline.html')
+@app.route('/pipelines')
+def pipelines():
+    return render_template('tasks/pipelines.html')
 
-@app.route('/generation_texte')
-def generation_texte():
-    return render_template('taches/generation_texte.html')
+@app.route('/text_generation')
+def text_generation():
+    return render_template('tasks/text_generation.html')
 
 #-----------------------------------------------------------------
-# OUTILS
+# TOOLS
 #-----------------------------------------------------------------
 
 @app.route('/text_recognition')
 def text_recognition():
     form = FlaskForm()
-    return render_template('outils/text_recognition.html', form=form)
+    return render_template('tools/text_recognition.html', form=form)
 
 @app.route('/speech_recognition')
 def speech_recognition():
     form = FlaskForm()
-    return render_template('outils/speech_recognition.html', form=form)
+    return render_template('tools/speech_recognition.html', form=form)
 
-@app.route('/nettoyage_texte')
-def nettoyage_texte():
+@app.route('/text_cleaning')
+def text_cleaning():
     form = FlaskForm()
-    return render_template('outils/nettoyage_texte.html', form=form)
+    return render_template('tools/text_cleaning.html', form=form)
 
 @app.route('/text_normalisation')
 def text_normalisation():
     form = FlaskForm()
-    return render_template('outils/text_normalisation.html', form=form)
+    return render_template('tools/text_normalisation.html', form=form)
 
-@app.route('/separation_texte')
-def separation_texte():
+@app.route('/text_separation')
+def text_separation():
     form = FlaskForm()
-    return render_template('outils/separation_texte.html', form=form)
+    return render_template('tools/text_separation.html', form=form)
 
 @app.route('/conversion_xml')
 def conversion_xml():
     form = FlaskForm()
-    return render_template('outils/conversion_xml.html', form=form)
+    return render_template('tools/conversion_xml.html', form=form)
 
-@app.route('/entites_nommees')
-def entites_nommees():
-    form = FlaskForm()
-    return render_template('outils/entites_nommees.html', form=form)
-
-@app.route('/etiquetage_morphosyntaxique')
-def etiquetage_morphosyntaxique():
+@app.route('/partofspeech_tagging')
+def partofspeech_tagging():
     form = FlaskForm()
     err = ""
-    return render_template('outils/etiquetage_morphosyntaxique.html', form=form, err=err)
+    return render_template('tools/partofspeech_tagging.html', form=form, err=err)
 
-@app.route('/categories_semantiques')
-def categories_semantiques():
-    return render_template('outils/categories_semantiques.html')
-
-@app.route('/extraction_mots_cles')
-def extraction_mots_cles():
+@app.route('/named_entities_recognition')
+def named_entities_recognition():
     form = FlaskForm()
-    return render_template('outils/extraction_mots_cles.html', form=form, res={})
+    return render_template('tools/named_entities_recognition.html', form=form)
 
-@app.route('/quotation_extraction')
-def quotation_extraction():
+@app.route('/semantic_categories')
+def semantic_categories():
+    return render_template('tools/semantic_categories.html')
+
+@app.route('/keywords_extraction')
+def keywords_extraction():
     form = FlaskForm()
-    return render_template('outils/quotation_extraction.html', form=form)
+    return render_template('tools/keywords_extraction.html', form=form, res={})
 
 @app.route('/topic_modelling')
 def topic_modelling():
     form = FlaskForm()
-    return render_template('outils/topic_modelling.html', form=form, res={})
+    return render_template('tools/topic_modelling.html', form=form, res={})
 
-@app.route('/analyse_linguistique')
-def analyse_linguistique():
+@app.route('/quotation_extraction')
+def quotation_extraction():
     form = FlaskForm()
-    return render_template('outils/analyse_linguistique.html', form=form)
+    return render_template('tools/quotation_extraction.html', form=form)
 
-@app.route('/analyse_statistique')
-def analyse_statistique():
+@app.route('/linguistic_analysis')
+def linguistic_analysis():
     form = FlaskForm()
-    return render_template('outils/analyse_statistique.html', form=form)
+    return render_template('tools/linguistic_analysis.html', form=form)
 
-@app.route('/analyse_lexicale')
-def analyse_lexicale():
+@app.route('/statistic_analysis')
+def statistic_analysis():
     form = FlaskForm()
-    return render_template('outils/analyse_lexicale.html', form=form)
+    return render_template('tools/statistic_analysis.html', form=form)
 
-@app.route('/analyse_texte')
-def analyse_texte():
+@app.route('/lexical_analysis')
+def lexical_analysis():
     form = FlaskForm()
-    return render_template('outils/analyse_texte.html', form=form)
+    return render_template('tools/lexical_analysis.html', form=form)
+
+@app.route('/text_analysis')
+def text_analysis():
+    form = FlaskForm()
+    return render_template('tools/text_analysis.html', form=form)
 
 @app.route('/comparison')
 def comparison():
     form = FlaskForm()
-    return render_template('outils/comparison.html', form=form)
+    return render_template('tools/comparison.html', form=form)
 
 @app.route('/embeddings')
 def embeddings():
     form = FlaskForm()
-    return render_template('outils/embeddings.html', form=form)
+    return render_template('tools/embeddings.html', form=form)
 
-@app.route('/relations_lexicales')
-def relations_lexicales():
+@app.route('/lexical_relationship')
+def lexical_relationship():
     form = FlaskForm()
-    return render_template('outils/relations_lexicales.html', form=form)
+    return render_template('tools/lexical_relationship.html', form=form)
 
 @app.route('/tanagra')
 def tanagra():
-    return render_template('outils/tanagra.html')
+    return render_template('tools/tanagra.html')
 
 @app.route('/renard')
 def renard():
     form = FlaskForm()
-    return render_template('outils/renard.html', form=form, graph="", fname="")
+    return render_template('tools/renard.html', form=form, graph="", fname="")
 
 @app.route('/extraction_gallica')
 def extraction_gallica():
     form = FlaskForm()
-    return render_template('outils/extraction_gallica.html', form=form)
+    return render_template('tools/extraction_gallica.html', form=form)
 
 @app.route('/extraction_wikisource')
 def extraction_wikisource():
     form = FlaskForm()
-    return render_template('outils/extraction_wikisource.html', form=form)
+    return render_template('tools/extraction_wikisource.html', form=form)
 
 @app.route('/extraction_gutenberg')
 def extraction_gutenberg():
     form = FlaskForm()
-    return render_template('outils/extraction_gutenberg.html', form=form)
+    return render_template('tools/extraction_gutenberg.html', form=form)
 
 @app.route('/extraction_urls')
 def extraction_urls():
     form = FlaskForm()
-    return render_template('outils/extraction_urls.html', form=form)
+    return render_template('tools/extraction_urls.html', form=form)
 
 @app.route('/extraction_googlebooks')
 def extraction_googlebooks():
     form = FlaskForm()
-    return render_template('outils/extraction_googlebooks.html', form=form)
+    return render_template('tools/extraction_googlebooks.html', form=form)
 
-@app.route('/correction_erreur')
-def correction_erreur():
+@app.route('/modernspelling_correction')
+def modernspelling_correction():
+    return render_template('tools/modernspelling_correction.html')
+
+@app.route('/error_correction')
+def error_correction():
     form = FlaskForm()
-    return render_template('outils/correction_erreur.html', form=form)
-
-@app.route('/correction_graphie')
-def correction_graphie():
-    return render_template('outils/correction_graphie.html')
+    return render_template('tools/error_correction.html', form=form)
 
 @app.route('/ocr_ner')
 def ocr_ner():
     form = FlaskForm()
-    return render_template('outils/ocr_ner.html', form=form)
+    return render_template('tools/ocr_ner.html', form=form)
 
 @app.route('/ocr_map')
 def ocr_map():
     form = FlaskForm()
-    return render_template('outils/ocr_map.html', form=form)
+    return render_template('tools/ocr_map.html', form=form)
 
 @app.route('/text_completion')
 def text_completion():
     form = FlaskForm()
-    return render_template('outils/text_completion.html', form=form)
+    return render_template('tools/text_completion.html', form=form)
 
 @app.route('/questions_and_answers')
 def questions_and_answers():
     form = FlaskForm()
-    return render_template('outils/questions_and_answers.html', form=form)
+    return render_template('tools/questions_and_answers.html', form=form)
 
 @app.route('/translation')
 def translation():
     form = FlaskForm()
-    return render_template('outils/translation.html', form=form)
+    return render_template('tools/translation.html', form=form)
 
 @app.route('/adjusting_text_readibility_level')
 def adjusting_text_readibility_level():
     form = FlaskForm()
-    return render_template('outils/adjusting_text_readibility_level.html', form=form)
+    return render_template('tools/adjusting_text_readibility_level.html', form=form)
 
-@app.route('/resume_automatique')
-def resume_automatique():
-    return render_template('outils/resume_automatique.html')
+@app.route('/summarizer')
+def summarizer():
+    return render_template('tools/summarizer.html')
 
 #-----------------------------------------------------------------
 # ERROR HANDLERS
@@ -1872,7 +1868,7 @@ def keyword_extraction():
             methods = request.form.getlist('extraction-method')
             
             if not uploaded_files:
-                return render_template('outils/extraction_mots_cles.html', 
+                return render_template('tools/keywords_extraction.html', 
                                     form=form, 
                                     res={}, 
                                     error="Please upload at least one file.")
@@ -1917,7 +1913,7 @@ def keyword_extraction():
                 print("Models loaded successfully")
             except Exception as e:
                 print(f"Error loading models: {e}")
-                return render_template('outils/extraction_mots_cles.html',
+                return render_template('tools/keywords_extraction.html',
                                     form=form,
                                     res={},
                                     error=f"Failed to initialize models: {str(e)}")
@@ -2019,18 +2015,18 @@ def keyword_extraction():
                     res[fname] = {'error': str(e)}
 
             print(f"Final results: {res}")
-            return render_template('outils/extraction_mots_cles.html', 
+            return render_template('tools/keywords_extraction.html', 
                                 form=form, 
                                 res=res)
 
         except Exception as e:
             print(f"General error: {e}")
-            return render_template('outils/extraction_mots_cles.html', 
+            return render_template('tools/keywords_extraction.html', 
                                 form=form, 
                                 res={}, 
                                 error=str(e))
     
-    return render_template('outils/extraction_mots_cles.html', 
+    return render_template('tools/keywords_extraction.html', 
                          form=form, 
                          res={})
 
@@ -2038,7 +2034,7 @@ def keyword_extraction():
 @app.route('/test_template')
 def test_template():
     form = FlaskForm()
-    return render_template('outils/extraction_mots_cles.html', 
+    return render_template('tools/keywords_extraction.html', 
                          form=form, 
                          res={}, 
                          error=None)
@@ -2058,7 +2054,7 @@ def topic_extraction():
         try:
             uploaded_files = request.files.getlist("topic_model")
             if not uploaded_files:
-                return render_template('outils/topic_modelling.html', 
+                return render_template('tools/topic_modelling.html', 
                                     form=form, 
                                     res=res, 
                                     msg="Please upload at least one file.")
@@ -2067,7 +2063,7 @@ def topic_extraction():
             if len(uploaded_files) == 1:
                 text = uploaded_files[0].read().decode("utf-8")
                 if len(text) < 4500:
-                    return render_template('outils/topic_modelling.html', 
+                    return render_template('tools/topic_modelling.html', 
                                         form=form, 
                                         res=res, 
                                         msg="Le texte est trop court, merci de charger un corpus plus grand pour des résultats significatifs. A défaut, vous pouvez utiliser l'outil d'extraction de mot-clés.")
@@ -2085,7 +2081,7 @@ def topic_extraction():
                     stop_words_fr = sw.read().splitlines()
             except Exception as e:
                 print(f"Error loading stop words: {e}")
-                return render_template('outils/topic_modelling.html', 
+                return render_template('tools/topic_modelling.html', 
                                     form=form, 
                                     res=res, 
                                     msg=f"Error loading stop words: {e}")
@@ -2196,19 +2192,19 @@ def topic_extraction():
                     msg += f"LDA processing error: {e}\n"
             
             print(f"Final results: {res}")
-            return render_template('outils/topic_modelling.html', 
+            return render_template('tools/topic_modelling.html', 
                                 form=form, 
                                 res=res, 
                                 msg=msg)
 
         except Exception as e:
             print(f"General error in topic extraction: {e}")
-            return render_template('outils/topic_modelling.html', 
+            return render_template('tools/topic_modelling.html', 
                                 form=form, 
                                 res={}, 
                                 msg=f"Error processing request: {e}")
 
-    return render_template('outils/topic_modelling.html', 
+    return render_template('tools/topic_modelling.html', 
                          form=form, 
                          res=res, 
                          msg=msg)
@@ -3144,7 +3140,7 @@ def lexical_relationships():
                 <li><strong>Holonymes</strong> : {', '.join(s.replace('_', ' ') for s in sorted(holonyms)) or 'None'}</li>
         </ul>
         """
-        return render_template("outils/relations_lexicales.html", word=word, relationships_html=relationships_html, msg="")
+        return render_template("tools/lexical_relationship.html", word=word, relationships_html=relationships_html, msg="")
 
     except Exception as e:
         response = {"error": f"Erreur lors de l'analyse : {str(e)}"}
@@ -3223,14 +3219,14 @@ def run_renard():
             plt.clf()
             figdata_png = base64.b64encode(img.getvalue()).decode('ascii')
 
-            return render_template('outils/renard.html', form=form, graph=figdata_png, fname=str(rand_name))
+            return render_template('tools/renard.html', form=form, graph=figdata_png, fname=str(rand_name))
 
         except Exception as e:
             print(f"Error in pipeline: {str(e)}")
-            return render_template('outils/renard.html', form=form, error=f"Pipeline error: {str(e)}")
+            return render_template('tools/renard.html', form=form, error=f"Pipeline error: {str(e)}")
 
     # GET request fallback
-    return render_template('outils/renard.html', form=form, graph="", fname="")
+    return render_template('tools/renard.html', form=form, graph="", fname="")
 
 #-----------------------------------------------------------------
 # Extraction de corpus
@@ -3787,9 +3783,9 @@ def completion_text():
             result = outputs[0]['generated_text']
         
         except Exception as e:
-            return render_template('outils/text_completion.html', form=form, error=str(e))
+            return render_template('tools/text_completion.html', form=form, error=str(e))
     
-    return render_template('outils/text_completion.html', form=form, result=result)
+    return render_template('tools/text_completion.html', form=form, result=result)
 
 #------------- Q/A and Conversation ---------------------
 @app.route('/qa_function', methods=['GET', 'POST'])
@@ -3812,13 +3808,13 @@ def qa_function():
                 qa_result = qa_pipeline(context=context, question=question)
             except Exception as e:
                 return render_template(
-                    'outils/questions_and_answers.html',
+                    'tools/questions_and_answers.html',
                     form=form,
                     error=str(e)
                 )
 
     return render_template(
-        'outils/questions_and_answers.html',
+        'tools/questions_and_answers.html',
         form=form,
         qa_result=qa_result
     )
@@ -3840,9 +3836,9 @@ def traduction():
             
             result = translator(text, max_length=512)[0]['translation_text']
         except Exception as e:
-            return render_template('outils/translation.html', form=form, error=str(e))
+            return render_template('tools/translation.html', form=form, error=str(e))
             
-    return render_template('outils/translation.html', form=form, result=result)
+    return render_template('tools/translation.html', form=form, result=result)
 
 #------------- Ajustement du niveau de lecture ---------------------
 @app.route('/ajustement_text_readibility_level', methods=['GET', 'POST'])
@@ -3892,13 +3888,13 @@ def ajustement_text_readibility_level():
 
         except Exception as e:
             return render_template(
-                'outils/adjusting_text_readibility_level.html',
+                'tools/adjusting_text_readibility_level.html',
                 form=form,
                 error=str(e)
             )
 
     return render_template(
-        'outils/adjusting_text_readibility_level.html',
+        'tools/adjusting_text_readibility_level.html',
         form=form,
         result=result
     )

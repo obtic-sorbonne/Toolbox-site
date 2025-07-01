@@ -38,7 +38,7 @@ input {
 
 <link rel="stylesheet" href="{{ url_for('static', filename= 'css/elements.css') }}">
 <div class="outil">
-    <div class="fil"><a href="{{ url_for('generation_texte')}}"><< {{ _('Retour aux tâches') }}</a></div>
+    <div class="fil"><a href="{{ url_for('text_generation')}}"><< {{ _('Retour aux tâches') }}</a></div>
     <h2>{{ _('Complétion de texte') }}</h2>
     <p>{{ _("Cet outil utilise des modèles d’intelligence artificielle entraînés sur de grandes quantités de texte pour produire des contenus à la demande. À partir d’une instruction ou d’un court message d’entrée, il analyse le contexte, comprend le sujet, puis génère une réponse complète et structurée, adaptée au style souhaité") }}.
     {{ _("Grâce aux techniques de traitement du langage naturel, il peut créer rapidement des textes clairs, cohérents et sur mesure, que ce soit pour rédiger des descriptions, des articles, des emails ou d’autres contenus écrits. Facile à intégrer dans vos projets, il vous fait gagner du temps tout en garantissant une bonne qualité rédactionnelle") }}.

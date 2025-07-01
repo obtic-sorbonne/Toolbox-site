@@ -15,13 +15,13 @@
 }
 </style>
 <div class="outil">
-  <div class="fil"><a href="{{ url_for('outils_pipeline')}}"><< {{ _('Retour aux tâches') }}</a></div>
+  <div class="fil"><a href="{{ url_for('pipelines')}}"><< {{ _('Retour aux tâches') }}</a></div>
   <h2>{{ _("Numérisation et reconnaissance d'entités nommées") }}</h2>
 
   <p>{{ _("L'outil Tesseract permet de numériser des fichiers imprimés") }}. {{ _("L'outil spaCy permet de faire la reconnaissance d'entités nommées") }}.</p>
   <br>
   <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_recognition') }}"  target="_blank">{{ _('Voir la documentation') }}</a> (ATR)</p>
-  <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_annotation') }}" target="_blank">{{ _("Voir la documentation") }}</a> / <a href="{{ url_for('tutoriel_annotation') }}"  target="_blank">{{ _('Voir le tutoriel') }}</a> (NER)</p>
+  <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_annotation') }}" target="_blank">{{ _("Voir la documentation") }}</a> / <a href="{{ url_for('tutorial_annotation') }}"  target="_blank">{{ _('Voir le tutoriel') }}</a> (NER)</p>
   <br>
     <div class="infos_outil" style="display: block;margin: 0 auto 15px auto;">
         <input id="show" type=checkbox><label for="show" class="infos_title"><i class="fa-solid fa-circle-info"></i> {{ _("Informations sur l'outil") }}<i class="fa-solid fa-angle-right" style="float:right;margin-top:5px;margin-left:15px;cursor: pointer;"></i></label>
