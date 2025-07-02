@@ -17,41 +17,22 @@ from io import BytesIO, StringIO
 from pathlib import Path
 from urllib.parse import urlparse
 
-import gensim.downloader as api
-import matplotlib.pyplot as plt
 import nltk
 import numpy as np
 import pandas as pd
-import plotly.graph_objects as go
 # Third-party imports
 import requests
-import spacy
-import textdistance
-import textstat
-import whisper
-from bs4 import BeautifulSoup
 from flask import (Flask, Response, abort, jsonify, redirect, render_template,
                    request, send_file, send_from_directory, session,
                    stream_with_context, url_for)
 from flask_babel import Babel, get_locale
 from flask_wtf import FlaskForm
 from flask_wtf.csrf import CSRFError, CSRFProtect
-from langdetect import detect_langs
 from lxml import etree
-from newspaper import Article
 from nltk import FreqDist, Text, ngrams
-from nltk.corpus import stopwords
-from nltk.tokenize import sent_tokenize, word_tokenize
-from sklearn.cluster import KMeans
-from sklearn.decomposition import PCA
-from spacy import displacy
-from transformers import pipeline
 from werkzeug.exceptions import HTTPException
 from werkzeug.utils import secure_filename
-from wordcloud import WordCloud
 
-import ocr
-from cluster import freqs2clustering
 # Local application imports
 from forms import ContactForm
 
@@ -553,6 +534,7 @@ def download():
 @app.route('/run_tesseract',  methods=["GET","POST"])
 @stream_with_context
 def run_tesseract():
+    import ocr
     if request.method == 'POST':
         uploaded_files = request.files.getlist("tessfiles")
         model = request.form['tessmodel']
@@ -580,6 +562,7 @@ def run_tesseract():
 model_cache = None
 
 def get_model():
+    import whisper
     global model_cache
     if model_cache is None:
         model_cache = whisper.load_model("base")  # Chargement différé
@@ -641,8 +624,6 @@ def automatic_speech_recognition():
     response = create_zip_and_response(result_path, rand_name)
     return response
 
-    return Response(json.dumps({"error": "Une erreur est survenue dans le traitement des fichiers."}), status=500, mimetype='application/json')
-
 #-----------------------------------------------------------------
 # Prétraitement
 #-----------------------------------------------------------------
@@ -652,6 +633,8 @@ def automatic_speech_recognition():
 loaded_stopwords = {}
 
 def get_stopwords(language):
+    from nltk.corpus import stopwords
+
     if language not in loaded_stopwords:
         if language == 'english':
             loaded_stopwords[language] = set(stopwords.words('english'))
@@ -690,6 +673,8 @@ def keep_accented_only(tokens):
 
 @app.route('/removing_elements', methods=['POST'])
 def removing_elements():
+    from nltk.tokenize import word_tokenize
+
     if 'files' not in request.files:
         response = {"error": "No files part"}
         return Response(json.dumps(response), status=400, mimetype='application/json')
@@ -756,14 +741,13 @@ def removing_elements():
     response = create_zip_and_response(result_path, rand_name)
     return response
 
-    return Response(json.dumps({"error": "Une erreur est survenue dans le traitement des fichiers."}), status=500, mimetype='application/json')
-
 
 #-------------- Normalisation de texte -------------------------
 
 loaded_nlp_models = {}
 
 def get_nlp(language):
+    import spacy
     if language not in loaded_nlp_models:
         if language == 'english':
             loaded_nlp_models[language] = spacy.load('en_core_web_sm')
@@ -796,6 +780,8 @@ def get_nlp(language):
 
 @app.route('/normalize_text', methods=['POST'])
 def normalize_text():
+    from nltk.tokenize import word_tokenize
+
     if 'files' not in request.files:
         response = {"error": "No files part"}
         return Response(json.dumps(response), status=400, mimetype='application/json')
@@ -855,12 +841,12 @@ def normalize_text():
     response = create_zip_and_response(result_path, rand_name)
     return response
 
-    return Response(json.dumps({"error": "Une erreur est survenue dans le traitement des fichiers."}), status=500, mimetype='application/json')
-
 #-------------- Séparation de texte -------------------------
 
 @app.route('/split_text', methods=['POST'])
 def split_text():
+    from nltk.tokenize import sent_tokenize
+
     if 'files' not in request.files:
         response = {"error": "No files part"}
         return Response(json.dumps(response), status=400, mimetype='application/json')
@@ -878,7 +864,7 @@ def split_text():
     for f in files:
         try:
             input_text = f.read().decode('utf-8')
-            sentences = nltk.sent_tokenize(text)
+            sentences = nltk.sent_tokenize(input_text)
             splitsentence = [sentence.strip() for sentence in sentences]
             f.seek(0)
             lines = f.readlines()
@@ -903,8 +889,6 @@ def split_text():
 
     response = create_zip_and_response(result_path, rand_name)
     return response
-
-    return Response(json.dumps({"error": "Une erreur est survenue dans le traitement des fichiers."}), status=500, mimetype='application/json')
 
 
 #-----------------------------------------------------------------
@@ -1765,8 +1749,6 @@ def pos_tagging():
     response = create_zip_and_response(result_path, rand_name)
     return response
 
-    return Response(json.dumps({"error": "Une erreur est survenue dans le traitement des fichiers."}), status=500, mimetype='application/json')
-
 
 #------------------ NER ---------------------------
 
@@ -1775,6 +1757,7 @@ def pos_tagging():
 def named_entity_recognition():
 
     from tei_ner import tei_ner_params
+    import spacy
 
     uploaded_files = request.files.getlist("entityfiles")
     if uploaded_files == []:
@@ -1843,8 +1826,6 @@ def named_entity_recognition():
 
     response = create_zip_and_response(result_path, rand_name)
     return response
-
-    render_template('entites_nommees.html', erreur=erreur)
         
 #-----------------------------------------------------------------
 # Extraction d'informations
@@ -2045,6 +2026,7 @@ def test_template():
 @app.route('/topic_extraction', methods=["POST"])
 @stream_with_context
 def topic_extraction():
+    import spacy
     form = FlaskForm()
     msg = ""
     res = {}
@@ -2273,6 +2255,7 @@ def find_hapaxes(input_text):
     return hapaxes
 
 def generate_ngrams(input_text, n, r):
+    from nltk.tokenize import word_tokenize
     tokens = word_tokenize(input_text.lower())
     n_grams = ngrams(tokens, n)
     n_grams_counts = Counter(n_grams)
@@ -2295,6 +2278,8 @@ def analyze_ngrams(filename, result_path, input_text, n, r):
             out.write(f"{n}-gram: {' '.join(n_gram)} --> Count: {count}\n")
 
 def analyze_dependency(filename, result_path, input_text, nlp_eng):
+    import spacy
+    from spacy import displacy
     doc = nlp_eng(input_text)
     syntax_info = "\n".join(
         [f"{token.text} ({token.pos_}) <--{token.dep_} ({spacy.explain(token.dep_)})-- {token.head.text} ({token.head.pos_})"
@@ -2310,6 +2295,8 @@ def analyze_dependency(filename, result_path, input_text, nlp_eng):
     write_to_file(os.path.join(result_path, output_name_svg), svg)
 
 def analyze_combined(filename, result_path, analysis_type, hapaxes_list, detected_languages_str, input_text, n, r, nlp_eng):
+    import spacy
+    from spacy import displacy
     content = ""
     if 'lang' in analysis_type:
         content += f"Detected languages:\n{detected_languages_str}\n\n"
@@ -2339,6 +2326,9 @@ def analyze_combined(filename, result_path, analysis_type, hapaxes_list, detecte
 
 @app.route('/analyze_linguistic', methods=['POST'])
 def analyze_linguistic():
+    from langdetect import detect_langs
+    import spacy
+
     if 'files' not in request.files:
         response = {"error": "No files part"}
         return Response(json.dumps(response), status=400, mimetype='application/json')
@@ -2389,6 +2379,11 @@ def analyze_linguistic():
 #--------------- Analyse statistique --------------------------
 @app.route('/analyze_statistic', methods=['POST'])
 def analyze_statistic():
+    import matplotlib.pyplot as plt
+    from wordcloud import WordCloud
+    from nltk.tokenize import sent_tokenize, word_tokenize
+    from nltk.corpus import stopwords
+
     if 'files' not in request.files:
         response = {"error": "No files part"}
         return Response(json.dumps(response), status=400, mimetype='application/json')
@@ -2600,6 +2595,9 @@ def analyze_statistic():
 
 @app.route('/analyze_lexicale', methods=['POST'])
 def analyze_lexicale():
+    import matplotlib.pyplot as plt
+    from nltk.tokenize import word_tokenize
+
     if 'files' not in request.files:
         return Response(json.dumps({"error": "No files part"}), status=400, mimetype='application/json')
 
@@ -2736,12 +2734,17 @@ pipeline_cache = {}
 def get_pipeline(task, model, **kwargs):
     key = f"{task}_{model}"
     if key not in pipeline_cache:
+        from transformers import pipeline
         pipeline_cache[key] = pipeline(task, model=model, **kwargs)
     return pipeline_cache[key]
 
 
 @app.route('/analyze_text', methods=['POST'])
 def analyze_text():
+    import textstat
+    import plotly.graph_objects as go
+    import matplotlib.pyplot as plt
+
     if 'input_text' not in request.form:
         response = {"error": "No text part"}
         return Response(json.dumps(response), status=400, mimetype='application/json')
@@ -2956,6 +2959,8 @@ def highlight_diffs(text1, text2):
     return ''.join(output1), ''.join(output2)
 
 def calculate_comparisons(text1, text2):
+    import textdistance
+
     # Edit-based distance (Levenshtein...): Counts minimum edits needed (insertions, deletions, substitutions) to change one text into another.
     levenshtein_score = textdistance.levenshtein(text1, text2)
     # Token-based similarity (Jaccard...): Assesses similarity by comparing the sets of words from both texts
@@ -3036,6 +3041,7 @@ def compare():
 model_glove_cache = None # Cache pour le modèle
 
 def get_glove_model():
+    import gensim.downloader as api
     global model_glove_cache
     if model_glove_cache is None:
         model_glove_cache = api.load("glove-wiki-gigaword-100")  # Chargement unique
@@ -3044,6 +3050,10 @@ def get_glove_model():
 
 @app.route('/embedding_tool', methods=['POST'])
 def embedding_tool():
+    import matplotlib.pyplot as plt
+    from sklearn.decomposition import PCA
+    from sklearn.cluster import KMeans
+
     analysis_type = request.form['analysis_type']
     inputText = str(request.form.get('inputText'))
     input1 = str(request.form.get('input1'))
@@ -3189,6 +3199,7 @@ def run_renard():
             from renard.pipeline.ner import BertNamedEntityRecognizer
             from renard.pipeline.tokenization import NLTKTokenizer
             from renard.plot_utils import plot_nx_graph_reasonably
+            import matplotlib.pyplot as plt
 
             BERT_MODELS = {
                 "fra": "compnet-renard/camembert-base-literary-NER",
@@ -3261,13 +3272,14 @@ def generate_corpus():
         else:
             os.remove(result_path)
                 
-    return render_template('/collecter_corpus.html')
+    return render_template('/corpus_collection.html')
 
 @app.route('/corpus_from_url',  methods=["GET","POST"])
 @stream_with_context
 
 #Modifiée pour travail local + corrections
 def corpus_from_url():
+    from bs4 import BeautifulSoup
     if request.method == 'POST':
         keys = request.form.keys()
         urls = [k for k in keys if k.startswith('url')]
@@ -3343,11 +3355,12 @@ def corpus_from_url():
         response = create_zip_and_response(result_path, rand_name)
         return response
 
-    return render_template('collecter_corpus.html')
+    return render_template('corpus_collection.html')
 
 #----------------------- Wikisource -------------------
 
 def generate_random_corpus(nb):
+    from bs4 import BeautifulSoup
 
     # Read list of urls
     with open(ROOT_FOLDER / 'static/wikisource_bib.txt', 'r') as bib:
@@ -3391,6 +3404,8 @@ def generate_random_corpus(nb):
 @app.route('/extract_gallica', methods=["GET", "POST"])
 @stream_with_context
 def extract_gallica():
+    from bs4 import BeautifulSoup
+
     form = FlaskForm()
     input_format = request.form['input_format']
     res_ok = ""
@@ -3590,6 +3605,8 @@ def download_google_books():
 
 @app.route('/extract_urls', methods=['POST'])
 def extract_urls():
+    from newspaper import Article
+
     if 'files' not in request.form:
         return Response(json.dumps({"error": "URLs not specified"}), status=400, mimetype='application/json')
     
@@ -4029,6 +4046,7 @@ def spacy_lemmatizer(text: str) -> str:
     Returns:
         str: Lemmatized text.
     """
+    import spacy
     nlp = spacy.load('fr_core_news_md')
     doc = nlp(text)
     return " ".join([token.lemma_ for token in doc])
@@ -4040,7 +4058,9 @@ def createRandomDir(prefix, length):
     return (result_path, rand_name)
 
 def getWikiPage(url):
-# Renvoie le contenu d'un texte wikisource à partir de son url, -1 en cas d'erreur
+    from bs4 import BeautifulSoup
+
+    # Renvoie le contenu d'un texte wikisource à partir de son url, -1 en cas d'erreur
     page = urllib.request.urlopen(url)
     soup = BeautifulSoup(page, 'html.parser')
     text = soup.findAll("div", attrs={'class': 'prp-pages-output'})
@@ -4068,8 +4088,10 @@ def display_topics(model, feature_names, no_top_words):
 @app.route("/run_ocr_ner", methods=["POST"])
 @stream_with_context
 def run_ocr_ner():
+    import ocr
     from ocr import tesseract_to_txt
     from txt_ner import txt_ner_params
+    import spacy
 
     # Récupération des fichiers uploadés
     uploaded_files = request.files.getlist("inputfiles")
@@ -4143,9 +4165,11 @@ def to_geoJSON_point(coordinates, name):
 def run_ocr_map_intersection():
     import asyncio
     from collections import Counter
+    from cluster import freqs2clustering
 
     import aiohttp
 
+    import ocr
     from ocr import tesseract_to_txt
     from txt_ner import txt_ner_params
 
