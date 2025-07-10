@@ -1,150 +1,37 @@
-beautifulsoup4==4.11.1
-blis==0.7.8
-Bottleneck>=1.3.6
-bpemb==0.3.3
-brotlipy==0.7.0
-catalogue==2.0.8
-certifi==2022.9.14
-cffi==1.15.1
-charset-normalizer==2.1.1
-click==8.0.4
-cloudpickle==2.2.0
-colorama==0.4.5
-conllu==4.5.2
-contourpy==1.0.5
-cryptography==37.0.1
-cycler==0.11.0
-cymem==2.0.6
-dataclasses
-DAWG-Python==0.7.2
-Deprecated==1.2.13
-dill==0.3.5.1
-dnspython==2.2.1
-docopt==0.6.2
-email-validator==1.2.1
-exceptiongroup==1.1.3
-filelock==3.8.0
-flair==0.12.2
-# flair updated pour éviter 'dict' object has no attribute 'embedding_length'
-renard-pipeline==0.3.0 # pour renard
-renard==1.3.13
-Flask==2.2.2
-flask-babel==3.1.0
-Flask-WTF==1.0.1
-fonttools==4.37.3
-ftfy==6.1.1
-future==0.18.2
-gdown==4.4.0
-gensim==4.2.0
-geopy==2.2.0
-huggingface-hub>=0.10.0
-hyperopt==0.2.7
-idna==3.3
-importlib-metadata==3.10.1
-itsdangerous==2.1.2
-Janome==0.4.2
-Jinja2==3.1.2
-joblib==1.2.0
-kiwisolver==1.4.4
-konoha==4.6.5
-langcodes==3.3.0
+Flask==3.1.0
+Flask-WTF==1.2.2
+flask-babel==4.0.0
+Werkzeug==3.1.3
+
+nltk==3.9.1
+spacy==3.8.2
+scikit-learn==1.5.2
+gensim==4.3.3
+keybert==0.7.0
+sentence-transformers==2.6.1
+torch==2.6.0
+flair==0.14.0
 langdetect==1.0.9
-language-tool-python
-libwapiti==0.2.1
-lxml==4.9.1
-MarkupSafe==2.1.1
-matplotlib==3.6.0
-mkl-fft==1.3.6
-mkl-random==1.2.2
-mkl-service==2.4.0
-more-itertools>=10.1.0,<11.0.0 # changed from more-itertools==8.14.0
-mpld3==0.3
-murmurhash==1.0.7
-networkx==2.8.6
-numexpr>=2.8.4
-numpy
-overrides==3.1.0
-packaging==21.3
-pandas>=2.0.0,<3.0.0 # changed from pandas==1.4.3
-pathy==0.6.2
-Pillow==9.2.0
-pip==22.2.2
-pptree==3.1
-preshed==3.0.6
-py4j==0.10.9.7
-pycparser==2.21
-pydantic==1.9.0
-pymorphy2==0.9.1
-pymorphy2-dicts-ru==2.4.417127.4579844
-pyOpenSSL==22.0.0
-pyparsing==3.0.9
-PySocks==1.7.1
-python-dateutil==2.8.2
-pytz==2022.7
-PyYAML==6.0
-regex==2022.9.13
-requests==2.28.1
-scikit-learn>=1.3.0,<2.0.0 # changed from scikit-learn==1.1.2
-scipy==1.9.1
-segtok==1.5.11
-semtagger==4.0.0a2
-sentencepiece==0.1.99 # changed from sentencepiece==0.1.95
-setuptools==63.4.1
-shellingham==1.5.0
-six==1.16.0
-smart-open==5.2.1
-soupsieve==2.3.1
-spacy==3.4.1
-spacy-legacy==3.0.10
-spacy-loggers==1.0.3
-# SpaCy Models
-de_core_news_sm @ https://github.com/explosion/spacy-models/releases/download/de_core_news_sm-3.8.0/de_core_news_sm-3.8.0-py3-none-any.whl
-en_core_web_sm @ https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.8.0/en_core_web_sm-3.8.0-py3-none-any.whl
-es_core_news_sm @ https://github.com/explosion/spacy-models/releases/download/es_core_news_sm-3.8.0/es_core_news_sm-3.8.0-py3-none-any.whl
-fr_core_news_lg @ https://github.com/explosion/spacy-models/releases/download/fr_core_news_lg-3.8.0/fr_core_news_lg-3.8.0-py3-none-any.whl
-fr_core_news_md @ https://github.com/explosion/spacy-models/releases/download/fr_core_news_md-3.8.0/fr_core_news_md-3.8.0-py3-none-any.whl
-fr_core_news_sm @ https://github.com/explosion/spacy-models/releases/download/fr_core_news_sm-3.8.0/fr_core_news_sm-3.8.0-py3-none-any.whl
-da_core_news_sm @ https://github.com/explosion/spacy-models/releases/download/da_core_news_sm-3.8.0/da_core_news_sm-3.8.0-py3-none-any.whl
-nl_core_news_sm @ https://github.com/explosion/spacy-models/releases/download/nl_core_news_sm-3.8.0/nl_core_news_sm-3.8.0-py3-none-any.whl
-fi_core_news_sm @ https://github.com/explosion/spacy-models/releases/download/fi_core_news_sm-3.8.0/fi_core_news_sm-3.8.0-py3-none-any.whl
-it_core_news_sm @ https://github.com/explosion/spacy-models/releases/download/it_core_news_sm-3.8.0/it_core_news_sm-3.8.0-py3-none-any.whl
-pt_core_news_sm @ https://github.com/explosion/spacy-models/releases/download/pt_core_news_sm-3.8.0/pt_core_news_sm-3.8.0-py3-none-any.whl
-el_core_news_sm @ https://github.com/explosion/spacy-models/releases/download/el_core_news_sm-3.8.0/el_core_news_sm-3.8.0-py3-none-any.whl
-ru_core_news_sm @ https://github.com/explosion/spacy-models/releases/download/ru_core_news_sm-3.8.0/ru_core_news_sm-3.8.0-py3-none-any.whl
-# Modèles mono-langue
-https://github.com/explosion/spacy-models/releases/download/pl_core_news_sm-3.8.0/pl_core_news_sm-3.8.0-py3-none-any.whl
-https://github.com/explosion/spacy-models/releases/download/ca_core_news_sm-3.8.0/ca_core_news_sm-3.8.0-py3-none-any.whl
-https://github.com/explosion/spacy-models/releases/download/fi_core_news_sm-3.8.0/fi_core_news_sm-3.8.0-py3-none-any.whl
-https://github.com/explosion/spacy-models/releases/download/hr_core_news_sm-3.8.0/hr_core_news_sm-3.8.0-py3-none-any.whl
-https://github.com/explosion/spacy-models/releases/download/lt_core_news_sm-3.8.0/lt_core_news_sm-3.8.0-py3-none-any.whl
-https://github.com/explosion/spacy-models/releases/download/mk_core_news_sm-3.8.0/mk_core_news_sm-3.8.0-py3-none-any.whl
-https://github.com/explosion/spacy-models/releases/download/nb_core_news_sm-3.8.0/nb_core_news_sm-3.8.0-py3-none-any.whl
-https://github.com/explosion/spacy-models/releases/download/ro_core_news_sm-3.8.0/ro_core_news_sm-3.8.0-py3-none-any.whl
-https://github.com/explosion/spacy-models/releases/download/ja_core_news_sm-3.8.0/ja_core_news_sm-3.8.0-py3-none-any.whl
-https://github.com/explosion/spacy-models/releases/download/ko_core_news_sm-3.8.0/ko_core_news_sm-3.8.0-py3-none-any.whl
-# Modèle multilingue pour langues sans modèle spécifique
-https://github.com/explosion/spacy-models/releases/download/xx_ent_wiki_sm-3.8.0/xx_ent_wiki_sm-3.8.0-py3-none-any.whl
-sqlitedict==2.0.0
-srsly==2.4.3
-tabulate==0.8.10
-thinc==8.1.0
-threadpoolctl==3.1.0
-tokenizers==0.12.1
-torch>=2.0.0,!=2.0.1 # changed from torch==1.12.1
-tqdm==4.64.1
-transformers>=4.30.2,<5.0.0 # changed from transformers==4.22.1
-typer==0.4.2
-typing_extensions==4.3.0
-urllib3==1.26.11
-wasabi==0.10.0
-wcwidth==0.2.5
-Werkzeug==2.2.2
-wheel==0.37.1
-Wikipedia-API==0.5.4
-wrapt==1.14.1
-WTForms==3.0.1
-zipp==3.8.1
-# ATR tool dependencies for automatic speech recognition
-openai-whisper
-yt-dlp
-# Note: These require system-level ffmpeg installation
+sentencepiece==0.2.0
+
+numpy==1.26.4
+pandas==2.2.3
+requests==2.32.3
+lxml==5.3.0
+lxml_html_clean==0.4.2
+beautifulsoup4==4.12.3
+
+openai-whisper==20240930
+aiohttp==3.9.5
+yt-dlp==2024.4.9
+
+matplotlib==3.9.3
+networkx==3.4.2
+renard-pipeline==0.6.5
+
+newspaper3k==0.2.8
+
+textstat==0.7.4
+textdistance==4.6.3
+wordcloud==1.9.4
+plotly==6.0.0
