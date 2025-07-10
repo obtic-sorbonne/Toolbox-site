@@ -570,59 +570,84 @@ def get_model():
 
 @app.route('/automatic_speech_recognition', methods=['POST'])
 def automatic_speech_recognition():
+    import subprocess
+
     if 'files' not in request.files and 'audio_urls' not in request.form and 'video_urls' not in request.form:
-        response = {"error": "No files part or URLs provided"}
-        return Response(json.dumps(response), status=400, mimetype='application/json')
+        return Response(json.dumps({"error": "No files part or URLs provided"}), status=400, mimetype='application/json')
 
     audio_urls = request.form.get('audio_urls', '').splitlines()
     video_urls = request.form.get('video_urls', '').splitlines()
-
     file_type = request.form['file_type']
 
-    rand_name = generate_rand_name("asr_")  # Génère le nom
+    rand_name = generate_rand_name("asr_")
     result_path = create_named_directory(rand_name, base_dir=UPLOAD_FOLDER)
 
+    model = get_model()  # Appel différé
 
-    # Appel différé et conditionnel au modèle
-    model = get_model()
-
-
-    if file_type == 'audio_urls':
-        # Process audio URLs
-        for audio_url in audio_urls:
-            if audio_url.strip():
-                url_path = urlparse(audio_url).path
-                file_name = os.path.basename(url_path)
-                os.system(f"wget {audio_url} -O {result_path}/{file_name}")
-                audio_file = f"{result_path}/{file_name}"
-
-                if not os.path.isfile(audio_file):
-                    print(f"Erreur : {audio_file} n'est pas un fichier.")
+    try:
+        if file_type == 'audio_urls':
+            for audio_url in audio_urls:
+                if not audio_url.strip():
                     continue
 
-                result = model.transcribe(audio_file)
+                url_path = urlparse(audio_url).path
+                file_name = os.path.basename(url_path)
+                output_path = os.path.join(result_path, file_name)
+
+                try:
+                    subprocess.run(["wget", audio_url, "-O", output_path], check=True)
+                except subprocess.CalledProcessError as e:
+                    print(f"[ERREUR] Échec du téléchargement : {audio_url} — {e}")
+                    continue
+
+                if not os.path.isfile(output_path):
+                    print(f"[ERREUR] Fichier non trouvé : {output_path}")
+                    continue
+
+                result = model.transcribe(output_path)
                 output_name = os.path.splitext(file_name)[0] + '_transcription.txt'
                 with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
                     out.write(result['text'])
-    elif file_type == 'video_urls':
-        # Process video URLs
-        for video_url in video_urls:
-            if video_url.strip():
-                os.system(f"yt-dlp -f 'bestaudio[ext=m4a]' {video_url} -o '{result_path}/video_{video_urls.index(video_url)}.%(ext)s'")
-                audio_file = f"{result_path}/video_{video_urls.index(video_url)}.m4a"
 
-                if not os.path.isfile(audio_file):
-                    print(f"Erreur : {audio_file} n'est pas un fichier.")
+        elif file_type == 'video_urls':
+            for i, video_url in enumerate(video_urls):
+                if not video_url.strip():
                     continue
 
-                result = model.transcribe(audio_file)
-                output_name = f"video_{video_urls.index(video_url)}_transcription.txt"
+                audio_output = os.path.join(result_path, f"video_{i}.m4a")
+                try:
+                    subprocess.run([
+                        "yt-dlp",
+                        "-f", "bestaudio",
+                        video_url,
+                        "-o", audio_output
+                    ], check=True)
+                except subprocess.CalledProcessError as e:
+                    print(f"[ERREUR] yt-dlp a échoué pour {video_url} — {e}")
+                    continue
+
+                if not os.path.isfile(audio_output):
+                    print(f"[ERREUR] Fichier audio manquant : {audio_output}")
+                    continue
+
+                result = model.transcribe(audio_output)
+                output_name = f"video_{i}_transcription.txt"
                 with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
                     out.write(result['text'])
 
+        if not os.listdir(result_path):
+            print(f"[DEBUG] Aucun fichier généré dans {result_path}")
+            return Response(json.dumps({"error": "Aucune donnée à archiver"}), status=400, mimetype='application/json')
 
-    response = create_zip_and_response(result_path, rand_name)
-    return response
+        response = create_zip_and_response(result_path, rand_name)
+        return response
+
+    except Exception as e:
+        print(f"[EXCEPTION] {e}")
+        if os.path.exists(result_path):
+            shutil.rmtree(result_path, ignore_errors=True)
+        return Response(json.dumps({"error": str(e)}), status=500, mimetype='application/json')
+
 
 #-----------------------------------------------------------------
 # Prétraitement
@@ -2247,8 +2272,9 @@ def quotation():
 
 #--------------- Analyse linguistique --------------------------
 
-
 def find_hapaxes(input_text):
+    from collections import Counter
+
     words = input_text.lower().replace(',', '').replace('?', '').split()
     word_counts = Counter(words)
     hapaxes = [word for word, count in word_counts.items() if count == 1]
@@ -2256,6 +2282,8 @@ def find_hapaxes(input_text):
 
 def generate_ngrams(input_text, n, r):
     from nltk.tokenize import word_tokenize
+    from collections import Counter
+
     tokens = word_tokenize(input_text.lower())
     n_grams = ngrams(tokens, n)
     n_grams_counts = Counter(n_grams)
@@ -2383,6 +2411,7 @@ def analyze_statistic():
     from wordcloud import WordCloud
     from nltk.tokenize import sent_tokenize, word_tokenize
     from nltk.corpus import stopwords
+    from collections import Counter
 
     if 'files' not in request.files:
         response = {"error": "No files part"}
@@ -2938,6 +2967,7 @@ def analyze_text():
 
 
 #--------------- Comparison --------------------------
+import textdistance
 
 def highlight_diffs(text1, text2):
     matcher = difflib.SequenceMatcher(None, text1, text2)
@@ -2959,7 +2989,6 @@ def highlight_diffs(text1, text2):
     return ''.join(output1), ''.join(output2)
 
 def calculate_comparisons(text1, text2):
-    import textdistance
 
     # Edit-based distance (Levenshtein...): Counts minimum edits needed (insertions, deletions, substitutions) to change one text into another.
     levenshtein_score = textdistance.levenshtein(text1, text2)
@@ -2992,6 +3021,7 @@ def read_file(file_path):
 
 @app.route('/compare', methods=['POST'])
 def compare():
+
     if 'files' not in request.files:
         response = {"error": "No files part"}
         return Response(json.dumps(response), status=400, mimetype='application/json')
@@ -3280,6 +3310,7 @@ def generate_corpus():
 #Modifiée pour travail local + corrections
 def corpus_from_url():
     from bs4 import BeautifulSoup
+    from lxml.html.clean import clean_html
     if request.method == 'POST':
         keys = request.form.keys()
         urls = [k for k in keys if k.startswith('url')]
