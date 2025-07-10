@@ -6,11 +6,13 @@ dependencies:
   - python=3.11
   - pip
   - pip:
+      # Frameworks et outils web
       - Flask==3.1.0
       - Flask-WTF==1.2.2
       - flask-babel==4.0.0
       - Werkzeug==3.1.3
 
+      # NLP & ML
       - nltk==3.9.1
       - spacy==3.8.2
       - scikit-learn==1.5.2
@@ -22,6 +24,7 @@ dependencies:
       - langdetect==1.0.9
       - sentencepiece==0.2.0
 
+      # Data & traitement HTML
       - numpy==1.26.4
       - pandas==2.2.3
       - requests==2.32.3
@@ -29,18 +32,33 @@ dependencies:
       - lxml_html_clean==0.4.2
       - beautifulsoup4==4.12.3
 
+      # Audio/Vidéo
       - openai-whisper==20240930
       - aiohttp==3.9.5
       - yt-dlp==2024.4.9
 
+      # Visualisation
       - matplotlib==3.9.3
       - networkx==3.4.2
+      - plotly==6.0.0
+      - wordcloud==1.9.4
+
+      # Autres outils
       - renard-pipeline==0.6.5
-
       - newspaper3k==0.2.8
-
       - textstat==0.7.4
       - textdistance==4.6.3
-      - wordcloud==1.9.4
-      - plotly==6.0.0
 
+      # SpaCy models
+      - de_core_news_sm @ https://github.com/explosion/spacy-models/releases/download/de_core_news_sm-3.8.0/de_core_news_sm-3.8.0-py3-none-any.whl
+      - en_core_web_sm @ https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.8.0/en_core_web_sm-3.8.0-py3-none-any.whl
+      - es_core_news_sm @ https://github.com/explosion/spacy-models/releases/download/es_core_news_sm-3.8.0/es_core_news_sm-3.8.0-py3-none-any.whl
+      - fr_core_news_md @ https://github.com/explosion/spacy-models/releases/download/fr_core_news_md-3.8.0/fr_core_news_md-3.8.0-py3-none-any.whl
+      - fr_core_news_sm @ https://github.com/explosion/spacy-models/releases/download/fr_core_news_sm-3.8.0/fr_core_news_sm-3.8.0-py3-none-any.whl
+      - da_core_news_sm @ https://github.com/explosion/spacy-models/releases/download/da_core_news_sm-3.8.0/da_core_news_sm-3.8.0-py3-none-any.whl
+      - nl_core_news_sm @ https://github.com/explosion/spacy-models/releases/download/nl_core_news_sm-3.8.0/nl_core_news_sm-3.8.0-py3-none-any.whl
+      - fi_core_news_sm @ https://github.com/explosion/spacy-models/releases/download/fi_core_news_sm-3.8.0/fi_core_news_sm-3.8.0-py3-none-any.whl
+      - it_core_news_sm @ https://github.com/explosion/spacy-models/releases/download/it_core_news_sm-3.8.0/it_core_news_sm-3.8.0-py3-none-any.whl
+      - pt_core_news_sm @ https://github.com/explosion/spacy-models/releases/download/pt_core_news_sm-3.8.0/pt_core_news_sm-3.8.0-py3-none-any.whl
+      - el_core_news_sm @ https://github.com/explosion/spacy-models/releases/download/el_core_news_sm-3.8.0/el_core_news_sm-3.8.0-py3-none-any.whl
+      - ru_core_news_sm @ https://github.com/explosion/spacy-models/releases/download/ru_core_news_sm-3.8.0/ru_core_news_sm-3.8.0-py3-none-any.whl
