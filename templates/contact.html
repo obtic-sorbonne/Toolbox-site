@@ -25,17 +25,17 @@
   <nav>
     <ul>
       <li class="obtic-tool"><a href="{{ url_for('analyses') }}">{{ _('Analyses') }}</a></li>
-        <li class="obtic-tool"><a href="{{ url_for('outils_pipeline') }}">{{ _('Chaînes de traitement') }}</a></li>
-        <li class="obtic-tool"><a href="{{ url_for('collecter_corpus') }}">{{ _('Collecte de corpus') }}</a></li>
+        <li class="obtic-tool"><a href="{{ url_for('pipelines') }}">{{ _('Chaînes de traitement') }}</a></li>
+        <li class="obtic-tool"><a href="{{ url_for('corpus_collection') }}">{{ _('Collecte de corpus') }}</a></li>
         <li class="obtic-tool"><a href="{{ url_for('conversion') }}">{{ _('Conversion de formats') }}</a></li>
-        <li class="obtic-tool"><a href="{{ url_for('outils_corpus') }}">{{ _('Correction textuelle') }}</a></li>
+        <li class="obtic-tool"><a href="{{ url_for('correction_tools') }}">{{ _('Correction textuelle') }}</a></li>
         <li class="obtic-tool"><a href="{{ url_for('search_tools') }}">{{ _("Exploration") }}</a></li>
-        <li class="obtic-tool"><a href="{{ url_for('extraction_information') }}">{{ _("Extraction d'information") }}</a></li>
-        <li class="obtic-tool"><a href="{{ url_for('generation_texte') }}">{{ _('Génération de texte') }}</a></li>
-        <li class="obtic-tool"><a href="{{ url_for('pretraitement') }}">{{ _('Prétraitement') }}</a></li>
+        <li class="obtic-tool"><a href="{{ url_for('information_extraction') }}">{{ _("Extraction d'information") }}</a></li>
+        <li class="obtic-tool"><a href="{{ url_for('text_generation') }}">{{ _('Génération de texte') }}</a></li>
+        <li class="obtic-tool"><a href="{{ url_for('preprocessing') }}">{{ _('Prétraitement') }}</a></li>
         <li class="obtic-tool"><a href="{{ url_for('atr_tools') }}">{{ _('Reconnaissance automatique de texte (ATR)') }}</a></li>
-        <li class="obtic-tool"><a href="{{ url_for('annotation_automatique') }}">{{ _("Tâches d'annotation automatique") }}</a></li>
-        <li class="obtic-tool"><a href="{{ url_for('outils_visualisation') }}">{{ _("Visualisation") }}</a></li>
+        <li class="obtic-tool"><a href="{{ url_for('automatic_annotation') }}">{{ _("Tâches d'annotation automatique") }}</a></li>
+        <li class="obtic-tool"><a href="{{ url_for('visualisation_tools') }}">{{ _("Visualisation") }}</a></li>
     </ul>
   </nav>
 

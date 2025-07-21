@@ -1,0 +1,138 @@
+{% extends "index.html" %}
+{% block header %} {{ super() }} {% endblock %}
+
+{% block content %}
+<style>
+
+  textarea {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+  border: 2px solid #263e8d;
+    border-radius: 4px;
+    background-color: #fff;
+  }
+
+  label, select {
+  display: inline-block; /* Pour qu'ils puissent être sur la même ligne */
+  vertical-align: middle; /* Aligne verticalement au centre si besoin */
+  margin-bottom: 0; /* Supprime le margin-bottom sur le select */
+}
+
+label {
+  margin-right: 10px; /* Un peu d'espacement entre le label et le select */
+  font-weight: bold;
+}
+
+select {
+  width: 15%; /* Ou une largeur fixe si tu veux */
+  padding: 8px;
+  box-sizing: border-box;
+  border: 2px solid #263e8d;
+  border-radius: 4px;
+  background-color: #fff;
+}
+
+</style>
+
+<link rel="stylesheet" href="{{ url_for('static', filename= 'css/elements.css') }}">
+<div class="outil">
+    <div class="fil"><a href="{{ url_for('text_generation')}}"><< {{ _('Retour aux tâches') }}</a></div>
+    <h2>{{ _('Traduction') }}</h2>
+    <p>{{ _("Cet outil s'appuie sur des modèles de traduction automatiques pour convertir du texte ou de la parole d'une langue source vers une langue cible. Grâce à des algorithmes d'intelligence artificielle capables d'analyser le contexte, la structure et les nuances du message, il produit une traduction précise, naturelle et adaptée aux différents registres de langage") }}.</p>
+    <br>
+    <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_generation') }}"  target="_blank">{{ _('Voir la documentation') }}</a></p>
+    <br>
+    <div class="infos_outil" style="display: block;margin: 0 auto 15px auto;">
+        <input id="show" type=checkbox><label for="show" class="infos_title" style="font-weight:normal;"><i class="fa-solid fa-circle-info"></i> {{ _("Informations sur l'outil") }}<i class="fa-solid fa-angle-right" style="float:right;margin-top:5px;margin-left:15px;cursor: pointer;"></i></label>
+        <div class="info_popped">
+          <p>Transformers
+      <p>{{ _("Modèle ")}}:  <a href="https://huggingface.co/Helsinki-NLP" target="_blank">Helsinki-NLP</a></p>
+      <p><i class="fa-solid fa-triangle-exclamation"></i> {{ _("Attention : Le modèle utilisé est assez lourd<br> donc le traitement peut être un peu long")}}.</p>
+      </div>
+  </div>
+  <br>
+    <form action="{{ url_for('traduction') }}" method="post" enctype="multipart/form-data" onsubmit="showloader('loader')">
+        <div class="form-group"> 
+                    {% set languages = {
+              "de-en": _("Allemand-Anglais"),
+              "de-es": _("Allemand-Espagnol"),
+              "de-fr": _("Allemand-Français"),
+              "de-it": _("Allemand-Italien"),
+              "en-cs": _("Anglais-Tchèque"),
+              "en-de": _("Anglais-Allemand"),
+              "en-es": _("Anglais-Espagnol"),
+              "en-fi": _("Anglais-Finnois"),
+              "en-fr": _("Anglais-Français"),
+              "en-hi": _("Anglais-Hindi"),
+              "en-it": _("Anglais-Italien"),
+              "en-ru": _("Anglais-Russe"),
+              "en-sv": _("Anglais-Suédois"),
+              "en-vi": _("Anglais-Vietnamien"),
+              "en-zh": _("Anglais-Chinois"),
+              "es-en": _("Espagnol-Anglais"),
+              "es-fr": _("Espagnol-Français"),
+              "es-it": _("Espagnol-Italien"),
+              "fi-en": _("Finnois-Anglais"),
+              "fr-de": _("Français-Allemand"),
+              "fr-en": _("Français-Anglais"),
+              "fr-es": _("Français-Espagnol"),
+              "it-en": _("Italien-Anglais"),
+              "nl-en": _("Néerlandais-Anglais"),
+              "pl-en": _("Polonais-Anglais"),
+              "ru-en": _("Russe-Anglais"),
+              "sv-en": _("Suédois-Anglais")
+            } %}
+            <label for="source_lang">{{ _('Langue source') }}-{{ _('Langue cible') }}:</label>
+            <select style="border: 2px solid #263e8d; font-weight: bold;"
+                    name="source_lang" id="source_lang">
+                {% for code, name in languages.items() %}
+                    <option value="{{ code }}"
+                            {% if request.form.source_lang == code %}selected{% endif %}>
+                        {{ name }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+        <br>
+        
+        <div class="form-group">
+            <label style="margin-bottom: 10px;" for="text">{{ _('Texte à traduire') }} :</label><br>
+            <textarea name="text" id="text" rows="5" cols="50" required>{% if request.form.text %}{{ request.form.text }}{% else %}{{ _('Saisissez votre texte ici...') }}{% endif %}</textarea>
+        </div>
+        <br>
+        <input id="csrf_token" name="csrf_token" type="hidden" value="{{ csrf_token() }}">
+        
+        <button type="submit" style="display:block;margin:auto;margin-top:20px;">{{ _('Traduire') }}</button>
+        <br>
+    </form>
+
+    <div class="loader" id="loader">
+        <div class="loadingio-spinner-ball-205vl2x7n"><div class="ldio-b8p5li8dt1u"><div></div></div></div>
+        <p>{{ _('Traitement en cours...') }}</p>
+    </div>
+
+    {% if error %}
+    <div class="error-message">
+        <p>{{ error }}</p>
+    </div>
+    {% endif %}
+
+    {% if result %}
+    <div class="result-container">
+        <h4>{{ _('Texte traduit ') }}:</h4>
+        <div class="result-text">
+            {{ result }}
+        </div>
+    </div>
+    {% endif %}
+    
+    <script>
+        function showloader(id) {
+            document.getElementById(id).style.display = 'block';
+        }
+    </script>
+</div>
+{% endblock %}
+{% block footer %} {{ super() }} {% endblock %}

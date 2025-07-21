@@ -38,17 +38,17 @@
       <a href="#" class="dropdown-toggle"><i class="fa fa-bars" style="margin-right:8px;"></i> {{ _('Tâches') }}</a>
       <ul class="dropdown-child">
         <li class="obtic-tool"><a href="{{ url_for('analyses') }}">{{ _('Analyses') }}</a></li>
-        <li class="obtic-tool"><a href="{{ url_for('outils_pipeline') }}">{{ _('Chaînes de traitement') }}</a></li>
-        <li class="obtic-tool"><a href="{{ url_for('collecter_corpus') }}">{{ _('Collecte de corpus') }}</a></li>
+        <li class="obtic-tool"><a href="{{ url_for('pipelines') }}">{{ _('Chaînes de traitement') }}</a></li>
+        <li class="obtic-tool"><a href="{{ url_for('corpus_collection') }}">{{ _('Collecte de corpus') }}</a></li>
         <li class="obtic-tool"><a href="{{ url_for('conversion') }}">{{ _('Conversion de formats') }}</a></li>
-        <li class="obtic-tool"><a href="{{ url_for('outils_correction') }}">{{ _('Correction textuelle') }}</a></li>
+        <li class="obtic-tool"><a href="{{ url_for('correction_tools') }}">{{ _('Correction textuelle') }}</a></li>
         <li class="obtic-tool"><a href="{{ url_for('search_tools') }}">{{ _("Exploration") }}</a></li>
-        <li class="obtic-tool"><a href="{{ url_for('extraction_information') }}">{{ _("Extraction d'information") }}</a></li>
-        <li class="obtic-tool"><a href="{{ url_for('generation_texte') }}">{{ _('Génération de texte') }}</a></li>
-        <li class="obtic-tool"><a href="{{ url_for('pretraitement') }}">{{ _('Prétraitement') }}</a></li>
+        <li class="obtic-tool"><a href="{{ url_for('information_extraction') }}">{{ _("Extraction d'information") }}</a></li>
+        <li class="obtic-tool"><a href="{{ url_for('text_generation') }}">{{ _('Génération de texte') }}</a></li>
+        <li class="obtic-tool"><a href="{{ url_for('preprocessing') }}">{{ _('Prétraitement') }}</a></li>
         <li class="obtic-tool"><a href="{{ url_for('atr_tools') }}">{{ _('Reconnaissance automatique de texte (ATR)') }}</a></li>
-        <li class="obtic-tool"><a href="{{ url_for('annotation_automatique') }}">{{ _("Tâches d'annotation automatique") }}</a></li>
-        <li class="obtic-tool"><a href="{{ url_for('outils_visualisation') }}">{{ _("Visualisation") }}</a></li>
+        <li class="obtic-tool"><a href="{{ url_for('automatic_annotation') }}">{{ _("Tâches d'annotation automatique") }}</a></li>
+        <li class="obtic-tool"><a href="{{ url_for('visualisation_tools') }}">{{ _("Visualisation") }}</a></li>
       </ul>
     </li>
     <li class="obtic-tool dropdown">
@@ -57,7 +57,7 @@
         <li class="obtic-tool"><a href="{{ url_for('code_source') }}">{{ _('Code source') }}</a></li>
         <li class="obtic-tool"><a href="{{ url_for('copyright') }}">{{ _('Copyright') }} ©</a></li>
         <li class="obtic-tool"><a href="{{ url_for('documentation') }}">{{ _('Documentation') }}</a></li>
-        <li class="obtic-tool"><a href="{{ url_for('tutoriel') }}">{{ _('Tutoriel') }}</a></li>
+        <li class="obtic-tool"><a href="{{ url_for('tutorial') }}">{{ _('Tutoriel') }}</a></li>
       </ul>
     </li>
   </ul>
@@ -80,7 +80,6 @@
 <div class="main">
 <h2 style="font-family:'Comprehension', serif;">{{ _('Pandore : une boîte à outil pour les humanités numériques') }}</h2>
   <div class="bandeau-accueil">
-    <h3 style="font-family:'Comprehension', serif;">{{ _('Projet') }}</h3>
     <div class="box-1">
       <p>{{ _("Pandore offre un ensemble de modules permettant d'effectuer automatiquement les
   tâches les plus courantes liées au traitement de corpus pour la recherche en humanités
@@ -96,7 +95,7 @@
         <span class="rubrique-title"><h3>{{ _('Reconnaissance automatique de texte (ATR)') }}</h3></span>
         <span class="rubrique-text"><p>{{ _("Conversion d'images en texte") }}, {{ _("conversion de voix en texte") }}</p></span>
       </div>
-      <div class="box-outil-accueil shadow" onclick="window.location.href='{{ url_for('pretraitement') }}';">
+      <div class="box-outil-accueil shadow" onclick="window.location.href='{{ url_for('preprocessing') }}';">
         <div class="rubrique-icon"><img alt="Prétraitement" src="{{url_for('static', filename='img/icons/text_cleaning.png')}}"></div>
         <span class="rubrique-title"><h3>{{ _('Prétraitement') }}</h3></span>
         <span class="rubrique-text"><p>{{ _('Nettoyage de texte') }}, {{ _("Normalisation de texte") }}, {{ _('Séparation de texte') }}</p></span>
@@ -106,12 +105,12 @@
         <span class="rubrique-title"><h3>{{ _('Conversion de formats') }}</h3></span>
         <span class="rubrique-text"><p>{{ _('Formatage XML-TEI') }}, {{ _('conversion de divers formats de fichiers') }}.</p></span>
       </div>
-      <div class="box-outil-accueil shadow" onclick="window.location.href='{{ url_for('annotation_automatique') }}';">
+      <div class="box-outil-accueil shadow" onclick="window.location.href='{{ url_for('automatic_annotation') }}';">
         <div class="rubrique-icon"><img alt="Tâches d'annotation automatique" src="{{url_for('static', filename='img/icons/annotation.png')}}"></div>
         <span class="rubrique-title"><h3>{{ _("Tâches d'annotation automatique") }}</h3></span>
         <span class="rubrique-text"><p>{{ _("Entités nommées") }}, {{ _('Étiquetage morphosyntaxique')}}, {{ _('Catégories sémantiques') }}</p></span>
       </div>
-      <div class="box-outil-accueil shadow" onclick="window.location.href='{{ url_for('extraction_information') }}';">
+      <div class="box-outil-accueil shadow" onclick="window.location.href='{{ url_for('information_extraction') }}';">
         <div class="rubrique-icon"><img alt="Extraction d'information" src="{{url_for('static', filename='img/icons/information_extraction.png')}}"></div>
         <span class="rubrique-title"><h3>{{ _("Extraction d'information") }}</h3></span>
         <span class="rubrique-text"><p>{{ _('Extraction automatique de mots-clés') }}, Topic Modelling, Quotation Extraction</p></span>
@@ -126,27 +125,27 @@
         <span class="rubrique-title"><h3>{{ _("Exploration") }}</h3></span>
         <span class="rubrique-text"><p>{{ _("Exploration de corpus") }}</p></span>
       </div>
-      <div class="box-outil-accueil shadow" onclick="window.location.href='{{ url_for('outils_visualisation')}}'">
+      <div class="box-outil-accueil shadow" onclick="window.location.href='{{ url_for('visualisation_tools')}}'">
         <div class="rubrique-icon"><img alt="Visualisation" src="{{url_for('static', filename='img/icons/visualization.png')}}"></div>
         <span class="rubrique-title"><h3>{{ _("Visualisation") }}</h3></span>
         <span class="rubrique-text"><p>{{ _("Entités de lieux sur carte") }}, {{ _("réseaux de personnages et de cooccurrences") }}, {{ _("polarités textuelles") }}</p></span>
       </div>
-      <div class="box-outil-accueil shadow" onclick="window.location.href='{{ url_for('collecter_corpus') }}';">
+      <div class="box-outil-accueil shadow" onclick="window.location.href='{{ url_for('corpus_collection') }}';">
         <div class="rubrique-icon"><img alt="Collecte de corpus" src="{{url_for('static', filename='img/icons/corpus.png')}}"></div>
         <span class="rubrique-title"><h3>{{ _('Collecte de corpus') }}</h3></span>
         <span class="rubrique-text"><p>{{ _('Collecte de textes, sous différents formats, depuis diverses sources') }}</p></span>
       </div>
-      <div class="box-outil-accueil shadow" onclick="window.location.href='{{ url_for('outils_correction') }}';">
+      <div class="box-outil-accueil shadow" onclick="window.location.href='{{ url_for('correction_tools') }}';">
         <div class="rubrique-icon"><img alt="Correction textuelle" src="{{ url_for('static', filename='img/icons/correction.png') }}"></div>
         <span class="rubrique-title"><h3>{{ _('Correction textuelle') }}</h3></span>
         <span class="rubrique-text"><p>{{ _("Correction d'erreurs et normalisation pour corpus à la graphie non standard") }}</p></span>
       </div>
-      <div class="box-outil-accueil shadow" onclick="window.location.href='{{ url_for('outils_pipeline') }}';">
+      <div class="box-outil-accueil shadow" onclick="window.location.href='{{ url_for('pipelines') }}';">
         <div class="rubrique-icon"><img alt="Chaînes de traitement" src="{{url_for('static', filename='img/icons/workflow.png')}}"></div>
         <span class="rubrique-title"><h3>{{ _('Chaînes de traitement') }}</h3></span>
         <span class="rubrique-text"><p>{{ _("Traitement automatique depuis l'OCR jusqu'à la reconnaissance d'entités et leur visualisation.") }}</p></span>
       </div>
-      <div class="box-outil-accueil shadow" onclick="window.location.href='{{ url_for('generation_texte') }}';">
+      <div class="box-outil-accueil shadow" onclick="window.location.href='{{ url_for('text_generation') }}';">
         <div class="rubrique-icon"><img alt="Génération de texte" src="{{url_for('static', filename='img/icons/traduction.png')}}"></div>
         <span class="rubrique-title"><h3>{{ _('Génération de texte') }}</h3></span>
         <span class="rubrique-text"><p>{{ _("Complétion de texte") }}, {{ _("Questions/réponses et conversations") }}, {{ _("Traduction") }}, {{ _("Ajustement du niveau de lecture du texte") }}, Summarizer</p></span>

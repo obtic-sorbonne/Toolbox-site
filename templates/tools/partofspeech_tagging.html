@@ -1,0 +1,79 @@
+{% extends "index.html" %}
+{% block header %} {{ super() }} {% endblock %}
+
+{% block content %}
+<div class="outil" id="TM1">
+  <div class="fil"><a href="{{ url_for('automatic_annotation')}}"><< {{ _('Retour aux tâches') }}</a></div>
+
+  <h2>{{ _('Étiquetage morphosyntaxique') }}</h2>
+  <p>{{ _("Cette section permet d'annoter la catégorie grammaticale de chaque mot d'un texte avec")}} <a href="https://spacy.io/usage/linguistic-features#pos-tagging" target="_blank">{{ _("l'outil POS tagging de spaCy") }}</a>. <br>{{ _("Le document renvoyé précise le token récupéré et son étiquette morphosyntaxique")}}.</p>
+  <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_annotation') }}" target="_blank">{{ _("Voir la documentation") }}</a></p>
+  <div class="infos_outil" style="display: block;margin: 0 auto 15px auto;">
+        <input id="show" type=checkbox><label for="show" class="infos_title"><i class="fa-solid fa-circle-info"></i> {{ _("Informations sur les classes d'étiquettes") }}<i class="fa-solid fa-angle-right" style="float:right;margin-top:5px;margin-left:15px;cursor: pointer;"></i></label></p>
+        <div class="info_popped">
+    <p>ADJ {{ _('Adjectif') }} ; ADP Adposition ({{ _('Préposition') }}/Postposition) ;<br>ADV {{ _('Adverbe') }} ; AUX {{ _('Auxiliaire') }} ;<br>CCONJ {{ _('Conjonction de coordination') }} ; DET {{ _('Déterminant') }} ;<br>NOUN {{ _('Mots pour des personnes, lieux, objets') }}, etc. ; NUM {{ _('Numéro') }} ;<br>PRON {{ _('Pronom') }} ; PROPN {{ _('Nom propre') }} ;<br>PUNCT {{ _('Ponctuation') }} ; SCONJ {{ _('Conjonction de subordination') }} ;<br>VERB {{ _('Mots pour des actions et processus') }} ; X {{ _('Autre') }}</p>
+      <p><i class="fa-solid fa-triangle-exclamation"></i> {{ _("Attention : Assurez-vous que les noms de vos fichiers d'entrée ne soient pas trop longs")}}<br>
+      {{ _("et ne contiennent pas de caractères problématiques")}} ([\/:*"&gt;&lt;|])</p>
+</div>
+  </div>
+
+<form action="{{ url_for('pos_tagging') }}" id="metadata-form" method="post" enctype="multipart/form-data" onsubmit="showloader('loader')">
+  {{ form.csrf_token }}
+  <br>
+        <div class="relations-input">
+            <label for="selected_language">{{ _('Choisissez la langue') }} :</label>
+                <select name="selected_language" id="selected_language">
+                    <option value="german">{{ _('Allemand') }} (de)</option>
+                    <option value="english">{{ _('Anglais') }} (eng)</option>
+                    <option value="danish">{{ _('Danois') }} (da)</option>
+                    <option value="spanish">{{ _('Espagnol') }} (es)</option>
+                    <option value="finnish">{{ _('Finnois') }} (fi)</option>
+                    <option value="french" selected>{{ _('Français') }} (fr)</option>
+                    <option value="greek">{{ _('Grec') }} (el)</option>
+                    <option value="italian">{{ _('Italien') }} (it)</option>
+                    <option value="dutch">{{ _('Néerlandais') }} (nl)</option>
+                    <option value="polish">{{ _('Polonais') }} (pl)</option>
+                    <option value="portuguese">{{ _('Portugais') }} (pt)</option>
+                    <option value="russian">{{ _('Russe') }} (ru)</option>
+                </select>
+              </div>
+                <br>
+        <div class="dropzone" style="margin:25px auto;">
+            <input type="file" id="files" name="files" accept="text/plain" multiple required>
+            <p id="form_msg">{{ _("Déposer le(s) fichier(s) ou cliquer ici") }}.</p>
+        </div>
+        <input id="csrf_token" name="csrf_token" type="hidden" value="{{ csrf_token() }}">
+        <button style="display:block;margin:auto;margin-top:20px;">{{ _('Annoter') }}</button>
+  
+</form>
+{% if msg != "" %}
+<div> <p>{{ msg }}</p></div>
+{% endif %}
+<div class="loader"><div class="loadingio-spinner-ball-205vl2x7f7n"><div class="ldio-b8p5li8dt1u"><div></div></div></div><p>{{ _("Traitement en cours...") }}</p></div>
+</div>
+<script>
+  /* MAJ de la zone de glisser-déposer */ 
+  $('form input').change(function () {
+
+  var nb_files = this.files.length;
+  $('form #form_msg').text(nb_files + " fichier(s) selectionné(s)");
+
+  /* Prévisualisation des fichiers chargés (max 3 visibles) */
+  if(nb_files > 3){
+      var num = nb_files - 3;
+      for(i=0; i < 3; i++){
+          $("#form_msg").append('<br/><span class="filename_preview">' + this.files[i].name + '</span>');
+      }
+      $("#form_msg").append('<span class="filename_preview"> et ' + num + ' autres.</span>');
+  }
+  else{
+      for(i=0; i < nb_files; i++){
+          $("#form_msg").append('<br/><span class="filename_preview">' + this.files[i].name + '</span>');
+      }
+  }
+});
+</script>
+{% endblock %}
+
+{% block footer %} {{ super() }} {% endblock %}
+

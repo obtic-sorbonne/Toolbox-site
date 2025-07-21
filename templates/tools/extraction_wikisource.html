@@ -1,0 +1,113 @@
+{% extends "index.html" %}
+{% block header %} {{ super() }} {% endblock %}
+
+{% block content %}
+<!-- CREATION CORPUS -->
+  <div class="outil">
+    <div class="fil"><a href="{{ url_for('corpus_collection')}}"><< {{ _('Retour aux tâches') }}</a></div>
+    <h2>{{ _('Extraction Wikisource') }}</h2>
+    <p>{{ _('La plateforme collaborative') }} <a href="https://fr.wikisource.org/wiki/Wikisource:Accueil" target="_blank">Wikisource</a> {{ _('contient de très nombreux textes littéraires libres de droits') }}.
+      {{ _("L'outil ci-dessous permet de constituer un corpus à partir de ces textes, en renseignant leur URL") }}.
+      <!--Plusieurs modes d'utilisation sont possibles :
+      <ul style="margin-left:20px;">
+        <li>Extraction de texte intégral (par défaut)</li>
+        <li>Extraction d'échantillons</li>
+      </ul>-->
+    </p>
+
+    <h4>{{ _('Création rapide') }}</h4>
+    <p>{{ _('Cette option permet de générer un corpus aléatoire parmi les œuvres en français de Wikisource') }}.</p>
+
+    <form id="wikiscraper" method="POST" action="{{ url_for('generate_corpus') }}">
+        {{ form.csrf_token }}
+      <fieldset>
+        <label for="nbtext">{{ _('Nombre de textes') }}</label>
+        <span id="rangeValue" name="rangeValue">1</span>
+        <input class="range" type="range" name="nbtext" value="0" min="1" max="8" onChange="rangeSlide(this.value)" onmousemove="rangeSlide(this.value)"></input>
+        <input id="csrf_token" name="csrf_token" type="hidden" value="CSRF_TOKEN_STRING">
+        <button class="button">{{ _('Génerer corpus aléatoire') }}</button>
+      </fieldset>
+    </form>
+
+    <div>
+    <h4>{{ _("A partir d'URL(s)") }}</h4>
+    <p>{{ _("Copier ici les URLs des textes à collecter") }}. {{ _("Il est possible de collecter un texte intégral à partir d'un sommaire") }} [<a href="https://fr.wikisource.org/wiki/Valserine_et_autres_nouvelles" target="_blank">{{ _("exemple") }}</a>]. {{ _("Dans ce cas, cocher la case Sommaire en face de l'URL indiquée") }}.</p>
+    <form id="urlform"  method="POST" action="{{ url_for('corpus_from_url') }}">
+      {{ form.csrf_token }}
+      <input type="hidden" value="1" id="nb_inputs">
+      <input type="text" id="url_1" name="url_1" class="wikiurl"> <input type="checkbox" name="s1" id="s1"><label for="s1">{{ _('Sommaire') }}</label>
+      <div id="new_inputs" style="display:inline-block;"></div>
+      <div class="addbutton" id="addbutton" onclick="addInput()" ><i class="fa-solid fa-circle-plus" style="margin-right:3px;"></i>{{ _('Ajouter URL') }}</div>
+      <input id="csrf_token" name="csrf_token" type="hidden" value="CSRF_TOKEN_STRING">
+      <button type="submit" class="button" style="display:block;margin:30px auto;">{{ _('Collecter corpus') }}</button>
+    </form>
+    </div>
+  </div>
+ <span class="trigger-panel" onclick="openNav()">{{ _('Tâches suivantes')}}  <i class="fa-solid fa-angles-right"></i></span>
+
+<div id="task-panel-gallica" class="sidepanel">
+  <span class="closebtn" onclick="closeNav()">&times;</span>
+  <h3 style="font-family: 'Comprehension', serif;">{{ _('Tâches suivantes')}}</h3>
+  <div class="side-item"><a href="{{ url_for('named_entities_recognition') }}">{{ _('Extraire les entités nommées') }}</a></div>
+  <div class="side-item"><a href="{{ url_for('partofspeech_tagging') }}">{{ _('Étiqueter en parties du discours') }}</a></div>
+  <div class="side-item"><a href="https://obtic.huma-num.fr/teinte/">Teinte</a></div> 
+  <div class="side-item"><a href="{{ url_for('visualisation_tools') }}">{{ _('Visualisation') }}</a></div> 
+</div>
+
+  <script type="text/javascript">
+
+      // Range button
+      function rangeSlide(value) {
+          document.getElementById('rangeValue').innerHTML = value;
+      }
+
+      function hasUrl(){
+        var elems = document.getElementsByClassName('wikiurl');
+        for(var i=0; i<elems.length; i++){
+          if(elems[i] && !elems[i].value){
+            return false;
+          }
+        }
+        return true;
+      }
+
+      function addInput(){
+        var div = document.createElement("div");
+        var nb_input = parseInt(document.getElementById('nb_inputs').value) + 1;
+        var new_input = '<input type="text" name="url_' + nb_input + '">';
+        var new_check = '<input type="checkbox" name="s' + nb_input + '" id="s'+ nb_input +'">';
+        var new_label = '<label for="s' + nb_input + '">Sommaire</label>';
+        div.innerHTML = new_input + new_check + new_label;
+
+        var div_input = document.getElementById('new_inputs');
+        div_input.appendChild(div);
+        document.getElementById('nb_inputs').value = nb_input;
+      }
+
+      $("#urlform").submit(function(){
+		    if(!hasUrl()){
+			    alert("Entrer au moins une URL.");
+			    return false;
+		    }
+        else{
+          $(".loader").css("display", "block");
+        }
+	    });
+
+  </script>
+
+
+      <script type="text/javascript">
+        function openNav() {
+    document.getElementById("task-panel-wiki").style.width = "300px";
+  }
+/* Set the width of the sidebar to 0 (hide it) */
+  function closeNav() {
+    document.getElementById("task-panel-wiki").style.width = "0";
+  }
+
+
+      
+    </script>
+{% endblock %}
+

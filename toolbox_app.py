@@ -2,69 +2,39 @@
 # -*- coding:utf-8 -*-
 
 # Standard library imports
-import collections
 import csv
+import difflib
 import json
 import os
 import random
 import re
 import shutil
 import string
-import math
-from datetime import timedelta
-from io import StringIO, BytesIO
-from pathlib import Path
-import urllib
+import unicodedata
 import urllib.request
+from datetime import timedelta
+from io import BytesIO, StringIO
+from pathlib import Path
 from urllib.parse import urlparse
-import zipfile
-import requests
 
+import nltk
+import numpy as np
+import pandas as pd
 # Third-party imports
-from bs4 import BeautifulSoup
-from flask import (
-    Flask, abort, request, render_template, render_template_string, 
-    url_for, redirect, send_from_directory, Response, 
-    stream_with_context, session, send_file, jsonify
-)
+import requests
+from flask import (Flask, Response, abort, jsonify, redirect, render_template,
+                   request, send_file, send_from_directory, session,
+                   stream_with_context, url_for)
 from flask_babel import Babel, get_locale
 from flask_wtf import FlaskForm
 from flask_wtf.csrf import CSRFError, CSRFProtect
-from langdetect import detect_langs
 from lxml import etree
-import matplotlib.pyplot as plt
-import nltk
-from nltk.tokenize import sent_tokenize, word_tokenize
-from nltk.corpus import stopwords, wordnet
-from nltk import ngrams, FreqDist, sent_tokenize, Text
-from collections import Counter
-import pandas as pd
-import spacy
-from spacy import displacy
-from werkzeug.utils import secure_filename
+from nltk import FreqDist, Text, ngrams
 from werkzeug.exceptions import HTTPException
-from wordcloud import WordCloud
-import contextualSpellCheck
-import textdistance
-import difflib
-from transformers import pipeline
-import textstat
-import gensim.downloader as api
-from sklearn.cluster import KMeans
-from sklearn.decomposition import PCA
-import plotly.graph_objects as go
-import numpy as np
-import torch
-import unicodedata
-import whisper
-from newspaper import Article
+from werkzeug.utils import secure_filename
 
 # Local application imports
-from forms import ContactForm, SearchForm
-import ocr
-import sem
-from cluster import freqs2clustering
-
+from forms import ContactForm
 
 # NLTK
 try:
@@ -99,10 +69,8 @@ app.config['SECRET_KEY'] = '6kGcDYu04nLGQZXGv8Sqg0YzTeE8yeyL'
 app.config['WTF_CSRF_TIME_LIMIT'] = None  # No time limit on tokens
 app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=1)  # Session lasts 1 day
 
-app.config['MAX_CONTENT_LENGTH'] = 50 * 1024 * 1024 # Limit file upload to 35MB
+app.config['MAX_CONTENT_LENGTH'] = 150 * 1024 * 1024 # Limit file upload to 150MB
 app.config['CHUNK_SIZE'] = 1024 * 1024 # 1MB chunks for processing
-
-
 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['MODEL_FOLDER'] = MODEL_FOLDER
@@ -266,10 +234,6 @@ def documentation_analyses():
 def documentation_correction():
     return render_template('documentation/documentation_correction.html')
 
-@app.route('/documentation_workflow')
-def documentation_workflow():
-    return render_template('documentation/documentation_workflow.html')
-
 @app.route('/documentation_generation')
 def documentation_generation():
     return render_template('documentation/documentation_generation.html')
@@ -278,265 +242,249 @@ def documentation_generation():
 # TUTORIELS
 #-----------------------------------------------------------------
 
-@app.route('/tutoriel')
-def tutoriel():
-    return render_template('tutoriel.html')
+@app.route('/tutorial')
+def tutorial():
+    return render_template('tutorial.html')
     
 @app.route('/tutoriel_conversion')
-def tutoriel_conversion():
-    return render_template('tutoriel/tutoriel_conversion.html')
+def tutorial_conversion():
+    return render_template('tutorial/tutorial_conversion.html')
 
 @app.route('/tutoriel_annotation')
-def tutoriel_annotation():
-    return render_template('tutoriel/tutoriel_annotation.html')
+def tutorial_annotation():
+    return render_template('tutorial/tutorial_annotation.html')
 
 @app.route('/tutoriel_extraction')
-def tutoriel_extraction():
-    return render_template('tutoriel/tutoriel_extraction.html')
-
-@app.route('/tutoriel_analyses')
-def tutoriel_analyses():
-    return render_template('tutoriel/tutoriel_analyses.html')
-
-@app.route('/tutoriel_correction')
-def tutoriel_correction():
-    return render_template('tutoriel/tutoriel_correction.html')
-
-@app.route('/tutoriel_workflow')
-def tutoriel_workflow():
-    return render_template('tutoriel/tutoriel_workflow.html')
-
-@app.route('/tutoriel_generation')
-def tutoriel_generation():
-    return render_template('tutoriel/tutoriel_generation.html')
+def tutorial_extraction():
+    return render_template('tutorial/tutorial_extraction.html')
     
 #-----------------------------------------------------------------
-# TACHES
+# TASKS
 #-----------------------------------------------------------------
 
 @app.route('/atr_tools')
 def atr_tools():
-    return render_template('taches/atr_tools.html')
+    return render_template('tasks/atr_tools.html')
 
-@app.route('/pretraitement')
-def pretraitement():
-    return render_template('taches/pretraitement.html')
+@app.route('/preprocessing')
+def preprocessing():
+    return render_template('tasks/preprocessing.html')
 
 @app.route('/conversion')
 def conversion():
-    return render_template('taches/conversion.html')
+    return render_template('tasks/conversion.html')
 
-@app.route('/annotation_automatique')
-def annotation_automatique():
-    return render_template('taches/annotation_automatique.html')
+@app.route('/automatic_annotation')
+def automatic_annotation():
+    return render_template('tasks/automatic_annotation.html')
 
-@app.route('/extraction_information')
-def extraction_information():
-    return render_template('taches/extraction_information.html')
+@app.route('/information_extraction')
+def information_extraction():
+    return render_template('tasks/information_extraction.html')
 
 @app.route('/analyses')
 def analyses():
-    return render_template('taches/analyses.html')
+    return render_template('tasks/analyses.html')
 
 @app.route('/search_tools')
 def search_tools():
-    return render_template('taches/search_tools.html')
+    return render_template('tasks/search_tools.html')
 
-@app.route('/outils_visualisation')
-def outils_visualisation():
-    return render_template('taches/visualisation.html')
+@app.route('/visualisation_tools')
+def visualisation_tools():
+    return render_template('tasks/visualisation_tools.html')
 
-@app.route('/outils_correction')
-def outils_correction():
-    return render_template('taches/correction.html')
+@app.route('/correction_tools')
+def correction_tools():
+    return render_template('tasks/correction_tools.html')
 
-@app.route('/collecter_corpus')
-def collecter_corpus():
-    return render_template('taches/collecter_corpus.html')
+@app.route('/corpus_collection')
+def corpus_collection():
+    return render_template('tasks/corpus_collection.html')
 
-@app.route('/outils_pipeline')
-def outils_pipeline():
-    return render_template('taches/pipeline.html')
+@app.route('/pipelines')
+def pipelines():
+    return render_template('tasks/pipelines.html')
 
-@app.route('/generation_texte')
-def generation_texte():
-    return render_template('taches/generation_texte.html')
+@app.route('/text_generation')
+def text_generation():
+    return render_template('tasks/text_generation.html')
 
 #-----------------------------------------------------------------
-# OUTILS
+# TOOLS
 #-----------------------------------------------------------------
 
 @app.route('/text_recognition')
 def text_recognition():
     form = FlaskForm()
-    return render_template('outils/text_recognition.html', form=form)
+    return render_template('tools/text_recognition.html', form=form)
 
 @app.route('/speech_recognition')
 def speech_recognition():
     form = FlaskForm()
-    return render_template('outils/speech_recognition.html', form=form)
+    return render_template('tools/speech_recognition.html', form=form)
 
-@app.route('/nettoyage_texte')
-def nettoyage_texte():
+@app.route('/text_cleaning')
+def text_cleaning():
     form = FlaskForm()
-    return render_template('outils/nettoyage_texte.html', form=form)
+    return render_template('tools/text_cleaning.html', form=form)
 
 @app.route('/text_normalisation')
 def text_normalisation():
     form = FlaskForm()
-    return render_template('outils/text_normalisation.html', form=form)
+    return render_template('tools/text_normalisation.html', form=form)
 
-@app.route('/separation_texte')
-def separation_texte():
+@app.route('/text_separation')
+def text_separation():
     form = FlaskForm()
-    return render_template('outils/separation_texte.html', form=form)
+    return render_template('tools/text_separation.html', form=form)
 
 @app.route('/conversion_xml')
 def conversion_xml():
     form = FlaskForm()
-    return render_template('outils/conversion_xml.html', form=form)
+    return render_template('tools/conversion_xml.html', form=form)
 
-@app.route('/entites_nommees')
-def entites_nommees():
-    form = FlaskForm()
-    return render_template('outils/entites_nommees.html', form=form)
-
-@app.route('/etiquetage_morphosyntaxique')
-def etiquetage_morphosyntaxique():
+@app.route('/partofspeech_tagging')
+def partofspeech_tagging():
     form = FlaskForm()
     err = ""
-    return render_template('outils/etiquetage_morphosyntaxique.html', form=form, err=err)
+    return render_template('tools/partofspeech_tagging.html', form=form, err=err)
 
-@app.route('/categories_semantiques')
-def categories_semantiques():
-    return render_template('outils/categories_semantiques.html')
-
-@app.route('/extraction_mots_cles')
-def extraction_mots_cles():
+@app.route('/named_entities_recognition')
+def named_entities_recognition():
     form = FlaskForm()
-    return render_template('outils/extraction_mots_cles.html', form=form, res={})
+    return render_template('tools/named_entities_recognition.html', form=form)
 
-@app.route('/quotation_extraction')
-def quotation_extraction():
+@app.route('/semantic_categories')
+def semantic_categories():
+    return render_template('tools/semantic_categories.html')
+
+@app.route('/keywords_extraction')
+def keywords_extraction():
     form = FlaskForm()
-    return render_template('outils/quotation_extraction.html', form=form)
+    return render_template('tools/keywords_extraction.html', form=form, res={})
 
 @app.route('/topic_modelling')
 def topic_modelling():
     form = FlaskForm()
-    return render_template('outils/topic_modelling.html', form=form, res={})
+    return render_template('tools/topic_modelling.html', form=form, res={})
 
-@app.route('/analyse_linguistique')
-def analyse_linguistique():
+@app.route('/quotation_extraction')
+def quotation_extraction():
     form = FlaskForm()
-    return render_template('outils/analyse_linguistique.html', form=form)
+    return render_template('tools/quotation_extraction.html', form=form)
 
-@app.route('/analyse_statistique')
-def analyse_statistique():
+@app.route('/linguistic_analysis')
+def linguistic_analysis():
     form = FlaskForm()
-    return render_template('outils/analyse_statistique.html', form=form)
+    return render_template('tools/linguistic_analysis.html', form=form)
 
-@app.route('/analyse_lexicale')
-def analyse_lexicale():
+@app.route('/statistic_analysis')
+def statistic_analysis():
     form = FlaskForm()
-    return render_template('outils/analyse_lexicale.html', form=form)
+    return render_template('tools/statistic_analysis.html', form=form)
 
-@app.route('/analyse_texte')
-def analyse_texte():
+@app.route('/lexical_analysis')
+def lexical_analysis():
     form = FlaskForm()
-    return render_template('outils/analyse_texte.html', form=form)
+    return render_template('tools/lexical_analysis.html', form=form)
+
+@app.route('/text_analysis')
+def text_analysis():
+    form = FlaskForm()
+    return render_template('tools/text_analysis.html', form=form)
 
 @app.route('/comparison')
 def comparison():
     form = FlaskForm()
-    return render_template('outils/comparison.html', form=form)
+    return render_template('tools/comparison.html', form=form)
 
 @app.route('/embeddings')
 def embeddings():
     form = FlaskForm()
-    return render_template('outils/embeddings.html', form=form)
+    return render_template('tools/embeddings.html', form=form)
 
-@app.route('/relations_lexicales')
-def relations_lexicales():
+@app.route('/lexical_relationship')
+def lexical_relationship():
     form = FlaskForm()
-    return render_template('outils/relations_lexicales.html', form=form)
+    return render_template('tools/lexical_relationship.html', form=form)
 
 @app.route('/tanagra')
 def tanagra():
-    return render_template('outils/tanagra.html')
+    return render_template('tools/tanagra.html')
 
 @app.route('/renard')
 def renard():
     form = FlaskForm()
-    return render_template('outils/renard.html', form=form, graph="", fname="")
+    return render_template('tools/renard.html', form=form, graph="", fname="")
 
 @app.route('/extraction_gallica')
 def extraction_gallica():
     form = FlaskForm()
-    return render_template('outils/extraction_gallica.html', form=form)
+    return render_template('tools/extraction_gallica.html', form=form)
 
 @app.route('/extraction_wikisource')
 def extraction_wikisource():
     form = FlaskForm()
-    return render_template('outils/extraction_wikisource.html', form=form)
+    return render_template('tools/extraction_wikisource.html', form=form)
 
 @app.route('/extraction_gutenberg')
 def extraction_gutenberg():
     form = FlaskForm()
-    return render_template('outils/extraction_gutenberg.html', form=form)
+    return render_template('tools/extraction_gutenberg.html', form=form)
 
 @app.route('/extraction_urls')
 def extraction_urls():
     form = FlaskForm()
-    return render_template('outils/extraction_urls.html', form=form)
+    return render_template('tools/extraction_urls.html', form=form)
 
 @app.route('/extraction_googlebooks')
 def extraction_googlebooks():
     form = FlaskForm()
-    return render_template('outils/extraction_googlebooks.html', form=form)
+    return render_template('tools/extraction_googlebooks.html', form=form)
 
-@app.route('/correction_erreur')
-def correction_erreur():
+@app.route('/modernspelling_correction')
+def modernspelling_correction():
+    return render_template('tools/modernspelling_correction.html')
+
+@app.route('/error_correction')
+def error_correction():
     form = FlaskForm()
-    return render_template('outils/correction_erreur.html', form=form)
-
-@app.route('/correction_graphie')
-def correction_graphie():
-    return render_template('outils/correction_graphie.html')
+    return render_template('tools/error_correction.html', form=form)
 
 @app.route('/ocr_ner')
 def ocr_ner():
     form = FlaskForm()
-    return render_template('outils/ocr_ner.html', form=form)
+    return render_template('tools/ocr_ner.html', form=form)
 
 @app.route('/ocr_map')
 def ocr_map():
     form = FlaskForm()
-    return render_template('outils/ocr_map.html', form=form)
+    return render_template('tools/ocr_map.html', form=form)
 
 @app.route('/text_completion')
 def text_completion():
     form = FlaskForm()
-    return render_template('outils/text_completion.html', form=form)
+    return render_template('tools/text_completion.html', form=form)
 
-@app.route('/qa_and_conversation')
-def qa_and_conversation():
+@app.route('/questions_and_answers')
+def questions_and_answers():
     form = FlaskForm()
-    return render_template('outils/qa_and_conversation.html', form=form)
+    return render_template('tools/questions_and_answers.html', form=form)
 
 @app.route('/translation')
 def translation():
     form = FlaskForm()
-    return render_template('outils/translation.html', form=form)
+    return render_template('tools/translation.html', form=form)
 
 @app.route('/adjusting_text_readibility_level')
 def adjusting_text_readibility_level():
     form = FlaskForm()
-    return render_template('outils/adjusting_text_readibility_level.html', form=form)
+    return render_template('tools/adjusting_text_readibility_level.html', form=form)
 
-@app.route('/resume_automatique')
-def resume_automatique():
-    return render_template('outils/resume_automatique.html')
+@app.route('/summarizer')
+def summarizer():
+    return render_template('tools/summarizer.html')
 
 #-----------------------------------------------------------------
 # ERROR HANDLERS
@@ -586,6 +534,7 @@ def download():
 @app.route('/run_tesseract',  methods=["GET","POST"])
 @stream_with_context
 def run_tesseract():
+    import ocr
     if request.method == 'POST':
         uploaded_files = request.files.getlist("tessfiles")
         model = request.form['tessmodel']
@@ -604,7 +553,7 @@ def run_tesseract():
                             headers={"Content-disposition": "attachment; filename=" + rand_name + '.txt'})
 
         return response
-    return render_template('numeriser.html', erreur=erreur)
+    return render_template('text_recognition.html', erreur=erreur)
 
 
 #-------------- Reconnaissance de discours --------------
@@ -613,6 +562,7 @@ def run_tesseract():
 model_cache = None
 
 def get_model():
+    import whisper
     global model_cache
     if model_cache is None:
         model_cache = whisper.load_model("base")  # Chargement différé
@@ -620,61 +570,84 @@ def get_model():
 
 @app.route('/automatic_speech_recognition', methods=['POST'])
 def automatic_speech_recognition():
+    import subprocess
+
     if 'files' not in request.files and 'audio_urls' not in request.form and 'video_urls' not in request.form:
-        response = {"error": "No files part or URLs provided"}
-        return Response(json.dumps(response), status=400, mimetype='application/json')
+        return Response(json.dumps({"error": "No files part or URLs provided"}), status=400, mimetype='application/json')
 
     audio_urls = request.form.get('audio_urls', '').splitlines()
     video_urls = request.form.get('video_urls', '').splitlines()
-
     file_type = request.form['file_type']
 
-    rand_name = generate_rand_name("asr_")  # Génère le nom
+    rand_name = generate_rand_name("asr_")
     result_path = create_named_directory(rand_name, base_dir=UPLOAD_FOLDER)
 
+    model = get_model()  # Appel différé
 
-    # Appel différé et conditionnel au modèle
-    model = get_model()
-
-
-    if file_type == 'audio_urls':
-        # Process audio URLs
-        for audio_url in audio_urls:
-            if audio_url.strip():
-                url_path = urlparse(audio_url).path
-                file_name = os.path.basename(url_path)
-                os.system(f"wget {audio_url} -O {result_path}/{file_name}")
-                audio_file = f"{result_path}/{file_name}"
-
-                if not os.path.isfile(audio_file):
-                    print(f"Erreur : {audio_file} n'est pas un fichier.")
+    try:
+        if file_type == 'audio_urls':
+            for audio_url in audio_urls:
+                if not audio_url.strip():
                     continue
 
-                result = model.transcribe(audio_file)
+                url_path = urlparse(audio_url).path
+                file_name = os.path.basename(url_path)
+                output_path = os.path.join(result_path, file_name)
+
+                try:
+                    subprocess.run(["wget", audio_url, "-O", output_path], check=True)
+                except subprocess.CalledProcessError as e:
+                    print(f"[ERREUR] Échec du téléchargement : {audio_url} — {e}")
+                    continue
+
+                if not os.path.isfile(output_path):
+                    print(f"[ERREUR] Fichier non trouvé : {output_path}")
+                    continue
+
+                result = model.transcribe(output_path)
                 output_name = os.path.splitext(file_name)[0] + '_transcription.txt'
                 with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
                     out.write(result['text'])
-    elif file_type == 'video_urls':
-        # Process video URLs
-        for video_url in video_urls:
-            if video_url.strip():
-                os.system(f"yt-dlp -f 'bestaudio[ext=m4a]' {video_url} -o '{result_path}/video_{video_urls.index(video_url)}.%(ext)s'")
-                audio_file = f"{result_path}/video_{video_urls.index(video_url)}.m4a"
 
-                if not os.path.isfile(audio_file):
-                    print(f"Erreur : {audio_file} n'est pas un fichier.")
+        elif file_type == 'video_urls':
+            for i, video_url in enumerate(video_urls):
+                if not video_url.strip():
                     continue
 
-                result = model.transcribe(audio_file)
-                output_name = f"video_{video_urls.index(video_url)}_transcription.txt"
+                audio_output = os.path.join(result_path, f"video_{i}.m4a")
+                try:
+                    subprocess.run([
+                        "yt-dlp",
+                        "-f", "bestaudio",
+                        video_url,
+                        "-o", audio_output
+                    ], check=True)
+                except subprocess.CalledProcessError as e:
+                    print(f"[ERREUR] yt-dlp a échoué pour {video_url} — {e}")
+                    continue
+
+                if not os.path.isfile(audio_output):
+                    print(f"[ERREUR] Fichier audio manquant : {audio_output}")
+                    continue
+
+                result = model.transcribe(audio_output)
+                output_name = f"video_{i}_transcription.txt"
                 with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
                     out.write(result['text'])
 
+        if not os.listdir(result_path):
+            print(f"[DEBUG] Aucun fichier généré dans {result_path}")
+            return Response(json.dumps({"error": "Aucune donnée à archiver"}), status=400, mimetype='application/json')
 
-    response = create_zip_and_response(result_path, rand_name)
-    return response
+        response = create_zip_and_response(result_path, rand_name)
+        return response
 
-    return Response(json.dumps({"error": "Une erreur est survenue dans le traitement des fichiers."}), status=500, mimetype='application/json')
+    except Exception as e:
+        print(f"[EXCEPTION] {e}")
+        if os.path.exists(result_path):
+            shutil.rmtree(result_path, ignore_errors=True)
+        return Response(json.dumps({"error": str(e)}), status=500, mimetype='application/json')
+
 
 #-----------------------------------------------------------------
 # Prétraitement
@@ -685,6 +658,8 @@ def automatic_speech_recognition():
 loaded_stopwords = {}
 
 def get_stopwords(language):
+    from nltk.corpus import stopwords
+
     if language not in loaded_stopwords:
         if language == 'english':
             loaded_stopwords[language] = set(stopwords.words('english'))
@@ -723,6 +698,8 @@ def keep_accented_only(tokens):
 
 @app.route('/removing_elements', methods=['POST'])
 def removing_elements():
+    from nltk.tokenize import word_tokenize
+
     if 'files' not in request.files:
         response = {"error": "No files part"}
         return Response(json.dumps(response), status=400, mimetype='application/json')
@@ -789,14 +766,13 @@ def removing_elements():
     response = create_zip_and_response(result_path, rand_name)
     return response
 
-    return Response(json.dumps({"error": "Une erreur est survenue dans le traitement des fichiers."}), status=500, mimetype='application/json')
-
 
 #-------------- Normalisation de texte -------------------------
 
 loaded_nlp_models = {}
 
 def get_nlp(language):
+    import spacy
     if language not in loaded_nlp_models:
         if language == 'english':
             loaded_nlp_models[language] = spacy.load('en_core_web_sm')
@@ -829,6 +805,8 @@ def get_nlp(language):
 
 @app.route('/normalize_text', methods=['POST'])
 def normalize_text():
+    from nltk.tokenize import word_tokenize
+
     if 'files' not in request.files:
         response = {"error": "No files part"}
         return Response(json.dumps(response), status=400, mimetype='application/json')
@@ -888,12 +866,12 @@ def normalize_text():
     response = create_zip_and_response(result_path, rand_name)
     return response
 
-    return Response(json.dumps({"error": "Une erreur est survenue dans le traitement des fichiers."}), status=500, mimetype='application/json')
-
 #-------------- Séparation de texte -------------------------
 
 @app.route('/split_text', methods=['POST'])
 def split_text():
+    from nltk.tokenize import sent_tokenize
+
     if 'files' not in request.files:
         response = {"error": "No files part"}
         return Response(json.dumps(response), status=400, mimetype='application/json')
@@ -911,7 +889,7 @@ def split_text():
     for f in files:
         try:
             input_text = f.read().decode('utf-8')
-            sentences = nltk.sent_tokenize(text)
+            sentences = nltk.sent_tokenize(input_text)
             splitsentence = [sentence.strip() for sentence in sentences]
             f.seek(0)
             lines = f.readlines()
@@ -937,8 +915,6 @@ def split_text():
     response = create_zip_and_response(result_path, rand_name)
     return response
 
-    return Response(json.dumps({"error": "Une erreur est survenue dans le traitement des fichiers."}), status=500, mimetype='application/json')
-
 
 #-----------------------------------------------------------------
 # Conversion XML
@@ -948,57 +924,80 @@ def split_text():
 @stream_with_context
 def xmlconverter():
     if request.method == 'POST':
-        fields = {}
-        fields['title'] = request.form['title']
-        fields['title_lang'] = request.form['title_lang'] # required
-        fields['author'] = request.form.get('author')
-        fields['respStmt_name'] = request.form.get('nameresp')
-        fields['respStmt_resp'] = request.form.get('resp')
-        fields['pubStmt'] = request.form['pubStmt'] # required
-        fields['sourceDesc'] = request.form['sourceDesc'] # required
-        fields['revisionDesc_change'] = request.form['change']
-        fields['change_who'] = request.form['who']
-        fields['change_when'] = request.form['when']
-        fields['licence'] = request.form['licence']
-        fields['divtype'] = request.form['divtype']
-        fields["creation"] = request.form['creation']
-        fields["lang"] = request.form['lang']
-        fields["projet_p"] = request.form['projet_p']
-        fields["edit_correction_p"] = request.form['edit_correction_p']
-        fields["edit_hyphen_p"] = request.form['edit_hyphen_p']
+
+        if 'file' not in request.files:
+            response = {"error": "No files part"}
+            return Response(json.dumps(response), status=400, mimetype='application/json')
 
         files = request.files.getlist('file')
-        zip_buffer = BytesIO()
+        if not files or all(f.filename == '' for f in files):
+            response = {"error": "No selected files"}
+            return Response(json.dumps(response), status=400, mimetype='application/json')
 
-        with zipfile.ZipFile(zip_buffer, 'a', zipfile.ZIP_DEFLATED, False) as zip_file:
+        fields = {
+            'title': request.form.get('title', ''),
+            'title_lang': request.form.get('title_lang', ''),
+            'author': request.form.get('author'),
+            'respStmt_name': request.form.get('nameresp'),
+            'respStmt_resp': request.form.get('resp'),
+            'pubStmt': request.form.get('pubStmt', ''),
+            'sourceDesc': request.form.get('sourceDesc', ''),
+            'revisionDesc_change': request.form.get('change', ''),
+            'change_who': request.form.get('who', ''),
+            'change_when': request.form.get('when', ''),
+            'licence': request.form.get('licence', ''),
+            'divtype': request.form.get('divtype', ''),
+            'creation': request.form.get('creation', ''),
+            'lang': request.form.get('lang', ''),
+            'projet_p': request.form.get('projet_p', ''),
+            'edit_correction_p': request.form.get('edit_correction_p', ''),
+            'edit_hyphen_p': request.form.get('edit_hyphen_p', ''),
+            'publication_date' : request.form.get('publication_date', '')
+        }
+
+        rand_name = generate_rand_name("tei_")
+        result_path = create_named_directory(rand_name)
+
+        try:
             for f in files:
                 filename = secure_filename(f.filename)
-                path_to_file = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+                if filename == '':
+                    continue
+
+                # Sauvegarder TXT temporairement
+                path_to_file = os.path.join(result_path, filename)
                 f.save(path_to_file)
 
+                # Vérifier UTF-8 lisibilité
                 try:
-                    with open(path_to_file, "r") as file:
-                        for l in file:
-                            break
-
-                    # Returning xml string
-                    root = txt_to_xml(path_to_file, fields)
-
-                    # Writing in stream
-                    output_stream = BytesIO()
-                    output_filename = os.path.splitext(filename)[0] + '.xml'
-                    etree.ElementTree(root).write(output_stream, xml_declaration=True, encoding="utf-8")
-                    output_stream.seek(0)
-                    zip_file.writestr(output_filename, output_stream.getvalue())
-                    output_stream.truncate(0)
-
+                    with open(path_to_file, "r", encoding="utf-8") as file_check:
+                        _ = file_check.read(1024)
                 except UnicodeDecodeError:
-                    return 'format de fichier incorrect'
+                    return Response(json.dumps({"error": "Format de fichier incorrect (UTF-8 requis)."}),
+                                    status=400, mimetype='application/json')
 
-        zip_buffer.seek(0)
-        return send_file(zip_buffer, mimetype='application/zip', as_attachment=True, download_name='encoded_files.zip')
+                # Conversion en XML TEI
+                root = txt_to_xml(path_to_file, fields)
 
-    return render_template("/conversion_xml")
+                # Supprimer TXT juste après conversion
+                os.remove(path_to_file)
+
+                # Nom fichier XML
+                output_filename = os.path.splitext(filename)[0] + '.xml'
+                xml_path = os.path.join(result_path, output_filename)
+
+                # Sauvegarder XML
+                with open(xml_path, 'wb') as out_xml:
+                    etree.ElementTree(root).write(out_xml, xml_declaration=True, encoding="utf-8")
+
+            # Créer réponse ZIP avec seulement les XML dans result_path
+            response = create_zip_and_response(result_path, rand_name)
+            return response
+
+        finally:
+            pass  # nettoyage géré dans create_zip_and_response
+
+    return render_template("conversion_xml.html")
 
 # CONVERSION XML-TEI
 # Construit un fichier TEI à partir des métadonnées renseignées dans le formulaire.
@@ -1008,112 +1007,560 @@ def xmlconverter():
 # - fields : dictionnaire des champs présents dans le form metadata
 import xml.etree.ElementTree as etree
 
-def encode_text(filename, is_text_standard=True, is_poem=False, is_play=False, is_book=False):
+
+def encode_text(filename, doc_type="undefined"):
     div = etree.Element("div")
 
     with open(filename, "r", encoding="utf-8") as f:
         lines = f.readlines()
-    
-    if is_poem:
-        stanza = []
-        for line in lines:
-            if line.strip() == "":
-                if stanza:
-                    stanza_element = etree.Element("lg", type="stanza")
-                    for verse in stanza:
-                        verse_element = etree.Element("l")
-                        verse_element.text = verse.strip()
-                        stanza_element.append(verse_element)
-                    div.append(stanza_element)
-                    stanza = []
-            else:
-                stanza.append(line)
-        
-        if stanza:
-            stanza_element = etree.Element("lg", type="stanza")
-            for verse in stanza:
-                verse_element = etree.Element("l")
-                verse_element.text = verse.strip()
-                stanza_element.append(verse_element)
-            div.append(stanza_element)
-    elif is_play:
-        scene = []
-        acte_element = None
-        scene_element = None
 
-        for line in lines:
-            if re.match(r"Act|Acte", line.strip()):
-                if acte_element is not None:
-                    div.append(acte_element)
-                acte_element = etree.Element("div")
-                acte_element.set("type", "act")
-                head_element = etree.Element("head")
-                head_element.text = line.strip()
-                acte_element.append(head_element)
-                scene = []
-
-            elif re.match(r"Scène|Scene", line.strip()):
-                if scene_element is not None:
-                    acte_element.append(scene_element)
-                scene_element = etree.Element("div")
-                scene_element.set("type", "scene")
-                head_element = etree.Element("head")
-                head_element.text = line.strip()
-                scene_element.append(head_element)
-                scene = []
-
-            else:
-                scene.append(line)
-
-        if scene_element is not None:
-            for dialogue in scene:
-                dialogue_element = etree.Element("p")
-                dialogue_element.text = dialogue.strip()
-                scene_element.append(dialogue_element)
-            acte_element.append(scene_element)
-
-        if acte_element is not None:
-            div.append(acte_element)
-
-    elif is_book:
-        scene = []
-        chapter_element = None
-        text_element = None
-
-        for line in lines:
-            if re.match(r"Chapter|Chapitre", line.strip()):
-                if chapter_element is not None:
-                    div.append(chapter_element)
-                chapter_element = etree.Element("div")
-                chapter_element.set("type", "chapter")
-                head_element = etree.Element("head")
-                head_element.text = line.strip()
-                chapter_element.append(head_element)
-                scene = []
-            else:
-                scene.append(line)
-
-        if chapter_element is not None:
-            text_element = etree.Element("div")
-            text_element.set("type", "text")
-            for dialogue in scene:
-                dialogue_element = etree.Element("p")
-                dialogue_element.text = dialogue.strip()
-                text_element.append(dialogue_element)
-            chapter_element.append(text_element)
-            div.append(chapter_element)
-
-
+    if doc_type == "poem":
+        _handle_poem(lines, div)
+    elif doc_type == "play":
+        _handle_play(lines, div)
+    elif doc_type == "book":
+        _handle_book(lines, div)
+    elif doc_type == "report":
+        _handle_report(lines, div)
+    elif doc_type == "letter":
+        _handle_letter(lines, div)
     else:
-        file = "".join(lines)
-        file = file.replace(".\n", ".[$]")
-        ptext = file.split("[$]")
-        for line in ptext:
-            paragraph = etree.Element("p")
-            paragraph.text = line.strip()
-            div.append(paragraph)
-    
+        _handle_generic_text(lines, div)
+
     return div
+
+def _handle_poem(lines, div):
+    if not lines:
+        return
+
+    # Titre = première ligne
+    title = lines[0].strip()
+    head_element = etree.Element("head")
+    head_element.text = title
+    div.append(head_element)
+
+    # Regex pour détecter une ligne du type : par / de / by / from + nom
+    author_pattern = re.compile(r'^\s*(par|de|by|from)\s+.+', re.IGNORECASE)
+
+    stanza_start = 1  # par défaut, on commence à la 2e ligne
+    if len(lines) > 1 and author_pattern.match(lines[1]):
+        author = lines[1].strip()
+        byline_element = etree.Element("byline")
+        byline_element.text = author
+        div.append(byline_element)
+        stanza_start = 2  # on commence les strophes à la 3e ligne
+
+    def add_stanza_to_div(stanza, number):
+        stanza_element = etree.Element("lg", type="stanza", n=str(number))
+        for verse in stanza:
+            verse_element = etree.Element("l")
+            verse_element.text = verse.strip()
+            stanza_element.append(verse_element)
+        div.append(stanza_element)
+
+    stanza = []
+    stanza_count = 1
+
+    for line in lines[stanza_start:]:
+        if not line.strip():
+            if stanza:
+                add_stanza_to_div(stanza, stanza_count)
+                stanza = []
+                stanza_count += 1
+        else:
+            stanza.append(line)
+
+    if stanza:
+        add_stanza_to_div(stanza, stanza_count)
+
+
+def _handle_play(lines, div):
+    acte_element = None
+    scene_element = None
+
+    ACT_REGEX = re.compile(r"^\s*(acte|act|act\s+\w+).*", re.IGNORECASE)
+    SCENE_REGEX = re.compile(r"^\s*(scène|scene|sc\.\s*\w+).*", re.IGNORECASE)
+    # Ligne qui contient un seul "mot" alphabétique éventuellement suivi de ':' et rien d'autre
+    SPEAKER_REGEX = re.compile(r"^\s*([A-Za-zÀ-ÖØ-öø-ÿ\-]+):?\s*$")  
+
+    current_sp = None
+    current_speaker_name = None
+    current_paragraph_lines = []
+
+    def flush_current_sp():
+        nonlocal current_sp, current_paragraph_lines, scene_element
+        if current_sp is not None and current_paragraph_lines:
+            p = etree.Element("p")
+            p.text = " ".join(line.strip() for line in current_paragraph_lines)
+            current_sp.append(p)
+            current_paragraph_lines = []
+
+    for line in lines:
+        stripped = line.strip()
+
+        if not stripped:
+            # Ignorer lignes vides ou que blancs
+            continue
+
+        if ACT_REGEX.match(stripped):
+            flush_current_sp()
+            if scene_element is not None and acte_element is not None:
+                acte_element.append(scene_element)
+                scene_element = None
+            if acte_element is not None:
+                div.append(acte_element)
+
+            acte_element = etree.Element("div", type="act")
+            head = etree.Element("head")
+            head.text = stripped
+            acte_element.append(head)
+
+            scene_element = None
+            current_sp = None
+            current_speaker_name = None
+            current_paragraph_lines = []
+
+        elif SCENE_REGEX.match(stripped):
+            flush_current_sp()
+            if scene_element is not None and acte_element is not None:
+                acte_element.append(scene_element)
+
+            scene_element = etree.Element("div", type="scene")
+            head = etree.Element("head")
+            head.text = stripped
+            scene_element.append(head)
+
+            current_sp = None
+            current_speaker_name = None
+            current_paragraph_lines = []
+
+        elif SPEAKER_REGEX.match(stripped):
+            flush_current_sp()
+
+            speaker_name = SPEAKER_REGEX.match(stripped).group(1).strip()
+            current_sp = etree.Element("sp")
+            speaker_elem = etree.Element("speaker")
+            speaker_elem.text = speaker_name
+            current_sp.append(speaker_elem)
+
+            if scene_element is None:
+                scene_element = etree.Element("div", type="scene")
+                head = etree.Element("head")
+                head.text = "Scène non nommée"
+                scene_element.append(head)
+
+            scene_element.append(current_sp)
+            current_speaker_name = speaker_name
+            current_paragraph_lines = []
+
+        else:
+            if current_sp is None:
+                current_sp = etree.Element("sp")
+                speaker_elem = etree.Element("speaker")
+                speaker_elem.text = "Inconnu"
+                current_sp.append(speaker_elem)
+
+                if scene_element is None:
+                    scene_element = etree.Element("div", type="scene")
+                    head = etree.Element("head")
+                    head.text = "Scène non nommée"
+                    scene_element.append(head)
+
+                scene_element.append(current_sp)
+                current_speaker_name = "Inconnu"
+                current_paragraph_lines = []
+
+            current_paragraph_lines.append(stripped)
+
+    flush_current_sp()
+    if scene_element is not None and acte_element is not None:
+        acte_element.append(scene_element)
+    if acte_element is not None:
+        div.append(acte_element)
+
+def _handle_book(lines, div):
+    PAGE_NUM_ONLY_REGEX = re.compile(r"^\s*(\d+)\s*$")
+    CHAPTER_REGEX = re.compile(r"^\s*(chapitre|chapter|ch\.?|chapter)\s+[\w\s\-–—]*$", re.IGNORECASE)
+
+    # Regex pour détecter un numéro de page en début ou fin de ligne, avec éventuellement un header dans la ligne
+    PAGE_HEADER_REGEX = re.compile(r"^\s*(\d+)?\s*(.*?)(\d+)?\s*$")
+
+    def looks_like_header(text):
+        stripped = text.strip()
+        # Simple check : au moins une lettre majuscule, et pas vide
+        if not stripped:
+            return False
+        # Vérifie que le texte contient au moins une majuscule
+        return any(c.isupper() for c in stripped)
+
+    current_section = etree.Element("div", type="text")
+    div.append(current_section)
+
+    paragraph_lines = []
+
+    for line in lines:
+        stripped = line.strip()
+
+        # Ligne avec juste un numéro de page
+        if PAGE_NUM_ONLY_REGEX.match(stripped):
+            if paragraph_lines:
+                _finalize_paragraph(paragraph_lines, current_section)
+                paragraph_lines = []
+
+            pb = etree.Element("pb")
+            pb.set("n", stripped)
+            current_section.append(pb)
+
+            note = etree.Element("note", type="foliation")
+            note.text = stripped
+            current_section.append(note)
+            continue
+
+        # Ligne avec numéro de page au début ou à la fin, et header entre les deux
+        m = PAGE_HEADER_REGEX.match(stripped)
+        if m:
+            start_page, middle_text, end_page = m.groups()
+            # Choisir le numéro de page, priorité à début, sinon fin
+            page_num = start_page or end_page
+
+            # Si on a un numéro et que le texte ressemble à un header
+            if page_num and looks_like_header(middle_text):
+                if paragraph_lines:
+                    _finalize_paragraph(paragraph_lines, current_section)
+                    paragraph_lines = []
+
+                pb = etree.Element("pb")
+                pb.set("n", page_num)
+                current_section.append(pb)
+
+                note = etree.Element("note", type="foliation")
+                note.text = page_num
+                current_section.append(note)
+
+                fw = etree.Element("fw", type="header")
+                fw.text = middle_text.strip()
+                current_section.append(fw)
+                continue
+
+        # Détection chapitre
+        if CHAPTER_REGEX.match(stripped):
+            if paragraph_lines:
+                _finalize_paragraph(paragraph_lines, current_section)
+                paragraph_lines = []
+
+            current_section = etree.Element("div", type="chapter")
+            head = etree.Element("head")
+            head.text = stripped
+            current_section.append(head)
+            div.append(current_section)
+            continue
+
+        # Ajout au paragraphe courant
+        if stripped:
+            paragraph_lines.append(stripped)
+            if stripped[-1] in ".!?…":
+                _finalize_paragraph(paragraph_lines, current_section)
+                paragraph_lines = []
+
+    # Fin dernier paragraphe
+    if paragraph_lines:
+        _finalize_paragraph(paragraph_lines, current_section)
+
+
+def _finalize_paragraph(paragraph_lines, parent):
+    if paragraph_lines:
+        # Fusionner les mots coupés par un tiret suivi d'un saut de ligne
+        merged_lines = []
+        skip_next = False
+        for i, line in enumerate(paragraph_lines):
+            if skip_next:
+                skip_next = False
+                continue
+
+            if line.endswith("-") and i + 1 < len(paragraph_lines):
+                # Retirer le tiret et concaténer sans espace avec la ligne suivante
+                merged_word = line[:-1] + paragraph_lines[i + 1].lstrip()
+                merged_lines.append(merged_word)
+                skip_next = True
+            else:
+                merged_lines.append(line)
+
+        # Joindre les lignes corrigées avec espace
+        p = etree.Element("p")
+        p.text = ' '.join(merged_lines)
+        parent.append(p)
+
+def _handle_report(lines, div):
+    # Chiffres romains validés (de 1 à 3999) + ponctuation obligatoire
+    ROMAN_NUMERAL_REGEX = re.compile(
+        r"^\s*(M{0,4}(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3}))[\.\)\-:]\s+")
+    SUBSECTION_REGEX = re.compile(r"^\s*([0-9]|[a-z])\s*[\)\-]\s+(.*)",
+        re.IGNORECASE)
+    PAGE_NUM_REGEX = re.compile(r"^-+\s*([1-9]\d*)\s*-+$")
+
+    def looks_like_title(line):
+        stripped = line.strip()
+        return stripped.isupper() and len(stripped) > 0
+
+    current_section = etree.Element("div", type="section")
+    div.append(current_section)
+    current_subsection = None
+    paragraph_lines = []
+
+    def _finalize_paragraphs(target):
+        nonlocal paragraph_lines
+        if paragraph_lines:
+            merged_lines = []
+            skip_next = False
+            for i, line in enumerate(paragraph_lines):
+                if skip_next:
+                    skip_next = False
+                    continue
+                # Fusionner mots coupés par tiret + espace
+                if line.endswith("-") and i + 1 < len(paragraph_lines):
+                    merged_word = line[:-1] + paragraph_lines[i + 1].lstrip()
+                    merged_lines.append(merged_word)
+                    skip_next = True
+                else:
+                    merged_lines.append(line)
+            p = etree.Element("p")
+            p.text = " ".join(merged_lines)
+            target.append(p)
+            paragraph_lines = []
+
+    for line in lines:
+        stripped = line.strip()
+        if not stripped:
+            continue
+
+        # Numéro de page encadré par tirets
+        page_match = PAGE_NUM_REGEX.match(stripped)
+        if page_match:
+            _finalize_paragraphs(current_subsection if current_subsection is not None else current_section)
+
+            page_num = page_match.group(1)
+            pb = etree.Element("pb")
+            pb.set("n", page_num)
+            div.append(pb)
+
+            note = etree.Element("note", type="foliation")
+            note.text = page_num
+            div.append(note)
+            continue
+
+        # Titre tout en MAJ -> nouvelle section
+        if looks_like_title(stripped):
+            _finalize_paragraphs(current_subsection if current_subsection is not None else current_section)
+
+            current_section = etree.Element("div", type="section")
+            div.append(current_section)
+            current_subsection = None
+
+            head = etree.Element("head")
+            head.text = stripped
+            current_section.append(head)
+            continue
+
+        # Section chiffre romain + ponctuation obligatoire
+        if ROMAN_NUMERAL_REGEX.match(stripped):
+            _finalize_paragraphs(current_subsection if current_subsection is not None else current_section)
+
+            current_section = etree.Element("div", type="section")
+            div.append(current_section)
+            current_subsection = None
+
+            head = etree.Element("head")
+            head.text = stripped
+            current_section.append(head)
+            continue
+
+        # Sous-section chiffre + ponctuation + texte
+        sub_match = SUBSECTION_REGEX.match(stripped)
+        if sub_match:
+            _finalize_paragraphs(current_subsection if current_subsection is not None else current_section)
+
+            number = sub_match.group(1)
+            text = sub_match.group(2)
+
+            current_subsection = etree.Element("div", type="subsection")
+            current_section.append(current_subsection)
+
+            head = etree.Element("head")
+            head.text = f"{number}. {text}"
+            current_subsection.append(head)
+            continue
+
+        # Ajout aux paragraphes
+        paragraph_lines.append(stripped)
+        if stripped[-1] in ".!?…":
+            _finalize_paragraphs(current_subsection if current_subsection is not None else current_section)
+
+    _finalize_paragraphs(current_subsection if current_subsection is not None else current_section)
+
+def _handle_letter(lines, div):
+    salutation_done = False
+    closing_started = False
+    postscript_started = False
+    paragraph_lines = []
+
+    def looks_like_title(line):
+        stripped = line.strip()
+        return stripped.isupper() and len(stripped) > 0
+
+    def looks_like_date(line):
+        return bool(DATE_LINE_REGEX.match(line.strip()))
+
+    def _finalize_paragraphs(target):
+        nonlocal paragraph_lines
+        if paragraph_lines:
+            merged_lines = []
+            skip_next = False
+            for i, line in enumerate(paragraph_lines):
+                if skip_next:
+                    skip_next = False
+                    continue
+                if line.endswith("-") and i + 1 < len(paragraph_lines):
+                    merged_word = line[:-1] + paragraph_lines[i + 1].lstrip()
+                    merged_lines.append(merged_word)
+                    skip_next = True
+                else:
+                    merged_lines.append(line)
+
+            paragraph_text = " ".join(merged_lines).strip()
+
+            # Si le paragraphe contient uniquement une date (pas de ponctuation, pas de mot de liaison)
+            if looks_like_date(paragraph_text):
+                date_el = etree.Element("date")
+                date_el.text = paragraph_text
+                target.append(date_el)
+            else:
+                p = etree.Element("p")
+                p.text = paragraph_text
+                target.append(p)
+
+            paragraph_lines = []
+
+    current_block = div
+
+    PAGE_NUM_REGEX = re.compile(r"-\s*([0-9]+)\s*-")
+    DATE_LINE_REGEX = re.compile(
+        r'^[A-Za-zÀ-ÖØ-öø-ÿ-]+(( |-)[A-Za-zÀ-ÖØ-öø-ÿ-]+)?, (le |on )?[0-9]{1,2}(er|e|)?[ ]?(January|February|March|April|May|June|July|August|September|October|November|December|janvier|février|mars|avril|mai|juin|juillet|août|septembre|octobre|novembre|décembre) [12][0-9]{3}\.?\s*$',
+        re.IGNORECASE
+    )
+    SALUTATION_REGEX = re.compile(r'^(Dear|My dear|Mon cher|Ma chère)\b')
+    SIGNATURE_REGEX = re.compile(r'^(Yours|Sincerely|Faithfully|Votre|Affectueusement)')
+    POSTSCRIPT_REGEX = re.compile(r"^P\s*\.?\s*S(?:\.|,)?[-:]?")
+
+    postscript_element = None
+
+    for line in lines:
+        stripped = line.strip()
+        if not stripped:
+            continue
+
+        # Page number: "- 4 -"
+        if PAGE_NUM_REGEX.match(stripped):
+            _finalize_paragraphs(current_block)
+            page_num = PAGE_NUM_REGEX.match(stripped).group(1)
+            pb = etree.Element("pb", n=page_num)
+            div.append(pb)
+
+            note = etree.Element("note", type="foliation")
+            note.text = stripped
+            div.append(note)
+            continue
+
+        # Title in uppercase
+        if looks_like_title(stripped):
+            _finalize_paragraphs(current_block)
+            head = etree.Element("head")
+            head.text = stripped
+            div.append(head)
+            continue
+
+        # Dateline (dates seules, sans contexte)
+        if looks_like_date(stripped):
+            _finalize_paragraphs(current_block)
+            dateline = etree.Element("dateline")
+            dateline.text = stripped
+            div.append(dateline)
+            continue
+
+        # Salutation (opener)
+        if not salutation_done and SALUTATION_REGEX.match(stripped):
+            _finalize_paragraphs(current_block)
+            opener = etree.Element("opener")
+            p = etree.Element("salute")
+            p.text = stripped
+            opener.append(p)
+            div.append(opener)
+            salutation_done = True
+            continue
+
+        # Signature (closer)
+        if SIGNATURE_REGEX.match(stripped):
+            _finalize_paragraphs(current_block)
+            closer = etree.Element("closer")
+            signed = etree.Element("signed")
+            signed.text = stripped
+            closer.append(signed)
+            div.append(closer)
+            closing_started = True
+            continue
+
+        # Postscript
+        if POSTSCRIPT_REGEX.match(stripped):
+            _finalize_paragraphs(current_block)
+            postscript_started = True
+            postscript_element = etree.Element("postscript")
+            label = etree.Element("label")
+            label.text = POSTSCRIPT_REGEX.match(stripped).group(0).strip()
+            postscript_element.append(label)
+            div.append(postscript_element)
+            current_block = postscript_element
+            content = POSTSCRIPT_REGEX.sub("", stripped, count=1).strip()
+            if content:
+                paragraph_lines.append(content)
+            continue
+
+        # Regular paragraph
+        paragraph_lines.append(stripped)
+        if stripped.endswith((".", "!", "?", "…")):
+            _finalize_paragraphs(current_block)
+
+    # Final flush
+    _finalize_paragraphs(current_block)
+
+
+def _handle_generic_text(lines, parent):
+    text_div = etree.Element("div", type="text")
+    paragraph_lines = []
+
+    def _finalize_paragraph():
+        nonlocal paragraph_lines
+        if paragraph_lines:
+            merged = " ".join(paragraph_lines).strip()
+            if merged:
+                p = etree.Element("p")
+                p.text = merged
+                text_div.append(p)
+            paragraph_lines = []
+
+    for line in lines:
+        stripped = line.strip()
+        if not stripped:
+            _finalize_paragraph()
+            continue
+
+        paragraph_lines.append(stripped)
+
+        # Si la ligne finit par une ponctuation forte, on clôt le paragraphe
+        if stripped.endswith((".", "!", "?", "…")):
+            _finalize_paragraph()
+
+    _finalize_paragraph()  # Dernier flush
+    parent.append(text_div)
+
 
 def txt_to_xml(filename, fields):
     # Initialise TEI
@@ -1159,6 +1606,16 @@ def txt_to_xml(filename, fields):
 
         titleStmt.append(respStmt)
 
+    #-- Automatic encoding info
+    respStmt_auto = etree.Element("respStmt")
+    resp_auto = etree.Element("resp")
+    resp_auto.text = "Encoded by"
+    name_auto = etree.Element("name")
+    name_auto.text = "Pandore Toolbox"
+    respStmt_auto.append(resp_auto)
+    respStmt_auto.append(name_auto)
+    titleStmt.append(respStmt_auto)
+
     #- PublicationStmt
     publishers_list = fields['pubStmt'].split('\n') # Get publishers list
     publishers_list = list(map(str.strip, publishers_list)) # remove trailing characters
@@ -1179,8 +1636,18 @@ def txt_to_xml(filename, fields):
         licence.set("target", "https://creativecommons.org/licenses/by-nd/4.0/")
     if licence.text == "CC-BY-NC":
         licence.set("target", "https://creativecommons.org/licenses/by-nc/4.0/")
+    if licence.text == "CC-BY-ND-NC":
+        licence.set("target", "https://creativecommons.org/licenses/by-nc-nd/4.0/")
+    if licence.text == "CC-BY-NC-SA":
+        licence.set("target", "https://creativecommons.org/licenses/by-nc-sa/4.0/")
     availability.append(licence)
     publicationStmt.append(availability)
+
+    if fields['publication_date']:
+        date = etree.Element("date")
+        publication_date = fields['publication_date']
+        date.set('when-iso', publication_date)
+        publicationStmt.append(date)
 
     #- SourceDesc
     paragraphs = fields['sourceDesc'].split('\n')
@@ -1260,12 +1727,13 @@ def txt_to_xml(filename, fields):
     body.append(div)
 
     # Utilisation de la fonction encode_text
-    content_div = encode_text(filename, is_text_standard=(fields["divtype"] == "text"), is_poem=(fields["divtype"] == "poem"), is_play=(fields["divtype"] == "play"), is_book=(fields["divtype"] == "book"))
+    content_div = encode_text(filename, doc_type=fields["divtype"])
     div.extend(content_div)
 
     root.append(text)
 
     return root
+    
 #-----------------------------------------------------------------
 # Annotation automatique
 #-----------------------------------------------------------------
@@ -1306,16 +1774,15 @@ def pos_tagging():
     response = create_zip_and_response(result_path, rand_name)
     return response
 
-    return Response(json.dumps({"error": "Une erreur est survenue dans le traitement des fichiers."}), status=500, mimetype='application/json')
-
 
 #------------------ NER ---------------------------
 
 @app.route('/named_entity_recognition', methods=["POST"])
 @stream_with_context
 def named_entity_recognition():
+
     from tei_ner import tei_ner_params
-    from lxml import etree
+    import spacy
 
     uploaded_files = request.files.getlist("entityfiles")
     if uploaded_files == []:
@@ -1384,8 +1851,6 @@ def named_entity_recognition():
 
     response = create_zip_and_response(result_path, rand_name)
     return response
-
-    render_template('entites_nommees.html', erreur=erreur)
         
 #-----------------------------------------------------------------
 # Extraction d'informations
@@ -1409,7 +1874,7 @@ def keyword_extraction():
             methods = request.form.getlist('extraction-method')
             
             if not uploaded_files:
-                return render_template('outils/extraction_mots_cles.html', 
+                return render_template('tools/keywords_extraction.html', 
                                     form=form, 
                                     res={}, 
                                     error="Please upload at least one file.")
@@ -1440,8 +1905,9 @@ def keyword_extraction():
 
             # Load models only when needed to save memory
             try:
-                import torch
                 import gc
+
+                import torch
                 from keybert import KeyBERT
                 from sentence_transformers import SentenceTransformer
                 print("Loading models...")
@@ -1453,7 +1919,7 @@ def keyword_extraction():
                 print("Models loaded successfully")
             except Exception as e:
                 print(f"Error loading models: {e}")
-                return render_template('outils/extraction_mots_cles.html',
+                return render_template('tools/keywords_extraction.html',
                                     form=form,
                                     res={},
                                     error=f"Failed to initialize models: {str(e)}")
@@ -1555,18 +2021,18 @@ def keyword_extraction():
                     res[fname] = {'error': str(e)}
 
             print(f"Final results: {res}")
-            return render_template('outils/extraction_mots_cles.html', 
+            return render_template('tools/keywords_extraction.html', 
                                 form=form, 
                                 res=res)
 
         except Exception as e:
             print(f"General error: {e}")
-            return render_template('outils/extraction_mots_cles.html', 
+            return render_template('tools/keywords_extraction.html', 
                                 form=form, 
                                 res={}, 
                                 error=str(e))
     
-    return render_template('outils/extraction_mots_cles.html', 
+    return render_template('tools/keywords_extraction.html', 
                          form=form, 
                          res={})
 
@@ -1574,7 +2040,7 @@ def keyword_extraction():
 @app.route('/test_template')
 def test_template():
     form = FlaskForm()
-    return render_template('outils/extraction_mots_cles.html', 
+    return render_template('tools/keywords_extraction.html', 
                          form=form, 
                          res={}, 
                          error=None)
@@ -1585,6 +2051,7 @@ def test_template():
 @app.route('/topic_extraction', methods=["POST"])
 @stream_with_context
 def topic_extraction():
+    import spacy
     form = FlaskForm()
     msg = ""
     res = {}
@@ -1594,7 +2061,7 @@ def topic_extraction():
         try:
             uploaded_files = request.files.getlist("topic_model")
             if not uploaded_files:
-                return render_template('outils/topic_modelling.html', 
+                return render_template('tools/topic_modelling.html', 
                                     form=form, 
                                     res=res, 
                                     msg="Please upload at least one file.")
@@ -1603,16 +2070,15 @@ def topic_extraction():
             if len(uploaded_files) == 1:
                 text = uploaded_files[0].read().decode("utf-8")
                 if len(text) < 4500:
-                    return render_template('outils/topic_modelling.html', 
+                    return render_template('tools/topic_modelling.html', 
                                         form=form, 
                                         res=res, 
                                         msg="Le texte est trop court, merci de charger un corpus plus grand pour des résultats significatifs. A défaut, vous pouvez utiliser l'outil d'extraction de mot-clés.")
 
             print("Loading required libraries...")
-            from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer
             from sklearn.decomposition import NMF, LatentDirichletAllocation
-            from pathlib import Path
-            import numpy as np
+            from sklearn.feature_extraction.text import (CountVectorizer,
+                                                         TfidfVectorizer)
 
             # Loading stop words
             stop_words_path = ROOT_FOLDER / os.path.join(app.config['UTILS_FOLDER'], "stop_words_fr.txt")
@@ -1622,7 +2088,7 @@ def topic_extraction():
                     stop_words_fr = sw.read().splitlines()
             except Exception as e:
                 print(f"Error loading stop words: {e}")
-                return render_template('outils/topic_modelling.html', 
+                return render_template('tools/topic_modelling.html', 
                                     form=form, 
                                     res=res, 
                                     msg=f"Error loading stop words: {e}")
@@ -1733,19 +2199,19 @@ def topic_extraction():
                     msg += f"LDA processing error: {e}\n"
             
             print(f"Final results: {res}")
-            return render_template('outils/topic_modelling.html', 
+            return render_template('tools/topic_modelling.html', 
                                 form=form, 
                                 res=res, 
                                 msg=msg)
 
         except Exception as e:
             print(f"General error in topic extraction: {e}")
-            return render_template('outils/topic_modelling.html', 
+            return render_template('tools/topic_modelling.html', 
                                 form=form, 
                                 res={}, 
                                 msg=f"Error processing request: {e}")
 
-    return render_template('outils/topic_modelling.html', 
+    return render_template('tools/topic_modelling.html', 
                          form=form, 
                          res=res, 
                          msg=msg)
@@ -1806,14 +2272,18 @@ def quotation():
 
 #--------------- Analyse linguistique --------------------------
 
-
 def find_hapaxes(input_text):
+    from collections import Counter
+
     words = input_text.lower().replace(',', '').replace('?', '').split()
     word_counts = Counter(words)
     hapaxes = [word for word, count in word_counts.items() if count == 1]
     return hapaxes
 
 def generate_ngrams(input_text, n, r):
+    from nltk.tokenize import word_tokenize
+    from collections import Counter
+
     tokens = word_tokenize(input_text.lower())
     n_grams = ngrams(tokens, n)
     n_grams_counts = Counter(n_grams)
@@ -1836,6 +2306,8 @@ def analyze_ngrams(filename, result_path, input_text, n, r):
             out.write(f"{n}-gram: {' '.join(n_gram)} --> Count: {count}\n")
 
 def analyze_dependency(filename, result_path, input_text, nlp_eng):
+    import spacy
+    from spacy import displacy
     doc = nlp_eng(input_text)
     syntax_info = "\n".join(
         [f"{token.text} ({token.pos_}) <--{token.dep_} ({spacy.explain(token.dep_)})-- {token.head.text} ({token.head.pos_})"
@@ -1851,6 +2323,8 @@ def analyze_dependency(filename, result_path, input_text, nlp_eng):
     write_to_file(os.path.join(result_path, output_name_svg), svg)
 
 def analyze_combined(filename, result_path, analysis_type, hapaxes_list, detected_languages_str, input_text, n, r, nlp_eng):
+    import spacy
+    from spacy import displacy
     content = ""
     if 'lang' in analysis_type:
         content += f"Detected languages:\n{detected_languages_str}\n\n"
@@ -1880,6 +2354,9 @@ def analyze_combined(filename, result_path, analysis_type, hapaxes_list, detecte
 
 @app.route('/analyze_linguistic', methods=['POST'])
 def analyze_linguistic():
+    from langdetect import detect_langs
+    import spacy
+
     if 'files' not in request.files:
         response = {"error": "No files part"}
         return Response(json.dumps(response), status=400, mimetype='application/json')
@@ -1930,6 +2407,12 @@ def analyze_linguistic():
 #--------------- Analyse statistique --------------------------
 @app.route('/analyze_statistic', methods=['POST'])
 def analyze_statistic():
+    import matplotlib.pyplot as plt
+    from wordcloud import WordCloud
+    from nltk.tokenize import sent_tokenize, word_tokenize
+    from nltk.corpus import stopwords
+    from collections import Counter
+
     if 'files' not in request.files:
         response = {"error": "No files part"}
         return Response(json.dumps(response), status=400, mimetype='application/json')
@@ -2141,6 +2624,9 @@ def analyze_statistic():
 
 @app.route('/analyze_lexicale', methods=['POST'])
 def analyze_lexicale():
+    import matplotlib.pyplot as plt
+    from nltk.tokenize import word_tokenize
+
     if 'files' not in request.files:
         return Response(json.dumps({"error": "No files part"}), status=400, mimetype='application/json')
 
@@ -2277,12 +2763,17 @@ pipeline_cache = {}
 def get_pipeline(task, model, **kwargs):
     key = f"{task}_{model}"
     if key not in pipeline_cache:
+        from transformers import pipeline
         pipeline_cache[key] = pipeline(task, model=model, **kwargs)
     return pipeline_cache[key]
 
 
 @app.route('/analyze_text', methods=['POST'])
 def analyze_text():
+    import textstat
+    import plotly.graph_objects as go
+    import matplotlib.pyplot as plt
+
     if 'input_text' not in request.form:
         response = {"error": "No text part"}
         return Response(json.dumps(response), status=400, mimetype='application/json')
@@ -2476,6 +2967,7 @@ def analyze_text():
 
 
 #--------------- Comparison --------------------------
+import textdistance
 
 def highlight_diffs(text1, text2):
     matcher = difflib.SequenceMatcher(None, text1, text2)
@@ -2497,6 +2989,7 @@ def highlight_diffs(text1, text2):
     return ''.join(output1), ''.join(output2)
 
 def calculate_comparisons(text1, text2):
+
     # Edit-based distance (Levenshtein...): Counts minimum edits needed (insertions, deletions, substitutions) to change one text into another.
     levenshtein_score = textdistance.levenshtein(text1, text2)
     # Token-based similarity (Jaccard...): Assesses similarity by comparing the sets of words from both texts
@@ -2528,6 +3021,7 @@ def read_file(file_path):
 
 @app.route('/compare', methods=['POST'])
 def compare():
+
     if 'files' not in request.files:
         response = {"error": "No files part"}
         return Response(json.dumps(response), status=400, mimetype='application/json')
@@ -2577,6 +3071,7 @@ def compare():
 model_glove_cache = None # Cache pour le modèle
 
 def get_glove_model():
+    import gensim.downloader as api
     global model_glove_cache
     if model_glove_cache is None:
         model_glove_cache = api.load("glove-wiki-gigaword-100")  # Chargement unique
@@ -2585,6 +3080,10 @@ def get_glove_model():
 
 @app.route('/embedding_tool', methods=['POST'])
 def embedding_tool():
+    import matplotlib.pyplot as plt
+    from sklearn.decomposition import PCA
+    from sklearn.cluster import KMeans
+
     analysis_type = request.form['analysis_type']
     inputText = str(request.form.get('inputText'))
     input1 = str(request.form.get('input1'))
@@ -2681,7 +3180,7 @@ def lexical_relationships():
                 <li><strong>Holonymes</strong> : {', '.join(s.replace('_', ' ') for s in sorted(holonyms)) or 'None'}</li>
         </ul>
         """
-        return render_template("outils/relations_lexicales.html", word=word, relationships_html=relationships_html, msg="")
+        return render_template("tools/lexical_relationship.html", word=word, relationships_html=relationships_html, msg="")
 
     except Exception as e:
         response = {"error": f"Erreur lors de l'analyse : {str(e)}"}
@@ -2691,98 +3190,68 @@ def lexical_relationships():
 #---------------------------------------------------------
 # Visualisation
 #---------------------------------------------------------
-"""
+
 @app.route("/run_renard",  methods=["GET", "POST"])
 @stream_with_context
 def run_renard():
 
+    """
     try: # For debugging  
         from renard.pipeline.graph_extraction import CoOccurrencesGraphExtractor
         print("Available parameters for CoOccurrencesGraphExtractor:")
         print(help(CoOccurrencesGraphExtractor))
     except Exception as e:
         print(f"Error importing renard: {str(e)}")
+    """
 
     form = FlaskForm()
     if request.method == 'POST':
         try:
             min_appearances = int(request.form['min_appearances'])
             lang = request.form.get('toollang')
-        min_appearances = int(request.form['min_appearances'])
-        lang = request.form.get('toollang')
 
             if request.files['renard_upload'].filename != '':
                 f = request.files['renard_upload']
-                text = f.read()
-                text = text.decode('utf-8')
+                text = f.read().decode('utf-8')
             else:
                 text = request.form['renard_txt_input']
-            
-            rand_name = 'renard_graph_' + ''.join((random.choice(string.ascii_lowercase) for x in range(8))) + '.gexf'
+
+            rand_name = 'renard_graph_' + ''.join(random.choice(string.ascii_lowercase) for _ in range(8)) + '.gexf'
             result_path = ROOT_FOLDER / os.path.join(app.config['UPLOAD_FOLDER'], rand_name)
-            
-            from renard.pipeline import Pipeline
-            from renard.pipeline.tokenization import NLTKTokenizer
-            from renard.pipeline.ner import BertNamedEntityRecognizer
-            from renard.pipeline.character_unification import GraphRulesCharacterUnifier
-            from renard.pipeline.graph_extraction import CoOccurrencesGraphExtractor
+
+            import base64
             from renard.graph_utils import graph_with_names
+            from renard.pipeline import Pipeline
+            from renard.pipeline.character_unification import \
+                GraphRulesCharacterUnifier
+            from renard.pipeline.graph_extraction import \
+                CoOccurrencesGraphExtractor
+            from renard.pipeline.ner import BertNamedEntityRecognizer
+            from renard.pipeline.tokenization import NLTKTokenizer
             from renard.plot_utils import plot_nx_graph_reasonably
             import matplotlib.pyplot as plt
-            import networkx as nx
-            import base64
-        if request.files['renard_upload'].filename != '':
-            f = request.files['renard_upload']
-
-            text = f.read()
-            text = text.decode('utf-8')
-        else:
-            text = request.form['renard_txt_input']
-        
-        rand_name =  'renard_graph_' + ''.join((random.choice(string.ascii_lowercase) for x in range(8))) + '.gexf'
-        result_path = ROOT_FOLDER / os.path.join(app.config['UPLOAD_FOLDER'], rand_name)
-        
-        from renard.pipeline import Pipeline
-        from renard.pipeline.tokenization import NLTKTokenizer
-        from renard.pipeline.ner import NLTKNamedEntityRecognizer, BertNamedEntityRecognizer
-        from renard.pipeline.character_unification import GraphRulesCharacterUnifier
-        from renard.pipeline.graph_extraction import CoOccurrencesGraphExtractor
-        from renard.graph_utils import graph_with_names
-        from renard.plot_utils import plot_nx_graph_reasonably
-        import matplotlib.pyplot as plt
-        import networkx as nx
-        import base64
 
             BERT_MODELS = {
-                "fra" : "Jean-Baptiste/camembert-ner",
-                "eng" : "dslim/bert-base-NER",
-                "spa" : "mrm8488/bert-spanish-cased-finetuned-ner"
+                "fra": "compnet-renard/camembert-base-literary-NER",
+                "eng": "compnet-renard/bert-base-cased-literary-NER",
             }
-            
-            pipeline = Pipeline(
-            [
-                NLTKTokenizer(),
-                BertNamedEntityRecognizer(model=BERT_MODELS[lang]),
-                GraphRulesCharacterUnifier(min_appearances=min_appearances),
-                CoOccurrencesGraphExtractor(co_occurences_dist=35) 
-            ], lang=lang)
-        BERT_MODELS = {
-            "fra" : "Jean-Baptiste/camembert-ner",
-            "eng" : "dslim/bert-base-NER",
-            "spa" : "mrm8488/bert-spanish-cased-finetuned-ner"
-        }
-        
 
-        pipeline = Pipeline(
-        [
-            NLTKTokenizer(),
-            BertNamedEntityRecognizer(model=BERT_MODELS[lang]), #NLTKNamedEntityRecognizer(),
-            GraphRulesCharacterUnifier(min_appearances=min_appearances),
-            CoOccurrencesGraphExtractor(co_occurrences_dist=35)
-        ], lang = lang)
+            pipeline = Pipeline(
+                [
+                    NLTKTokenizer(),
+                    BertNamedEntityRecognizer(model=BERT_MODELS[lang]),
+                    GraphRulesCharacterUnifier(min_appearances=min_appearances),
+                    CoOccurrencesGraphExtractor(co_occurrences_dist=35)
+                ],
+                lang=lang
+            )
 
             out = pipeline(text)
+
+            # Export GEXF graph
             out.export_graph_to_gexf(result_path)
+
+            # Render graph
             G = graph_with_names(out.characters_graph)
             plot_nx_graph_reasonably(G)
             img = BytesIO()
@@ -2790,30 +3259,16 @@ def run_renard():
             img.seek(0)
             plt.clf()
             figdata_png = base64.b64encode(img.getvalue()).decode('ascii')
-        out = pipeline(text)
 
-        # Save GEXF network
-        out.export_graph_to_gexf(result_path)
-
-        # Networkx to plot
-        G = graph_with_names(out.characters_graph)
-        plot_nx_graph_reasonably(G)
-        img = BytesIO() # file-like object for the image
-        plt.savefig(img, format='png') # save the image to the stream
-        img.seek(0) # writing moved the cursor to the end of the file, reset
-        plt.clf() # clear pyplot
-        figdata_png = base64.b64encode(img.getvalue()).decode('ascii')
-
-            return render_template('outils/renard.html', form=form, graph=figdata_png, fname=str(rand_name))
-        return render_template('renard.html', form=form, graph=figdata_png, fname=str(rand_name))
+            return render_template('tools/renard.html', form=form, graph=figdata_png, fname=str(rand_name))
 
         except Exception as e:
             print(f"Error in pipeline: {str(e)}")
-            return render_template('outils/renard.html', form=form, 
-                                error=f"Pipeline error: {str(e)}")
+            return render_template('tools/renard.html', form=form, error=f"Pipeline error: {str(e)}")
 
-    return render_template('outils/renard.html', form=form, graph="", fname="")
-"""
+    # GET request fallback
+    return render_template('tools/renard.html', form=form, graph="", fname="")
+
 #-----------------------------------------------------------------
 # Extraction de corpus
 #-----------------------------------------------------------------
@@ -2847,13 +3302,15 @@ def generate_corpus():
         else:
             os.remove(result_path)
                 
-    return render_template('/collecter_corpus.html')
+    return render_template('/corpus_collection.html')
 
 @app.route('/corpus_from_url',  methods=["GET","POST"])
 @stream_with_context
 
 #Modifiée pour travail local + corrections
 def corpus_from_url():
+    from bs4 import BeautifulSoup
+    from lxml.html.clean import clean_html
     if request.method == 'POST':
         keys = request.form.keys()
         urls = [k for k in keys if k.startswith('url')]
@@ -2929,11 +3386,12 @@ def corpus_from_url():
         response = create_zip_and_response(result_path, rand_name)
         return response
 
-    return render_template('collecter_corpus.html')
+    return render_template('corpus_collection.html')
 
 #----------------------- Wikisource -------------------
 
 def generate_random_corpus(nb):
+    from bs4 import BeautifulSoup
 
     # Read list of urls
     with open(ROOT_FOLDER / 'static/wikisource_bib.txt', 'r') as bib:
@@ -2977,6 +3435,8 @@ def generate_random_corpus(nb):
 @app.route('/extract_gallica', methods=["GET", "POST"])
 @stream_with_context
 def extract_gallica():
+    from bs4 import BeautifulSoup
+
     form = FlaskForm()
     input_format = request.form['input_format']
     res_ok = ""
@@ -3176,6 +3636,8 @@ def download_google_books():
 
 @app.route('/extract_urls', methods=['POST'])
 def extract_urls():
+    from newspaper import Article
+
     if 'files' not in request.form:
         return Response(json.dumps({"error": "URLs not specified"}), status=400, mimetype='application/json')
     
@@ -3249,6 +3711,42 @@ def normalisation_graphies():
 
 #------------- Correction Erreurs ---------------------
 
+def languagetool_check(text, lang):
+    url = 'https://api.languagetool.org/v2/check'
+    data = {
+        'text': text,
+        'language': lang,
+        'enabledOnly': False,
+    }
+    response = requests.post(url, data=data)
+    response.raise_for_status()
+    return response.json()
+
+def highlight_corrections(text, matches):
+    """
+    Applique les corrections avec surlignage des modifications.
+    Les remplacements sont encadrés par [[...]].
+    """
+    corrections = []
+    for match in matches:
+        replacements = match.get('replacements')
+        if replacements:
+            replacement = replacements[0]['value']
+            offset = match['offset']
+            length = match['length']
+            corrections.append((offset, length, replacement))
+
+    # Appliquer les corrections en partant de la fin pour ne pas fausser les indices
+    corrected_text = text
+    for offset, length, replacement in sorted(corrections, key=lambda x: x[0], reverse=True):
+        corrected_text = (
+            corrected_text[:offset] +
+            "**" + replacement + "**" +
+            corrected_text[offset + length:]
+        )
+    return corrected_text
+
+
 @app.route('/autocorrect', methods=["GET", "POST"])
 def autocorrect():
     if 'files' not in request.files:
@@ -3260,10 +3758,7 @@ def autocorrect():
         response = {"error": "No selected files"}
         return Response(json.dumps(response), status=400, mimetype='application/json')
 
-    selected_language = request.form['selected_language']
-    nlp = get_nlp(selected_language)
-    if 'contextual spellchecker' not in nlp.pipe_names:
-        contextualSpellCheck.add_to_pipe(nlp)
+    selected_language = request.form.get('selected_language', 'fr')
 
     rand_name = generate_rand_name('autocorrected_')
     result_path = create_named_directory(rand_name)
@@ -3271,11 +3766,15 @@ def autocorrect():
     for f in files:
         try:
             input_text = f.read().decode('utf-8')
-            doc = nlp(input_text)
-            filename, file_extension = os.path.splitext(f.filename)
-            output_name = filename + '.txt'
+            # Appel API LanguageTool
+            result_json = languagetool_check(input_text, selected_language)
+            matches = result_json.get('matches', [])
+            highlighted_corrected_text = highlight_corrections(input_text, matches)
+
+            filename, _ = os.path.splitext(f.filename)
+            output_name = filename + '_corrected.txt'
             with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-                out.write("The input text was : \n" + str(input_text) + "\n\nThe corrected text is: \n" + str(doc._.outcome_spellCheck))
+                out.write(highlighted_corrected_text)
 
         finally:
             f.close()
@@ -3283,19 +3782,171 @@ def autocorrect():
     response = create_zip_and_response(result_path, rand_name)
     return response
 
-    return Response(json.dumps({"error": "Une erreur est survenue dans le traitement des fichiers."}), status=500, mimetype='application/json')
 
 #-----------------------------------------------------------------
 # Génération de texte
 #-----------------------------------------------------------------
 
-#------------- Complétion de texte ---------------------
+import torch
 
-#------------- Q/A ---------------------
+#-----------------------------------------------------------------
+# Model caching for better performance
+#-----------------------------------------------------------------
+cache_model = {}
+
+def retrieve_model(task, model_name):
+    """Get a model from cache or load it if not cached"""
+    key = f"{task}_{model_name}"
+    if key not in cache_model:
+        from transformers import pipeline
+        cache_model[key] = pipeline(task, model=model_name)
+    return cache_model[key]
+
+
+#------------- Complétion de texte ---------------------
+@app.route('/completion_text', methods=['GET', 'POST'])
+def completion_text():
+    form = FlaskForm()
+    result = None
+    
+    if request.method == 'POST':
+        prompt = request.form.get('prompt', '')
+        max_length = int(request.form.get('max_length', 60))
+        
+        try:
+            # Chargement de la pipeline text-generation pour BLOOM-560m via retrieve_model
+            generator = retrieve_model("text-generation", "bigscience/bloom-560m")
+            
+            outputs = generator(
+                prompt,
+                max_length=max_length,
+                do_sample=True,
+                top_k=50,
+                top_p=0.9,
+                temperature=0.7,
+                repetition_penalty=1.2,
+                no_repeat_ngram_size=3,
+                num_return_sequences=1
+            )
+            result = outputs[0]['generated_text']
+        
+        except Exception as e:
+            return render_template('tools/text_completion.html', form=form, error=str(e))
+    
+    return render_template('tools/text_completion.html', form=form, result=result)
+
+#------------- Q/A and Conversation ---------------------
+@app.route('/qa_function', methods=['GET', 'POST'])
+def qa_function():
+    form = FlaskForm()
+    qa_result = None
+
+    if request.method == 'POST':
+        tool_type = request.form.get('tool_type')
+        
+        if tool_type == 'qa':
+            context = request.form.get('context', '')
+            question = request.form.get('question', '')
+            
+            try:
+                qa_pipeline = retrieve_model(
+                    "question-answering", 
+                    "distilbert-base-cased-distilled-squad"
+                )
+                qa_result = qa_pipeline(context=context, question=question)
+            except Exception as e:
+                return render_template(
+                    'tools/questions_and_answers.html',
+                    form=form,
+                    error=str(e)
+                )
+
+    return render_template(
+        'tools/questions_and_answers.html',
+        form=form,
+        qa_result=qa_result
+    )
 
 #------------- Traduction ---------------------
+@app.route('/traduction', methods=['GET', 'POST'])
+def traduction():
+    form = FlaskForm()
+    result = None
+    
+    if request.method == 'POST':
+        text = request.form.get('text', '')
+        source_lang = request.form.get('source_lang', 'en-fr')
+        
+        try:
+            # Define translation model based on language pair
+            model_name = f"Helsinki-NLP/opus-mt-{source_lang}"
+            translator = retrieve_model("translation", model_name)
+            
+            result = translator(text, max_length=512)[0]['translation_text']
+        except Exception as e:
+            return render_template('tools/translation.html', form=form, error=str(e))
+            
+    return render_template('tools/translation.html', form=form, result=result)
 
 #------------- Ajustement du niveau de lecture ---------------------
+@app.route('/ajustement_text_readibility_level', methods=['GET', 'POST'])
+def ajustement_text_readibility_level():
+    form = FlaskForm()
+    result = None
+
+    # Instructions for different levels
+    LEVEL_DESCRIPTIONS = {
+        "primary": "Use very short sentences and very simple vocabulary. Explain as if you were speaking to a young child in primary school.",
+        "middle_school": "Use short sentences and clear vocabulary. Explain as if you were teaching a middle school student. Avoid difficult concepts.",
+        "high_school": "Use straightforward sentences and vocabulary appropriate for a high school student. Explain thoroughly but clearly.",
+    }
+
+    # Token length limits for each level
+    LEVEL_MAX_LENGTH = {
+        "primary": 150,
+        "middle_school": 250,
+        "high_school": 350,
+    }
+
+    if request.method == 'POST':
+        text = request.form.get('text', '')
+        target_level = request.form.get('target_level', 'middle_school')
+        style_instruction = LEVEL_DESCRIPTIONS.get(target_level, LEVEL_DESCRIPTIONS['middle_school'])
+        max_len = LEVEL_MAX_LENGTH.get(target_level, 250)
+
+        try:
+            generator = retrieve_model(
+                "text2text-generation",
+                "mrm8488/t5-small-finetuned-text-simplification"
+            )
+
+            prompt = f"""Rewrite the following text in a simpler style. {style_instruction}
+            Text to simplify:
+            {text}
+            Simplified version:"""
+
+            result = generator(
+                prompt,
+                max_length=max_len,
+                num_return_sequences=1,
+                do_sample=True,
+                temperature=0.5,
+                top_p=0.9
+            )[0]['generated_text']
+
+        except Exception as e:
+            return render_template(
+                'tools/adjusting_text_readibility_level.html',
+                form=form,
+                error=str(e)
+            )
+
+    return render_template(
+        'tools/adjusting_text_readibility_level.html',
+        form=form,
+        result=result
+    )
+
 
 
 #-----------------------------------------------------------------
@@ -3416,16 +4067,20 @@ def sentencizer(text):
 
     return sentences
 
-def spacy_lemmatizer(text):
-# Input : raw text
-# Ouput : lemmatized text
+def spacy_lemmatizer(text: str) -> str:
+    """
+    Lemmatize the input French text using spaCy's 'fr_core_news_md' model.
+
+    Parameters:
+        text (str): Raw input text.
+
+    Returns:
+        str: Lemmatized text.
+    """
     import spacy
     nlp = spacy.load('fr_core_news_md')
     doc = nlp(text)
-    result = []
-    for d in doc:
-        result.append(d.lemma_)
-    return " ".join(result)
+    return " ".join([token.lemma_ for token in doc])
 
 def createRandomDir(prefix, length):
     rand_name =  prefix + ''.join((random.choice(string.ascii_lowercase) for x in range(length)))
@@ -3434,7 +4089,9 @@ def createRandomDir(prefix, length):
     return (result_path, rand_name)
 
 def getWikiPage(url):
-# Renvoie le contenu d'un texte wikisource à partir de son url, -1 en cas d'erreur
+    from bs4 import BeautifulSoup
+
+    # Renvoie le contenu d'un texte wikisource à partir de son url, -1 en cas d'erreur
     page = urllib.request.urlopen(url)
     soup = BeautifulSoup(page, 'html.parser')
     text = soup.findAll("div", attrs={'class': 'prp-pages-output'})
@@ -3462,8 +4119,11 @@ def display_topics(model, feature_names, no_top_words):
 @app.route("/run_ocr_ner", methods=["POST"])
 @stream_with_context
 def run_ocr_ner():
-    from txt_ner import txt_ner_params
+    import ocr
     from ocr import tesseract_to_txt
+    from txt_ner import txt_ner_params
+    import spacy
+
     # Récupération des fichiers uploadés
     uploaded_files = request.files.getlist("inputfiles")
     if not uploaded_files:
@@ -3528,160 +4188,140 @@ def to_geoJSON_point(coordinates, name):
         },
     }
 
-
-@app.route("/run_ocr_map", methods=["POST"])
-def run_ocr_map():
-    from txt_ner import txt_ner_params
-    from geopy.geocoders import Nominatim
-    geolocator = Nominatim(user_agent="http")
-
-    # paramètres globaux
-    uploaded_files = request.files.getlist("inputfiles")
-    # paramètres OCR
-    ocr_model = request.form['tessmodel']
-    # paramètres NER
-    up_folder = app.config['UPLOAD_FOLDER']
-    encodage = request.form['encodage']
-    moteur_REN = request.form['moteur_REN']
-    modele_REN = request.form['modele_REN']
-
-    rand_name =  generate_rand_name('ocr_ner_')
-    if ocr_model != "raw_text":
-        contenu = ocr.tesseract_to_txt(uploaded_files, ocr_model, '', rand_name, ROOT_FOLDER, up_folder)
-    else:
-        liste_contenus = []
-        for uploaded_file in uploaded_files:
-            try:
-                liste_contenus.append(uploaded_file.read().decode(encodage))
-            finally: # ensure file is closed
-                uploaded_file.close()
-        contenu = "\n\n".join(liste_contenus)
-
-        del liste_contenus
-
-    entities = txt_ner_params(contenu, moteur_REN, modele_REN, encodage=encodage)
-    ensemble_mentions = set(text for label, start, end, text in entities if label == "LOC")
-    coordonnees = []
-    for texte in ensemble_mentions:
-        location = geolocator.geocode(texte, timeout=30)
-        if location:
-            coordonnees.append(to_geoJSON_point(location, texte))
-
-    return {"points": coordonnees}
-
 #---------------------------------------------------------
 #AFFICHAGE MAP des résultats pour plusieurs outils de NER
 #---------------------------------------------------------
 
 @app.route("/run_ocr_map_intersection", methods=["GET", "POST"])
 def run_ocr_map_intersection():
-    from txt_ner import txt_ner_params
-    from geopy.geocoders import Nominatim
-    geolocator = Nominatim(user_agent="http")
-    # paramètres globaux
-    uploaded_files = request.files.getlist("inputfiles")
-    #print(uploaded_files)
-    lang = request.form.get('toollang')
-    # paramètres OCR
-    #ocr_model = request.form['tessmodel']
+    import asyncio
+    from collections import Counter
+    from cluster import freqs2clustering
 
-    # paramètres NER
+    import aiohttp
+
+    import ocr
+    from ocr import tesseract_to_txt
+    from txt_ner import txt_ner_params
+
+    geo_cache_file = "cache_geoloc.json"
+    if os.path.exists(geo_cache_file):
+        with open(geo_cache_file, "r", encoding="utf-8") as f:
+            geo_cache = json.load(f)
+    else:
+        geo_cache = {}
+
+    uploaded_files = request.files.getlist("inputfiles")
+    ocr_model = request.form['tessmodel']
     up_folder = app.config['UPLOAD_FOLDER']
     encodage = request.form['encodage']
     moteur_REN1 = request.form['moteur_REN1']
     modele_REN1 = request.form['modele_REN1']
     moteur_REN2 = request.form['moteur_REN2']
     modele_REN2 = request.form['modele_REN2']
-    frequences_1 = collections.Counter()
-    frequences_2 = collections.Counter()
-    frequences = collections.Counter()
+    frequences_1 = Counter()
+    frequences_2 = Counter()
+    frequences = Counter()
     outil_1 = f"{moteur_REN1}/{modele_REN1}"
-    outil_2 = (f"{moteur_REN2}/{modele_REN2}" if moteur_REN2 != "aucun" else "aucun")
+    outil_2 = (f"{moteur_REN2}/{modele_REN2}" if moteur_REN2 != "None" else "None")
 
-    # print(moteur_REN1, moteur_REN2)
+    rand_name = generate_rand_name('ocr_ner_')
 
-    if request.form.get("do_ocr"):
-        rand_name =  generate_rand_name('ocr_ner_')
-        contenu = ocr.tesseract_to_txt(uploaded_files, lang, '', rand_name, ROOT_FOLDER, up_folder)
-        print("Numérisation en cours...")
+    if ocr_model != "raw_text":
+        contenu = tesseract_to_txt(uploaded_files, ocr_model, '', rand_name, ROOT_FOLDER, up_folder)
     else:
-        liste_contenus = []
-        for uploaded_file in uploaded_files:
-            #print(uploaded_file)
-            try:
-                f = uploaded_file.read()
-                liste_contenus.append(f.decode(encodage))
-                #print(liste_contenus)
-            finally: # ensure file is closed
-                uploaded_file.close()
+        liste_contenus = [uploaded_file.read().decode(encodage) for uploaded_file in uploaded_files]
         contenu = "\n\n".join(liste_contenus)
 
-        del liste_contenus
-
-    # TODO: ajout cumul
     entities_1 = txt_ner_params(contenu, moteur_REN1, modele_REN1, encodage=encodage)
-    ensemble_mentions_1 = set(text for label, start, end, text in entities_1 if label == "LOC")
-    ensemble_positions_1 = set((text, start, end) for label, start, end, text in entities_1 if label == "LOC")
-    ensemble_positions = set((text, start, end) for label, start, end, text in entities_1 if label == "LOC")
+    ensemble_mentions_1 = {text for label, start, end, text in entities_1 if label == "LOC"}
+    ensemble_positions_1 = {(text, start, end) for label, start, end, text in entities_1 if label == "LOC"}
+    ensemble_positions = set(ensemble_positions_1)
 
-    # TODO: ajout cumul
-    if moteur_REN2 != "aucun":
+    if moteur_REN2 != "None":
         entities_2 = txt_ner_params(contenu, moteur_REN2, modele_REN2, encodage=encodage)
-        ensemble_mentions_2 = set(text for label, start, end, text in entities_2 if label == "LOC")
-        ensemble_positions_2 = set((text, start, end) for label, start, end, text in entities_2 if label == "LOC")
-        ensemble_positions |= set((text, start, end) for label, start, end, text in entities_2 if label == "LOC")
+        ensemble_mentions_2 = {text for label, start, end, text in entities_2 if label == "LOC"}
+        ensemble_positions_2 = {(text, start, end) for label, start, end, text in entities_2 if label == "LOC"}
+        ensemble_positions |= ensemble_positions_2
     else:
         entities_2 = ()
-        ensemble_positions_2 = set()
         ensemble_mentions_2 = set()
+        ensemble_positions_2 = set()
 
     ensemble_mentions_commun = ensemble_mentions_1 & ensemble_mentions_2
     ensemble_mentions_1 -= ensemble_mentions_commun
     ensemble_mentions_2 -= ensemble_mentions_commun
 
-    for text, start, end in ensemble_positions_1:
+    for text, _, _ in ensemble_positions_1:
         frequences_1[text] += 1
-    for text, start, end in ensemble_positions_2:
+    for text, _, _ in ensemble_positions_2:
         frequences_2[text] += 1
-    for text, start, end in ensemble_positions:
+    for text, _, _ in ensemble_positions:
         frequences[text] += 1
 
-    # print("TEST1")
-
     text2coord = {}
-    for text in set(p[0] for p in ensemble_positions):
-        text2coord[text] = geolocator.geocode(text, timeout=30) # check for everyone
 
-    # TODO: faire clustering pour cumul + outil 1 / outil 2 / commun
+    async def fetch_geocode(session, semaphore, text):
+        cleaned_text = text.strip().lower()
+        if len(cleaned_text) < 3:
+            return text, None
+
+        if cleaned_text in geo_cache:
+            return text, geo_cache[cleaned_text]
+
+        url = "https://nominatim.openstreetmap.org/search"
+        params = {"q": cleaned_text, "format": "json", "limit": 1}
+        headers = {"User-Agent": "your-app-name/1.0 (your-email@example.com)"}
+
+        async with semaphore:
+            try:
+                async with session.get(url, params=params, headers=headers, timeout=30) as resp:
+                    if resp.status == 200:
+                        data = await resp.json()
+                        if data:
+                            lat = float(data[0]["lat"])
+                            lon = float(data[0]["lon"])
+                            result = [lat, lon]
+                            geo_cache[cleaned_text] = result
+                            return text, result
+            except Exception as e:
+                print(f"Error for {text}: {e}")
+        return text, None
+
+    async def geocode_all(texts):
+        semaphore = asyncio.Semaphore(5)
+        async with aiohttp.ClientSession() as session:
+            tasks = [fetch_geocode(session, semaphore, text) for text in texts]
+            for future in asyncio.as_completed(tasks):
+                text, coords = await future
+                if coords:
+                    text2coord[text] = coords
+
+    asyncio.run(geocode_all({p[0] for p in ensemble_positions}))
+
+    with open(geo_cache_file, "w", encoding="utf-8") as f:
+        json.dump(geo_cache, f, ensure_ascii=False, indent=2)
+
     clusters_1 = freqs2clustering(frequences_1)
     clusters_2 = freqs2clustering(frequences_2)
     clusters = freqs2clustering(frequences)
 
-    # print("TEST2")
-    frequences_cumul_1 = {}
-    for centroid in clusters_1:
-        frequences_cumul_1[centroid] = 0
-        for forme_equivalente in clusters_1[centroid]["Termes"]:
-            frequences_cumul_1[centroid] += frequences_1[forme_equivalente]
-    frequences_cumul_2 = {}
-    for centroid in clusters_2:
-        frequences_cumul_2[centroid] = 0
-        for forme_equivalente in clusters_2[centroid]["Termes"]:
-            frequences_cumul_2[centroid] += frequences_2[forme_equivalente]
-    frequences_cumul = {}
-    for centroid in clusters:
-        frequences_cumul[centroid] = 0
-        for forme_equivalente in clusters[centroid]["Termes"]:
-            frequences_cumul[centroid] += frequences[forme_equivalente]
+    def cumulative_freq(clusters, freqs):
+        return {
+            centroid: sum(freqs[form] for form in clusters[centroid]["Termes"])
+            for centroid in clusters
+        }
 
-    # print("TEST3")
+    frequences_cumul_1 = cumulative_freq(clusters_1, frequences_1)
+    frequences_cumul_2 = cumulative_freq(clusters_2, frequences_2)
+    frequences_cumul = cumulative_freq(clusters, frequences)
 
-    # TODO: ajout cumul
-    liste_keys = ["commun", outil_1, outil_2]
+    liste_keys = ["Common", outil_1, outil_2]
     liste_ensemble_mention = [ensemble_mentions_commun, ensemble_mentions_1, ensemble_mentions_2]
     dico_mention_marker = {key: [] for key in liste_keys}
+
     for key, ensemble in zip(liste_keys, liste_ensemble_mention):
-        if key == "commun":
+        if key == "Common":
             my_clusters = clusters
             my_frequences = frequences_cumul
         elif key == outil_1:
@@ -3690,59 +4330,82 @@ def run_ocr_map_intersection():
         elif key == outil_2:
             my_clusters = clusters_2
             my_frequences = frequences_cumul_2
+        else:
+            raise NotImplementedError(f"Clustering pour {key} non implémenté")
+
         sous_ensemble = [texte for texte in my_frequences if texte in ensemble]
         for texte in sous_ensemble:
-            # forms = (" / ".join(my_clusters[texte]["Termes"]) if my_clusters else "")
-            #SAVE forms = [(form, [0, 0]) for form in my_clusters[texte]["Termes"]]
-            forms = []
-            for form in my_clusters[texte]["Termes"]:
-                coords = text2coord[form]
-                if coords:
-                    coords = [text2coord[form].latitude, text2coord[form].longitude]
-                else:
-                    coords = [0.0, 0.0]
-                forms.append([form, coords])
-            # location = geolocator.geocode(texte, timeout=30) # déjà fait avant
-            location = text2coord[texte]
-            # print(location, file=sys.stderr)
+            forms = [[form, text2coord.get(form, [0.0, 0.0])] for form in my_clusters[texte]["Termes"]]
+            location = text2coord.get(texte)
             if location:
-                dico_mention_marker[key].append((
-                    location.latitude,
-                    location.longitude,
-                    texte,
-                    my_frequences[texte],
-                    forms
-                ))
-
-    # for key, value in dico_mention_marker.items():
-    #     print(key, value, file=sys.stderr)
+                dico_mention_marker[key].append((location[0], location[1], texte, my_frequences[texte], forms))
 
     return dico_mention_marker
 
 
-@app.route("/nermap_to_csv", methods=['GET', "POST"])
+@app.route("/nermap_to_csv2", methods=['GET', "POST"])
 @stream_with_context
-def nermap_to_csv():
-    input_json_str = request.data
-    print(input_json_str)
-    input_json = json.loads(input_json_str)
-    print(input_json)
-    keys = ["nom", "latitude", "longitude", "outil", "fréquence", "cluster"]
+def nermap_to_csv2():
+
+    keys = ["nom", "latitude", "longitude", "outil", "cluster"]
     output_stream = StringIO()
-    writer = csv.DictWriter(output_stream, fieldnames=keys, delimiter="\t")
+    writer = csv.DictWriter(output_stream, fieldnames=keys, delimiter=",")
     writer.writeheader()
-    for point in input_json["data"]:
-        row = {
-            "latitude" : point[0],
-            "longitude" : point[1],
-            "nom" : point[2],
-            "outil" : point[3],
-            "fréquence" : point[4],
-            "cluster" : point[5],
-        }
-        writer.writerow(row)
-    # name not useful, will be handled in javascript
-    response = Response(output_stream.getvalue(), mimetype='text/csv', headers={"Content-disposition": "attachment; filename=export.csv"})
+
+    input_json = json.loads(request.data)
+    html = etree.fromstring(input_json["html"])
+    base_clusters = input_json["clusters"]
+    name2coordinates = {}
+    print(base_clusters)
+    for root_cluster in base_clusters.values():
+        for *_, clusters in root_cluster:
+            for txt, coords in clusters:
+                name2coordinates[txt] = coords
+        for e in root_cluster:
+            coords = [e[0], e[1]]
+            name2coordinates[e[2]] = coords
+
+    print(name2coordinates)
+
+    for toolnode in list(html):
+        for item in list(toolnode):
+            tool = item.text.strip()
+            for centroid_node in list(list(item)[0]):
+                print(centroid_node)
+                centroid = etree.tostring(next(centroid_node.iterfind("div")), method="text", encoding=str).strip()
+                # centroid = centroid_node.text_content().strip()
+                try:
+                    data = next(centroid_node.iterfind('ol'))
+                except StopIteration:  # cluster with no children
+                    data = []
+                the_cluster = []
+                for cluster_item_node in list(data):
+                    try:
+                        cluster_item = etree.tostring(cluster_item_node, method="text", encoding=str).strip()
+                        the_cluster.append(cluster_item.split(" / ")[0])
+                    except Exception:
+                        stderr.write("\t\tDid not work")
+                nom = centroid  # .split(' / ')[0]
+                #  latitude = centroid.split(' / ')[1].split(',')[0],
+                #  longitude = centroid.split(' / ')[1].split(',')[1],
+                print(nom, nom in name2coordinates)
+                try:
+                    latitude, longitude = name2coordinates[nom]
+                except KeyError:
+                    stderr.write(f"Could not find {nom} in coordinates")
+                    continue
+                writer.writerow(
+                    {
+                        "nom": nom,
+                        "latitude": latitude,
+                        "longitude": longitude,
+                        "outil": tool,
+                        "cluster": ', '.join(the_cluster),
+                    }
+                )
+
+    response = Response(output_stream.getvalue(), mimetype='text/csv',
+                        headers={"Content-disposition": "attachment; filename=export.csv"})
     output_stream.seek(0)
     output_stream.truncate(0)
     return response

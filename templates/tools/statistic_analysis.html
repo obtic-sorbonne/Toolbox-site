@@ -1,0 +1,103 @@
+{% extends "index.html" %}
+{% block header %} {{ super() }} {% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename= 'css/elements.css') }}">
+<div class="outil">
+    <div class="fil"><a href="{{ url_for('analyses')}}"><< {{ _('Retour aux tâches') }}</a></div>
+    <div>
+        <h2>{{ _('Analyse statistique') }}</h2>
+    <p>{{ _("Cette page permet d'opérer divers types d'analyses statistiques sur un ou plusieurs documents soumis") }}.<br>
+        <br>
+    <ul class="item-list" style="margin-left: 3em;">
+        <li><hi style="font-weight: bold;">{{ _('Longueur moyenne des phrases') }} (Option 1)</hi> : {{ _('Mesure calculant le nombre moyen de mots par phrase dans un texte donné') }}, {{ _('donnant un aperçu de la complexité et de la lisibilité du texte') }}</li>
+        <li><hi style="font-weight: bold;">{{ _('Fréquence de mots') }} (Option 2)</hi> : {{ _("Calcul des fréquences absolue et relative de chaque mot d'un texte") }}</li>
+        <li><hi style="font-weight: bold;">{{ _('Co-occurrences') }} (Option 3)</hi> : {{ _('Fréquence à laquelle deux éléments apparaissent ensemble dans un contexte') }}</li>
+    </ul></p></div>
+    <br>
+    <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_analyses') }}"  target="_blank">{{ _('Voir la documentation') }}</a></p>
+    <br>
+    <form action="{{ url_for('analyze_statistic') }}" id="linguistic-form" method="post" enctype="multipart/form-data" onsubmit="showloader('loader')">
+        <div class="relations-input">
+            <label for="analysis_type">{{ _("Choisir le type d'analyse") }} :</label>
+            <select name="analysis_type" id="analysis_type" required>
+                <option value="sentence_length_average">Option 1</option>
+                <option value="words_frequency">Option 2</option>
+                <option value="cooccurrences">Option 3</option>
+                <option value="sla_wf">{{ _('Options 1 et 2') }}</option>
+                <option value="sla_coocc">{{ _('Options 1 et 3') }}</option>
+                <option value="wf_coocc">{{ _('Options 2 et 3') }}</option>
+                <option value="sla_wf_coocc">{{ _('Options 1, 2 et 3') }}</option>
+            </select>
+        </div>
+        {{ form.csrf_token }}
+        <br>
+        <div class="relations-input" id="cooccurrences_fields" style="display: none;">
+            <label for="context_window">{{ _('Fenêtre de contexte') }} :</label>
+            <input type="number" id="context_window" name="context_window" min="1" value="2"><br>
+            <label for="target_word">{{ _('Mot cible') }} :</label>
+            <input type="text" id="target_word" name="target_word" placeholder="Fill it with a single word"><br>
+        </div>
+        <div class="dropzone" style="margin:25px auto;">
+            <input type="file" id="files" name="files" accept="text/plain" multiple required>
+            <p id="form_msg">{{ _("Déposer le(s) fichier(s) ou cliquer ici") }}.</p>
+        </div>
+        <input id="csrf_token" name="csrf_token" type="hidden" value="{{ csrf_token() }}">
+        <button style="display:block;margin:auto;margin-top:20px;">{{ _("Lancer l'analyse") }}</button>
+    </form>
+    {% if msg != "" %}
+    <div> <p>{{ msg }}</p></div>
+    {% endif %}
+    <div class="loader" id="loader">
+        <div class="loadingio-spinner-ball-205vl2x7f7n"><div class="ldio-b8p5li8dt1u"><div></div></div></div>
+        <p>{{ _('Traitement en cours...') }}</p>
+    </div>
+<script>
+/* MAJ de la zone de glisser-déposer */ 
+$('form input').change(function () {
+    var nb_files = this.files.length;
+    $('form #form_msg').text(nb_files + " fichier(s) selectionné(s)");
+
+    /* Prévisualisation des fichiers chargés (max 3 visibles) */
+    if(nb_files > 3){
+        var num = nb_files - 3;
+        for(i=0; i < 3; i++){
+            $("#form_msg").append('<br/><span class="filename_preview">' + this.files[i].name + '</span>');
+        }
+        $("#form_msg").append('<span class="filename_preview"> et ' + num + ' autres.</span>');
+    }
+    else{
+        for(i=0; i < nb_files; i++){
+            $("#form_msg").append('<br/><span class="filename_preview">' + this.files[i].name + '</span>');
+        }
+    }
+});
+        function toggleNgramFields() {
+            var analysisType = document.getElementById("analysis_type").value;
+            var cooccurrences_fields = document.getElementById("cooccurrences_fields");
+            if (analysisType === "cooccurrences") {
+                cooccurrences_fields.style.display = "block";
+            }
+            else if (analysisType === "sla_coocc") {
+                cooccurrences_fields.style.display = "block";
+            }
+            else if (analysisType === "wf_coocc") {
+                cooccurrences_fields.style.display = "block";
+            }
+            else if (analysisType === "sla_wf_coocc") {
+                cooccurrences_fields.style.display = "block";
+            }
+             else {
+                cooccurrences_fields.style.display = "none";
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            document.getElementById("analysis_type").addEventListener("change", toggleNgramFields);
+            toggleNgramFields(); // Initial call to set visibility based on default selection
+        });
+
+</script>
+</div>
+{% endblock %}
+{% block footer %} {{ super() }} {% endblock %}

@@ -1,0 +1,149 @@
+{% extends "index.html" %}
+{% block header %} {{ super() }} {% endblock %}
+{% block content %}
+
+<style>
+.outil li {
+    margin-left: 3em;
+}
+
+.outil strong {
+    color: #f2a800;
+}
+
+.outil h4{
+  font-family: 'Roboto', sans-serif;
+  font-size:1.2em;
+  margin:28px 0;
+  border-left: 5px solid #f2a800;
+  color: #263e8d;
+  padding:10px;
+}
+
+table {
+    width: 100%; /* Le tableau occupe la largeur totale */
+    border-collapse: collapse; /* Fusionne les bordures pour un rendu plus net */
+}
+
+th, td {
+    border: 2px solid black; /* Lignes noires de 2px autour des cellules */
+    padding: 10px; /* Ajoute de l'espace à l'intérieur des cellules */
+    text-align: left; /* Aligne le contenu à gauche */
+}
+
+th {
+    background-color: #f4f4f4; /* Ajoute un fond légèrement gris pour les en-têtes */
+}
+
+colgroup col:nth-child(1) {
+    width: 20%; /* Première colonne - 20% */
+}
+
+colgroup col:nth-child(2) {
+    width: 30%; /* Deuxième et troisième colonnes - 40% chacune */
+}
+ 
+colgroup col:nth-child(3) {
+    width: 50%; /* Deuxième et troisième colonnes - 40% chacune */
+}
+
+pre code {
+  background-color: #f9f9f9;
+  padding: 10px;
+  display: block;
+  white-space: pre-wrap; /* Pour éviter le débordement */
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+
+</style>
+
+<div class="outil">
+	<div class="fil"> </div>
+    <div style="text-align: right;"><a href="{{ url_for('tutorial_annotation')}}" style="color:#f2a800; text-decoration:none;">{{ _('Tutoriel suivant') }} >></a></div>
+    <div class="fil"> </div>
+    <div class="tool-box">
+      <h2>{{ _("Tutoriel : Conversion en XML-TEI") }}</h2>
+    <p>
+        {{ _("Voici une description et des explications sur les divers éléments d'encodage XML-TEI utilisés ici") }}.
+    </p>
+        <table>
+  <thead>
+    <tr>
+      <th>{{ _("Balise") }}</th>
+      <th>{{ _("Explication") }}</th>
+      <th>{{ _("Exemple") }}</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>&lt;titleStmt&gt;</strong></td>
+      <td>{{ _("Indique les informations liées au titre de l'œuvre ou du document") }}. {{ _("Cela inclut le titre lui-même et les auteurs ou autres contributeurs principaux") }}.</td>
+      <td><pre><code>&lt;titleStmt&gt; 
+          &lt;title&gt;La Divina Commedia&lt;/title&gt; 
+          &lt;author&gt;Dante Alighieri&lt;/author&gt; 
+        &lt;/titleStmt&gt;</code></pre></td>
+    </tr>
+    <tr>
+      <td><strong>&lt;respStmt&gt;</strong></td>
+      <td>{{ _("Identifie les responsables ou collaborateurs associés à l'œuvre ou au projet, avec leurs rôles précisés") }}.</td>
+      <td><pre><code>&lt;respStmt&gt; 
+        &lt;resp&gt;Editor&lt;/resp&gt; 
+        &lt;name&gt;John Doe&lt;/name&gt; 
+      &lt;/respStmt&gt;</code></pre></td>
+    </tr>
+    <tr>
+      <td><strong>&lt;publicationStmt&gt;</strong></td>
+      <td>{{ _("Contient les informations liées à la publication du document ") }}: {{ _("éditeur, lieu, date de publication, et droits associés") }}.</td>
+      <td><pre><code>&lt;publicationStmt&gt; 
+        &lt;publisher&gt;Oxford University Press&lt;/publisher&gt; 
+        &lt;date&gt;2023&lt;/date&gt; 
+        &lt;availability&gt;Open Access&lt;/availability&gt; 
+    &lt;/publicationStmt&gt;</code></pre></td>
+    </tr>
+    <tr>
+      <td><strong>&lt;sourceDesc&gt;</strong></td>
+      <td>{{ _("Fournit des détails sur la source ou l'origine du texte encodé ") }}: {{ _("manuscrit, édition imprimée") }}, etc.</td>
+      <td><pre><code>&lt;sourceDesc&gt; 
+        &lt;bibl&gt;Original manuscript: Bibliothèque nationale de France, MS fr. 123&lt;/bibl&gt; 
+      &lt;/sourceDesc&gt;</code></pre></td>
+    </tr>
+    <tr>
+      <td><strong>&lt;profileDesc&gt;</strong></td>
+      <td>{{ _("Décrit le contenu général du document (thèmes, langues utilisées, etc.) et") }} {{ _("autres caractéristiques textuelles : chronologie, géographie") }}, etc.</td>
+      <td><pre><code>&lt;profileDesc&gt; 
+        &lt;langUsage&gt; 
+          &lt;language ident="fre"&gt;French&lt;/language&gt; 
+        &lt;/langUsage&gt; 
+      &lt;/profileDesc&gt;</code></pre></td>
+    </tr>
+    <tr>
+      <td><strong>&lt;projectDesc&gt;</strong></td>
+      <td>{{ _("Donne des informations sur le projet dans lequel le texte a été encodé, comme ses objectifs et son cadre institutionnel") }}.</td>
+      <td><pre><code>&lt;projectDesc&gt; 
+        &lt;p&gt;This project aims to digitize medieval manuscripts for linguistic research.&lt;/p&gt; 
+      &lt;/projectDesc&gt;</code></pre></td>
+    </tr>
+    <tr>
+      <td><strong>&lt;editorialDecl&gt;</strong></td>
+      <td>{{ _("Spécifie les choix éditoriaux et conventions appliquées lors de l'encodage du texte, comme les suppressions ou corrections effectuées") }}.</td>
+      <td><pre><code>&lt;editorialDecl&gt; 
+        &lt;p&gt;The encoding follows standard TEI guidelines for modernizing spelling.&lt;/p&gt; 
+      &lt;/editorialDecl&gt;</code></pre></td>
+    </tr>
+    <tr>
+      <td><strong>&lt;revisionDesc&gt;</strong></td>
+      <td>{{ _("Fournit un historique des modifications et révisions appliquées au fichier TEI") }}.</td>
+      <td><pre><code>&lt;revisionDesc&gt; 
+        &lt;change when="2025-03-20" who="editor"&gt;Updated spelling of certain archaic terms.&lt;/change&gt; 
+      &lt;/revisionDesc&gt;</code></pre></td>
+    </tr>
+  </tbody>
+</table>
+
+	</div>
+</div>
+{% endblock %}
+
+{% block footer %} {{ super() }} {% endblock %}

@@ -1,0 +1,387 @@
+{% extends "index.html" %}
+{% block header %} {{ super() }} {% endblock %}
+
+{% block content %}
+<style>
+  #tess-form{
+    padding:35px;
+    margin:20px auto;
+    /*background-color:rgba(221, 201, 180, .3);*/
+    width:800px;
+    text-align: center;
+  }
+
+  .dropzone{
+    margin:auto;
+    margin-top: 8px;
+  }
+
+  button{
+    display: block;
+    margin:auto;
+    margin-top: 8px;
+  }
+  
+  #add_model{
+    cursor:pointer;
+  }
+</style>
+
+<link rel="stylesheet" href="{{ url_for('static', filename= 'css/elements.css') }}">
+<div class="outil">
+  <div class="fil"><a href="{{ url_for('atr_tools')}}"><< {{ _('Retour aux tâches') }}</a></div>
+<h2>{{ _('Reconnaissance automatique de texte (ATR)') }}</h2>
+
+<div class="tool-box">
+    <h4>Tesseract OCR</h4>
+    <p>{{ _ ("L'outil Tesseract") }} <a href="https://tesseract-ocr.github.io/tessdoc/" target="_blank"><i class="fa-solid fa-arrow-up-right-from-square"></i></a> {{ _('permet de numériser des imprimés')}}. {{ _('Les modèles préentraînés') }} <a href="https://github.com/tesseract-ocr/tessdata" target="_blank"> ({{ _('liste ici')}} <i class="fa-solid fa-arrow-up-right-from-square"></i>)</a> {{ _("disponibles avec l'outil couvrent un large éventail de polices et sont disponibles pour de très nombreuses langues")}}. {{ _("Pour les textes bilingues, il est possible d'utiliser conjointement deux modèles. Les modèles pour le chinois proviennent d'un")}} <a href="https://github.com/gumblex/tessdata_chi" target="_blank">{{ _("projet externe")}}</a>.</p>
+    <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_recognition') }}"  target="_blank">{{ _('Voir la documentation') }}</a></p>
+    <div class="infos_outil" style="display: block;margin: 0 auto 15px auto;">
+        <input id="show" type=checkbox><label for="show" class="infos_title"><i class="fa-solid fa-circle-info"></i> {{ _("Informations sur l'outil") }}<i class="fa-solid fa-angle-right" style="float:right;margin-top:5px;margin-left:15px;cursor: pointer;"></i></label></p>
+        <div class="info_popped"><p>Tesseract version 4.0.0</p>
+      <p>{{ _("Formats d'entrée :")}} <i class="fa-regular fa-image"></i> PNG, JPG, TIFF, PDF</p>
+      <p>{{ _('Format généré :')}} <i class="fa-regular fa-file-lines"></i> {{ _('fichier TXT') }}</p>
+      <p>{{ _('Limite de taille ')}}: 150 Mo</p>
+      <p><i class="fa-solid fa-triangle-exclamation"></i> {{ _("Attention : Assurez-vous que les noms de vos fichiers d'entrée ne soient pas trop longs")}}<br>
+      {{ _("et ne contiennent pas de caractères problématiques")}} ([\/:*"&gt;&lt;|])</p>
+      </p></div>
+    </div>
+    <div id="tess-form">
+    <form action="{{ url_for('run_tesseract') }}" id="tesseract-form" method="post" enctype="multipart/form-data" onsubmit="showloader('loader')">
+      {{ form.csrf_token }}
+      <div class="relations-input">
+      <label for="tessmodel">{{ _('Modèle') }}</label>
+      <select name="tessmodel" id="tessmodel" class="sel sel--black-panther">
+        <option disabled>--- {{ _('Europe – Langues les plus répandues') }} ---</option>
+        <option value="eng">{{ _('Anglais') }} (eng)</option>
+        <option value="deu">{{ _('Allemand') }} (deu)</option>
+        <option value="spa">{{ _('Espagnol') }} (spa)</option>
+        <option value="fra" selected>{{ _('Français') }} (fra)</option>
+        <option value="ita">{{ _('Italien') }} (ita)</option>
+        <option value="nld">{{ _('Néerlandais') }} (nld)</option>
+        <option value="pol">{{ _('Polonais') }} (pol)</option>
+        <option value="por">{{ _('Portugais') }} (por)</option>
+        <option value="rus">{{ _('Russe') }} (rus)</option>
+        <option value="swe">{{ _('Suédois') }} (swe)</option>
+        <option disabled>--- {{ _('Europe – Langues régionales ou moins répandues') }} ---</option>
+        <option value="sqi">{{ _('Albanais') }} (sqi)</option>
+        <option value="bel">{{ _('Biélorusse') }} (bel)</option>
+        <option value="bos">{{ _('Bosniaque') }} (bos)</option>
+        <option value="bre">{{ _('Breton') }} (bre)</option>
+        <option value="cat">{{ _('Catalan') }} (cat)</option>
+        <option value="cos">{{ _('Corse') }} (cos)</option>
+        <option value="hrv">{{ _('Croate') }} (hrv)</option>
+        <option value="dan">{{ _('Danois') }} (dan)</option>
+        <option value="est">{{ _('Estonien') }} (est)</option>
+        <option value="fin">{{ _('Finnois') }} (fin)</option>
+        <option value="frk">{{ _('Francique (vieux haut allemand)') }} (frk)</option>
+        <option value="gla">{{ _('Gaélique écossais') }} (gla)</option>
+        <option value="glg">{{ _('Galicien') }} (glg)</option>
+        <option value="cym">{{ _('Gallois') }} (cym)</option>
+        <option value="ell">{{ _('Grec') }} (ell)</option>
+        <option value="grc">{{ _('Grec ancien') }} (grc)</option>
+        <option value="hun">{{ _('Hongrois') }} (hun)</option>
+        <option value="gle">{{ _('Irlandais') }} (gle)</option>
+        <option value="isl">{{ _('Islandais') }} (isl)</option>
+        <option value="ita_old">{{ _('Italien ancien') }} (ita_old)</option>
+        <option value="lav">{{ _('Letton') }} (lav)</option>
+        <option value="lit">{{ _('Lituanien') }} (lit)</option>
+        <option value="ltz">{{ _('Luxembourgeois') }} (ltz)</option>
+        <option value="mkd">{{ _('Macédonien') }} (mkd)</option>
+        <option value="nor">{{ _('Norvégien') }} (nor)</option>
+        <option value="oci">{{ _('Occitan') }} (oci)</option>
+        <option value="srp">{{ _('Serbe (cyrillique)') }} (srp)</option>
+        <option value="srp_latn">{{ _('Serbe (latin)') }} (srp_latn)</option>
+        <option value="slk">{{ _('Slovaque') }} (slk)</option>
+        <option value="slv">{{ _('Slovène') }} (slv)</option>
+        <option value="ces">{{ _('Tchèque') }} (ces)</option>
+        <option value="yid">{{ _('Yiddish') }} (yid)</option>
+        <option disabled>--- {{ _('Moyen-Orient et Asie centrale') }} ---</option>
+        <option value="ara">{{ _('Arabe') }} (ara)</option>
+        <option value="hye">{{ _('Arménien') }} (hye)</option>
+        <option value="kat">{{ _('Géorgien') }} (kat)</option>
+        <option value="kat_old">{{ _('Géorgien ancien') }} (kat_old)</option>
+        <option value="heb">{{ _('Hébreu') }} (heb)</option>
+        <option value="kaz">{{ _('Kazakh') }} (kaz)</option>
+        <option value="kir">{{ _('Kirghiz') }} (kir)</option>
+        <option value="kmr">{{ _('Kurde (kurmandji)') }} (kmr)</option>
+        <option value="uzb">{{ _('Ouzbek (latin)') }} (uzb)</option>
+        <option value="uzb_cyrl">{{ _('Ouzbek (cyrillique)') }} (uzb_cyrl)</option>
+        <option value="pus">{{ _('Pachto') }} (pus)</option>
+        <option value="fas">{{ _('Persan') }} (fas)</option>
+        <option value="syr">{{ _('Syriaque') }} (syr)</option>
+        <option value="tgk">{{ _('Tadjik') }} (tgk)</option>
+        <option value="tat">{{ _('Tatar') }} (tat)</option>
+        <option value="tur">{{ _('Turc') }} (tur)</option>
+        <option disabled>--- {{ _('Asie du Sud et Sud-Est') }} ---</option>
+        <option value="ben">{{ _('Bengali') }} (ben)</option>
+        <option value="mya">{{ _('Birman') }} (mya)</option>
+        <option value="fil">{{ _('Filipinois') }} (fil)</option>
+        <option value="guj">{{ _('Gujarati') }} (guj)</option>
+        <option value="hin">{{ _('Hindi') }} (hin)</option>
+        <option value="ind">{{ _('Indonésien') }} (ind)</option>
+        <option value="lao">{{ _('Laotien') }} (lao)</option>
+        <option value="msa">{{ _('Malais') }} (msa)</option>
+        <option value="nep">{{ _('Népali') }} (nep)</option>
+        <option value="ori">{{ _('Oriya') }} (ori)</option>
+        <option value="urd">{{ _('Ourdou') }} (urd)</option>
+        <option value="pan">{{ _('Pendjabi') }} (pan)</option>
+        <option value="san">{{ _('Sanskrit') }} (san)</option>
+        <option value="snd">{{ _('Sindhi') }} (snd)</option>
+        <option value="sin">{{ _('Singhalais') }} (sin)</option>
+        <option value="tam">{{ _('Tamoul') }} (tam)</option>
+        <option value="tel">{{ _('Télougou') }} (tel)</option>
+        <option value="tha">{{ _('Thaï') }} (tha)</option>
+        <option value="vie">{{ _('Vietnamien') }} (vie)</option>
+        <option disabled>--- {{ _('Asie de l’Est') }} ---</option>
+        <option value="chi_sim">{{ _('Chinois simplifié') }} (chi_sim)</option>
+        <option value="chi_sim_vert">{{ _('Chinois simplifié (vertical)') }} (chi_sim_vert)</option>
+        <option value="chi_tra">{{ _('Chinois traditionnel') }} (chi_tra)</option>
+        <option value="chi_tra_vert">{{ _('Chinois traditionnel (vertical)') }} (chi_tra_vert)</option>
+        <option value="kor">{{ _('Coréen') }} (kor)</option>
+        <option value="kor_vert">{{ _('Coréen (vertical)') }} (kor_vert)</option>
+        <option value="jpn">{{ _('Japonais') }} (jpn)</option>
+        <option value="jpn_vert">{{ _('Japonais (vertical)') }} (jpn_vert)</option>
+        <option value="mon">{{ _('Mongol') }} (mon)</option>
+        <option value="bod">{{ _('Tibétain') }} (bod)</option>
+        <option disabled>--- {{ _('Océanie') }} ---</option>
+        <option value="mri">{{ _('Maori') }} (mri)</option>
+        <option disabled>--- {{ _('Afrique') }} ---</option>
+        <option value="afr">{{ _('Afrikaans') }} (afr)</option>
+        <option value="swa">{{ _('Swahili') }} (swa)</option>
+        <option value="tir">{{ _('Tigrinya') }} (tir)</option>
+        <option value="yor">{{ _('Yoruba') }} (yor)</option>
+        <option disabled>--- {{ _('Amériques') }} ---</option>
+        <option value="chr">{{ _('Cherokee') }} (chr)</option>
+        <option value="hat">{{ _('Haïtien (créole)') }} (hat)</option>
+        <option value="iku">{{ _('Inuktitut') }} (iku)</option>
+        <option value="que">{{ _('Quechua') }} (que)</option>
+        <option disabled>--- Langues construites ---</option>
+        <option value="epo">{{ _('Espéranto') }} (epo)</option>
+      </select><span style="padding:10px" id="add_model"><i class="fa-solid fa-circle-plus"></i> Ajouter</span>
+      <div id="divmodel">
+        <label for="model2">{{ _('Modèle') }}</label>
+        <select name="tessmodel" id="model2" class="sel sel--black-panther">
+        <option disabled>--- {{ _('Europe – Langues les plus répandues') }} ---</option>
+        <option value="eng">{{ _('Anglais') }} (eng)</option>
+        <option value="deu">{{ _('Allemand') }} (deu)</option>
+        <option value="spa">{{ _('Espagnol') }} (spa)</option>
+        <option value="fra" selected>{{ _('Français') }} (fra)</option>
+        <option value="ita">{{ _('Italien') }} (ita)</option>
+        <option value="nld">{{ _('Néerlandais') }} (nld)</option>
+        <option value="pol">{{ _('Polonais') }} (pol)</option>
+        <option value="por">{{ _('Portugais') }} (por)</option>
+        <option value="rus">{{ _('Russe') }} (rus)</option>
+        <option value="swe">{{ _('Suédois') }} (swe)</option>
+        <option disabled>--- {{ _('Europe – Langues régionales ou moins répandues') }} ---</option>
+        <option value="sqi">{{ _('Albanais') }} (sqi)</option>
+        <option value="bel">{{ _('Biélorusse') }} (bel)</option>
+        <option value="bos">{{ _('Bosniaque') }} (bos)</option>
+        <option value="bre">{{ _('Breton') }} (bre)</option>
+        <option value="cat">{{ _('Catalan') }} (cat)</option>
+        <option value="cos">{{ _('Corse') }} (cos)</option>
+        <option value="hrv">{{ _('Croate') }} (hrv)</option>
+        <option value="dan">{{ _('Danois') }} (dan)</option>
+        <option value="est">{{ _('Estonien') }} (est)</option>
+        <option value="fin">{{ _('Finnois') }} (fin)</option>
+        <option value="frk">{{ _('Fraktur') }} (frk)</option>
+        <option value="gla">{{ _('Gaélique écossais') }} (gla)</option>
+        <option value="glg">{{ _('Galicien') }} (glg)</option>
+        <option value="cym">{{ _('Gallois') }} (cym)</option>
+        <option value="ell">{{ _('Grec') }} (ell)</option>
+        <option value="grc">{{ _('Grec ancien') }} (grc)</option>
+        <option value="hun">{{ _('Hongrois') }} (hun)</option>
+        <option value="gle">{{ _('Irlandais') }} (gle)</option>
+        <option value="isl">{{ _('Islandais') }} (isl)</option>
+        <option value="ita_old">{{ _('Italien ancien') }} (ita_old)</option>
+        <option value="lav">{{ _('Letton') }} (lav)</option>
+        <option value="lit">{{ _('Lituanien') }} (lit)</option>
+        <option value="ltz">{{ _('Luxembourgeois') }} (ltz)</option>
+        <option value="mkd">{{ _('Macédonien') }} (mkd)</option>
+        <option value="nor">{{ _('Norvégien') }} (nor)</option>
+        <option value="oci">{{ _('Occitan') }} (oci)</option>
+        <option value="srp">{{ _('Serbe (cyrillique)') }} (srp)</option>
+        <option value="srp_latn">{{ _('Serbe (latin)') }} (srp_latn)</option>
+        <option value="slk">{{ _('Slovaque') }} (slk)</option>
+        <option value="slv">{{ _('Slovène') }} (slv)</option>
+        <option value="ces">{{ _('Tchèque') }} (ces)</option>
+        <option value="yid">{{ _('Yiddish') }} (yid)</option>
+        <option disabled>--- {{ _('Moyen-Orient et Asie centrale') }} ---</option>
+        <option value="ara">{{ _('Arabe') }} (ara)</option>
+        <option value="hye">{{ _('Arménien') }} (hye)</option>
+        <option value="kat">{{ _('Géorgien') }} (kat)</option>
+        <option value="kat_old">{{ _('Géorgien ancien') }} (kat_old)</option>
+        <option value="heb">{{ _('Hébreu') }} (heb)</option>
+        <option value="kaz">{{ _('Kazakh') }} (kaz)</option>
+        <option value="kir">{{ _('Kirghiz') }} (kir)</option>
+        <option value="kmr">{{ _('Kurde (kurmandji)') }} (kmr)</option>
+        <option value="uzb">{{ _('Ouzbek (latin)') }} (uzb)</option>
+        <option value="uzb_cyrl">{{ _('Ouzbek (cyrillique)') }} (uzb_cyrl)</option>
+        <option value="pus">{{ _('Pachto') }} (pus)</option>
+        <option value="fas">{{ _('Persan') }} (fas)</option>
+        <option value="syr">{{ _('Syriaque') }} (syr)</option>
+        <option value="tgk">{{ _('Tadjik') }} (tgk)</option>
+        <option value="tat">{{ _('Tatar') }} (tat)</option>
+        <option value="tur">{{ _('Turc') }} (tur)</option>
+        <option disabled>--- {{ _('Asie du Sud et Sud-Est') }} ---</option>
+        <option value="ben">{{ _('Bengali') }} (ben)</option>
+        <option value="mya">{{ _('Birman') }} (mya)</option>
+        <option value="fil">{{ _('Filipinois') }} (fil)</option>
+        <option value="guj">{{ _('Gujarati') }} (guj)</option>
+        <option value="hin">{{ _('Hindi') }} (hin)</option>
+        <option value="ind">{{ _('Indonésien') }} (ind)</option>
+        <option value="lao">{{ _('Laotien') }} (lao)</option>
+        <option value="msa">{{ _('Malais') }} (msa)</option>
+        <option value="nep">{{ _('Népali') }} (nep)</option>
+        <option value="ori">{{ _('Oriya') }} (ori)</option>
+        <option value="urd">{{ _('Ourdou') }} (urd)</option>
+        <option value="pan">{{ _('Pendjabi') }} (pan)</option>
+        <option value="san">{{ _('Sanskrit') }} (san)</option>
+        <option value="snd">{{ _('Sindhi') }} (snd)</option>
+        <option value="sin">{{ _('Singhalais') }} (sin)</option>
+        <option value="tam">{{ _('Tamoul') }} (tam)</option>
+        <option value="tel">{{ _('Télougou') }} (tel)</option>
+        <option value="tha">{{ _('Thaï') }} (tha)</option>
+        <option value="vie">{{ _('Vietnamien') }} (vie)</option>
+        <option disabled>--- {{ _('Asie de l’Est') }} ---</option>
+        <option value="chi_sim">{{ _('Chinois simplifié') }} (chi_sim)</option>
+        <option value="chi_sim_vert">{{ _('Chinois simplifié (vertical)') }} (chi_sim_vert)</option>
+        <option value="chi_tra">{{ _('Chinois traditionnel') }} (chi_tra)</option>
+        <option value="chi_tra_vert">{{ _('Chinois traditionnel (vertical)') }} (chi_tra_vert)</option>
+        <option value="kor">{{ _('Coréen') }} (kor)</option>
+        <option value="kor_vert">{{ _('Coréen (vertical)') }} (kor_vert)</option>
+        <option value="jpn">{{ _('Japonais') }} (jpn)</option>
+        <option value="jpn_vert">{{ _('Japonais (vertical)') }} (jpn_vert)</option>
+        <option value="mon">{{ _('Mongol') }} (mon)</option>
+        <option value="bod">{{ _('Tibétain') }} (bod)</option>
+        <option disabled>--- {{ _('Océanie') }} ---</option>
+        <option value="mri">{{ _('Maori') }} (mri)</option>
+        <option disabled>--- {{ _('Afrique') }} ---</option>
+        <option value="afr">{{ _('Afrikaans') }} (afr)</option>
+        <option value="swa">{{ _('Swahili') }} (swa)</option>
+        <option value="tir">{{ _('Tigrinya') }} (tir)</option>
+        <option value="yor">{{ _('Yoruba') }} (yor)</option>
+        <option disabled>--- {{ _('Amériques') }} ---</option>
+        <option value="chr">{{ _('Cherokee') }} (chr)</option>
+        <option value="hat">{{ _('Haïtien (créole)') }} (hat)</option>
+        <option value="iku">{{ _('Inuktitut') }} (iku)</option>
+        <option value="que">{{ _('Quechua') }} (que)</option>
+        <option disabled>--- Langues construites ---</option>
+        <option value="epo">{{ _('Espéranto') }} (epo)</option>
+        </select><span style="padding:10px" id="remove_model"><i class="fa-solid fa-circle-xmark"></i></span>
+      </div>
+    </div>
+    <br>
+      <div class="dropzone">
+        <input type="file" name="tessfiles" id="tessfiles" accept="image/jpeg,image/png,application/pdf,image/tif,image/tiff" multiple required onchange="fileValidation()">
+        <p id="form_msg">{{ _('Déposer le(s) fichier(s) ou cliquer ici.' )}}</p>
+      </div>
+      <input id="csrf_token" name="csrf_token" type="hidden" value="CSRF_TOKEN_STRING">
+      <button>{{ _('Numériser') }}</button>
+    </form>
+    </div>
+    <!-- Loader -->
+    <div class="loader">
+    <p>{{ _('Traitement en cours...') }}</p>
+    <p>{{ _('Vos fichiers apparaîtront une fois le traitement terminé.') }}</p>
+	  <div class="loadingio-spinner-ball-205vl2x7f7n"><div class="ldio-b8p5li8dt1u"><div></div></div></div>
+	  </div>
+	  <!--end div loader-->
+  </div><!-- end div tool-box-->
+</div>
+
+<span class="trigger-panel" onclick="openNav()">{{ _('Tâches suivantes')}}  <i class="fa-solid fa-angles-right"></i></span>
+
+<div id="task-panel-ocr" class="sidepanel">
+  <span class="closebtn" onclick="closeNav()">&times;</span>
+  <h3 style="font-family: 'Comprehension', serif;">{{ _('Tâches suivantes')}}</h3>
+  <div class="side-item"><a href="{{ url_for('conversion_xml') }}">{{ _('Convertir en XML-TEI') }}</a></div>
+  <div class="side-item"><a href="{{ url_for('named_entities_recognition') }}">{{ _('Extraire les entités nommées') }}</a></div>
+  <div class="side-item"><a href="{{ url_for('partofspeech_tagging') }}">{{ _('Étiqueter en parties du discours') }}</a></div>
+</div>
+
+<script>
+  $("#divmodel").hide();
+
+  $('#add_model').click(function(){
+    /* Filtrer la langue déjà sélectionnée */
+    var lang_selected = $('#tessmodel').find(":selected").val();
+    $("#divmodel").show();
+    $("#model2 option[value='"+ lang_selected +"']").hide();
+    $("#add_model").hide();
+    
+  });
+
+  $("#tessmodel").change(function(){
+    $("#model2 option").each(function()
+    {
+        $(this).show();
+    });
+    var lang_selected = $('#tessmodel').find(":selected").val();
+    $("#model2 option[value='"+ lang_selected +"']").hide();
+  });
+
+  $("#model2").change(function(){
+    $("#tessmodel option").each(function()
+    {
+        $(this).show();
+    });
+    var lang_selected = $('#model2').find(":selected").val();
+    $("#tessmodel option[value='"+ lang_selected +"']").hide();
+  });
+
+  $('#remove_model').click(function(){
+    var lang_selected = $('#tessmodel').find(":selected").val();
+    $("#model2 option[value='"+ lang_selected +"']").show();
+    $("#divmodel").hide();
+    $("#add_model").show();
+  });
+  
+
+  function openNav() {
+    document.getElementById("task-panel-ocr").style.width = "300px";
+  }
+  
+  /* Set the width of the sidebar to 0 (hide it) */
+  function closeNav() {
+    document.getElementById("task-panel-ocr").style.width = "0";
+  }
+
+  /* MAJ de la zone de glisser-déposer */ 
+  $('form input').change(function () {
+
+  var nb_files = this.files.length;
+  $('form #form_msg').text(nb_files + " fichier(s) selectionné(s)");
+
+  /* Prévisualisation des fichiers chargés (max 3 visibles) */
+  if(nb_files > 3){
+      var num = nb_files - 3;
+      for(i=0; i < 3; i++){
+          $("#form_msg").append('<br/><span class="filename_preview">' + this.files[i].name + '</span>');
+      }
+      $("#form_msg").append('<span class="filename_preview"> et ' + num + ' autres.</span>');
+  }
+  else{
+      for(i=0; i < nb_files; i++){
+          $("#form_msg").append('<br/><span class="filename_preview">' + this.files[i].name + '</span>');
+      }
+  }
+});
+
+function fileValidation() {
+  var fileInput = document.getElementById('tessfiles');
+  var filePath = fileInput.value;       
+  // Allowing file type
+  var allowedExtensions = /(\.jpg|\.jpeg|\.|\.pdf|\.tif|\.tiff|\.png)$/i;
+             
+  if (!allowedExtensions.exec(filePath)) {
+    alert("Ce type de fichier n'est pas reconnu. Extensions possibles : PNG, JPG, TIFF, PDF");
+    fileInput.value = '';
+                return false;
+    } 
+}
+
+</script>
+{% endblock %}
+
+{% block footer %} {{ super() }} {% endblock %}

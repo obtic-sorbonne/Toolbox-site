@@ -1,0 +1,342 @@
+{% extends "index.html" %}
+{% block header %} {{ super() }} {% endblock %}
+
+{% block content %}
+<style>
+.opt-wrapper{
+  display: inline-flex;
+  background: #fff;
+  height: 60px;
+  width: 100%;
+  align-items: center;
+  justify-content:center;
+  padding: 10px;
+}
+.opt-wrapper p{
+  width:max-content;
+}
+.opt-wrapper .option{
+  background: #fff;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  margin: 0 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 0 12px;
+  border: 2px solid lightgrey;
+  transition: all 0.3s ease;
+}
+.opt-wrapper .option .dot{
+  height: 20px;
+  width: 20px;
+  background: #d9d9d9;
+  border-radius: 50%;
+  position: relative;
+}
+.opt-wrapper .option .dot::before{
+  position: absolute;
+  content: "";
+  top: 4px;
+  left: 4px;
+  width: 12px;
+  height: 12px;
+  background: #263e8d;
+  border-radius: 50%;
+  opacity: 0;
+  transform: scale(1.5);
+  transition: all 0.3s ease;
+}
+input[type="radio"]{
+  display: none;
+}
+#option-1:checked:checked ~ .option-1,
+#option-2:checked:checked ~ .option-2{
+  border-color: #263e8d;
+  background: #263e8d;
+}
+
+.opt-wrapper .option span{
+  color: grey;
+  margin-left: 5px;
+}
+
+#option-1:checked:checked ~ .option-1 span,
+#option-2:checked:checked ~ .option-2 span{
+  color: #fff;
+}
+
+#option-1:checked:checked ~ .option-1 i,
+#option-2:checked:checked ~ .option-2 i{
+  color: #fff;
+}
+
+#opt-spacy:checked:checked ~ .opt-spacy,
+#opt-flair:checked:checked ~ .opt-flair,
+#opt-camembert:checked:checked ~ .opt-camembert{
+  border-color: #263e8d;
+  background: #263e8d;
+}
+#opt-spacy:checked:checked ~ .opt-spacy .dot,
+#opt-flair:checked:checked ~ .opt-flair .dot,
+#opt-camembert:checked:checked ~ .opt-camembert .dot{
+  background: #fff;
+}
+#opt-spacy:checked:checked ~ .opt-spacy .dot::before,
+#opt-flair:checked:checked ~ .opt-flair .dot::before,
+#opt-camembert:checked:checked ~ .opt-camembert .dot::before{
+  opacity: 1;
+  transform: scale(1);
+}
+
+#opt-spacy:checked:checked ~ .opt-spacy span,
+#opt-flair:checked:checked ~ .opt-flair span,
+#opt-camembert:checked:checked ~ .opt-camembert span{
+  color: #fff;
+}
+
+form p{
+  text-align: center;
+  margin-bottom:15px;
+  color:#263e8d;
+  font-size: medium;
+}
+
+#modeldiv, #xmlparams{
+  width: max-content;
+  margin:20px auto;
+}
+#modeldiv label{
+  display: block;
+  text-align: center;
+}
+
+#xmlparams div{
+  margin:20px;
+}
+
+#xmlparams label{
+  font-size: small;
+  color:#8A824C;
+}
+
+#modeldiv i{
+  padding:15px;
+}
+
+</style>
+<div class="outil">
+  <div class="fil"><a href="{{ url_for('automatic_annotation')}}"><< {{ _('Retour aux tâches') }}</a></div>
+  <h2>{{ _("Reconnaissance d'entités nommées") }}</h2>
+<p>{{ _("Cet outil permet d'identifier les entités nommées d'un corpus en utilisant au choix trois modèles : Spacy, Flair, ou un modèle Bert") }}. {{ _("Le corpus peut être au format texte ou au format XML-TEI") }}. {{ _("Dans ce dernier cas, les entités seront annotées directement dans le texte avec la balise")}} &lt;Entity&gt; {{ _("avec leur type en attribut annotation") }}. {{ _("A noter que ce processus ne conserve pas la structuration et le formatage à l'intérieur des balises parcourues ; tous les formatages à l'extérieur de ces balises sont en revanche restitués") }}.</p>
+<p>{{ _("L'utilisation de cette balise &lt;Entity&gt; rend utilisable le XML en sortie dans la plateforme") }} <a href="https://obtic.huma-num.fr/ariane" target="_blank">Ariane</a>.</p><p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_annotation') }}" target="_blank">{{ _("Voir la documentation") }}</a> / <a href="{{ url_for('tutorial_annotation') }}"  target="_blank">{{ _('Voir le tutoriel') }}</a></p>
+<br>
+    <div class="infos_outil" style="display: block;margin: 0 auto 15px auto;">
+        <input id="show" type=checkbox><label for="show" class="infos_title"><i class="fa-solid fa-circle-info"></i> {{ _("Informations sur l'outil") }}<i class="fa-solid fa-angle-right" style="float:right;margin-top:5px;margin-left:15px;cursor: pointer;"></i></label>
+        <div class="info_popped">
+          <p>SpaCy, Flair, BERT
+      <p>{{ _("Formats d'entrée :")}} <i class="fa-regular fa-file-lines"></i> {{ _('texte brut') }} (.txt) {{ _('ou') }} <i class="fa-regular fa-file-code"></i> {{ _('fichier XML') }} (.xml)</p>
+      <p>{{ _("Formats de sortie :")}} <i class="fa-regular fa-file-lines"></i> {{ _('texte brut') }} (.txt) {{ _('ou') }} <i class="fa-regular fa-file-code"></i> {{ _('fichier XML') }} (.xml)</p>
+      <p>{{ _("Encodage")}} : UTF-8</p>
+      <p><i class="fa-solid fa-triangle-exclamation"></i> {{ _("Attention : Assurez-vous que les noms de vos fichiers d'entrée ne soient pas trop longs")}}<br>
+      {{ _("et ne contiennent pas de caractères problématiques")}} ([\/:*"&gt;&lt;|])</p>
+      </div>
+  </div>
+      <br>
+  <div>
+    <form action="{{ url_for('named_entity_recognition') }}" id="metadata-form" method="post" enctype="multipart/form-data">
+      {{ form.csrf_token }}
+      <!-- Input format selection -->
+      <p>{{ _("Format de votre corpus") }}</p>
+      <div class="opt-wrapper">
+      <input type="radio" name="input_format" id="option-1" value="txt" checked>
+        <label for="option-1" class="option option-1">
+           <i class="fa-solid fa-file-lines"></i><span style="font-size: small;"> {{ _('Texte') }}</span>
+           </label>
+      <input type="radio" name="input_format" id="option-2" value="xml">
+        <label for="option-2" class="option option-2">
+           <i class="fa-regular fa-file-code"></i><span style="font-size: small;"> XML-TEI</span>
+        </label>
+      </div>
+
+      <div id="xmlparams">
+          <p>{{ _("Structure du document XML") }}</p>
+          <div>
+            <label for="xmlnamespace">{{ _("nom de domaine") }}</label>
+            <input type="text" name="xmlnamespace" id="xmlnamespace" value="http://www.tei-c.org/ns/1.0">
+          </div>
+          <div>
+            <label for="balise_racine">{{ _("balise racine") }}</label>
+            <input type="text" name="balise_racine" id="balise_racine" value="text" required>
+          </div>
+          <div>
+            <label for="balise_parcours">{{ _("balises à parcourir") }}</label>
+            <input type="text" name="balise_parcours" id="balise_parcours" value="p" required>
+          </div>
+          <div>
+            <label for="encodage">{{ _("encodage") }}</label>
+            <input type="text" name="encodage" id="encodage" value="UTF-8" required>
+         </div>
+      </div>
+
+      <!-- Select engine -->
+      <p>{{ _("Moteur de REN") }}</p>
+      <div class="opt-wrapper" id="divNerEngine">
+        <input type="radio" name="moteur_REN" id="opt-spacy" value="spacy" checked>
+        <input type="radio" name="moteur_REN" id="opt-flair" value="flair">
+        <input type="radio" name="moteur_REN" id="opt-camembert" value="camembert">
+          <label for="opt-spacy" class="option opt-spacy">
+            <div class="dot"></div>
+             <span>SpaCy</span>
+             </label>
+          <label for="opt-flair" class="option opt-flair">
+            <div class="dot"></div>
+             <span>Flair</span>
+          </label>
+          <label for="opt-camembert" class="option opt-camembert" id="label-camembert">
+            <div class="dot"></div>
+             <span>Bert</span>
+          </label>
+      </div>
+      <!-- Select model -->
+        <br>
+      <div class="relations-input">
+        <label for="modele_REN">{{ _("Modèle à utiliser") }}</label>
+        <select name="modele_REN" id="modele_REN">
+          <option value="de_core_news_sm">{{ _('Allemand') }} (de)</option>
+          <option value="en_core_web_sm">{{ _('Anglais') }} (eng)</option>
+          <option value="da_core_news_sm">{{ _('Danois') }} (da)</option>
+          <option value="es_core_news_sm">{{ _('Espagnol') }} (es)</option>
+          <option value="fi_core_news_sm">{{ _('Finnois') }} (fi)</option>
+          <option value="fr_core_news_sm" selected>{{ _('Français') }} (fr)</option>
+          <option value="el_core_news_sm">{{ _('Grec') }} (el)</option>
+          <option value="it_core_news_sm">{{ _('Italien') }} (it)</option>
+          <option value="nl_core_news_sm">{{ _('Néerlandais') }} (nl)</option>
+          <option value="pt_core_news_sm">{{ _('Portugais') }} (pt)</option>
+          <option value="ru_core_news_sm">{{ _('Russe') }} (ru)</option>
+        </select>
+      </div>
+    <!-- Drop zone -->
+    <div class="centerElem">
+      {% if erreur != "" %}
+        <p>{{ erreur }}</p>
+      {% endif %}
+      <div class="dropzone" id="dropzoneEnt">
+        <input type="file" name="entityfiles" accept="text/plain,text/xml" multiple required>
+        <p id="form_msg">{{ _("Déposer le(s) fichier(s) ou cliquer ici.") }}</p>
+      </div>
+      <input id="csrf_token" name="csrf_token" type="hidden" value="CSRF_TOKEN_STRING">
+      <button type="submit" class="centerElem" style="margin-top: 8px;">{{ _('Annoter') }}</button>
+    </div>
+  </form>
+</div><!-- fin div FR-->
+<div class="loader"><div class="loadingio-spinner-ball-205vl2x7f7n"><div class="ldio-b8p5li8dt1u"><div></div></div></div><p> {{ _('Traitement en cours...') }}</p></div>
+</div>
+
+<script type="text/javascript">
+/* Hide custom parameters*/
+$('#xmlparams').hide();
+$('#inf-box-spacy-models').hide();
+localStorage.setItem('ner_lang', 'fra');
+
+/* Show available models according to selected NER engine */
+$('input[type=radio][name=moteur_REN]').change(function() {
+    try {
+        if (this.value == 'spacy') {
+            var html_options_spacy = availableSpacyModels();
+            $("#modele_REN").html(html_options_spacy);
+        }
+        else if (this.value == 'flair') {
+            var html_options_flair = availableFlairModels();
+            $("#modele_REN").html(html_options_flair);
+        }
+        else if (this.value == 'camembert') {
+            var html_options_bert = availableBertModels();
+            $("#modele_REN").html(html_options_bert);
+        }
+    } catch (error) {
+        console.error("Error updating models:", error);
+        $("#modele_REN").html('<option value="">Error loading models</option>');
+    }
+});
+
+
+function availableSpacyModels() {
+    var html_options = `
+        <option value="de_core_news_sm">{{ _('Allemand') }} (de)</option>
+        <option value="en_core_web_sm">{{ _('Anglais') }} (eng)</option>
+        <option value="da_core_news_sm">{{ _('Danois') }} (da)</option>
+        <option value="es_core_news_sm">{{ _('Espagnol') }} (es)</option>
+        <option value="fi_core_news_sm">{{ _('Finnois') }} (fi)</option>
+        <option value="fr_core_news_sm" selected>{{ _('Français') }} (fr)</option>
+        <option value="el_core_news_sm">{{ _('Grec') }} (el)</option>
+        <option value="it_core_news_sm">{{ _('Italien') }} (it)</option>
+        <option value="nl_core_news_sm">{{ _('Néerlandais') }} (nl)</option>
+        <option value="pt_core_news_sm">{{ _('Portugais') }} (pt)</option>
+        <option value="ru_core_news_sm">{{ _('Russe') }} (ru)</option>`;
+    return html_options;
+}
+
+
+function availableFlairModels(){
+  var html_options = `
+    <option value="flair/ner-multi">Multilingual</option>
+    <option value="flair/ner-german">{{ _('Allemand') }} (de)</option>
+    <option value="flair/ner-english">{{ _('Anglais') }} (eng)</option>
+    <option value="flair/ner-danish">{{ _('Danois') }} (da)</option>
+    <option value="flair/ner-french" selected="true">{{ _('Français') }} (fr)</option>
+    <option value="flair/ner-spanish-large">{{ _('Espagnol') }} (es)</option>
+    <option value="flair/ner-dutch">{{ _('Néerlandais') }} (nl)</option>`;
+  return html_options;
+}
+
+
+function availableBertModels(){
+  var html_options = `
+    <option value="Jean-Baptiste/camembert-ner" selected="true">{{ _('Français') }} (fr)</option>
+    <option value="dslim/bert-base-NER">{{ _('Anglais') }} (eng)</option>
+    <option value="mrm8488/bert-spanish-cased-finetuned-ner">{{ _('Espagnol') }} (es)</option>`;
+  return html_options;
+}
+
+/* Hide Camembert option when input file is XML */
+$('input[type=radio][name=input_format]').change(function() {
+  if (this.value == 'xml'){
+    $('#xmlparams').show();
+    $('#label-camembert').hide();
+    /*$('html, body').scrollTop($("#xmlparams").offset().top);*/
+    $('html, body').animate({scrollTop: $('#xmlparams').offset().top -85 }, 'slow');
+  }
+  else{
+    $('#xmlparams').hide();
+    $('#label-camembert').show();
+  }
+});
+
+
+/* MAJ de la zone de glisser-déposer */ 
+$('#dropzoneEnt input').change(function () {
+
+  var nb_files = this.files.length;
+
+  $('#form_msg').text(nb_files + " fichier(s) selectionné(s)");
+
+  /* Prévisualisation des fichiers chargés (max 3 visibles) */
+  if(nb_files > 3){
+      var num = nb_files - 3;
+      for(i=0; i < 3; i++){
+          $("#form_msg").append('<br/><span class="filename_preview">' + this.files[i].name + '</span>');
+      }
+      $("#form_msg").append('<span class="filename_preview"> et ' + num + ' autres.</span>');
+  }
+  else{
+      for(i=0; i < nb_files; i++){
+          $("#form_msg").append('<br/><span class="filename_preview">' + this.files[i].name + '</span>');
+      }
+  }
+});
+
+</script>
+{% endblock %}
+{% block footer %} {{ super() }} {% endblock %}

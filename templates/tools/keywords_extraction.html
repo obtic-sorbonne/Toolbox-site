@@ -1,0 +1,203 @@
+{% extends "index.html" %}
+{% block header %} {{ super() }} {% endblock %}
+
+{% block content %}
+<script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
+
+<div class="outil">
+    <div class="fil"><a href="{{ url_for('information_extraction')}}"><< {{ _('Retour aux tâches') }}</a></div>
+    <h2 style="font-family:'Comprehension', serif;">{{ _('Extraction de mots-clés') }}</h2>
+
+    
+    {% if error %}
+        <div class="alert alert-danger">
+            {{ error }}
+        </div>
+    {% endif %}
+
+
+    <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_extraction') }}" target="_blank">{{ _("Voir la documentation") }}</a> / <a href="{{ url_for('tutorial_extraction') }}"  target="_blank">{{ _('Voir le tutoriel') }}</a></p>
+        <div class="item">
+            <h3>{{ _("Chargement des fichiers") }}</h3>
+            <form action="{{ url_for('keyword_extraction') }}" method="post" enctype="multipart/form-data" class="drag-drop-form" id="kw_form">
+                {{ form.csrf_token }}
+                <div class="form_opt">
+                <fieldset>
+                    <legend>{{ _("Méthode de calcul des mots-clés") }}</legend>
+                    <input type="checkbox" name="extraction-method" value="default" id="def" checked style="margin-left: 1em;">  <label for="default">{{ _("Par défaut") }}</label>
+                    <input type="checkbox" name="extraction-method" value="mmr" id="mmr" style="margin-left: 1em;">  <label for="mmr">MMR</label>
+                    <input type="checkbox" name="extraction-method" value="mss" id="mss" style="margin-left: 1em;">  <label for="mss">MSS</label>
+
+                    <div id="diversity_opt" style="display:none;padding:5px;"><input type="range" name="diversity" min="0" max="10" value="7"><label for="diversity">{{ _("Diversité (MMR)") }}</label></div>
+                </fieldset>
+                </div>
+                <div  style="width: 500px; margin: 0 auto;">
+                <div class="dropzone" id="kw_dropzone">
+                <input type="file" name="keywd-extract" accept="text/plain" multiple required>
+                <p id="form_msg">{{ _("Déposer le(s) fichier(s) ou cliquer ici.") }}</p>
+                </div>
+                <input id="csrf_token" name="csrf_token" type="hidden" value="CSRF_TOKEN_STRING">
+                <button type="submit">{{ _('Envoyer') }}</button>
+            </div>
+            </form>
+            
+            <!-- the loader -->
+            <div class="loader" id="loader" style="display: none;">
+                <div class="loadingio-spinner-ball-205vl2x7n"><div class="ldio-b8p5li8dt1u"><div></div></div></div>
+                <p>{{ _('Traitement en cours...') }}</p>
+            </div>
+        </div>
+        <div class="item">
+            <h3>{{ _("Résultats") }}</h3>
+            <table>
+                <tr>
+                    <th>{{ _("KeyBERT défaut") }}</th>
+                    <th>{{ _("Filtrage MMR") }}</th>
+                    <th>{{ _("Filtrage MSS") }}</th>
+                </tr>
+                {% for fname, methods in res.items() %}
+                <tr><td colspan="3" style="background-color: #496a81;text-align: center;color:#fff"> {{ fname }} </td></tr>
+                <tr>
+                    <td class="kw_res_default" id="{{ fname }}_def">
+                        {% if 'default' in methods %}
+                            {% for word, score in methods.default %}
+                                {{ word }} ({{ "%.4f"|format(score) }})<br>
+                            {% endfor %}
+                        {% endif %}
+                    </td>
+                    <td class="kw_res_mmr" id="{{ fname }}_mmr">
+                        {% if 'mmr' in methods %}
+                            {% for word, score in methods.mmr %}
+                                {{ word }} ({{ "%.4f"|format(score) }})<br>
+                            {% endfor %}
+                        {% endif %}
+                    </td>
+                    <td class="kw_res_mss" id="{{ fname }}_mss">
+                        {% if 'mss' in methods %}
+                            {% for word, score in methods.mss %}
+                                {{ word }} ({{ "%.4f"|format(score) }})<br>
+                            {% endfor %}
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+            <button class="download-button" id="download_btn" onclick="download_res()">
+                <i class="fa-solid fa-download"></i> {{ _("Télécharger") }}
+            </button>
+            <br>
+            <br>
+        </div>
+
+<script>
+    /* MAJ de la zone de glisser-déposer */ 
+    $(document).ready(function(){
+        $('form input').change(function () {
+            var nb_files = this.files.length;
+            $('form #form_msg').text(nb_files + " fichier(s) selectionné(s)");
+
+            /* Prévisualisation des fichiers chargés (max 3 visibles) */
+            if(nb_files > 3){
+                var num = nb_files - 3;
+                for(i=0; i < 3; i++){
+                    $("#form_msg").append('<br/><span class="filename_preview">' + this.files[i].name + '</span>');
+                }
+                $("#form_msg").append('<span class="filename_preview"> et ' + num + ' autres.</span>');
+            }
+            else{
+                for(i=0; i < nb_files; i++){
+                    $("#form_msg").append('<br/><span class="filename_preview">' + this.files[i].name + '</span>');
+                }
+            }
+        });
+
+        /* Affichage des options du formulaire */
+        $('#mmr').click(function(){
+            $("#diversity_opt").toggle();
+        });
+    });
+
+    /* Affichage de la documentation */
+    $(function () {$(".doc-box").click(function () {
+            if($( ".local-doc" ).css( "display" ) == 'none')
+            {
+                $( ".local-doc" ).css( "display", "block" );
+            }
+            else{
+                $( ".local-doc" ).css( "display", "none" );
+            }
+        });
+    });
+
+    /* Vérifier si une méthode est bien cochée */
+    $("#kw_form").submit(function(e){
+        var checked = $("#kw_form input:checked").length > 0;
+        if (!checked){
+            alert("Choisir une méthode d'extraction.");
+            return false;
+        }
+        
+        // Show the loader when form is submitted
+        $("#loader").show();
+    });
+
+    /* Affichage du bouton de téléchargement */
+    $(document).ready(function() {
+        if (Object.keys({{ res|tojson }}).length > 0){
+            $( "#download_btn" ).css( "display", "block" );
+        }
+        // Hide loader when page is loaded (in case it was showing from a previous submission)
+        $("#loader").hide();
+    });
+
+    /* Téléchargement des résultats */
+    function download_res(){
+        var res = {{ res|tojson }};
+        var header = "Name;KeyBERT défaut;Filtrage MMR;Filtrage MSS\n";
+        var file_content = "";
+
+        for (let fname in res) {
+            file_content += fname + ";";
+            
+            // Default method
+            if (res[fname].default) {
+                var defaultKeywords = res[fname].default.map(function(item) {
+                    return item[0] + " (" + item[1].toFixed(4) + ")";
+                }).join(",");
+                file_content += defaultKeywords;
+            }
+            file_content += ";";
+            
+            // MMR method
+            if (res[fname].mmr) {
+                var mmrKeywords = res[fname].mmr.map(function(item) {
+                    return item[0] + " (" + item[1].toFixed(4) + ")";
+                }).join(",");
+                file_content += mmrKeywords;
+            }
+            file_content += ";";
+            
+            // MSS method
+            if (res[fname].mss) {
+                var mssKeywords = res[fname].mss.map(function(item) {
+                    return item[0] + " (" + item[1].toFixed(4) + ")";
+                }).join(",");
+                file_content += mssKeywords;
+            }
+            
+            file_content += "\n";
+        }
+
+        // Create and trigger download
+        var a = window.document.createElement('a');
+        a.href = window.URL.createObjectURL(new Blob([header + file_content], {type: 'text/csv'}));
+        a.download = 'keywords.csv';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+    }
+</script>
+</div>
+{% endblock %}
+{% block footer %} {{ super() }} {% endblock %}

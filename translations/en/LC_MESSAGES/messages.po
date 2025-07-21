@@ -4,558 +4,211 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2023.
 #
 msgid ""
-msgstr ""
-"Project-Id-Version: PROJECT VERSION\n"
-"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-09-11 17:09+0200\n"
-"PO-Revision-Date: 2023-05-30 16:53+0200\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language: en\n"
-"Language-Team: en <LL@li.org>\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.12.1\n"
+msgstr "Project-Id-Version: PROJECT VERSION\nReport-Msgid-Bugs-To: EMAIL@ADDRESS\nPOT-Creation-Date: 2023-09-11 17:09+0200\nPO-Revision-Date: 2023-05-30 16:53+0200\nLast-Translator: FULL NAME <EMAIL@ADDRESS>\nLanguage: en\nLanguage-Team: en <LL@li.org>\nPlural-Forms: nplurals=2; plural=(n != 1);\nMIME-Version: 1.0\nContent-Type: text/plain; charset=utf-8\nContent-Transfer-Encoding: 8bit\nGenerated-By: Babel 2.12.1\n"
 
-#: templates/categories_semantiques.html:8
-msgid ""
-"Textolab est un outil à base de règles pour l'annotation automatique de "
-"textes"
+msgid "Textolab est un outil à base de règles pour l'annotation automatique de textes"
 msgstr "Textolab is a rule-based tool for automatic annotation of texts"
 
-#: templates/conversion_xml.html:12
-msgid ""
-"permet de convertir de nombreux formats de fichiers vers les formats les "
-"plus couramment utilisés dans les humanités numériques"
-msgstr ""
-"converts many file formats to the most commonly used formats in digital "
-"humanities."
+msgid "permet de convertir de nombreux formats de fichiers vers les formats les plus couramment utilisés dans les humanités numériques"
+msgstr "converts many file formats to the most commonly used formats in digital humanities."
 
-#: templates/conversion_xml.html:14
-msgid "Outil Pandore"
-msgstr "Pandore tool"
-
-#: templates/conversion_xml.html:15
 msgid "L'outil ci-dessous permet de transformer un texte brut en format XML-TEI"
 msgstr "The tool below is used to transform plain text into XML-TEI format."
 
-#: templates/conversion_xml.html:15
-msgid ""
-"Il est nécessaire de spécifier les métadonnées dans le formulaire ci-"
-"dessous"
+msgid "Il est nécessaire de spécifier les métadonnées dans le formulaire ci-dessous"
 msgstr "It is necessary to specify metadata in the form below"
 
-#: templates/conversion_xml.html:15
-msgid "Se référer au manuel TEI"
-msgstr "Refer to the TEI manual"
-
-#: templates/conversion_xml.html:15
-msgid "section fileDesc"
-msgstr "fileDesc section"
-
-#: templates/conversion_xml.html:15
-msgid ""
-"pour plus d'information sur les différents champs de l'en-tête"
+msgid "pour plus d'information sur les différents champs de l'en-tête"
 msgstr "for more information on the different header fields"
-
-#: templates/conversion_xml.html:23 templates/conversion_xml.html:30
-#: templates/conversion_xml.html:37 templates/conversion_xml.html:41
-msgid "Champ"
-msgstr "Field"
-
-#: templates/conversion_xml.html:49
-msgid "Déposer le fichier ou cliquer ici."
-msgstr "Drop the file or click here."
 
 msgid "Déposer le(s) fichier(s) ou cliquer ici"
 msgstr "Drop the file(s) or click here"
 
-#: templates/conversion_xml.html:52 templates/numeriser.html:83
 msgid "Convertir en XML-TEI"
 msgstr "Convert to XML-TEI"
 
-#: templates/entites_nommees.html:130
-msgid "Détection des entités nommées"
-msgstr "Named entities recognition"
+msgid "Cet outil permet d'identifier les entités nommées d'un corpus en utilisant au choix trois modèles : Spacy, Flair, ou un modèle Bert"
+msgstr "This tool extracts named entities from a corpus by using a choice of three models: Spacy, Flair or a Bert-based model"
 
-#: templates/entites_nommees.html:132
-msgid "Dans quelle langue est votre texte ?"
-msgstr "What language is your text in?"
+msgid "Dans ce dernier cas, les entités seront annotées directement dans le texte avec la balise"
+msgstr "In the latter case, the entities will be annotated directly in the text with the"
 
-#: templates/entites_nommees.html:139
-msgid ""
-"Cet outil permet d'identifier les entités nommées d'un corpus en "
-"utilisant au choix trois modèles : Spacy, Flair, ou un modèle Bert"
-msgstr ""
-"This tool extracts named entities from a corpus by using a choice of "
-"three models: Spacy, Flair or a Bert-based model"
+msgid "A noter que ce processus ne conserve pas la structuration et le formatage à l'intérieur des balises parcourues ; tous les formatages à l'extérieur de ces balises sont en revanche restitués"
+msgstr "Note that this process does not preserve the structuring and formatting inside the parsed tags"
 
-#: templates/entites_nommees.html:139
-msgid ""
-"Dans ce dernier cas, les entités seront annotées directement dans le "
-"texte avec la balise"
-msgstr ""
-"In the latter case, the entities will be annotated directly in the "
-"text with the"
+msgid "L'utilisation de cette balise &lt;Entity&gt; rend utilisable le XML en sortie dans la plateforme"
+msgstr "Using the &lt;Entity&gt; tag makes the XML output usable in"
 
-#: templates/entites_nommees.html:139
-msgid ""
-"A noter que ce processus ne conserve pas la structuration et le formatage "
-"à l'intérieur des balises parcourues ; tous les formatages à l'extérieur "
-"de ces balises sont en revanche restitués"
-msgstr ""
-"Note that this process does not preserve the structuring and formatting "
-"inside the parsed tags"
+msgid "Cette section permet d'annoter la catégorie grammaticale de chaque mot d'un texte avec"
+msgstr "This section allows you to annotate the grammatical category of each word in a text with"
 
-#: templates/entites_nommees.html:140
-msgid ""
-"L'utilisation de cette balise &lt;Entity&gt; rend utilisable le XML en "
-"sortie dans la plateforme"
-msgstr ""
-"Using the &lt;Entity&gt; tag makes the XML output usable in"
-
-#: templates/etiquetage_morphosyntaxique.html:9
-msgid ""
-"Cette section permet d'annoter la catégorie grammaticale de chaque mot "
-"d'un texte avec"
-msgstr ""
-"This section allows you to annotate the grammatical category of each word "
-"in a text with"
-
-#: templates/etiquetage_morphosyntaxique.html:9
-msgid "l'outil SEM"
-msgstr "the SEM tool"
-
-#: templates/etiquetage_morphosyntaxique.html:9
-msgid "La liste des étiquettes est définie"
-msgstr "The tags are defined"
-
-#: templates/etiquetage_morphosyntaxique.html:9
 msgid "ici"
 msgstr "here"
 
-#: templates/etiquetage_morphosyntaxique.html:9
-msgid "Le document renvoyé est au format"
-msgstr "Output document is in"
+msgid "avec deux colonnes : une pour le mot et une pour l'étiquette morphosyntaxique"
+msgstr "format with two columns: one for the word and the other for the POS tag"
 
-#: templates/etiquetage_morphosyntaxique.html:9
-msgid ""
-"avec deux colonnes : une pour le mot et une pour l'étiquette "
-"morphosyntaxique"
-msgstr ""
-"format with two columns: one for the word and the other for the POS tag"
-
-#: templates/etiquetage_morphosyntaxique.html:10 templates/numeriser.html:32
-msgid "Voir la documentation complète"
-msgstr "See full documentation"
-
-#: templates/etiquetage_morphosyntaxique.html:13
-#: templates/topic_modelling.html:17
 msgid "Format d'entrée :"
 msgstr "Input format:"
 
-#: templates/etiquetage_morphosyntaxique.html:14
-msgid "fichier tabulaire"
-msgstr "tabular file"
+msgid "Le texte est encodé au niveau de la phrase. Le modèle utilisé pour les transformers de phrases dans l'outil ci-dessous est"
+msgstr "The text is encoded at the sentence level. The model used for the sentence transformers in the tool below is"
 
-#: templates/etiquetage_morphosyntaxique.html:25
-msgid "Étiqueter en morphosyntaxe"
-msgstr "Run POS tagging"
-
-#: templates/extraction_mots_cles.html:14
-msgid "Cet outil utilise le"
-msgstr "This tool uses"
-
-#: templates/extraction_mots_cles.html:14
-msgid "modèle KeyBERT"
-msgstr "KeyBERT model"
-
-#: templates/extraction_mots_cles.html:15
-msgid ""
-"Le texte est encodé au niveau de la phrase. Le modèle utilisé pour les "
-"transformers de phrases dans l'outil ci-dessous est"
-msgstr ""
-"The text is encoded at the sentence level. The model used for the "
-"sentence transformers in the tool below is"
-
-#: templates/extraction_mots_cles.html:15
-msgid "qui prend en charge 15 langues"
-msgstr "which supports 15 languages"
-
-#: templates/extraction_mots_cles.html:16
-msgid ""
-"Pour diversifier les mots-clés, ils est possible d'appliquer deux "
-"algorithmes :"
+msgid "Pour diversifier les mots-clés, ils est possible d'appliquer deux algorithmes :"
 msgstr "To diversify keywords, two algorithms can be applied:"
 
-#: templates/extraction_mots_cles.html:18
-msgid ""
-" : permet de filtrer les mots-clés candidats selon leur taux de "
-"diversité. Un taux de diversité élevé évitera les redondances ; un taux "
-"de diversité faible pourra par exemple permettre de cibler des nuances "
-"autour de thèmes principaux"
-msgstr ""
-": filters candidate keywords according to their diversity rate. A high "
-"diversity rate will avoid redundancies; a low diversity rate could, for "
-"example, target nuances surrounding major themes"
+msgid " : permet de filtrer les mots-clés candidats selon leur taux de diversité. Un taux de diversité élevé évitera les redondances ; un taux de diversité faible pourra par exemple permettre de cibler des nuances autour de thèmes principaux"
+msgstr ": filters candidate keywords according to their diversity rate. A high diversity rate will avoid redundancies; a low diversity rate could, for example, target nuances surrounding major themes"
 
-#: templates/extraction_mots_cles.html:19
-msgid ""
-" : sélectionne les mots-clés qui ont le taux de similarité deux à deux le "
-"plus faible possible"
-msgstr ""
-": selects keywords that have the lowest possible two-by-two similarity "
-"rate"
+msgid " : sélectionne les mots-clés qui ont le taux de similarité deux à deux le plus faible possible"
+msgstr ": selects keywords that have the lowest possible two-by-two similarity rate"
 
-#: templates/extraction_mots_cles.html:24 templates/topic_modelling.html:23
 msgid "Chargement des fichiers"
 msgstr "Files upload"
 
-#: templates/extraction_mots_cles.html:29
 msgid "Méthode de calcul des mots-clés"
 msgstr "Keyword Calculation Method"
 
-#: templates/extraction_mots_cles.html:30
 msgid "Par défaut"
 msgstr "Default"
 
-#: templates/extraction_mots_cles.html:34
 msgid "Diversité"
 msgstr "Diversity"
 
-#: templates/extraction_mots_cles.html:46 templates/topic_modelling.html:51
 msgid "Résultats"
 msgstr "Results"
 
-#: templates/extraction_mots_cles.html:49
 msgid "KeyBERT défaut"
 msgstr "Default KeyBERT"
 
-#: templates/extraction_mots_cles.html:50
 msgid "Filtrage MMR"
 msgstr "MMR filtering"
 
-#: templates/extraction_mots_cles.html:51
 msgid "Filtrage MSS"
 msgstr "MSS filtering"
 
-#: templates/extraction_mots_cles.html:62 templates/ocr_map.html:191
-#: templates/topic_modelling.html:68
 msgid "Télécharger"
 msgstr "Download"
 
-#: templates/index.html:36 templates/outils.html:39
 msgid "Outils"
 msgstr "Tools"
 
-#: templates/index.html:61
-msgid ""
-"Pandore offre un ensemble de modules permettant d'effectuer "
-"automatiquement les\n"
-"  tâches les plus courantes liées au traitement de corpus pour la "
-"recherche en humanités\n"
-"  numériques."
-msgstr ""
-"Pandore offers a set of tools that facilitate \n"
-"the most common corpus processing tasks for digital humanities research.\n"
+msgid "Pandore offre un ensemble de modules permettant d'effectuer automatiquement les tâches les plus courantes liées au traitement de corpus pour la recherche en humanités numériques"
+msgstr "Pandore offers a set of tools that facilitate the most common corpus processing tasks for digital humanities research."
 
-#: templates/index.html:63
-msgid ""
-"Des chaînes de traitement permettant d'automatiser un ensemble de\n"
-"  tâches sont également proposées."
+msgid "Des chaînes de traitement permettant d'automatiser un ensemble de tâches sont également proposées."
 msgstr "Automatic pipelines for a set of tasks are also available."
 
-#: templates/index.html:66
-msgid "Voir la démo"
-msgstr "See the demo"
-
-#: templates/index.html:83
-msgid "Fouille et annotation de texte"
-msgstr "Text mining and annotation"
-
-#: templates/index.html:89
 msgid "Entités de lieux sur carte"
 msgstr "Geolocation and mapping of place names"
 
-#: templates/index.html:99
-msgid ""
-"Correction d'erreurs et normalisation pour corpus à la graphie non "
-"standard"
-msgstr ""
-"Error correction and orthographic normalization of corpora with non-"
-"standard spellings"
+msgid "Correction d'erreurs et normalisation pour corpus à la graphie non standard"
+msgstr "Error correction and orthographic normalization of corpora with non-standard spellings"
 
-#: templates/index.html:104
-msgid ""
-"Traitement automatique depuis l'OCR jusqu'à la reconnaissance d'entités "
-"et leur visualisation."
-msgstr "Automatic processing from OCR to entity recognition and visualization"
+msgid "Traitement automatique depuis l'OCR jusqu'à la reconnaissance d'entités et leur visualisation."
+msgstr "Automatic processing from OCR to entity recognition and visualization."
 
-#: templates/index.html:114
 msgid "Ce site ne dépose pas de cookies"
 msgstr "This site does not use cookies"
 
-
-#: templates/numeriser.html:27 templates/numeriser.html:57
 msgid "Numériser"
 msgstr "Digitisation"
 
-#: templates/numeriser.html:31
 msgid "L'outil Tesseract"
 msgstr "Tesseract tool"
 
 msgid "permet de numériser des imprimés"
-msgstr "facilitate digitisation of printed sources"
+msgstr "facilitates digitisation of printed sources"
 
 msgid "Les modèles préentraînés"
 msgstr "Pretrained models"
 
-#: templates/numeriser.html:31
 msgid "liste ici"
 msgstr "list here"
 
-#: templates/numeriser.html:31
-msgid ""
-"disponibles avec l'outil couvrent un large éventail de polices et sont "
-"disponibles pour de très nombreuses langues"
+msgid "disponibles avec l'outil couvrent un large éventail de polices et sont disponibles pour de très nombreuses langues"
 msgstr "are available for many languages and fonts"
 
-#: templates/numeriser.html:47 templates/ocr_map.html:121
-msgid "Espagnol ancien"
-msgstr "Old Spanish"
-
-#: templates/numeriser.html:48 templates/ocr_map.html:122
-msgid "Fraktur"
-msgstr "Fraktur"
-
-#: templates/numeriser.html:63
 msgid "Vos fichiers apparaîtront une fois le traitement terminé."
 msgstr "Your files will appear once processing is complete."
 
-
-msgid ""
-"Pour les textes bilingues, il est possible d'utiliser "
-"conjointement deux modèles. Les modèles pour le "
-"chinois proviennent d'un"
-msgstr ""
-"For bilingual texts, it is possible to use"
-"two models jointly. The models for "
-"Chinese come from an"
+msgid "Pour les textes bilingues, il est possible d'utiliser conjointement deux modèles. Les modèles pour le chinois proviennent d'un"
+msgstr "For bilingual texts, it is possible to use two models jointly. The models for Chinese come from an"
 
 msgid "projet externe"
 msgstr "external project"
 
-#: templates/numeriser.html:78 templates/numeriser.html:82
 msgid "Tâches suivantes"
 msgstr "Next tasks"
 
-#: templates/numeriser.html:84
 msgid "Extraire les entités nommées"
 msgstr "Extract named entities"
 
-#: templates/numeriser.html:85
+msgid "Extraire les entités"
+msgstr "Extract entities"
+
 msgid "Étiqueter en parties du discours"
 msgstr "Part-of-speech tagging"
 
-#: templates/ocr_map.html:81
-msgid ""
-"Cette chaîne de traitement permet d'extraire les entités nommées de lieu "
-"dans un texte (numérisé ou non), puis de récupérer leurs coordonnées "
-"géographiques (Geopy) afin de les cartographier"
-msgstr ""
-"This pipeline extracts location entities from a text (digitised or not) "
-"and retrieves their geographic coordinates with Geopy before mapping them "
-"on this page"
+msgid "Cette chaîne de traitement permet d'extraire les entités nommées de lieu dans un texte (numérisé ou non), puis de récupérer leurs coordonnées géographiques (Geopy) afin de les cartographier"
+msgstr "This pipeline extracts location entities from a text (digitised or not) and retrieves their geographic coordinates with Geopy before mapping them on this page"
 
-#: templates/ocr_map.html:99
-msgid "pour les fichiers à OCRiser :"
-msgstr "for files to be digitised:"
-
-#: templates/ocr_map.html:100
-msgid "pour les corpus numérisés :"
-msgstr "for digitised corpora:"
-
-#: templates/ocr_map.html:102 templates/topic_modelling.html:18
 msgid "Format de sortie :"
 msgstr "Output format:"
 
-#: templates/ocr_map.html:104
 msgid "Visualisation interactive"
 msgstr "Interactive visualisation"
-
-#: templates/ocr_map.html:105
-msgid "Fichier TSV des entités de lieu et leurs coordonnées"
-msgstr "TSV file of location entities with their coordinates"
-
-#: templates/ocr_map.html:113
-msgid "Étape 1 :"
-msgstr "Step 1:"
 
 msgid "numérisation"
 msgstr "digitisation"
 
-#: templates/ocr_map.html:117
 msgid "Pas de numérisation"
 msgstr "No digitisation"
 
-#: templates/ocr_map.html:127
-msgid "Étape 2 :"
-msgstr "Step 2:"
-
-msgid "configuration de l'extraction d'entités"
-msgstr "configure entities extraction"
-
-#: templates/ocr_map.html:133 templates/ocr_map.html:149
 msgid "Configuration outil"
 msgstr "Configuration tool"
 
-#: templates/ocr_map.html:152 templates/ocr_map.html:159
 msgid "aucun"
 msgstr "none"
 
-#: templates/ocr_map.html:166
-msgid "Entrée"
-msgstr "Input"
-
-#: templates/ocr_map.html:173
 msgid "Cartographier"
 msgstr "Map entities"
 
-#: templates/outils.html:6
-msgid "Tâches et outils"
-msgstr "Tasks and tools"
-
-#: templates/outils.html:11
-msgid "Outils ObTIC"
-msgstr "ObTIC tools"
-
-#: templates/outils.html:17
-msgid "Analyse d'opinion"
-msgstr "Opinion mining"
-
-#: templates/outils.html:19
-msgid "Collecte de corpus (scraping)"
-msgstr "Corpus harvesting (scraping)"
-
-#: templates/outils.html:20
-msgid "Conversion de formats de fichiers"
-msgstr "File format conversion"
-
-#: templates/outils.html:22
-msgid "Correction de corpus bruités"
-msgstr "Correction of noisy corpora"
-
-#: templates/outils.html:23 templates/outils.html:24
 msgid "Entités de lieu"
 msgstr "Location entities"
 
-#: templates/outils.html:27
-msgid "HTR (reconnaissance de texte manuscrit)"
-msgstr "HTR (handwritten text recognition)"
-
-#: templates/outils.html:30
 msgid "reconnaissance optique de caractères"
 msgstr "optical character recognition"
 
-#: templates/outils.html:31
-msgid "Reconnaissance d'entités nommées (REN)"
-msgstr "Named entity recognition (NER)"
-
-#: templates/outils.html:32
-msgid "Réseaux de cooccurrences"
-msgstr "Co-occurrences networks"
-
-#: templates/outils.html:32
 msgid "réseaux de personnages et de cooccurrences"
 msgstr "characters and co-occurrences networks"
 
-#: templates/outils.html:34
-msgid "Modèle thématique (topic modelling)"
-msgstr "Topic modelling"
+msgid "La modélisation de thématiques consiste à identifier dans un corpus les groupes de termes représentatifs des thèmes de celui-ci. Pour extraire ces informations, il existe plusieurs méthodes de calcul, détaillées ci-dessous. Leur efficacité respective dépendra du type de corpus et du type d'information recherchée. Globalement, NMF est plus performant sur les textes courts"
+msgstr "Topic modelling consists of identifying, in a corpus, the groups of terms representative of the corpus. To extract this information, several calculation methods can be used (see below). Their effectiveness will depend on the corpus type and the type of information sought after. Overall, NMF is more effective on shorter texts"
 
-#: templates/outils.html:41
-msgid "Camembert NER"
-msgstr "Bert-base NER"
-
-#: templates/resume_automatique.html:6
-msgid "Retour aux outils"
-msgstr "Back to tools"
-
-#: templates/topic_modelling.html:11
-msgid ""
-"La modélisation de thématiques consiste à identifier dans un corpus les "
-"groupes de termes représentatifs des thèmes de celui-ci. Pour extraire "
-"ces informations, il existe plusieurs méthodes de calcul, détaillées ci-"
-"dessous. Leur efficacité respective dépendra du type de corpus et du type "
-"d'information recherchée. Globalement, NMF est plus performant sur les "
-"textes courts"
-msgstr ""
-"Topic modelling consists of identifying, in a corpus, the groups of terms "
-"representative of the corpus. To extract this information, several "
-"calculation methods can be used (see below). Their effectiveness will "
-"depend on the corpus type and the type of information sought after. "
-"Overall, NMF is more effective on shorter texts"
-
-#: templates/topic_modelling.html:11
 msgid "réf"
 msgstr "ref"
 
-#: templates/topic_modelling.html:13
-msgid ""
-"Factorisation par matrices non négatives (NMF) : calcule en observant la "
-"fréquence et la répartition des termes dans chaque document par rapport "
-"au corpus global."
-msgstr ""
-"Non-negative matrix factorization (NMF): a calculation which takes into "
-"account the frequency and the distribution of terms in individual "
-"documents versus the entire corpus."
+msgid "Factorisation par matrices non négatives (NMF) : calcule en observant la fréquence et la répartition des termes dans chaque document par rapport au corpus global."
+msgstr "Non-negative matrix factorization (NMF): a calculation which takes into account the frequency and the distribution of terms in individual documents versus the entire corpus."
 
+msgid "Allocation de Dirichlet latente (LDA) : calcule en se basant sur des hypothèses statistiques de présence de thématiques par document."
+msgstr "Latent Dirichlet Allocation (LDA): a calculation based on statistical hypotheses of the presence of certain themes per document."
 
-#: templates/topic_modelling.html:14
-msgid ""
-"Allocation de Dirichlet latente (LDA) : calcule en se basant sur des "
-"hypothèses statistiques de présence de thématiques par document."
-msgstr ""
-"Latent Dirichlet Allocation (LDA): a calculation based on statistical "
-"hypotheses of the presence of certain themes per document."
+msgid "fichier CSV contenant les ensembles de mots-clés formant les thématiques détectées. Le nombre de thématiques dépend du nombre de document présents dans le corpus, mais est plafonné à 8."
+msgstr "CSV file containing collections of keywords which consist of the detected themes. The number of themes depends on the number of documents in the corpus, but is limited to 8."
 
-#: templates/topic_modelling.html:17
-msgid "ensemble de fichiers au format texte"
-msgstr "set of files in plain text"
-
-#: templates/topic_modelling.html:18
-msgid ""
-"fichier CSV contenant les ensembles de mots-clés formant les thématiques "
-"détectées. Le nombre de thématiques dépend du nombre de document présents "
-"dans le corpus, mais est plafonné à 8."
-msgstr ""
-"CSV file containing collections of keywords which consist of the detected "
-"themes. The number of themes depends on the number of documents in the "
-"corpus, but is limited to 8."
-
-#: templates/topic_modelling.html:30
 msgid "Méthodes de calcul des thématiques :"
 msgstr "Method of topic modelling:"
 
-#: templates/topic_modelling.html:39
 msgid "Le traitement peut être très long."
 msgstr "Processing can be time-consuming"
-
-#~ msgid "(modèle thématique)"
-#~ msgstr ""
-
-# Additions of new translations
 
 msgid "Outil d'ATR"
 msgstr "ATR tool"
 
-msgid ""
-"Conversion de nombreux formats de fichiers vers les formats "
-"les plus couramment utilisés dans les humanités numériques"
-msgstr ""
-"Converting many file formats to the most commonly "
-"used formats in digital humanities"
+msgid "Conversion de nombreux formats de fichiers vers les formats les plus couramment utilisés dans les humanités numériques"
+msgstr "Converting many file formats to the most commonly used formats in digital humanities"
 
 msgid "Numérisation et reconnaissance d'entités nommées"
 msgstr "Digitization and Named Entity Recognition"
@@ -566,39 +219,23 @@ msgstr "Tesseract tool allows you to digitize printed files"
 msgid "Formats possibles pour les fichiers d'entrée à OCRiser :"
 msgstr "Possible formats for input files to be OCRed:"
 
-msgid "Formats possibles pour les fichiers d'entrée pour la REN seule :"
-msgstr "Possible formats for input files for NER only:"
-
-msgid ""
-"permet de résumer automatiquement des documents "
-"en anglais aux formats texte brut ou XML"
-msgstr ""
-"allows you to automatically summarize English "
-"documents in plain text or XML formats"
+msgid "permet de résumer automatiquement des documents en anglais aux formats texte brut ou XML"
+msgstr "allows you to automatically summarize English documents in plain text or XML formats"
 
 msgid "L'outil "
 msgstr "The tool "
 
-#: templates/outils/etiquetage_morphosyntaxique.html
 msgid "Étiquetage morphosyntaxique"
 msgstr "Part-of-speech tagging"
 
-msgid ""
-"Cette section permet d'annoter la catégorie "
-"grammaticale de chaque mot d'un texte avec"
-msgstr ""
-"This section allows to annotate the grammatical "
-"category of each word in a text with"
+msgid "Cette section permet d'annoter la catégorie grammaticale de chaque mot d'un texte avec"
+msgstr "This section allows to annotate the grammatical category of each word in a text with"
 
 msgid "l'outil POS tagging de spaCy"
 msgstr "the POS tagging tool from spaCy"
 
-msgid ""
-"Le document renvoyé précise le token récupéré "
-"et son étiquette morphosyntaxique"
-msgstr ""
-"The returned document specifies the "
-"retrieved token and its part-of-speech tag"
+msgid "Le document renvoyé précise le token récupéré et son étiquette morphosyntaxique"
+msgstr "The returned document specifies the retrieved token and its part-of-speech tag"
 
 msgid "Voir la documentation"
 msgstr "See the documentation"
@@ -654,103 +291,41 @@ msgstr "Other"
 msgid "Choisissez la langue"
 msgstr "Choose the language"
 
-msgid "Allemand"
-msgstr "German"
-
-msgid "Anglais"
-msgstr "English"
-
-msgid "Danois"
-msgstr "Danish"
-
-msgid "Espagnol"
-msgstr "Spanish"
-
-msgid "Finnois"
-msgstr "Finnish"
-
-msgid "Français"
-msgstr "French"
-
-msgid "Grec"
-msgstr "Greek"
-
-msgid "Italien"
-msgstr "Italian"
-
-msgid "Néerlandais"
-msgstr "Dutch"
-
-msgid "Polonais"
-msgstr "Polish"
-
-msgid "Portugais"
-msgstr "Portuguese"
-
-msgid "Russe"
-msgstr "Russian"
-
 msgid "Annoter"
 msgstr "Annotate"
 
-
-#: templates/outils/analyse_lexicale.html
 msgid "Analyse lexicale"
 msgstr "Lexical analysis"
 
-msgid ""
-"Cette page permet d'opérer divers types d'analyses "
-"lexicales sur un ou plusieurs documents soumis"
-msgstr ""
-"This page allows performing various types of "
-"lexical analyses on one or more submitted documents"
+msgid "Cette page permet d'opérer divers types d'analyses lexicales sur un ou plusieurs documents soumis"
+msgstr "This page allows performing various types of lexical analyses on one or more submitted documents"
 
 msgid "Dispersion lexicale"
 msgstr "Lexical dispersion"
 
-msgid ""
-"Mesure montrant la distribution et l'occurrence "
-"de mots spécifiques dans un texte"
-msgstr ""
-"Measure showing the distribution and occurrence "
-"of specific words in a text"
+msgid "Mesure montrant la distribution et l'occurrence de mots spécifiques dans un texte"
+msgstr "Measure showing the distribution and occurrence of specific words in a text"
 
 msgid "Diversité lexicale"
 msgstr "Lexical diversity"
 
-msgid ""
-"Mesure de la diversité du vocabulaire d'un texte "
-"en évaluant le nombre et la variété des mots utilisés"
-msgstr ""
-"Measure of the diversity of a text's vocabulary "
-"by evaluating the number and variety of words used"
+msgid "Mesure de la diversité du vocabulaire d'un texte en évaluant le nombre et la variété des mots utilisés"
+msgstr "Measure of the diversity of a text's vocabulary by evaluating the number and variety of words used"
 
 msgid "Relations lexicales"
 msgstr "Lexical relationships"
 
-msgid ""
-"Analyse des liens entre les mots et leur "
-"fréquence d'apparition conjointe"
-msgstr ""
-"Analysis of the links between words "
-"and their frequency of co-occurrence"
+msgid "Analyse des liens entre les mots et leur fréquence d'apparition conjointe"
+msgstr "Analysis of the links between words and their frequency of co-occurrence"
 
 msgid "Spécificités lexicales"
 msgstr "Lexical specificities"
 
-msgid ""
-"Score identifiant le caractère unique "
-"d'un mot ou d'une phrase"
-msgstr ""
-"Score identifying the uniqueness "
-"of a word or phrase"
+msgid "Score identifiant le caractère unique d'un mot ou d'une phrase"
+msgstr "Score identifying the uniqueness of a word or phrase"
 
-msgid ""
-"dans un document par rapport à "
-"un corpus de texte plus vaste"
-msgstr ""
-"in a document compared to "
-"a larger text corpus"
+msgid "dans un document par rapport à un corpus de texte plus vaste"
+msgstr "in a document compared to a larger text corpus"
 
 msgid "Choisir le type d'analyse"
 msgstr "Choose the type of analysis"
@@ -767,13 +342,8 @@ msgstr "Word to analyze"
 msgid "Lancer l'analyse"
 msgstr "Start the analysis"
 
-#: templates/outils/extraction_gallica.html
-msgid ""
-"Les documents consultables dans Gallica sont "
-"identifiés selon un système normalisé, ARK (pour"
-msgstr ""
-"Documents available on Gallica are "
-"identified using a standardized system, ARK (for"
+msgid "Les documents consultables dans Gallica sont identifiés selon un système normalisé, ARK (pour"
+msgstr "Documents available on Gallica are identified using a standardized system, ARK (for"
 
 msgid "qui permet de garantir la pérennité des URL (voir la"
 msgstr "which ensures the permanence of URLs (see the"
@@ -805,30 +375,14 @@ msgstr "when it is available"
 msgid "Comment ça marche "
 msgstr "How does it work"
 
-msgid ""
-"Vous pouvez charger un fichier contenant "
-"une liste d'ARK ou coller directement cette liste "
-"dans le formulaire dédié"
-msgstr ""
-"You can upload a file containing "
-"a list of ARKs or directly paste this list "
-"into the dedicated form"
+msgid "Vous pouvez charger un fichier contenant une liste d'ARK ou coller directement cette liste dans le formulaire dédié"
+msgstr "You can upload a file containing a list of ARKs or directly paste this list into the dedicated form"
 
-msgid ""
-"Il est possible de sélectionner "
-"une plage de pages à télécharger"
-msgstr ""
-"It is possible to select "
-"a range of pages to download"
+msgid "Il est possible de sélectionner une plage de pages à télécharger"
+msgstr "It is possible to select a range of pages to download"
 
-msgid ""
-"en indiquant le numéro de la première page "
-"désirée et le nombre de pages après celle-ci, "
-"séparés par une tabulation"
-msgstr ""
-"by indicating the number of the desired "
-"first page and the number of pages after that, "
-"separated by a tab"
+msgid "en indiquant le numéro de la première page désirée et le nombre de pages après celle-ci, séparés par une tabulation"
+msgstr "by indicating the number of the desired first page and the number of pages after that, separated by a tab"
 
 msgid "Exemple"
 msgstr "Example"
@@ -836,22 +390,14 @@ msgstr "Example"
 msgid "exemple"
 msgstr "example"
 
-msgid ""
-"Cette ligne vous permettra de récupérer "
-"le Livre Quatrième (pp 144 à 165) des"
-msgstr ""
-"This line will allow you to retrieve "
-"Book Four (pp 144 to 165) of"
+msgid "Cette ligne vous permettra de récupérer le Livre Quatrième (pp 144 à 165) des"
+msgstr "This line will allow you to retrieve Book Four (pp 144 to 165) of"
 
 msgid "d'Ovide, référencé sous l'ARK"
 msgstr "by Ovid, referenced under the ARK"
 
-msgid ""
-"Pour télécharger l'œuvre intégrale, il "
-"suffit d'indiquer uniquement l'ARK"
-msgstr ""
-"To download the complete work, "
-"just indicate the ARK"
+msgid "Pour télécharger l'œuvre intégrale, il suffit d'indiquer uniquement l'ARK"
+msgstr "To download the complete work, just indicate the ARK"
 
 msgid "Extraction de documents Gallica"
 msgstr "Extraction of Gallica documents"
@@ -877,62 +423,35 @@ msgstr "Send"
 msgid "Interrogation de Gallica en cours"
 msgstr "Querying Gallica in progress"
 
-#: templates/outils/analyse_linguistique.html
 msgid "Analyse linguistique"
 msgstr "Linguistic analysis"
 
-msgid ""
-"Cette page permet d'opérer divers types d'analyse "
-"linguistique sur un ou plusieurs documents soumis"
-msgstr ""
-"This page allows performing various types of "
-"linguistic analysis on one or more submitted documents"
+msgid "Cette page permet d'opérer divers types d'analyse linguistique sur un ou plusieurs documents soumis"
+msgstr "This page allows performing various types of linguistic analysis on one or more submitted documents"
 
 msgid "Détection du language"
 msgstr "Language detection"
 
-msgid ""
-"Détection automatique de la langue d'un texte"
-msgstr ""
-"Automatic detection of a text's language"
+msgid "Détection automatique de la langue d'un texte"
+msgstr "Automatic detection of a text's language"
 
-msgid ""
-"à l'aide de diverses bibliothèques et méthodes"
-msgstr ""
-"using various libraries and methods"
+msgid "à l'aide de diverses bibliothèques et méthodes"
+msgstr "using various libraries and methods"
 
-msgid ""
-"Détection de mots qui n'apparaissent qu'une seule fois "
-"dans un texte"
-msgstr ""
-"Detection of words that appear only once "
-"in a text"
+msgid "Détection de mots qui n'apparaissent qu'une seule fois dans un texte"
+msgstr "Detection of words that appear only once in a text"
 
-msgid ""
-"Détection de séquences contiguës de n éléments (mots, "
-"caractères ou symboles)"
-msgstr ""
-"Detection of contiguous sequences of n elements (words, "
-"characters, or symbols)"
+msgid "Détection de séquences contiguës de n éléments (mots, caractères ou symboles)"
+msgstr "Detection of contiguous sequences of n elements (words, characters, or symbols)"
 
-msgid ""
-"dans un texte ou un discours donné"
-msgstr ""
-"in a given text or speech"
+msgid "dans un texte ou un discours donné"
+msgstr "in a given text or speech"
 
-msgid ""
-"Identification des relations entre les mots d'une phrase, "
-"en reliant chacun d'eux"
-msgstr ""
-"Identification of relationships between words in a sentence, "
-"linking each one"
+msgid "Identification des relations entre les mots d'une phrase, en reliant chacun d'eux"
+msgstr "Identification of relationships between words in a sentence, linking each one"
 
-msgid ""
-"en fonction de sa fonction grammaticale comme sujet, "
-"objet, complément ou modificateur"
-msgstr ""
-"based on its grammatical function as subject, "
-"object, complement, or modifier"
+msgid "en fonction de sa fonction grammaticale comme sujet, objet, complément ou modificateur"
+msgstr "based on its grammatical function as subject, object, complement, or modifier"
 
 msgid "Options 1 et 2"
 msgstr "Options 1 and 2"
@@ -970,51 +489,32 @@ msgstr "N-grams length"
 msgid "Nombre de n-grams à afficher"
 msgstr "Number of n-grams to display"
 
-#: templates/outils/analyse_statistique.html
 msgid "Analyse statistique"
 msgstr "Statistical analysis"
 
-msgid ""
-"Cette page permet d'opérer divers types d'analyses statistiques "
-"sur un ou plusieurs documents soumis"
-msgstr ""
-"This page allows performing various types of statistical analyses "
-"on one or more submitted documents"
+msgid "Cette page permet d'opérer divers types d'analyses statistiques sur un ou plusieurs documents soumis"
+msgstr "This page allows performing various types of statistical analyses on one or more submitted documents"
 
 msgid "Longueur moyenne des phrases"
 msgstr "Average sentence length"
 
-msgid ""
-"Mesure calculant le nombre moyen de mots par phrase "
-"dans un texte donné"
-msgstr ""
-"Measure calculating the average number of words per sentence "
-"in a given text"
+msgid "Mesure calculant le nombre moyen de mots par phrase dans un texte donné"
+msgstr "Measure calculating the average number of words per sentence in a given text"
 
-msgid ""
-"donnant un aperçu de la complexité et de la lisibilité du texte"
-msgstr ""
-"providing an overview of the complexity and readability of the text"
+msgid "donnant un aperçu de la complexité et de la lisibilité du texte"
+msgstr "providing an overview of the complexity and readability of the text"
 
 msgid "Fréquence de mots"
 msgstr "Word frequency"
 
-msgid ""
-"Calcul des fréquences absolue et relative de chaque mot "
-"d'un texte"
-msgstr ""
-"Calculation of the absolute and relative frequencies of each word "
-"in a text"
+msgid "Calcul des fréquences absolue et relative de chaque mot d'un texte"
+msgstr "Calculation of the absolute and relative frequencies of each word in a text"
 
 msgid "Co-occurrences"
 msgstr "Co-occurrences"
 
-msgid ""
-"Fréquence à laquelle deux éléments apparaissent ensemble "
-"dans un contexte"
-msgstr ""
-"Frequency at which two elements appear together "
-"in a context"
+msgid "Fréquence à laquelle deux éléments apparaissent ensemble dans un contexte"
+msgstr "Frequency at which two elements appear together in a context"
 
 msgid "Fenêtre de contexte"
 msgstr "Context window"
@@ -1022,36 +522,23 @@ msgstr "Context window"
 msgid "Mot cible"
 msgstr "Target word"
 
-#: templates/outils/extraction_wikisource.html
 msgid "Extraction Wikisource"
 msgstr "Wikisource extraction"
 
-msgid ""
-"La plateforme collaborative"
-msgstr ""
-"The collaborative platform"
+msgid "La plateforme collaborative"
+msgstr "The collaborative platform"
 
-msgid ""
-"contient de très nombreux textes littéraires libres de droits"
-msgstr ""
-"contains many public domain literary texts"
+msgid "contient de très nombreux textes littéraires libres de droits"
+msgstr "contains many public domain literary texts"
 
-msgid ""
-"L'outil ci-dessous permet de constituer un corpus à partir de ces textes, "
-"en renseignant leur URL"
-msgstr ""
-"The tool below allows creating a corpus from these texts "
-"by providing their URL"
+msgid "L'outil ci-dessous permet de constituer un corpus à partir de ces textes, en renseignant leur URL"
+msgstr "The tool below allows creating a corpus from these texts by providing their URL"
 
 msgid "Création rapide"
 msgstr "Quick creation"
 
-msgid ""
-"Cette option permet de générer un corpus aléatoire parmi les œuvres "
-"en français de Wikisource"
-msgstr ""
-"This option allows generating a random corpus from the French works "
-"on Wikisource"
+msgid "Cette option permet de générer un corpus aléatoire parmi les œuvres en français de Wikisource"
+msgstr "This option allows generating a random corpus from the French works on Wikisource"
 
 msgid "Nombre de textes"
 msgstr "Number of texts"
@@ -1062,22 +549,14 @@ msgstr "Generate random corpus"
 msgid "A partir d'URL(s)"
 msgstr "From URL(s)"
 
-msgid ""
-"Copier ici les URLs des textes à collecter"
-msgstr ""
-"Copy the URLs of the texts to collect here"
+msgid "Copier ici les URLs des textes à collecter"
+msgstr "Copy the URLs of the texts to collect here"
 
-msgid ""
-"Il est possible de collecter un texte intégral à partir "
-"d'un sommaire"
-msgstr ""
-"It is possible to collect an entire text "
-"from a table of contents"
+msgid "Il est possible de collecter un texte intégral à partir d'un sommaire"
+msgstr "It is possible to collect an entire text from a table of contents"
 
-msgid ""
-"Dans ce cas, cocher la case Sommaire en face de l'URL indiquée"
-msgstr ""
-"In this case, check the Summary box next to the provided URL"
+msgid "Dans ce cas, cocher la case Sommaire en face de l'URL indiquée"
+msgstr "In this case, check the Summary box next to the provided URL"
 
 msgid "Sommaire"
 msgstr "Summary"
@@ -1088,56 +567,35 @@ msgstr "Add URL"
 msgid "Collecter corpus"
 msgstr "Collect corpus"
 
-#: templates/outils/analyse_texte.html
 msgid "Retour aux tâches"
 msgstr "Back to tasks"
 
 msgid "Analyse de texte"
 msgstr "Text analysis"
 
-msgid ""
-"Cette page permet d'opérer divers types d'analyses textuelles "
-"sur un ou plusieurs documents soumis"
-msgstr ""
-"This page allows performing various types of textual analyses "
-"on one or more submitted documents"
+msgid "Cette page permet d'opérer divers types d'analyses textuelles sur un ou plusieurs documents soumis"
+msgstr "This page allows performing various types of textual analyses on one or more submitted documents"
 
 msgid "Détection de subjectivité"
 msgstr "Subjectivity detection"
 
-msgid ""
-"Détection du caractère objective ou subjective d'une phrase, "
-"la subjectivité étant présente"
-msgstr ""
-"Detection of the objective or subjective nature of a sentence, "
-"subjectivity being present"
+msgid "Détection du caractère objective ou subjective d'une phrase, la subjectivité étant présente"
+msgstr "Detection of the objective or subjective nature of a sentence, subjectivity being present"
 
-msgid ""
-"si son contenu est basé sur ou influencé par des sentiments, "
-"des goûts ou des opinions personnelles"
-msgstr ""
-"if its content is based on or influenced by feelings, "
-"tastes, or personal opinions"
+msgid "si son contenu est basé sur ou influencé par des sentiments, des goûts ou des opinions personnelles"
+msgstr "if its content is based on or influenced by feelings, tastes, or personal opinions"
 
 msgid "Analyse de sentiments"
 msgstr "Sentiment analysis"
 
-msgid ""
-"Processus de détermination du ton positif, négatif ou neutre "
-"d'un texte"
-msgstr ""
-"Process of determining the positive, negative, or neutral tone "
-"of a text"
+msgid "Processus de détermination du ton positif, négatif ou neutre d'un texte"
+msgstr "Process of determining the positive, negative, or neutral tone of a text"
 
 msgid "Analyse d'émotions"
 msgstr "Emotion analysis"
 
-msgid ""
-"Processus d'identification d'émotions spécifiques exprimées "
-"dans un texte"
-msgstr ""
-"Process of identifying specific emotions expressed "
-"in a text"
+msgid "Processus d'identification d'émotions spécifiques exprimées dans un texte"
+msgstr "Process of identifying specific emotions expressed in a text"
 
 msgid "joie, colère, tristesse..."
 msgstr "joy, anger, sadness..."
@@ -1145,17 +603,11 @@ msgstr "joy, anger, sadness..."
 msgid "Score de lecture"
 msgstr "Readability score"
 
-msgid ""
-"Outils utilisés pour évaluer la lisibilité d'un texte écrit et"
-msgstr ""
-"Tools used to assess the readability of a written text and"
+msgid "Outils utilisés pour évaluer la lisibilité d'un texte écrit et"
+msgstr "Tools used to assess the readability of a written text and"
 
-msgid ""
-"fournissant une mesure quantitative de la facilité ou de la difficulté "
-"à comprendre un texte"
-msgstr ""
-"providing a quantitative measure of the ease or difficulty "
-"of understanding a text"
+msgid "fournissant une mesure quantitative de la facilité ou de la difficulté à comprendre un texte"
+msgstr "providing a quantitative measure of the ease or difficulty of understanding a text"
 
 msgid "Score + visualisation"
 msgstr "Score + visualization"
@@ -1163,44 +615,29 @@ msgstr "Score + visualization"
 msgid "Visualisation circulaire"
 msgstr "Circular visualization"
 
-#: templates/outils/nettoyage_texte.html
 msgid "Nettoyage de texte"
 msgstr "Text cleaning"
 
-msgid ""
-"Cette page permet de nettoyer, d'une manière ou d'une autre, "
-"un ou plusieurs documents soumis"
-msgstr ""
-"This page allows cleaning one or more submitted documents "
-"in various ways"
+msgid "Cette page permet de nettoyer, d'une manière ou d'une autre, un ou plusieurs documents soumis"
+msgstr "This page allows cleaning one or more submitted documents in various ways"
 
 msgid "Minuscules"
 msgstr "Lowercase"
 
-msgid ""
-"Mise en minuscule de tous les caractères dans un texte"
-msgstr ""
-"Converting all characters in a text to lowercase"
+msgid "Mise en minuscule de tous les caractères dans un texte"
+msgstr "Converting all characters in a text to lowercase"
 
-msgid ""
-"Suppression de la ponctuation dans un texte"
-msgstr ""
-"Removing punctuation from a text"
+msgid "Suppression de la ponctuation dans un texte"
+msgstr "Removing punctuation from a text"
 
 msgid "Mots-vides"
 msgstr "Stopwords"
 
-msgid ""
-"Suppression des mots-vides ou <em>stopwords</em>"
-msgstr ""
-"Removal of <em>stopwords</em>"
+msgid "Suppression des mots-vides ou <em>stopwords</em>"
+msgstr "Removal of <em>stopwords</em>"
 
-msgid ""
-"soit des mots très courants, tels que déterminants, "
-"auxiliaires, conjonction"
-msgstr ""
-"very common words, such as determiners, auxiliaries, "
-"conjunctions, etc."
+msgid "soit des mots très courants, tels que déterminants, auxiliaires, conjonction"
+msgstr "very common words, such as determiners, auxiliaries, conjunctions, etc."
 
 msgid "Informations sur l'outil"
 msgstr "Information about the tool"
@@ -1214,29 +651,20 @@ msgstr "plain text"
 msgid "Formats de sortie :"
 msgstr "Output formats:"
 
-msgid ""
-"Choisir le type de modification"
-msgstr ""
-"Choose the type of modification"
+msgid "Choisir le type de modification"
+msgstr "Choose the type of modification"
 
 msgid "Prétraitement"
 msgstr "Preprocessing"
 
-#: templates/outils/categories_semantiques.html
 msgid "Catégories sémantiques"
 msgstr "Semantic categories"
 
-msgid ""
-"Textolab est un outil d'annotation automatique de textes"
-msgstr ""
-"Textolab is an automatic text annotation tool"
+msgid "Textolab est un outil d'annotation automatique de textes"
+msgstr "Textolab is an automatic text annotation tool"
 
-msgid ""
-"Il permet d'identifier des patrons linguistiques à l'aide "
-"de règles heuristiques"
-msgstr ""
-"It allows identifying linguistic patterns using "
-"heuristic rules"
+msgid "Il permet d'identifier des patrons linguistiques à l'aide de règles heuristiques"
+msgstr "It allows identifying linguistic patterns using heuristic rules"
 
 msgid "L'annotation se fait au niveau de la surface, sans analyse morphosyntaxique"
 msgstr "The annotation is done at the surface level, without morphosyntactic analysis"
@@ -1244,88 +672,50 @@ msgstr "The annotation is done at the surface level, without morphosyntactic ana
 msgid "Lancer Textolab"
 msgstr "Launch Textolab"
 
-msgid ""
-"Ce logiciel fonctionne sous Windows et Mac"
-msgstr ""
-"This software works on Windows and Mac"
+msgid "Ce logiciel fonctionne sous Windows et Mac"
+msgstr "This software works on Windows and Mac"
 
-msgid ""
-"Téléchargez le dossier"
-msgstr ""
-"Download the folder"
+msgid "Téléchargez le dossier"
+msgstr "Download the folder"
 
-msgid ""
-"sur votre ordinateur et décompressez-le"
-msgstr ""
-"to your computer and unzip it"
+msgid "sur votre ordinateur et décompressez-le"
+msgstr "to your computer and unzip it"
 
-msgid ""
-"Cliquer sur textolab.exe, et dans la fenêtre qui s'affiche, "
-"validez le chemin vers le projet textolab"
-msgstr ""
-"Click on textolab.exe, and in the window that appears, "
-"validate the path to the textolab project"
+msgid "Cliquer sur textolab.exe, et dans la fenêtre qui s'affiche, validez le chemin vers le projet textolab"
+msgstr "Click on textolab.exe, and in the window that appears, validate the path to the textolab project"
 
-msgid ""
-"Le logo de l'application doit s'afficher correctement"
-msgstr ""
-"The application logo should display correctly"
+msgid "Le logo de l'application doit s'afficher correctement"
+msgstr "The application logo should display correctly"
 
-#: templates/outils/normalisation.html
 msgid "Normalisation de graphie ancienne"
 msgstr "Normalization of old spelling"
 
-msgid ""
-"est un outil à base de règles pour normaliser automatiquement "
-"la graphie de textes en français ancien"
-msgstr ""
-"is a rule-based tool for automatically normalizing "
-"the spelling of texts in Old French"
+msgid "est un outil à base de règles pour normaliser automatiquement la graphie de textes en français ancien"
+msgstr "is a rule-based tool for automatically normalizing the spelling of texts in Old French"
 
 msgid "Ce script a été élaboré par"
 msgstr "This script was developed by"
 
-msgid ""
-"à l'occasion d'une collaboration de plusieurs mois avec "
-"l'équipe d'ARTFL (Université de Chicago) au printemps 2018"
-msgstr ""
-"during a several-month collaboration with the ARTFL team "
-"(University of Chicago) in Spring 2018"
+msgid "à l'occasion d'une collaboration de plusieurs mois avec l'équipe d'ARTFL (Université de Chicago) au printemps 2018"
+msgstr "during a several-month collaboration with the ARTFL team (University of Chicago) in Spring 2018"
 
 msgid "NormaLisa s'appuie sur plusieurs bases lexicales ouvertes, développées par l'ATILF"
 msgstr "NormaLisa relies on several open lexical databases, developed by ATILF"
 
-msgid ""
-"lexique ouvert de formes fléchies du français, et"
-msgstr ""
-"an open lexicon of inflected French forms, and"
+msgid "lexique ouvert de formes fléchies du français, et"
+msgstr "an open lexicon of inflected French forms, and"
 
-msgid ""
-"lexique morphologique répertoriant les flexions "
-"et variations orthographiques du moyen-français "
-"et du français des XVIe-XVIIe siècles"
-msgstr ""
-"a morphological lexicon listing the inflections "
-"and orthographic variations of Middle French "
-"and French from the 16th-17th centuries"
+msgid "lexique morphologique répertoriant les flexions et variations orthographiques du moyen-français et du français des XVIe-XVIIe siècles"
+msgstr "a morphological lexicon listing the inflections and orthographic variations of Middle French and French from the 16th-17th centuries"
 
-msgid ""
-"Une version beta est disponible sur Git, "
-"sous forme de script Python"
-msgstr ""
-"A beta version is available on Git, "
-"as a Python script"
+msgid "Une version beta est disponible sur Git, sous forme de script Python"
+msgstr "A beta version is available on Git, as a Python script"
 
-#: templates/outils/comparison.html
 msgid "Comparaison"
 msgstr "Comparison"
 
-msgid ""
-"Cet outil permet d'observer les différences "
-"qui existent entre deux textes donnés"
-msgstr ""
-"This tool allows observing the differences "
-"between two given texts"
+msgid "Cet outil permet d'observer les différences qui existent entre deux textes donnés"
+msgstr "This tool allows observing the differences between two given texts"
 
 msgid "fichier texte"
 msgstr "text file"
@@ -1339,42 +729,29 @@ msgstr "file"
 msgid "Limite de taille "
 msgstr "Size limit"
 
-msgid ""
-"Limite d'ajout : 2 fichiers max"
-msgstr ""
-"Addition limit: 2 files max"
+msgid "Limite d'ajout : 2 fichiers max"
+msgstr "Addition limit: 2 files max"
 
-msgid ""
-"Déposer le(s) fichier(s) ou cliquer ici."
-msgstr ""
-"Drop the file(s) or click here."
+msgid Déposer le(s) fichier(s) ou cliquer ici."
+msgstr "Drop the file(s) or click here."
 
 msgid "Lancer la comparaison"
 msgstr "Launch comparison"
 
-msgid ""
-"Déposer le(s) fichier(s) ou cliquer ici."
-msgstr ""
-"Drop the file(s) or click here."
+msgid "Déposer le(s) fichier(s) ou cliquer ici."
+msgstr "Drop the file(s) or click here."
 
 msgid "Lancer la comparaison"
 msgstr "Launch comparison"
 
-#: templates/outils/conversion_xml.html
 msgid "Conversion XML-TEI"
 msgstr "XML-TEI conversion"
 
-msgid ""
-"L'outil ci-dessous permet de transformer un texte brut "
-"en format XML-TEI, un format courant en humanitiés numériques"
-msgstr ""
-"The tool below allows converting plain text into XML-TEI format, "
-"a common format in digital humanities"
+msgid "L'outil ci-dessous permet de transformer un texte brut en format XML-TEI, un format courant en humanitiés numériques"
+msgstr "The tool below allows converting plain text into XML-TEI format, a common format in digital humanities"
 
-msgid ""
-"qui permet d'encoder les textes, en utilisant des balises prédefinies."
-msgstr ""
-"which allows encoding texts using predefined tags."
+msgid "qui permet d'encoder les textes, en utilisant des balises prédefinies."
+msgstr "which allows encoding texts using predefined tags."
 
 msgid "LXML, expressions régulières (Regex) et XML-TEI"
 msgstr "LXML, regular expressions (Regex) and XML-TEI"
@@ -1400,22 +777,14 @@ msgstr "Document responsibility"
 msgid "Action faite"
 msgstr "Action done"
 
-msgid "Encodé par/Transcrit par/etc"
-msgstr "Encoded by/Transcribed by/etc"
-
 msgid "Nom"
 msgstr "Name"
 
 msgid "Publication du document"
 msgstr "Document publication"
 
-msgid ""
-"Entrer les noms des éditeurs séparés par un retour à la ligne"
-msgstr ""
-"Enter the names of the publishers separated by a line break"
-
-msgid "Publié par"
-msgstr "Published by"
+msgid "Entrer les noms des éditeurs séparés par un retour à la ligne"
+msgstr "Enter the names of the publishers separated by a line break"
 
 msgid "Licence"
 msgstr "License"
@@ -1438,18 +807,11 @@ msgstr "Bibliographic description of the source"
 msgid "Profil du document"
 msgstr "Document profile"
 
-msgid ""
-"Quelle est la date de création du document "
-msgstr ""
-"What is the creation date of the document"
+msgid "Quelle est la date de création du document "
+msgstr "What is the creation date of the document"
 
-msgid ""
-"Quel est la langue du document "
-msgstr ""
-"What is the language of the document"
-
-msgid "Choisissez une option"
-msgstr "Choose an option"
+msgid "Quel est la langue du document "
+msgstr "What is the language of the document"
 
 msgid "Description du projet"
 msgstr "Project description"
@@ -1457,38 +819,23 @@ msgstr "Project description"
 msgid "Choix éditoriaux"
 msgstr "Editorial choices"
 
-msgid ""
-"Quelle(s) correction(s) a(ont) été faite(s) "
-msgstr ""
-"What corrections have been made"
+msgid "Quelle(s) correction(s) a(ont) été faite(s) "
+msgstr "What corrections have been made"
 
-msgid ""
-"Quel système de traits d'union a été choisi "
-msgstr ""
-"What hyphenation system was chosen"
+msgid "Quel système de traits d'union a été choisi "
+msgstr "What hyphenation system was chosen"
 
-msgid ""
-"Maintien des traits d'union de fin de ligne, "
-"même si non respect de la linéation de l'original"
-msgstr ""
-"Maintenance of end-of-line hyphens, even if the original lineation is not respected"
+msgid "Maintien des traits d'union de fin de ligne, même si non respect de la linéation de l'original"
+msgstr "Maintenance of end-of-line hyphens, even if the original lineation is not respected"
 
-msgid ""
-"Maintien partiel des traits d'union de fin de ligne"
-msgstr ""
-"Partial maintenance of end-of-line hyphens"
+msgid "Maintien partiel des traits d'union de fin de ligne"
+msgstr "Partial maintenance of end-of-line hyphens"
 
-msgid ""
-"Suppression des césures de fin de ligne souples, "
-"maintien des autres"
-msgstr ""
-"Removal of soft end-of-line hyphens, maintenance of others"
+msgid "Suppression des césures de fin de ligne souples, maintien des autres"
+msgstr "Removal of soft end-of-line hyphens, maintenance of others"
 
-msgid ""
-"Suppression des césures de fin de ligne, "
-"restantes viennent de l'intérieur de la ligne"
-msgstr ""
-"Removal of end-of-line hyphens, remaining ones come from within the line"
+msgid "Suppression des césures de fin de ligne, restantes viennent de l'intérieur de la ligne"
+msgstr "Removal of end-of-line hyphens, remaining ones come from within the line"
 
 msgid "Révision du document"
 msgstr "Document revision"
@@ -1496,15 +843,11 @@ msgstr "Document revision"
 msgid "Date de la révision"
 msgstr "Revision date"
 
-msgid ""
-"Responsable de la révision"
-msgstr ""
-"Person responsible for the revision"
+msgid "Responsable de la révision"
+msgstr "Person responsible for the revision"
 
-msgid ""
-"Quelle révision a été effectué "
-msgstr ""
-"What revision was made"
+msgid "Quelle révision a été effectué "
+msgstr "What revision was made"
 
 msgid "Corps du texte"
 msgstr "Body of the text"
@@ -1512,10 +855,8 @@ msgstr "Body of the text"
 msgid "Type de document"
 msgstr "Document type"
 
-msgid ""
-"Quelle est la nature du document "
-msgstr ""
-"What is the nature of the document"
+msgid "Quelle est la nature du document "
+msgstr "What is the nature of the document"
 
 msgid "Texte"
 msgstr "Text"
@@ -1529,25 +870,17 @@ msgstr "Play"
 msgid "Livre"
 msgstr "Book"
 
-msgid ""
-"Tous les champs accompagnés d'un * doivent obligatoirement "
-"être remplies"
-msgstr ""
-"All fields accompanied by a * must be filled in"
+msgid "Tous les champs accompagnés d'un * doivent obligatoirement être remplies"
+msgstr "All fields accompanied by a * must be filled in"
 
-#: templates/outils/correction_erreur.html
 msgid "Correction d'erreurs"
 msgstr "Error correction"
 
-msgid ""
-"Cet outil permet d'appliquer le correcteur orthographique de"
-msgstr ""
-"This tool allows applying the spell checker from"
+msgid "Cet outil permet d'appliquer le correcteur orthographique de"
+msgstr "This tool allows applying the spell checker from"
 
-msgid ""
-"sur des corpus bruités"
-msgstr ""
-"on noisy corpora"
+msgid "sur des corpus bruités"
+msgstr "on noisy corpora"
 
 msgid "Modèle"
 msgstr "Model"
@@ -1555,26 +888,17 @@ msgstr "Model"
 msgid "Corriger"
 msgstr "Correct"
 
-#: templates/outils/embeddings.html
 msgid "Embeddings"
 msgstr "Embeddings"
 
-msgid ""
-"Cette page permet de travailler avec des embeddings"
-msgstr ""
-"This page allows working with embeddings"
+msgid "Cette page permet de travailler avec des embeddings"
+msgstr "This page allows working with embeddings"
 
-msgid ""
-"soit des représentations numériques de mots utilisées "
-"pour capturer les relations et"
-msgstr ""
-"which are numerical representations of words used "
-"to capture relationships and"
+msgid "soit des représentations numériques de mots utilisées pour capturer les relations et"
+msgstr "which are numerical representations of words used to capture relationships and"
 
-msgid ""
-"les similitudes entre eux dans un espace de dimension inférieure"
-msgstr ""
-"similarities between them in a lower-dimensional space"
+msgid "les similitudes entre eux dans un espace de dimension inférieure"
+msgstr "similarities between them in a lower-dimensional space"
 
 msgid "Similarité"
 msgstr "Similarity"
@@ -1582,113 +906,62 @@ msgstr "Similarity"
 msgid "Similarités"
 msgstr "Similarities"
 
-msgid ""
-"Recherche des mots les plus similaires à un mot donné, "
-"selon un modèle d'"
-msgstr ""
-"Search for words most similar to a given word, "
-"according to an embedding model"
+msgid "Recherche des mots les plus similaires à un mot donné, selon un modèle d'"
+msgstr "Search for words most similar to a given word, according to an embedding model"
 
-msgid ""
-"Le score : similarité cosinus entre les représentations vectorielles "
-"du mot cible et tous les autres mots du vocabulaire"
-msgstr ""
-"The score: cosine similarity between the vector representations "
-"of the target word and all other words in the vocabulary"
+msgid "Le score : similarité cosinus entre les représentations vectorielles du mot cible et tous les autres mots du vocabulaire"
+msgstr "The score: cosine similarity between the vector representations of the target word and all other words in the vocabulary"
 
-msgid ""
-"indique une similarité parfaite"
-msgstr ""
-"indicates perfect similarity"
+msgid "indique une similarité parfaite"
+msgstr "indicates perfect similarity"
 
-msgid ""
-"indique aucune similarité et"
-msgstr ""
-"indicates no similarity and"
+msgid "indique aucune similarité et"
+msgstr "indicates no similarity and"
 
-msgid ""
-"indique une dissemblance parfaite"
-msgstr ""
-"indicates perfect dissimilarity"
+msgid "indique une dissemblance parfaite"
+msgstr "indicates perfect dissimilarity"
 
-msgid ""
-"Recherche des relations entre des mots, tel qu'un mot qui se rapporte "
-"à 'woman' de la même manière que 'man' se rapporte à 'king'"
-msgstr ""
-"Search for relationships between words, "
-"such as a word related to 'woman' in the same way "
-"as 'man' is related to 'king'"
+msgid "Recherche des relations entre des mots, tel qu'un mot qui se rapporte à 'woman' de la même manière que 'man' se rapporte à 'king'"
+msgstr "Search for relationships between words, such as a word related to 'woman' in the same way as 'man' is related to 'king'"
 
-msgid ""
-"Regroupement de mots spécifiques en groupes à l'aide de leurs "
-"représentations vectorielles GloVe et du clustering K-means"
-msgstr ""
-"Grouping specific words into clusters using their GloVe "
-"vector representations and K-means clustering"
+msgid "Regroupement de mots spécifiques en groupes à l'aide de leurs représentations vectorielles GloVe et du clustering K-means"
+msgstr "Grouping specific words into clusters using their GloVe vector representations and K-means clustering"
 
 msgid "Référence"
 msgstr "Reference"
 
-msgid ""
-"Mots à grouper"
-msgstr ""
-"Words to group"
+msgid "Mots à grouper"
+msgstr "Words to group"
 
-#: templates/outils/entites_nommees.html
 msgid "Reconnaissance d'entités nommées"
 msgstr "Named entity recognition"
 
-msgid ""
-"Cet outil permet d'identifier les entités nommées d'un corpus "
-"en utilisant au choix trois modèles : Spacy, Flair, ou un modèle Bert"
-msgstr ""
-"This tool allows identifying named entities in a corpus "
-"using one of three models: Spacy, Flair, or a Bert model"
+msgid "Cet outil permet d'identifier les entités nommées d'un corpus en utilisant au choix trois modèles : Spacy, Flair, ou un modèle Bert"
+msgstr "This tool allows identifying named entities in a corpus using one of three models: Spacy, Flair, or a Bert model"
 
-msgid ""
-"Le corpus peut être au format texte ou au format XML-TEI"
-msgstr ""
-"The corpus can be in text format or XML-TEI format"
+msgid "Le corpus peut être au format texte ou au format XML-TEI"
+msgstr "The corpus can be in text format or XML-TEI format"
 
-msgid ""
-"Dans ce dernier cas, les entités seront annotées directement "
-"dans le texte avec la balise"
-msgstr ""
-"In the latter case, entities will be annotated directly "
-"in the text with the tag"
+msgid "Dans ce dernier cas, les entités seront annotées directement dans le texte avec la balise"
+msgstr "In the latter case, entities will be annotated directly in the text with the tag"
 
-msgid ""
-"avec leur type en attribut annotation"
-msgstr ""
-"with their type as an annotation attribute"
+msgid "avec leur type en attribut annotation"
+msgstr "with their type as an annotation attribute"
 
-msgid ""
-"A noter que ce processus ne conserve pas la structuration "
-"et le formatage à l'intérieur des balises parcourues ; "
-"tous les formatages à l'extérieur de ces balises sont en revanche restitués"
-msgstr ""
-"Note that this process does not retain structuring and formatting "
-"inside the traversed tags; all formatting outside these tags is preserved"
+msgid "A noter que ce processus ne conserve pas la structuration et le formatage à l'intérieur des balises parcourues ; tous les formatages à l'extérieur de ces balises sont en revanche restitués"
+msgstr "Note that this process does not retain structuring and formatting inside the traversed tags; all formatting outside these tags is preserved"
 
-msgid ""
-"L'utilisation de cette balise &lt;Entity&gt; rend utilisable "
-"le XML en sortie dans la plateforme"
-msgstr ""
-"Using this &lt;Entity&gt; tag makes the resulting XML "
-"usable on the platform"
+msgid "L'utilisation de cette balise &lt;Entity&gt; rend utilisable le XML en sortie dans la plateforme"
+msgstr "Using this &lt;Entity&gt; tag makes the resulting XML usable on the platform"
 
 msgid "ou"
 msgstr "or"
 
-msgid ""
-"Format de votre corpus"
-msgstr ""
-"Format of your corpus"
+msgid "Format de votre corpus"
+msgstr "Format of your corpus"
 
-msgid ""
-"Structure du document XML"
-msgstr ""
-"Structure of the XML document"
+msgid "Structure du document XML"
+msgstr "Structure of the XML document"
 
 msgid "nom de domaine"
 msgstr "namespace"
@@ -1696,37 +969,23 @@ msgstr "namespace"
 msgid "balise racine"
 msgstr "root tag"
 
-msgid ""
-"balises à parcourir"
-msgstr ""
-"tags to traverse"
+msgid "balises à parcourir"
+msgstr "tags to traverse"
 
 msgid "Moteur de REN"
 msgstr "NER engine"
 
-msgid ""
-"Modèle à utiliser"
-msgstr ""
-"Model to use"
+msgid "Modèle à utiliser"
+msgstr "Model to use"
 
-msgid ""
-"Traitement en cours..."
-msgstr ""
-"Processing in progress..."
+msgid "Traitement en cours..."
+msgstr "Processing in progress..."
 
-#: templates/outils/quotation_extraction.html
-msgid ""
-"Récupération, dans un ou des documents soumis, "
-"d'extraits de texte"
-msgstr ""
-"Extraction of text excerpts "
-"from one or more submitted documents"
+msgid "Récupération, dans un ou des documents soumis, d'extraits de texte"
+msgstr "Extraction of text excerpts from one or more submitted documents"
 
-msgid ""
-"généralement entre guillemets, qui représentent les mots "
-"de quelqu'un d'autre"
-msgstr ""
-"generally in quotation marks, representing someone else's words"
+msgid "généralement entre guillemets, qui représentent les mots de quelqu'un d'autre"
+msgstr "generally in quotation marks, representing someone else's words"
 
 msgid "Expressions régulières"
 msgstr "Regular expressions"
@@ -1734,33 +993,20 @@ msgstr "Regular expressions"
 msgid "Extraire"
 msgstr "Extract"
 
-#: templates/outils/speech.html
 msgid "Reconnaissance automatique de discours"
 msgstr "Automatic speech recognition"
 
-msgid ""
-"La reconnaissance automatique de discours (ASR), "
-"qu'on peut aussi qualifier de reconnaissance de voix ou audio-to-text, "
-"est une technique qui permet de transformer du langage parlé en du texte"
-msgstr ""
-"Automatic speech recognition (ASR), "
-"also known as voice recognition or audio-to-text, "
-"is a technique that converts spoken language into text"
+msgid "La reconnaissance automatique de discours (ASR), qu'on peut aussi qualifier de reconnaissance de voix ou audio-to-text, est une technique qui permet de transformer du langage parlé en du texte"
+msgstr "Automatic speech recognition (ASR), also known as voice recognition or audio-to-text, is a technique that converts spoken language into text"
 
-msgid ""
-"Pour se faire"
-msgstr ""
-"To do this"
+msgid "Pour se faire"
+msgstr "To do this"
 
-msgid ""
-"un système ASR développé par OpenAI et entraîné sur plusieurs centaines "
-"de milliers d'heures de données du web, est utilisé"
-msgstr ""
-"an ASR system developed by OpenAI and trained on hundreds of thousands "
-"of hours of web data is used"
+msgid "un système ASR développé par OpenAI et entraîné sur plusieurs centaines de milliers d'heures de données du web, est utilisé"
+msgstr "an ASR system developed by OpenAI and trained on hundreds of thousands of hours of web data is used"
 
-msgid "vidéo"
-msgstr "video"
+msgid "Vidéo"
+msgstr "Video"
 
 msgid "audio"
 msgstr "audio"
@@ -1774,10 +1020,8 @@ msgstr "Audio file"
 msgid "fichier TXT"
 msgstr "TXT file"
 
-msgid ""
-"Choisir le type de document"
-msgstr ""
-"Choose the type of document"
+msgid "Choisir le type de document"
+msgstr "Choose the type of document"
 
 msgid "URLs Audio"
 msgstr "Audio URLs"
@@ -1785,12 +1029,9 @@ msgstr "Audio URLs"
 msgid "URLs Vidéo"
 msgstr "Video URLs"
 
-msgid ""
-"Lancer la reconnaissance"
-msgstr ""
-"Start recognition"
+msgid "Lancer la reconnaissance"
+msgstr "Start recognition"
 
-#: templates/outils/separation_texte.html
 msgid "Séparation de texte"
 msgstr "Text separation"
 
@@ -1803,10 +1044,8 @@ msgstr "separation of individual sentences/lines from a continuous text"
 msgid "et"
 msgstr "and"
 
-msgid ""
-"Choisir le type de séparation"
-msgstr ""
-"Choose the type of separation"
+msgid "Choisir le type de séparation"
+msgstr "Choose the type of separation"
 
 msgid "Phrases"
 msgstr "Sentences"
@@ -1814,49 +1053,29 @@ msgstr "Sentences"
 msgid "Lignes"
 msgstr "Lines"
 
-msgid ""
-"Phrases + Lignes"
-msgstr ""
-"Sentences + Lines"
+msgid "Phrases + Lignes"
+msgstr "Sentences + Lines"
 
-#: templates/outils/text_normalisation.html
 msgid "Normalisation de texte"
 msgstr "Text normalization"
 
-msgid ""
-"Cette page permet de transformer, de diverses manières, "
-"un ou plusieurs documents soumis"
-msgstr ""
-"This page allows transforming one or more submitted documents "
-"in various ways"
+msgid "Cette page permet de transformer, de diverses manières, un ou plusieurs documents soumis"
+msgstr "This page allows transforming one or more submitted documents in various ways"
 
 msgid "Tokenisation"
 msgstr "Tokenization"
 
-msgid ""
-"Découpage du texte en chaque instance séparée par un espace "
-"et/ou un signe de ponctuation"
-msgstr ""
-"Splitting the text into each instance separated by a space "
-"and/or punctuation mark"
+msgid "Découpage du texte en chaque instance séparée par un espace et/ou un signe de ponctuation"
+msgstr "Splitting the text into each instance separated by a space and/or punctuation mark"
 
 msgid "Lemmatisation"
 msgstr "Lemmatization"
 
-msgid ""
-"Récupération de chaque élément du texte sous sa forme lemmatisé, "
-"c'est-à-dire sa forme canonique"
-msgstr ""
-"Retrieving each element of the text in its lemmatized form, "
-"that is, its canonical form"
+msgid "Récupération de chaque élément du texte sous sa forme lemmatisé, c'est-à-dire sa forme canonique"
+msgstr "Retrieving each element of the text in its lemmatized form, that is, its canonical form"
 
-#: templates/taches/analyses.html
-msgid ""
-"Cette page propose plusieurs analyses à effectuer "
-"sur un texte"
-msgstr ""
-"This page offers several analyses to be performed "
-"on a text"
+msgid "Cette page propose plusieurs analyses à effectuer sur un texte"
+msgstr "This page offers several analyses to be performed on a text"
 
 msgid "Comparaison de textes"
 msgstr "Text comparison"
@@ -1867,7 +1086,6 @@ msgstr "Analyses"
 msgid "Analyse des dépendances"
 msgstr "Dependency Analysis"
 
-#: templates/taches/annotation_automatique.html
 msgid "Tâche précédente"
 msgstr "Previous task"
 
@@ -1877,411 +1095,203 @@ msgstr "Next task"
 msgid "Tâches d'annotation automatique"
 msgstr "Automatic annotation tasks"
 
-msgid ""
-"Cette page répertorie diverses manières d'annoter automatiquement "
-"un texte"
-msgstr ""
-"This page lists various ways to automatically annotate "
-"a text"
+msgid "Cette page répertorie diverses manières d'annoter automatiquement un texte"
+msgstr "This page lists various ways to automatically annotate a text"
 
-msgid ""
-"Annotation de la catégorie grammaticale de chaque mot "
-"d'un texte"
-msgstr ""
-"Annotation of the grammatical category of each word "
-"in a text"
+msgid "Annotation de la catégorie grammaticale de chaque mot d'un texte"
+msgstr "Annotation of the grammatical category of each word in a text"
 
-msgid ""
-"Identification des entités nommées d'un corpus "
-"en choissisant son modèle (Spacy, Flair ou Bert)"
-msgstr ""
-"Identification of the named entities in a corpus "
-"by choosing its model (Spacy, Flair, or Bert)"
+msgid "Identification des entités nommées d'un corpus en choissisant son modèle (Spacy, Flair ou Bert)"
+msgstr "Identification of the named entities in a corpus by choosing its model (Spacy, Flair, or Bert)"
 
-msgid ""
-"Localisation, grâce à l'outil Textolab, "
-"de patrons linguistiques"
-msgstr ""
-"Localization of linguistic patterns "
-"using the Textolab tool"
+msgid "Localisation, grâce à l'outil Textolab, de patrons linguistiques"
+msgstr "Localization of linguistic patterns using the Textolab tool"
 
-#: templates/taches/atr_tools.html
 msgid "Outils de reconnaissance automatique de texte"
 msgstr "Automatic text recognition tools"
 
-msgid ""
-"Cette page répertorie divers outils qui peuvent être utilisées "
-"pour faire de la reconnaissance automatique de textes"
-msgstr ""
-"This page lists various tools that can be used "
-"for automatic text recognition"
+msgid "Cette page répertorie divers outils qui peuvent être utilisées pour faire de la reconnaissance automatique de textes"
+msgstr "This page lists various tools that can be used for automatic text recognition"
 
-msgid ""
-"Reconnaissance automatique de texte (ATR)"
-msgstr ""
-"Automatic text recognition (ATR)"
+msgid "Reconnaissance automatique de texte (ATR)"
+msgstr "Automatic text recognition (ATR)"
 
-msgid ""
-"Outil Tesseract pour les documents imprimés"
-msgstr ""
-"Tesseract tool for printed documents"
+msgid "Outil Tesseract pour les documents imprimés"
+msgstr "Tesseract tool for printed documents"
 
-msgid ""
-"Reconnaissance automatique de discours (ASR)"
-msgstr ""
-"Automatic speech recognition (ASR)"
+msgid "Reconnaissance automatique de discours (ASR)"
+msgstr "Automatic speech recognition (ASR)"
 
-msgid ""
-"Outil Whisper pour les fichiers audio et vidéo"
-msgstr ""
-"Whisper tool for audio and video files"
+msgid "Outil Whisper pour les fichiers audio et vidéo"
+msgstr "Whisper tool for audio and video files"
 
-msgid ""
-"Outil d'ATR pour des documents tapuscrits et manuscrits"
-msgstr ""
-"ATR tool for typewritten and handwritten documents"
+msgid "Outil d'ATR pour des documents tapuscrits et manuscrits"
+msgstr "ATR tool for typewritten and handwritten documents"
 
-#: templates/taches/collecter_corpus.html
 msgid "Extraction de corpus littéraires"
 msgstr "Literary corpus extraction"
 
-msgid ""
-"Cette page répertorie deux bibliothèques numériques de texte, "
-"depuis lesquels il est possible de récupérer des documents"
-msgstr ""
-"This page lists two digital text libraries "
-"from which it is possible to retrieve documents"
+msgid "Cette page répertorie deux bibliothèques numériques de texte, depuis lesquels il est possible de récupérer des documents"
+msgstr "This page lists two digital text libraries from which it is possible to retrieve documents"
 
-#: templates/taches/conversion.html
 msgid "Conversion de formats"
 msgstr "Format conversion"
 
-msgid ""
-"Cette page répertorie divers outils qui peuvent être utilisées "
-"pour convertir des documents d'un format à l'autre"
-msgstr ""
-"This page lists various tools that can be used "
-"to convert documents from one format to another"
+msgid "Cette page répertorie divers outils qui peuvent être utilisées pour convertir des documents d'un format à l'autre"
+msgstr "This page lists various tools that can be used to convert documents from one format to another"
 
-msgid ""
-"Formulaire permettant de remplir les métadonnées "
-"d'un document XML"
-msgstr ""
-"Form for filling in the metadata "
-"of an XML document"
+msgid "Formulaire permettant de remplir les métadonnées d'un document XML"
+msgstr "Form for filling in the metadata of an XML document"
 
-msgid ""
-"Conversion de nombreux formats de fichiers vers les formats "
-"les plus couramment utilisés dans les humanités numériques avec Teinte"
-msgstr ""
-"Conversion of numerous file formats to the most commonly used formats "
-"in digital humanities with Teinte"
+msgid "Conversion de nombreux formats de fichiers vers les formats les plus couramment utilisés dans les humanités numériques avec Teinte"
+msgstr "Conversion of numerous file formats to the most commonly used formats in digital humanities with Teinte"
 
-#: templates/taches/corpus.html
 msgid "Correction de la graphie"
 msgstr "Spelling correction"
 
-msgid ""
-"Cette page répertorie divers outils pour modifier des sorties OCR, "
-"que cela soit des erreurs de prédiction ou des normalisations de graphie"
-msgstr ""
-"This page lists various tools to modify OCR outputs, "
-"whether they are prediction errors or spelling normalizations"
+msgid "Cette page répertorie divers outils pour modifier des sorties OCR, que cela soit des erreurs de prédiction ou des normalisations de graphie"
+msgstr "This page lists various tools to modify OCR outputs, whether they are prediction errors or spelling normalizations"
 
-msgid ""
-"Uniformisation des variations graphiques et équivalences "
-"en français moderne"
-msgstr ""
-"Standardization of graphic variations and equivalents "
-"in modern French"
+msgid "Uniformisation des variations graphiques et équivalences en français moderne"
+msgstr "Standardization of graphic variations and equivalents in modern French"
 
-msgid ""
-"Post traitement des sorties d'OCR ou amélioration "
-"de corpus bruités"
-msgstr ""
-"Post-processing of OCR outputs or improvement "
-"of noisy corpora"
+msgid "Post traitement des sorties d'OCR ou amélioration de corpus bruités"
+msgstr "Post-processing of OCR outputs or improvement of noisy corpora"
 
-#: templates/taches/extraction_information.html
 msgid "Extraction d'information"
 msgstr "Information extraction"
 
-msgid ""
-"Cette page répertorie diverses manières d'extraire "
-"des informations d'un document"
-msgstr ""
-"This page lists various ways to extract information "
-"from a document"
+msgid "Cette page répertorie diverses manières d'extraire des informations d'un document"
+msgstr "This page lists various ways to extract information from a document"
 
 msgid "Extraction de mots-clés"
 msgstr "Keyword extraction"
 
-msgid ""
-"Identification des termes les plus représentatifs "
-"du contenu d'un document ou d'un corpus"
-msgstr ""
-"Identification of the terms most representative "
-"of the content of a document or corpus"
+msgid "Identification des termes les plus représentatifs du contenu d'un document ou d'un corpus"
+msgstr "Identification of the terms most representative of the content of a document or corpus"
 
 msgid "Topic Modelling"
 msgstr "Topic modeling"
 
-msgid ""
-"Identification, dans un corpus, "
-"des groupes de termes représentatifs de ses thèmes"
-msgstr ""
-"Identification of groups of terms representing "
-"themes in a corpus"
+msgid "Identification, dans un corpus, des groupes de termes représentatifs de ses thèmes"
+msgstr "Identification of groups of terms representing themes in a corpus"
 
 msgid "Quotation extraction"
 msgstr "Quotation extraction"
 
-msgid ""
-"Extraction d'extraits de texte, généralement entre guillemets, "
-"qui représentent les mots de quelqu'un d'autre"
-msgstr ""
-"Extraction of text excerpts, usually in quotation marks, "
-"representing someone else's words"
+msgid "Extraction d'extraits de texte, généralement entre guillemets, qui représentent les mots de quelqu'un d'autre"
+msgstr "Extraction of text excerpts, usually in quotation marks, representing someone else's words"
 
-#: templates/taches/generation_texte.html
 msgid "Génération de texte"
 msgstr "Text generation"
 
-msgid ""
-"Cette page répertorie divers outils pour générer automatiquement "
-"du texte sous des formes variées"
-msgstr ""
-"This page lists various tools for automatically generating text "
-"in various forms"
+msgid "Cette page répertorie divers outils pour générer automatiquement du texte sous des formes variées"
+msgstr "This page lists various tools for automatically generating text in various forms"
 
 msgid "Complétion de texte"
-msgstr "Text completion"
+msgstr "Text Completion"
 
-msgid ""
-"Génération automatique d'un texte cohérent et contextuellement pertinent "
-"en fonction d'une invite ou d'une entrée donnée"
-msgstr ""
-"Automatic generation of a coherent and contextually relevant text "
-"based on a given prompt or input"
+msgid "Génération automatique d'un texte cohérent et contextuellement pertinent en fonction d'une invite ou d'une entrée donnée"
+msgstr "Automatic generation of a coherent and contextually relevant text based on a given prompt or input"
 
-msgid "Questions/réponses et conversations"
-msgstr "Questions/answers and conversations"
-
-msgid ""
-"Modèles capables de comprendre et de répondre aux questions posées "
-"en langage humain avec des réponses précises et contextuellement pertinentes"
-msgstr ""
-"Models capable of understanding and answering questions asked "
-"in human language with precise and contextually relevant answers"
+msgid "Modèles capables de comprendre et de répondre aux questions posées en langage humain avec des réponses précises et contextuellement pertinentes"
+msgstr "Models capable of understanding and answering questions asked in human language with precise and contextually relevant answers"
 
 msgid "Traduction"
 msgstr "Translation"
 
-msgid ""
-"Utilisation de modèles pour convertir du texte ou de la parole "
-"d'une langue à une autre, permettant ainsi la communication "
-"et la compréhension interlinguistiques"
-msgstr ""
-"Using models to convert text or speech from one language to another, "
-"thus enabling cross-linguistic communication and understanding"
+msgid "Utilisation de modèles pour convertir du texte ou de la parole d'une langue à une autre, permettant ainsi la communication et la compréhension interlinguistiques"
+msgstr "Using models to convert text or speech from one language to another, thus enabling cross-linguistic communication and understanding"
 
-msgid "Ajustement du niveau de lecture du texte"
-msgstr "Adjusting text readability level"
+msgid "Ajustement du Niveau de Lecture du Texte"
+msgstr "Adjusting Text Readability Level"
 
-msgid ""
-"Rendu plus accessible d'un contenu en utilisant la simplification lexicale, "
-"le raccourcissement des phrases et la notation de lisibilité "
-"pour modifier la complexité du texte"
-msgstr ""
-"Making content more accessible by using lexical simplification, "
-"sentence shortening, and readability scoring to adjust text complexity"
+msgid "Rendu plus accessible d'un contenu en utilisant la simplification lexicale, le raccourcissement des phrases et la notation de lisibilité pour modifier la complexité du texte"
+msgstr "Making content more accessible by using lexical simplification, sentence shortening, and readability scoring to adjust text complexity"
 
-msgid ""
-"Résumer automatiquement des documents en anglais aux formats "
-"texte brut ou XML"
-msgstr ""
-"Automatically summarize documents in English in plain text "
-"or XML formats"
+msgid "Résumer automatiquement des documents en anglais aux formats texte brut ou XML"
+msgstr "Automatically summarize documents in English in plain text or XML formats"
 
-#: templates/taches/pretraitement.html
-msgid ""
-"Cette page répertorie divers outils pour préparer et/ou nettoyer son texte "
-"avant de conduire une quelconque analyse"
-msgstr ""
-"This page lists various tools for preparing and/or cleaning text "
-"before conducting any analysis"
+msgid "Cette page répertorie divers outils pour préparer et/ou nettoyer son texte avant de conduire une quelconque analyse"
+msgstr "This page lists various tools for preparing and/or cleaning text before conducting any analysis"
 
-msgid ""
-"Mise en minuscule, suppression des mots vides et de la punctuation"
-msgstr ""
-"Lowercasing, removal of stopwords and punctuation"
+msgid "Mise en minuscule, suppression des mots vides et de la punctuation"
+msgstr "Lowercasing, removal of stopwords and punctuation"
 
 msgid "Tokenisation et Lemmatisation"
 msgstr "Tokenization and lemmatization"
 
-msgid ""
-"Identification et séparations de phrases et/ou lignes individuelles "
-"dans un texte continu"
-msgstr ""
-"Identification and separation of sentences and/or individual lines "
-"in a continuous text"
+msgid "Identification et séparations de phrases et/ou lignes individuelles dans un texte continu"
+msgstr "Identification and separation of sentences and/or individual lines in a continuous text"
 
-#: templates/taches/pipeline.html
 msgid "Chaînes de traitement"
 msgstr "Processing pipelines"
 
-msgid ""
-"Cette page offre deux chaînes d'entraînements qui combinent "
-"plusieurs outils proposés dans la toolbox"
-msgstr ""
-"This page offers two training pipelines that combine "
-"several tools provided in the toolbox"
+msgid "Cette page offre deux chaînes d'entraînements qui combinent plusieurs outils proposés dans la toolbox"
+msgstr "This page offers two training pipelines that combine several tools provided in the toolbox"
 
-msgid "Entrée : textes non numérisés"
-msgstr "Input: non-digitized texts"
+msgid "Sortie : coordonnées géographiques des entités de lieux et leur visualisation sur une carte"
+msgstr "Output: geographic coordinates of location entities and their visualization on a map"
 
-msgid "Sortie : textes annotés"
-msgstr "Output: annotated texts"
-
-msgid "Entrée : textes numérisés ou non"
-msgstr "Input: digitized or non-digitized texts"
-
-msgid ""
-"Sortie : coordonnées géographiques des entités de lieux "
-"et leur visualisation sur une carte"
-msgstr ""
-"Output: geographic coordinates of location entities "
-"and their visualization on a map"
-
-
-#: templates/taches/search_tools.html
 msgid "Exploration"
 msgstr "Exploration"
 
-msgid ""
-"Cette page propose plusieurs outils pour explorer en profondeur "
-"des corpus de texte"
-msgstr ""
-"This page offers several tools to deeply explore "
-"text corpora"
+msgid "Cette page propose plusieurs outils pour explorer en profondeur des corpus de texte"
+msgstr "This page offers several tools to deeply explore text corpora"
 
-msgid ""
-"Ariane est une interface web pour l'exploration et la visualisation "
-"de corpus annotés"
-msgstr ""
-"Ariane is a web interface for exploring and visualizing "
-"annotated corpora"
+msgid "Ariane est une interface web pour l'exploration et la visualisation de corpus annotés"
+msgstr "Ariane is a web interface for exploring and visualizing annotated corpora"
 
-msgid ""
-"Elle permet de rechercher des mots au sein de passages annotés "
-"selon une ontologie linguistique (sentiments, opinions, etc.)"
-msgstr ""
-"It allows searching for words within annotated passages "
-"based on a linguistic ontology (emotions, opinions, etc.)"
+msgid "Elle permet de rechercher des mots au sein de passages annotés selon une ontologie linguistique (sentiments, opinions, etc.)"
+msgstr "It allows searching for words within annotated passages based on a linguistic ontology (emotions, opinions, etc.)"
 
-msgid ""
-"L'interface propose des statistiques et des visualisations "
-"autour des résultats, ainsi que des fonctionnalités de filtrage "
-"et de lecture synthétique"
-msgstr ""
-"The interface offers statistics and visualizations around the results, "
-"as well as filtering and synthetic reading features"
+msgid "L'interface propose des statistiques et des visualisations autour des résultats, ainsi que des fonctionnalités de filtrage et de lecture synthétique"
+msgstr "The interface offers statistics and visualizations around the results, as well as filtering and synthetic reading features"
 
-msgid ""
-"Gallica-Obvie est un prototype en ligne qui permet de collecter "
-"des données textuelles à partir de Gallica, et de les indexer "
-"directement dans la plateforme Obvie"
-msgstr ""
-"Gallica-Obvie is an online prototype that allows collecting textual data "
-"from Gallica and directly indexing them into the Obvie platform"
+msgid "Gallica-Obvie est un prototype en ligne qui permet de collecter des données textuelles à partir de Gallica, et de les indexer directement dans la plateforme Obvie"
+msgstr "Gallica-Obvie is an online prototype that allows collecting textual data from Gallica and directly indexing them into the Obvie platform"
 
-msgid ""
-"Il suffit de saisir quelques identifiants de Gallica (les arks) "
-"pour obtenir les résultats"
-msgstr ""
-"Just enter a few Gallica identifiers (the arks) "
-"to get the results"
+msgid "Il suffit de saisir quelques identifiants de Gallica (les arks) pour obtenir les résultats"
+msgstr "Just enter a few Gallica identifiers (the arks) to get the results"
 
-#: templates/taches/visualisation.html
 msgid "Visualisation"
 msgstr "Visualization"
 
-msgid ""
-"Cette page propose plusieurs outils pour visualiser divers types d'informations "
-"selon les documents proposés"
-msgstr ""
-"This page offers several tools to visualize various types of information "
-"based on the provided documents"
+msgid "Cette page propose plusieurs outils pour visualiser divers types d'informations selon les documents proposés"
+msgstr "This page offers several tools to visualize various types of information based on the provided documents"
 
-msgid ""
-"Tanagra détecte les <em>noms de lieux</em> dans du texte et les place sur "
-"une carte"
-msgstr ""
-"Tanagra detects <em>placenames</em> in text and places them on a map"
+msgid "Tanagra détecte les <em>noms de lieux</em> dans du texte et les place sur une carte"
+msgstr "Tanagra detects <em>placenames</em> in text and places them on a map"
 
-msgid "Langues supportées : français, anglais et allemand"
-msgstr "Supported languages: French, English, and German"
-
-msgid ""
-"permet d'extraire et visualiser les <em>réseaux de personnages</em> dans "
-"un texte"
-msgstr ""
-"allows extracting and visualizing <em>character networks</em> in a text"
+msgid "permet d'extraire et visualiser les <em>réseaux de personnages</em> dans un texte"
+msgstr "allows extracting and visualizing <em>character networks</em> in a text"
 
 msgid "Minerva est un outil de lecture distante"
 msgstr "Minerva is a distant reading tool"
 
-msgid ""
-"A partir d'un texte annoté en entités nommées, il permet de visualiser les "
-"<em>réseaux de cooccurrences</em> entre celles-ci"
-msgstr ""
-"From a text annotated with named entities, it allows visualizing the "
-"<em>co-occurrence networks</em> between them"
+msgid "A partir d'un texte annoté en entités nommées, il permet de visualiser les <em>réseaux de cooccurrences</em> entre celles-ci"
+msgstr "From a text annotated with named entities, it allows visualizing the <em>co-occurrence networks</em> between them"
 
-msgid ""
-"A partir de l'annotation en opinions / sentiments effectuée par l'outil "
-"Ariane, Minerva permet de visualiser les faisceaux d'opinions et "
-"sentiments liées aux entités nommées d'un texte"
-msgstr ""
-"Based on the opinions/sentiments annotation performed by the Ariane tool, "
-"Minerva allows visualizing the clusters of opinions and sentiments related "
-"to the named entities in a text"
+msgid "A partir de l'annotation en opinions / sentiments effectuée par l'outil Ariane, Minerva permet de visualiser les faisceaux d'opinions et sentiments liées aux entités nommées d'un texte"
+msgstr "Based on the opinions/sentiments annotation performed by the Ariane tool, Minerva allows visualizing the clusters of opinions and sentiments related to the named entities in a text"
 
-#: templates/tutoriel.html
 msgid "Tutoriel"
 msgstr "Tutorial"
 
-msgid ""
-"La boîte à outils Pandore a été conçue de manière à prendre "
-"en entrée un corpus, quel qu'il soit"
-msgstr ""
-"The Pandore toolbox has been designed to take any corpus as input"
+msgid "La boîte à outils Pandore a été conçue de manière à prendre en entrée un corpus, quel qu'il soit"
+msgstr "The Pandore toolbox has been designed to take any corpus as input"
 
-msgid ""
-"et de fournir directement le résultat des traitements "
-"de ce corpus"
-msgstr ""
-"and directly provide the results of the processing "
-"of this corpus"
+msgid "et de fournir directement le résultat des traitements de ce corpus"
+msgstr "and directly provide the results of the processing of this corpus"
 
-msgid ""
-"Ainsi, la plupart des outils se composent d'un champ de chargement "
-"de fichiers, avec d'éventuelles options à cocher"
-msgstr ""
-"Thus, most of the tools consist of a file upload field, "
-"with possible options to check"
+msgid "Ainsi, la plupart des outils se composent d'un champ de chargement de fichiers, avec d'éventuelles options à cocher"
+msgstr "Thus, most of the tools consist of a file upload field, with possible options to check"
 
-msgid ""
-"pour rendre la manipulation de ces outils très intuitive"
-msgstr ""
-"to make the use of these tools very intuitive"
+msgid "pour rendre la manipulation de ces outils très intuitive"
+msgstr "to make the use of these tools very intuitive"
 
-msgid ""
-"Les sections suivantes fournissent un tutoriel détaillé de la manière "
-"dont s'utilise chaque outil de Pandore et sont classées par tâche"
-msgstr ""
-"The following sections provide a detailed tutorial on how to use "
-"each tool in Pandore and are classified by task"
+msgid "Les sections suivantes fournissent un tutoriel détaillé de la manière dont s'utilise chaque outil de Pandore et sont classées par tâche"
+msgstr "The following sections provide a detailed tutorial on how to use each tool in Pandore and are classified by task"
 
 msgid "Conversion"
 msgstr "Conversion"
@@ -2292,85 +1302,56 @@ msgstr "Annotation tasks"
 msgid "Corrections"
 msgstr "Corrections"
 
-#: templates/documentation.html
 msgid "Documentation"
 msgstr "Documentation"
 
-msgid ""
-"Pour ce faire, de nombreux outils et diverses techniques sont exposés"
-msgstr ""
-"To do this, numerous tools and various techniques are presented"
+msgid "Pour ce faire, de nombreux outils et diverses techniques sont exposés"
+msgstr "To do this, numerous tools and various techniques are presented"
 
-msgid ""
-"Les sections suivantes détaillent ces outils de Pandore "
-"et sont classées par tâche"
-msgstr ""
-"The following sections detail these Pandore tools "
-"and are classified by task"
+msgid "Les sections suivantes détaillent ces outils de Pandore et sont classées par tâche"
+msgstr "The following sections detail these Pandore tools and are classified by task"
 
 msgid "Reconnaissance automatique"
 msgstr "Automatic recognition"
 
-#: templates/500.html
 msgid "Erreur 500"
 msgstr "Error 500"
 
-msgid ""
-"Oups, une erreur est survenue sur notre serveur"
-msgstr ""
-"Oops, an error occurred on our server"
+msgid "Oups, une erreur est survenue sur notre serveur"
+msgstr "Oops, an error occurred on our server"
 
-msgid ""
-"Consultable sur"
-msgstr ""
-"Viewable on"
+msgid "Consultable sur"
+msgstr "Viewable on"
 
-#: templates/500_custom.html
 msgid "Erreur"
 msgstr "Error"
 
-msgid ""
-"Oups, il y a un problème"
-msgstr ""
-"Oops, there's a problem"
+msgid "Oups, il y a un problème"
+msgstr "Oops, there's a problem"
 
-#: templates/413.html
 msgid "Erreur 413"
 msgstr "Error 413"
 
-msgid ""
-"La taille des fichiers est pour le moment limitée "
-"à 5MB"
-msgstr ""
-"File size is currently limited "
-"to 5MB"
+msgid "La taille des fichiers est pour le moment limitée à 5MB"
+msgstr "File size is currently limited to 5MB"
 
-#: templates/validation_contact.html
-msgid ""
-"Votre message a bien été envoyé. Merci"
-msgstr ""
-"Your message has been sent successfully. Thank you"
+msgid "Votre message a bien été envoyé. Merci"
+msgstr "Your message has been sent successfully. Thank you"
 
 msgid "Domaine Public"
 msgstr "Public Domain"
 
-#: templates/contact.html
 msgid "Collecte de corpus"
 msgstr "Corpus collection"
 
 msgid "Correction textuelle"
 msgstr "Text correction"
 
-#: templates/copyright.html
 msgid "Copyright"
 msgstr "Copyright"
 
-msgid ""
-"Cette page répertorie les attributions © Copyright pour les diverses "
-"icônes et logos qui sont utilisés dans la toolbox Pandore"
-msgstr ""
-"This page lists the © Copyright attributions for the various "
-"icons and logos used in the Pandore toolbox"
+msgid "Cette page répertorie les attributions © Copyright pour les diverses icônes et logos qui sont utilisés dans la toolbox Pandore"
+msgstr "This page lists the © Copyright attributions for the various icons and logos used in the Pandore toolbox"
 
 msgid "Icônes/Logos des tâches"
 msgstr "Task Icons/Logos"
@@ -2387,17 +1368,12 @@ msgstr "Automatic summarization"
 msgid "Ajustement du niveau de lecture"
 msgstr "Adjusting readability level"
 
-msgid ""
-"Cette page répertorie les liens de tous les codes source "
-"et/ou sites officiels des outils présentés et utilisés dans la toolbox"
-msgstr ""
-"This page lists the links to all the source codes and/or official sites "
-"of the tools presented and used in the toolbox"
+msgid "Cette page répertorie les liens de tous les codes source et/ou sites officiels des outils présentés et utilisés dans la toolbox"
+msgstr "This page lists the links to all the source codes and/or official sites of the tools presented and used in the toolbox"
 
 msgid "Code source"
 msgstr "Source code"
 
-#: templates/index.html
 msgid "Projet"
 msgstr "Project"
 
@@ -2410,25 +1386,14 @@ msgstr "Home"
 msgid "Aide"
 msgstr "Help"
 
-msgid ""
-"Pandore : une boîte à outil pour les humanités numériques"
-msgstr ""
-"Pandore: a toolbox for digital humanities"
+msgid "Pandore : une boîte à outil pour les humanités numériques"
+msgstr "Pandore: a toolbox for digital humanities"
 
-msgid ""
-"Pandore offre un ensemble de modules permettant d'effectuer automatiquement "
-"les tâches les plus courantes liées au traitement de corpus "
-"pour la recherche en humanités numériques."
-msgstr ""
-"Pandore offers a set of modules to automatically perform the most common tasks "
-"related to corpus processing for research in digital humanities."
+msgid "Pandore offre un ensemble de modules permettant d'effectuer automatiquement les tâches les plus courantes liées au traitement de corpus pour la recherche en humanités numériques."
+msgstr "Pandore offers a set of modules to automatically perform the most common tasks related to corpus processing for research in digital humanities."
 
-msgid ""
-"Des chaînes de traitement permettant d'automatiser "
-"un ensemble de tâches sont également proposées."
-msgstr ""
-"Processing pipelines that allow automating a set of tasks "
-"are also offered."
+msgid "Des chaînes de traitement permettant d'automatiser un ensemble de tâches sont également proposées."
+msgstr "Processing pipelines that allow automating a set of tasks are also offered."
 
 msgid "Conversion d'images en texte"
 msgstr "Image-to-text conversion"
@@ -2439,118 +1404,65 @@ msgstr "Voice-to-text conversion"
 msgid "Formatage XML-TEI"
 msgstr "XML-TEI formatting"
 
-msgid ""
-"conversion de divers formats de fichiers"
-msgstr ""
-"conversion of various file formats"
+msgid "conversion de divers formats de fichiers"
+msgstr "conversion of various file formats"
 
 msgid "Entités nommées"
 msgstr "Named entities"
 
-msgid ""
-"Extraction automatique de mots-clés"
-msgstr ""
-"Automatic keyword extraction"
+msgid "Extraction automatique de mots-clés"
+msgstr "Automatic keyword extraction"
 
-msgid ""
-"Analyses linguistiques, lexicales, statistiques, "
-"analyses de texte, comparaisons, embeddings"
-msgstr ""
-"Linguistic, lexical, statistical analyses, "
-"text analyses, comparisons, embeddings"
+msgid "Analyses linguistiques, lexicales, statistiques, analyses de texte, comparaisons, embeddings"
+msgstr "Linguistic, lexical, statistical analyses, text analyses, comparisons, embeddings"
 
 msgid "Exploration de corpus"
 msgstr "Corpus exploration"
 
-msgid ""
-"polarités textuelles"
-msgstr ""
-"textual polarities"
+msgid "polarités textuelles"
+msgstr "textual polarities"
 
-msgid ""
-"Scraping personnalisé des corpus Wikisource"
-msgstr ""
-"Custom scraping of Wikisource corpora"
+msgid "Scraping personnalisé des corpus Wikisource"
+msgstr "Custom scraping of Wikisource corpora"
 
-msgid ""
-"Correction d'erreurs et normalisation "
-"pour corpus à la graphie non standard"
-msgstr ""
-"Error correction and normalization "
-"for corpora with non-standard spelling"
+msgid "Correction d'erreurs et normalisation pour corpus à la graphie non standard"
+msgstr "Error correction and normalization for corpora with non-standard spelling"
 
-msgid ""
-"Traitement automatique depuis l'OCR jusqu'à la reconnaissance "
-"d'entités et leur visualisation."
-msgstr ""
-"Automatic processing from OCR to entity recognition "
-"and visualization."
+msgid "Traitement automatique depuis l'OCR jusqu'à la reconnaissance d'entités et leur visualisation."
+msgstr "Automatic processing from OCR to entity recognition and visualization."
 
 msgid "Summarizer"
 msgstr "Summarizer"
 
-msgid ""
-"Site développé par l'équipe ObTIC et hébergé "
-"par Sorbonne Université"
-msgstr ""
-"Site developed by the ObTIC team and hosted "
-"by Sorbonne University"
+msgid "Site développé par l'équipe ObTIC et hébergé par Sorbonne Université"
+msgstr "Site developed by the ObTIC team and hosted by Sorbonne University"
 
-msgid ""
-"Ce site ne dépose pas de cookies publicitaires."
-msgstr ""
-"This site does not place advertising cookies."
+msgid "Ce site ne dépose pas de cookies publicitaires."
+msgstr "This site does not place advertising cookies."
 
-#: templates/projet.html
 msgid "Le projet"
 msgstr "The project"
 
-msgid ""
-"Pandore a été conçue par les membres de l'équipe-projet"
-msgstr ""
-"Pandore was designed by the project team members"
+msgid "Pandore a été conçue par les membres de l'équipe-projet"
+msgstr "Pandore was designed by the project team members"
 
-msgid ""
-"Il s'agit d'une interface qui permet d'utiliser en ligne "
-"un ensemble d'outils de manipulation et de traitement de corpus textuels"
-msgstr ""
-"It is an interface that allows using a set of text corpus "
-"manipulation and processing tools online"
+msgid "Il s'agit d'une interface qui permet d'utiliser en ligne un ensemble d'outils de manipulation et de traitement de corpus textuels"
+msgstr "It is an interface that allows using a set of text corpus manipulation and processing tools online"
 
-msgid ""
-"Les tâches couvertes sont les tâches essentielles le plus souvent réalisées "
-"dans les études de corpus"
-msgstr ""
-"The tasks covered are the essential tasks "
-"most often carried out in corpus studies"
+msgid "Les tâches couvertes sont les tâches essentielles le plus souvent réalisées dans les études de corpus"
+msgstr "The tasks covered are the essential tasks most often carried out in corpus studies"
 
-msgid ""
-"la numérisation (OCR/HTR), la conversion entre différents "
-"formats de données (notamment XML-TEI)"
-msgstr ""
-"digitization (OCR/HTR), conversion between different "
-"data formats (notably XML-TEI)"
+msgid "la numérisation (OCR/HTR), la conversion entre différents formats de données (notamment XML-TEI)"
+msgstr "digitization (OCR/HTR), conversion between different data formats (notably XML-TEI)"
 
-msgid ""
-"l'analyse automatique du texte (reconnaissance "
-"d'entités nommées) et la visualisation des données"
-msgstr ""
-"automatic text analysis (named entity recognition) "
-"and data visualization"
+msgid "l'analyse automatique du texte (reconnaissance d'entités nommées) et la visualisation des données"
+msgstr "automatic text analysis (named entity recognition) and data visualization"
 
-msgid ""
-"Les fonctionnalités implémentées sont basées soit sur des outils externes "
-"donnant des résultats état de l'art dans les tâches concernées"
-msgstr ""
-"The implemented features are based either on external tools "
-"providing state-of-the-art results in the tasks concerned"
+msgid "Les fonctionnalités implémentées sont basées soit sur des outils externes donnant des résultats état de l'art dans les tâches concernées"
+msgstr "The implemented features are based either on external tools providing state-of-the-art results in the tasks concerned"
 
-msgid ""
-"soit sur des scripts ou applications développés "
-"par l'équipe ObTIC (Ariane, Tanagra, etc)"
-msgstr ""
-"or on scripts or applications developed "
-"by the ObTIC team (Ariane, Tanagra, etc.)"
+msgid "soit sur des scripts ou applications développés par l'équipe ObTIC (Ariane, Tanagra, etc)"
+msgstr "or on scripts or applications developed by the ObTIC team (Ariane, Tanagra, etc.)"
 
 msgid "L'équipe"
 msgstr "The team"
@@ -2561,69 +1473,47 @@ msgstr "Current members"
 msgid "Professeur"
 msgstr "Professor"
 
-msgid ""
-"responsable du projet, conception"
-msgstr ""
-"project manager, design"
+msgid "responsable du projet, conception"
+msgstr "project manager, design"
 
 msgid "Ingénieur de recherche"
 msgstr "Research engineer"
 
-msgid ""
-"conception, développement"
-msgstr ""
-"design, development"
+msgid "conception, développement"
+msgstr "design, development"
 
 msgid "Doctorante"
 msgstr "PhD student"
 
-msgid ""
-"beta-test, développement"
-msgstr ""
-"beta-test, development"
-
-msgid ""
-"développement"
-msgstr ""
-"development"
-
-msgid ""
-"Ingénieure d'études en Humanités Numériques"
-msgstr ""
-"Research engineer in Digital Humanities"
+msgid "beta-test, développement"
+msgstr "beta-test, development"
 
 msgid "développement"
 msgstr "development"
 
-msgid ""
-"Ingénieur d'études"
-msgstr ""
-"Research engineer"
+msgid "Ingénieure d'études en Humanités Numériques"
+msgstr "Research engineer in Digital Humanities"
 
-msgid ""
-"Ingénieur d'études en Traitement Automatique de Langues"
-msgstr ""
-"Research engineer in Natural Language Processing"
+msgid "développement"
+msgstr "development"
+
+msgid "Ingénieur d'études"
+msgstr "Research engineer"
+
+msgid "Ingénieur d'études en Traitement Automatique de Langues"
+msgstr "Research engineer in Natural Language Processing"
 
 msgid "Anciens membres"
 msgstr "Former members"
 
-msgid ""
-"Ingénieure d'études"
-msgstr ""
-"Research engineer"
+msgid "Ingénieure d'études"
+msgstr "Research engineer"
 
-msgid ""
-"Post-doctorant"
-msgstr ""
-"Postdoctoral researcher"
+msgid "Post-doctorant"
+msgstr "Postdoctoral researcher"
 
-msgid ""
-"Cette documentation a été réalisée à partir de la documentation"
-" de la première version de Pandore, du livre"
-msgstr ""
-"This documentation has been made from the documentation"
-" of the first version of Pandore, from the book"
+msgid "Cette documentation a été réalisée à partir de la documentation de la première version de Pandore, du livre"
+msgstr "This documentation has been made from the documentation of the first version of Pandore, from the book"
 
 msgid "et de l'IA"
 msgstr "and from AI"
@@ -2652,12 +1542,8 @@ msgstr "Next documentation"
 msgid "Tutoriel : Conversion en XML-TEI"
 msgstr "Tutorial: Conversion to XML-TEI"
 
-msgid ""
-"Voici une description et des explications sur "
-"les divers éléments d'encodage XML-TEI utilisés ici"
-msgstr ""
-"Here is a description and explanations of "
-"the various XML-TEI encoding elements used here"
+msgid "Voici une description et des explications sur les divers éléments d'encodage XML-TEI utilisés ici"
+msgstr "Here is a description and explanations of the various XML-TEI encoding elements used here"
 
 msgid "Balise"
 msgstr "Tag"
@@ -2674,12 +1560,8 @@ msgstr "Indicates information related to the title of the work or document"
 msgid "Cela inclut le titre lui-même et les auteurs ou autres contributeurs principaux"
 msgstr "This includes the title itself and the authors or other main contributors"
 
-msgid ""
-"Identifie les responsables ou collaborateurs associés "
-"à l'œuvre ou au projet, avec leurs rôles précisés"
-msgstr ""
-"Identifies the individuals responsible or collaborators associated "
-"with the work or project, with their roles specified"
+msgid "Identifie les responsables ou collaborateurs associés à l'œuvre ou au projet, avec leurs rôles précisés"
+msgstr "Identifies the individuals responsible or collaborators associated with the work or project, with their roles specified"
 
 msgid "Contient les informations liées à la publication du document "
 msgstr "Contains information related to the publication of the document"
@@ -2699,23 +1581,11 @@ msgstr "Describes the general content of the document (themes, languages used, e
 msgid "autres caractéristiques textuelles : chronologie, géographie"
 msgstr "other textual features: chronology, geography"
 
-msgid ""
-"Donne des informations sur le projet dans lequel "
-"le texte a été encodé, comme ses objectifs "
-"et son cadre institutionnel"
-msgstr ""
-"Provides information about the project in which "
-"the text was encoded, such as its objectives "
-"and institutional framework"
+msgid "Donne des informations sur le projet dans lequel le texte a été encodé, comme ses objectifs et son cadre institutionnel"
+msgstr "Provides information about the project in which the text was encoded, such as its objectives and institutional framework"
 
-msgid ""
-"Spécifie les choix éditoriaux et conventions appliquées "
-"lors de l'encodage du texte, comme les suppressions "
-"ou corrections effectuées"
-msgstr ""
-"Specifies the editorial choices and conventions applied "
-"during the encoding of the text, such as deletions "
-"or corrections made"
+msgid "Spécifie les choix éditoriaux et conventions appliquées lors de l'encodage du texte, comme les suppressions ou corrections effectuées"
+msgstr "Specifies the editorial choices and conventions applied during the encoding of the text, such as deletions or corrections made"
 
 msgid "Fournit un historique des modifications et révisions appliquées au fichier TEI"
 msgstr "Provides a history of modifications and revisions applied to the TEI file"
@@ -2723,30 +1593,14 @@ msgstr "Provides a history of modifications and revisions applied to the TEI fil
 msgid "Tutoriel : Extraction automatique de mots-clés avec KeyBERT"
 msgstr "Tutorial: Automatic Keyword Extraction with KeyBERT"
 
-msgid ""
-"L'extraction automatique de mots-clés est une tâche essentielle "
-"en traitement du langage naturel (NLP), permettant d'identifier "
-"les termes les plus représentatifs d'un texte ou d'un corpus"
-msgstr ""
-"Automatic keyword extraction is an essential task "
-"in natural language processing (NLP), allowing the identification "
-"of the most representative terms in a text or corpus"
+msgid "L'extraction automatique de mots-clés est une tâche essentielle en traitement du langage naturel (NLP), permettant d'identifier les termes les plus représentatifs d'un texte ou d'un corpus"
+msgstr "Automatic keyword extraction is an essential task in natural language processing (NLP), allowing the identification of the most representative terms in a text or corpus"
 
-msgid ""
-"Ces mots-clés offrent une synthèse rapide du contenu "
-"et facilitent les recherches, résumés, ou analyses thématiques"
-msgstr ""
-"These keywords provide a quick summary of the content "
-"and facilitate searches, summaries, or thematic analyses"
+msgid "Ces mots-clés offrent une synthèse rapide du contenu et facilitent les recherches, résumés, ou analyses thématiques"
+msgstr "These keywords provide a quick summary of the content and facilitate searches, summaries, or thematic analyses"
 
-msgid ""
-"L'outil <strong>KeyBERT</strong> est une "
-"solution particulièrement puissante pour ce type de tâches "
-"grâce à sa simplicité et ses performances"
-msgstr ""
-"The <strong>KeyBERT</strong> tool is a "
-"particularly powerful solution for this type of task "
-"thanks to its simplicity and performance"
+msgid "L'outil <strong>KeyBERT</strong> est une solution particulièrement puissante pour ce type de tâches grâce à sa simplicité et ses performances"
+msgstr "The <strong>KeyBERT</strong> tool is a particularly powerful solution for this type of task thanks to its simplicity and performance"
 
 msgid "Pourquoi utiliser KeyBERT pour l'extraction de mots-clés "
 msgstr "Why use KeyBERT for keyword extraction?"
@@ -2802,12 +1656,8 @@ msgstr "How does KeyBERT work?"
 msgid "Encodage du texte"
 msgstr "Text encoding"
 
-msgid ""
-"KeyBERT encode chaque phrase du document "
-"à l'aide de représentations vectorielles contextuelles"
-msgstr ""
-"KeyBERT encodes each sentence of the document "
-"using contextual vector representations"
+msgid "KeyBERT encode chaque phrase du document à l'aide de représentations vectorielles contextuelles"
+msgstr "KeyBERT encodes each sentence of the document using contextual vector representations"
 
 msgid "Le modèle utilisé"
 msgstr "The model used"
@@ -2821,41 +1671,20 @@ msgstr "Keyword identification"
 msgid "Applications de l'extraction de mots-clés avec KeyBERT"
 msgstr "Applications of Keyword Extraction with KeyBERT"
 
-msgid ""
-"Les mots ou groupes de mots sont classés "
-"selon leur proximité sémantique "
-"avec l'ensemble du texte"
-msgstr ""
-"Words or word groups are ranked "
-"based on their semantic proximity "
-"to the entire text"
-
-msgid "KeyBERT peut repérer les termes qui capturent les idées principales du document"
-msgstr "KeyBERT can identify terms that capture the main ideas of the document"
+msgid "Les mots ou groupes de mots sont classés selon leur proximité sémantique avec l'ensemble du texte"
+msgstr "Words or word groups are ranked based on their semantic proximity to the entire text"
 
 msgid "Filtre les mots-clés selon leur diversité"
 msgstr "Filters keywords based on their diversity"
 
-msgid ""
-"Avec un <strong>taux de diversité élevé</strong>, "
-"KeyBERT évite les redondances entre les mots-clés"
-msgstr ""
-"With a <strong>high diversity rate</strong>, "
-"KeyBERT avoids redundancy among keywords"
+msgid "Avec un <strong>taux de diversité élevé</strong>, KeyBERT évite les redondances entre les mots-clés"
+msgstr "With a <strong>high diversity rate</strong>, KeyBERT avoids redundancy among keywords"
 
-msgid ""
-"Avec un <strong>taux faible</strong>, il cible "
-"des nuances autour des thèmes principaux du texte"
-msgstr ""
-"With a <strong>low rate</strong>, it targets "
-"nuances around the main themes of the text"
+msgid "Avec un <strong>taux faible</strong>, il cible des nuances autour des thèmes principaux du texte"
+msgstr "With a <strong>low rate</strong>, it targets nuances around the main themes of the text"
 
-msgid ""
-"Sélectionne les mots-clés avec la plus faible similarité "
-"entre eux, pour éviter les répétitions directes"
-msgstr ""
-"Selects keywords with the lowest similarity "
-"among them to avoid direct repetitions"
+msgid "Sélectionne les mots-clés avec la plus faible similarité entre eux, pour éviter les répétitions directes"
+msgstr "Selects keywords with the lowest similarity among them to avoid direct repetitions"
 
 msgid "Résumé automatique"
 msgstr "Automatic summarization"
@@ -2881,23 +1710,11 @@ msgstr "Thematic analysis"
 msgid "Explorer les idées principales dans des textes scientifiques, techniques ou marketing"
 msgstr "Explore the main ideas in scientific, technical, or marketing texts"
 
-msgid ""
-"L'extraction automatique de mots-clés avec KeyBERT "
-"est une méthode puissante pour synthétiser "
-"et structurer du contenu textuel"
-msgstr ""
-"Automatic keyword extraction with KeyBERT "
-"is a powerful method for synthesizing "
-"and structuring textual content"
+msgid "L'extraction automatique de mots-clés avec KeyBERT est une méthode puissante pour synthétiser et structurer du contenu textuel"
+msgstr "Automatic keyword extraction with KeyBERT is a powerful method for synthesizing and structuring textual content"
 
-msgid ""
-"Avec son support multilingue et ses algorithmes pour "
-"diversifier les résultats, il répond à des besoins variés "
-"allant de l'analyse thématique à l'indexation"
-msgstr ""
-"With its multilingual support and algorithms to "
-"diversify results, it meets various needs ranging "
-"from thematic analysis to indexing"
+msgid "Avec son support multilingue et ses algorithmes pour diversifier les résultats, il répond à des besoins variés allant de l'analyse thématique à l'indexation"
+msgstr "With its multilingual support and algorithms to diversify results, it meets various needs ranging from thematic analysis to indexing"
 
 msgid "Tutoriel : Modélisation de thématiques"
 msgstr "Tutorial: Topic Modeling"
@@ -3064,36 +1881,17 @@ msgstr "Whether using <strong>NMF</strong> or <strong>LDA</strong>, these method
 msgid "Intégrée dans des outils d'analyse avancés, cette technique ouvre des perspectives intéressantes pour la recherche, le marketing, et bien d'autres domaines"
 msgstr "Integrated into advanced analysis tools, this technique offers exciting prospects for research, marketing, and many other fields"
 
-
 msgid "Tutoriel : Reconnaissance des Entités Nommées"
 msgstr "Tutorial: Named Entity Recognition"
 
-msgid ""
-"La reconnaissance des entités nommées (NER) "
-"est une tâche essentielle dans "
-"le traitement automatique du langage naturel"
-msgstr ""
-"Named entity recognition (NER) "
-"is an essential task in "
-"natural language processing"
+msgid "La reconnaissance des entités nommées (NER) est une tâche essentielle dans le traitement automatique du langage naturel"
+msgstr "Named entity recognition (NER) is an essential task in natural language processing"
 
-msgid ""
-"Elle permet d'identifier et de classer automatiquement "
-"des entités clés d'un texte, comme les noms de personnes, "
-"les lieux, les organisations ou encore les dates"
-msgstr ""
-"It allows the automatic identification and classification "
-"of key entities in a text, such as names of people, "
-"places, organizations, or dates"
+msgid "Elle permet d'identifier et de classer automatiquement des entités clés d'un texte, comme les noms de personnes, les lieux, les organisations ou encore les dates"
+msgstr "It allows the automatic identification and classification of key entities in a text, such as names of people, places, organizations, or dates"
 
-msgid ""
-"Cette fonctionnalité est utilisée dans divers contextes, "
-"allant de l'extraction d'information au développement "
-"d'applications intelligentes"
-msgstr ""
-"This functionality is used in various contexts, "
-"ranging from information extraction to the development "
-"of intelligent applications"
+msgid "Cette fonctionnalité est utilisée dans divers contextes, allant de l'extraction d'information au développement d'applications intelligentes"
+msgstr "This functionality is used in various contexts, ranging from information extraction to the development of intelligent applications"
 
 msgid "Pourquoi utiliser la NER "
 msgstr "Why use NER"
@@ -3116,36 +1914,20 @@ msgstr "Organize raw texts into usable data for further analyses"
 msgid "Applications spécifiques"
 msgstr "Specific applications"
 
-msgid ""
-"Identifier des entités liées à un domaine précis "
-"comme le médical (maladies, médicaments) "
-"ou le juridique (lois, noms d'avocats)"
-msgstr ""
-"Identify entities related to a specific field "
-"such as medical (diseases, medications) "
-"or legal (laws, names of lawyers)"
+msgid "Identifier des entités liées à un domaine précis comme le médical (maladies, médicaments) ou le juridique (lois, noms d'avocats)"
+msgstr "Identify entities related to a specific field such as medical (diseases, medications) or legal (laws, names of lawyers)"
 
 msgid "Optimisation des processus"
 msgstr "Process optimization"
 
-msgid ""
-"La NER alimente de nombreux systèmes d'intelligence artificielle, "
-"comme les moteurs de recherche ou les assistants virtuels"
-msgstr ""
-"NER powers many AI systems, "
-"such as search engines or virtual assistants"
+msgid "La NER alimente de nombreux systèmes d'intelligence artificielle, comme les moteurs de recherche ou les assistants virtuels"
+msgstr "NER powers many AI systems, such as search engines or virtual assistants"
 
 msgid "Les modèles populaires pour la NER"
 msgstr "Popular models for NER"
 
-msgid ""
-"Pour effectuer une NER efficace, plusieurs outils "
-"et bibliothèques existent, chacun ayant des "
-"caractéristiques et des avantages spécifiques"
-msgstr ""
-"To perform effective NER, several tools "
-"and libraries exist, each with "
-"specific features and advantages"
+msgid "Pour effectuer une NER efficace, plusieurs outils et bibliothèques existent, chacun ayant des caractéristiques et des avantages spécifiques"
+msgstr "To perform effective NER, several tools and libraries exist, each with specific features and advantages"
 
 msgid "Voici un aperçu des trois modèles les plus largement utilisés "
 msgstr "Here is an overview of the three most widely used models"
@@ -3261,57 +2043,29 @@ msgstr "With tools like SpaCy, Flair, or BERT, you can quickly identify valuable
 msgid "Tutoriel : Catégories sémantiques"
 msgstr "Tutorial: Semantic Categories"
 
-msgid ""
-"Le processus d'étiquetage dans Textolab est itératif "
-"et permet de localiser, grâce à des règles heuristiques, des patrons linguistiques "
-"sous forme de chaînes de caractères, d'expressions régulières "
-"ou de métadonnées (annotations existantes)"
-msgstr ""
-"The labeling process in Textolab is iterative "
-"and allows the localization of linguistic patterns using heuristics, "
-"including character strings, regular expressions, "
-"or metadata (existing annotations)"
+msgid "Le processus d'étiquetage dans Textolab est itératif et permet de localiser, grâce à des règles heuristiques, des patrons linguistiques sous forme de chaînes de caractères, d'expressions régulières ou de métadonnées (annotations existantes)"
+msgstr "The labeling process in Textolab is iterative and allows the localization of linguistic patterns using heuristics, including character strings, regular expressions, or metadata (existing annotations)"
 
 msgid "Les règles sont déclaratives et ordonnables selon la priorité"
 msgstr "The rules are declarative and can be ordered by priority"
 
-msgid ""
-"Les règles permettent de lever l'ambiguïté sur certains marqueurs "
-"à l'aide d'indices contextuels qui confirment ou qui affinent l'annotation"
-msgstr ""
-"The rules allow ambiguity resolution on certain markers "
-"using contextual clues that confirm or refine the annotation"
+msgid "Les règles permettent de lever l'ambiguïté sur certains marqueurs à l'aide d'indices contextuels qui confirment ou qui affinent l'annotation"
+msgstr "The rules allow ambiguity resolution on certain markers using contextual clues that confirm or refine the annotation"
 
 msgid "La présence d'autres indices infirmatifs permet d'annuler l'annotation en cours"
 msgstr "The presence of other negating clues allows the cancellation of the current annotation"
 
-msgid ""
-"Si toutes les conditions d'une règle sont satisfaites, "
-"une étiquette est attribuée au passage textuel en question "
-"(par exemple modalité, polarité, intensité, entité nommée, etc.)"
-msgstr ""
-"If all the conditions of a rule are met, "
-"a label is assigned to the relevant text passage "
-"(e.g., modality, polarity, intensity, named entity, etc.)"
+msgid "Si toutes les conditions d'une règle sont satisfaites, une étiquette est attribuée au passage textuel en question (par exemple modalité, polarité, intensité, entité nommée, etc.)"
+msgstr "If all the conditions of a rule are met, a label is assigned to the relevant text passage (e.g., modality, polarity, intensity, named entity, etc.)"
 
-msgid ""
-"Textolab offre une interface qui permet "
-"à l'utilisateur d'exécuter les différentes fonctionnalités de l'outil"
-msgstr ""
-"Textolab offers an interface allowing "
-"the user to execute various features of the tool"
+msgid "Textolab offre une interface qui permet à l'utilisateur d'exécuter les différentes fonctionnalités de l'outil"
+msgstr "Textolab offers an interface allowing the user to execute various features of the tool"
 
 msgid "Reconnaissance automatique de texte"
 msgstr "Automatic Text Recognition"
 
-msgid ""
-"La reconnaissance automatique de texte (ATR ou Automatic Text Recognition) "
-"désigne l'ensemble des technologies utilisées pour extraire "
-"des données textuelles numériques à partir de documents analogiques numérisés"
-msgstr ""
-"Automatic Text Recognition (ATR) "
-"refers to the set of technologies used to extract "
-"digital textual data from digitized analog documents"
+msgid "La reconnaissance automatique de texte (ATR ou Automatic Text Recognition) désigne l'ensemble des technologies utilisées pour extraire des données textuelles numériques à partir de documents analogiques numérisés"
+msgstr "Automatic Text Recognition (ATR) refers to the set of technologies used to extract digital textual data from digitized analog documents"
 
 msgid "Elle se divise en deux domaines "
 msgstr "It is divided into two areas"
@@ -3328,14 +2082,8 @@ msgstr "HTR"
 msgid "ou reconnaissance de texte manuscrit, qui se focalise sur la conversion d'écritures manuscrites en données numériques exploitables"
 msgstr "which focuses on converting handwritten texts into usable digital data"
 
-msgid ""
-"Ces technologies reposent sur l'intelligence artificielle, "
-"en particulier sur l'apprentissage automatique (machine learning), "
-"pour analyser et interpréter le contenu des images"
-msgstr ""
-"These technologies rely on artificial intelligence, "
-"particularly machine learning, "
-"to analyze and interpret the content of images"
+msgid "Ces technologies reposent sur l'intelligence artificielle, en particulier sur l'apprentissage automatique (machine learning), pour analyser et interpréter le contenu des images"
+msgstr "These technologies rely on artificial intelligence, particularly machine learning, to analyze and interpret the content of images"
 
 msgid "Les étapes du processus"
 msgstr "The process steps"
@@ -3385,14 +2133,8 @@ msgstr "Text lines must be straight to simplify their detection"
 msgid "Performance et limites actuelles"
 msgstr "Performance and current limitations"
 
-msgid ""
-"Pour les langues utilisant des caractères latins, "
-"les logiciels d'OCR modernes atteignent généralement "
-"un taux de reconnaissance supérieur à 90"
-msgstr ""
-"For languages using Latin characters, "
-"modern OCR software generally achieves "
-"a recognition rate above 90"
+msgid "Pour les langues utilisant des caractères latins, les logiciels d'OCR modernes atteignent généralement un taux de reconnaissance supérieur à 90"
+msgstr "For languages using Latin characters, modern OCR software generally achieves a recognition rate above 90"
 
 msgid "assurant une conversion très fiable des textes imprimés"
 msgstr "ensuring highly reliable conversion of printed texts"
@@ -3403,14 +2145,8 @@ msgstr "However, the results may be affected by poor-quality images or particula
 msgid "Adaptabilité avec des outils avancés"
 msgstr "Adaptability with advanced tools"
 
-msgid ""
-"Dans les cas où les images ne remplissent pas parfaitement "
-"les critères précédents (par exemple : présence de bruit ou de fond complexe), "
-"des outils comme <strong>eScriptorium</strong> offrent une solution performante"
-msgstr ""
-"In cases where images do not perfectly meet "
-"the previous criteria (e.g., noise or complex background), "
-"tools like <strong>eScriptorium</strong> offer an effective solution"
+msgid "Dans les cas où les images ne remplissent pas parfaitement les critères précédents (par exemple : présence de bruit ou de fond complexe), des outils comme <strong>eScriptorium</strong> offrent une solution performante"
+msgstr "In cases where images do not perfectly meet the previous criteria (e.g., noise or complex background), tools like <strong>eScriptorium</strong> offer an effective solution"
 
 msgid "Cette plateforme, accessible via "
 msgstr "This platform, accessible via "
@@ -3424,12 +2160,8 @@ msgstr "is capable of handling specific constraints and improving recognition re
 msgid "Reconnaissance Automatique de la Parole"
 msgstr "Automatic Speech Recognition"
 
-msgid ""
-"La reconnaissance automatique de la parole (ASR pour Automatic Speech Recognition) "
-"est une technologie qui permet de convertir la parole humaine en texte écrit"
-msgstr ""
-"Automatic Speech Recognition (ASR) "
-"is a technology that converts human speech into written text"
+msgid "La reconnaissance automatique de la parole (ASR pour Automatic Speech Recognition) est une technologie qui permet de convertir la parole humaine en texte écrit"
+msgstr "Automatic Speech Recognition (ASR) is a technology that converts human speech into written text"
 
 msgid "Elle repose sur des avancées en intelligence artificielle, notamment l'apprentissage profond, et trouve des applications dans de nombreux domaines"
 msgstr "It relies on advances in artificial intelligence, including deep learning, and has applications in many areas"
@@ -3521,16 +2253,8 @@ msgstr "Approaches like the 'end-to-end' model simplify traditional pipelines by
 msgid "Nettoyage de texte"
 msgstr "Text Cleaning"
 
-msgid ""
-"Dans le traitement automatique du langage naturel (NLP), "
-"plusieurs techniques de prétraitement du texte permettent de simplifier "
-"et d'homogénéiser les données textuelles, facilitant ainsi "
-"leur analyse et leur exploitation par des algorithmes"
-msgstr ""
-"In natural language processing (NLP), "
-"several text preprocessing techniques simplify "
-"and standardize textual data, facilitating "
-"analysis and exploitation by algorithms"
+msgid "Dans le traitement automatique du langage naturel (NLP), plusieurs techniques de prétraitement du texte permettent de simplifier et d'homogénéiser les données textuelles, facilitant ainsi leur analyse et leur exploitation par des algorithmes"
+msgstr "In natural language processing (NLP), several text preprocessing techniques simplify and standardize textual data, facilitating analysis and exploitation by algorithms"
 
 msgid "La ponctuation"
 msgstr "Punctuation"
@@ -3541,16 +2265,8 @@ msgstr "First, <strong>punctuation</strong>, consisting of symbols like periods,
 msgid "Cependant, dans certaines tâches de traitement, la ponctuation peut être supprimée pour simplifier les données et réduire les variations inutiles"
 msgstr "However, in some processing tasks, punctuation can be removed to simplify data and reduce unnecessary variations"
 
-msgid ""
-"Cette étape est particulièrement utile dans des applications "
-"telles que l'analyse statistique, la classification ou la création "
-"de modèles d'apprentissage automatique, car elle permet "
-"de se concentrer sur les éléments de contenu significatifs"
-msgstr ""
-"This step is particularly useful in applications "
-"such as statistical analysis, classification, or building "
-"machine learning models, as it helps "
-"focus on meaningful content elements"
+msgid "Cette étape est particulièrement utile dans des applications telles que l'analyse statistique, la classification ou la création de modèles d'apprentissage automatique, car elle permet de se concentrer sur les éléments de contenu significatifs"
+msgstr "This step is particularly useful in applications such as statistical analysis, classification, or building machine learning models, as it helps focus on meaningful content elements"
 
 msgid "Les mots-vides ou stopwords"
 msgstr "Stopwords"
@@ -3561,15 +2277,8 @@ msgstr "Next, the <strong>removal of high-frequency words</strong>, or stopwords
 msgid "Ces mots, bien qu'indispensables à la construction grammaticale, apportent peu de valeur sémantique et risquent d'alourdir les analyses"
 msgstr "These words, while essential for grammatical structure, add little semantic value and may complicate analysis"
 
-msgid ""
-"En les éliminant, on peut non seulement simplifier "
-"les représentations textuelles, mais aussi optimiser la taille "
-"des structures de données telles que les index inversés, "
-"utilisés pour des tâches comme la recherche d'information"
-msgstr ""
-"By removing them, textual representations can be simplified, "
-"and the size of data structures like inverted indexes, "
-"used for tasks such as information retrieval, can be optimized"
+msgid "En les éliminant, on peut non seulement simplifier les représentations textuelles, mais aussi optimiser la taille des structures de données telles que les index inversés, utilisés pour des tâches comme la recherche d'information"
+msgstr "By removing them, textual representations can be simplified, and the size of data structures like inverted indexes, used for tasks such as information retrieval, can be optimized"
 
 msgid "Cela permet de focaliser les efforts de traitement sur les termes porteurs de sens et d'améliorer la pertinence des résultats"
 msgstr "This focuses processing efforts on meaningful terms and improves result relevance"
@@ -3823,11 +2532,8 @@ msgstr "Multitasking modeling"
 msgid "Transformer diverses tâches NLP en problèmes de prédiction de mots"
 msgstr "Transforming various NLP tasks into word prediction problems"
 
-msgid "Questions/réponses et conversations"
-msgstr "Questions/Answers and Conversations"
-
-msgid "Les systèmes de <strong>questions/réponses (QA)</strong> et de <strong>conversation</strong> s'appuient sur des modèles capables de répondre à des questions ou de maintenir des interactions fluides avec les utilisateurs. Cette catégorie est souvent divisée en deux approches "
-msgstr "<strong>Questions/Answers (QA)</strong> and <strong>conversation</strong> systems rely on models capable of answering questions or maintaining fluid interactions with users. This category is often divided into two approaches"
+msgid "Le système de <strong>questions/réponses (QA)</strong> s'appuie sur des modèles capables de répondre à des questions ou de maintenir des interactions fluides avec les utilisateurs. Cette catégorie est souvent divisée en deux approches "
+msgstr "<strong>Questions/Answers (QA)</strong> system rely on models capable of answering questions or maintaining fluid interactions with users. This category is often divided into two approaches"
 
 msgid "La réponse est trouvée dans un ou plusieurs documents fournis, comme pour les tâches de compréhension de lecture"
 msgstr "The answer is found in one or more provided documents, as in reading comprehension tasks"
@@ -4062,9 +2768,6 @@ msgstr "Functioning"
 
 msgid "Les algorithmes d'extraction de citations détectent les indices textuels tels que "
 msgstr "Quotation extraction algorithms detect textual cues such as"
-
-msgid "Les guillemets (« » ou \" \") qui encadrent la citation"
-msgstr "Quotation marks (« » or \" \") enclosing the quotation"
 
 msgid "Les verbes d'allocution ('dit', 'déclare', 'affirme'), qui introduisent ou signalent un discours direct"
 msgstr "Speech verbs ('says', 'declares', 'states'), which introduce or indicate direct speech"
@@ -4376,9 +3079,6 @@ msgid "Facilement intégrable avec d'autres technologies, comme CSS (pour le sty
 msgstr "Easily integrable with other technologies, such as CSS (for styling) and JavaScript (for interactivity)"
 
 msgid "Inconvénients"
-msgstr "Disadvantages"
-
-msgid "Inconvénients "
 msgstr "Disadvantages"
 
 msgid "Nécessite parfois des ajustements pour être conforme aux standards ou compatible avec tous les navigateurs"
@@ -5317,9 +4017,6 @@ msgstr "One-click digitization and named entities recognition"
 msgid "Numérisation, reconnaissance de lieux géographiques et visualisation sur une carte d'un seul clic"
 msgstr "Digitization, recognizing geographic locations and viewing on a map with one click"
 
-msgid "Outil à venir"
-msgstr "Tool coming soon"
-
 msgid "Les oeuvres présentes sur le site Project Gutenberg sont identifiés selon un système d'ID. Ce module permet d'"
 msgstr "Works on the Project Gutenberg site are identified using an ID system. This module allows you to"
 
@@ -5386,6 +4083,9 @@ msgstr "API query in progress"
 msgid "Extraire les livres Google"
 msgstr "Extract Google Books"
 
+msgid "Téléchargement de livres Google"
+msgstr "Downloading of Google Books"
+
 msgid "Mot à analyser"
 msgstr "Word to analyze"
 
@@ -5428,38 +4128,8 @@ msgstr "<strong>Holonymy</strong>: The opposite of meronymy, where a word refers
 msgid "(Ex. : <em>voiture</em> est un **holonyme** de <em>roue</em>, car une voiture contient des roues dans sa structure.)"
 msgstr "(Ex: <em>car</em> is a **holonym** of <em>wheel</em>, as a car contains wheels in its structure.)"
 
-msgid "Chinois Mandarin"
-msgstr "Mandarin Chinese"
-
-msgid "Grec"
-msgstr "Greek"
-
-msgid "Hébreu"
-msgstr "Hebrew"
-
-msgid "Italien"
-msgstr "Italian"
-
-msgid "Japonais"
-msgstr "Japanese"
-
-msgid "Néerlandais"
-msgstr "Dutch"
-
-msgid "Polonais"
-msgstr "Polish"
-
-msgid "Portugais"
-msgstr "Portuguese"
-
-msgid "Slovaque"
-msgstr "Slovak"
-
 msgid "Choisir la langue"
 msgstr "Choose the language"
-
-msgid "Voici les relations lexicales de"
-msgstr "Here are the lexical relationships of"
 
 msgid "Synonymes"
 msgstr "Synonyms"
@@ -5478,3 +4148,652 @@ msgstr "Meronyms"
 
 msgid "Holonymes"
 msgstr "Holonyms"
+
+msgid "Attention : Assurez-vous que les noms de vos fichiers d'entrée ne soient pas trop longs"
+msgstr "Warning; Make sure your input filenames are not too long"
+
+msgid "et ne contiennent pas de caractères problématiques"
+msgstr "and do not contain problematic characters"
+
+msgid "Cartographie des lieux dans les textes"
+msgstr "Mapping places in texts"
+
+msgid "Analyse de sentiments et cartographie des lieux dans les textes"
+msgstr "Sentiment analysis and place mapping in texts"
+
+msgid "pour"
+msgstr "for"
+
+msgid "permet d'extraire les entités de personnes d'un texte littéraire et visualiser les réseaux de personnages sous forme de graphes"
+msgstr "allows you to extract person entities from a literary text and visualize character networks in the form of graphs"
+
+msgid "fichier GEXF"
+msgstr "GEXF file"
+
+msgid "graphe PNG"
+msgstr "PNG graph"
+
+msgid "Télécharger le graphe"
+msgstr "Download the graph"
+
+msgid "Documentation de l'outil Renard"
+msgstr "Documentation of the Renard tool"
+
+msgid "L'outil"
+msgstr "The tool"
+
+msgid "Références"
+msgstr "References"
+
+msgid "Paramètres"
+msgstr "Parameters"
+
+msgid "Langue du texte"
+msgstr "Language of the text"
+
+msgid "Nombre minimal de mentions du personnage"
+msgstr "Minimum number of character mentions"
+
+msgid "Indéfini"
+msgstr "Undefined"
+
+msgid "Lettre"
+msgstr "Letter"
+
+msgid "Rapport"
+msgstr "Report"
+
+msgid "Titre du document"
+msgstr "Title of the document"
+
+msgid "Date de création"
+msgstr "Creation date"
+
+msgid "Langue du document"
+msgstr "Langage of the document"
+
+msgid "Corrections effectuées"
+msgstr "Corrections done"
+
+msgid "Système de traits d’union"
+msgstr "Hyphens system"
+
+msgid "Révision effectuée"
+msgstr "Revision done"
+
+msgid "Choisissez le type correspondant à la structure du texte. Le choix de <b>Poème</b> encodera votre texte avec des balises &lt;l&gt; et &lt;lg&gt;, qui signalent les vers et les couplets. Le choix de <b>Pièce de théâtre</b> encodera votre texte selon les séparations d'actes et de scènes et prendra comme un bloc les &lt;speaker&gt; et leur dialogue"
+msgstr "Choose the type that matches the structure of your text. Choosing <b>Poem</b> will encode your text with &lt;l&gt; and &lt;lg&gt; tags, which indicate verses and couplets. Choosing <b>Play</b> will encode your text according to the act and scene divisions and will take the &lt;speaker&gt; and their dialogue as a single block."
+
+msgid "Le choix de <b>Livre</b> encodera votre texte selon les chapitres, avec des &lt;div&gt; et les séparations de pages avec des &lt;pb&gt;. Le choix de <b>Lettre</b> encodera votre texte en prenant en compte les éléments tels que des date, salutations, signature, etc, avec notamment un &lt;opener&gt; et &lt;closer&gt;"
+msgstr "Choosing <b>Book</b> will encode your text according to chapters, with &lt;div&gt; and page separations with &lt;pb&gt;. Choosing <b>Letter</b> will encode your text taking into account elements such as dates, salutations, signatures, etc., including an &lt;opener&gt; and &lt;closer&gt;"
+
+msgid "Le choix de de <b>Rapport</b> encodera votre texte en section, avec des &lt;div&gt;, selon les numérotations par lettres, chiffres ou alphabets romans. Enfin, le choix de <b>Indéfini</b> encodera votre texte par paragraphe principalement, avec des &lt;p&gt;"
+msgstr "Choosing <b>Report</b> will encode your text in sections, with &lt;div&gt;, according to the numbering by letters, numbers or Roman alphabets. Finally, choosing <b>Indefinite</b> will encode your text mainly by paragraph, with &lt;p&gt;"
+
+msgid "Attribution et partage dans les mêmes conditions"
+msgstr "Attribution and sharing under the same conditions"
+
+msgid "Attribution mais pas de modification"
+msgstr "Attribution but no modification"
+
+msgid "Attribution mais pas d’utilisation commerciale"
+msgstr "Attribution but no commercial use"
+
+msgid "Attribution mais pas de modification ou d’utilisation commercial"
+msgstr "Attribution but no modification or commercial use"
+
+msgid "Attribution mais pas d’utilisation commerciale et partage dans les mêmes conditions"
+msgstr "Attribution but no commercial use and share-alike"
+
+msgid "Multilingue"
+msgstr "Multilingual"
+
+msgid "Fichiers"
+msgstr "Files"
+
+msgid "Formats possibles pour les fichiers d'entrée pour le NER seul :"
+msgstr "Possible formats for input files for NER alone:"
+
+msgid "Cette chaîne de traitement permet d'extraire les entités nommées de lieu dans un texte (numérisé ou non), puis de récupérer leurs coordonnées géographiques (Geopy) afin de les cartographier."
+msgstr "This processing pipeline extracts named location entities from a text (digitized or not), then retrieves their geographical coordinates (via Geopy) in order to map them."
+
+msgid "La chaîne de traitement peut prendre un certain temps en fonction de la taille<br> des fichiers et du nombre de fichiers à traiter"
+msgstr "The processing pipeline may take some time depending on the size<br> of the files and the number of files to process"
+
+msgid "La carte générée nécessite de télécharger les emplacements des entités<br> nommées de lieu pour être affichée"
+msgstr "The generated map requires downloading the locations of<br> named location entities in order to be displayed"
+
+msgid "Configuration ATR "
+msgstr "ATR Configuration"
+
+msgid "Configuration NER"
+msgstr "NER Configuration"
+
+msgid "Configuration outil 1"
+msgstr "Tool 1 Configuration"
+
+msgid "Configuration outil 2"
+msgstr "Tool 2 Configuration"
+
+msgid "Moteur de REN"
+msgstr "NER Engine"
+
+msgid "Fichier CSV des entités de lieu et leurs coordonnées"
+msgstr "CSV file of location entities and their coordinates"
+
+msgid "Télécharger les clusters triés"
+msgstr "Download sorted clusters"
+
+msgid "Aucun"
+msgstr "None"
+
+msgid "Détection automatique"
+msgstr "Automatic detection"
+
+msgid "caractères"
+msgstr "characters"
+
+msgid "Cet outil permet de faire de la correction orthographique, mais aussi d'aider dans les erreurs de conjugaison, grammaticales, etc"
+msgstr "This tool allows you to correct spelling, but also helps with conjugation errors, grammatical errors, etc"
+
+msgid "Cette tâche permet de rendre un texte plus accessible en adaptant sa complexité selon différents niveaux de lecture, allant du niveau CE2 (fin de primaire) jusqu'au niveau universitaire"
+msgstr "This task makes a text more accessible by adjusting its complexity according to different reading levels, ranging from CE2 (end of primary school) to university level"
+
+msgid "Pour cela, plusieurs techniques sont utilisées "
+msgstr "To do this, several techniques are used"
+
+msgid "La simplification lexicale, qui remplace les mots difficiles par des synonymes plus simples ou des expressions courantes"
+msgstr "Lexical simplification, which replaces difficult words with simpler synonyms or common expressions"
+
+msgid "Le raccourcissement des phrases longues et complexes pour faciliter la compréhension"
+msgstr "Shortening long and complex sentences to improve understanding"
+
+msgid "L'évaluation de la lisibilité à l'aide d'indices spécifiques, permettant de mesurer et d'ajuster la difficulté globale du texte"
+msgstr "Readability assessment using specific indices, allowing the measurement and adjustment of the overall text difficulty"
+
+msgid "L'objectif est d'obtenir un contenu clair et compréhensible, tout en respectant le sens et les informations essentielles, afin de toucher des publics très variés selon leurs capacités de lecture"
+msgstr "The goal is to produce clear and understandable content while preserving the meaning and essential information, in order to reach a wide range of audiences with varying reading abilities."
+
+msgid "Cet outil s'appuie sur des modèles de traduction automatiques pour convertir du texte ou de la parole d'une langue source vers une langue cible. Grâce à des algorithmes d'intelligence artificielle capables d'analyser le contexte, la structure et les nuances du message, il produit une traduction précise, naturelle et adaptée aux différents registres de langage"
+msgstr "This tool relies on automatic translation models to convert text or speech from a source language to a target language. Thanks to AI algorithms capable of analyzing the context, structure, and nuances of the message, it produces accurate, natural translations adapted to different language registers"
+
+msgid "Cet outil utilise des modèles d’intelligence artificielle entraînés sur de grandes quantités de texte pour produire des contenus à la demande. À partir d’une instruction ou d’un court message d’entrée, il analyse le contexte, comprend le sujet, puis génère une réponse complète et structurée, adaptée au style souhaité"
+msgstr "This tool uses artificial intelligence models trained on large amounts of text to produce content on demand. From an instruction or short input message, it analyzes the context, understands the subject, and then generates a complete, structured response adapted to the desired style"
+
+msgid "Grâce aux techniques de traitement du langage naturel, il peut créer rapidement des textes clairs, cohérents et sur mesure, que ce soit pour rédiger des descriptions, des articles, des emails ou d’autres contenus écrits. Facile à intégrer dans vos projets, il vous fait gagner du temps tout en garantissant une bonne qualité rédactionnelle"
+msgstr "Thanks to natural language processing techniques, it can quickly create clear, coherent, and customized texts, whether for writing descriptions, articles, emails, or other written content. Easy to integrate into your projects, it saves you time while ensuring good writing quality"
+
+msgid "Niveau cible"
+msgstr "Target level"
+
+msgid "Texte à ajuster"
+msgstr "Text to adjust"
+
+msgid "Texte ajusté"
+msgstr "Adjusted text"
+
+msgid "Ajuster le texte"
+msgstr "Adjust the text"
+
+msgid "Questions & Réponses"
+msgstr "Questions & Answers"
+
+msgid "Contexte"
+msgstr "Context"
+
+msgid "Obtenir une réponse"
+msgstr "Get an answer"
+
+msgid "Votre message"
+msgstr "Your message"
+
+msgid "Envoyer"
+msgstr "Send"
+
+msgid "Texte à traduire"
+msgstr "Text to translate"
+
+msgid "Langue source"
+msgstr "Source language"
+
+msgid "Langue cible"
+msgstr "Target language"
+
+msgid "Texte à traduire"
+msgstr "Text to translate"
+
+msgid "Traduire"
+msgstr "Translate"
+
+msgid "Texte traduit "
+msgstr "Translated text"
+
+msgid "Amorce de texte (prompt)"
+msgstr "Text prompt"
+
+msgid "Longueur maximale (tokens)"
+msgstr "Maximum length (tokens)"
+
+msgid "Générer le texte"
+msgstr "Generate text"
+
+msgid "Réponse "
+msgstr "Answer"
+
+msgid "Réponse trouvée"
+msgstr "Answer found"
+
+msgid "Début"
+msgstr "Beginning"
+
+msgid "Fin"
+msgstr "End"
+
+msgid "Texte généré"
+msgstr "Generated text"
+
+msgid "Modèle "
+msgstr "Model"
+
+msgid "Langues supportées "
+msgstr "Supported languages"
+
+msgid "Longueur : Entre 20 et 200 tokens"
+msgstr "Length: Between 20 and 200 tokens"
+
+msgid "Attention : Le modèle utilisé est assez lourd<br> donc le traitement peut être un peu long"
+msgstr "Please note: The model used is quite heavy<br> so processing may take a little while"
+
+msgid "46 langues (surtout langues occidentales)"
+msgstr "46 languages (mostly Western languages)"
+
+msgid "Primaire (env. 7-10 ans)"
+msgstr "Elementary (approx. 7-10 years old)"
+
+msgid "Collège (env. 11-14 ans)"
+msgstr "Middle school (approx. 11-14 years old)"
+
+msgid "Lycée (env. 15-18 ans)"
+msgstr "High school (approx. 15-18 years old)"
+
+msgid "L'outil propose un mode d’interaction dédié aux questions-réponses, reposant sur un modèle d’intelligence artificielle avancé"
+msgstr "The tool offers a dedicated question-and-answer interaction mode, based on an advanced artificial intelligence model"
+
+msgid "Ce mode vous permet de poser une question précise en langage naturel et d’obtenir une réponse claire, fiable et directement pertinente. Grâce à une analyse fine du contexte que vous fournissez, le modèle identifie les éléments importants et vous restitue une réponse structurée, concise et compréhensible, sans que vous ayez à effectuer de recherche complémentaire"
+msgstr "This mode allows you to ask a specific question in natural language and get a clear, reliable and directly relevant answer. Thanks to a detailed analysis of the context you provide, the model identifies the important elements and gives you a structured, concise and understandable answer, without you having to carry out additional research"
+
+msgid "Ainsi, que vous ayez besoin d’éclaircissements sur un sujet particulier, d’une explication rapide ou d’informations factuelles, l’outil répond efficacement à votre demande, en quelques instants seulement"
+msgstr "So, whether you need clarification on a particular topic, a quick explanation or factual information, the tool responds efficiently to your request, in just a few moments"
+
+msgid "Saisissez votre texte ici..."
+msgstr "Enter your text here..."
+
+msgid "Saisissez votre question ici..."
+msgstr "Enter your question here..."
+
+msgid "Afrique"
+msgstr "Africa"
+
+msgid "Amériques"
+msgstr "Americas"
+
+msgid "Asie du Sud et Sud-Est"
+msgstr "South and Southeast Asia"
+
+msgid "Asie de l’Est"
+msgstr "East Asia"
+
+msgid "Europe – Langues les plus répandues"
+msgstr "Europe – Most Widely Spoken Languages"
+
+msgid "Europe – Langues régionales ou moins répandues"
+msgstr "Europe – Regional or Less Common Languages"
+
+msgid "Langues construites"
+msgstr "Constructed Languages"
+
+msgid "Moyen-Orient et Asie centrale"
+msgstr "Middle East and Central Asia"
+
+# Translation
+
+msgid "Allemand-Anglais"
+msgstr "German-English"
+
+msgid "Allemand-Espagnol"
+msgstr "German-Spanish"
+
+msgid "Allemand-Français"
+msgstr "German-French"
+
+msgid "Allemand-Italien"
+msgstr "German-Italian"
+
+msgid "Anglais-Tchèque"
+msgstr "English-Czech"
+
+msgid "Anglais-Allemand"
+msgstr "English-German"
+
+msgid "Anglais-Espagnol"
+msgstr "English-Spanish"
+
+msgid "Anglais-Finnois"
+msgstr "English-Finnish"
+
+msgid "Anglais-Français"
+msgstr "English-French"
+
+msgid "Anglais-Hindi"
+msgstr "English-Hindi"
+
+msgid "Anglais-Italien"
+msgstr "English-Italian"
+
+msgid "Anglais-Russe"
+msgstr "English-Russian"
+
+msgid "Anglais-Suédois"
+msgstr "English-Swedish"
+
+msgid "Anglais-Vietnamien"
+msgstr "English-Vietnamese"
+
+msgid "Anglais-Chinois"
+msgstr "English-Chinese"
+
+msgid "Espagnol-Anglais"
+msgstr "Spanish-English"
+
+msgid "Espagnol-Français"
+msgstr "Spanish-French"
+
+msgid "Espagnol-Italien"
+msgstr "Spanish-Italian"
+
+msgid "Finnois-Anglais"
+msgstr "Finnish-English"
+
+msgid "Français-Allemand"
+msgstr "French-German"
+
+msgid "Français-Anglais"
+msgstr "French-English"
+
+msgid "Français-Espagnol"
+msgstr "French-Spanish"
+
+msgid "Italien-Anglais"
+msgstr "Italian-English"
+
+msgid "Polonais-Anglais"
+msgstr "Polish-English"
+
+msgid "Russe-Anglais"
+msgstr "Russian-English"
+
+msgid "Suédois-Anglais"
+msgstr "Swedish-English"
+
+# Languages
+
+msgid "Albanais"
+msgstr "Albanian"
+
+msgid "Allemand"
+msgstr "German"
+
+msgid "Anglais"
+msgstr "English"
+
+msgid "Arabe"
+msgstr "Arabic"
+
+msgid "Arménien"
+msgstr "Armenian"
+
+msgid "Birman"
+msgstr "Burmese"
+
+msgid "Biélorusse"
+msgstr "Belarusian"
+
+msgid "Bosniaque"
+msgstr "Bosnian"
+
+msgid "Bulgare"
+msgstr "Bulgarian"
+
+msgid "Chinois"
+msgstr "Chinese"
+
+msgid "Chinois Mandarin"
+msgstr "Mandarin Chinese"
+
+msgid "Chinois simplifié"
+msgstr "Simplified Chinese"
+
+msgid "Chinois simplifié (vertical)"
+msgstr "Simplified Chinese (vertical)"
+
+msgid "Chinois traditionnel"
+msgstr "Traditional Chinese"
+
+msgid "Chinois traditionnel (vertical)"
+msgstr "Traditional Chinese (vertical)"
+
+msgid "Corse"
+msgstr "Corsican"
+
+msgid "Coréen"
+msgstr "Korean"
+
+msgid "Coréen (vertical)"
+msgstr "Korean (vertical)"
+
+msgid "Croate"
+msgstr "Croatian"
+
+msgid "Danois"
+msgstr "Danish"
+
+msgid "Espagnol"
+msgstr "Spanish"
+
+msgid "Espagnol ancien"
+msgstr "Old Spanish"
+
+msgid "Espéranto"
+msgstr "Esperanto"
+
+msgid "Estonien"
+msgstr "Estonian"
+
+msgid "Filipinois"
+msgstr "Filipino"
+
+msgid "Finnois"
+msgstr "Finnish"
+
+msgid "Fraktur"
+msgstr "Fraktur"
+
+msgid "Francique (vieux haut allemand)"
+msgstr "Frankish (Old High German)"
+
+msgid "Français"
+msgstr "French"
+
+msgid "Galicien"
+msgstr "Galician"
+
+msgid "Gallois"
+msgstr "Welsh"
+
+msgid "Gaélique écossais"
+msgstr "Scottish Gaelic"
+
+msgid "Grec"
+msgstr "Greek"
+
+msgid "Grec ancien"
+msgstr "Ancient Greek"
+
+msgid "Géorgien"
+msgstr "Georgian"
+
+msgid "Géorgien ancien"
+msgstr "Old Georgian"
+
+msgid "Haïtien (créole)"
+msgstr "Haitian Creole"
+
+msgid "Hongrois"
+msgstr "Hungarian"
+
+msgid "Hébreu"
+msgstr "Hebrew"
+
+msgid "Indonésien"
+msgstr "Indonesian"
+
+msgid "Irlandais"
+msgstr "Irish"
+
+msgid "Islandais"
+msgstr "Icelandic"
+
+msgid "Italien"
+msgstr "Italian"
+
+msgid "Italien ancien"
+msgstr "Old Italian"
+
+msgid "Japonais"
+msgstr "Japanese"
+
+msgid "Japonais (vertical)"
+msgstr "Japanese (vertical)"
+
+msgid "Kirghiz"
+msgstr "Kyrgyz"
+
+msgid "Kurde (kurmandji)"
+msgstr "Kurdish (Kurmanji)"
+
+msgid "Laotien"
+msgstr "Lao"
+
+msgid "Letton"
+msgstr "Latvian"
+
+msgid "Lituanien"
+msgstr "Lithuanian"
+
+msgid "Luxembourgeois"
+msgstr "Luxembourgish"
+
+msgid "Macédonien"
+msgstr "Macedonian"
+
+msgid "Malais"
+msgstr "Malay"
+
+msgid "Mongol"
+msgstr "Mongolian"
+
+msgid "Norvégien"
+msgstr "Norwegian"
+
+msgid "Néerlandais"
+msgstr "Dutch"
+
+msgid "Népali"
+msgstr "Nepali"
+
+msgid "Occitan"
+msgstr "Occitan"
+
+msgid "Océanie"
+msgstr "Oceania"
+
+msgid "Oriya"
+msgstr "Odia (Oriya)"
+
+msgid "Ourdou"
+msgstr "Urdu"
+
+msgid "Ouzbek (cyrillique)"
+msgstr "Uzbek (Cyrillic)"
+
+msgid "Ouzbek (latin)"
+msgstr "Uzbek (Latin)"
+
+msgid "Pachto"
+msgstr "Pashto"
+
+msgid "Pendjabi"
+msgstr "Punjabi"
+
+msgid "Persan"
+msgstr "Persian"
+
+msgid "Polonais"
+msgstr "Polish"
+
+msgid "Portugais"
+msgstr "Portuguese"
+
+msgid "Roumain"
+msgstr "Romanian"
+
+msgid "Russe"
+msgstr "Russian"
+
+msgid "Serbe (cyrillique)"
+msgstr "Serbian (Cyrillic)"
+
+msgid "Serbe (latin)"
+msgstr "Serbian (Latin)"
+
+msgid "Singhalais"
+msgstr "Sinhala"
+
+msgid "Slovaque"
+msgstr "Slovak"
+
+msgid "Slovène"
+msgstr "Slovenian"
+
+msgid "Suédois"
+msgstr "Swedish"
+
+msgid "Syriaque"
+msgstr "Syriac"
+
+msgid "Tadjik"
+msgstr "Tajik"
+
+msgid "Tamoul"
+msgstr "Tamil"
+
+msgid "Tchèque"
+msgstr "Czech"
+
+msgid "Thaï"
+msgstr "Thai"
+
+msgid "Tibétain"
+msgstr "Tibetan"
+
+msgid "Turc"
+msgstr "Turkish"
+
+msgid "Télougou"
+msgstr "Telugu"
+
+msgid "Ukrainien"
+msgstr "Ukrainian"
+
+msgid "Vietnamien"
+msgstr "Vietnamese"

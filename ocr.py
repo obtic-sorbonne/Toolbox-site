@@ -28,8 +28,8 @@ def check_tesseract_setup():
             
         # List available languages
         langs = subprocess.run(['tesseract', '--list-langs'], capture_output=True, text=True)
-        print("Available languages:")
-        print(langs.stdout)
+        #print("Available languages:")
+        #print(langs.stdout)
         
         return True
     except Exception as e:
