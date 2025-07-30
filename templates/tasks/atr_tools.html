@@ -12,6 +12,11 @@
         <span class="rubrique-title"><h3>{{ _('Reconnaissance automatique de texte (ATR)') }}</h3></span>
         <span class="rubrique-text"><p>{{ _('Outil Tesseract pour les documents imprimés') }}</p></span>
       </div>
+      <div class="box-outil-accueil" onclick="window.location.href='{{ url_for('handwritten_text_recognition') }}'">
+        <div class="rubrique-icon"><img alt="Kraken" src="{{url_for('static', filename='img/icons/handwritten_text_recognition.png')}}"></div>
+        <span class="rubrique-title"><h3>{{ _("Reconnaissance de l'écriture manuscrite (HTR)") }}</h3></span>
+        <span class="rubrique-text"><p>{{ _('Outil Kraken pour les documents manuscrits') }}</p></span>
+      </div>
       <div class="box-outil-accueil" onclick="window.location.href='{{ url_for('speech_recognition') }}'">
         <div class="rubrique-icon"><img alt="Speech" src="{{url_for('static', filename='img/icons/speech_recognition.png')}}"></div>
         <span class="rubrique-title"><h3>{{ _('Reconnaissance automatique de discours (ASR)') }}</h3></span>

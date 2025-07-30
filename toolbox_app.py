@@ -319,6 +319,11 @@ def text_recognition():
     form = FlaskForm()
     return render_template('tools/text_recognition.html', form=form)
 
+@app.route('/handwritten_text_recognition')
+def handwritten_text_recognition():
+    form = FlaskForm()
+    return render_template('tools/handwritten_text_recognition.html', form=form)
+
 @app.route('/speech_recognition')
 def speech_recognition():
     form = FlaskForm()
@@ -555,6 +560,62 @@ def run_tesseract():
         return response
     return render_template('text_recognition.html', erreur=erreur)
 
+
+#----------- NUMERISATION KRAKEN -------------------
+def list_models(model_dir):
+    try:
+        return [f for f in os.listdir(model_dir) if f.endswith('.mlmodel') or f.endswith('.json')]
+    except Exception as e:
+        print(f"Erreur lecture modèles dans {model_dir} : {e}")
+        return []
+
+@app.route('/run_kraken', methods=["GET", "POST"])
+@stream_with_context
+def run_kraken():
+    import ocr
+    
+    erreur = None
+    model_base_dir = os.path.join(ROOT_FOLDER, 'kraken_models')
+    seg_model_dir = os.path.join(model_base_dir, 'seg_models')
+    ocr_model_dir = os.path.join(model_base_dir, 'ocr_models')
+
+    seg_models = list_models(seg_model_dir)
+    ocr_models = list_models(ocr_model_dir)
+
+    if request.method == 'POST':
+        try:
+            uploaded_files = request.files.getlist("krakenfiles")
+            seg_model_filename = request.form['segmodel']
+            ocr_model_filename = request.form['recomodel']
+
+            rand_name = generate_rand_name('kraken_')
+            up_folder = app.config['UPLOAD_FOLDER']
+
+            seg_model_path = os.path.join(seg_model_dir, seg_model_filename)
+            ocr_model_path = os.path.join(ocr_model_dir, ocr_model_filename)
+
+            # Concatène tous les textes reconnus dans un seul fichier texte
+            all_text = ""
+            for file in uploaded_files:
+                text = ocr.kraken_to_txt(
+                    uploaded_files=[file],
+                    model_seg=seg_model_path,
+                    model_ocr=ocr_model_path,
+                    rand_name=rand_name,
+                    ROOT_FOLDER=ROOT_FOLDER,
+                    UPLOAD_FOLDER=up_folder
+                )
+                all_text += text.strip() + "\n\n"
+
+            return Response(all_text, mimetype='text/plain',
+                            headers={"Content-Disposition": f"attachment; filename={rand_name}.txt"})
+
+        except Exception as e:
+            erreur = str(e)
+            print(f"Erreur dans run_kraken : {erreur}")
+
+    return render_template('text_recognition_kraken.html', erreur=erreur,
+                           seg_models=seg_models, ocr_models=ocr_models)
 
 #-------------- Reconnaissance de discours --------------
 

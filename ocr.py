@@ -167,3 +167,73 @@ def tesseract_to_txt(uploaded_files, model, model_bis, rand_name, ROOT_FOLDER, U
     except Exception as e:
         print(f"Error in tesseract_to_txt: {e}")
         raise
+
+
+def kraken_to_txt(uploaded_files, model_seg, model_ocr, rand_name, ROOT_FOLDER, UPLOAD_FOLDER):
+    try:
+        print(f"\n=== Starting Kraken OCR process ===")
+        print(f"Segmentation model: {model_seg}")
+        print(f"OCR model: {model_ocr}")
+
+        # Crée les dossiers nécessaires
+        root_path = Path(ROOT_FOLDER)
+        upload_path = root_path / UPLOAD_FOLDER
+        result_path = ensure_dir(upload_path / rand_name)
+
+        output_stream = StringIO()
+        supported_extensions = {'.jpg', '.jpeg', '.png', '.tiff', '.tif'}
+
+        for f in uploaded_files:
+            filename = secure_filename(f.filename)
+            file_path = Path(filename)
+            file_stem = file_path.stem
+            file_ext = file_path.suffix.lower()
+
+            if file_ext not in supported_extensions:
+                raise Exception(f"Unsupported file extension: {file_ext}")
+
+            # Sauvegarde du fichier
+            local_img_path = result_path / filename
+            f.save(str(local_img_path))
+            print(f"Saved image to: {local_img_path}")
+
+            # Chemin de sortie
+            out_filename = file_stem + ('.txt')
+            output_path = result_path / out_filename
+
+            try:
+                print(f"Running Kraken on {local_img_path}...")
+                result = subprocess.run([
+                    'kraken',
+                    '--input', str(local_img_path),
+                    str(output_path),
+                    'binarize',
+                    'segment',
+                    '--baseline',
+                    '--model', model_seg,
+                    'ocr',
+                    '--model', model_ocr
+                ], capture_output=True, text=True)
+
+                if result.returncode != 0:
+                    print(f"Kraken error: {result.stderr}")
+                    raise Exception(f"Kraken failed for {filename}: {result.stderr}")
+
+                if output_path.exists():
+                    with open(output_path, 'r', encoding='utf-8') as f_out:
+                        output_stream.write(f_out.read())
+                        output_stream.write('\n\n')
+                else:
+                    raise FileNotFoundError(f"Expected Kraken output not found: {output_path}")
+
+            except Exception as e:
+                print(f"Error processing {filename}: {e}")
+                raise
+
+        final_text = output_stream.getvalue()
+        output_stream.close()
+        return final_text
+
+    except Exception as e:
+        print(f"Error in kraken_to_txt: {e}")
+        raise
