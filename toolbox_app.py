@@ -716,6 +716,45 @@ def automatic_speech_recognition():
 
 #-------------- Nettoyage de texte -------------------------
 
+import re
+
+def remove_excessive_lines(text):
+    """
+    Removes empty lines and lines with only non-alphanumeric characters.
+    """
+    # Remove lines with only whitespace or weird characters
+    cleaned_lines = []
+    for line in text.splitlines():
+        # Keep line if it has at least one alphanumeric character
+        if re.search(r'\w', line):
+            cleaned_lines.append(line.strip())
+    # Join with single newline
+    return "\n".join(cleaned_lines)
+
+def fix_ocr_linebreaks(text):
+    paragraphs = []
+    current_para = []
+
+    for line in text.splitlines():
+        line = line.strip()
+        if line == "":
+            # empty line → paragraph break
+            if current_para:
+                paragraphs.append(" ".join(current_para))
+                current_para = []
+        else:
+            # remove hyphenated line breaks
+            line = re.sub(r'-\s*$', '', line)
+            current_para.append(line)
+    
+    # add last paragraph
+    if current_para:
+        paragraphs.append(" ".join(current_para))
+    
+    # join paragraphs with double line breaks
+    return "\n\n".join(paragraphs).strip()
+
+
 loaded_stopwords = {}
 
 def get_stopwords(language):
@@ -818,6 +857,18 @@ def removing_elements():
                 output_name = filename + '_lowercases_punctuation_stopwords.txt'
                 with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
                     out.write('The text in lowercases and without stopwords and punctuation is :\n"' + " ".join(lower_removing_punctuation_and_stopwords) + '"')
+            elif removing_type == 'remove_excessive_lines':
+                output_name = filename + '_cleanedlines.txt'
+                cleaned_text = remove_excessive_lines(input_text)
+                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
+                    out.write(cleaned_text)
+            elif removing_type == 'fix_ocr_linebreaks':
+                output_name = filename + '_ocrfixed.txt'
+                cleaned_text = remove_excessive_lines(input_text)
+                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
+                    out.write(cleaned_text)
+
+
 
 
 
