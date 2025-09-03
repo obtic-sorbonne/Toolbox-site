@@ -735,24 +735,35 @@ def fix_ocr_linebreaks(text):
     paragraphs = []
     current_para = []
 
-    for line in text.splitlines():
-        line = line.strip()
-        if line == "":
-            # empty line → paragraph break
+    # dash types
+    text = re.sub(r'[\u2010\u2011\u2012\u2013\u2014\u2212]', '-', text)
+
+    lines = text.splitlines()
+    i = 0
+    while i < len(lines):
+        line = lines[i].strip()
+        # Skip empty or garbage lines
+        if not line or not re.search(r'\w', line):
             if current_para:
                 paragraphs.append(" ".join(current_para))
                 current_para = []
+            i += 1
+            continue
+
+        # hyphens at end of line
+        if line.endswith('-') and i + 1 < len(lines):
+            next_line = lines[i + 1].strip()
+            # Join current line without hyphen + next line (no space)
+            current_para.append(line[:-1] + next_line)
+            i += 2  # skip next line since already joined
         else:
-            # remove hyphenated line breaks
-            line = re.sub(r'-\s*$', '', line)
-            current_para.append(line)
-    
-    # add last paragraph
+            current_para.append(line + " ")
+            i += 1
+
     if current_para:
-        paragraphs.append(" ".join(current_para))
-    
-    # join paragraphs with double line breaks
-    return "\n\n".join(paragraphs).strip()
+        paragraphs.append("".join(current_para).strip())
+
+    return "\n\n".join(paragraphs)
 
 
 loaded_stopwords = {}
@@ -801,13 +812,11 @@ def removing_elements():
     from nltk.tokenize import word_tokenize
 
     if 'files' not in request.files:
-        response = {"error": "No files part"}
-        return Response(json.dumps(response), status=400, mimetype='application/json')
+        return Response(json.dumps({"error": "No files part"}), status=400, mimetype='application/json')
 
     files = request.files.getlist('files')
     if not files or all(file.filename == '' for file in files):
-        response = {"error": "No selected files"}
-        return Response(json.dumps(response), status=400, mimetype='application/json')
+        return Response(json.dumps({"error": "No selected files"}), status=400, mimetype='application/json')
 
     removing_type = request.form['removing_type']
     selected_language = request.form['selected_language']
@@ -827,50 +836,29 @@ def removing_elements():
             lower_removing_stopwords = [token.lower() for token in tokens if token.lower() not in stop_words]
             removing_punctuation_and_stopwords = [token for token in keep_accented_only(tokens) if token.lower() not in stop_words]
             lower_removing_punctuation_and_stopwords = [token.lower() for token in keep_accented_only(tokens) if token.lower() not in stop_words]
-            filename, file_extension = os.path.splitext(f.filename)
 
-            if removing_type == 'punctuation':
-                output_name = filename + '_punctuation.txt'
-                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-                    out.write('The text without punctuation is :\n"' + " ".join(removing_punctuation) + '"')
-            elif removing_type == 'lowercases':
-                output_name = filename + '_lowercases.txt'
-                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-                    out.write('The text in lowercases is :\n"' + " ".join(lowercases) + '"')
-            elif removing_type == 'stopwords':
-                output_name = filename + '_stopwords.txt'
-                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-                    out.write('The text without stopwords is :\n"' + " ".join(removing_stopwords) + '"')
-            elif removing_type == 'lowercases_punctuation':
-                output_name = filename + '_lowercasespunctuation.txt'
-                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-                    out.write('The text in lowercases and without punctuation is :\n"' + " ".join(lower_removing_punctuation) + '"')
-            elif removing_type == 'lowercases_stopwords':
-                output_name = filename + '_lowercasesstopwords.txt'
-                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-                    out.write('The text in lowercases and without stopwords is :\n"' + " ".join(lower_removing_stopwords) + '"')
-            elif removing_type == 'punctuation_stopwords':
-                output_name = filename + '_punctuationstopwords.txt'
-                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-                    out.write('The text without punctuation and stopwords is :\n"' + " ".join(removing_punctuation_and_stopwords) + '"')
-            elif removing_type == 'lowercases_punctuation_stopwords':
-                output_name = filename + '_lowercases_punctuation_stopwords.txt'
-                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-                    out.write('The text in lowercases and without stopwords and punctuation is :\n"' + " ".join(lower_removing_punctuation_and_stopwords) + '"')
-            elif removing_type == 'remove_excessive_lines':
-                output_name = filename + '_cleanedlines.txt'
-                cleaned_text = remove_excessive_lines(input_text)
-                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-                    out.write(cleaned_text)
-            elif removing_type == 'fix_ocr_linebreaks':
-                output_name = filename + '_ocrfixed.txt'
-                cleaned_text = remove_excessive_lines(input_text)
-                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-                    out.write(cleaned_text)
+            # Map removing_type to actual processed text
+            processed_map = {
+                'punctuation': removing_punctuation,
+                'lowercases': lowercases,
+                'stopwords': removing_stopwords,
+                'lowercases_punctuation': lower_removing_punctuation,
+                'lowercases_stopwords': lower_removing_stopwords,
+                'punctuation_stopwords': removing_punctuation_and_stopwords,
+                'lowercases_punctuation_stopwords': lower_removing_punctuation_and_stopwords,
+                'remove_excessive_lines': remove_excessive_lines(input_text),
+                'fix_ocr_linebreaks': fix_ocr_linebreaks(input_text)
+            }
 
+            processed_text = processed_map.get(removing_type)
+            if isinstance(processed_text, list):
+                processed_text = " ".join(processed_text)
 
+            filename, _ = os.path.splitext(f.filename)
+            output_name = f"{filename}_{removing_type}.txt"
 
-
+            with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
+                out.write(processed_text)
 
         finally:
             f.close()
@@ -914,19 +902,16 @@ def get_nlp(language):
             return set()
     return loaded_nlp_models[language]
 
-
 @app.route('/normalize_text', methods=['POST'])
 def normalize_text():
     from nltk.tokenize import word_tokenize
 
     if 'files' not in request.files:
-        response = {"error": "No files part"}
-        return Response(json.dumps(response), status=400, mimetype='application/json')
+        return Response(json.dumps({"error": "No files part"}), status=400, mimetype='application/json')
 
     files = request.files.getlist('files')
     if not files or all(file.filename == '' for file in files):
-        response = {"error": "No selected files"}
-        return Response(json.dumps(response), status=400, mimetype='application/json')
+        return Response(json.dumps({"error": "No selected files"}), status=400, mimetype='application/json')
 
     normalisation_type = request.form['normalisation_type']
     selected_language = request.form['selected_language']
@@ -938,60 +923,52 @@ def normalize_text():
         try:
             input_text = f.read().decode('utf-8')
             tokens = word_tokenize(input_text)
-            tokens_lower = [token.lower() for token in word_tokenize(input_text)]
+            tokens_lower = [t.lower() for t in tokens]
             nlp = get_nlp(selected_language)
             lemmas = [token.lemma_ for token in nlp(input_text)]
             lemmas_lower = [token.lemma_.lower() for token in nlp(input_text)]
-            filename, file_extension = os.path.splitext(f.filename)
+            filename, _ = os.path.splitext(f.filename)
 
+            # just join items without prepended text
             if normalisation_type == 'tokens':
+                output_text = ", ".join(tokens)
                 output_name = filename + '_tokens.txt'
-                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-                    out.write("The tokens of the text are: " + ", ".join(tokens))
             elif normalisation_type == 'tokens_lower':
+                output_text = ", ".join(tokens_lower)
                 output_name = filename + '_tokenslower.txt'
-                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-                    out.write("The tokens (in lowercases) of the text are: " + ", ".join(tokens_lower))
             elif normalisation_type == 'lemmas':
+                output_text = ", ".join(lemmas)
                 output_name = filename + '_lemmas.txt'
-                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-                    out.write("The lemmas of the text are: " + ", ".join(lemmas))
             elif normalisation_type == 'lemmas_lower':
+                output_text = ", ".join(lemmas_lower)
                 output_name = filename + '_lemmaslower.txt'
-                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-                    out.write("The lemmas (in lowercases) of the text are: " + ", ".join(lemmas_lower))
             elif normalisation_type == 'tokens_lemmas':
+                output_text = ", ".join(tokens) + "\n\n" + ", ".join(lemmas)
                 output_name = filename + '_tokenslemmas.txt'
-                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-                    out.write("The tokens of the text are: " + ", ".join(tokens))
-                    out.write("\n\nThe lemmas of the text are: " + ", ".join(lemmas))
             elif normalisation_type == 'tokens_lemmas_lower':
+                output_text = ", ".join(tokens_lower) + "\n\n" + ", ".join(lemmas_lower)
                 output_name = filename + '_tokenslemmaslower.txt'
-                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-                    out.write("The tokens (in lowercases) of the text are: " + ", ".join(tokens_lower))
-                    out.write("\n\nThe lemmas (in lowercases) of the text are: " + ", ".join(lemmas_lower))
 
+            with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
+                out.write(output_text)
 
         finally:
             f.close()
 
-    response = create_zip_and_response(result_path, rand_name)
-    return response
+    return create_zip_and_response(result_path, rand_name)
+
 
 #-------------- Séparation de texte -------------------------
-
 @app.route('/split_text', methods=['POST'])
 def split_text():
     from nltk.tokenize import sent_tokenize
 
     if 'files' not in request.files:
-        response = {"error": "No files part"}
-        return Response(json.dumps(response), status=400, mimetype='application/json')
+        return Response(json.dumps({"error": "No files part"}), status=400, mimetype='application/json')
 
     files = request.files.getlist('files')
     if not files or all(file.filename == '' for file in files):
-        response = {"error": "No selected files"}
-        return Response(json.dumps(response), status=400, mimetype='application/json')
+        return Response(json.dumps({"error": "No selected files"}), status=400, mimetype='application/json')
 
     split_type = request.form['split_type']
 
@@ -1001,31 +978,28 @@ def split_text():
     for f in files:
         try:
             input_text = f.read().decode('utf-8')
-            sentences = nltk.sent_tokenize(input_text)
-            splitsentence = [sentence.strip() for sentence in sentences]
+            sentences = [s.strip() for s in sent_tokenize(input_text)]
             f.seek(0)
-            lines = f.readlines()
-            splitline = [line.decode('utf-8').strip() for line in lines]
-            filename, file_extension = os.path.splitext(f.filename)
-            
+            lines = [line.decode('utf-8').strip() for line in f.readlines()]
+            filename, _ = os.path.splitext(f.filename)
+
             if split_type == 'sentences':
+                output_text = "\n".join(sentences)
                 output_name = filename + '_sentences.txt'
-                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-                    out.write("The sentences of the text are: " + ",\n".join(splitsentence))
             elif split_type == 'lines':
+                output_text = "\n".join(lines)
                 output_name = filename + '_lines.txt'
-                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-                    out.write("The lines of the text are: " + ",\n".join(splitline))
             elif split_type == 'sentences_lines':
-                output_name = filename + '.txt'
-                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-                    out.write("The sentences of the text are: " + ",\n".join(splitsentence))
-                    out.write("\n\nThe lines of the text are: " + ",\n".join(splitline))
+                output_text = "\n".join(sentences) + "\n\n" + "\n".join(lines)
+                output_name = filename + '_sentences_lines.txt'
+
+            with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
+                out.write(output_text)
+
         finally:
             f.close()
 
-    response = create_zip_and_response(result_path, rand_name)
-    return response
+    return create_zip_and_response(result_path, rand_name)
 
 
 #-----------------------------------------------------------------
