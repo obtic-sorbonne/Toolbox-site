@@ -3832,6 +3832,11 @@ def highlight_corrections(text, matches):
         )
     return corrected_text
 
+def chunk_text(text, max_size=18000):
+    """Découpe le texte en morceaux compatibles avec l’API LanguageTool."""
+    for i in range(0, len(text), max_size):
+        yield text[i:i+max_size]
+
 
 @app.route('/autocorrect', methods=["GET", "POST"])
 def autocorrect():
@@ -3852,10 +3857,14 @@ def autocorrect():
     for f in files:
         try:
             input_text = f.read().decode('utf-8')
-            # Appel API LanguageTool
-            result_json = languagetool_check(input_text, selected_language)
-            matches = result_json.get('matches', [])
-            highlighted_corrected_text = highlight_corrections(input_text, matches)
+
+            highlighted_corrected_text = ""
+            # Découper en morceaux pour éviter l'erreur 413
+            for chunk in chunk_text(input_text):
+                result_json = languagetool_check(chunk, selected_language)
+                matches = result_json.get('matches', [])
+                corrected_chunk = highlight_corrections(chunk, matches)
+                highlighted_corrected_text += corrected_chunk
 
             filename, _ = os.path.splitext(f.filename)
             output_name = filename + '_corrected.txt'
