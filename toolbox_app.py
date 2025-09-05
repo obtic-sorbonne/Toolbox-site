@@ -319,6 +319,11 @@ def text_recognition():
     form = FlaskForm()
     return render_template('tools/text_recognition.html', form=form)
 
+@app.route('/handwritten_text_recognition')
+def handwritten_text_recognition():
+    form = FlaskForm()
+    return render_template('tools/handwritten_text_recognition.html', form=form)
+
 @app.route('/speech_recognition')
 def speech_recognition():
     form = FlaskForm()
@@ -556,6 +561,62 @@ def run_tesseract():
     return render_template('text_recognition.html', erreur=erreur)
 
 
+#----------- NUMERISATION KRAKEN -------------------
+def list_models(model_dir):
+    try:
+        return [f for f in os.listdir(model_dir) if f.endswith('.mlmodel') or f.endswith('.json')]
+    except Exception as e:
+        print(f"Erreur lecture modèles dans {model_dir} : {e}")
+        return []
+
+@app.route('/run_kraken', methods=["GET", "POST"])
+@stream_with_context
+def run_kraken():
+    import ocr
+    
+    erreur = None
+    model_base_dir = os.path.join(ROOT_FOLDER, 'kraken_models')
+    seg_model_dir = os.path.join(model_base_dir, 'seg_models')
+    ocr_model_dir = os.path.join(model_base_dir, 'ocr_models')
+
+    seg_models = list_models(seg_model_dir)
+    ocr_models = list_models(ocr_model_dir)
+
+    if request.method == 'POST':
+        try:
+            uploaded_files = request.files.getlist("krakenfiles")
+            seg_model_filename = request.form['segmodel']
+            ocr_model_filename = request.form['recomodel']
+
+            rand_name = generate_rand_name('kraken_')
+            up_folder = app.config['UPLOAD_FOLDER']
+
+            seg_model_path = os.path.join(seg_model_dir, seg_model_filename)
+            ocr_model_path = os.path.join(ocr_model_dir, ocr_model_filename)
+
+            # Concatène tous les textes reconnus dans un seul fichier texte
+            all_text = ""
+            for file in uploaded_files:
+                text = ocr.kraken_to_txt(
+                    uploaded_files=[file],
+                    model_seg=seg_model_path,
+                    model_ocr=ocr_model_path,
+                    rand_name=rand_name,
+                    ROOT_FOLDER=ROOT_FOLDER,
+                    UPLOAD_FOLDER=up_folder
+                )
+                all_text += text.strip() + "\n\n"
+
+            return Response(all_text, mimetype='text/plain',
+                            headers={"Content-Disposition": f"attachment; filename={rand_name}.txt"})
+
+        except Exception as e:
+            erreur = str(e)
+            print(f"Erreur dans run_kraken : {erreur}")
+
+    return render_template('text_recognition_kraken.html', erreur=erreur,
+                           seg_models=seg_models, ocr_models=ocr_models)
+
 #-------------- Reconnaissance de discours --------------
 
 # Variable globale pour stocker le modèle après le premier chargement
@@ -655,6 +716,56 @@ def automatic_speech_recognition():
 
 #-------------- Nettoyage de texte -------------------------
 
+import re
+
+def remove_excessive_lines(text):
+    """
+    Removes empty lines and lines with only non-alphanumeric characters.
+    """
+    # Remove lines with only whitespace or weird characters
+    cleaned_lines = []
+    for line in text.splitlines():
+        # Keep line if it has at least one alphanumeric character
+        if re.search(r'\w', line):
+            cleaned_lines.append(line.strip())
+    # Join with single newline
+    return "\n".join(cleaned_lines)
+
+def fix_ocr_linebreaks(text):
+    paragraphs = []
+    current_para = []
+
+    # dash types
+    text = re.sub(r'[\u2010\u2011\u2012\u2013\u2014\u2212]', '-', text)
+
+    lines = text.splitlines()
+    i = 0
+    while i < len(lines):
+        line = lines[i].strip()
+        # Skip empty or garbage lines
+        if not line or not re.search(r'\w', line):
+            if current_para:
+                paragraphs.append(" ".join(current_para))
+                current_para = []
+            i += 1
+            continue
+
+        # hyphens at end of line
+        if line.endswith('-') and i + 1 < len(lines):
+            next_line = lines[i + 1].strip()
+            # Join current line without hyphen + next line (no space)
+            current_para.append(line[:-1] + next_line)
+            i += 2  # skip next line since already joined
+        else:
+            current_para.append(line + " ")
+            i += 1
+
+    if current_para:
+        paragraphs.append("".join(current_para).strip())
+
+    return "\n\n".join(paragraphs)
+
+
 loaded_stopwords = {}
 
 def get_stopwords(language):
@@ -701,13 +812,11 @@ def removing_elements():
     from nltk.tokenize import word_tokenize
 
     if 'files' not in request.files:
-        response = {"error": "No files part"}
-        return Response(json.dumps(response), status=400, mimetype='application/json')
+        return Response(json.dumps({"error": "No files part"}), status=400, mimetype='application/json')
 
     files = request.files.getlist('files')
     if not files or all(file.filename == '' for file in files):
-        response = {"error": "No selected files"}
-        return Response(json.dumps(response), status=400, mimetype='application/json')
+        return Response(json.dumps({"error": "No selected files"}), status=400, mimetype='application/json')
 
     removing_type = request.form['removing_type']
     selected_language = request.form['selected_language']
@@ -727,38 +836,29 @@ def removing_elements():
             lower_removing_stopwords = [token.lower() for token in tokens if token.lower() not in stop_words]
             removing_punctuation_and_stopwords = [token for token in keep_accented_only(tokens) if token.lower() not in stop_words]
             lower_removing_punctuation_and_stopwords = [token.lower() for token in keep_accented_only(tokens) if token.lower() not in stop_words]
-            filename, file_extension = os.path.splitext(f.filename)
 
-            if removing_type == 'punctuation':
-                output_name = filename + '_punctuation.txt'
-                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-                    out.write('The text without punctuation is :\n"' + " ".join(removing_punctuation) + '"')
-            elif removing_type == 'lowercases':
-                output_name = filename + '_lowercases.txt'
-                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-                    out.write('The text in lowercases is :\n"' + " ".join(lowercases) + '"')
-            elif removing_type == 'stopwords':
-                output_name = filename + '_stopwords.txt'
-                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-                    out.write('The text without stopwords is :\n"' + " ".join(removing_stopwords) + '"')
-            elif removing_type == 'lowercases_punctuation':
-                output_name = filename + '_lowercasespunctuation.txt'
-                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-                    out.write('The text in lowercases and without punctuation is :\n"' + " ".join(lower_removing_punctuation) + '"')
-            elif removing_type == 'lowercases_stopwords':
-                output_name = filename + '_lowercasesstopwords.txt'
-                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-                    out.write('The text in lowercases and without stopwords is :\n"' + " ".join(lower_removing_stopwords) + '"')
-            elif removing_type == 'punctuation_stopwords':
-                output_name = filename + '_punctuationstopwords.txt'
-                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-                    out.write('The text without punctuation and stopwords is :\n"' + " ".join(removing_punctuation_and_stopwords) + '"')
-            elif removing_type == 'lowercases_punctuation_stopwords':
-                output_name = filename + '_lowercases_punctuation_stopwords.txt'
-                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-                    out.write('The text in lowercases and without stopwords and punctuation is :\n"' + " ".join(lower_removing_punctuation_and_stopwords) + '"')
+            # Map removing_type to actual processed text
+            processed_map = {
+                'punctuation': removing_punctuation,
+                'lowercases': lowercases,
+                'stopwords': removing_stopwords,
+                'lowercases_punctuation': lower_removing_punctuation,
+                'lowercases_stopwords': lower_removing_stopwords,
+                'punctuation_stopwords': removing_punctuation_and_stopwords,
+                'lowercases_punctuation_stopwords': lower_removing_punctuation_and_stopwords,
+                'remove_excessive_lines': remove_excessive_lines(input_text),
+                'fix_ocr_linebreaks': fix_ocr_linebreaks(input_text)
+            }
 
+            processed_text = processed_map.get(removing_type)
+            if isinstance(processed_text, list):
+                processed_text = " ".join(processed_text)
 
+            filename, _ = os.path.splitext(f.filename)
+            output_name = f"{filename}_{removing_type}.txt"
+
+            with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
+                out.write(processed_text)
 
         finally:
             f.close()
@@ -802,19 +902,16 @@ def get_nlp(language):
             return set()
     return loaded_nlp_models[language]
 
-
 @app.route('/normalize_text', methods=['POST'])
 def normalize_text():
     from nltk.tokenize import word_tokenize
 
     if 'files' not in request.files:
-        response = {"error": "No files part"}
-        return Response(json.dumps(response), status=400, mimetype='application/json')
+        return Response(json.dumps({"error": "No files part"}), status=400, mimetype='application/json')
 
     files = request.files.getlist('files')
     if not files or all(file.filename == '' for file in files):
-        response = {"error": "No selected files"}
-        return Response(json.dumps(response), status=400, mimetype='application/json')
+        return Response(json.dumps({"error": "No selected files"}), status=400, mimetype='application/json')
 
     normalisation_type = request.form['normalisation_type']
     selected_language = request.form['selected_language']
@@ -826,60 +923,52 @@ def normalize_text():
         try:
             input_text = f.read().decode('utf-8')
             tokens = word_tokenize(input_text)
-            tokens_lower = [token.lower() for token in word_tokenize(input_text)]
+            tokens_lower = [t.lower() for t in tokens]
             nlp = get_nlp(selected_language)
             lemmas = [token.lemma_ for token in nlp(input_text)]
             lemmas_lower = [token.lemma_.lower() for token in nlp(input_text)]
-            filename, file_extension = os.path.splitext(f.filename)
+            filename, _ = os.path.splitext(f.filename)
 
+            # just join items without prepended text
             if normalisation_type == 'tokens':
+                output_text = ", ".join(tokens)
                 output_name = filename + '_tokens.txt'
-                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-                    out.write("The tokens of the text are: " + ", ".join(tokens))
             elif normalisation_type == 'tokens_lower':
+                output_text = ", ".join(tokens_lower)
                 output_name = filename + '_tokenslower.txt'
-                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-                    out.write("The tokens (in lowercases) of the text are: " + ", ".join(tokens_lower))
             elif normalisation_type == 'lemmas':
+                output_text = ", ".join(lemmas)
                 output_name = filename + '_lemmas.txt'
-                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-                    out.write("The lemmas of the text are: " + ", ".join(lemmas))
             elif normalisation_type == 'lemmas_lower':
+                output_text = ", ".join(lemmas_lower)
                 output_name = filename + '_lemmaslower.txt'
-                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-                    out.write("The lemmas (in lowercases) of the text are: " + ", ".join(lemmas_lower))
             elif normalisation_type == 'tokens_lemmas':
+                output_text = ", ".join(tokens) + "\n\n" + ", ".join(lemmas)
                 output_name = filename + '_tokenslemmas.txt'
-                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-                    out.write("The tokens of the text are: " + ", ".join(tokens))
-                    out.write("\n\nThe lemmas of the text are: " + ", ".join(lemmas))
             elif normalisation_type == 'tokens_lemmas_lower':
+                output_text = ", ".join(tokens_lower) + "\n\n" + ", ".join(lemmas_lower)
                 output_name = filename + '_tokenslemmaslower.txt'
-                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-                    out.write("The tokens (in lowercases) of the text are: " + ", ".join(tokens_lower))
-                    out.write("\n\nThe lemmas (in lowercases) of the text are: " + ", ".join(lemmas_lower))
 
+            with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
+                out.write(output_text)
 
         finally:
             f.close()
 
-    response = create_zip_and_response(result_path, rand_name)
-    return response
+    return create_zip_and_response(result_path, rand_name)
+
 
 #-------------- Séparation de texte -------------------------
-
 @app.route('/split_text', methods=['POST'])
 def split_text():
     from nltk.tokenize import sent_tokenize
 
     if 'files' not in request.files:
-        response = {"error": "No files part"}
-        return Response(json.dumps(response), status=400, mimetype='application/json')
+        return Response(json.dumps({"error": "No files part"}), status=400, mimetype='application/json')
 
     files = request.files.getlist('files')
     if not files or all(file.filename == '' for file in files):
-        response = {"error": "No selected files"}
-        return Response(json.dumps(response), status=400, mimetype='application/json')
+        return Response(json.dumps({"error": "No selected files"}), status=400, mimetype='application/json')
 
     split_type = request.form['split_type']
 
@@ -889,31 +978,28 @@ def split_text():
     for f in files:
         try:
             input_text = f.read().decode('utf-8')
-            sentences = nltk.sent_tokenize(input_text)
-            splitsentence = [sentence.strip() for sentence in sentences]
+            sentences = [s.strip() for s in sent_tokenize(input_text)]
             f.seek(0)
-            lines = f.readlines()
-            splitline = [line.decode('utf-8').strip() for line in lines]
-            filename, file_extension = os.path.splitext(f.filename)
-            
+            lines = [line.decode('utf-8').strip() for line in f.readlines()]
+            filename, _ = os.path.splitext(f.filename)
+
             if split_type == 'sentences':
+                output_text = "\n".join(sentences)
                 output_name = filename + '_sentences.txt'
-                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-                    out.write("The sentences of the text are: " + ",\n".join(splitsentence))
             elif split_type == 'lines':
+                output_text = "\n".join(lines)
                 output_name = filename + '_lines.txt'
-                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-                    out.write("The lines of the text are: " + ",\n".join(splitline))
             elif split_type == 'sentences_lines':
-                output_name = filename + '.txt'
-                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-                    out.write("The sentences of the text are: " + ",\n".join(splitsentence))
-                    out.write("\n\nThe lines of the text are: " + ",\n".join(splitline))
+                output_text = "\n".join(sentences) + "\n\n" + "\n".join(lines)
+                output_name = filename + '_sentences_lines.txt'
+
+            with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
+                out.write(output_text)
+
         finally:
             f.close()
 
-    response = create_zip_and_response(result_path, rand_name)
-    return response
+    return create_zip_and_response(result_path, rand_name)
 
 
 #-----------------------------------------------------------------
@@ -3746,6 +3832,11 @@ def highlight_corrections(text, matches):
         )
     return corrected_text
 
+def chunk_text(text, max_size=18000):
+    """Découpe le texte en morceaux compatibles avec l’API LanguageTool."""
+    for i in range(0, len(text), max_size):
+        yield text[i:i+max_size]
+
 
 @app.route('/autocorrect', methods=["GET", "POST"])
 def autocorrect():
@@ -3766,10 +3857,14 @@ def autocorrect():
     for f in files:
         try:
             input_text = f.read().decode('utf-8')
-            # Appel API LanguageTool
-            result_json = languagetool_check(input_text, selected_language)
-            matches = result_json.get('matches', [])
-            highlighted_corrected_text = highlight_corrections(input_text, matches)
+
+            highlighted_corrected_text = ""
+            # Découper en morceaux pour éviter l'erreur 413
+            for chunk in chunk_text(input_text):
+                result_json = languagetool_check(chunk, selected_language)
+                matches = result_json.get('matches', [])
+                corrected_chunk = highlight_corrections(chunk, matches)
+                highlighted_corrected_text += corrected_chunk
 
             filename, _ = os.path.splitext(f.filename)
             output_name = filename + '_corrected.txt'

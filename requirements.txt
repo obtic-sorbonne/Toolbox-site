@@ -8,6 +8,7 @@ spacy==3.8.2
 scikit-learn==1.5.2
 gensim==4.3.3
 keybert==0.7.0
+kraken==5.3.0
 sentence-transformers==2.6.1
 torch==2.6.0
 flair==0.14.0

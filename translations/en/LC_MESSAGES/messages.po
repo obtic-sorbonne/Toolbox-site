@@ -117,17 +117,59 @@ msgstr "Digitisation"
 msgid "L'outil Tesseract"
 msgstr "Tesseract tool"
 
+msgid "L'outil Kraken"
+msgstr "Kraken tool"
+
 msgid "permet de numériser des imprimés"
 msgstr "facilitates digitisation of printed sources"
 
+msgid "permet de numériser des documents manuscrits"
+msgstr "facilitates digitisation of handwritten sources"
+
 msgid "Les modèles préentraînés"
 msgstr "Pretrained models"
+
+msgid "Les modèles disponibles"
+msgstr "Available models"
 
 msgid "liste ici"
 msgstr "list here"
 
 msgid "disponibles avec l'outil couvrent un large éventail de polices et sont disponibles pour de très nombreuses langues"
 msgstr "are available for many languages and fonts"
+
+msgid "offrent une variété d'options au regard de la structure de la mise en plage et du type d'écriture manuscrite"
+msgstr "offer a variety of options regarding the layout structure and handwriting type"
+
+msgid "Modèle de segmentation "
+msgstr "Segmentation Model"
+
+msgid "Modèle de reconnaissance de texte "
+msgstr "Text Recognition Model"
+
+msgid "Modèle général de segmentation pour l'imprimé et l'écriture manuscrite"
+msgstr "General segmentation model for print and handwriting"
+
+msgid "Modèle de segmentation pour les actes d'état civil"
+msgstr "Segmentation model for vital records"
+
+msgid "Modèle de segmentation pour les imprimés à deux colonnes"
+msgstr "Segmentation model for two-column prints"
+
+msgid "CATMuS Medieval - Documents latins, ancien et moyen français, espagnol, italien"
+msgstr "CATMuS Medieval - Latin, Old and Middle French, Spanish, Italian documents"
+
+msgid "CATMuS-Print - Imprimés français et d'autres langues d'Europe occidentale"
+msgstr "CATMuS-Print - French and other Western European language prints"
+
+msgid "OpenITI - Imprimés d'écriture arabe"
+msgstr "OpenITI - Arabic Script Prints"
+
+msgid "ManuMcFondue - Manuscrits de français moderne et contemporain"
+msgstr "ManuMcFondue - Modern and Contemporary French Manuscripts"
+
+msgid "McCATMuS - Documents manuscrits/imprimés/tapuscrits, XVIe-XXe s."
+msgstr "McCATMuS - Handwritten/Printed/Typescript Documents, 16th-20th Centuries"
 
 msgid "Vos fichiers apparaîtront une fois le traitement terminé."
 msgstr "Your files will appear once processing is complete."
@@ -1114,10 +1156,16 @@ msgid "Cette page répertorie divers outils qui peuvent être utilisées pour fa
 msgstr "This page lists various tools that can be used for automatic text recognition"
 
 msgid "Reconnaissance automatique de texte (ATR)"
-msgstr "Automatic text recognition (ATR)"
+msgstr "Automatic Text Recognition (ATR)"
 
 msgid "Outil Tesseract pour les documents imprimés"
 msgstr "Tesseract tool for printed documents"
+
+msgid "Reconnaissance de l'écriture manuscrite (HTR)"
+msgstr "Handwritten Text Recognition (HTR)"
+
+msgid "Outil Kraken pour les documents manuscrits"
+msgstr "Kraken tool for handwritten documents"
 
 msgid "Reconnaissance automatique de discours (ASR)"
 msgstr "Automatic speech recognition (ASR)"

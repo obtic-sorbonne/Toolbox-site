@@ -1,0 +1,126 @@
+{% extends "index.html" %}
+{% block header %} {{ super() }} {% endblock %}
+
+{% block content %}
+<style>
+  #tess-form{
+    padding:35px;
+    margin:20px auto;
+    /*background-color:rgba(221, 201, 180, .3);*/
+    width:800px;
+    text-align: center;
+  }
+
+  .dropzone{
+    margin:auto;
+    margin-top: 8px;
+  }
+
+  button{
+    display: block;
+    margin:auto;
+    margin-top: 8px;
+  }
+  
+  #add_model{
+    cursor:pointer;
+  }
+</style>
+
+<link rel="stylesheet" href="{{ url_for('static', filename= 'css/elements.css') }}">
+<div class="outil">
+  <div class="fil"><a href="{{ url_for('atr_tools')}}"><< {{ _('Retour aux tâches') }}</a></div>
+<h2>{{ _("Reconnaissance de l'écriture manuscrite (HTR)") }}</h2>
+
+<div class="tool-box">
+    <h4>Kraken HTR</h4>
+    <p>{{ _ ("L'outil Kraken") }} <a href="https://kraken.re/" target="_blank"><i class="fa-solid fa-arrow-up-right-from-square"></i></a> {{ _('permet de numériser des documents manuscrits')}}. {{ _('Les modèles disponibles') }} <a href="https://zenodo.org/communities/ocr_models/" target="_blank"> ({{ _('liste ici')}} <i class="fa-solid fa-arrow-up-right-from-square"></i>)</a> {{ _("offrent une variété d'options au regard de la structure de la mise en plage et du type d'écriture manuscrite")}}.</p>
+    <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_recognition') }}"  target="_blank">{{ _('Voir la documentation') }}</a></p>
+    <div class="infos_outil" style="display: block;margin: 0 auto 15px auto;">
+        <input id="show" type=checkbox><label for="show" class="infos_title"><i class="fa-solid fa-circle-info"></i> {{ _("Informations sur l'outil") }}<i class="fa-solid fa-angle-right" style="float:right;margin-top:5px;margin-left:15px;cursor: pointer;"></i></label></p>
+        <div class="info_popped"><p>Kraken version 5.3.0</p>
+      <p>{{ _("Formats d'entrée :")}} <i class="fa-regular fa-image"></i> PNG, JPG, TIFF, PDF</p>
+      <p>{{ _('Format généré :')}} <i class="fa-regular fa-file-lines"></i> {{ _('fichier TXT') }}</p>
+      <p>{{ _('Limite de taille ')}}: 150 Mo</p>
+      <p><i class="fa-solid fa-triangle-exclamation"></i> {{ _("Attention : Assurez-vous que les noms de vos fichiers d'entrée ne soient pas trop longs")}}<br>
+      {{ _("et ne contiennent pas de caractères problématiques")}} ([\/:*"&gt;&lt;|])</p>
+      </p></div>
+    </div>
+
+    <form action="{{ url_for('run_kraken') }}" id="tesseract-form" method="post" enctype="multipart/form-data" onsubmit="showloader('loader')">
+      {{ form.csrf_token }}
+      <div class="relations-input">
+      <label for="segmodel">{{ _("Modèle de segmentation ")}}:</label>
+        <select name="segmodel" required>
+                <option value="blla.mlmodel">{{ _("Modèle général de segmentation pour l'imprimé et l'écriture manuscrite") }}</option>
+                <option value="seg_vital_records.mlmodel">{{ _("Modèle de segmentation pour les actes d'état civil") }}</option>
+                <option value="seg_news_1.0.mlmodel">{{ _("Modèle de segmentation pour les imprimés à deux colonnes") }}</option>
+        </select>
+      </div>
+      <br><br>
+      <div class="relations-input">
+    <label for="recomodel">{{ _("Modèle de reconnaissance de texte ")}}:</label>
+    <select name="recomodel" required>
+            <option value="catmus-medieval-1.6.0.mlmodel">{{ _("CATMuS Medieval - Documents latins, ancien et moyen français, espagnol, italien")}}</option>
+            <option value="catmus-print-fondue-large.mlmodel">{{ _("CATMuS-Print - Imprimés français et d'autres langues d'Europe occidentale")}}</option>
+            <option value="all_arabic_scripts.mlmodel">{{ _("OpenITI - Imprimés d'écriture arabe")}}</option>
+            <option value="ManuMcFondue.mlmodel">{{ _("ManuMcFondue - Manuscrits de français moderne et contemporain")}}</option>
+            <option value="McCATMuS_nfd_nofix_V1.mlmodel">{{ _("McCATMuS - Documents manuscrits/imprimés/tapuscrits, XVIe-XXe s.")}}</option>
+    </select>
+  </div>
+  <br><br>
+      <div class="dropzone">
+        <input type="file" name="krakenfiles" id="krakenfiles" accept="image/jpeg,image/png,application/pdf,image/tif,image/tiff" multiple required onchange="fileValidation()">
+        <p id="form_msg">{{ _('Déposer le(s) fichier(s) ou cliquer ici.' )}}</p>
+      </div>
+      <input id="csrf_token" name="csrf_token" type="hidden" value="CSRF_TOKEN_STRING">
+      <button>{{ _('Numériser') }}</button>
+    </form>
+    </div>
+    <!-- Loader -->
+    <div class="loader">
+    <p>{{ _('Traitement en cours...') }}</p>
+    <p>{{ _('Vos fichiers apparaîtront une fois le traitement terminé.') }}</p>
+	  <div class="loadingio-spinner-ball-205vl2x7f7n"><div class="ldio-b8p5li8dt1u"><div></div></div></div>
+	  </div>
+	  <!--end div loader-->
+  </div><!-- end div tool-box-->
+</div>
+
+<span class="trigger-panel" onclick="openNav()">{{ _('Tâches suivantes')}}  <i class="fa-solid fa-angles-right"></i></span>
+
+<div id="task-panel-ocr" class="sidepanel">
+  <span class="closebtn" onclick="closeNav()">&times;</span>
+  <h3 style="font-family: 'Comprehension', serif;">{{ _('Tâches suivantes')}}</h3>
+  <div class="side-item"><a href="{{ url_for('conversion_xml') }}">{{ _('Convertir en XML-TEI') }}</a></div>
+  <div class="side-item"><a href="{{ url_for('named_entities_recognition') }}">{{ _('Extraire les entités nommées') }}</a></div>
+  <div class="side-item"><a href="{{ url_for('partofspeech_tagging') }}">{{ _('Étiqueter en parties du discours') }}</a></div>
+</div>
+
+<script>
+
+/* MAJ de la zone de glisser-déposer */ 
+ $(document).ready(function () {
+    $('#krakenfiles').change(function () {
+        var nb_files = this.files.length;
+        $('#form_msg').text(nb_files + " fichier(s) sélectionné(s)");
+
+        if (nb_files > 3) {
+            var num = nb_files - 3;
+            for (var i = 0; i < 3; i++) {
+                $('#form_msg').append('<br/><span class="filename_preview">' + this.files[i].name + '</span>');
+            }
+            $('#form_msg').append('<span class="filename_preview"> et ' + num + ' autres.</span>');
+        } else {
+            for (var i = 0; i < nb_files; i++) {
+                $('#form_msg').append('<br/><span class="filename_preview">' + this.files[i].name + '</span>');
+            }
+        }
+    });
+});
+
+
+</script>
+{% endblock %}
+
+{% block footer %} {{ super() }} {% endblock %}
