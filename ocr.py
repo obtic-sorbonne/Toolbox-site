@@ -36,13 +36,19 @@ def check_tesseract_setup():
         print(f"Tesseract setup check failed: {e}")
         return False
 
+
 def tesseract_to_txt(uploaded_files, model, model_bis, rand_name, ROOT_FOLDER, UPLOAD_FOLDER):
     try:
+        from pathlib import Path
+        from io import StringIO
+        import subprocess, glob, re
+        from werkzeug.utils import secure_filename
+
         # Debug information
         print(f"\n=== Starting OCR process ===")
         print(f"Model: {model}")
         print(f"Model bis: {model_bis}")
-        
+
         # Verify Tesseract setup
         if not check_tesseract_setup():
             raise Exception("Tesseract verification failed")
@@ -51,35 +57,34 @@ def tesseract_to_txt(uploaded_files, model, model_bis, rand_name, ROOT_FOLDER, U
         root_path = Path(ROOT_FOLDER)
         upload_path = root_path / UPLOAD_FOLDER
         result_path = ensure_dir(upload_path / rand_name)
-        
+
         # Extensions supported
         extensions = {'.jpg', '.jpeg', '.png', '.tiff', '.tif'}
-        
+
         output_stream = StringIO()
         print(f"Result path: {result_path}")
-        
+
         if model_bis:
             model = f"{model}+{model_bis}"
-            
+
         for f in uploaded_files:
             filename = secure_filename(f.filename)
             file_path = Path(filename)
-            file_stem = file_path.stem
+            file_stem = file_path.stem.replace('.', '_') # Avoid issues with multiple dots
             file_extension = file_path.suffix.lower()
-            
+
             print(f"\n=== Processing file: {filename} ===")
             print(f"Extension: {file_extension}")
-            
+
             if file_extension == '.pdf':
-                # Create temp directory for PDF processing
                 temp_dir = ensure_dir(upload_path / f"{file_stem}_temp")
                 pdf_path = temp_dir / filename
-                
+
                 # Save PDF
                 f.save(str(pdf_path))
                 print(f"Saved PDF to: {pdf_path}")
-                
-                # Convert to PNG
+
+                # Convert PDF to PNG
                 try:
                     print("Converting PDF to PNG...")
                     result = subprocess.run([
@@ -92,18 +97,17 @@ def tesseract_to_txt(uploaded_files, model, model_bis, rand_name, ROOT_FOLDER, U
                 except subprocess.CalledProcessError as e:
                     print(f"PDF conversion error output: {e.stderr}")
                     raise Exception(f"PDF conversion failed: {e}")
-                
-                # Process each PNG
+
                 png_files = sorted(
                     glob.glob(str(temp_dir / '*.png')),
                     key=lambda f: int(re.sub(r'\D', '', f)) if re.search(r'\d+', f) else 0
                 )
-                
+
                 print(f"Found {len(png_files)} PNG files to process")
                 for png_file in png_files:
                     png_path = Path(png_file)
                     output_base = png_path.with_suffix('')
-                    
+
                     try:
                         print(f"\nProcessing PNG: {png_path}")
                         result = subprocess.run([
@@ -113,28 +117,26 @@ def tesseract_to_txt(uploaded_files, model, model_bis, rand_name, ROOT_FOLDER, U
                             str(output_base)
                         ], capture_output=True, text=True, check=True)
                         print("Tesseract output:", result.stdout)
-                        
+
                         txt_path = output_base.with_suffix('.txt')
                         if not txt_path.exists():
                             raise FileNotFoundError(f"Tesseract output not found: {txt_path}")
-                            
+
                         with txt_path.open('r', encoding='utf-8') as ftxt:
                             output_stream.write(ftxt.read())
                             output_stream.write('\n\n')
-                            
+
                     except subprocess.CalledProcessError as e:
                         print(f"Tesseract error output: {e.stderr}")
                         raise Exception(f"OCR failed for {png_path}: {e}")
-                            
+
             elif file_extension in extensions:
-                # Process single image
                 image_path = result_path / filename
-                output_base = result_path / file_stem
-                
-                # Save image
+                output_base = result_path / file_stem  
+
                 f.save(str(image_path))
                 print(f"Saved image to: {image_path}")
-                
+
                 try:
                     print("Running Tesseract OCR...")
                     result = subprocess.run([
@@ -144,29 +146,30 @@ def tesseract_to_txt(uploaded_files, model, model_bis, rand_name, ROOT_FOLDER, U
                         str(output_base)
                     ], capture_output=True, text=True, check=True)
                     print("Tesseract output:", result.stdout)
-                    
+
                     txt_path = output_base.with_suffix('.txt')
                     if not txt_path.exists():
                         raise FileNotFoundError(f"Tesseract output not found: {txt_path}")
-                        
+
                     with txt_path.open('r', encoding='utf-8') as ftxt:
                         output_stream.write(ftxt.read())
                         output_stream.write('\n\n')
-                        
+
                 except subprocess.CalledProcessError as e:
                     print(f"Tesseract error output: {e.stderr}")
                     raise Exception(f"OCR failed for {filename}: {e}")
-            
+
             else:
                 raise Exception(f"Unsupported file extension: {file_extension}")
-        
+
         final_text = output_stream.getvalue()
         output_stream.close()
         return final_text
-        
+
     except Exception as e:
         print(f"Error in tesseract_to_txt: {e}")
         raise
+
 
 
 def kraken_to_txt(uploaded_files, model_seg, model_ocr, rand_name, ROOT_FOLDER, UPLOAD_FOLDER):
