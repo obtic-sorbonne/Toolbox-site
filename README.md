@@ -61,7 +61,7 @@ cd Toolbox-site
 
 - Il est nécessaire de [télécharger le paquet Swig](https://sourceforge.net/projects/swig/files/swig/swig-3.0.12/swig-3.0.12.tar.gz/download?use_mirror=netix). Pour l'installer, lancer :
 ```bash
-./swig-3.0.12/configure && make && sudo make install
+./swig/swig-3.0.12/configure && make && sudo make install
 ```
 
 - Installer les paquets nécessaires à l'exécution de l'application :
