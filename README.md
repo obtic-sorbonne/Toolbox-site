@@ -108,7 +108,7 @@ French version of this README : https://github.com/obtic-sorbonne/Toolbox-site/b
 -----
 ## Summary of this README
 * [Project presentation](https://github.com/obtic-sorbonne/Toolbox-site/blob/main/README.md#project-presentation)
-* [Content of the GitHub repository](https://github.com/obtic-sorbonne/Toolbox-site/blob/main/README_en.md#content-of-the-github-repository)
+* [Content of the GitHub repository](https://github.com/obtic-sorbonne/Toolbox-site/blob/main/README.md#content-of-the-github-repository)
 * [Docker Installation](https://github.com/obtic-sorbonne/Toolbox-site/blob/main/README.md#docker-installation)
 * [Pandore online](https://github.com/obtic-sorbonne/Toolbox-site/blob/main/README.md#pandore-online)
 * [Bibliography](https://github.com/obtic-sorbonne/Toolbox-site/blob/main/README.md#bibliography)
