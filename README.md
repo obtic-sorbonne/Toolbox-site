@@ -109,7 +109,7 @@ French version of this README : https://github.com/obtic-sorbonne/Toolbox-site/b
 ## Summary of this README
 * [Project presentation](https://github.com/obtic-sorbonne/Toolbox-site/blob/main/README_en.md#project-presentation)
 * [Content of the GitHub repository](https://github.com/obtic-sorbonne/Toolbox-site/blob/main/README_en.md#content-of-the-github-repository)
-* [Local installation (Linux / Mac)](https://github.com/obtic-sorbonne/Toolbox-site/blob/main/README_en.md#docker-installation-linux--mac--windows)
+* [Local installation (Linux / Mac)](https://github.com/obtic-sorbonne/Toolbox-site/blob/main/README_en.md#docker-installation)
 * [Pandore online](https://github.com/obtic-sorbonne/Toolbox-site/blob/main/README_en.md#pandore-online)
 * [Bibliography](https://github.com/obtic-sorbonne/Toolbox-site/blob/main/README_en.md#bibliography)
 * [Legal notices](https://github.com/obtic-sorbonne/Toolbox-site/blob/main/README_en.md#legal-notices)
@@ -143,7 +143,7 @@ These advances position Pandora as a versatile and effective tool for researcher
 
 -----
 
-## Docker Installation (Linux / Mac / Windows)
+## Docker Installation
 
 If you have never installed Python or other software, Docker completely simplifies installation. Pandora runs in a preconfigured container with all necessary packages.
 
@@ -159,6 +159,7 @@ If you have never installed Python or other software, Docker completely simplifi
 ```bash
 git clone https://github.com/obtic-scai/Toolbox-site.git
 cd Toolbox-site```
+
 
 ### 3. Build the Pandora Docker Image
 ```bash
@@ -185,12 +186,6 @@ docker run --rm -p 5000:5000 pandore-toolbox
 💡 Tip for advanced users: you can change the local port (5000) if the port is already in use, for example -p 8000:5000 to access http://localhost:8000
 
 ---
-
-## Pandora Online
-
-A demonstration version is available online: https://obtic-gpu1.mesu.sorbonne-universite.fr:8550/
-
------
 
 ## Pandore online
 
