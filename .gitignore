@@ -2,8 +2,8 @@
 ._.DS_Store
 **/.DS_Store
 **/._.DS_Store
-Dockerfile
 certificates/
 *.pem
 *.key
-Dockerfile
+Dockerfile_serveur
+nginx.conf
