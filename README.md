@@ -5,7 +5,7 @@
 ## Sommaire de ce README
 * [Présentation du projet](https://github.com/obtic-sorbonne/Toolbox-site/blob/main/README.md#présentation-du-projet)
 * [Contenu du dépôt GitHub](https://github.com/obtic-sorbonne/Toolbox-site/blob/main/README.md#contenu-du-dépôt-github)
-* [Installation locale (Linux / Mac)](https://github.com/obtic-sorbonne/Toolbox-site/blob/main/README.md#installation-locale-linux--mac)
+* [Installation locale](https://github.com/obtic-sorbonne/Toolbox-site/blob/main/README.md#installation-locale-linux--mac)
 * [Pandore en ligne](https://github.com/obtic-sorbonne/Toolbox-site/blob/main/README.md#pandore-en-ligne)
 * [Bibliographie](https://github.com/obtic-sorbonne/Toolbox-site/blob/main/README.md#bibliographie)
 * [Mentions légales](https://github.com/obtic-sorbonne/Toolbox-site/blob/main/README.md#mentions-légales)
@@ -14,7 +14,9 @@
 
 ## Présentation du projet
 Pandore est une boîte à outils conçue pour les chercheurs, les enseignants et les étudiants en sciences humaines et sociales, en particulier ceux qui n'ont pas de compétences techniques avancées en programmation. Elle permet aux utilisateurs de gérer efficacement leurs données grâce à des interfaces graphiques intuitives, leur permettant de collecter, préparer, convertir et analyser leurs données, d'extraire des informations pertinentes et de créer des visualisations interprétatives.   
+
 En s'appuyant sur les nombreux retours de la version bêta précédente, plusieurs améliorations ont été mises en œuvre, notamment la résolution de bugs identifiés et les améliorations de l'interface graphique pour améliorer l'expérience utilisateur. Des scripts Python interopérables et modulaires ont également été intégrés pour étendre les fonctionnalités de la plateforme. Des tutoriels ont été finalisés pour guider les utilisateurs dans la maîtrise des outils, et l'application a été déployée sur un serveur équipé d'un GPU pour optimiser les performances des tâches à forte intensité de calcul.   
+
 Ces avancées positionnent Pandore comme un outil polyvalent et efficace pour les chercheurs dans un large éventail de disciplines des sciences humaines et sociales. 
 
 ------
@@ -37,73 +39,42 @@ Ces avancées positionnent Pandore comme un outil polyvalent et efficace pour le
 
 -----
 
-## Installation locale (Linux / Mac)
-### Récupérer le dépôt GitHub
-- Créer un dossier ObTIC-Toolbox et ouvrir un terminal dans celui-ci.
+## Installation avec Docker (Linux / Mac / Windows)
+Si vous n'avez jamais installé Python ou d'autres logiciels, Docker simplifie totalement l'installation. Pandore fonctionne dans un conteneur préconfiguré avec tous les paquets nécessaires.
 
-- Cloner le répertoire Toobox-site :
+**1. Installer Docker**   
+- Linux / Mac / Windows : téléchargez et installez Docker Desktop depuis https://www.docker.com/get-started
+- Lancez l'application.
+  
+**2. Récupérer le dépôt GitHub**  
+- Après installation, ouvrez un terminal (ou PowerShell sous Windows).
+
 ```bash
 git clone https://github.com/obtic-scai/Toolbox-site.git
-```
-
-- Créer et activer un environnement virtuel (Python 3.6 et au-dessus) :
-```bash
-python3 -m venv toolbox-env
-source toolbox-env/bin/activate
-```
-
-- Se placer dans le répertoire Toolbox-site :
-```bash
 cd Toolbox-site
 ```
-
-### Installer les éléments nécessaires
-
-- Il est nécessaire de [télécharger le paquet Swig](https://sourceforge.net/projects/swig/files/swig/swig-3.0.12/swig-3.0.12.tar.gz/download?use_mirror=netix). Pour l'installer, lancer :
+**3. Construire l'image Docker de Pandore**
 ```bash
-./swig/swig-3.0.12/configure && make && sudo make install
+docker build -t pandore-toolbox .
 ```
 
-- Installer les paquets nécessaires à l'exécution de l'application :
-```bash
-pip install -r requirements.txt
-```
+- Cette commande télécharge Ubuntu, Miniconda, installe tous les paquets Python et spaCy, et crée une image Docker prête à l'emploi.
+⚠️ Cela peut prendre plusieurs minutes, selon votre connexion Internet et votre machine.
 
-- Finalement, il faut lancer :
-```bash
-chmod +x install.sh
-bash install.sh
-```
-
-Il se peut qu'il faille lancer les commandes suivantes : 
+**4. Lancer Pandore dans un conteneur Docker**
 
 ```bash
-pip install -U pip setuptools wheel
-pip install -U spacy
-python -m spacy download en_core_web_sm
-python -m spacy download fr_core_news_sm
-python -m spacy download fr_core_news_md
-python -m spacy download fr_core_news_lg
-python -m spacy download es_core_news_sm
-python -m spacy download de_core_news_sm
-python -m spacy download da_core_news_sm
-python -m spacy download nl_core_news_sm
-python -m spacy download fi_core_news_sm
-python -m spacy download it_core_news_sm
-python -m spacy download pt_core_news_sm
-python -m spacy download el_core_news_sm
-python -m spacy download ru_core_news_sm
+docker run --rm -p 5000:5000 pandore-toolbox
 ```
 
-### Lancer l'application
+- -p 5000:5000 signifie : le port 5000 dans le conteneur sera accessible depuis le port 5000 sur votre machine.
+- Accédez ensuite à Pandore dans votre navigateur à l'adresse : http://localhost:5000
 
-Placé dans le dossier Toolbox-site, lancer la commande :
+**5. Arrêter Pandore**   
+- Dans le terminal où Pandore tourne, appuyez sur CTRL+C pour arrêter le serveur.
+- Le conteneur sera automatiquement supprimé grâce à l’option --rm.
 
-```bash
-python3 toolbox_app.py
-```
-
-Ouvrir le lien http://127.0.0.1:5000 dans un navigateur pour accéder à l'interface de la Toolbox ObTIC.
+💡 Conseil pour les utilisateurs avancés : vous pouvez changer le port local (5000) si le port est déjà pris, par exemple -p 8000:5000 pour accéder à http://localhost:8000
 
 -----
 
@@ -138,7 +109,7 @@ French version of this README : https://github.com/obtic-sorbonne/Toolbox-site/b
 ## Summary of this README
 * [Project presentation](https://github.com/obtic-sorbonne/Toolbox-site/blob/main/README_en.md#project-presentation)
 * [Content of the GitHub repository](https://github.com/obtic-sorbonne/Toolbox-site/blob/main/README_en.md#content-of-the-github-repository)
-* [Local installation (Linux / Mac)](https://github.com/obtic-sorbonne/Toolbox-site/blob/main/README_en.md#local-installation-linux--mac)
+* [Local installation (Linux / Mac)](https://github.com/obtic-sorbonne/Toolbox-site/blob/main/README_en.md#docker-installation-linux--mac--windows)
 * [Pandore online](https://github.com/obtic-sorbonne/Toolbox-site/blob/main/README_en.md#pandore-online)
 * [Bibliography](https://github.com/obtic-sorbonne/Toolbox-site/blob/main/README_en.md#bibliography)
 * [Legal notices](https://github.com/obtic-sorbonne/Toolbox-site/blob/main/README_en.md#legal-notices)
@@ -146,9 +117,11 @@ French version of this README : https://github.com/obtic-sorbonne/Toolbox-site/b
 -----
 
 ## Project presentation
-Pandore is a toolkit designed for researchers, teachers, and students in the humanities and social sciences, in particular those without advanced technical coding skills. It enables users to efficiently manage their data through intuitive graphical interfaces, allowing them to collect, prepare, convert, and analyze their data, extract relevant insights, and create interpretive visualizations.   
-Building on extensive feedback from the previous beta version, several improvements have been implemented, including the resolution of identified bugs and enhancements to the graphical interface to improve user experience. Interoperable and modular Python scripts have also been integrated to extend the platform's functionalities. Tutorials have been finalized to guide users in mastering the tools, and the application has been deployed on a GPU-equipped server to optimize performance for computationally intensive tasks.   
-These advancements position Pandore as a versatile and effective tool for researchers across a diverse range of humanities and social science disciplines. 
+Pandora is a toolbox designed for researchers, teachers, and students in the humanities and social sciences, particularly those without advanced technical programming skills. It enables users to efficiently manage their data through intuitive graphical interfaces, allowing them to collect, prepare, convert, and analyze their data, extract relevant information, and create interpretive visualizations.
+
+Building on extensive feedback from the previous beta version, several improvements have been implemented, including the resolution of identified bugs and enhancements to the graphical interface to improve user experience. Interoperable and modular Python scripts have also been integrated to extend the platform's functionality. Tutorials have been finalized to guide users in mastering the tools, and the application has been deployed on a GPU-equipped server to optimize performance for computationally intensive tasks.
+
+These advances position Pandora as a versatile and effective tool for researchers across a wide range of humanities and social sciences disciplines.
 
 ------
 
@@ -170,73 +143,52 @@ These advancements position Pandore as a versatile and effective tool for resear
 
 -----
 
-## Local installation (Linux / Mac)
-### Retrieve the GitHub repository
-- Create a folder ObTIC-Toolbox and open a terminal in it.
+## Docker Installation (Linux / Mac / Windows)
 
-- Clone the Toolbox-site directory:
+If you have never installed Python or other software, Docker completely simplifies installation. Pandora runs in a preconfigured container with all necessary packages.
+
+### 1. Install Docker
+
+- Linux / Mac / Windows: download and install Docker Desktop from https://www.docker.com/get-started
+- Launch the application.
+
+### 2. Clone the GitHub Repository
+
+- After installation, open a terminal (or PowerShell on Windows).
+
 ```bash
 git clone https://github.com/obtic-scai/Toolbox-site.git
-```
+cd Toolbox-site```
 
-- Create and activate a virtual environment (Python 3.6 and above):
+### 3. Build the Pandora Docker Image
 ```bash
-python3 -m venv toolbox-env
-source toolbox-env/bin/activate
+docker build -t pandore-toolbox .
 ```
 
-- Place yourself in the directory Toolbox-site:
-```bash
-cd Toolbox-site
-```
+- This command downloads Ubuntu, Miniconda, installs all Python and spaCy packages, and creates a ready-to-use Docker image.
+⚠️ This may take several minutes, depending on your internet connection and machine.
 
-### Install the necessary elements
-
-- It is necessary to [download the Swig package](https://sourceforge.net/projects/swig/files/swig/swig-3.0.12/swig-3.0.12.tar.gz/download?use_mirror=netix). To install it, launch:
-```bash
-./swig-3.0.12/configure && make && sudo make install
-```
-
-- Install the packages needed to run the application:
-```bash
-pip install -r requirements.txt
-```
-
-- Finally, you have to launch:
-```bash
-chmod +x install.sh
-bash install.sh
-```
-
-You may need to run the following commands: 
+### 4. Launch Pandora in a Docker Container
 
 ```bash
-pip install -U pip setuptools wheel
-pip install -U spacy
-python -m spacy download en_core_web_sm
-python -m spacy download fr_core_news_sm
-python -m spacy download fr_core_news_md
-python -m spacy download fr_core_news_lg
-python -m spacy download es_core_news_sm
-python -m spacy download de_core_news_sm
-python -m spacy download da_core_news_sm
-python -m spacy download nl_core_news_sm
-python -m spacy download fi_core_news_sm
-python -m spacy download it_core_news_sm
-python -m spacy download pt_core_news_sm
-python -m spacy download el_core_news_sm
-python -m spacy download ru_core_news_sm
+docker run --rm -p 5000:5000 pandore-toolbox
 ```
 
-### Launch the application
+- -p 5000:5000 means: port 5000 in the container will be accessible from port 5000 on your machine.
+- Then access Pandora in your browser at: http://localhost:5000
 
-Placed in the Toolbox-site folder, run the command:
+### 5. Stop Pandora
 
-```bash
-python3 toolbox_app.py
-```
+- In the terminal where Pandora is running, press CTRL+C to stop the server.
+- The container will be automatically removed thanks to the --rm option.
 
-Open the link http://127.0.0.1:5000 in a browser to access the ObTIC Toolbox interface.
+💡 Tip for advanced users: you can change the local port (5000) if the port is already in use, for example -p 8000:5000 to access http://localhost:8000
+
+---
+
+## Pandora Online
+
+A demonstration version is available online: https://obtic-gpu1.mesu.sorbonne-universite.fr:8550/
 
 -----
 
