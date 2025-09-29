@@ -107,12 +107,12 @@ French version of this README : https://github.com/obtic-sorbonne/Toolbox-site/b
 
 -----
 ## Summary of this README
-* [Project presentation](https://github.com/obtic-sorbonne/Toolbox-site/blob/main/README_en.md#project-presentation)
+* [Project presentation](https://github.com/obtic-sorbonne/Toolbox-site/blob/main/README.md#project-presentation)
 * [Content of the GitHub repository](https://github.com/obtic-sorbonne/Toolbox-site/blob/main/README_en.md#content-of-the-github-repository)
-* [Local installation (Linux / Mac)](https://github.com/obtic-sorbonne/Toolbox-site/blob/main/README_en.md#docker-installation)
-* [Pandore online](https://github.com/obtic-sorbonne/Toolbox-site/blob/main/README_en.md#pandore-online)
-* [Bibliography](https://github.com/obtic-sorbonne/Toolbox-site/blob/main/README_en.md#bibliography)
-* [Legal notices](https://github.com/obtic-sorbonne/Toolbox-site/blob/main/README_en.md#legal-notices)
+* [Docker Installation](https://github.com/obtic-sorbonne/Toolbox-site/blob/main/README.md#docker-installation)
+* [Pandore online](https://github.com/obtic-sorbonne/Toolbox-site/blob/main/README.md#pandore-online)
+* [Bibliography](https://github.com/obtic-sorbonne/Toolbox-site/blob/main/README.md#bibliography)
+* [Legal notices](https://github.com/obtic-sorbonne/Toolbox-site/blob/main/README.md#legal-notices)
 
 -----
 
