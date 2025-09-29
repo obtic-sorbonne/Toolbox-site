@@ -42,12 +42,24 @@ Ces avancées positionnent Pandore comme un outil polyvalent et efficace pour le
 ## Installation avec Docker (Linux / Mac / Windows)
 Si vous n'avez jamais installé Python ou d'autres logiciels, Docker simplifie totalement l'installation. Pandore fonctionne dans un conteneur préconfiguré avec tous les paquets nécessaires.
 
+## Installation rapide 
+
+**1. Installer Docker**   
+- Linux / Mac / Windows : téléchargez et installez Docker Desktop depuis https://www.docker.com/get-started
+- Lancez l'application.
+- Ouvrez le Terminal de l'application et lancer :
+-   `docker pull ghcr.io/obtic-sorbonne/pandore-toolbox:latest`
+-   `docker run --rm -p 5000:5000  ghcr.io/obtic-sorbonne/pandore-toolbox:latest`
+
+## Installation longue 
+
 **1. Installer Docker**   
 - Linux / Mac / Windows : téléchargez et installez Docker Desktop depuis https://www.docker.com/get-started
 - Lancez l'application.
   
 **2. Récupérer le dépôt GitHub**  
-- Après installation, ouvrez un terminal (ou PowerShell sous Windows).
+
+- Ouvrez le Terminal de l'application et lancez :
 
 ```bash
 git clone https://github.com/obtic-scai/Toolbox-site.git
@@ -76,6 +88,76 @@ docker run --rm -p 5000:5000 pandore-toolbox
 - Le conteneur sera automatiquement supprimé grâce à l’option --rm.
 
 💡 Conseil pour les utilisateurs avancés : vous pouvez changer le port local (5000) si le port est déjà pris, par exemple -p 8000:5000 pour accéder à http://localhost:8000
+
+-----
+
+## Installation locale (venv)
+### Récupérer le dépôt GitHub
+- Créer un dossier ObTIC-Toolbox et ouvrir un terminal dans celui-ci.
+
+- Cloner le répertoire Toobox-site :
+```bash
+git clone https://github.com/obtic-scai/Toolbox-site.git
+```
+
+- Créer et activer un environnement virtuel (Python 3.6 et au-dessus) :
+```bash
+python3 -m venv toolbox-env
+source toolbox-env/bin/activate
+```
+
+- Se placer dans le répertoire Toolbox-site :
+```bash
+cd Toolbox-site
+```
+
+### Installer les éléments nécessaires
+
+- Il est nécessaire de [télécharger le paquet Swig](https://sourceforge.net/projects/swig/files/swig/swig-3.0.12/swig-3.0.12.tar.gz/download?use_mirror=netix). Pour l'installer, lancer :
+```bash
+./swig-3.0.12/configure && make && sudo make install
+```
+
+- Installer les paquets nécessaires à l'exécution de l'application :
+```bash
+pip install -r requirements.txt
+```
+
+- Finalement, il faut lancer :
+```bash
+chmod +x install.sh
+bash install.sh
+```
+
+Il se peut qu'il faille lancer les commandes suivantes : 
+
+```bash
+pip install -U pip setuptools wheel
+pip install -U spacy
+python -m spacy download en_core_web_sm
+python -m spacy download fr_core_news_sm
+python -m spacy download fr_core_news_md
+python -m spacy download fr_core_news_lg
+python -m spacy download es_core_news_sm
+python -m spacy download de_core_news_sm
+python -m spacy download da_core_news_sm
+python -m spacy download nl_core_news_sm
+python -m spacy download fi_core_news_sm
+python -m spacy download it_core_news_sm
+python -m spacy download pt_core_news_sm
+python -m spacy download el_core_news_sm
+python -m spacy download ru_core_news_sm
+```
+
+### Lancer l'application
+
+Placé dans le dossier Toolbox-site, lancer la commande :
+
+```bash
+python3 toolbox_app.py
+```
+
+Ouvrir le lien http://127.0.0.1:5000 dans un navigateur pour accéder à l'interface de la Toolbox ObTIC.
 
 -----
 
@@ -187,6 +269,78 @@ docker run --rm -p 5000:5000 pandore-toolbox
 - The container will be automatically removed thanks to the --rm option.
 
 💡 Tip for advanced users: you can change the local port (5000) if the port is already in use, for example -p 8000:5000 to access http://localhost:8000
+
+
+## Local installation (venv)
+
+### Retrieve the GitHub repository
+- Create a folder ObTIC-Toolbox and open a terminal in it.
+
+- Clone the Toolbox-site directory:
+```bash
+git clone https://github.com/obtic-scai/Toolbox-site.git
+```
+
+- Create and activate a virtual environment (Python 3.6 and above):
+```bash
+python3 -m venv toolbox-env
+source toolbox-env/bin/activate
+```
+
+- Place yourself in the directory Toolbox-site:
+```bash
+cd Toolbox-site
+```
+
+### Install the necessary elements
+
+- It is necessary to [download the Swig package](https://sourceforge.net/projects/swig/files/swig/swig-3.0.12/swig-3.0.12.tar.gz/download?use_mirror=netix). To install it, launch:
+```bash
+./swig-3.0.12/configure && make && sudo make install
+```
+
+- Install the packages needed to run the application:
+```bash
+pip install -r requirements.txt
+```
+
+- Finally, you have to launch:
+```bash
+chmod +x install.sh
+bash install.sh
+```
+
+You may need to run the following commands: 
+
+```bash
+pip install -U pip setuptools wheel
+pip install -U spacy
+python -m spacy download en_core_web_sm
+python -m spacy download fr_core_news_sm
+python -m spacy download fr_core_news_md
+python -m spacy download fr_core_news_lg
+python -m spacy download es_core_news_sm
+python -m spacy download de_core_news_sm
+python -m spacy download da_core_news_sm
+python -m spacy download nl_core_news_sm
+python -m spacy download fi_core_news_sm
+python -m spacy download it_core_news_sm
+python -m spacy download pt_core_news_sm
+python -m spacy download el_core_news_sm
+python -m spacy download ru_core_news_sm
+```
+
+### Launch the application
+
+Placed in the Toolbox-site folder, run the command:
+
+```bash
+python3 toolbox_app.py
+```
+
+Open the link http://127.0.0.1:5000 in a browser to access the ObTIC Toolbox interface.
+
+-----
 
 ---
 
