@@ -59,6 +59,7 @@ docker build -t pandore-toolbox .
 ```
 
 - Cette commande télécharge Ubuntu, Miniconda, installe tous les paquets Python et spaCy, et crée une image Docker prête à l'emploi.
+
 ⚠️ Cela peut prendre plusieurs minutes, selon votre connexion Internet et votre machine.
 
 **4. Lancer Pandore dans un conteneur Docker**
@@ -167,6 +168,7 @@ docker build -t pandore-toolbox .
 ```
 
 - This command downloads Ubuntu, Miniconda, installs all Python and spaCy packages, and creates a ready-to-use Docker image.
+
 ⚠️ This may take several minutes, depending on your internet connection and machine.
 
 ### 4. Launch Pandora in a Docker Container
