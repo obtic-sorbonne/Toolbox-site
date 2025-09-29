@@ -23,7 +23,6 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # === ARCHITECTURE-AWARE MINICONDA INSTALLATION ===
-# This is the key change. We check the build architecture and download the correct installer.
 ARG TARGETARCH
 RUN case ${TARGETARCH} in \
         "amd64") INSTALLER="Miniconda3-latest-Linux-x86_64.sh" ;; \
@@ -36,8 +35,7 @@ RUN case ${TARGETARCH} in \
 # Add conda to the system's PATH
 ENV PATH="/opt/conda/bin:${PATH}"
 
-# === NEW: ACCEPT ANACONDA TERMS OF SERVICE ===
-# This command accepts the ToS for the default channels, fixing the error.
+# === ACCEPT ANACONDA TERMS OF SERVICE ===
 RUN conda config --set always_yes yes --set changeps1 no && \
     conda tos accept --override-channels --channel https://repo.anaconda.com/pkgs/main && \
     conda tos accept --override-channels --channel https://repo.anaconda.com/pkgs/r
