@@ -159,13 +159,14 @@ If you have never installed Python or other software, Docker completely simplifi
 
 ```bash
 git clone https://github.com/obtic-scai/Toolbox-site.git
-cd Toolbox-site```
-
+cd Toolbox-site
+```
 
 ### 3. Build the Pandora Docker Image
 ```bash
 docker build -t pandore-toolbox .
 ```
+
 
 - This command downloads Ubuntu, Miniconda, installs all Python and spaCy packages, and creates a ready-to-use Docker image.
 
