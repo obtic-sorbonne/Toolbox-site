@@ -49,7 +49,7 @@ Si vous n'avez jamais installé Python ou d'autres logiciels, Docker simplifie t
 - Lancez l'application.
 - Ouvrez le Terminal de l'application et lancer :
 -   `docker pull ghcr.io/obtic-sorbonne/pandore-toolbox:latest`
--   `docker run --name pandore-toolbox -p 5000:5000 ghcr.io/obtic-sorbonne/pandore-toolbox:latest`
+-   `docker run --name pandore-toolbox -p --gpus all 5000:5000 ghcr.io/obtic-sorbonne/pandore-toolbox:latest`
 
 ## Installation longue 
 
@@ -77,7 +77,7 @@ docker build -t pandore-toolbox .
 **4. Lancer Pandore dans un conteneur Docker**
 
 ```bash
-docker run -p 5000:5000 pandore-toolbox
+docker run --gpus all -p 5000:5000 pandore-toolbox
 ```
 
 - -p 5000:5000 signifie : le port 5000 dans le conteneur sera accessible depuis le port 5000 sur votre machine.
@@ -239,7 +239,7 @@ If you have never installed Python or other software, Docker completely simplifi
 - Launch the application.
 - Open the application Terminal and run:
 -   `docker pull ghcr.io/obtic-sorbonne/pandore-toolbox:latest`
--   `docker run --name pandore-toolbox -p 5000:5000 ghcr.io/obtic-sorbonne/pandore-toolbox:latest`
+-   `docker run --name pandore-toolbox -p --gpus all 5000:5000 ghcr.io/obtic-sorbonne/pandore-toolbox:latest`
 
 ### Long installation
 
@@ -268,7 +268,7 @@ docker build -t pandore-toolbox .
 **4. Launch Pandore in a Docker container**
 
 ```bash
-docker run -p 5000:5000 pandore-toolbox
+docker run --gpus all -p 5000:5000 pandore-toolbox
 ```
 
 - -p 5000:5000 means: port 5000 in the container will be accessible from port 5000 on your machine.
