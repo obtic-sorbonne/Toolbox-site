@@ -40,6 +40,9 @@ COPY environment.yml .
 # Create environment
 RUN conda env create -f environment.yml && conda clean -afy
 
+# Activate env and install PyTorch with GPU
+RUN conda run -n toolbox_env pip install torch==2.6.0+cu121 torchvision==0.21.0+cu121 torchaudio==2.6.0+cu121 -f https://download.pytorch.org/whl/torch/
+
 SHELL ["conda", "run", "-n", "toolbox_env", "/bin/bash", "-c"]
 
 # Copy code
