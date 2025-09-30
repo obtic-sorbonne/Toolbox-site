@@ -43,6 +43,9 @@ RUN conda env create -f environment.yml && conda clean -afy
 # Activate env and install PyTorch with GPU
 RUN conda run -n toolbox_env pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
 
+# Install spaCy French model inside toolbox_env
+RUN conda run -n toolbox_env python -m spacy download fr_core_news_lg en_core_web_lg
+
 SHELL ["conda", "run", "-n", "toolbox_env", "/bin/bash", "-c"]
 
 # Copy code
