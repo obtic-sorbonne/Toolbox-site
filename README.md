@@ -49,7 +49,7 @@ Si vous n'avez jamais installé Python ou d'autres logiciels, Docker simplifie t
 - Lancez l'application.
 - Ouvrez le Terminal de l'application et lancer :
 -   `docker pull ghcr.io/obtic-sorbonne/pandore-toolbox:latest`
--   `docker run -p 5000:5000  ghcr.io/obtic-sorbonne/pandore-toolbox:latest`
+-   `docker run --name pandore-toolbox -p 5000:5000 ghcr.io/obtic-sorbonne/pandore-toolbox:latest`
 
 ## Installation longue 
 
@@ -239,7 +239,7 @@ If you have never installed Python or other software, Docker completely simplifi
 - Launch the application.
 - Open the application Terminal and run:
 -   `docker pull ghcr.io/obtic-sorbonne/pandore-toolbox:latest`
--   `docker run -p 5000:5000 ghcr.io/obtic-sorbonne/pandore-toolbox:latest`
+-   `docker run --name pandore-toolbox -p 5000:5000 ghcr.io/obtic-sorbonne/pandore-toolbox:latest`
 
 ### Long installation
 
