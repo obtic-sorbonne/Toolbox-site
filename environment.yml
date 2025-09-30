@@ -19,10 +19,12 @@ dependencies:
       - gensim==4.3.3
       - keybert==0.7.0
       - sentence-transformers==2.6.1
-      - torch==2.6.0
       - flair==0.14.0
       - langdetect==1.0.9
       - sentencepiece==0.2.0
+      - torch==2.6.0+cu121 -f https://download.pytorch.org/whl/torch/
+      - torchvision==0.21.0+cu121 -f https://download.pytorch.org/whl/torch/
+      - torchaudio==2.6.0+cu121 -f https://download.pytorch.org/whl/torch/
 
       # Data & traitement HTML
       - numpy==1.26.4
