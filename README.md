@@ -49,7 +49,7 @@ Si vous n'avez jamais installé Python ou d'autres logiciels, Docker simplifie t
 - Lancez l'application.
 - Ouvrez le Terminal de l'application et lancer :
 -   `docker pull ghcr.io/obtic-sorbonne/pandore-toolbox:latest`
--   `docker run --rm -p 5000:5000  ghcr.io/obtic-sorbonne/pandore-toolbox:latest`
+-   `docker run -p 5000:5000  ghcr.io/obtic-sorbonne/pandore-toolbox:latest`
 
 ## Installation longue 
 
@@ -77,7 +77,7 @@ docker build -t pandore-toolbox .
 **4. Lancer Pandore dans un conteneur Docker**
 
 ```bash
-docker run --rm -p 5000:5000 pandore-toolbox
+docker run -p 5000:5000 pandore-toolbox
 ```
 
 - -p 5000:5000 signifie : le port 5000 dans le conteneur sera accessible depuis le port 5000 sur votre machine.
@@ -92,6 +92,9 @@ docker run --rm -p 5000:5000 pandore-toolbox
 -----
 
 ## Installation locale (venv)
+
+### Télécharger Python
+- Assurez-vous d'avoir installé Python sur votre machine (Python 3.6 et au-dessus). 
 ### Récupérer le dépôt GitHub
 - Créer un dossier ObTIC-Toolbox et ouvrir un terminal dans celui-ci.
 
@@ -100,7 +103,7 @@ docker run --rm -p 5000:5000 pandore-toolbox
 git clone https://github.com/obtic-scai/Toolbox-site.git
 ```
 
-- Créer et activer un environnement virtuel (Python 3.6 et au-dessus) :
+- Créer et activer un environnement virtuel :
 ```bash
 python3 -m venv toolbox-env
 source toolbox-env/bin/activate
@@ -226,75 +229,86 @@ These advances position Pandora as a versatile and effective tool for researcher
 
 -----
 
-## Docker Installation
+## Docker Installation (Linux / Mac / Windows)
+If you have never installed Python or other software, Docker completely simplifies installation. Pandore runs in a preconfigured container with all necessary packages.
 
-If you have never installed Python or other software, Docker completely simplifies installation. Pandora runs in a preconfigured container with all necessary packages.
+### Quick installation
 
-### 1. Install Docker
+**1. Install Docker**
+- Linux / Mac / Windows: download and install Docker Desktop from https://www.docker.com/get-started
+- Launch the application.
+- Open the application Terminal and run:
+-   `docker pull ghcr.io/obtic-sorbonne/pandore-toolbox:latest`
+-   `docker run -p 5000:5000 ghcr.io/obtic-sorbonne/pandore-toolbox:latest`
 
+### Long installation
+
+**1. Install Docker**
 - Linux / Mac / Windows: download and install Docker Desktop from https://www.docker.com/get-started
 - Launch the application.
 
-### 2. Clone the GitHub Repository
+**2. Clone the GitHub repository**
 
-- After installation, open a terminal (or PowerShell on Windows).
+- Open the application Terminal and run:
 
 ```bash
 git clone https://github.com/obtic-scai/Toolbox-site.git
 cd Toolbox-site
 ```
 
-### 3. Build the Pandora Docker Image
+**3. Build the Pandore Docker image**
 ```bash
 docker build -t pandore-toolbox .
 ```
-
 
 - This command downloads Ubuntu, Miniconda, installs all Python and spaCy packages, and creates a ready-to-use Docker image.
 
 ⚠️ This may take several minutes, depending on your internet connection and machine.
 
-### 4. Launch Pandora in a Docker Container
+**4. Launch Pandore in a Docker container**
 
 ```bash
-docker run --rm -p 5000:5000 pandore-toolbox
+docker run -p 5000:5000 pandore-toolbox
 ```
 
 - -p 5000:5000 means: port 5000 in the container will be accessible from port 5000 on your machine.
-- Then access Pandora in your browser at: http://localhost:5000
+- Then access Pandore in your browser at: http://localhost:5000
 
-### 5. Stop Pandora
-
-- In the terminal where Pandora is running, press CTRL+C to stop the server.
+**5. Stop Pandore**
+- In the terminal where Pandore is running, press CTRL+C to stop the server.
 - The container will be automatically removed thanks to the --rm option.
 
 💡 Tip for advanced users: you can change the local port (5000) if the port is already in use, for example -p 8000:5000 to access http://localhost:8000
 
+-----
 
 ## Local installation (venv)
 
-### Retrieve the GitHub repository
+### Download Python
+- Make sure you have Python installed on your machine (Python 3.6 and above).
+
+### Clone the GitHub repository
 - Create a folder ObTIC-Toolbox and open a terminal in it.
 
-- Clone the Toolbox-site directory:
+- Clone the Toolbox-site repository:
 ```bash
 git clone https://github.com/obtic-scai/Toolbox-site.git
 ```
 
-- Create and activate a virtual environment (Python 3.6 and above):
+- Create and activate a virtual environment:
 ```bash
 python3 -m venv toolbox-env
 source toolbox-env/bin/activate
 ```
 
-- Place yourself in the directory Toolbox-site:
+- Navigate to the Toolbox-site directory:
 ```bash
 cd Toolbox-site
 ```
 
 ### Install the necessary elements
 
-- It is necessary to [download the Swig package](https://sourceforge.net/projects/swig/files/swig/swig-3.0.12/swig-3.0.12.tar.gz/download?use_mirror=netix). To install it, launch:
+- It is necessary to [download the Swig package](https://sourceforge.net/projects/swig/files/swig/swig-3.0.12/swig-3.0.12.tar.gz/download?use_mirror=netix). To install it, run:
 ```bash
 ./swig-3.0.12/configure && make && sudo make install
 ```
@@ -304,13 +318,13 @@ cd Toolbox-site
 pip install -r requirements.txt
 ```
 
-- Finally, you have to launch:
+- Finally, you need to run:
 ```bash
 chmod +x install.sh
 bash install.sh
 ```
 
-You may need to run the following commands: 
+You may need to run the following commands:
 
 ```bash
 pip install -U pip setuptools wheel
@@ -332,15 +346,13 @@ python -m spacy download ru_core_news_sm
 
 ### Launch the application
 
-Placed in the Toolbox-site folder, run the command:
+From the Toolbox-site folder, run the command:
 
 ```bash
 python3 toolbox_app.py
 ```
 
 Open the link http://127.0.0.1:5000 in a browser to access the ObTIC Toolbox interface.
-
------
 
 ---
 
