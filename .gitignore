@@ -1,9 +1,24 @@
+# macOS
 .DS_Store
 ._.DS_Store
 **/.DS_Store
 **/._.DS_Store
+
+# Sensitive - SSL certificates
 certificates/
 *.pem
 *.key
+
+# User data
+uploads/
+__pycache__/
+*.pyc
+*.pyo
+*.log
+
+# Environment
+.env
+.env.local
+
 Dockerfile_serveur
 nginx.conf
