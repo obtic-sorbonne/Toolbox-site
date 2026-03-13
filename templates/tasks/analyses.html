@@ -17,11 +17,6 @@
       <span class="rubrique-title"><h3>{{ _("Analyse statistique") }}</h3></span>
       <span class="rubrique-text"><p>{{ _("Longueur moyenne des phrases") }}, {{ _("Fréquence de mots") }}, {{ _("Co-occurrences") }}</p></span>
     </div>
-    <div class="box-outil-accueil" onclick="window.location.href='{{ url_for('lexical_analysis') }}'">
-      <div class="rubrique-icon"><img alt="Analyse lexicale" src="{{ url_for('static', filename='img/icons/analyse-lexicale.png')}}" width="100%"></div>
-      <span class="rubrique-title"><h3>{{ _("Analyse lexicale") }}</h3></span>
-      <span class="rubrique-text"><p>{{ _("Dispersion lexicale") }}, {{ _("Diversité lexicale") }}, {{ _("Spécificités lexicales") }}</p></span>
-    </div>
     <div class="box-outil-accueil" onclick="window.location.href='{{ url_for('text_analysis') }}'">
       <div class="rubrique-icon"><img alt="Analyse de texte" src="{{ url_for('static', filename='img/icons/analyse-de-texte.png')}}" width="100%"></div>
       <span class="rubrique-title"><h3>{{ _("Analyse de texte") }}</h3></span>
@@ -31,16 +26,6 @@
       <div class="rubrique-icon"><img alt="Comparaison" src="{{ url_for('static', filename='img/icons/comparison.png')}}" width="100%"></div>
       <span class="rubrique-title"><h3>{{ _("Comparaison") }}</h3></span>
       <span class="rubrique-text"><p>{{ _("Comparaison de textes") }}</p></span>
-    </div>
-    <div class="box-outil-accueil" onclick="window.location.href='{{ url_for('embeddings') }}'">
-      <div class="rubrique-icon"><img alt="Embeddings" src="{{ url_for('static', filename='img/icons/cluster.png')}}" width="100%"></div>
-      <span class="rubrique-title"><h3>{{ _("Embeddings") }}</h3></span>
-      <span class="rubrique-text"><p>{{ _("Similarités") }}, Relations, Clustering</p></span>
-    </div>
-    <div class="box-outil-accueil" onclick="window.location.href='{{ url_for('lexical_relationship') }}'">
-      <div class="rubrique-icon"><img alt="Analyse lexicale" src="{{ url_for('static', filename='img/icons/relations-lexicales.png')}}" width="100%"></div>
-      <span class="rubrique-title"><h3>{{ _("Relations lexicales") }}</h3></span>
-      <span class="rubrique-text"><p>{{ _("Synonymes") }}, {{ _("Antonymes") }}, {{ _("Hyponymes") }}, {{ _("Hyperonymes") }}, {{ _("Méronymes") }}, {{ _("Holonymes") }}</p></span>
     </div>
   </div>
     <br>

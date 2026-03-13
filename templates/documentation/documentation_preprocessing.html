@@ -26,6 +26,29 @@
 	 <div style="text-align: left;"><a href="{{ url_for('documentation_recognition')}}" style="color:#f2a800; text-decoration:none;"><< {{ _('Documentation précédente') }}</a></div>
     <div style="text-align: right;"><a href="{{ url_for('documentation_conversion')}}" style="color:#f2a800; text-decoration:none;">{{ _('Documentation suivante') }} >></a></div>
     <div class="tool-box">
+        <h2>{{ _("Correction des erreurs orthographiques") }}</h2>
+        <p>
+            {{ _("La correction des erreurs est une autre dimension importante, qui intervient lorsque des mots sont mal écrits ou mal reconnus, que ce soit dans des textes anciens ou modernes") }}.
+        </p>
+        <h4>{{ _("Méthodes de correction ") }}:</h4>
+        <ul>
+            <li>
+                {{ _("<strong>Proximité orthographique</strong> : Identifier les mots proches en termes de distance d'édition. Par exemple ") }}:
+                <ul>
+                    <li>{{ _("Mot erroné : 'graffe'") }}</li>
+                    <li>{{ _("Suggestions : 'giraffe' (diffère par une seule lettre, donc plus probable), 'grail', 'graf'") }}.</li>
+                </ul>
+            </li>
+            <li>
+                {{ _("<strong>Approches contextuelles</strong> : Les modèles modernes, comme ceux basés sur les transformateurs, utilisent le contexte pour proposer des corrections plus pertinentes") }}.
+            </li>
+        </ul>
+        <h4>Applications :</h4>
+        <ul>
+            <li>{{ _("Correction automatique dans des éditeurs de texte") }}.</li>
+            <li>{{ _("Prétraitement dans des projets d'analyse textuelle ou de reconnaissance de texte (OCR)") }}.</li>
+        </ul>
+        <hr>
         <h2>{{ _("Nettoyage de texte") }}</h2>
         <p>
             {{ _("Dans le traitement automatique du langage naturel (NLP), plusieurs techniques de prétraitement du texte permettent de simplifier et d'homogénéiser les données textuelles, facilitant ainsi leur analyse et leur exploitation par des algorithmes") }}.

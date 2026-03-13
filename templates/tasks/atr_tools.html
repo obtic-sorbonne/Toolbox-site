@@ -3,6 +3,7 @@
 
 {% block content %}
   <div class="selection">
+    <div style="text-align: left;"><a href="{{ url_for('corpus_collection')}}" style="color:#f2a800; text-decoration:none;"><< {{ _('Tâche précédente') }}</a></div>
     <div style="text-align: right;"><a href="{{ url_for('preprocessing')}}" style="color:#f2a800; text-decoration:none;">{{ _('Tâche suivante') }} >></a></div>
     <h2>{{ _('Outils de reconnaissance automatique de texte') }}</h2>
     <p style="text-align: center;">{{ _("Cette page répertorie divers outils qui peuvent être utilisées pour faire de la reconnaissance automatique de textes") }}.</p>
@@ -22,7 +23,7 @@
         <span class="rubrique-title"><h3>{{ _('Reconnaissance automatique de discours (ASR)') }}</h3></span>
         <span class="rubrique-text"><p>{{ _('Outil Whisper pour les fichiers audio et vidéo') }}</p></span>
       </div>
-      <div class="box-outil-accueil" onclick="window.open('https://obtic-gpu1.mesu.sorbonne-universite.fr:8501/')">
+      <div class="box-outil-accueil" onclick="window.open('https://obtic-gpu1.mesu.sorbonne-universite.fr/escriptorium/')">
         <div class="rubrique-icon"><img alt="eScriptorium" src="{{url_for('static', filename='img/escriptorium.png')}}"></div>
         <span class="rubrique-title"><h3>eScriptorium</h3></span>
         <span class="rubrique-text"><p>{{ _("Outil d'ATR pour des documents tapuscrits et manuscrits") }}</p></span>

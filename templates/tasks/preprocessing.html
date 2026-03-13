@@ -7,6 +7,11 @@
   <h2>{{ _("Prétraitement") }}</h2>
   <p style="text-align: center;">{{ _("Cette page répertorie divers outils pour préparer et/ou nettoyer son texte avant de conduire une quelconque analyse") }}</p>
   <div class="container">
+    <div class="box-outil-accueil" onclick="window.location.href='{{ url_for('error_correction') }}'">
+      <div class="rubrique-icon"><img alt="Correction d'erreurs" src="{{ url_for('static', filename='img/icons/verification-du-texte.png') }}"></div>
+      <span class="rubrique-title"><h3>{{ _("Correction d'erreurs") }}</h3></span>
+      <span class="rubrique-text"><p>{{ _("Post traitement des sorties d'OCR ou amélioration de corpus bruités") }}.</p></span>
+    </div>
     <div class="box-outil-accueil" onclick="window.location.href='{{ url_for('text_cleaning') }}'">
       <div class="rubrique-icon"><img alt='Nettoyage de texte © <a href="https://fr.freepik.com/icone/fichier_1954555">Icône de SBTS2018</a>' src="{{ url_for('static', filename='img/icons/text_cleaning.png')}}"></div>
       <span class="rubrique-title"><h3>{{ _('Nettoyage de texte') }}</h3></span>

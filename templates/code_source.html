@@ -79,6 +79,27 @@ a:hover {
   </thead>
   <tbody>
     <tr>
+      <td rowspan="4">{{ _('Collecte de corpus') }}</td>
+      <td>Wikisource</td>
+      <td>{{ _('Site Web') }}</td>
+      <td><a href="https://fr.wikisource.org/wiki/Wikisource:Accueil" target="_blank">{{ _('Lien') }}</a></td>
+    </tr>
+    <tr>
+      <td>Gallica</td>
+      <td>{{ _('Site Web') }}</td>
+      <td><a href="https://gallica.bnf.fr/" target="_blank">{{ _('Lien') }}</a></td>
+    </tr>
+    <tr>
+      <td>Project Gutenberg</td>
+      <td>{{ _('Site Web') }}</td>
+      <td><a href="https://www.gutenberg.org/" target="_blank">{{ _('Lien') }}</a></td>
+    </tr>
+    <tr>
+      <td>Newspaper3k</td>
+      <td>{{ _('Site Web') }}</td>
+      <td><a href="https://newspaper.readthedocs.io/en/latest/" target="_blank">{{ _('Lien') }}</a></td>
+    </tr>
+    <tr>
       <td rowspan="5">{{ _('Reconnaissance automatique de texte (ATR)') }}</td>
       <td>Tesseract</td>
       <td>GitHub</td>
@@ -105,7 +126,7 @@ a:hover {
       <td><a href="https://obtic-gpu1.mesu.sorbonne-universite.fr:8501/" target="_blank">{{ _('Lien') }}</a></td>
     </tr>
     <tr>
-      <td rowspan="3">{{ _('Prétraitement') }}</td>
+      <td rowspan="4">{{ _('Prétraitement') }}</td>
       <td>Natural Language Tool Kit (NTLK)</td>
       <td>{{ _('Site Web') }}</td>
       <td><a href="https://www.nltk.org/" target="_blank">{{ _('Lien') }}</a></td>
@@ -119,6 +140,11 @@ a:hover {
       <td>Python</td>
       <td>{{ _('Site Web') }}</td>
       <td><a href="https://www.python.org/" target="_blank">{{ _('Lien') }}</a></td>
+    </tr>
+    <tr>
+      <td>{{ _('Correction textuelle') }}</td>
+      <td>{{ _('Site Web') }}</td>
+      <td><a href="???" target="_blank">{{ _('Lien') }}</a></td>
     </tr>
     <tr>
       <td rowspan="2">{{ _('Conversion de formats') }}</td>
@@ -152,7 +178,7 @@ a:hover {
       <td><a href="https://github.com/obtic-sorbonne/Textolab/tree/dev" target="_blank">{{ _('Lien') }}</a></td>
     </tr>
     <tr>
-      <td rowspan="2">{{ _("Extraction d'information") }}</td>
+      <td rowspan="3">{{ _("Extraction d'information") }}</td>
       <td>KeyBERT</td>
       <td>GitHub</td>
       <td><a href="https://github.com/MaartenGr/KeyBERT" target="_blank">{{ _('Lien') }}</a></td>
@@ -162,6 +188,11 @@ a:hover {
       <td>{{ _('Site Web') }}</td>
       <td><a href="https://regex101.com/" target="_blank">{{ _('Lien') }}</a></td>
   </tr>
+    <tr>
+      <td>Summarizer</td>
+      <td>GitHub</td>
+      <td><a href="https://github.com/obtic-sorbonne/Summarization" target="_blank">{{ _('Lien') }}</a></td>
+    </tr>
   <tr>
       <td rowspan="7">{{ _('Analyses linguistique, statistiques et lexicales') }}</td>
       <td>Matplotlib</td>
@@ -225,22 +256,6 @@ a:hover {
       <td>{{ _('Site Web') }}</td>
       <td><a href="https://ipython.readthedocs.io/en/stable/api/generated/IPython.display.html" target="_blank">{{ _('Lien') }}</a></td>
     </tr>
-    <tr>
-      <td rowspan="3">{{ _('Embeddings') }}</td>
-      <td>Gensim</td>
-      <td>GitHub</td>
-      <td><a href="https://github.com/piskvorky/gensim" target="_blank">{{ _('Lien') }}</a></td>
-    </tr>
-    <tr>
-      <td>Scikit-learn</td>
-      <td>{{ _('Site Web') }}</td>
-      <td><a href="https://scikit-learn.org/stable/" target="_blank">{{ _('Lien') }}</a></td>
-    </tr>
-    <tr>
-      <td>Matplotlib</td>
-      <td>{{ _('Site Web') }}</td>
-      <td><a href="https://matplotlib.org/" target="_blank">{{ _('Lien') }}</a></td>
-    </tr>
      <tr>
       <td rowspan="2">Exploration</td>
       <td>Ariane</td>
@@ -253,12 +268,7 @@ a:hover {
       <td><a href="https://obtic.huma-num.fr/gallica-obvie/" target="_blank">{{ _('Lien') }}</a></td>
     </tr>
     <tr>
-      <td rowspan="4">{{ _("Visualisation") }}</td>
-      <td>Tanagra v1</td>
-      <td>Instance</td>
-      <td><a href="https://obtic.sorbonne-universite.fr/tanagra/map" target="_blank">{{ _('Lien') }}</a></td>
-    </tr>
-    <tr>
+      <td rowspan="3">{{ _("Visualisation") }}</td>
       <td>Tanagra v2</td>
       <td>GitHub</td>
       <td><a href="https://github.com/obtic-sorbonne/Tanagra2/blob/main/Tanagra.ipynb" target="_blank">{{ _('Lien') }}</a></td>
@@ -274,66 +284,10 @@ a:hover {
       <td><a href="https://github.com/YoannDupont/minerva" target="_blank">{{ _('Lien') }}</a></td>
     </tr>
     <tr>
-      <td rowspan="4">{{ _('Collecte de corpus') }}</td>
-      <td>Wikisource</td>
-      <td>{{ _('Site Web') }}</td>
-      <td><a href="https://fr.wikisource.org/wiki/Wikisource:Accueil" target="_blank">{{ _('Lien') }}</a></td>
-    </tr>
-    <tr>
-      <td>Gallica</td>
-      <td>{{ _('Site Web') }}</td>
-      <td><a href="https://gallica.bnf.fr/" target="_blank">{{ _('Lien') }}</a></td>
-    </tr>
-    <tr>
-      <td>Project Gutenberg</td>
-      <td>{{ _('Site Web') }}</td>
-      <td><a href="https://www.gutenberg.org/" target="_blank">{{ _('Lien') }}</a></td>
-    </tr>
-    <tr>
-      <td>Newspaper3k</td>
-      <td>{{ _('Site Web') }}</td>
-      <td><a href="https://newspaper.readthedocs.io/en/latest/" target="_blank">{{ _('Lien') }}</a></td>
-    </tr>
-    <tr>
-      <td rowspan="2">{{ _('Correction textuelle') }}</td>
-      <td>ContextualSpellCheck</td>
-      <td>{{ _('Site Web') }}</td>
-      <td><a href="https://spacy.io/universe/project/contextualSpellCheck" target="_blank">{{ _('Lien') }}</a></td>
-    </tr>
-    <tr>
-      <td>Modernisation</td>
-      <td>GitHub</td>
-      <td><a href="https://github.com/obtic-sorbonne/Modernisation" target="_blank">{{ _('Lien') }}</a></td>
-    </tr>
-    <tr>
       <td>{{ _('Chaînes de traitement') }}</td>
       <td>Épiméthée</td>
       <td>GitHub</td>
       <td><a href="https://github.com/These-SCAI2023/EPIMETHEE" target="_blank">{{ _('Lien') }}</a></td>
-    </tr>
-    <tr>
-      <td>{{ _('Génération de texte') }}</td>
-      <td>Summarizer</td>
-      <td>GitHub</td>
-      <td><a href="https://github.com/obtic-sorbonne/Summarization" target="_blank">{{ _('Lien') }}</a></td>
-    </tr>
-    <tr>
-      <td>{{ _('Complétion de texte') }}, {{ _('Ajustement du niveau de lecture') }}</td>
-      <td>Text-generation</td>
-      <td>{{ _('Site Web') }}</td>
-      <td><a href="https://huggingface.co/tasks/text-generation" target="_blank">{{ _('Lien') }}</a></td>
-    </tr>
-    <tr>
-      <td>{{ _('Questions & Réponses') }}</td>
-      <td>Question-answering</td>
-      <td>{{ _('Site Web') }}</td>
-      <td><a href="https://huggingface.co/tasks/question-answering" target="_blank">{{ _('Lien') }}</a></td>
-    </tr>
-    <tr>
-      <td>{{ _('Traduction') }}</td>
-      <td>Translation</td>
-      <td>{{ _('Site Web') }}</td>
-      <td><a href="https://huggingface.co/tasks/translation" target="_blank">{{ _('Lien') }}</a></td>
     </tr>
   </tbody>
 </table>
