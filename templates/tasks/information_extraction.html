@@ -23,6 +23,11 @@
       <span class="rubrique-title"><h3>{{ _('Quotation extraction') }}</h3></span>
       <span class="rubrique-text"><p>{{ _("Extraction d'extraits de texte, généralement entre guillemets, qui représentent les mots de quelqu'un d'autre") }}</p></span>
     </div>
+    <div class="box-outil-accueil" onclick="window.location.href='{{ url_for('summarizer') }}'">
+      <div class="rubrique-icon"><img alt="Résumé automatique" src="{{ url_for('static', filename='img/icons/summarize.png') }}" width="100%"></div>
+      <span class="rubrique-title"><h3>Summarizer</h3></span>
+      <span class="rubrique-text"><p>{{ _('Résumer automatiquement des documents en anglais aux formats texte brut ou XML') }}</p></span>
+    </div>
   </div>
   </div>
 {% endblock %}

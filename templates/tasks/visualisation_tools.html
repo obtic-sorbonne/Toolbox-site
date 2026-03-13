@@ -4,15 +4,10 @@
 {% block content %}
 <div class="selection">
   <div style="text-align: left;"><a href="{{ url_for('search_tools')}}" style="color:#f2a800; text-decoration:none;"><< {{ _('Tâche précédente') }}</a></div>
-    <div style="text-align: right;"><a href="{{ url_for('corpus_collection')}}" style="color:#f2a800; text-decoration:none;">{{ _('Tâche suivante') }} >></a></div>
+    <div style="text-align: right;"><a href="{{ url_for('pipelines')}}" style="color:#f2a800; text-decoration:none;">{{ _('Tâche suivante') }} >></a></div>
   <h2>{{ _('Visualisation') }}</h2>
   <p style="text-align: center;">{{ _("Cette page propose plusieurs outils pour visualiser divers types d'informations selon les documents proposés") }}.</p>
   <div class="container-visu">
-    <div class="box-outil-visu">
-      <div class="visu-img"><a href="https://obtic.sorbonne-universite.fr/tanagra/map" target="_blank"><img alt="visualisation Tanagra" src="{{ url_for('static', filename='img/tanagra_v1.png')}}"></a></div>
-      <span class="visu-title"><a href="https://obtic.sorbonne-universite.fr/tanagra/map" target="_blank"><h3 style="font-family:'Comprehension', serif;">Tanagra v1</h3></a></span>
-      <span class="visu-text"><p>{{ _("Cartographie des lieux dans les textes") }}</p></span>
-    </div>
 
     <div class="box-outil-visu">
       <div class="visu-img"><a href="https://github.com/obtic-sorbonne/Tanagra2/blob/main/Tanagra.ipynb" target="_blank"><img alt="visualisation Tanagra" src="{{ url_for('static', filename='img/tanagra_v2.png')}}"></a></div>
