@@ -230,14 +230,6 @@ def documentation_extraction():
 def documentation_analyses():
     return render_template('documentation/documentation_analyses.html')
 
-@app.route('/documentation_correction')
-def documentation_correction():
-    return render_template('documentation/documentation_correction.html')
-
-@app.route('/documentation_generation')
-def documentation_generation():
-    return render_template('documentation/documentation_generation.html')
-
 #-----------------------------------------------------------------
 # TUTORIELS
 #-----------------------------------------------------------------
@@ -294,10 +286,6 @@ def search_tools():
 def visualisation_tools():
     return render_template('tasks/visualisation_tools.html')
 
-@app.route('/correction_tools')
-def correction_tools():
-    return render_template('tasks/correction_tools.html')
-
 @app.route('/corpus_collection')
 def corpus_collection():
     return render_template('tasks/corpus_collection.html')
@@ -305,10 +293,6 @@ def corpus_collection():
 @app.route('/pipelines')
 def pipelines():
     return render_template('tasks/pipelines.html')
-
-@app.route('/text_generation')
-def text_generation():
-    return render_template('tasks/text_generation.html')
 
 #-----------------------------------------------------------------
 # TOOLS
@@ -328,6 +312,11 @@ def handwritten_text_recognition():
 def speech_recognition():
     form = FlaskForm()
     return render_template('tools/speech_recognition.html', form=form)
+
+@app.route('/error_correction')
+def error_correction():
+    form = FlaskForm()
+    return render_template('tools/error_correction.html', form=form)
 
 @app.route('/text_cleaning')
 def text_cleaning():
@@ -379,6 +368,10 @@ def quotation_extraction():
     form = FlaskForm()
     return render_template('tools/quotation_extraction.html', form=form)
 
+@app.route('/summarizer')
+def summarizer():
+    return render_template('tools/summarizer.html')
+
 @app.route('/linguistic_analysis')
 def linguistic_analysis():
     form = FlaskForm()
@@ -389,11 +382,6 @@ def statistic_analysis():
     form = FlaskForm()
     return render_template('tools/statistic_analysis.html', form=form)
 
-@app.route('/lexical_analysis')
-def lexical_analysis():
-    form = FlaskForm()
-    return render_template('tools/lexical_analysis.html', form=form)
-
 @app.route('/text_analysis')
 def text_analysis():
     form = FlaskForm()
@@ -403,16 +391,6 @@ def text_analysis():
 def comparison():
     form = FlaskForm()
     return render_template('tools/comparison.html', form=form)
-
-@app.route('/embeddings')
-def embeddings():
-    form = FlaskForm()
-    return render_template('tools/embeddings.html', form=form)
-
-@app.route('/lexical_relationship')
-def lexical_relationship():
-    form = FlaskForm()
-    return render_template('tools/lexical_relationship.html', form=form)
 
 @app.route('/tanagra')
 def tanagra():
@@ -448,15 +426,6 @@ def extraction_googlebooks():
     form = FlaskForm()
     return render_template('tools/extraction_googlebooks.html', form=form)
 
-@app.route('/modernspelling_correction')
-def modernspelling_correction():
-    return render_template('tools/modernspelling_correction.html')
-
-@app.route('/error_correction')
-def error_correction():
-    form = FlaskForm()
-    return render_template('tools/error_correction.html', form=form)
-
 @app.route('/ocr_ner')
 def ocr_ner():
     form = FlaskForm()
@@ -466,30 +435,6 @@ def ocr_ner():
 def ocr_map():
     form = FlaskForm()
     return render_template('tools/ocr_map.html', form=form)
-
-@app.route('/text_completion')
-def text_completion():
-    form = FlaskForm()
-    return render_template('tools/text_completion.html', form=form)
-
-@app.route('/questions_and_answers')
-def questions_and_answers():
-    form = FlaskForm()
-    return render_template('tools/questions_and_answers.html', form=form)
-
-@app.route('/translation')
-def translation():
-    form = FlaskForm()
-    return render_template('tools/translation.html', form=form)
-
-@app.route('/adjusting_text_readibility_level')
-def adjusting_text_readibility_level():
-    form = FlaskForm()
-    return render_template('tools/adjusting_text_readibility_level.html', form=form)
-
-@app.route('/summarizer')
-def summarizer():
-    return render_template('tools/summarizer.html')
 
 #-----------------------------------------------------------------
 # ERROR HANDLERS
@@ -530,6 +475,407 @@ def send_msg():
 def download():
     path = 'static/textolab.zip'
     return send_file(path, as_attachment=True)
+
+
+#-----------------------------------------------------------------
+# Extraction de corpus
+#-----------------------------------------------------------------
+
+@app.route('/generate_corpus',  methods=["GET","POST"])
+@stream_with_context
+def generate_corpus():
+    if request.method == 'POST':
+        nb = int(request.form['nbtext'])
+        result_path, rand_name = createRandomDir('wiki_', 8)
+        all_texts = generate_random_corpus(nb)
+        
+        #Crée les fichiers .txt
+        for clean_text,text_title in all_texts:
+            filename = text_title
+            with open(os.path.join(result_path, filename)+'.txt', 'w', encoding='utf-8') as output:
+                output.write(clean_text)
+
+        # ZIP le dossier résultat
+        if len(os.listdir(result_path)) > 0:
+            shutil.make_archive(result_path, 'zip', result_path)
+            output_stream = BytesIO()
+            with open(str(result_path) + '.zip', 'rb') as res:
+                content = res.read()
+            output_stream.write(content)
+            response = Response(output_stream.getvalue(), mimetype='application/zip',
+                                    headers={"Content-disposition": "attachment; filename=" + rand_name + '.zip'})
+            output_stream.seek(0)
+            output_stream.truncate(0)
+            return response
+        else:
+            os.remove(result_path)
+                
+    return render_template('/corpus_collection.html')
+
+@app.route('/corpus_from_url',  methods=["GET","POST"])
+@stream_with_context
+
+#Modifiée pour travail local + corrections
+def corpus_from_url():
+    from bs4 import BeautifulSoup
+    from lxml.html.clean import clean_html
+    if request.method == 'POST':
+        keys = request.form.keys()
+        urls = [k for k in keys if k.startswith('url')]
+        #urls = sorted(urls)
+        
+        result_path, rand_name = createRandomDir('wiki_', 8)
+
+        # PARCOURS DES URLS UTILISATEUR
+        for url_name in urls:
+            url = request.form.get(url_name)
+            if not url:
+                continue
+            n = url_name.split('_')[1]
+            s = 's' + n
+            path_elems = urlparse(url).path.split('/')
+
+            # L'URL pointe vers un sommaire
+            if path_elems[-1] != 'Texte_entier' and request.form.get(s) == 'on':
+                # Escape URL if not already escaped
+                url_temp = url.replace("https://fr.wikisource.org/wiki/", "")
+                if not '%' in url_temp:
+                    url = "".join(["https://fr.wikisource.org/wiki/", urllib.parse.quote(url_temp)])
+                try:
+                    index_page = urllib.request.urlopen(url)
+                    index_soup = BeautifulSoup(index_page, 'html.parser')
+                    nodes = index_soup.select('div.prp-pages-output div[class="tableItem"] a')
+                    for a in nodes:
+                        link = 'https://fr.wikisource.org' + a['href']
+                        name = a['title']
+                        if '/' in name:
+                            name = name.split('/')[-1]
+                        text = getWikiPage(link)
+                        if text != -1:
+                            if not name:
+                                name = path_elems[-1]
+                            with open(os.path.join(result_path, name)+'.txt', 'w', encoding='utf-8') as output:
+                                output.write(text)
+                            with open(os.path.join(result_path, "rapport.txt"), 'a') as rapport:
+                                rapport.write(link + '\t' + 'OK\n')
+
+                except urllib.error.HTTPError:
+                    print(" ".join(["The page", url, "cannot be opened."]))
+                    with open(os.path.join(result_path, "rapport.txt"), 'a') as rapport:
+                                rapport.write(url + '\t' + "Erreur : l'URL n'a pas pu être ouverte.\n")
+                    continue
+
+                filename = urllib.parse.unquote(path_elems[-1])
+
+            # URL vers texte intégral
+            else:
+                try:
+                    clean_text = getWikiPage(url)
+                    if clean_text == -1:
+                        print("Erreur lors de la lecture de la page {}".format(url))
+                        with open(os.path.join(result_path, "rapport.txt"), 'a') as rapport:
+                                rapport.write(url + '\t' + "Erreur : le contenu de la page n'a pas pu être lu.\n")
+
+                    else:
+                        if path_elems[-1] != 'Texte_entier':
+                            filename = urllib.parse.unquote(path_elems[-1])
+                        else:
+                            filename = urllib.parse.unquote(path_elems[-2])
+
+                        with open(os.path.join(result_path, filename)+'.txt', 'w', encoding='utf-8') as output:
+                            output.write(clean_text)
+
+                except Exception as e:
+                    print("Erreur sur l'URL {}".format(url))
+                    continue
+
+
+        # ZIP le dossier résultat
+        response = create_zip_and_response(result_path, rand_name)
+        return response
+
+    return render_template('corpus_collection.html')
+
+#----------------------- Wikisource -------------------
+
+def generate_random_corpus(nb):
+    from bs4 import BeautifulSoup
+
+    # Read list of urls
+    with open(ROOT_FOLDER / 'static/wikisource_bib.txt', 'r') as bib:
+        random_texts = bib.read().splitlines()
+
+    # Pick random urls
+    urls = random.sample(random_texts, nb)
+    all_texts = []
+
+    for text_url in urls:
+        #removes the subsidiary part of the url path ("/Texte_entier" for example) so it does not mess with the filename
+        if(re.search('/',text_url)):
+            text_title = urllib.parse.unquote(text_url.split('/')[0])
+        else:
+            text_title = urllib.parse.unquote(text_url)
+        location = "".join(["https://fr.wikisource.org/wiki/", text_url])
+        try:
+            page = urllib.request.urlopen(location)
+        except Exception as e:
+            with open('pb_url.log', 'a') as err_log:
+                err_log.write("No server is associated with the following page:" + location + '\n')
+                err_log.write(e)
+            continue
+
+        soup = BeautifulSoup(page, 'html.parser')
+        text = soup.findAll("div", attrs={'class': 'prp-pages-output'})
+
+        if len(text) == 0:
+            print("This does not appear to be part of the text (no prp-pages-output tag at this location).")
+            with open('pb_url.log', 'a') as err_log:
+                err_log.write(text_url)
+        else:
+            # Remove end of line inside sentence
+            clean_text = re.sub(r"[^\.:!?»[A-Z]]\n", ' ', text[0].text)
+            all_texts.append((clean_text,text_title))
+
+    return all_texts
+
+#---------------- Gallica ------------------------
+
+@app.route('/extract_gallica', methods=["GET", "POST"])
+@stream_with_context
+def extract_gallica():
+    from bs4 import BeautifulSoup
+
+    form = FlaskForm()
+    input_format = request.form['input_format']
+    res_ok = ""
+    res_err = ""
+    res = ""
+
+    # Arks dans fichier
+    if request.files['ark_upload'].filename != '':
+        f = request.files['ark_upload']
+        text = f.read()
+        arks_list = re.split(r"[~\r\n]+", text)
+    # Arks dans textarea
+    else:
+        arks_list = re.split(r"[~\r\n]+", request.form['ark_input'])
+
+    # Prépare le dossier résultat
+    rand_name =  generate_rand_name('corpus_gallica_')
+    result_path = create_named_directory(rand_name)
+
+    
+    for arkEntry in arks_list:
+        # Vérifie si une plage de pages est indiquée
+        arkEntry = arkEntry.strip()
+        arkEntry = arkEntry.replace(' ', '\t')
+        elems = arkEntry.split('\t')
+
+        # Cas 1 : une plage est précisée
+        if len(elems) == 3:
+            arkName = elems[0]
+            debut = elems[1]
+            nb_p = elems[2]
+            suffixe = '/f' + debut + 'n' + nb_p
+        
+        # Cas 2 : on télécharge tout le document
+        else:
+            arkName = elems[0].strip()
+            debut = 1
+            nb_p = 0
+            suffixe = ''
+
+        if input_format == 'txt':
+            url = 'https://gallica.bnf.fr/ark:/12148/{}{}.texteBrut'.format(arkName, suffixe)
+            outfile = arkName + '.html'
+            path_file = os.path.join(result_path, outfile)
+            try:
+                with urllib.request.urlopen(url) as response, open(path_file, 'wb') as out_file:
+                    shutil.copyfileobj(response, out_file)
+                res_ok += url + '\n'
+            except Exception as exc:
+                res_err += url + '\n'
+                continue
+        
+        elif input_format == 'img':
+            # Nb de pages à télécharger : si tout le document, aller chercher l'info dans le service pagination de l'API
+            if nb_p == 0:
+                url_pagination = "https://gallica.bnf.fr/services/Pagination?ark={}".format(arkName)
+                try:
+                    with urllib.request.urlopen(url_pagination) as response:
+                        soup = BeautifulSoup(response.read().decode('utf-8'), features="xml")
+                        nb_p = soup.find('nbVueImages').get_text()
+                except Exception as exc:
+                    print(exc)
+
+            # Parcours des pages à télécharger
+            for i in range(int(debut), int(debut) + int(nb_p) + 1):
+                taille = get_size(arkName, i)
+                largeur = taille["width"]
+                hauteur = taille["height"]
+                url = "https://gallica.bnf.fr/iiif/ark:/12148/{}/f{}/{},{},{},{}/full/0/native.jpg".format(arkName, i, 0, 0, largeur, hauteur)
+                print(url)
+                outfile = "{}_{:04}.jpg".format(arkName, i)
+                path_file = os.path.join(result_path, outfile)
+                try:
+                    with urllib.request.urlopen(url) as response, open(path_file, 'wb') as out_file:
+                        shutil.copyfileobj(response, out_file)
+                    res_ok += url + '\n'
+                except Exception as exc:
+                    res_err += url + '\n'
+
+        else:
+            print("Erreur de paramètre")
+            abort(400)
+    
+
+    
+    with open(os.path.join(result_path, 'download_report.txt'), 'w') as report:
+        if res_err != "":
+            report.write("Erreur de téléchargement pour : \n {}".format(res_err))
+        else:
+            res = len(arks_list)
+            report.write("{} documents ont bien été téléchargés.\n".format(res))
+            report.write(res_ok)
+
+    response = create_zip_and_response(result_path, rand_name)
+    return response
+
+    return render_template('extraction_gallica', form=form)
+
+def get_size(ark, i):
+    url = "https://gallica.bnf.fr/iiif/ark:/12148/{}/f{}/info.json".format(ark, i)
+    try:
+        with urllib.request.urlopen(url) as f:
+            return json.loads(f.read())
+    except urllib.error.HTTPError as exc:
+        print("Erreur {} en récupérant {}".format(exc, url))
+        return None
+
+#---------------- Gutenberg ------------------------
+@app.route('/extract_gutenberg', methods=["POST"])
+def extract_gutenberg():
+    # Vérification que les données du formulaire sont présentes
+    if 'files' not in request.form:
+        response = {"error": "Book IDs not specified"}
+        return Response(json.dumps(response), status=400, mimetype='application/json')
+
+    # Extraire les IDs des livres depuis le formulaire
+    input_text = request.form.get('files', '').strip()
+    if not input_text:
+        response = {"error": "No book IDs provided"}
+        return Response(json.dumps(response), status=400, mimetype='application/json')
+
+    # Créer une liste d'IDs (une ID par ligne)
+    book_ids = input_text.splitlines()
+
+    # Générer un nom de répertoire unique pour sauvegarder les fichiers
+    rand_name = generate_rand_name('gutenberg_')
+    result_path = create_named_directory(rand_name)
+
+    # Format des fichiers à télécharger depuis Gutenberg
+    file_format = request.form['file_format']
+
+    for book_id in book_ids:
+        try:
+            url = f"https://www.gutenberg.org/cache/epub/{book_id}/pg{book_id}{file_format}"
+            response = requests.get(url)
+
+            if response.status_code == 200:
+                # Sauvegarder le contenu du livre dans un fichier
+                output_name = f"book_{book_id}{file_format}"
+                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
+                    out.write(response.text)
+                print(f"Livre ID {book_id} sauvegardé sous : {output_name}")
+            else:
+                print(f"Erreur lors du téléchargement du livre ID {book_id}")
+        except Exception as e:
+            print(f"Une erreur est survenue : {str(e)}")
+
+    response = create_zip_and_response(result_path, rand_name)
+    return response
+
+    return Response(json.dumps({"error": "Une erreur est survenue dans le traitement des fichiers."}), status=500, mimetype='application/json')
+
+#---------------- Google Books ------------------------
+
+@app.route('/download_google_books', methods=['POST'])
+def download_google_books():
+    if 'files' not in request.form:
+        return Response(json.dumps({"error": "Queries not specified"}), status=400, mimetype='application/json')
+    
+    input_text = request.form.get('files', '').strip()
+    if not input_text:
+        return Response(json.dumps({"error": "No queries provided"}), status=400, mimetype='application/json')
+    
+    queries = input_text.splitlines()
+    rand_name = generate_rand_name('google_books_')
+    result_path = create_named_directory(rand_name)
+    
+    for query in queries:
+        try:
+            url = f"https://www.googleapis.com/books/v1/volumes?q=intitle:{query}"
+            response = requests.get(url)
+            data = response.json()
+            
+            for item in data.get('items', []):
+                access_info = item['accessInfo']
+                if access_info.get('publicDomain', False) and access_info['pdf'].get('isAvailable', False):
+                    pdf_link = access_info['pdf'].get('downloadLink')
+                    if pdf_link:
+                        pdf_response = requests.get(pdf_link)
+                        if pdf_response.status_code == 200:
+                            filename = os.path.join(result_path, f"{query.replace(' ', '_')}.pdf")
+                            with open(filename, 'wb') as f:
+                                f.write(pdf_response.content)
+                        break
+        except Exception as e:
+            error_filename = os.path.join(result_path, f"error_{query.replace(' ', '_')}.txt")
+            with open(error_filename, 'w', encoding='utf-8') as file:
+                file.write(f"Error downloading book: {str(e)}")
+    
+    response = create_zip_and_response(result_path, rand_name)
+    return response
+
+    return Response(json.dumps({"error": "Une erreur est survenue dans le traitement des fichiers."}), status=500, mimetype='application/json')
+
+
+#---------------- URL EXTRACTION ------------------------
+
+@app.route('/extract_urls', methods=['POST'])
+def extract_urls():
+    from newspaper import Article
+
+    if 'files' not in request.form:
+        return Response(json.dumps({"error": "URLs not specified"}), status=400, mimetype='application/json')
+    
+    input_text = request.form.get('files', '').strip()
+    if not input_text:
+        return Response(json.dumps({"error": "No URLs provided"}), status=400, mimetype='application/json')
+    
+    urls = input_text.splitlines()
+    rand_name = generate_rand_name('extract_urls_')
+    result_path = create_named_directory(rand_name)
+    
+    for url in urls:
+        try:
+            article = Article(url)
+            article.download()
+            article.parse()
+            text_content = article.text[:1000]
+            
+            filename = os.path.join(result_path, f"{url.replace('https://', '').replace('http://', '').replace('/', '_')}.txt")
+            with open(filename, 'w', encoding='utf-8') as file:
+                file.write(text_content)
+        except Exception as e:
+            error_filename = os.path.join(result_path, f"error_{url.replace('https://', '').replace('http://', '').replace('/', '_')}.txt")
+            with open(error_filename, 'w', encoding='utf-8') as file:
+                file.write(f"Error extracting content: {str(e)}")
+    
+    response = create_zip_and_response(result_path, rand_name)
+    return response
+
+    return Response(json.dumps({"error": "Une erreur est survenue dans le traitement des fichiers."}), status=500, mimetype='application/json')
 
 #-----------------------------------------------------------------
 # Reconnaissance de texte
@@ -713,6 +1059,89 @@ def automatic_speech_recognition():
 #-----------------------------------------------------------------
 # Prétraitement
 #-----------------------------------------------------------------
+
+#------------- Correction Erreurs ---------------------
+
+def languagetool_check(text, lang):
+    url = 'https://api.languagetool.org/v2/check'
+    data = {
+        'text': text,
+        'language': lang,
+        'enabledOnly': False,
+    }
+    response = requests.post(url, data=data)
+    response.raise_for_status()
+    return response.json()
+
+def highlight_corrections(text, matches):
+    """
+    Applique les corrections avec surlignage des modifications.
+    Les remplacements sont encadrés par [[...]].
+    """
+    corrections = []
+    for match in matches:
+        replacements = match.get('replacements')
+        if replacements:
+            replacement = replacements[0]['value']
+            offset = match['offset']
+            length = match['length']
+            corrections.append((offset, length, replacement))
+
+    # Appliquer les corrections en partant de la fin pour ne pas fausser les indices
+    corrected_text = text
+    for offset, length, replacement in sorted(corrections, key=lambda x: x[0], reverse=True):
+        corrected_text = (
+            corrected_text[:offset] +
+            "**" + replacement + "**" +
+            corrected_text[offset + length:]
+        )
+    return corrected_text
+
+def chunk_text(text, max_size=18000):
+    """Découpe le texte en morceaux compatibles avec l’API LanguageTool."""
+    for i in range(0, len(text), max_size):
+        yield text[i:i+max_size]
+
+
+@app.route('/autocorrect', methods=["GET", "POST"])
+def autocorrect():
+    if 'files' not in request.files:
+        response = {"error": "No files part"}
+        return Response(json.dumps(response), status=400, mimetype='application/json')
+
+    files = request.files.getlist('files')
+    if not files or all(file.filename == '' for file in files):
+        response = {"error": "No selected files"}
+        return Response(json.dumps(response), status=400, mimetype='application/json')
+
+    selected_language = request.form.get('selected_language', 'fr')
+
+    rand_name = generate_rand_name('autocorrected_')
+    result_path = create_named_directory(rand_name)
+
+    for f in files:
+        try:
+            input_text = f.read().decode('utf-8')
+
+            highlighted_corrected_text = ""
+            # Découper en morceaux pour éviter l'erreur 413
+            for chunk in chunk_text(input_text):
+                result_json = languagetool_check(chunk, selected_language)
+                matches = result_json.get('matches', [])
+                corrected_chunk = highlight_corrections(chunk, matches)
+                highlighted_corrected_text += corrected_chunk
+
+            filename, _ = os.path.splitext(f.filename)
+            output_name = filename + '_corrected.txt'
+            with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
+                out.write(highlighted_corrected_text)
+
+        finally:
+            f.close()
+
+    response = create_zip_and_response(result_path, rand_name)
+    return response
+
 
 #-------------- Nettoyage de texte -------------------------
 
@@ -3355,534 +3784,12 @@ def run_renard():
     # GET request fallback
     return render_template('tools/renard.html', form=form, graph="", fname="")
 
-#-----------------------------------------------------------------
-# Extraction de corpus
-#-----------------------------------------------------------------
-
-@app.route('/generate_corpus',  methods=["GET","POST"])
-@stream_with_context
-def generate_corpus():
-    if request.method == 'POST':
-        nb = int(request.form['nbtext'])
-        result_path, rand_name = createRandomDir('wiki_', 8)
-        all_texts = generate_random_corpus(nb)
-        
-        #Crée les fichiers .txt
-        for clean_text,text_title in all_texts:
-            filename = text_title
-            with open(os.path.join(result_path, filename)+'.txt', 'w', encoding='utf-8') as output:
-                output.write(clean_text)
-
-        # ZIP le dossier résultat
-        if len(os.listdir(result_path)) > 0:
-            shutil.make_archive(result_path, 'zip', result_path)
-            output_stream = BytesIO()
-            with open(str(result_path) + '.zip', 'rb') as res:
-                content = res.read()
-            output_stream.write(content)
-            response = Response(output_stream.getvalue(), mimetype='application/zip',
-                                    headers={"Content-disposition": "attachment; filename=" + rand_name + '.zip'})
-            output_stream.seek(0)
-            output_stream.truncate(0)
-            return response
-        else:
-            os.remove(result_path)
-                
-    return render_template('/corpus_collection.html')
-
-@app.route('/corpus_from_url',  methods=["GET","POST"])
-@stream_with_context
-
-#Modifiée pour travail local + corrections
-def corpus_from_url():
-    from bs4 import BeautifulSoup
-    from lxml.html.clean import clean_html
-    if request.method == 'POST':
-        keys = request.form.keys()
-        urls = [k for k in keys if k.startswith('url')]
-        #urls = sorted(urls)
-        
-        result_path, rand_name = createRandomDir('wiki_', 8)
-
-        # PARCOURS DES URLS UTILISATEUR
-        for url_name in urls:
-            url = request.form.get(url_name)
-            if not url:
-                continue
-            n = url_name.split('_')[1]
-            s = 's' + n
-            path_elems = urlparse(url).path.split('/')
-
-            # L'URL pointe vers un sommaire
-            if path_elems[-1] != 'Texte_entier' and request.form.get(s) == 'on':
-                # Escape URL if not already escaped
-                url_temp = url.replace("https://fr.wikisource.org/wiki/", "")
-                if not '%' in url_temp:
-                    url = "".join(["https://fr.wikisource.org/wiki/", urllib.parse.quote(url_temp)])
-                try:
-                    index_page = urllib.request.urlopen(url)
-                    index_soup = BeautifulSoup(index_page, 'html.parser')
-                    nodes = index_soup.select('div.prp-pages-output div[class="tableItem"] a')
-                    for a in nodes:
-                        link = 'https://fr.wikisource.org' + a['href']
-                        name = a['title']
-                        if '/' in name:
-                            name = name.split('/')[-1]
-                        text = getWikiPage(link)
-                        if text != -1:
-                            if not name:
-                                name = path_elems[-1]
-                            with open(os.path.join(result_path, name)+'.txt', 'w', encoding='utf-8') as output:
-                                output.write(text)
-                            with open(os.path.join(result_path, "rapport.txt"), 'a') as rapport:
-                                rapport.write(link + '\t' + 'OK\n')
-
-                except urllib.error.HTTPError:
-                    print(" ".join(["The page", url, "cannot be opened."]))
-                    with open(os.path.join(result_path, "rapport.txt"), 'a') as rapport:
-                                rapport.write(url + '\t' + "Erreur : l'URL n'a pas pu être ouverte.\n")
-                    continue
-
-                filename = urllib.parse.unquote(path_elems[-1])
-
-            # URL vers texte intégral
-            else:
-                try:
-                    clean_text = getWikiPage(url)
-                    if clean_text == -1:
-                        print("Erreur lors de la lecture de la page {}".format(url))
-                        with open(os.path.join(result_path, "rapport.txt"), 'a') as rapport:
-                                rapport.write(url + '\t' + "Erreur : le contenu de la page n'a pas pu être lu.\n")
-
-                    else:
-                        if path_elems[-1] != 'Texte_entier':
-                            filename = urllib.parse.unquote(path_elems[-1])
-                        else:
-                            filename = urllib.parse.unquote(path_elems[-2])
-
-                        with open(os.path.join(result_path, filename)+'.txt', 'w', encoding='utf-8') as output:
-                            output.write(clean_text)
-
-                except Exception as e:
-                    print("Erreur sur l'URL {}".format(url))
-                    continue
-
-
-        # ZIP le dossier résultat
-        response = create_zip_and_response(result_path, rand_name)
-        return response
-
-    return render_template('corpus_collection.html')
-
-#----------------------- Wikisource -------------------
-
-def generate_random_corpus(nb):
-    from bs4 import BeautifulSoup
-
-    # Read list of urls
-    with open(ROOT_FOLDER / 'static/wikisource_bib.txt', 'r') as bib:
-        random_texts = bib.read().splitlines()
-
-    # Pick random urls
-    urls = random.sample(random_texts, nb)
-    all_texts = []
-
-    for text_url in urls:
-        #removes the subsidiary part of the url path ("/Texte_entier" for example) so it does not mess with the filename
-        if(re.search('/',text_url)):
-            text_title = urllib.parse.unquote(text_url.split('/')[0])
-        else:
-            text_title = urllib.parse.unquote(text_url)
-        location = "".join(["https://fr.wikisource.org/wiki/", text_url])
-        try:
-            page = urllib.request.urlopen(location)
-        except Exception as e:
-            with open('pb_url.log', 'a') as err_log:
-                err_log.write("No server is associated with the following page:" + location + '\n')
-                err_log.write(e)
-            continue
-
-        soup = BeautifulSoup(page, 'html.parser')
-        text = soup.findAll("div", attrs={'class': 'prp-pages-output'})
-
-        if len(text) == 0:
-            print("This does not appear to be part of the text (no prp-pages-output tag at this location).")
-            with open('pb_url.log', 'a') as err_log:
-                err_log.write(text_url)
-        else:
-            # Remove end of line inside sentence
-            clean_text = re.sub(r"[^\.:!?»[A-Z]]\n", ' ', text[0].text)
-            all_texts.append((clean_text,text_title))
-
-    return all_texts
-
-#---------------- Gallica ------------------------
-
-@app.route('/extract_gallica', methods=["GET", "POST"])
-@stream_with_context
-def extract_gallica():
-    from bs4 import BeautifulSoup
-
-    form = FlaskForm()
-    input_format = request.form['input_format']
-    res_ok = ""
-    res_err = ""
-    res = ""
-
-    # Arks dans fichier
-    if request.files['ark_upload'].filename != '':
-        f = request.files['ark_upload']
-        text = f.read()
-        arks_list = re.split(r"[~\r\n]+", text)
-    # Arks dans textarea
-    else:
-        arks_list = re.split(r"[~\r\n]+", request.form['ark_input'])
-
-    # Prépare le dossier résultat
-    rand_name =  generate_rand_name('corpus_gallica_')
-    result_path = create_named_directory(rand_name)
-
-    
-    for arkEntry in arks_list:
-        # Vérifie si une plage de pages est indiquée
-        arkEntry = arkEntry.strip()
-        arkEntry = arkEntry.replace(' ', '\t')
-        elems = arkEntry.split('\t')
-
-        # Cas 1 : une plage est précisée
-        if len(elems) == 3:
-            arkName = elems[0]
-            debut = elems[1]
-            nb_p = elems[2]
-            suffixe = '/f' + debut + 'n' + nb_p
-        
-        # Cas 2 : on télécharge tout le document
-        else:
-            arkName = elems[0].strip()
-            debut = 1
-            nb_p = 0
-            suffixe = ''
-
-        if input_format == 'txt':
-            url = 'https://gallica.bnf.fr/ark:/12148/{}{}.texteBrut'.format(arkName, suffixe)
-            outfile = arkName + '.html'
-            path_file = os.path.join(result_path, outfile)
-            try:
-                with urllib.request.urlopen(url) as response, open(path_file, 'wb') as out_file:
-                    shutil.copyfileobj(response, out_file)
-                res_ok += url + '\n'
-            except Exception as exc:
-                res_err += url + '\n'
-                continue
-        
-        elif input_format == 'img':
-            # Nb de pages à télécharger : si tout le document, aller chercher l'info dans le service pagination de l'API
-            if nb_p == 0:
-                url_pagination = "https://gallica.bnf.fr/services/Pagination?ark={}".format(arkName)
-                try:
-                    with urllib.request.urlopen(url_pagination) as response:
-                        soup = BeautifulSoup(response.read().decode('utf-8'), features="xml")
-                        nb_p = soup.find('nbVueImages').get_text()
-                except Exception as exc:
-                    print(exc)
-
-            # Parcours des pages à télécharger
-            for i in range(int(debut), int(debut) + int(nb_p) + 1):
-                taille = get_size(arkName, i)
-                largeur = taille["width"]
-                hauteur = taille["height"]
-                url = "https://gallica.bnf.fr/iiif/ark:/12148/{}/f{}/{},{},{},{}/full/0/native.jpg".format(arkName, i, 0, 0, largeur, hauteur)
-                print(url)
-                outfile = "{}_{:04}.jpg".format(arkName, i)
-                path_file = os.path.join(result_path, outfile)
-                try:
-                    with urllib.request.urlopen(url) as response, open(path_file, 'wb') as out_file:
-                        shutil.copyfileobj(response, out_file)
-                    res_ok += url + '\n'
-                except Exception as exc:
-                    res_err += url + '\n'
-
-        else:
-            print("Erreur de paramètre")
-            abort(400)
-    
-
-    
-    with open(os.path.join(result_path, 'download_report.txt'), 'w') as report:
-        if res_err != "":
-            report.write("Erreur de téléchargement pour : \n {}".format(res_err))
-        else:
-            res = len(arks_list)
-            report.write("{} documents ont bien été téléchargés.\n".format(res))
-            report.write(res_ok)
-
-    response = create_zip_and_response(result_path, rand_name)
-    return response
-
-    return render_template('extraction_gallica', form=form)
-
-def get_size(ark, i):
-    url = "https://gallica.bnf.fr/iiif/ark:/12148/{}/f{}/info.json".format(ark, i)
-    try:
-        with urllib.request.urlopen(url) as f:
-            return json.loads(f.read())
-    except urllib.error.HTTPError as exc:
-        print("Erreur {} en récupérant {}".format(exc, url))
-        return None
-
-#---------------- Gutenberg ------------------------
-@app.route('/extract_gutenberg', methods=["POST"])
-def extract_gutenberg():
-    # Vérification que les données du formulaire sont présentes
-    if 'files' not in request.form:
-        response = {"error": "Book IDs not specified"}
-        return Response(json.dumps(response), status=400, mimetype='application/json')
-
-    # Extraire les IDs des livres depuis le formulaire
-    input_text = request.form.get('files', '').strip()
-    if not input_text:
-        response = {"error": "No book IDs provided"}
-        return Response(json.dumps(response), status=400, mimetype='application/json')
-
-    # Créer une liste d'IDs (une ID par ligne)
-    book_ids = input_text.splitlines()
-
-    # Générer un nom de répertoire unique pour sauvegarder les fichiers
-    rand_name = generate_rand_name('gutenberg_')
-    result_path = create_named_directory(rand_name)
-
-    # Format des fichiers à télécharger depuis Gutenberg
-    file_format = request.form['file_format']
-
-    for book_id in book_ids:
-        try:
-            url = f"https://www.gutenberg.org/cache/epub/{book_id}/pg{book_id}{file_format}"
-            response = requests.get(url)
-
-            if response.status_code == 200:
-                # Sauvegarder le contenu du livre dans un fichier
-                output_name = f"book_{book_id}{file_format}"
-                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-                    out.write(response.text)
-                print(f"Livre ID {book_id} sauvegardé sous : {output_name}")
-            else:
-                print(f"Erreur lors du téléchargement du livre ID {book_id}")
-        except Exception as e:
-            print(f"Une erreur est survenue : {str(e)}")
-
-    response = create_zip_and_response(result_path, rand_name)
-    return response
-
-    return Response(json.dumps({"error": "Une erreur est survenue dans le traitement des fichiers."}), status=500, mimetype='application/json')
-
-#---------------- Google Books ------------------------
-
-@app.route('/download_google_books', methods=['POST'])
-def download_google_books():
-    if 'files' not in request.form:
-        return Response(json.dumps({"error": "Queries not specified"}), status=400, mimetype='application/json')
-    
-    input_text = request.form.get('files', '').strip()
-    if not input_text:
-        return Response(json.dumps({"error": "No queries provided"}), status=400, mimetype='application/json')
-    
-    queries = input_text.splitlines()
-    rand_name = generate_rand_name('google_books_')
-    result_path = create_named_directory(rand_name)
-    
-    for query in queries:
-        try:
-            url = f"https://www.googleapis.com/books/v1/volumes?q=intitle:{query}"
-            response = requests.get(url)
-            data = response.json()
-            
-            for item in data.get('items', []):
-                access_info = item['accessInfo']
-                if access_info.get('publicDomain', False) and access_info['pdf'].get('isAvailable', False):
-                    pdf_link = access_info['pdf'].get('downloadLink')
-                    if pdf_link:
-                        pdf_response = requests.get(pdf_link)
-                        if pdf_response.status_code == 200:
-                            filename = os.path.join(result_path, f"{query.replace(' ', '_')}.pdf")
-                            with open(filename, 'wb') as f:
-                                f.write(pdf_response.content)
-                        break
-        except Exception as e:
-            error_filename = os.path.join(result_path, f"error_{query.replace(' ', '_')}.txt")
-            with open(error_filename, 'w', encoding='utf-8') as file:
-                file.write(f"Error downloading book: {str(e)}")
-    
-    response = create_zip_and_response(result_path, rand_name)
-    return response
-
-    return Response(json.dumps({"error": "Une erreur est survenue dans le traitement des fichiers."}), status=500, mimetype='application/json')
-
-
-#---------------- URL EXTRACTION ------------------------
-
-@app.route('/extract_urls', methods=['POST'])
-def extract_urls():
-    from newspaper import Article
-
-    if 'files' not in request.form:
-        return Response(json.dumps({"error": "URLs not specified"}), status=400, mimetype='application/json')
-    
-    input_text = request.form.get('files', '').strip()
-    if not input_text:
-        return Response(json.dumps({"error": "No URLs provided"}), status=400, mimetype='application/json')
-    
-    urls = input_text.splitlines()
-    rand_name = generate_rand_name('extract_urls_')
-    result_path = create_named_directory(rand_name)
-    
-    for url in urls:
-        try:
-            article = Article(url)
-            article.download()
-            article.parse()
-            text_content = article.text[:1000]
-            
-            filename = os.path.join(result_path, f"{url.replace('https://', '').replace('http://', '').replace('/', '_')}.txt")
-            with open(filename, 'w', encoding='utf-8') as file:
-                file.write(text_content)
-        except Exception as e:
-            error_filename = os.path.join(result_path, f"error_{url.replace('https://', '').replace('http://', '').replace('/', '_')}.txt")
-            with open(error_filename, 'w', encoding='utf-8') as file:
-                file.write(f"Error extracting content: {str(e)}")
-    
-    response = create_zip_and_response(result_path, rand_name)
-    return response
-
-    return Response(json.dumps({"error": "Une erreur est survenue dans le traitement des fichiers."}), status=500, mimetype='application/json')
-
-
-#-----------------------------------------------------------------
-# Correction de corpus
-#-----------------------------------------------------------------
-
-#------------- Normalisation de graphie ---------------------
-@app.route('/normalisation_graphies', methods=['POST'])
-def normalisation_graphies():
-    if 'files' not in request.files:
-        response = {"error": "No files part"}
-        return Response(json.dumps(response), status=400, mimetype='application/json')
-
-    files = request.files.getlist('files')
-    if not files or all(file.filename == '' for file in files):
-        response = {"error": "No selected files"}
-        return Response(json.dumps(response), status=400, mimetype='application/json')
-
-    rand_name = generate_rand_name('normgraph_')
-    result_path = create_named_directory(rand_name)
-
-    for f in files:
-        try:
-            input_text = f.read().decode('utf-8')
-            doc = nlp_eng(input_text)
-            filename, file_extension = os.path.splitext(f.filename)
-            
-            output_name = filename + '.txt'
-            with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-                for token in doc:
-                    out.write(f"Token: {token.text} --> POS: {token.pos_}\n")
-
-        finally:
-            f.close()
-
-    response = create_zip_and_response(result_path, rand_name)
-    return response
-
-    return Response(json.dumps({"error": "Une erreur est survenue dans le traitement des fichiers."}), status=500, mimetype='application/json')
-
-
-#------------- Correction Erreurs ---------------------
-
-def languagetool_check(text, lang):
-    url = 'https://api.languagetool.org/v2/check'
-    data = {
-        'text': text,
-        'language': lang,
-        'enabledOnly': False,
-    }
-    response = requests.post(url, data=data)
-    response.raise_for_status()
-    return response.json()
-
-def highlight_corrections(text, matches):
-    """
-    Applique les corrections avec surlignage des modifications.
-    Les remplacements sont encadrés par [[...]].
-    """
-    corrections = []
-    for match in matches:
-        replacements = match.get('replacements')
-        if replacements:
-            replacement = replacements[0]['value']
-            offset = match['offset']
-            length = match['length']
-            corrections.append((offset, length, replacement))
-
-    # Appliquer les corrections en partant de la fin pour ne pas fausser les indices
-    corrected_text = text
-    for offset, length, replacement in sorted(corrections, key=lambda x: x[0], reverse=True):
-        corrected_text = (
-            corrected_text[:offset] +
-            "**" + replacement + "**" +
-            corrected_text[offset + length:]
-        )
-    return corrected_text
-
-def chunk_text(text, max_size=18000):
-    """Découpe le texte en morceaux compatibles avec l’API LanguageTool."""
-    for i in range(0, len(text), max_size):
-        yield text[i:i+max_size]
-
-
-@app.route('/autocorrect', methods=["GET", "POST"])
-def autocorrect():
-    if 'files' not in request.files:
-        response = {"error": "No files part"}
-        return Response(json.dumps(response), status=400, mimetype='application/json')
-
-    files = request.files.getlist('files')
-    if not files or all(file.filename == '' for file in files):
-        response = {"error": "No selected files"}
-        return Response(json.dumps(response), status=400, mimetype='application/json')
-
-    selected_language = request.form.get('selected_language', 'fr')
-
-    rand_name = generate_rand_name('autocorrected_')
-    result_path = create_named_directory(rand_name)
-
-    for f in files:
-        try:
-            input_text = f.read().decode('utf-8')
-
-            highlighted_corrected_text = ""
-            # Découper en morceaux pour éviter l'erreur 413
-            for chunk in chunk_text(input_text):
-                result_json = languagetool_check(chunk, selected_language)
-                matches = result_json.get('matches', [])
-                corrected_chunk = highlight_corrections(chunk, matches)
-                highlighted_corrected_text += corrected_chunk
-
-            filename, _ = os.path.splitext(f.filename)
-            output_name = filename + '_corrected.txt'
-            with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-                out.write(highlighted_corrected_text)
-
-        finally:
-            f.close()
-
-    response = create_zip_and_response(result_path, rand_name)
-    return response
-
 
 #-----------------------------------------------------------------
 # Génération de texte
 #-----------------------------------------------------------------
 
-import torch
+import torch #Not sure if this is still useful
 
 #-----------------------------------------------------------------
 # Model caching for better performance
@@ -3896,153 +3803,6 @@ def retrieve_model(task, model_name):
         from transformers import pipeline
         cache_model[key] = pipeline(task, model=model_name)
     return cache_model[key]
-
-
-#------------- Complétion de texte ---------------------
-@app.route('/completion_text', methods=['GET', 'POST'])
-def completion_text():
-    form = FlaskForm()
-    result = None
-    
-    if request.method == 'POST':
-        prompt = request.form.get('prompt', '')
-        max_length = int(request.form.get('max_length', 60))
-        
-        try:
-            # Chargement de la pipeline text-generation pour BLOOM-560m via retrieve_model
-            generator = retrieve_model("text-generation", "bigscience/bloom-560m")
-            
-            outputs = generator(
-                prompt,
-                max_length=max_length,
-                do_sample=True,
-                top_k=50,
-                top_p=0.9,
-                temperature=0.7,
-                repetition_penalty=1.2,
-                no_repeat_ngram_size=3,
-                num_return_sequences=1
-            )
-            result = outputs[0]['generated_text']
-        
-        except Exception as e:
-            return render_template('tools/text_completion.html', form=form, error=str(e))
-    
-    return render_template('tools/text_completion.html', form=form, result=result)
-
-#------------- Q/A and Conversation ---------------------
-@app.route('/qa_function', methods=['GET', 'POST'])
-def qa_function():
-    form = FlaskForm()
-    qa_result = None
-
-    if request.method == 'POST':
-        tool_type = request.form.get('tool_type')
-        
-        if tool_type == 'qa':
-            context = request.form.get('context', '')
-            question = request.form.get('question', '')
-            
-            try:
-                qa_pipeline = retrieve_model(
-                    "question-answering", 
-                    "distilbert-base-cased-distilled-squad"
-                )
-                qa_result = qa_pipeline(context=context, question=question)
-            except Exception as e:
-                return render_template(
-                    'tools/questions_and_answers.html',
-                    form=form,
-                    error=str(e)
-                )
-
-    return render_template(
-        'tools/questions_and_answers.html',
-        form=form,
-        qa_result=qa_result
-    )
-
-#------------- Traduction ---------------------
-@app.route('/traduction', methods=['GET', 'POST'])
-def traduction():
-    form = FlaskForm()
-    result = None
-    
-    if request.method == 'POST':
-        text = request.form.get('text', '')
-        source_lang = request.form.get('source_lang', 'en-fr')
-        
-        try:
-            # Define translation model based on language pair
-            model_name = f"Helsinki-NLP/opus-mt-{source_lang}"
-            translator = retrieve_model("translation", model_name)
-            
-            result = translator(text, max_length=512)[0]['translation_text']
-        except Exception as e:
-            return render_template('tools/translation.html', form=form, error=str(e))
-            
-    return render_template('tools/translation.html', form=form, result=result)
-
-#------------- Ajustement du niveau de lecture ---------------------
-@app.route('/ajustement_text_readibility_level', methods=['GET', 'POST'])
-def ajustement_text_readibility_level():
-    form = FlaskForm()
-    result = None
-
-    # Instructions for different levels
-    LEVEL_DESCRIPTIONS = {
-        "primary": "Use very short sentences and very simple vocabulary. Explain as if you were speaking to a young child in primary school.",
-        "middle_school": "Use short sentences and clear vocabulary. Explain as if you were teaching a middle school student. Avoid difficult concepts.",
-        "high_school": "Use straightforward sentences and vocabulary appropriate for a high school student. Explain thoroughly but clearly.",
-    }
-
-    # Token length limits for each level
-    LEVEL_MAX_LENGTH = {
-        "primary": 150,
-        "middle_school": 250,
-        "high_school": 350,
-    }
-
-    if request.method == 'POST':
-        text = request.form.get('text', '')
-        target_level = request.form.get('target_level', 'middle_school')
-        style_instruction = LEVEL_DESCRIPTIONS.get(target_level, LEVEL_DESCRIPTIONS['middle_school'])
-        max_len = LEVEL_MAX_LENGTH.get(target_level, 250)
-
-        try:
-            generator = retrieve_model(
-                "text2text-generation",
-                "mrm8488/t5-small-finetuned-text-simplification"
-            )
-
-            prompt = f"""Rewrite the following text in a simpler style. {style_instruction}
-            Text to simplify:
-            {text}
-            Simplified version:"""
-
-            result = generator(
-                prompt,
-                max_length=max_len,
-                num_return_sequences=1,
-                do_sample=True,
-                temperature=0.5,
-                top_p=0.9
-            )[0]['generated_text']
-
-        except Exception as e:
-            return render_template(
-                'tools/adjusting_text_readibility_level.html',
-                form=form,
-                error=str(e)
-            )
-
-    return render_template(
-        'tools/adjusting_text_readibility_level.html',
-        form=form,
-        result=result
-    )
-
-
 
 #-----------------------------------------------------------------
 @app.route('/bios_converter', methods=["GET", "POST"])
