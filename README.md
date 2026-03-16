@@ -42,16 +42,7 @@ Ces avancées positionnent Pandore comme un outil polyvalent et efficace pour le
 ## Installation avec Docker (Linux / Mac / Windows)
 Si vous n'avez jamais installé Python ou d'autres logiciels, Docker simplifie totalement l'installation. Pandore fonctionne dans un conteneur préconfiguré avec tous les paquets nécessaires.
 
-## Installation rapide 
-
-**1. Installer Docker**   
-- Linux / Mac / Windows : téléchargez et installez Docker Desktop depuis https://www.docker.com/get-started
-- Lancez l'application.
-- Ouvrez le Terminal de l'application et lancer :
--   `docker pull ghcr.io/obtic-sorbonne/pandore-toolbox:latest`
--   `docker run --name pandore-toolbox -p --gpus all 5000:5000 ghcr.io/obtic-sorbonne/pandore-toolbox:latest`
-
-## Installation longue 
+## Installation 
 
 **1. Installer Docker**   
 - Linux / Mac / Windows : téléchargez et installez Docker Desktop depuis https://www.docker.com/get-started
@@ -62,7 +53,7 @@ Si vous n'avez jamais installé Python ou d'autres logiciels, Docker simplifie t
 - Ouvrez le Terminal de l'application et lancez :
 
 ```bash
-git clone https://github.com/obtic-scai/Toolbox-site.git
+git clone https://github.com/obtic-sorbonne/Toolbox-site.git
 cd Toolbox-site
 ```
 **3. Construire l'image Docker de Pandore**
@@ -100,7 +91,7 @@ docker run --gpus all -p 5000:5000 pandore-toolbox
 
 - Cloner le répertoire Toobox-site :
 ```bash
-git clone https://github.com/obtic-scai/Toolbox-site.git
+git clone https://github.com/obtic-sorbonne/Toolbox-site.git
 ```
 
 - Créer et activer un environnement virtuel :
@@ -166,7 +157,7 @@ Ouvrir le lien http://127.0.0.1:5000 dans un navigateur pour accéder à l'inter
 
 ## Pandore en ligne
 
-Une [version de démonstration](https://obtic-gpu1.mesu.sorbonne-universite.fr:8550/) est disponible en ligne.
+Une [version de démonstration](https://obtic-gpu1.mesu.sorbonne-universite.fr/pandore/) est disponible en ligne.
 
 -----
 
@@ -232,16 +223,7 @@ These advances position Pandora as a versatile and effective tool for researcher
 ## Docker Installation (Linux / Mac / Windows)
 If you have never installed Python or other software, Docker completely simplifies installation. Pandore runs in a preconfigured container with all necessary packages.
 
-### Quick installation
-
-**1. Install Docker**
-- Linux / Mac / Windows: download and install Docker Desktop from https://www.docker.com/get-started
-- Launch the application.
-- Open the application Terminal and run:
--   `docker pull ghcr.io/obtic-sorbonne/pandore-toolbox:latest`
--   `docker run --name pandore-toolbox -p --gpus all 5000:5000 ghcr.io/obtic-sorbonne/pandore-toolbox:latest`
-
-### Long installation
+### installation
 
 **1. Install Docker**
 - Linux / Mac / Windows: download and install Docker Desktop from https://www.docker.com/get-started
@@ -252,7 +234,7 @@ If you have never installed Python or other software, Docker completely simplifi
 - Open the application Terminal and run:
 
 ```bash
-git clone https://github.com/obtic-scai/Toolbox-site.git
+git clone https://github.com/obtic-sorbonne/Toolbox-site.git
 cd Toolbox-site
 ```
 
@@ -292,7 +274,7 @@ docker run --gpus all -p 5000:5000 pandore-toolbox
 
 - Clone the Toolbox-site repository:
 ```bash
-git clone https://github.com/obtic-scai/Toolbox-site.git
+git clone https://github.com/obtic-sorbonne/Toolbox-site.git
 ```
 
 - Create and activate a virtual environment:
@@ -358,7 +340,7 @@ Open the link http://127.0.0.1:5000 in a browser to access the ObTIC Toolbox int
 
 ## Pandore online
 
-A [demo version](https://obtic-gpu1.mesu.sorbonne-universite.fr:8550/) is available online.
+A [demo version](https://obtic-gpu1.mesu.sorbonne-universite.fr/pandore/) is available online.
 
 -----
 
