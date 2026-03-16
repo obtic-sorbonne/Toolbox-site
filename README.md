@@ -25,9 +25,9 @@ Ces avancées positionnent Pandore comme un outil polyvalent et efficace pour le
 - **static** : Fichiers pour le bon affichage de l'instance (css, images, fonts, etc.)
 - **swig** : Package nécessaire pour le fonctionnement de l'instance
 - **templates** :
-  - **documentation**, **tutoriel** : dossier contenant les documentation/tutoriel par tâche
-  - **taches** : pages de navigation vers les outils
-  - **outils** : outils par page
+  - **documentation**, **tutorial** : dossier contenant les documentation/tutoriel par tâche
+  - **tasks** : pages de navigation vers les outils
+  - **tools** : outils par page
   - _413.html_, _500.html_, _500_custom.html_, _validation_contact.html_, _contact.html_, _code_source.html_, _copyright.html_, _projet.html_ : pages d'informations spécifiques
   - _documentation.html_, _index.html_, _pandore.html_, _tutoriel.html_ : pages de navigation
 - **translations** : Traduction anglaise du contenu de l'instance
@@ -206,9 +206,9 @@ These advances position Pandora as a versatile and effective tool for researcher
 - **static** : Files for the correct display of the instance (css, images, fonts, etc.)
 - **swig** : Package required for the instance to run
 - **templates** :
-  - **documentation**, **tutoriel** : folder containing the documentation/tutorial by task
-  - **taches** : navigation pages to tools
-  - **outils** : tools per page
+  - **documentation**, **tutorial** : folder containing the documentation/tutorial by task
+  - **tasks** : navigation pages to tools
+  - **tools** : tools per page
   - _413.html_, _500.html_, _500_custom.html_, _validation_contact.html_, _contact.html_, _code_source.html_, _copyright.html_, _projet.html_ : specific information pages
   - _documentation.html_, _index.html_, _pandore.html_, _tutoriel.html_ : navigation pages
 - **translations** : English translation of the contents of the instance
