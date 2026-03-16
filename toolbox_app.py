@@ -46,6 +46,22 @@ try:
 except Exception as e:
     print(f"Warning: NLTK data download error: {e}")
 
+import logging
+import sys
+
+# Configure logging to be VERY verbose
+logging.basicConfig(
+    level=logging.DEBUG,
+    format='%(asctime)s [%(levelname)s] %(name)s: %(message)s',
+    stream=sys.stdout  # Print to Docker logs
+)
+logger = logging.getLogger(__name__)
+
+# Log when app starts
+logger.info("="*50)
+logger.info("PANDORE TOOLBOX STARTING")
+logger.info("="*50)
+
 
 UPLOAD_FOLDER = 'uploads'
 MODEL_FOLDER = 'static/models'
@@ -508,7 +524,7 @@ def generate_corpus():
             output_stream.truncate(0)
             return response
         else:
-            os.remove(result_path)
+            shutil.rmtree(result_path)
                 
     return render_template('/corpus_collection.html')
 
@@ -617,11 +633,19 @@ def generate_random_corpus(nb):
             text_title = urllib.parse.unquote(text_url)
         location = "".join(["https://fr.wikisource.org/wiki/", text_url])
         try:
-            page = urllib.request.urlopen(location)
+            req = urllib.request.Request(
+                location,
+                headers={'User-Agent': 'Pandore-Toolbox/1.0 (Educational; contact@sorbonne-universite.fr)'}
+            )
+            page = urllib.request.urlopen(req)
+            logger.debug(f"✓ Successfully opened URL: {location}")
         except Exception as e:
+            logger.error(f"✗ Failed to open URL: {location}")
+            logger.error(f"  Error type: {type(e).__name__}")
+            logger.error(f"  Error message: {str(e)}")
             with open('pb_url.log', 'a') as err_log:
                 err_log.write("No server is associated with the following page:" + location + '\n')
-                err_log.write(e)
+                err_log.write(str(e) + '\n')  # FIX APPLIED
             continue
 
         soup = BeautifulSoup(page, 'html.parser')
@@ -710,7 +734,15 @@ def extract_gallica():
 
             # Parcours des pages à télécharger
             for i in range(int(debut), int(debut) + int(nb_p) + 1):
+                logger.debug(f"Processing page {i} of {arkName}")
                 taille = get_size(arkName, i)
+                
+                if taille is None:
+                    logger.error(f"✗ Failed to get size for {arkName} page {i}")
+                    res_err += f"Page {i} de {arkName}\n"
+                    continue
+                
+                logger.debug(f"✓ Got size: {taille['width']}x{taille['height']}")
                 largeur = taille["width"]
                 hauteur = taille["height"]
                 url = "https://gallica.bnf.fr/iiif/ark:/12148/{}/f{}/{},{},{},{}/full/0/native.jpg".format(arkName, i, 0, 0, largeur, hauteur)
@@ -3947,7 +3979,8 @@ def getWikiPage(url):
     from bs4 import BeautifulSoup
 
     # Renvoie le contenu d'un texte wikisource à partir de son url, -1 en cas d'erreur
-    page = urllib.request.urlopen(url)
+    req = urllib.request.Request(url, headers={'User-Agent': 'Pandore-Toolbox/1.0 (Educational; contact@sorbonne-universite.fr)'})
+    page = urllib.request.urlopen(req)
     soup = BeautifulSoup(page, 'html.parser')
     text = soup.findAll("div", attrs={'class': 'prp-pages-output'})
     if len(text) == 0:
