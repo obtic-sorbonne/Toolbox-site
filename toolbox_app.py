@@ -476,6 +476,77 @@ def download():
     path = 'static/textolab.zip'
     return send_file(path, as_attachment=True)
 
+#-----------------------------------------------------------------
+# Utils
+#-----------------------------------------------------------------
+def sentencizer(text):
+    # Marqueurs de fin de phrase
+    split_regex=[r'\.{1,}',r'\!+',r'\?+']
+    delimiter_token='<SPLIT>'
+
+    # Escape acronyms or abbreviations
+    regex_abbr = re.compile(r"\b(?:[a-zA-Z]\.){1,}")
+    abbr_list = re.findall(regex_abbr, text)
+    for i, abbr in enumerate(abbr_list):
+        text = text.replace(abbr, '<ABBR'+str(i)+'>')
+
+    # Find sentence delimiters
+    for regex in split_regex:
+        text = re.sub(regex, lambda x:x.group(0)+""+delimiter_token, text)
+
+    # Restore acronyms
+    text = re.sub(r"<ABBR([0-9]+)>", lambda x: abbr_list[int(x.group(1))], text)
+
+    # Phrases
+    sentences = [x for x in text.split(delimiter_token) if x !='']
+
+    return sentences
+
+def spacy_lemmatizer(text: str) -> str:
+    """
+    Lemmatize the input French text using spaCy's 'fr_core_news_md' model.
+
+    Parameters:
+        text (str): Raw input text.
+
+    Returns:
+        str: Lemmatized text.
+    """
+    import spacy
+    nlp = spacy.load('fr_core_news_md')
+    doc = nlp(text)
+    return " ".join([token.lemma_ for token in doc])
+
+def createRandomDir(prefix, length):
+    rand_name =  prefix + ''.join((random.choice(string.ascii_lowercase) for x in range(length)))
+    result_path = ROOT_FOLDER / os.path.join(app.config['UPLOAD_FOLDER'], rand_name)
+    os.mkdir(result_path)
+    return (result_path, rand_name)
+
+def getWikiPage(url):
+    from bs4 import BeautifulSoup
+
+    # Renvoie le contenu d'un texte wikisource à partir de son url, -1 en cas d'erreur
+    page = urllib.request.urlopen(url)
+    soup = BeautifulSoup(page, 'html.parser')
+    text = soup.findAll("div", attrs={'class': 'prp-pages-output'})
+    if len(text) == 0:
+        print("This does not appear to be part of the text (no prp-pages-output tag at this location).")
+        return -1
+    else:
+        # Remove end of line inside sentence
+        clean_text = re.sub(r"[^\.:!?»[A-Z]]\n", ' ', text[0].text)
+        clean_text = clean_text.replace('\\xa0', ' ')
+        return clean_text
+
+# Extrait les thématiques calculées avec NMF et LDA
+# Clé : id, Valeur : liste de termes
+def display_topics(model, feature_names, no_top_words):
+    res = {}
+    for topic_idx, topic in enumerate(model.components_):
+        res[topic_idx] = [feature_names[i] for i in topic.argsort()[:-no_top_words - 1:-1]]
+    return res
+
 
 #-----------------------------------------------------------------
 # Extraction de corpus
@@ -960,7 +1031,7 @@ def run_kraken():
             erreur = str(e)
             print(f"Erreur dans run_kraken : {erreur}")
 
-    return render_template('text_recognition_kraken.html', erreur=erreur,
+    return render_template('handwritten_text_recognition.html', erreur=erreur,
                            seg_models=seg_models, ocr_models=ocr_models)
 
 #-------------- Reconnaissance de discours --------------
@@ -3914,78 +3985,6 @@ def bios_converter():
         return response
 
     return render_template("/conversion_xml")
-
-
-#-----------------------------------------------------------------
-# Utils
-#-----------------------------------------------------------------
-def sentencizer(text):
-    # Marqueurs de fin de phrase
-    split_regex=[r'\.{1,}',r'\!+',r'\?+']
-    delimiter_token='<SPLIT>'
-
-    # Escape acronyms or abbreviations
-    regex_abbr = re.compile(r"\b(?:[a-zA-Z]\.){1,}")
-    abbr_list = re.findall(regex_abbr, text)
-    for i, abbr in enumerate(abbr_list):
-        text = text.replace(abbr, '<ABBR'+str(i)+'>')
-
-    # Find sentence delimiters
-    for regex in split_regex:
-        text = re.sub(regex, lambda x:x.group(0)+""+delimiter_token, text)
-
-    # Restore acronyms
-    text = re.sub(r"<ABBR([0-9]+)>", lambda x: abbr_list[int(x.group(1))], text)
-
-    # Phrases
-    sentences = [x for x in text.split(delimiter_token) if x !='']
-
-    return sentences
-
-def spacy_lemmatizer(text: str) -> str:
-    """
-    Lemmatize the input French text using spaCy's 'fr_core_news_md' model.
-
-    Parameters:
-        text (str): Raw input text.
-
-    Returns:
-        str: Lemmatized text.
-    """
-    import spacy
-    nlp = spacy.load('fr_core_news_md')
-    doc = nlp(text)
-    return " ".join([token.lemma_ for token in doc])
-
-def createRandomDir(prefix, length):
-    rand_name =  prefix + ''.join((random.choice(string.ascii_lowercase) for x in range(length)))
-    result_path = ROOT_FOLDER / os.path.join(app.config['UPLOAD_FOLDER'], rand_name)
-    os.mkdir(result_path)
-    return (result_path, rand_name)
-
-def getWikiPage(url):
-    from bs4 import BeautifulSoup
-
-    # Renvoie le contenu d'un texte wikisource à partir de son url, -1 en cas d'erreur
-    page = urllib.request.urlopen(url)
-    soup = BeautifulSoup(page, 'html.parser')
-    text = soup.findAll("div", attrs={'class': 'prp-pages-output'})
-    if len(text) == 0:
-        print("This does not appear to be part of the text (no prp-pages-output tag at this location).")
-        return -1
-    else:
-        # Remove end of line inside sentence
-        clean_text = re.sub(r"[^\.:!?»[A-Z]]\n", ' ', text[0].text)
-        clean_text = clean_text.replace('\\xa0', ' ')
-        return clean_text
-
-# Extrait les thématiques calculées avec NMF et LDA
-# Clé : id, Valeur : liste de termes
-def display_topics(model, feature_names, no_top_words):
-    res = {}
-    for topic_idx, topic in enumerate(model.components_):
-        res[topic_idx] = [feature_names[i] for i in topic.argsort()[:-no_top_words - 1:-1]]
-    return res
 
 #-----------------------------------------------------------------
 # Chaînes de traitement
