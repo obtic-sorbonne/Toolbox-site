@@ -52,7 +52,8 @@ input[type="radio"]{
   display: none;
 }
 #option-1:checked:checked ~ .option-1,
-#option-2:checked:checked ~ .option-2{
+#option-2:checked:checked ~ .option-2,
+#option-3:checked:checked ~ .option-3{
   border-color: #263e8d;
   background: #263e8d;
 }
@@ -62,13 +63,15 @@ input[type="radio"]{
   margin-left: 5px;
 }
 
-#option-1:checked:checked ~ .option-1 span,
-#option-2:checked:checked ~ .option-2 span{
+#option-1:checked ~ .option-1 span,
+#option-2:checked ~ .option-2 span,
+#option-3:checked ~ .option-3 span{
   color: #fff;
 }
 
-#option-1:checked:checked ~ .option-1 i,
-#option-2:checked:checked ~ .option-2 i{
+#option-1:checked ~ .option-1 i,
+#option-2:checked ~ .option-2 i,
+#option-3:checked ~ .option-3 i{
   color: #fff;
 }
 
@@ -154,8 +157,12 @@ form p{
         <label for="option-1" class="option option-1">
            <i class="fa-solid fa-file-lines"></i><span style="font-size: small;"> {{ _('Texte') }}</span>
            </label>
-      <input type="radio" name="input_format" id="option-2" value="xml">
+      <input type="radio" name="input_format" id="option-2" value="xml-ariane">
         <label for="option-2" class="option option-2">
+           <i class="fa-regular fa-file-code"></i><span style="font-size: small;"> XML Ariane</span>
+        </label>
+      <input type="radio" name="input_format" id="option-3" value="xml-tei">
+        <label for="option-3" class="option option-3">
            <i class="fa-regular fa-file-code"></i><span style="font-size: small;"> XML-TEI</span>
         </label>
       </div>
@@ -302,7 +309,7 @@ function availableBertModels(){
 
 /* Hide Camembert option when input file is XML */
 $('input[type=radio][name=input_format]').change(function() {
-  if (this.value == 'xml'){
+  if (['xml-ariane', 'xml-tei'].includes(this.value)) {
     $('#xmlparams').show();
     $('#label-camembert').hide();
     /*$('html, body').scrollTop($("#xmlparams").offset().top);*/

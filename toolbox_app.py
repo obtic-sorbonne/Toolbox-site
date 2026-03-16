@@ -2296,7 +2296,7 @@ def pos_tagging():
 @stream_with_context
 def named_entity_recognition():
 
-    from tei_ner import tei_ner_params
+    from tei_ner import ner_tei_params
     import spacy
 
     uploaded_files = request.files.getlist("entityfiles")
@@ -2320,11 +2320,12 @@ def named_entity_recognition():
             contenu = f.read()
             
             #-------------------------------------
-            # Case 1 : xml -> Spacy or Flair
+            # Case 1 : XML -> NER
             #-------------------------------------
-            if input_format == 'xml':
-                #print("XML détecté")
+            if input_format in ['xml-ariane', 'xml-tei']:
+
                 output_name = os.path.join(result_path, f.filename)
+
                 xmlnamespace = request.form['xmlnamespace']
                 balise_racine = request.form['balise_racine']
                 balise_parcours = request.form['balise_parcours']
@@ -2332,13 +2333,32 @@ def named_entity_recognition():
 
                 try:
                     etree.fromstring(contenu)
-                    #print("Le XML est valide")
                 except etree.ParseError as err:
-                    erreur = "Le fichier XML est invalide. \n {}".format(err)
+                    erreur = "Le fichier XML est invalide.\n{}".format(err)
 
-                root = tei_ner_params(contenu, xmlnamespace, balise_racine, balise_parcours, moteur_REN, modele_REN, encodage=encodage)
-                
-                root.write(output_name, pretty_print=True, xml_declaration=True, encoding="utf-8")
+                # choix du mode
+                if input_format == "xml-ariane":
+                    mode = "ariane"
+                else:
+                    mode = "tei"
+
+                root = ner_tei_params(
+                    contenu,
+                    xmlnamespace,
+                    balise_racine,
+                    balise_parcours,
+                    moteur_REN,
+                    modele_REN,
+                    mode=mode,
+                    encodage=encodage
+                )
+
+                root.write(
+                    output_name,
+                    pretty_print=True,
+                    xml_declaration=True,
+                    encoding="utf-8"
+                )
 
             #-------------------------------------
             # Case 2 : txt -> Spacy, Flair, Camembert
