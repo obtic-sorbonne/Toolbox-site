@@ -1094,7 +1094,10 @@ def automatic_speech_recognition():
 
 #------------- Correction Erreurs ---------------------
 
+from wordfreq import zipf_frequency
+
 def languagetool_check(text, lang):
+    """Appelle l'API LanguageTool pour corriger un morceau de texte."""
     url = 'https://api.languagetool.org/v2/check'
     data = {
         'text': text,
@@ -1105,10 +1108,33 @@ def languagetool_check(text, lang):
     response.raise_for_status()
     return response.json()
 
-def highlight_corrections(text, matches):
+def protect_proper_names(text):
+    """Protéger les mots capitalisés (>5 lettres) pour éviter leur correction."""
+    protected = {}
+    def replacer(match):
+        word = match.group(0)
+        key = f"PROTECTEDTOKEN{len(protected)}"
+        protected[key] = word
+        return key
+
+    pattern = r'\b[A-ZÉÈÀÂÊÎÔÛÄËÏÖÜ][A-Za-zÉÈÀÂÊÎÔÛÄËÏÖÜéèàâêîôûäëïöü]{5,}\b'
+    text = re.sub(pattern, replacer, text)
+    return text, protected
+
+def restore_proper_names(text, protected):
+    for key, word in protected.items():
+        text = text.replace(key, word)
+    return text
+
+def is_valid_word(word, lang, min_zipf=2.5):
+    """Retourne True si le mot est suffisamment fréquent dans la langue."""
+    # zipf_frequency retourne -1 pour les mots inconnus
+    freq = zipf_frequency(word.lower(), lang)
+    return freq >= min_zipf
+
+def highlight_corrections(text, matches, lang, protected=None):
     """
-    Applique les corrections avec surlignage des modifications.
-    Les remplacements sont encadrés par [[...]].
+    Applique les corrections avec surlignage **…**, en filtrant les mots rares.
     """
     corrections = []
     for match in matches:
@@ -1117,9 +1143,13 @@ def highlight_corrections(text, matches):
             replacement = replacements[0]['value']
             offset = match['offset']
             length = match['length']
+            # vérifier fréquence
+            if protected and text[offset:offset+length] in protected.values():
+                continue
+            if not is_valid_word(replacement, lang):
+                continue
             corrections.append((offset, length, replacement))
 
-    # Appliquer les corrections en partant de la fin pour ne pas fausser les indices
     corrected_text = text
     for offset, length, replacement in sorted(corrections, key=lambda x: x[0], reverse=True):
         corrected_text = (
@@ -1133,7 +1163,6 @@ def chunk_text(text, max_size=18000):
     """Découpe le texte en morceaux compatibles avec l’API LanguageTool."""
     for i in range(0, len(text), max_size):
         yield text[i:i+max_size]
-
 
 @app.route('/autocorrect', methods=["GET", "POST"])
 def autocorrect():
@@ -1154,13 +1183,15 @@ def autocorrect():
     for f in files:
         try:
             input_text = f.read().decode('utf-8')
-
             highlighted_corrected_text = ""
-            # Découper en morceaux pour éviter l'erreur 413
+
+            # Découper en chunks
             for chunk in chunk_text(input_text):
-                result_json = languagetool_check(chunk, selected_language)
+                protected_chunk, protected_map = protect_proper_names(chunk)
+                result_json = languagetool_check(protected_chunk, selected_language)
                 matches = result_json.get('matches', [])
-                corrected_chunk = highlight_corrections(chunk, matches)
+                corrected_chunk = highlight_corrections(protected_chunk, matches, selected_language, protected_map)
+                corrected_chunk = restore_proper_names(corrected_chunk, protected_map)
                 highlighted_corrected_text += corrected_chunk
 
             filename, _ = os.path.splitext(f.filename)
