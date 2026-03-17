@@ -46,6 +46,22 @@ try:
 except Exception as e:
     print(f"Warning: NLTK data download error: {e}")
 
+import logging
+import sys
+
+# Configure logging to be VERY verbose
+logging.basicConfig(
+    level=logging.DEBUG,
+    format='%(asctime)s [%(levelname)s] %(name)s: %(message)s',
+    stream=sys.stdout  # Print to Docker logs
+)
+logger = logging.getLogger(__name__)
+
+# Log when app starts
+logger.info("="*50)
+logger.info("PANDORE TOOLBOX STARTING")
+logger.info("="*50)
+
 
 UPLOAD_FOLDER = 'uploads'
 MODEL_FOLDER = 'static/models'
@@ -476,77 +492,6 @@ def download():
     path = 'static/textolab.zip'
     return send_file(path, as_attachment=True)
 
-#-----------------------------------------------------------------
-# Utils
-#-----------------------------------------------------------------
-def sentencizer(text):
-    # Marqueurs de fin de phrase
-    split_regex=[r'\.{1,}',r'\!+',r'\?+']
-    delimiter_token='<SPLIT>'
-
-    # Escape acronyms or abbreviations
-    regex_abbr = re.compile(r"\b(?:[a-zA-Z]\.){1,}")
-    abbr_list = re.findall(regex_abbr, text)
-    for i, abbr in enumerate(abbr_list):
-        text = text.replace(abbr, '<ABBR'+str(i)+'>')
-
-    # Find sentence delimiters
-    for regex in split_regex:
-        text = re.sub(regex, lambda x:x.group(0)+""+delimiter_token, text)
-
-    # Restore acronyms
-    text = re.sub(r"<ABBR([0-9]+)>", lambda x: abbr_list[int(x.group(1))], text)
-
-    # Phrases
-    sentences = [x for x in text.split(delimiter_token) if x !='']
-
-    return sentences
-
-def spacy_lemmatizer(text: str) -> str:
-    """
-    Lemmatize the input French text using spaCy's 'fr_core_news_md' model.
-
-    Parameters:
-        text (str): Raw input text.
-
-    Returns:
-        str: Lemmatized text.
-    """
-    import spacy
-    nlp = spacy.load('fr_core_news_md')
-    doc = nlp(text)
-    return " ".join([token.lemma_ for token in doc])
-
-def createRandomDir(prefix, length):
-    rand_name =  prefix + ''.join((random.choice(string.ascii_lowercase) for x in range(length)))
-    result_path = ROOT_FOLDER / os.path.join(app.config['UPLOAD_FOLDER'], rand_name)
-    os.mkdir(result_path)
-    return (result_path, rand_name)
-
-def getWikiPage(url):
-    from bs4 import BeautifulSoup
-
-    # Renvoie le contenu d'un texte wikisource à partir de son url, -1 en cas d'erreur
-    page = urllib.request.urlopen(url)
-    soup = BeautifulSoup(page, 'html.parser')
-    text = soup.findAll("div", attrs={'class': 'prp-pages-output'})
-    if len(text) == 0:
-        print("This does not appear to be part of the text (no prp-pages-output tag at this location).")
-        return -1
-    else:
-        # Remove end of line inside sentence
-        clean_text = re.sub(r"[^\.:!?»[A-Z]]\n", ' ', text[0].text)
-        clean_text = clean_text.replace('\\xa0', ' ')
-        return clean_text
-
-# Extrait les thématiques calculées avec NMF et LDA
-# Clé : id, Valeur : liste de termes
-def display_topics(model, feature_names, no_top_words):
-    res = {}
-    for topic_idx, topic in enumerate(model.components_):
-        res[topic_idx] = [feature_names[i] for i in topic.argsort()[:-no_top_words - 1:-1]]
-    return res
-
 
 #-----------------------------------------------------------------
 # Extraction de corpus
@@ -579,7 +524,7 @@ def generate_corpus():
             output_stream.truncate(0)
             return response
         else:
-            os.remove(result_path)
+            shutil.rmtree(result_path)
                 
     return render_template('/corpus_collection.html')
 
@@ -688,11 +633,19 @@ def generate_random_corpus(nb):
             text_title = urllib.parse.unquote(text_url)
         location = "".join(["https://fr.wikisource.org/wiki/", text_url])
         try:
-            page = urllib.request.urlopen(location)
+            req = urllib.request.Request(
+                location,
+                headers={'User-Agent': 'Pandore-Toolbox/1.0 (Educational; contact@sorbonne-universite.fr)'}
+            )
+            page = urllib.request.urlopen(req)
+            logger.debug(f"✓ Successfully opened URL: {location}")
         except Exception as e:
+            logger.error(f"✗ Failed to open URL: {location}")
+            logger.error(f"  Error type: {type(e).__name__}")
+            logger.error(f"  Error message: {str(e)}")
             with open('pb_url.log', 'a') as err_log:
                 err_log.write("No server is associated with the following page:" + location + '\n')
-                err_log.write(e)
+                err_log.write(str(e) + '\n')  # FIX APPLIED
             continue
 
         soup = BeautifulSoup(page, 'html.parser')
@@ -781,7 +734,15 @@ def extract_gallica():
 
             # Parcours des pages à télécharger
             for i in range(int(debut), int(debut) + int(nb_p) + 1):
+                logger.debug(f"Processing page {i} of {arkName}")
                 taille = get_size(arkName, i)
+                
+                if taille is None:
+                    logger.error(f"✗ Failed to get size for {arkName} page {i}")
+                    res_err += f"Page {i} de {arkName}\n"
+                    continue
+                
+                logger.debug(f"✓ Got size: {taille['width']}x{taille['height']}")
                 largeur = taille["width"]
                 hauteur = taille["height"]
                 url = "https://gallica.bnf.fr/iiif/ark:/12148/{}/f{}/{},{},{},{}/full/0/native.jpg".format(arkName, i, 0, 0, largeur, hauteur)
@@ -1031,7 +992,7 @@ def run_kraken():
             erreur = str(e)
             print(f"Erreur dans run_kraken : {erreur}")
 
-    return render_template('handwritten_text_recognition.html', erreur=erreur,
+    return render_template('text_recognition_kraken.html', erreur=erreur,
                            seg_models=seg_models, ocr_models=ocr_models)
 
 #-------------- Reconnaissance de discours --------------
@@ -2367,7 +2328,7 @@ def pos_tagging():
 @stream_with_context
 def named_entity_recognition():
 
-    from tei_ner import ner_tei_params
+    from tei_ner import tei_ner_params
     import spacy
 
     uploaded_files = request.files.getlist("entityfiles")
@@ -2391,12 +2352,11 @@ def named_entity_recognition():
             contenu = f.read()
             
             #-------------------------------------
-            # Case 1 : XML -> NER
+            # Case 1 : xml -> Spacy or Flair
             #-------------------------------------
-            if input_format in ['xml-ariane', 'xml-tei']:
-
+            if input_format == 'xml':
+                #print("XML détecté")
                 output_name = os.path.join(result_path, f.filename)
-
                 xmlnamespace = request.form['xmlnamespace']
                 balise_racine = request.form['balise_racine']
                 balise_parcours = request.form['balise_parcours']
@@ -2404,32 +2364,13 @@ def named_entity_recognition():
 
                 try:
                     etree.fromstring(contenu)
+                    #print("Le XML est valide")
                 except etree.ParseError as err:
-                    erreur = "Le fichier XML est invalide.\n{}".format(err)
+                    erreur = "Le fichier XML est invalide. \n {}".format(err)
 
-                # choix du mode
-                if input_format == "xml-ariane":
-                    mode = "ariane"
-                else:
-                    mode = "tei"
-
-                root = ner_tei_params(
-                    contenu,
-                    xmlnamespace,
-                    balise_racine,
-                    balise_parcours,
-                    moteur_REN,
-                    modele_REN,
-                    mode=mode,
-                    encodage=encodage
-                )
-
-                root.write(
-                    output_name,
-                    pretty_print=True,
-                    xml_declaration=True,
-                    encoding="utf-8"
-                )
+                root = tei_ner_params(contenu, xmlnamespace, balise_racine, balise_parcours, moteur_REN, modele_REN, encodage=encodage)
+                
+                root.write(output_name, pretty_print=True, xml_declaration=True, encoding="utf-8")
 
             #-------------------------------------
             # Case 2 : txt -> Spacy, Flair, Camembert
@@ -3985,6 +3926,79 @@ def bios_converter():
         return response
 
     return render_template("/conversion_xml")
+
+
+#-----------------------------------------------------------------
+# Utils
+#-----------------------------------------------------------------
+def sentencizer(text):
+    # Marqueurs de fin de phrase
+    split_regex=[r'\.{1,}',r'\!+',r'\?+']
+    delimiter_token='<SPLIT>'
+
+    # Escape acronyms or abbreviations
+    regex_abbr = re.compile(r"\b(?:[a-zA-Z]\.){1,}")
+    abbr_list = re.findall(regex_abbr, text)
+    for i, abbr in enumerate(abbr_list):
+        text = text.replace(abbr, '<ABBR'+str(i)+'>')
+
+    # Find sentence delimiters
+    for regex in split_regex:
+        text = re.sub(regex, lambda x:x.group(0)+""+delimiter_token, text)
+
+    # Restore acronyms
+    text = re.sub(r"<ABBR([0-9]+)>", lambda x: abbr_list[int(x.group(1))], text)
+
+    # Phrases
+    sentences = [x for x in text.split(delimiter_token) if x !='']
+
+    return sentences
+
+def spacy_lemmatizer(text: str) -> str:
+    """
+    Lemmatize the input French text using spaCy's 'fr_core_news_md' model.
+
+    Parameters:
+        text (str): Raw input text.
+
+    Returns:
+        str: Lemmatized text.
+    """
+    import spacy
+    nlp = spacy.load('fr_core_news_md')
+    doc = nlp(text)
+    return " ".join([token.lemma_ for token in doc])
+
+def createRandomDir(prefix, length):
+    rand_name =  prefix + ''.join((random.choice(string.ascii_lowercase) for x in range(length)))
+    result_path = ROOT_FOLDER / os.path.join(app.config['UPLOAD_FOLDER'], rand_name)
+    os.mkdir(result_path)
+    return (result_path, rand_name)
+
+def getWikiPage(url):
+    from bs4 import BeautifulSoup
+
+    # Renvoie le contenu d'un texte wikisource à partir de son url, -1 en cas d'erreur
+    req = urllib.request.Request(url, headers={'User-Agent': 'Pandore-Toolbox/1.0 (Educational; contact@sorbonne-universite.fr)'})
+    page = urllib.request.urlopen(req)
+    soup = BeautifulSoup(page, 'html.parser')
+    text = soup.findAll("div", attrs={'class': 'prp-pages-output'})
+    if len(text) == 0:
+        print("This does not appear to be part of the text (no prp-pages-output tag at this location).")
+        return -1
+    else:
+        # Remove end of line inside sentence
+        clean_text = re.sub(r"[^\.:!?»[A-Z]]\n", ' ', text[0].text)
+        clean_text = clean_text.replace('\\xa0', ' ')
+        return clean_text
+
+# Extrait les thématiques calculées avec NMF et LDA
+# Clé : id, Valeur : liste de termes
+def display_topics(model, feature_names, no_top_words):
+    res = {}
+    for topic_idx, topic in enumerate(model.components_):
+        res[topic_idx] = [feature_names[i] for i in topic.argsort()[:-no_top_words - 1:-1]]
+    return res
 
 #-----------------------------------------------------------------
 # Chaînes de traitement
