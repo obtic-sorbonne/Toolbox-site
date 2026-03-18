@@ -115,7 +115,9 @@ EXPOSE 5000
 #CMD ["/opt/conda/envs/toolbox_env/bin/gunicorn", "-c", "/dev/null", "--workers", "7", "--timeout", "300", "--worker-connections","1000", "--threads", "4", "--bind", "0.0.0.0:5000", "--certfile", "/pandore_app/certificates/cert.pem", "--keyfile", "/pandore_app/certificates/server.key", "--timeout", "120", "--log-level", "info", "toolbox_app:app"]
 
 # For PRODUCTION server behind NGINX frontend
-CMD ["/opt/conda/envs/toolbox_env/bin/gunicorn", "-c", "/dev/null", "--workers", "7", "--timeout", "300", "--worker-connections","1000", "--threads", "4", "--bind", "0.0.0.0:5000", "-e", "SCRIPT_NAME=/pandore", "--timeout", "120", "--log-level", "info", "toolbox_app:app"]
+# initial setup before my changes
+#CMD ["/opt/conda/envs/toolbox_env/bin/gunicorn", "-c", "/dev/null", "--workers", "7", "--timeout", "300", "--worker-connections","1000", "--threads", "4", "--bind", "0.0.0.0:5000", "-e", "SCRIPT_NAME=/pandore", "--timeout", "120", "--log-level", "info", "toolbox_app:app"]
 
+CMD ["/opt/conda/envs/toolbox_env/bin/gunicorn", "-c", "/dev/null", "--workers", "7", "--timeout", "600", "--worker-connections","1000", "--threads", "4", "--bind", "0.0.0.0:5000", "-e", "SCRIPT_NAME=/pandore", "--log-level", "info", "toolbox_app:app"]
 
 #CMD ["/opt/conda/envs/toolbox_env/bin/gunicorn", "-c", "/dev/null", "--workers", "4","--worker-connections","1000", "--threads", "4", "--bind", "0.0.0.0:5000", "--certfile", "/pandore_app/certificates/cert.pem", "--keyfile", "/pandore_app/certificates/server.key", "--timeout", "120", "--log-level", "info", "toolbox_app:app"]
