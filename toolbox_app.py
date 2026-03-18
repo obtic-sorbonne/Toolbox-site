@@ -16,6 +16,7 @@ from datetime import timedelta
 from io import BytesIO, StringIO
 from pathlib import Path
 from urllib.parse import urlparse
+import time
 
 import nltk
 import numpy as np
@@ -678,7 +679,7 @@ def extract_gallica():
     # Arks dans fichier
     if request.files['ark_upload'].filename != '':
         f = request.files['ark_upload']
-        text = f.read()
+        text = f.read().decode('utf-8')
         arks_list = re.split(r"[~\r\n]+", text)
     # Arks dans textarea
     else:
@@ -692,6 +693,9 @@ def extract_gallica():
     for arkEntry in arks_list:
         # Vérifie si une plage de pages est indiquée
         arkEntry = arkEntry.strip()
+        # Ignorer les ark vides
+        if not arkEntry:
+            continue
         arkEntry = arkEntry.replace(' ', '\t')
         elems = arkEntry.split('\t')
 
@@ -714,10 +718,13 @@ def extract_gallica():
             outfile = arkName + '.html'
             path_file = os.path.join(result_path, outfile)
             try:
-                with urllib.request.urlopen(url) as response, open(path_file, 'wb') as out_file:
-                    shutil.copyfileobj(response, out_file)
+                resp = requests.get(url, headers={'User-Agent': 'Pandore-Toolbox/1.0 (Educational; contact@sorbonne-universite.fr)'}, timeout=60)
+                resp.raise_for_status()
+                with open(path_file, 'wb') as out_file:
+                    out_file.write(resp.content)
                 res_ok += url + '\n'
             except Exception as exc:
+                logger.error(f"Erreur telechargement txt {url}: {exc}")
                 res_err += url + '\n'
                 continue
         
@@ -726,35 +733,31 @@ def extract_gallica():
             if nb_p == 0:
                 url_pagination = "https://gallica.bnf.fr/services/Pagination?ark={}".format(arkName)
                 try:
-                    with urllib.request.urlopen(url_pagination) as response:
-                        soup = BeautifulSoup(response.read().decode('utf-8'), features="xml")
-                        nb_p = soup.find('nbVueImages').get_text()
+                    resp = requests.get(url_pagination, headers={'User-Agent': 'Pandore-Toolbox/1.0 (Educational; contact@sorbonne-universite.fr)'}, timeout=30)
+                    resp.raise_for_status()
+                    soup = BeautifulSoup(resp.text, features="xml")
+                    nb_p = soup.find('nbVueImages').get_text()
                 except Exception as exc:
                     print(exc)
 
             # Parcours des pages à télécharger
             for i in range(int(debut), int(debut) + int(nb_p) + 1):
                 logger.debug(f"Processing page {i} of {arkName}")
-                taille = get_size(arkName, i)
-                
-                if taille is None:
-                    logger.error(f"✗ Failed to get size for {arkName} page {i}")
-                    res_err += f"Page {i} de {arkName}\n"
-                    continue
-                
-                logger.debug(f"✓ Got size: {taille['width']}x{taille['height']}")
-                largeur = taille["width"]
-                hauteur = taille["height"]
-                url = "https://gallica.bnf.fr/iiif/ark:/12148/{}/f{}/{},{},{},{}/full/0/native.jpg".format(arkName, i, 0, 0, largeur, hauteur)
-                print(url)
+
+                url = "https://gallica.bnf.fr/iiif/ark:/12148/{}/f{}/full/full/0/default.jpg".format(arkName, i)
                 outfile = "{}_{:04}.jpg".format(arkName, i)
                 path_file = os.path.join(result_path, outfile)
                 try:
-                    with urllib.request.urlopen(url) as response, open(path_file, 'wb') as out_file:
-                        shutil.copyfileobj(response, out_file)
+                    resp = requests.get(url, headers={'User-Agent': 'Pandore-Toolbox/1.0 (Educational; contact@sorbonne-universite.fr)'}, timeout=60, stream=True)
+                    resp.raise_for_status()
+                    with open(path_file, 'wb') as out_file:
+                        for chunk in resp.iter_content(chunk_size=8192):
+                            out_file.write(chunk)
                     res_ok += url + '\n'
                 except Exception as exc:
+                    logger.error(f"Erreur telechargement image {url}: {exc}")
                     res_err += url + '\n'
+                time.sleep(1)
 
         else:
             print("Erreur de paramètre")
@@ -778,10 +781,11 @@ def extract_gallica():
 def get_size(ark, i):
     url = "https://gallica.bnf.fr/iiif/ark:/12148/{}/f{}/info.json".format(ark, i)
     try:
-        with urllib.request.urlopen(url) as f:
-            return json.loads(f.read())
-    except urllib.error.HTTPError as exc:
-        print("Erreur {} en récupérant {}".format(exc, url))
+        resp = requests.get(url, headers={'User-Agent': 'Pandore-Toolbox/1.0 (Educational; contact@sorbonne-universite.fr)'}, timeout=30)
+        resp.raise_for_status()
+        return resp.json()
+    except Exception as exc:
+        logger.error("Erreur en recuperant {}: {}".format(url, exc))
         return None
 
 #---------------- Gutenberg ------------------------
