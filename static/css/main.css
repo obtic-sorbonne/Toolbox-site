@@ -236,7 +236,8 @@ hr{
   flex: 0 0 0px;
   display:flex;
   flex-direction:column;
-  cursor:pointer;
+  cursor:pointer; 
+  text-decoration: none;
 }
 
 .rubrique-icon{
@@ -247,10 +248,11 @@ hr{
 	width:100px;
 }
 
-.rubrique-title h3{
+.rubrique-title{
 	margin:5px;
 	text-align:center;
-  font-weight:500;
+  color: black;
+  font-weight: normal;
 }
 
 .rubrique-text p{
@@ -258,6 +260,8 @@ hr{
 	margin:5px;
 	text-align:center;
 	font-size:0.9em;
+  color: black;
+
 }
 
 .shadow {
@@ -303,17 +307,19 @@ hr{
   cursor: pointer;
 }
 
-.visu-title h3{
-  color:#2B3A67;
+.visu-title{
   text-align: center;
   padding:20px;
   font-size: 32px;
+  color: black;
+  font-weight: normal;
 }
 
 .visu-text p{
   padding:8px;
   margin:15px;
   font-size: 0.9em;
+  color: black;
 }
 
 .footer{
