@@ -37,7 +37,7 @@
         <legend>{{ _("Configuration ATR ") }}: Tesseract</legend>
         <form action="{{ url_for('run_ocr_ner') }}" id="tesseract-form" method="post" enctype="multipart/form-data" onsubmit="showloader('tessloader')">
             {{ form.csrf_token }}
-            <label for="model">{{ _('Modèle') }}</label>
+            <label for="tessmodel">{{ _('Modèle') }}</label>
             <select class="styled-select" name="tessmodel" id="tessmodel">
         <option disabled>--- {{ _('Europe') }} ---</option>
         <option value="ces">{{ _('Tchèque') }} (ces)</option>
