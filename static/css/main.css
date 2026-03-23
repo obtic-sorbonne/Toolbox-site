@@ -655,7 +655,7 @@ display: table;
   font-size: 30px;
   font-family: 'Roboto', sans-serif;
   margin:15px 0;
-  padding:25px;
+  /* padding:25px; */
   color:#263e8d;
 }
 
