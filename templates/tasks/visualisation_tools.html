@@ -9,7 +9,7 @@
   <p style="text-align: center;">{{ _("Cette page propose plusieurs outils pour visualiser divers types d'informations selon les documents proposés") }}.</p>
   <div class="container-visu">
 
-    <a class="box-outil-visu" href="https://github.com/obtic-sorbonne/Tanagra2/blob/main/Tanagra.ipynb" target="_blank">
+    <a class="box-outil-visu" title="Lien vers le Jupyter Notebook Tanagra" href="https://github.com/obtic-sorbonne/Tanagra2/blob/main/Tanagra.ipynb" target="_blank">
       <div class="visu-img"><img alt="" src="{{ url_for('static', filename='img/tanagra_v2.png')}}"></div>
       <h3 class="visu-title">Tanagra v2</h3>
       <span class="visu-text"><p>{{ _("Analyse de sentiments et cartographie des lieux dans les textes") }}</p></span>
@@ -22,7 +22,7 @@
       <span class="visu-text"><p>Renard (<span style="font-style: italic;">Relationships Extraction from NARrative Documents</span>) {{ _("permet d'extraire et visualiser les <em>réseaux de personnages</em> dans un texte") }}.</p></span>
     </a>
 
-    <a class="box-outil-visu" href="https://github.com/YoannDupont/minerva" target="_blank">
+    <a class="box-outil-visu" title="Lien vers le GitHub Minerva" href="https://github.com/YoannDupont/minerva" target="_blank">
       <div class="visu-img"><img alt="" src="{{ url_for('static', filename='img/minerva.png') }}"></div>
       <h3 class="visu-title">Minerva</h3>
       <span class="visu-text"><p>{{ _('Minerva est un outil de lecture distante') }}. {{ _("A partir d'un texte annoté en entités nommées, il permet de visualiser les <em>réseaux de cooccurrences</em> entre celles-ci") }}. {{ _("A partir de l'annotation en opinions / sentiments effectuée par l'outil Ariane, Minerva permet de visualiser les faisceaux d'opinions et sentiments liées aux entités nommées d'un texte") }}.</p></span>
