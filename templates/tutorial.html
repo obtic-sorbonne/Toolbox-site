@@ -18,6 +18,16 @@
   flex: 1 1 calc(33.33% - 20px); /* 33.33% pour 3 colonnes, moins l'espacement */
   box-sizing: border-box; /* Inclut le padding et la bordure dans la taille */
 }
+
+.outil a{
+  color:#263E8D;
+  text-decoration:none;
+}
+
+.outil h3{
+  text-align: center;
+}
+
 </style>
 
 <div class="outil">
@@ -26,23 +36,23 @@
 	<p>{{ _("La boîte à outils Pandore a été conçue de manière à prendre en entrée un corpus, quel qu'il soit") }}, {{ _('et de fournir directement le résultat des traitements de ce corpus') }}.
 		{{ _("Ainsi, la plupart des outils se composent d'un champ de chargement de fichiers, avec d'éventuelles options à cocher") }}, {{ _('pour rendre la manipulation de ces outils très intuitive') }}.<br>
 		{{ _("Les sections suivantes fournissent un tutoriel détaillé de la manière dont s'utilise chaque outil de Pandore et sont classées par tâche") }}.</p>
-		<p>{{ _("Cette documentation a été réalisée à partir de la documentation de la première version de Pandore, du livre") }} <em>Speech and Language Processing: An Introduction to Natural Language Processing, Computational Linguistics, and Speech Recognition with Language Models, 3rd edition.</em> (2025) {{ _("de") }} Daniel Jurafsky and James H. Martin. 2025 ({{ _("lien") }} <a href="https://web.stanford.edu/~jurafsky/slp3" target="_blank">{{ _("ici") }}</a>), {{ _("et de l'IA") }} <a href="https://copilot.microsoft.com/" target="_blank">Copilot</a>.</p>
+		<p>{{ _("Cette documentation a été réalisée à partir de la documentation de la première version de Pandore, du livre") }} <em>Speech and Language Processing: An Introduction to Natural Language Processing, Computational Linguistics, and Speech Recognition with Language Models, 3rd edition.</em> (2025) {{ _("de") }} <a href="https://web.stanford.edu/~jurafsky/slp3" target="_blank">Daniel Jurafsky and James H. Martin</a>. 2025, {{ _("et de l'IA") }} <a href="https://copilot.microsoft.com/" target="_blank">Copilot</a>.</p>
 	</div>
 	<h3>{{ _('Sommaire') }}</h3>
 <div class="bandeau-outils">
     <div class="container">
-      <div class="box-outil-accueil shadow" onclick="window.location.href='{{ url_for('tutorial_conversion') }}';">
-        <div class="rubrique-icon"><img alt="Conversion de formats" src="{{url_for('static', filename='img/icons/conversion_xml.png')}}"></div>
-        <span class="rubrique-title"><h3>{{ _('Conversion de formats') }}</h3></span>
-      </div>
-      <div class="box-outil-accueil shadow" onclick="window.location.href='{{ url_for('tutorial_annotation') }}';">
-        <div class="rubrique-icon"><img alt="Tâches d'annotation automatique" src="{{url_for('static', filename='img/icons/annotation.png')}}"></div>
-        <span class="rubrique-title"><h3>{{ _("Tâches d'annotation automatique") }}</h3></span>
-      </div>
-      <div class="box-outil-accueil shadow" onclick="window.location.href='{{ url_for('tutorial_extraction') }}';">
-        <div class="rubrique-icon"><img alt="Extraction d'information" src="{{url_for('static', filename='img/icons/information_extraction.png')}}"></div>
-        <span class="rubrique-title"><h3>{{ _("Extraction d'information") }}</h3></span>
-      </div>
+      <a class="box-outil-accueil shadow" href="{{ url_for('tutorial_conversion') }}">
+        <div class="rubrique-icon"><img alt="" src="{{url_for('static', filename='img/icons/conversion_xml.png')}}"></div>
+        <h3 class="rubrique-title">{{ _('Conversion de formats') }}</h3>
+      </a>
+      <a class="box-outil-accueil shadow" href="{{ url_for('tutorial_annotation') }}">
+        <div class="rubrique-icon"><img alt="" src="{{url_for('static', filename='img/icons/annotation.png')}}"></div>
+        <h3 class="rubrique-title">{{ _("Tâches d'annotation automatique") }}</h3>
+      </a>
+      <a class="box-outil-accueil shadow" href="{{ url_for('tutorial_extraction') }}">
+        <div class="rubrique-icon"><img alt="" src="{{url_for('static', filename='img/icons/information_extraction.png')}}"></div>
+        <h3 class="rubrique-title">{{ _("Extraction d'information") }}</h3>
+      </a>
     </div>
   </div>
 </div>
