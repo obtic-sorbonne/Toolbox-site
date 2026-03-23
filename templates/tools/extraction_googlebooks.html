@@ -34,7 +34,7 @@
 <p>{{ _("Utilisation de l'API Google Books pour récupérer, avec leur titre, les livres qui sont dans le domaine public et dont le PDF est disponible") }}.</p>
 
 <div style="font-size: 0.9em;border:1px solid #263e8d; border-radius: 2px;padding:30px;margin-top: 20px;margin-bottom: 20px;">
-	<p class="how" style="margin-top:0">{{ _('Comment ça marche ') }}?</p>
+	<h3 class="how" style="margin-top:0">{{ _('Comment ça marche ') }}?</h3>
 	<p style="border-left:1px solid #008CBA;padding:5px;margin:8px">{{ _('Exemple') }} :<br><span style="font-family: 'Courier New', Courier, monospace;">Pride and Prejudice<br>L'Illiade d'Homère</span></p>
 	<p>{{ _("Cela permettra de récupérer les ouvrages de <em>Pride and Prejudice</em> et <em>L'Illiade d'Homère</em>") }}.</p>
 </div>
@@ -62,16 +62,7 @@
 		</div>
 	</div>
 </div>
- <span class="trigger-panel" onclick="openNav()">{{ _('Tâches suivantes')}}  <i class="fa-solid fa-angles-right"></i></span>
-
-<div id="task-panel-gallica" class="sidepanel">
-  <span class="closebtn" onclick="closeNav()">&times;</span>
-  <h3 style="font-family: 'Comprehension', serif;">{{ _('Tâches suivantes')}}</h3>
-  <div class="side-item"><a href="{{ url_for('named_entities_recognition') }}">{{ _('Extraire les entités nommées') }}</a></div>
-  <div class="side-item"><a href="{{ url_for('partofspeech_tagging') }}">{{ _('Étiqueter en parties du discours') }}</a></div>
-  <div class="side-item"><a href="https://obtic.huma-num.fr/teinte/">Teinte</a></div> 
-  <div class="side-item"><a href="{{ url_for('visualisation_tools') }}">{{ _('Visualisation') }}</a></div> 
-</div>
+ 
 <script>
 	
 	/* MAJ de la zone de glisser-déposer */ 
