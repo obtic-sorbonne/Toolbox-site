@@ -33,8 +33,8 @@
 <h2>{{ _("Reconnaissance de l'écriture manuscrite (HTR)") }}</h2>
 
 <div class="tool-box">
-    <h4>Kraken HTR</h4>
-    <p>{{ _ ("L'outil Kraken") }} <a href="https://kraken.re/" target="_blank"><i class="fa-solid fa-arrow-up-right-from-square"></i></a> {{ _('permet de numériser des documents manuscrits')}}. {{ _('Les modèles disponibles') }} <a href="https://zenodo.org/communities/ocr_models/" target="_blank"> ({{ _('liste ici')}} <i class="fa-solid fa-arrow-up-right-from-square"></i>)</a> {{ _("offrent une variété d'options au regard de la structure de la mise en plage et du type d'écriture manuscrite")}}.</p>
+    <h3>Kraken HTR</h3>
+    <p><a href="https://kraken.re/" target="_blank">Kraken <i class="fa-solid fa-arrow-up-right-from-square"></i></a> {{ _('permet de numériser des documents manuscrits')}}. {{ _('Les modèles disponibles') }} <a href="https://zenodo.org/communities/ocr_models/" target="_blank"> ({{ _('liste ici')}} <i class="fa-solid fa-arrow-up-right-from-square"></i>)</a> {{ _("offrent une variété d'options au regard de la structure de la mise en plage et du type d'écriture manuscrite")}}.</p>
     <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_recognition') }}"  target="_blank">{{ _('Voir la documentation') }}</a></p>
     <div class="infos_outil" style="display: block;margin: 0 auto 15px auto;">
         <input id="show" type=checkbox><label for="show" class="infos_title"><i class="fa-solid fa-circle-info"></i> {{ _("Informations sur l'outil") }}<i class="fa-solid fa-angle-right" style="float:right;margin-top:5px;margin-left:15px;cursor: pointer;"></i></label></p>
@@ -89,16 +89,6 @@
 	  </div>
 	  <!--end div loader-->
   </div><!-- end div tool-box-->
-</div>
-
-<span class="trigger-panel" onclick="openNav()">{{ _('Tâches suivantes')}}  <i class="fa-solid fa-angles-right"></i></span>
-
-<div id="task-panel-ocr" class="sidepanel">
-  <span class="closebtn" onclick="closeNav()">&times;</span>
-  <h3 style="font-family: 'Comprehension', serif;">{{ _('Tâches suivantes')}}</h3>
-  <div class="side-item"><a href="{{ url_for('conversion_xml') }}">{{ _('Convertir en XML-TEI') }}</a></div>
-  <div class="side-item"><a href="{{ url_for('named_entities_recognition') }}">{{ _('Extraire les entités nommées') }}</a></div>
-  <div class="side-item"><a href="{{ url_for('partofspeech_tagging') }}">{{ _('Étiqueter en parties du discours') }}</a></div>
 </div>
 
 <script>
