@@ -229,10 +229,12 @@ form p{
       {% if erreur != "" %}
         <p>{{ erreur }}</p>
       {% endif %}
-      <div class="dropzone" id="dropzoneEnt">
-        <input type="file" name="entityfiles" accept="text/plain,text/xml" multiple required>
-        <p id="form_msg">{{ _("Déposer le(s) fichier(s) ou cliquer ici.") }}</p>
-      </div>
+      <div class="dropzone" id="dropzoneEnt" style="margin:25px auto; height:150px;">
+          <label class="dropzone-label">
+            <p id="form_msg">{{ _("Déposer le(s) fichier(s) ou cliquer ici") }}.</p>
+            <input type="file" id="entityfiles" name="entityfiles" accept="text/plain" multiple required>
+          </label>
+        </div>
       <input id="csrf_token" name="csrf_token" type="hidden" value="CSRF_TOKEN_STRING">
       <button type="submit" class="centerElem" style="margin-top: 8px;">{{ _('Annoter') }}</button>
     </div>

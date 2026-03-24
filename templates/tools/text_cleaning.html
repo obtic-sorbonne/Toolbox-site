@@ -53,9 +53,11 @@
             </select>
         </div>
 
-        <div class="dropzone" style="margin:25px auto;">
-            <input type="file" id="files" name="files" accept="text/plain" multiple required>
+       <div class="dropzone" style="margin:25px auto; height:150px;">
+          <label class="dropzone-label">
             <p id="form_msg">{{ _("Déposer le(s) fichier(s) ou cliquer ici") }}.</p>
+            <input type="file" id="files" name="files" accept="text/plain" multiple required>
+          </label>
         </div>
 
         {{ form.csrf_token }}

@@ -55,10 +55,12 @@
 		</div>
 
 		 <div class="container" id="renard_container">
-			<div class="dropzone">
-				<input type="file" id="renard_upload" name="renard_upload" accept="text/plain">
-				<p id="form_msg"><span style="font-size: 2em;color: #c0c0c0;"><i class="fa-solid fa-arrow-up-from-bracket"></i></span><br>{{ _('Déposer le(s) fichier(s) ou cliquer ici.' )}}</p>
-			</div>
+		 	<div class="dropzone" style="margin:25px auto; height:150px;">
+	          <label class="dropzone-label">
+	            <p id="form_msg">{{ _("Déposer le(s) fichier(s) ou cliquer ici") }}.</p>
+	            <input type="file" id="renard_upload" name="renard_upload" accept="text/plain" multiple required>
+	          </label>
+	        </div>
 			<textarea name="renard_txt_input" id="renard_txt_input" style="width:500px" placeholder="Put your text here"></textarea>
 			<input id="csrf_token" name="csrf_token" type="hidden" value="CSRF_TOKEN_STRING">
 		 </div>

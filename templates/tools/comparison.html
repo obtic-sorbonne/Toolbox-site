@@ -23,9 +23,11 @@
     </div>
     <form action="{{ url_for('compare') }}" id="linguistic-form" method="post" enctype="multipart/form-data" onsubmit="showloader('loader')">
         {{ form.csrf_token }}
-        <div class="dropzone" style="margin:25px auto;">
-            <input type="file" id="files" name="files" accept="text/plain" multiple required>
+        <div class="dropzone" style="margin:25px auto; height:150px;">
+          <label class="dropzone-label">
             <p id="form_msg">{{ _("Déposer le(s) fichier(s) ou cliquer ici") }}.</p>
+            <input type="file" id="files" name="files" accept="text/plain" multiple required>
+          </label>
         </div>
         <p id="fileError" style="color:red;text-align: center;"></p>
         <input id="csrf_token" name="csrf_token" type="hidden" value="{{ csrf_token() }}">
