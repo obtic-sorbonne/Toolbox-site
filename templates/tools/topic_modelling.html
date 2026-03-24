@@ -28,10 +28,12 @@
                 </fieldset>
                 </div>
                 <div  style="width: 500px; margin: 0 auto;">
-                <div class="dropzone">
-                <input type="file" name="topic_model" accept="text/plain" multiple required>
-                <p id="form_msg">{{ _("Déposer le(s) fichier(s) ou cliquer ici.")}}</p>
-                </div>
+                    <div class="dropzone" style="margin:25px auto; height:150px;">
+                      <label class="dropzone-label">
+                        <p id="form_msg">{{ _("Déposer le(s) fichier(s) ou cliquer ici") }}.</p>
+                        <input type="file" id="topic_model" name="topic_model" accept="text/plain" multiple required>
+                      </label>
+                    </div>
                 <input id="csrf_token" name="csrf_token" type="hidden" value="CSRF_TOKEN_STRING">
                 <button type="submit">{{ _("Envoyer") }}</button>
             </div>

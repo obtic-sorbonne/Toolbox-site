@@ -128,9 +128,10 @@
 
     <!-- Publication -->
     <fieldset>
-      <legend>{{ _('Publication du document') }} (publicationStmt) <span style="color: #B30000;">*</span></legend>
+      <label style="font-weight: normal;"><legend>{{ _('Publication du document') }} (publicationStmt) <span style="color: #B30000;">*</span></legend>
       <small>{{ _('Entrer les noms des éditeurs séparés par un retour à la ligne') }}</small><br>
-      <textarea name="pubStmt" id="pubStmt" rows="3" placeholder="Example: Sorbonne Université" required></textarea><br>
+      <textarea name="pubStmt" id="pubStmt" rows="3" placeholder="Example: Sorbonne Université" required></textarea>
+    </label><br>
 
       <label for="licence"><strong>{{ _('Licence') }}</strong> <span style="color: #B30000;">*</span></label><br>
       <select name="licence" id="licence" required>
@@ -148,8 +149,8 @@
 
     <!-- Source -->
     <fieldset>
-      <legend>{{ _('Description bibliographique de la source') }} (sourceDesc) <span style="color: #B30000;">*</span></legend>
-      <textarea name="sourceDesc" id="sourceDesc" rows="3" placeholder="Example: The first folio of Shakespeare, prepared by Charlton Hinman (The Norton Facsimile, 1968)"></textarea>
+      <label><legend>{{ _('Description bibliographique de la source') }} (sourceDesc) <span style="color: #B30000;">*</span></legend>
+      <textarea name="sourceDesc" id="sourceDesc" rows="3" placeholder="Example: The first folio of Shakespeare, prepared by Charlton Hinman (The Norton Facsimile, 1968)"></textarea></label>
     </fieldset>
 
     <!-- Profil -->
@@ -169,8 +170,8 @@
 
     <!-- Projet -->
     <fieldset>
-      <legend>{{ _('Description du projet') }} (projectDesc)</legend>
-      <textarea name="projet_p" id="projet_p" rows="3" placeholder="Example: Texts collected for use in the Claremont Shakespeare Clinic, June 1990"></textarea>
+      <label><legend>{{ _('Description du projet') }} (projectDesc)</legend>
+      <textarea name="projet_p" id="projet_p" rows="3" placeholder="Example: Texts collected for use in the Claremont Shakespeare Clinic, June 1990"></textarea></label>
     </fieldset>
 
     <!-- Choix éditoriaux -->

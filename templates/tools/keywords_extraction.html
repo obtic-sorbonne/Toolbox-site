@@ -32,10 +32,12 @@
                     <div id="diversity_opt" style="display:none;padding:5px;"><input type="range" name="diversity" min="0" max="10" value="7"><label for="diversity">{{ _("Diversité (MMR)") }}</label></div>
                 </fieldset>
                 </div>
-                <div  style="width: 500px; margin: 0 auto;">
-                <div class="dropzone" id="kw_dropzone">
-                <input type="file" name="keywd-extract" accept="text/plain" multiple required>
-                <p id="form_msg">{{ _("Déposer le(s) fichier(s) ou cliquer ici.") }}</p>
+                <div id="div-upload" style="width: 500px; margin: 0 auto;">
+                  <div class="dropzone" id="kw_dropzone" style="margin:25px auto; height:150px;">
+                  <label class="dropzone-label">
+                    <p id="form_msg">{{ _("Déposer le(s) fichier(s) ou cliquer ici") }}.</p>
+                    <input type="file" id="keywd-extract" name="keywd-extract" accept="text/plain" multiple required>
+                  </label>
                 </div>
                 <input id="csrf_token" name="csrf_token" type="hidden" value="CSRF_TOKEN_STRING">
                 <button type="submit">{{ _('Envoyer') }}</button>
