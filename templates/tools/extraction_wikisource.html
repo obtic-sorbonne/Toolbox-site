@@ -23,7 +23,7 @@
       <fieldset>
         <label for="nbtext">{{ _('Nombre de textes') }}</label>
         <span id="rangeValue" name="rangeValue">1</span>
-        <input class="range" type="range" name="nbtext" value="0" min="1" max="8" onChange="rangeSlide(this.value)" onmousemove="rangeSlide(this.value)"></input>
+        <input class="range" type="range" name="nbtext" id="nbtext" value="0" min="1" max="8" onChange="rangeSlide(this.value)" onmousemove="rangeSlide(this.value)"></input>
         <input id="csrf_token" name="csrf_token" type="hidden" value="CSRF_TOKEN_STRING">
         <button class="button">{{ _('Génerer corpus aléatoire') }}</button>
       </fieldset>

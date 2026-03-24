@@ -51,7 +51,7 @@
       {{ form.csrf_token }}
       <div class="relations-input">
       <label for="segmodel">{{ _("Modèle de segmentation ")}}:</label>
-        <select name="segmodel" required>
+        <select name="segmodel" id="segmodel" required>
                 <option value="blla.mlmodel">{{ _("Modèle général de segmentation pour l'imprimé et l'écriture manuscrite") }}</option>
                 <option value="seg_vital_records.mlmodel">{{ _("Modèle de segmentation pour les actes d'état civil") }}</option>
                 <option value="seg_news_1.0.mlmodel">{{ _("Modèle de segmentation pour les imprimés à deux colonnes") }}</option>
@@ -60,7 +60,7 @@
       <br><br>
       <div class="relations-input">
     <label for="recomodel">{{ _("Modèle de reconnaissance de texte ")}}:</label>
-    <select name="recomodel" required>
+    <select name="recomodel" id="recomodel" required>
             <option value="catmus-medieval-1.6.0.mlmodel">{{ _("CATMuS Medieval - Documents latins, ancien et moyen français, espagnol, italien")}}</option>
             <option value="catmus-print-fondue-large.mlmodel">{{ _("CATMuS-Print - Imprimés français et d'autres langues d'Europe occidentale")}} - 98.56%</option>
             <option value="all_arabic_scripts.mlmodel">{{ _("OpenITI - Imprimés d'écriture arabe")}} - 95.3%</option>

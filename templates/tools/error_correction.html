@@ -49,7 +49,7 @@
         {{ form.csrf_token }}
         <div class="relations-input">
         <label for="selected_language">{{ _('Modèle') }}</label>
-        <select name="selected_language" class="sel sel--black-panther">
+        <select name="selected_language" id="selected_language" class="sel sel--black-panther">
             <option disabled>--- {{ _('Europe') }} ---</option>
             <option value="cs">{{ _('Tchèque') }} (cs)</option>
             <option value="da">{{ _('Danois') }} (da)</option>
