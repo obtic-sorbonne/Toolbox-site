@@ -763,7 +763,9 @@ def extract_gallica():
                     except Exception as exc:
                         logger.error(f"Erreur telechargement image {url} (tentative {attempt+1}/3): {exc}")
                         if attempt < 2:
-                            time.sleep(10)
+                            retry_after = int(resp.headers.get('Retry-After', 60))
+                            logger.info(f"Attente de {retry_after}s avant nouvelle tentative...")
+                            time.sleep(retry_after)
                 else:
                     res_err += url + '\n'
 
