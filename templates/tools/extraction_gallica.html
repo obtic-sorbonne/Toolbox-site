@@ -74,12 +74,12 @@ input[type="radio"]{
 }
 #option-1:checked:checked ~ .option-1,
 #option-2:checked:checked ~ .option-2{
-  border-color: #008CBA;
-  background: #008CBA;
+  border-color: #263e8d;
+  background: #263e8d;
 }
 
 .opt-wrapper .option span{
-  color: grey;
+  color: #111C40;
   margin-left: 5px;
 }
 
@@ -91,6 +91,18 @@ input[type="radio"]{
 #option-1:checked:checked ~ .option-1 i,
 #option-2:checked:checked ~ .option-2 i{
   color: #fff;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 </style>
@@ -125,12 +137,15 @@ input[type="radio"]{
 	</fieldset>
 	<p style="margin-top:15px;color:#263e8d">{{ _('Liste des arks correspondant aux documents à télécharger') }}</p>
 	<div class="container" style="width:85%">
-		<div class="dropzone">
-			<input type="file" id="ark_upload" name="ark_upload" accept="text/plain">
-			<p id="form_msg"><span style="font-size: 2em;color: #c0c0c0;"><i class="fa-solid fa-arrow-up-from-bracket"></i></span><br>{{ _("Déposer un fichier ou cliquer ici.") }}</p>
-		</div>
+		<div class="dropzone" style="margin:25px auto; height:150px;">
+          <label class="dropzone-label" style="font-weight: normal;">
+            <p id="form_msg">{{ _("Déposer le(s) fichier(s) ou cliquer ici") }}.</p>
+            <input type="file" id="ark_upload" name="ark_upload" accept="text/plain" multiple required>
+          </label>
+        </div>
 		<div class="textarea_w_msg">
 			<span id="error_msg_ark"></span>
+			<label for="arks" class="visually-hidden">ARKs</label>
 			<textarea name="ark_input" id="arks" cols="17" rows="8" placeholder="... Or paste ARKs here, divided by a newline."></textarea>
 		</div>
 	</div>

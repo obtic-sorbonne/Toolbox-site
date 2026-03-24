@@ -46,8 +46,8 @@
         <br>
         {{ form.csrf_token }}
         <div style="display: block; margin: auto; width: max-content;">
-          <label id="files" for="files" style="font-weight: bold;">URLs</label><br>
-          <textarea name="files" rows="4" cols="50" placeholder="One ID per line"></textarea><br><br>
+          <label for="files" style="font-weight: bold;">URLs</label><br>
+          <textarea name="files" id="files" rows="4" cols="50" placeholder="One ID per line"></textarea><br><br>
         </div>
         <br>
         <input id="csrf_token" name="csrf_token" type="hidden" value="{{ csrf_token() }}">

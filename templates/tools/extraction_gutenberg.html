@@ -76,12 +76,12 @@ input[type="radio"]{
 #option-1:checked:checked ~ .option-1,
 #option-2:checked:checked ~ .option-2,
 #option-3:checked:checked ~ .option-3{
-  border-color: #008CBA;
-  background: #008CBA;
+  border-color: #263e8d;
+  background: #263e8d;
 }
 
 .opt-wrapper .option span{
-  color: grey;
+  color: #111C40;
   margin-left: 5px;
 }
 
@@ -132,8 +132,8 @@ input[type="radio"]{
 					</div>
 					</fieldset>
         <div style="display: block; margin: auto; width: max-content;">
-          <label id="files" for="files" style="font-weight: bold;">Book IDs</label><br>
-          <textarea name="files" rows="4" cols="50" placeholder="One ID per line"></textarea><br><br>
+          <label for="files" style="font-weight: bold;">Book IDs</label><br>
+          <textarea name="files" id="files" rows="4" cols="50" placeholder="One ID per line"></textarea><br><br>
         </div>
         <br>
         <input id="csrf_token" name="csrf_token" type="hidden" value="{{ csrf_token() }}">
