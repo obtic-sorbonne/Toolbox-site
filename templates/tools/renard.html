@@ -61,7 +61,11 @@
 	            <input type="file" id="renard_upload" name="renard_upload" accept="text/plain" multiple required>
 	          </label>
 	        </div>
+	        <div class="textarea_w_msg">
+			<span id="error_msg_ark"></span>
+			<label for="renard_txt_input" >Text Input</label>
 			<textarea name="renard_txt_input" id="renard_txt_input" style="width:500px" placeholder="Put your text here"></textarea>
+		</div>
 			<input id="csrf_token" name="csrf_token" type="hidden" value="CSRF_TOKEN_STRING">
 		 </div>
 			<button type="submit" style="display:block;margin:auto;margin-top:15px;">{{ _('Envoyer')}}</button>
