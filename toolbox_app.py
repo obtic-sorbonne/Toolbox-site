@@ -689,6 +689,11 @@ def extract_gallica():
     rand_name =  generate_rand_name('corpus_gallica_')
     result_path = create_named_directory(rand_name)
 
+    # Définir les détails de connexion à l'API Gallica. Fermer la connexion pour éviter d'être coupé par Gallica
+    GALLICA_HEADERS = {
+        'User-Agent': 'Pandore-Toolbox/1.0 (Educational; contact@sorbonne-universite.fr)',
+        'Connection': 'close'
+    }
     
     for arkEntry in arks_list:
         # Vérifie si une plage de pages est indiquée
@@ -718,7 +723,7 @@ def extract_gallica():
             outfile = arkName + '.html'
             path_file = os.path.join(result_path, outfile)
             try:
-                resp = requests.get(url, headers={'User-Agent': 'Pandore-Toolbox/1.0 (Educational; contact@sorbonne-universite.fr)'}, timeout=60)
+                resp = requests.get(url, headers=GALLICA_HEADERS, timeout=60)
                 resp.raise_for_status()
                 with open(path_file, 'wb') as out_file:
                     out_file.write(resp.content)
@@ -733,7 +738,7 @@ def extract_gallica():
             if nb_p == 0:
                 url_pagination = "https://gallica.bnf.fr/services/Pagination?ark={}".format(arkName)
                 try:
-                    resp = requests.get(url_pagination, headers={'User-Agent': 'Pandore-Toolbox/1.0 (Educational; contact@sorbonne-universite.fr)'}, timeout=30)
+                    resp = requests.get(url_pagination, headers=GALLICA_HEADERS, timeout=30)
                     resp.raise_for_status()
                     soup = BeautifulSoup(resp.text, features="xml")
                     nb_p = soup.find('nbVueImages').get_text()
@@ -741,23 +746,28 @@ def extract_gallica():
                     print(exc)
 
             # Parcours des pages à télécharger
-            for i in range(int(debut), int(debut) + int(nb_p) + 1):
+            for i in range(int(debut), int(debut) + int(nb_p)):
                 logger.debug(f"Processing page {i} of {arkName}")
 
                 url = "https://gallica.bnf.fr/iiif/ark:/12148/{}/f{}/full/full/0/default.jpg".format(arkName, i)
                 outfile = "{}_{:04}.jpg".format(arkName, i)
                 path_file = os.path.join(result_path, outfile)
-                try:
-                    resp = requests.get(url, headers={'User-Agent': 'Pandore-Toolbox/1.0 (Educational; contact@sorbonne-universite.fr)'}, timeout=60, stream=True)
-                    resp.raise_for_status()
-                    with open(path_file, 'wb') as out_file:
-                        for chunk in resp.iter_content(chunk_size=8192):
-                            out_file.write(chunk)
-                    res_ok += url + '\n'
-                except Exception as exc:
-                    logger.error(f"Erreur telechargement image {url}: {exc}")
+                for attempt in range(3):
+                    try:
+                        resp = requests.get(url, headers=GALLICA_HEADERS, timeout=60)
+                        resp.raise_for_status()
+                        with open(path_file, 'wb') as out_file:
+                            out_file.write(resp.content)
+                        res_ok += url + '\n'
+                        break
+                    except Exception as exc:
+                        logger.error(f"Erreur telechargement image {url} (tentative {attempt+1}/3): {exc}")
+                        if attempt < 2:
+                            retry_after = int(resp.headers.get('Retry-After', 60))
+                            logger.info(f"Attente de {retry_after}s avant nouvelle tentative...")
+                            time.sleep(retry_after)
+                else:
                     res_err += url + '\n'
-                time.sleep(1)
 
         else:
             print("Erreur de paramètre")
@@ -777,16 +787,6 @@ def extract_gallica():
     return response
 
     return render_template('extraction_gallica', form=form)
-
-def get_size(ark, i):
-    url = "https://gallica.bnf.fr/iiif/ark:/12148/{}/f{}/info.json".format(ark, i)
-    try:
-        resp = requests.get(url, headers={'User-Agent': 'Pandore-Toolbox/1.0 (Educational; contact@sorbonne-universite.fr)'}, timeout=30)
-        resp.raise_for_status()
-        return resp.json()
-    except Exception as exc:
-        logger.error("Erreur en recuperant {}: {}".format(url, exc))
-        return None
 
 #---------------- Gutenberg ------------------------
 @app.route('/extract_gutenberg', methods=["POST"])
