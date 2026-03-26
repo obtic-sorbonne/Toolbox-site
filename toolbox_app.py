@@ -780,13 +780,14 @@ def extract_gallica():
             report.write("Erreur de téléchargement pour : \n {}".format(res_err))
         else:
             res = len(arks_list)
-            report.write("{} documents ont bien été téléchargés.\n".format(res))
+            report.write("{} ARK(s) traité(s) avec succès.\n".format(res))
             report.write(res_ok)
 
     response = create_zip_and_response(result_path, rand_name)
+    download_token = request.form.get('download_token', '')
+    if download_token:
+        response.set_cookie('download_ready', download_token, max_age=60)
     return response
-
-    return render_template('extraction_gallica', form=form)
 
 #---------------- Gutenberg ------------------------
 @app.route('/extract_gutenberg', methods=["POST"])
