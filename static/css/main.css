@@ -236,7 +236,8 @@ hr{
   flex: 0 0 0px;
   display:flex;
   flex-direction:column;
-  cursor:pointer;
+  cursor:pointer; 
+  text-decoration: none;
 }
 
 .rubrique-icon{
@@ -247,10 +248,11 @@ hr{
 	width:100px;
 }
 
-.rubrique-title h3{
+.rubrique-title {
 	margin:5px;
 	text-align:center;
-  font-weight:500;
+  color: #121E44;
+  font-weight: bold;
 }
 
 .rubrique-text p{
@@ -258,6 +260,8 @@ hr{
 	margin:5px;
 	text-align:center;
 	font-size:0.9em;
+  color: black;
+
 }
 
 .shadow {
@@ -303,17 +307,47 @@ hr{
   cursor: pointer;
 }
 
-.visu-title h3{
-  color:#2B3A67;
+.visu-title{
   text-align: center;
   padding:20px;
   font-size: 32px;
+  color: black;
+  font-weight: normal;
 }
 
 .visu-text p{
   padding:8px;
   margin:15px;
   font-size: 0.9em;
+  color: black;
+}
+
+.box-outil-corpus{
+  background-color:#f6f6f6;
+  border:1px solid #263e8d;
+  min-width:380px;
+  flex: 0 0 0px;
+  display:flex;
+  flex-direction:column;
+  cursor:pointer; 
+  text-decoration: none;
+}
+
+.box-outil-corpus a{
+  text-decoration: none;
+}
+
+.corpus-img img{
+  cursor: pointer;
+  display: block;
+  margin: 10 auto;
+}
+
+.box-outil-corpus h3{
+  color:#2B3A67;
+  text-align: center;
+  padding:20px;
+  font-size: 32px;
 }
 
 .footer{
@@ -424,39 +458,35 @@ hr{
 }
 
 /* DRAG AND DROP FORM */
-.dropzone{
-position:relative;
-width: 500px;
-height: 200px;
-border: 4px dashed #263e8d;
-display: table;
-}
+.dropzone input[type="file"] {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+    }
 
-.dropzone p{
-  width: 100%;
-  height: 100%;
-  text-align: center;
-  color: #111C2D;
-  display: table-cell;
-  vertical-align: middle;
-}
+  .dropzone-label {
+    display: flex;
+    align-items: center;     /* vertical */
+    justify-content: center; /* horizontal */
+    text-align: center;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+  }
 
-.dropzone input{  
-  position:absolute;
-  top:0;
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  height: 100%;
-  outline: none;
-  opacity: 0;
-  cursor: pointer;
-}
+  .dropzone-label p {
+    margin: 50px 0;
+  }
 
-.dropzone #form_msg i{
-  color:#c0c0c0;
-  font-size: larger;
-}
+  .dropzone{
+    margin:auto;
+    margin-top: 45%;
+    width: 500px;
+    height: 200px;
+    border: 4px dashed #263e8d;
+    display: table;
+    position: relative;
+  }
 
 .filename_preview{
   font-size: small;
@@ -575,7 +605,7 @@ display: table;
   cursor: pointer;
 }
 
-.how{
+.how {
   font-family: 'Bree Serif', serif;
   margin:15px 0;
   color:#263e8d;
@@ -646,22 +676,23 @@ display: table;
 }
 
 .outil h3{
-  text-align: center;
   font-size: 30px;
   font-family: 'Roboto', sans-serif;
   margin:15px 0;
-  padding:25px;
+  /* padding:25px; */
+  color:#263e8d;
 }
 
 .outil h4{
   font-family: 'Roboto', sans-serif;
   font-size:1.2em;
   margin:28px 0;
-  border-left: 5px solid #66999bff;
+  border-left: 5px solid #263e8d;
+  color:#263e8d;
   padding:10px;
 }
 .outil a{
-  color:#f2a800;
+  color:#263e8d;
   text-decoration:none;
 }
 

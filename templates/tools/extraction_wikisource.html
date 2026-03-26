@@ -15,44 +15,35 @@
       </ul>-->
     </p>
 
-    <h4>{{ _('Création rapide') }}</h4>
+    <h3>{{ _('Création rapide') }}</h3>
     <p>{{ _('Cette option permet de générer un corpus aléatoire parmi les œuvres en français de Wikisource') }}.</p>
 
     <form id="wikiscraper" method="POST" action="{{ url_for('generate_corpus') }}">
         {{ form.csrf_token }}
       <fieldset>
-        <label for="nbtext">{{ _('Nombre de textes') }}</label>
-        <span id="rangeValue" name="rangeValue">1</span>
-        <input class="range" type="range" name="nbtext" value="0" min="1" max="8" onChange="rangeSlide(this.value)" onmousemove="rangeSlide(this.value)"></input>
+        <legend><label for="nbtext">{{ _('Nombre de textes') }}</label></legend>
+        <span id="rangeValue" name="rangeValue" style="margin-left: 10px;">1</span>
+        <input class="range" type="range" name="nbtext" id="nbtext" value="0" min="1" max="8" onChange="rangeSlide(this.value)" onmousemove="rangeSlide(this.value)"></input>
         <input id="csrf_token" name="csrf_token" type="hidden" value="CSRF_TOKEN_STRING">
         <button class="button">{{ _('Génerer corpus aléatoire') }}</button>
       </fieldset>
     </form>
 
     <div>
-    <h4>{{ _("A partir d'URL(s)") }}</h4>
+    <h3>{{ _("A partir d'URL(s)") }}</h3>
     <p>{{ _("Copier ici les URLs des textes à collecter") }}. {{ _("Il est possible de collecter un texte intégral à partir d'un sommaire") }} [<a href="https://fr.wikisource.org/wiki/Valserine_et_autres_nouvelles" target="_blank">{{ _("exemple") }}</a>]. {{ _("Dans ce cas, cocher la case Sommaire en face de l'URL indiquée") }}.</p>
     <form id="urlform"  method="POST" action="{{ url_for('corpus_from_url') }}">
       {{ form.csrf_token }}
       <input type="hidden" value="1" id="nb_inputs">
       <input type="text" id="url_1" name="url_1" class="wikiurl"> <input type="checkbox" name="s1" id="s1"><label for="s1">{{ _('Sommaire') }}</label>
       <div id="new_inputs" style="display:inline-block;"></div>
-      <div class="addbutton" id="addbutton" onclick="addInput()" ><i class="fa-solid fa-circle-plus" style="margin-right:3px;"></i>{{ _('Ajouter URL') }}</div>
+      <button class="addbutton" id="addbutton" onclick="addInput()" ><i class="fa-solid fa-circle-plus" style="margin-right:3px;"></i>{{ _('Ajouter URL') }}</button>
       <input id="csrf_token" name="csrf_token" type="hidden" value="CSRF_TOKEN_STRING">
       <button type="submit" class="button" style="display:block;margin:30px auto;">{{ _('Collecter corpus') }}</button>
     </form>
     </div>
   </div>
- <span class="trigger-panel" onclick="openNav()">{{ _('Tâches suivantes')}}  <i class="fa-solid fa-angles-right"></i></span>
-
-<div id="task-panel-gallica" class="sidepanel">
-  <span class="closebtn" onclick="closeNav()">&times;</span>
-  <h3 style="font-family: 'Comprehension', serif;">{{ _('Tâches suivantes')}}</h3>
-  <div class="side-item"><a href="{{ url_for('named_entities_recognition') }}">{{ _('Extraire les entités nommées') }}</a></div>
-  <div class="side-item"><a href="{{ url_for('partofspeech_tagging') }}">{{ _('Étiqueter en parties du discours') }}</a></div>
-  <div class="side-item"><a href="https://obtic.huma-num.fr/teinte/">Teinte</a></div> 
-  <div class="side-item"><a href="{{ url_for('visualisation_tools') }}">{{ _('Visualisation') }}</a></div> 
-</div>
+ 
 
   <script type="text/javascript">
 

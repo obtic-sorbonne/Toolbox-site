@@ -103,8 +103,8 @@
     <!-- Métadonnées -->
     <fieldset>
       <legend>{{ _('Métadonnées') }}</legend>
-      <label for="title"><strong>{{ _('Titre du document') }} (titleStmt)</strong> <span style="color: red;">*</span></label><br>
-      <select name="title_lang" id="title_lang">
+      <label for="title"><strong>{{ _('Titre du document') }} (titleStmt)</strong> <span style="color: #B30000;">*</span></label><br>
+      <select name="title_lang" id="title">
         <option value="fr">{{ _('Français') }}</option>
         <option value="en">{{ _('Anglais') }}</option>
         <option value="de">{{ _('Allemand') }}</option>
@@ -128,11 +128,12 @@
 
     <!-- Publication -->
     <fieldset>
-      <legend>{{ _('Publication du document') }} (publicationStmt) <span style="color: red;">*</span></legend>
+      <label style="font-weight: normal;"><legend>{{ _('Publication du document') }} (publicationStmt) <span style="color: #B30000;">*</span></legend>
       <small>{{ _('Entrer les noms des éditeurs séparés par un retour à la ligne') }}</small><br>
-      <textarea name="pubStmt" id="pubStmt" rows="3" placeholder="Example: Sorbonne Université" required></textarea><br>
+      <textarea name="pubStmt" id="pubStmt" rows="3" placeholder="Example: Sorbonne Université" required></textarea>
+    </label><br>
 
-      <label for="licence"><strong>{{ _('Licence') }}</strong> <span style="color: red;">*</span></label><br>
+      <label for="licence"><strong>{{ _('Licence') }}</strong> <span style="color: #B30000;">*</span></label><br>
       <select name="licence" id="licence" required>
         <option value="CC-BY">CC-BY (Attribution)</option>
         <option value="CC-BY-SA">CC-BY-SA ({{ _("Attribution et partage dans les mêmes conditions") }})</option>
@@ -148,8 +149,8 @@
 
     <!-- Source -->
     <fieldset>
-      <legend>{{ _('Description bibliographique de la source') }} (sourceDesc) <span style="color: red;">*</span></legend>
-      <textarea name="sourceDesc" id="sourceDesc" rows="3" placeholder="Example: The first folio of Shakespeare, prepared by Charlton Hinman (The Norton Facsimile, 1968)"></textarea>
+      <label><legend>{{ _('Description bibliographique de la source') }} (sourceDesc) <span style="color: #B30000;">*</span></legend>
+      <textarea name="sourceDesc" id="sourceDesc" rows="3" placeholder="Example: The first folio of Shakespeare, prepared by Charlton Hinman (The Norton Facsimile, 1968)"></textarea></label>
     </fieldset>
 
     <!-- Profil -->
@@ -169,8 +170,8 @@
 
     <!-- Projet -->
     <fieldset>
-      <legend>{{ _('Description du projet') }} (projectDesc)</legend>
-      <textarea name="projet_p" id="projet_p" rows="3" placeholder="Example: Texts collected for use in the Claremont Shakespeare Clinic, June 1990"></textarea>
+      <label><legend>{{ _('Description du projet') }} (projectDesc)</legend>
+      <textarea name="projet_p" id="projet_p" rows="3" placeholder="Example: Texts collected for use in the Claremont Shakespeare Clinic, June 1990"></textarea></label>
     </fieldset>
 
     <!-- Choix éditoriaux -->
@@ -190,7 +191,7 @@
 
     <!-- Révision -->
     <fieldset>
-      <legend>{{ _('Révision du document') }} (revisionDesc) <span style="color: red;">*</span></legend>
+      <legend>{{ _('Révision du document') }} (revisionDesc) <span style="color: #B30000;">*</span></legend>
       <label for="when"><strong>{{ _('Date de la révision') }}</strong></label><br>
       <input type="date" name="when" id="when" required><br>
 
@@ -219,28 +220,22 @@
 </fieldset>
 
 
-    <p style="margin-top:20px; color: red; font-size: 9pt; text-align: center">{{ _("Tous les champs accompagnés d'un * doivent obligatoirement être remplis.") }}</p>
+    <p style="margin-top:20px; color: #B30000; font-size: 9pt; text-align: center">{{ _("Tous les champs accompagnés d'un * doivent obligatoirement être remplis.") }}</p>
 
 
         <div id="div-upload" style="width: 500px; margin: 0 auto;">
-          <div class="dropzone">
-            <input class="styled-select" type="file" id="rax-text-file" name="file" accept=".txt" multiple required/>
-              <p id="form_msg"><i class="fa-solid fa-upload"></i><br/>{{ _('Déposer le(s) fichier(s) ou cliquer ici.')}}</p>
-            </div>
+          <div class="dropzone" style="margin:25px auto; height:150px;">
+          <label class="dropzone-label" style="font-weight: normal;">
+            <p id="form_msg">{{ _("Déposer le(s) fichier(s) ou cliquer ici") }}.</p>
+            <input type="file" id="files" name="files" accept=".txt" multiple required>
+          </label>
+        </div>
           <input id="csrf_token" name="csrf_token" type="hidden" value="CSRF_TOKEN_STRING">
           <button style="display:block;margin:auto;margin-top:20px;">{{ _("Convertir en XML-TEI") }}</button>
         </div>
           </form>
       </div>
-    <span class="trigger-panel" onclick="openNav()">{{ _('Tâches suivantes')}}  <i class="fa-solid fa-angles-right"></i></span>
-
-<div id="task-panel-ocr" class="sidepanel">
-  <span class="closebtn" onclick="closeNav()">&times;</span>
-  <h3 style="font-family: 'Comprehension', serif;">{{ _('Tâches suivantes')}}</h3>
-  <div class="side-item"><a href="{{ url_for('named_entities_recognition') }}">{{ _('Extraire les entités nommées') }}</a></div>
-  <div class="side-item"><a href="{{ url_for('partofspeech_tagging') }}">{{ _('Étiqueter en parties du discours') }}</a></div>
-  <div class="side-item"><a href="{{ url_for('visualisation_tools') }}">{{ _('Visualisation') }}</a></div>
-</div>
+    
     </div>
     <script type="text/javascript">
         function openNav() {

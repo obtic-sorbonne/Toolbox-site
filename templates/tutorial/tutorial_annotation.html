@@ -8,10 +8,10 @@
 }
 
 .outil strong {
-    color: #f2a800;
+    color: #263e8d;
 }
 
-.outil h4{
+.outil h3{
   font-family: 'Roboto', sans-serif;
   font-size:1.2em;
   margin:28px 0;
@@ -50,15 +50,15 @@ colgroup col:nth-child(3) {
 
 <div class="outil">
 	<div class="fil"> </div>
-    <div style="text-align: left;"><a href="{{ url_for('tutorial_conversion')}}" style="color:#f2a800; text-decoration:none;"><< {{ _('Tutoriel précédent') }}</a></div>
-    <div style="text-align: right;"><a href="{{ url_for('tutorial_extraction')}}" style="color:#f2a800; text-decoration:none;">{{ _('Tutoriel suivant') }} >></a></div>
+    <div style="text-align: left;"><a href="{{ url_for('tutorial_conversion')}}" style="color:#263e8d; text-decoration:none;"><< {{ _('Tutoriel précédent') }}</a></div>
+    <div style="text-align: right;"><a href="{{ url_for('tutorial_extraction')}}" style="color:#263e8d; text-decoration:none;">{{ _('Tutoriel suivant') }} >></a></div>
     <div class="fil"> </div>
     <div class="tool-box">
     <h2>{{ _("Tutoriel : Reconnaissance des Entités Nommées") }} (NER)</h2>
     <p>
         {{ _("La reconnaissance des entités nommées (NER) est une tâche essentielle dans le traitement automatique du langage naturel") }} (NLP). {{ _("Elle permet d'identifier et de classer automatiquement des entités clés d'un texte, comme les noms de personnes, les lieux, les organisations ou encore les dates") }}. {{ _("Cette fonctionnalité est utilisée dans divers contextes, allant de l'extraction d'information au développement d'applications intelligentes") }}.
     </p>
-    <h4>{{ _("Pourquoi utiliser la NER ") }}?</h4>
+    <h3>{{ _("Pourquoi utiliser la NER ") }}?</h3>
     <p>{{ _("L'intérêt de la reconnaissance des entités nommées réside dans ") }}:</p>
     <ul>
         <li><strong>{{ _("Gain de temps") }}</strong> : {{ _("Automatiser l'extraction d'informations spécifiques dans de grands corpus textuels") }}.</li>
@@ -66,7 +66,7 @@ colgroup col:nth-child(3) {
         <li><strong>{{ _("Applications spécifiques") }}</strong> : {{ _("Identifier des entités liées à un domaine précis comme le médical (maladies, médicaments) ou le juridique (lois, noms d'avocats)") }}.</li>
         <li><strong>{{ _("Optimisation des processus") }}</strong> : {{ _("La NER alimente de nombreux systèmes d'intelligence artificielle, comme les moteurs de recherche ou les assistants virtuels") }}.</li>
     </ul>
-    <h4>{{ _("Les modèles populaires pour la NER") }}</h4>
+    <h3>{{ _("Les modèles populaires pour la NER") }}</h3>
     <p>
         {{ _("Pour effectuer une NER efficace, plusieurs outils et bibliothèques existent, chacun ayant des caractéristiques et des avantages spécifiques") }}. {{ _("Voici un aperçu des trois modèles les plus largement utilisés ") }}:
     </p>
@@ -128,8 +128,8 @@ colgroup col:nth-child(3) {
             </tr>
         </tbody>
     </table>
-    <h4>{{ _("Mise en œuvre pratique") }}</h4>
-    <h5>{{ _("Choisir un modèle adapté ") }}:</h5>
+    <h3>{{ _("Mise en œuvre pratique") }}</h3>
+    <h4>{{ _("Choisir un modèle adapté ") }}:</h4>
     <ul>
         <li><strong>{{ _("Débutants") }}</strong> : {{ _("SpaCy est idéal pour sa facilité d'utilisation et sa rapidité") }}.</li>
         <li><strong>{{ _("Analyse multilingue ou spécifique") }}</strong> : {{ _("Flair propose des modèles pour des langues ou tâches sous-représentées") }}.</li>
@@ -143,7 +143,7 @@ colgroup col:nth-child(3) {
             </ul>
     </li></ul>
     <br>
-    <h4>Conclusion</h4>
+    <h3>Conclusion</h3>
     <p>
         {{ _("La reconnaissance des entités nommées (NER) est une technologie incontournable pour structurer et exploiter des données textuelles de manière efficace") }}. {{ _("Grâce à des outils comme SpaCy, Flair ou BERT, vous pouvez identifier rapidement des informations précieuses et automatiser des tâches complexes") }}.
     </p>

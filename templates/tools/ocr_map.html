@@ -96,7 +96,7 @@
                         {{ form.csrf_token }}
                         <fieldset>
                         <legend>{{ _("Configuration ATR ") }}: Tesseract</legend>
-                        <label for="model">{{ _('Modèle') }}</label>
+                        <label for="tessmodel">{{ _('Modèle') }}</label>
                         <select class="styled-select" name="tessmodel" id="tessmodel">
                             <option value="raw_text" selected>{{ _('Pas de numérisation') }}</option>
                             <option value="fra">{{ _('Français') }} (fra)</option>
@@ -169,11 +169,12 @@
                             </select>
                         </fieldset>
                     </fieldset>
-
-                            <div class="dropzone" style="margin:25px auto;">
-                                <input type="file" id="inputfiles" name="inputfiles" accept=".jpeg,.jpg,.png,.tif,.tiff,.txt" multiple required>
-                                <p id="form_msg">{{ _("Déposer le(s) fichier(s) ou cliquer ici") }}.</p>
-                            </div>
+                        <div class="dropzone" style="margin:25px auto; height:150px;">
+                                  <label class="dropzone-label">
+                                    <p id="form_msg">{{ _("Déposer le(s) fichier(s) ou cliquer ici") }}.</p>
+                                    <input type="file" id="inputfiles" name="inputfiles" accept=".jpeg,.jpg,.png,.tif,.tiff,.txt" multiple required>
+                                  </label>
+                                </div>
                         <input id="csrf_token" name="csrf_token" type="hidden" value="CSRF_TOKEN_STRING">
                         <button id="ocrmap-button" style="display:block;margin:auto;margin-bottom:5px;">{{ _('Cartographier') }}</button>
                         <button id="ocrmap-sortedclusters" style="display:block;margin:auto;margin-bottom:5px;">{{ _('Télécharger les clusters triés') }}

@@ -8,10 +8,10 @@
 }
 
 .outil strong {
-    color: #f2a800;
+    color: #263e8d;
 }
 
-.outil h4{
+.outil h3{
   font-family: 'Roboto', sans-serif;
   font-size:1.2em;
   margin:28px 0;
@@ -24,8 +24,8 @@
 
 <div class="outil">
     <div class="fil"> </div>
-	<div style="text-align: left;"><a href="{{ url_for('documentation_annotation')}}" style="color:#f2a800; text-decoration:none;"><< {{ _('Documentation précédente') }}</a></div>
-    <div style="text-align: right;"><a href="{{ url_for('documentation_analyses')}}" style="color:#f2a800; text-decoration:none;">{{ _('Documentation suivante') }} >></a></div>
+	<div style="text-align: left;"><a href="{{ url_for('documentation_annotation')}}" style="color:#263e8d; text-decoration:none;"><< {{ _('Documentation précédente') }}</a></div>
+    <div style="text-align: right;"><a href="{{ url_for('documentation_analyses')}}" style="color:#263e8d; text-decoration:none;">{{ _('Documentation suivante') }} >></a></div>
 <div class="tool-box">
     <h2>{{ _("Introduction à l'extraction d'informations (Information Extraction)") }}</h2>
     <p>
@@ -40,12 +40,12 @@
         <li><strong>{{ _("Représentation mathématique") }}</strong> : {{ _("Construire une modélisation mathématique du document afin d'évaluer le poids de chaque mot ou segment") }}.</li>
         <li><strong>{{ _("Analyse de similarité") }}</strong> : {{ _("Identifier les mots ou groupes de mots ayant une représentation proche de celle du document global") }}.</li>
     </ul>
-    <h4>{{ _("Applications principales ") }}:</h4>
+    <h3>{{ _("Applications principales ") }}:</h3>
     <ul>
         <li><strong>{{ _("Résumé rapide") }}</strong> : {{ _("Permet d'obtenir une vue synthétique du contenu des grands corpus") }}.</li>
         <li><strong>{{ _("Optimisation des recherches") }}</strong> : {{ _("Facilite la recherche documentaire en concentrant l'analyse sur les termes significatifs") }}.</li>
     </ul>
-    <h4>{{ _("Avantages ") }}:</h4>
+    <h3>{{ _("Avantages ") }}:</h3>
     <p>
         {{ _("L'extraction de mots-clés est particulièrement utile pour traiter de vastes quantités de données textuelles") }}. {{ _("Elle offre une façon pratique de comprendre rapidement le contenu sans lire l'ensemble du document") }}.
     </p>
@@ -62,12 +62,12 @@
     <p>
         {{ _("Le Topic Modelling utilise des algorithmes d'apprentissage non supervisé comme le <strong>Latent Dirichlet Allocation (LDA)</strong> pour induire des groupes de mots associés à partir de textes") }}. {{ _("Les champs sémantiques et le Topic Modelling sont extrêmement utiles pour découvrir les structures thématiques sous-jacentes dans de grands corpus documentaires") }}.
     </p>
-    <h4>Applications :</h4>
+    <h3>Applications :</h3>
     <ul>
         <li><strong>{{ _("Analyse thématique") }}</strong> : {{ _("Identifier les sujets dominants dans un texte") }}.</li>
         <li><strong>{{ _("Clustering automatique") }}</strong> : {{ _("Grouper des documents par similarité thématique") }}.</li>
     </ul>
-    <h4>{{ _("Avantages et relations avec d'autres concepts ") }}:</h4>
+    <h3>{{ _("Avantages et relations avec d'autres concepts ") }}:</h3>
     <ul>
         <li>{{ _("<strong>Hyponymie ou IS-A</strong> : 'chien' est une instance de 'mammifère'") }}.</li>
         <li>{{ _("<strong>Antonymie</strong> : Relations d'opposition (ex. 'grand' vs 'petit')") }}.</li>
@@ -78,7 +78,7 @@
     <p>
         {{ _("L'extraction de citations est une méthode visant à identifier et isoler des passages où des citations ou déclarations sont explicitement mentionnées") }}. {{ _("Elle joue un rôle clé dans des domaines comme l'analyse journalistique, la recherche académique et le suivi médiatique") }}.
     </p>
-    <h4>{{ _("Fonctionnement ") }}:</h4>
+    <h3>{{ _("Fonctionnement ") }}:</h3>
     <p>
         {{ _("Les algorithmes d'extraction de citations détectent les indices textuels tels que ") }}:
     </p>
@@ -86,7 +86,7 @@
         <li>{{ _('Les guillemets (« » ou " ") qui encadrent la citation') }}.</li>
         <li>{{ _("Les verbes d'allocution ('dit', 'déclare', 'affirme'), qui introduisent ou signalent un discours direct") }}.</li>
     </ul>
-    <h4>{{ _("Applications principales ") }}:</h4>
+    <h3>{{ _("Applications principales ") }}:</h3>
     <ul>
         <li>{{ _("<strong>Suivi et analyse médiatique</strong> : Identifier des déclarations importantes dans des articles de presse") }}.</li>
         <li>{{ _("<strong>Recherche académique</strong> : Extraire des citations de sources pour les études comparatives") }}.</li>
@@ -97,12 +97,12 @@
     <p>
         {{ _("Le <strong>résumé de texte</strong> est une tâche qui consiste à générer un texte court synthétisant le contenu d'un document plus long. Les modèles de langage utilisent des techniques de génération conditionnelle pour produire des résumés informatifs et concis") }}.
     </p>
-    <h4>{{ _("Méthodes ") }}:</h4>
+    <h3>{{ _("Méthodes ") }}:</h3>
     <ul>
         <li>{{ _("Les résumés peuvent être générés en guidant le modèle avec des tokens spécifiques comme 'tl;dr', qui indiquent qu'un résumé est attendu") }}.</li>
         <li>{{ _("Les modèles interprètent ces instructions à partir de données d'entraînement incluant des exemples similaires") }}.</li>
     </ul>
-    <h4>Applications :</h4>
+    <h3>Applications :</h3>
     <ul>
         <li><strong>{{ _("Lecture rapide") }}</strong> : {{ _("Synthétiser des articles complexes ou volumineux") }}.</li>
         <li><strong>{{ _("Recherche documentaire") }}</strong> : {{ _("Permettre un aperçu rapide des contenus d'un corpus") }}.</li>

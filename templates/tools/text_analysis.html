@@ -2,6 +2,20 @@
 {% block header %} {{ super() }} {% endblock %}
 
 {% block content %}
+<style>
+    .visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+</style>
 <link rel="stylesheet" href="{{ url_for('static', filename= 'css/elements.css') }}">
 <div class="outil">
     <div class="fil"><a href="{{ url_for('analyses')}}"><< {{ _('Retour aux tâches') }}</a></div>
@@ -43,13 +57,23 @@
         </div>
         {{ form.csrf_token }}
         <br>
-        <!--<div class="dropzone" style="margin:25px auto;">
+        <!--<div class="dropzone" style="margin:25px auto; height:150px;">
+          <label class="dropzone-label">
+            <p id="form_msg">{{ _("Déposer le(s) fichier(s) ou cliquer ici") }}.</p>
             <input type="file" id="files" name="files" accept="text/plain" multiple required>
-            <p id="form_msg">Déposer le(s) fichier(s) ou cliquer ici.</p>
+          </label>
         </div>-->
         <div style="display: block; margin: auto; width: max-content;">
-            <div id="input_text">
-          <textarea style="border: 2px solid #263e8d;" name="input_text" rows="4" cols="50" placeholder="Start a newline to add new sentences" maxlength="5000"></textarea><br><br>
+  
+          <label for="input_text_area" class="visually-hidden">{{ _("Texte à analyser") }}</label>
+
+          <div id="input_text">
+            <textarea  id="input_text_area" style="border: 2px solid #263e8d;" name="input_text" rows="4" cols="50" 
+            placeholder="Start a newline to add new sentences" maxlength="5000">
+            </textarea>
+            <br><br>
+          </div>
+
         </div>
       </div>
         <input id="csrf_token" name="csrf_token" type="hidden" value="{{ csrf_token() }}">

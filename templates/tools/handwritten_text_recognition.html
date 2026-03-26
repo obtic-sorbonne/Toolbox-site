@@ -33,8 +33,8 @@
 <h2>{{ _("Reconnaissance de l'écriture manuscrite (HTR)") }}</h2>
 
 <div class="tool-box">
-    <h4>Kraken HTR</h4>
-    <p>{{ _ ("L'outil Kraken") }} <a href="https://kraken.re/" target="_blank"><i class="fa-solid fa-arrow-up-right-from-square"></i></a> {{ _('permet de numériser des documents manuscrits')}}. {{ _('Les modèles disponibles') }} <a href="https://zenodo.org/communities/ocr_models/" target="_blank"> ({{ _('liste ici')}} <i class="fa-solid fa-arrow-up-right-from-square"></i>)</a> {{ _("offrent une variété d'options au regard de la structure de la mise en plage et du type d'écriture manuscrite")}}.</p>
+    <h3>Kraken HTR</h3>
+    <p><a href="https://kraken.re/" target="_blank">Kraken <i class="fa-solid fa-arrow-up-right-from-square"></i></a> {{ _('permet de numériser des documents manuscrits')}}. {{ _('Les modèles disponibles') }} <a href="https://zenodo.org/communities/ocr_models/" target="_blank"> ({{ _('liste ici')}} <i class="fa-solid fa-arrow-up-right-from-square"></i>)</a> {{ _("offrent une variété d'options au regard de la structure de la mise en plage et du type d'écriture manuscrite")}}.</p>
     <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_recognition') }}"  target="_blank">{{ _('Voir la documentation') }}</a></p>
     <div class="infos_outil" style="display: block;margin: 0 auto 15px auto;">
         <input id="show" type=checkbox><label for="show" class="infos_title"><i class="fa-solid fa-circle-info"></i> {{ _("Informations sur l'outil") }}<i class="fa-solid fa-angle-right" style="float:right;margin-top:5px;margin-left:15px;cursor: pointer;"></i></label></p>
@@ -51,7 +51,7 @@
       {{ form.csrf_token }}
       <div class="relations-input">
       <label for="segmodel">{{ _("Modèle de segmentation ")}}:</label>
-        <select name="segmodel" required>
+        <select name="segmodel" id="segmodel" required>
                 <option value="blla.mlmodel">{{ _("Modèle général de segmentation pour l'imprimé et l'écriture manuscrite") }}</option>
                 <option value="seg_vital_records.mlmodel">{{ _("Modèle de segmentation pour les actes d'état civil") }}</option>
                 <option value="seg_news_1.0.mlmodel">{{ _("Modèle de segmentation pour les imprimés à deux colonnes") }}</option>
@@ -60,7 +60,7 @@
       <br><br>
       <div class="relations-input">
     <label for="recomodel">{{ _("Modèle de reconnaissance de texte ")}}:</label>
-    <select name="recomodel" required>
+    <select name="recomodel" id="recomodel" required>
             <option value="catmus-medieval-1.6.0.mlmodel">{{ _("CATMuS Medieval - Documents latins, ancien et moyen français, espagnol, italien")}}</option>
             <option value="catmus-print-fondue-large.mlmodel">{{ _("CATMuS-Print - Imprimés français et d'autres langues d'Europe occidentale")}} - 98.56%</option>
             <option value="all_arabic_scripts.mlmodel">{{ _("OpenITI - Imprimés d'écriture arabe")}} - 95.3%</option>
@@ -73,10 +73,12 @@
     </select>
   </div>
   <br><br>
-      <div class="dropzone">
-        <input type="file" name="krakenfiles" id="krakenfiles" accept="image/jpeg,image/png,application/pdf,image/tif,image/tiff" multiple required onchange="fileValidation()">
-        <p id="form_msg">{{ _('Déposer le(s) fichier(s) ou cliquer ici.' )}}</p>
-      </div>
+        <div class="dropzone" style="margin:25px auto; height:150px;">
+          <label class="dropzone-label">
+            <p id="form_msg">{{ _("Déposer le(s) fichier(s) ou cliquer ici") }}.</p>
+            <input type="file" id="krakenfiles" name="krakenfiles" accept="image/jpeg,image/png,application/pdf,image/tif,image/tiff" multiple required>
+          </label>
+        </div>
       <input id="csrf_token" name="csrf_token" type="hidden" value="CSRF_TOKEN_STRING">
       <button>{{ _('Numériser') }}</button>
     </form>
@@ -89,16 +91,6 @@
 	  </div>
 	  <!--end div loader-->
   </div><!-- end div tool-box-->
-</div>
-
-<span class="trigger-panel" onclick="openNav()">{{ _('Tâches suivantes')}}  <i class="fa-solid fa-angles-right"></i></span>
-
-<div id="task-panel-ocr" class="sidepanel">
-  <span class="closebtn" onclick="closeNav()">&times;</span>
-  <h3 style="font-family: 'Comprehension', serif;">{{ _('Tâches suivantes')}}</h3>
-  <div class="side-item"><a href="{{ url_for('conversion_xml') }}">{{ _('Convertir en XML-TEI') }}</a></div>
-  <div class="side-item"><a href="{{ url_for('named_entities_recognition') }}">{{ _('Extraire les entités nommées') }}</a></div>
-  <div class="side-item"><a href="{{ url_for('partofspeech_tagging') }}">{{ _('Étiqueter en parties du discours') }}</a></div>
 </div>
 
 <script>

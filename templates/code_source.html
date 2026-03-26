@@ -13,20 +13,22 @@ table {
 }
 
 thead tr {
-  background-color: #26458A; /* Bleu foncé */
+  background-color: #263E8D; /* Bleu foncé */
 }
 
 th {
-  color: #F39508; /* Orange vif */
+  color: #f2a800; /* Orange */
   padding: 12px 15px;
-  border: 1px solid #F39508; /* Ligne orange */
+  border: 1px solid #f2a800; /* Ligne orange */
+  font-size: 30px;
+
 }
 
 td {
   background-color: #ffffff; /* Fond blanc */
-  color: #26458A; /* Texte noir */
+  color: #263E8D; /* Texte noir */
   padding: 12px 15px;
-  border: 1px solid #F39508; /* Ligne orange */
+  border: 1px solid #f2a800; /* Ligne orange */
 }
 
 td:nth-child(1) {
@@ -34,28 +36,25 @@ td:nth-child(1) {
 }
 
 td:nth-child(2) {
-  width: 25%; /* Ajustement de la largeur de la colonne "Outil" */
+  width: 15%; /* Ajustement de la largeur de la colonne "Outil" */
 }
 
 td:nth-child(3) {
-  width: 25%; /* Ajustement de la largeur de la colonne "Type" */
+  width: 15%; /* Ajustement de la largeur de la colonne "Type" */
 }
 
 td:nth-child(4) {
-  width: 15%; /* Ajustement de la largeur de la colonne "Lien" */
+  width: 35%; /* Ajustement de la largeur de la colonne "Lien" */
 }
 
 tbody tr:nth-child(even) {
   background-color: #F7D8B5; /* Couleur douce inspirée de l'orange */
 }
 
-a {
-  color: #26458A; /* Bleu foncé */
-  text-decoration: none;
-}
 
-a:hover {
-  text-decoration: underline;
+.outil a{
+  color:#263E8D;
+  text-decoration:none;
 }
 
 </style>
@@ -65,7 +64,6 @@ a:hover {
   <h2 style="font-family:'Comprehension', serif;">{{ _('Code source') }}</h2>
   <p>{{ _('Cette page répertorie les liens de tous les codes source et/ou sites officiels des outils présentés et utilisés dans la toolbox') }}.</p>
   </div>
-  <h3></h3>
 
   <div id="summary">
     <table>
@@ -82,213 +80,214 @@ a:hover {
       <td rowspan="4">{{ _('Collecte de corpus') }}</td>
       <td>Wikisource</td>
       <td>{{ _('Site Web') }}</td>
-      <td><a href="https://fr.wikisource.org/wiki/Wikisource:Accueil" target="_blank">{{ _('Lien') }}</a></td>
+      <td><a href="https://fr.wikisource.org/wiki/Wikisource:Accueil" target="_blank">https://fr.wikisource.org/wiki/Wikisource:Accueil</a></td>
     </tr>
     <tr>
       <td>Gallica</td>
       <td>{{ _('Site Web') }}</td>
-      <td><a href="https://gallica.bnf.fr/" target="_blank">{{ _('Lien') }}</a></td>
+      <td><a href="https://gallica.bnf.fr/" target="_blank">https://gallica.bnf.fr/</a></td>
     </tr>
     <tr>
       <td>Project Gutenberg</td>
       <td>{{ _('Site Web') }}</td>
-      <td><a href="https://www.gutenberg.org/" target="_blank">{{ _('Lien') }}</a></td>
+      <td><a href="https://www.gutenberg.org/" target="_blank">https://www.gutenberg.org/</a></td>
     </tr>
     <tr>
       <td>Newspaper3k</td>
       <td>{{ _('Site Web') }}</td>
-      <td><a href="https://newspaper.readthedocs.io/en/latest/" target="_blank">{{ _('Lien') }}</a></td>
+      <td><a href="https://newspaper.readthedocs.io/en/latest/" target="_blank">https://newspaper.readthedocs.io/en/latest/</a></td>
     </tr>
     <tr>
       <td rowspan="5">{{ _('Reconnaissance automatique de texte (ATR)') }}</td>
       <td>Tesseract</td>
       <td>GitHub</td>
-      <td><a href="https://github.com/tesseract-ocr/tessdoc" target="_blank">{{ _('Lien') }}</a></td>
+      <td><a href="https://github.com/tesseract-ocr/tessdoc" target="_blank">https://github.com/tesseract-ocr/tessdoc</a></td>
     </tr>
     <tr>
       <td>Kraken</td>
       <td>{{ _('Site Web') }}</td>
-      <td><a href="https://kraken.re/" target="_blank">{{ _('Lien') }}</a></td>
+      <td><a href="https://kraken.re/" target="_blank">https://kraken.re/</a></td>
     </tr>
     <tr>
-      <td>Kraken Models</td>
-      <td>Zenodo</td>
-      <td><a href="https://zenodo.org/communities/ocr_models/" target="_blank">{{ _('Lien') }}</a></td>
-    </tr>
-    <tr>
-      <td>Whisper</td>
-      <td>{{ _('Site Web') }}</td>
-      <td><a href="https://openai.com/index/whisper/" target="_blank">{{ _('Lien') }}</a></td>
-    </tr>
-    <tr>
-      <td>eScriptorium</td>
-      <td>Instance ObTIC</td>
-      <td><a href="https://obtic-gpu1.mesu.sorbonne-universite.fr:8501/" target="_blank">{{ _('Lien') }}</a></td>
-    </tr>
-    <tr>
-      <td rowspan="4">{{ _('Prétraitement') }}</td>
-      <td>Natural Language Tool Kit (NTLK)</td>
-      <td>{{ _('Site Web') }}</td>
-      <td><a href="https://www.nltk.org/" target="_blank">{{ _('Lien') }}</a></td>
-    </tr>
-    <tr>
-      <td>SpaCy</td>
-      <td>{{ _('Site Web') }}</td>
-      <td><a href="https://spacy.io/" target="_blank">{{ _('Lien') }}</a></td>
-    </tr>
-    <tr>
-      <td>Python</td>
-      <td>{{ _('Site Web') }}</td>
-      <td><a href="https://www.python.org/" target="_blank">{{ _('Lien') }}</a></td>
-    </tr>
-    <tr>
-      <td>{{ _('Correction textuelle') }}</td>
-      <td>{{ _('Site Web') }}</td>
-      <td><a href="???" target="_blank">{{ _('Lien') }}</a></td>
-    </tr>
-    <tr>
-      <td rowspan="2">{{ _('Conversion de formats') }}</td>
-      <td>TEI</td>
-      <td>{{ _('Site Web') }}</td>
-      <td><a href="https://tei-c.org/release/doc/tei-p5-doc/en/html/index.html" target="_blank">{{ _('Lien') }}</a></td>
-    </tr>
-    <tr><td>Teinte</td>
-      <td>GitHub</td>
-      <td><a href="https://github.com/OBVIL/teinte_obtic" target="_blank">{{ _('Lien') }}</a></td>
+    <td>Kraken Models</td>
+    <td>Zenodo</td>
+    <td><a href="https://zenodo.org/communities/ocr_models/" target="_blank">https://zenodo.org/communities/ocr_models/</a></td>
   </tr>
-    <tr>
-      <td rowspan="4">{{ _("Tâches d'annotation automatique") }}</td>
-      <td>Flair</td>
-      <td>GitHub</td>
-      <td><a href="https://github.com/flairNLP/flair" target="_blank">{{ _('Lien') }}</a></td>
-    </tr>
-    <tr>
-      <td>SpaCy</td>
-      <td>{{ _('Site Web') }}</td>
-      <td><a href="https://spacy.io/" target="_blank">{{ _('Lien') }}</a></td>
-    </tr>
-    <tr>
-      <td>BERT</td>
-      <td>{{ _('Site Web') }}</td>
-      <td><a href="https://huggingface.co/google-bert" target="_blank">{{ _('Lien') }}</a></td>
-    </tr>
-    <tr>
-      <td>Textolab</td>
-      <td>GitHub</td>
-      <td><a href="https://github.com/obtic-sorbonne/Textolab/tree/dev" target="_blank">{{ _('Lien') }}</a></td>
-    </tr>
-    <tr>
-      <td rowspan="3">{{ _("Extraction d'information") }}</td>
-      <td>KeyBERT</td>
-      <td>GitHub</td>
-      <td><a href="https://github.com/MaartenGr/KeyBERT" target="_blank">{{ _('Lien') }}</a></td>
-    </tr>
-    <tr>
-      <td>Regex</td>
-      <td>{{ _('Site Web') }}</td>
-      <td><a href="https://regex101.com/" target="_blank">{{ _('Lien') }}</a></td>
+  <tr>
+    <td>Whisper</td>
+    <td>{{ _('Site Web') }}</td>
+    <td><a href="https://openai.com/index/whisper/" target="_blank">https://openai.com/index/whisper/</a></td>
   </tr>
-    <tr>
-      <td>Summarizer</td>
-      <td>GitHub</td>
-      <td><a href="https://github.com/obtic-sorbonne/Summarization" target="_blank">{{ _('Lien') }}</a></td>
-    </tr>
   <tr>
-      <td rowspan="7">{{ _('Analyses linguistique, statistiques et lexicales') }}</td>
-      <td>Matplotlib</td>
-      <td>{{ _('Site Web') }}</td>
-      <td><a href="https://matplotlib.org/" target="_blank">{{ _('Lien') }}</a></td>
-    </tr>
-    <tr>
-      <td>Langdetect/detect</td>
-      <td>GitHub</td>
-      <td><a href="https://github.com/Mimino666/langdetect" target="_blank">{{ _('Lien') }}</a></td>
-    </tr>
-    <tr>
-      <td>Natural Language Tool Kit (NTLK)</td>
-      <td>{{ _('Site Web') }}</td>
-      <td><a href="https://www.nltk.org/" target="_blank">{{ _('Lien') }}</a></td>
-    </tr>
-    <tr>
-      <td>Collections/Counter</td>
-      <td>{{ _('Site Web') }}</td>
-      <td><a href="https://docs.python.org/3/library/collections.html" target="_blank">{{ _('Lien') }}</a></td>
-    </tr>
-    <tr>
-      <td>WordCloud</td>
-      <td>GitHub</td>
-      <td><a href="https://amueller.github.io/word_cloud/" target="_blank">{{ _('Lien') }}</a></td>
-    </tr>
-    <tr>
-      <td>Math</td>
-      <td>{{ _('Site Web') }}</td>
-      <td><a href="https://docs.python.org/3/library/math.html" target="_blank">{{ _('Lien') }}</a></td>
-    </tr>
-    <tr>
-      <td>Displacy</td>
-      <td>{{ _('Site Web') }}</td>
-      <td><a href="https://spacy.io/usage/visualizers" target="_blank">{{ _('Lien') }}</a></td>
-    </tr>
+    <td>eScriptorium</td>
+    <td>Instance ObTIC</td>
+    <td><a href="https://obtic-gpu1.mesu.sorbonne-universite.fr:8501/" target="_blank">https://obtic-gpu1.mesu.sorbonne-universite.fr:8501/</a></td>
+  </tr>
   <tr>
-      <td rowspan="3">{{ _('Analyse de texte') }}</td>
-      <td>Transformers/Pipeline</td>
-      <td>{{ _('Site Web') }}</td>
-      <td><a href="https://huggingface.co/docs/transformers/main_classes/pipelines" target="_blank">{{ _('Lien') }}</a></td>
-    </tr>
-    <tr>
-      <td>Plotly</td>
-      <td>GitHub</td>
-      <td><a href="https://github.com/plotly/plotly.py" target="_blank">{{ _('Lien') }}</a></td>
-    </tr>
-    <tr>
-      <td>Textstat</td>
-      <td>GitHub</td>
-      <td><a href="https://github.com/textstat/textstat" target="_blank">{{ _('Lien') }}</a></td>
-    </tr>
-    <tr>
-      <td rowspan="2">{{ _('Comparaison') }}</td>
-      <td>Difflib</td>
-      <td>{{ _('Site Web') }}</td>
-      <td><a href="https://docs.python.org/3/library/difflib.html" target="_blank">{{ _('Lien') }}</a></td>
-    </tr>
-    <tr>
-      <td>IPython.display</td>
-      <td>{{ _('Site Web') }}</td>
-      <td><a href="https://ipython.readthedocs.io/en/stable/api/generated/IPython.display.html" target="_blank">{{ _('Lien') }}</a></td>
-    </tr>
-     <tr>
-      <td rowspan="2">Exploration</td>
-      <td>Ariane</td>
-      <td>{{ _('Site Web') }}</td>
-      <td><a href="https://obtic.huma-num.fr/ariane/" target="_blank">{{ _('Lien') }}</a></td>
-    </tr>
-    <tr>
-      <td>Gallica-Obvie</td>
-      <td>{{ _('Site Web') }}</td>
-      <td><a href="https://obtic.huma-num.fr/gallica-obvie/" target="_blank">{{ _('Lien') }}</a></td>
-    </tr>
-    <tr>
-      <td rowspan="3">{{ _("Visualisation") }}</td>
-      <td>Tanagra v2</td>
-      <td>GitHub</td>
-      <td><a href="https://github.com/obtic-sorbonne/Tanagra2/blob/main/Tanagra.ipynb" target="_blank">{{ _('Lien') }}</a></td>
-    </tr>
-    <tr>
-      <td>Renard</td>
-      <td>GitHub</td>
-      <td><a href="https://compnet.github.io/Renard/introduction.html" target="_blank">{{ _('Lien') }}</a></td>
-    </tr>
-    <tr>
-      <td>Minerva</td>
-      <td>GitHub</td>
-      <td><a href="https://github.com/YoannDupont/minerva" target="_blank">{{ _('Lien') }}</a></td>
-    </tr>
-    <tr>
-      <td>{{ _('Chaînes de traitement') }}</td>
-      <td>Épiméthée</td>
-      <td>GitHub</td>
-      <td><a href="https://github.com/These-SCAI2023/EPIMETHEE" target="_blank">{{ _('Lien') }}</a></td>
-    </tr>
+    <td rowspan="4">{{ _('Prétraitement') }}</td>
+    <td>Natural Language Tool Kit (NTLK)</td>
+    <td>{{ _('Site Web') }}</td>
+    <td><a href="https://www.nltk.org/" target="_blank">https://www.nltk.org/</a></td>
+  </tr>
+  <tr>
+    <td>SpaCy</td>
+    <td>{{ _('Site Web') }}</td>
+    <td><a href="https://spacy.io/" target="_blank">https://spacy.io/</a></td>
+  </tr>
+  <tr>
+    <td>Python</td>
+    <td>{{ _('Site Web') }}</td>
+    <td><a href="https://www.python.org/" target="_blank">https://www.python.org/</a></td>
+  </tr>
+  <tr>
+    <td>{{ _('Correction textuelle') }}</td>
+    <td>{{ _('Site Web') }}</td>
+    <td><a href="https://languagetool.org/" target="_blank">https://languagetool.org/</a></td>
+  </tr>
+  <tr>
+    <td rowspan="2">{{ _('Conversion de formats') }}</td>
+    <td>TEI</td>
+    <td>{{ _('Site Web') }}</td>
+    <td><a href="https://tei-c.org/release/doc/tei-p5-doc/en/html/index.html" target="_blank">https://tei-c.org/release/doc/tei-p5-doc/en/html/index.html</a></td>
+  </tr>
+  <tr>
+    <td>Teinte</td>
+    <td>GitHub</td>
+    <td><a href="https://github.com/OBVIL/teinte_obtic" target="_blank">https://github.com/OBVIL/teinte_obtic</a></td>
+  </tr>
+  <tr>
+    <td rowspan="4">{{ _("Tâches d'annotation automatique") }}</td>
+    <td>Flair</td>
+    <td>GitHub</td>
+    <td><a href="https://github.com/flairNLP/flair" target="_blank">https://github.com/flairNLP/flair</a></td>
+  </tr>
+  <tr>
+    <td>SpaCy</td>
+    <td>{{ _('Site Web') }}</td>
+    <td><a href="https://spacy.io/" target="_blank">https://spacy.io/</a></td>
+  </tr>
+  <tr>
+    <td>BERT</td>
+    <td>{{ _('Site Web') }}</td>
+    <td><a href="https://huggingface.co/google-bert" target="_blank">https://huggingface.co/google-bert</a></td>
+  </tr>
+  <tr>
+    <td>Textolab</td>
+    <td>GitHub</td>
+    <td><a href="https://github.com/obtic-sorbonne/Textolab/tree/dev" target="_blank">https://github.com/obtic-sorbonne/Textolab/tree/dev</a></td>
+  </tr>
+  <tr>
+    <td rowspan="3">{{ _("Extraction d'information") }}</td>
+    <td>KeyBERT</td>
+    <td>GitHub</td>
+    <td><a href="https://github.com/MaartenGr/KeyBERT" target="_blank">https://github.com/MaartenGr/KeyBERT</a></td>
+  </tr>
+  <tr>
+    <td>Regex</td>
+    <td>{{ _('Site Web') }}</td>
+    <td><a href="https://regex101.com/" target="_blank">https://regex101.com/</a></td>
+  </tr>
+  <tr>
+    <td>Summarizer</td>
+    <td>GitHub</td>
+    <td><a href="https://github.com/obtic-sorbonne/Summarization" target="_blank">https://github.com/obtic-sorbonne/Summarization</a></td>
+  </tr>
+  <tr>
+    <td rowspan="7">{{ _('Analyses linguistique, statistiques et lexicales') }}</td>
+    <td>Matplotlib</td>
+    <td>{{ _('Site Web') }}</td>
+    <td><a href="https://matplotlib.org/" target="_blank">https://matplotlib.org/</a></td>
+  </tr>
+  <tr>
+    <td>Langdetect/detect</td>
+    <td>GitHub</td>
+    <td><a href="https://github.com/Mimino666/langdetect" target="_blank">https://github.com/Mimino666/langdetect</a></td>
+  </tr>
+  <tr>
+    <td>Natural Language Tool Kit (NTLK)</td>
+    <td>{{ _('Site Web') }}</td>
+    <td><a href="https://www.nltk.org/" target="_blank">https://www.nltk.org/</a></td>
+  </tr>
+  <tr>
+    <td>Collections/Counter</td>
+    <td>{{ _('Site Web') }}</td>
+    <td><a href="https://docs.python.org/3/library/collections.html" target="_blank">https://docs.python.org/3/library/collections.html</a></td>
+  </tr>
+  <tr>
+    <td>WordCloud</td>
+    <td>GitHub</td>
+    <td><a href="https://amueller.github.io/word_cloud/" target="_blank">https://amueller.github.io/word_cloud/</a></td>
+  </tr>
+  <tr>
+    <td>Math</td>
+    <td>{{ _('Site Web') }}</td>
+    <td><a href="https://docs.python.org/3/library/math.html" target="_blank">https://docs.python.org/3/library/math.html</a></td>
+  </tr>
+  <tr>
+    <td>Displacy</td>
+    <td>{{ _('Site Web') }}</td>
+    <td><a href="https://spacy.io/usage/visualizers" target="_blank">https://spacy.io/usage/visualizers</a></td>
+  </tr>
+  <tr>
+    <td rowspan="3">{{ _('Analyse de texte') }}</td>
+    <td>Transformers/Pipeline</td>
+    <td>{{ _('Site Web') }}</td>
+    <td><a href="https://huggingface.co/docs/transformers/main_classes/pipelines" target="_blank">https://huggingface.co/docs/transformers/main_classes/pipelines</a></td>
+  </tr>
+  <tr>
+    <td>Plotly</td>
+    <td>GitHub</td>
+    <td><a href="https://github.com/plotly/plotly.py" target="_blank">https://github.com/plotly/plotly.py</a></td>
+  </tr>
+  <tr>
+    <td>Textstat</td>
+    <td>GitHub</td>
+    <td><a href="https://github.com/textstat/textstat" target="_blank">https://github.com/textstat/textstat</a></td>
+  </tr>
+  <tr>
+    <td rowspan="2">{{ _('Comparaison') }}</td>
+    <td>Difflib</td>
+    <td>{{ _('Site Web') }}</td>
+    <td><a href="https://docs.python.org/3/library/difflib.html" target="_blank">https://docs.python.org/3/library/difflib.html</a></td>
+  </tr>
+  <tr>
+    <td>IPython.display</td>
+    <td>{{ _('Site Web') }}</td>
+    <td><a href="https://ipython.readthedocs.io/en/stable/api/generated/IPython.display.html" target="_blank">https://ipython.readthedocs.io/en/stable/api/generated/IPython.display.html</a></td>
+  </tr>
+  <tr>
+    <td rowspan="2">Exploration</td>
+    <td>Ariane</td>
+    <td>{{ _('Site Web') }}</td>
+    <td><a href="https://obtic.huma-num.fr/ariane/" target="_blank">https://obtic.huma-num.fr/ariane/</a></td>
+  </tr>
+  <tr>
+    <td>Gallica-Obvie</td>
+    <td>{{ _('Site Web') }}</td>
+    <td><a href="https://obtic.huma-num.fr/gallica-obvie/" target="_blank">https://obtic.huma-num.fr/gallica-obvie/</a></td>
+  </tr>
+  <tr>
+    <td rowspan="3">{{ _("Visualisation") }}</td>
+    <td>Tanagra v2</td>
+    <td>GitHub</td>
+    <td><a href="https://github.com/obtic-sorbonne/Tanagra2/blob/main/Tanagra.ipynb" target="_blank">https://github.com/obtic-sorbonne/Tanagra2/blob/main/Tanagra.ipynb</a></td>
+  </tr>
+  <tr>
+    <td>Renard</td>
+    <td>GitHub</td>
+    <td><a href="https://compnet.github.io/Renard/introduction.html" target="_blank">https://compnet.github.io/Renard/introduction.html</a></td>
+  </tr>
+  <tr>
+    <td>Minerva</td>
+    <td>GitHub</td>
+    <td><a href="https://github.com/YoannDupont/minerva" target="_blank">https://github.com/YoannDupont/minerva</a></td>
+  </tr>
+  <tr>
+    <td>{{ _('Chaînes de traitement') }}</td>
+    <td>Épiméthée</td>
+    <td>GitHub</td>
+    <td><a href="https://github.com/These-SCAI2023/EPIMETHEE" target="_blank">https://github.com/These-SCAI2023/EPIMETHEE</a></td>
+  </tr>
   </tbody>
 </table>
   </div>
