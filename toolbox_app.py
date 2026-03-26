@@ -784,6 +784,9 @@ def extract_gallica():
             report.write(res_ok)
 
     response = create_zip_and_response(result_path, rand_name)
+    download_token = request.form.get('download_token', '')
+    if download_token:
+        response.set_cookie('download_ready', download_token, max_age=60)
     return response
 
 #---------------- Gutenberg ------------------------
