@@ -22,18 +22,14 @@
 
     <form action="{{ url_for('removing_elements') }}" id="linguistic-form" method="post" enctype="multipart/form-data" onsubmit="showloader('loader')">
         <div class="relations-input">
-            <label for="removing_type">{{ _('Choisir le type de modification') }} :</label>
-            <select name="removing_type" id="removing_type" required>
-                <option value="lowercases">{{ _('Minuscules') }}</option>
-                <option value="punctuation">{{ _('Ponctuation') }}</option>
-                <option value="stopwords">{{ _('Mots-vides') }}</option>
-                <option value="lowercases_punctuation">{{ _('Minuscules + Ponctuation') }}</option>
-                <option value="lowercases_stopwords">{{ _('Minuscules + Mots-vides') }}</option>
-                <option value="punctuation_stopwords">{{ _('Ponctuation + Mots-vides') }}</option>
-                <option value="lowercases_punctuation_stopwords">{{ _('Minuscules + Ponctuation + Mots-vides') }}</option>
-                <option value="remove_excessive_lines">{{ _('Supprimer lignes vides/excessives') }}</option>
-                <option value="fix_ocr_linebreaks">{{ _('Corriger retours OCR (-)') }}</option>
-            </select>
+            <label>{{ _('Choisir le(s) type(s) de modification') }} :</label>
+            <div id="removing_type_checkboxes">
+                <label><input type="checkbox" name="removing_type" value="lowercases"> {{ _('Minuscules') }}</label><br>
+                <label><input type="checkbox" name="removing_type" value="punctuation"> {{ _('Ponctuation') }}</label><br>
+                <label><input type="checkbox" name="removing_type" value="stopwords" id="cb_stopwords"> {{ _('Mots-vides') }}</label><br>
+                <label><input type="checkbox" name="removing_type" value="remove_excessive_lines"> {{ _('Supprimer lignes vides/excessives') }}</label><br>
+                <label><input type="checkbox" name="removing_type" value="fix_ocr_linebreaks"> {{ _('Corriger retours OCR (-)') }}</label>
+            </div>
         </div>
 
         <div class="relations-input" id="stopwords_fields" style="display: none;">
@@ -76,14 +72,22 @@
 
 <script>
 function togglestopwordFields() {
-    const removing_type = document.getElementById("removing_type").value;
+    const cbStopwords = document.getElementById("cb_stopwords");
     document.getElementById("stopwords_fields").style.display = 
-        removing_type.includes("stopwords") ? "block" : "none";
+        cbStopwords.checked ? "block" : "none";
 }
 
 document.addEventListener("DOMContentLoaded", function() {
-    document.getElementById("removing_type").addEventListener("change", togglestopwordFields);
-    togglestopwordFields(); // initial visibility
+    document.getElementById("cb_stopwords").addEventListener("change", togglestopwordFields);
+    togglestopwordFields();
+
+    document.getElementById("linguistic-form").addEventListener("submit", function(e) {
+        const checked = document.querySelectorAll('input[name="removing_type"]:checked');
+        if (checked.length === 0) {
+            e.preventDefault();
+            alert("{{ _('Veuillez choisir au moins un type de modification.') }}");
+        }
+    });
 });
 
 // Update file input message
