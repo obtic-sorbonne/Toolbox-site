@@ -1299,9 +1299,11 @@ def get_stopwords(language):
 def keep_accented_only(tokens):
     clean_tokens = []
     for token in tokens:
-        # Vérifier chaque caractère : doit être alphabétique ou un caractère accentué
-        if all(char.isalpha() or unicodedata.category(char) == 'Mn' for char in token):
-            clean_tokens.append(token)
+        parts = token.replace('\u2019', "'").split("'")
+        for part in parts:
+            clean = ''.join(char for char in part if char.isalpha() or unicodedata.category(char) == 'Mn')
+            if clean:
+                clean_tokens.append(clean)
     return clean_tokens
 
 @app.route('/removing_elements', methods=['POST'])
