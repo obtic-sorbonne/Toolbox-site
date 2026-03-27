@@ -1315,45 +1315,33 @@ def removing_elements():
     if not files or all(file.filename == '' for file in files):
         return Response(json.dumps({"error": "No selected files"}), status=400, mimetype='application/json')
 
-    removing_type = request.form['removing_type']
-    selected_language = request.form['selected_language']
-
+    removing_types = request.form.getlist('removing_type')
+    selected_language = request.form.get('selected_language', 'french')
     rand_name = generate_rand_name('removing_')
     result_path = create_named_directory(rand_name)
-
     for f in files:
         try:
             input_text = f.read().decode('utf-8')
+
+            # Step 1: line-level operations on raw text (order matters)
+            if 'fix_ocr_linebreaks' in removing_types:
+                input_text = fix_ocr_linebreaks(input_text)
+            if 'remove_excessive_lines' in removing_types:
+                input_text = remove_excessive_lines(input_text)
+
+            # Step 2: token-level operations
             tokens = word_tokenize(input_text)
-            lowercases = [token.lower() for token in tokens]
-            removing_punctuation = [token for token in keep_accented_only(tokens)]
-            lower_removing_punctuation = [token.lower() for token in keep_accented_only(tokens)]
-            stop_words = get_stopwords(selected_language)
-            removing_stopwords = [token for token in tokens if token.lower() not in stop_words]
-            lower_removing_stopwords = [token.lower() for token in tokens if token.lower() not in stop_words]
-            removing_punctuation_and_stopwords = [token for token in keep_accented_only(tokens) if token.lower() not in stop_words]
-            lower_removing_punctuation_and_stopwords = [token.lower() for token in keep_accented_only(tokens) if token.lower() not in stop_words]
+            if 'punctuation' in removing_types:
+                tokens = [token for token in keep_accented_only(tokens)]
+            if 'stopwords' in removing_types:
+                stop_words = get_stopwords(selected_language)
+                tokens = [token for token in tokens if token.lower() not in stop_words]
+            if 'lowercases' in removing_types:
+                tokens = [token.lower() for token in tokens]
 
-            # Map removing_type to actual processed text
-            processed_map = {
-                'punctuation': removing_punctuation,
-                'lowercases': lowercases,
-                'stopwords': removing_stopwords,
-                'lowercases_punctuation': lower_removing_punctuation,
-                'lowercases_stopwords': lower_removing_stopwords,
-                'punctuation_stopwords': removing_punctuation_and_stopwords,
-                'lowercases_punctuation_stopwords': lower_removing_punctuation_and_stopwords,
-                'remove_excessive_lines': remove_excessive_lines(input_text),
-                'fix_ocr_linebreaks': fix_ocr_linebreaks(input_text)
-            }
-
-            processed_text = processed_map.get(removing_type)
-            if isinstance(processed_text, list):
-                processed_text = " ".join(processed_text)
-
+            processed_text = " ".join(tokens)
             filename, _ = os.path.splitext(f.filename)
-            output_name = f"{filename}_{removing_type}.txt"
-
+            output_name = f"{filename}_{'_'.join(removing_types)}.txt"
             with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
                 out.write(processed_text)
 
