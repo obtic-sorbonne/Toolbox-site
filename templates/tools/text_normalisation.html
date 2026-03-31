@@ -26,18 +26,16 @@
       </div>
   </div>
   <br>
-    <form action="{{ url_for('normalize_text') }}" id="linguistic-form" method="post" enctype="multipart/form-data" onsubmit="showloader('loader')">
-        <div class="relations-input">
-            <label for="normalisation_type">{{ _("Choisir le type d'analyse") }} :</label>
-            <select name="normalisation_type" id="normalisation_type" required>
-                <option value="tokens">Option 1</option>
-                <option value="tokens_lower">Option 1 ({{ _('Minuscules') }})</option>
-                <option value="lemmas">Option 2 </option>
-                <option value="lemmas_lower">Option 2 ({{ _('Minuscules') }})</option>
-                <option value="tokens_lemmas">{{ _('Options 1 et 2') }}</option>
-                <option value="tokens_lemmas_lower">{{ _('Options 1 et 2') }} ({{ _('Minuscules') }})</option>
-            </select>
+    <form action="{{ url_for('normalize_text') }}" id="linguistic-form" method="post" enctype="multipart/form-data">
+    <input type="hidden" name="download_token" id="download_token" value="">
+    <div class="relations-input">
+        <label>{{ _("Choisir le(s) type(s) d'analyse") }} :</label>
+        <div id="normalisation_type_checkboxes">
+            <label><input type="checkbox" name="normalisation_type" value="tokens"> {{ _('Tokenisation') }} (Option 1)</label><br>
+            <label><input type="checkbox" name="normalisation_type" value="lemmas" id="cb_lemmas"> {{ _('Lemmatisation') }} (Option 2)</label><br>
+            <label><input type="checkbox" name="normalisation_type" value="lowercases"> {{ _('Minuscules') }}</label>
         </div>
+    </div>
     <br>
         {{ form.csrf_token }}
         <div class="relations-input" id="lemma_fields" style="display: none;">
@@ -73,12 +71,9 @@
         <p>{{ _('Traitement en cours...') }}</p>
     </div>
 <script>
-/* MAJ de la zone de glisser-déposer */ 
-$('form input').change(function () {
+$('form input[type=file]').change(function () {
     var nb_files = this.files.length;
     $('form #form_msg').text(nb_files + " fichier(s) selectionné(s)");
-
-    /* Prévisualisation des fichiers chargés (max 3 visibles) */
     if(nb_files > 3){
         var num = nb_files - 3;
         for(i=0; i < 3; i++){
@@ -92,30 +87,36 @@ $('form input').change(function () {
         }
     }
 });
-    function togglelemmaFields() {
-            var normalisation_type = document.getElementById("normalisation_type").value;
-            var lemmasFields = document.getElementById("lemma_fields");
-            if (normalisation_type === "lemmas") {
-                lemmasFields.style.display = "block";
-            } 
-            else if (normalisation_type === "lemmas_lower") {
-                lemmasFields.style.display = "block";
-            } 
-            else if (normalisation_type === "tokens_lemmas") {
-                lemmasFields.style.display = "block";
-            }
-            else if (normalisation_type === "tokens_lemmas_lower") {
-                lemmasFields.style.display = "block";
-            }
-            else {
-                lemmasFields.style.display = "none";
-            }
-        }
 
-        document.addEventListener("DOMContentLoaded", function() {
-            document.getElementById("normalisation_type").addEventListener("change", togglelemmaFields);
-            togglelemmaFields(); // Initial call to set visibility based on default selection
-        });
+function togglelemmaFields() {
+    const cbLemmas = document.getElementById("cb_lemmas");
+    document.getElementById("lemma_fields").style.display =
+        cbLemmas.checked ? "block" : "none";
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+    document.getElementById("cb_lemmas").addEventListener("change", togglelemmaFields);
+    togglelemmaFields();
+
+    document.getElementById("linguistic-form").addEventListener("submit", function(e) {
+        const checked = document.querySelectorAll('input[name="normalisation_type"]:checked');
+        if (checked.length === 0) {
+            e.preventDefault();
+            alert("{{ _('Veuillez choisir au moins un type d\'analyse.') }}");
+            return;
+        }
+        const token = new Date().getTime().toString();
+        document.getElementById("download_token").value = token;
+        showloader('loader');
+        const poll = setInterval(function() {
+            if (document.cookie.indexOf('download_ready=' + token) !== -1) {
+                clearInterval(poll);
+                document.cookie = 'download_ready=; max-age=0; path=/';
+                document.getElementById("loader").style.display = "none";
+            }
+        }, 1000);
+    });
+});
 </script>
 </div>
 {% endblock %}

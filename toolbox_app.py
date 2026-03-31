@@ -1403,7 +1403,7 @@ def normalize_text():
     if not files or all(file.filename == '' for file in files):
         return Response(json.dumps({"error": "No selected files"}), status=400, mimetype='application/json')
 
-    normalisation_type = request.form['normalisation_type']
+    normalisation_types = request.form.getlist('normalisation_type')
     selected_language = request.form['selected_language']
 
     rand_name = generate_rand_name('normalized_')
@@ -1412,32 +1412,29 @@ def normalize_text():
     for f in files:
         try:
             input_text = f.read().decode('utf-8')
-            tokens = word_tokenize(input_text)
-            tokens_lower = [t.lower() for t in tokens]
-            nlp = get_nlp(selected_language)
-            lemmas = [token.lemma_ for token in nlp(input_text)]
-            lemmas_lower = [token.lemma_.lower() for token in nlp(input_text)]
             filename, _ = os.path.splitext(f.filename)
 
-            # just join items without prepended text
-            if normalisation_type == 'tokens':
-                output_text = ", ".join(tokens)
-                output_name = filename + '_tokens.txt'
-            elif normalisation_type == 'tokens_lower':
-                output_text = ", ".join(tokens_lower)
-                output_name = filename + '_tokenslower.txt'
-            elif normalisation_type == 'lemmas':
-                output_text = ", ".join(lemmas)
-                output_name = filename + '_lemmas.txt'
-            elif normalisation_type == 'lemmas_lower':
-                output_text = ", ".join(lemmas_lower)
-                output_name = filename + '_lemmaslower.txt'
-            elif normalisation_type == 'tokens_lemmas':
-                output_text = ", ".join(tokens) + "\n\n" + ", ".join(lemmas)
-                output_name = filename + '_tokenslemmas.txt'
-            elif normalisation_type == 'tokens_lemmas_lower':
-                output_text = ", ".join(tokens_lower) + "\n\n" + ", ".join(lemmas_lower)
-                output_name = filename + '_tokenslemmaslower.txt'
+            tokens = word_tokenize(input_text)
+
+            need_lemmas = 'lemmas' in normalisation_types
+            if need_lemmas:
+                nlp = get_nlp(selected_language)
+                lemmas = [token.lemma_ for token in nlp(input_text)]
+            else:
+                lemmas = []
+
+            if 'lowercases' in normalisation_types:
+                tokens = [t.lower() for t in tokens]
+                lemmas = [l.lower() for l in lemmas]
+
+            parts = []
+            if 'tokens' in normalisation_types:
+                parts.append(", ".join(tokens))
+            if need_lemmas:
+                parts.append(", ".join(lemmas))
+
+            output_text = "\n\n".join(parts)
+            output_name = filename + '_' + '_'.join(normalisation_types) + '.txt'
 
             with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
                 out.write(output_text)
@@ -1445,7 +1442,11 @@ def normalize_text():
         finally:
             f.close()
 
-    return create_zip_and_response(result_path, rand_name)
+    response = create_zip_and_response(result_path, rand_name)
+    download_token = request.form.get('download_token', '')
+    if download_token:
+        response.set_cookie('download_ready', download_token, max_age=60)
+    return response
 
 
 #-------------- Séparation de texte -------------------------
