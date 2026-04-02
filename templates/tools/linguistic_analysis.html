@@ -19,26 +19,17 @@
     <br>
     <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_analyses') }}"  target="_blank">{{ _('Voir la documentation') }}</a></p>
     <br>
-    <form action="{{ url_for('analyze_linguistic') }}" id="linguistic-form" method="post" enctype="multipart/form-data" onsubmit="showloader('loader')">
-        <div class="relations-input">
-            <label for="analysis_type">{{ _("Choisir le type d'analyse") }} :</label>
-            <select name="analysis_type" id="analysis_type" required>
-                <option value="detect_lang">Option 1</option>
-                <option value="hapax">Option 2</option>
-                <option value="n_gram">Option 3</option>
-                <option value="dependency">Option 4</option>
-                <option value="lang_hapax">{{ _('Options 1 et 2') }}</option>
-                <option value="lang_ngrams">{{ _('Options 1 et 3') }}</option>
-                <option value="lang_dependency">{{ _('Options 1 et 4') }}</option>
-                <option value="hapax_ngrams">{{ _('Options 2 et 3') }}</option>
-                <option value="hapax_dependency">{{ _('Options 2 et 4') }}</option>
-                <option value="ngrams_dependency">{{ _('Options 3 et 4') }}</option>
-                <option value="lang_hapax_ngrams">{{ _('Options 1, 2 et 3') }}</option>
-                <option value="lang_hapax_dependency">{{ _('Options 1, 2 et 4') }}</option>
-                <option value="hapax_ngrams_dependency">{{ _('Options 2, 3 et 4') }}</option>
-                <option value="lang_hapax_ngrams_dependency">{{ _('Options 1, 2, 3 et 4') }}</option>
-            </select>
+    <form action="{{ url_for('analyze_linguistic') }}" id="linguistic-form" method="post" enctype="multipart/form-data">
+    <input type="hidden" name="download_token" id="download_token" value="">
+    <div class="relations-input">
+        <label>{{ _("Choisir le(s) type(s) d'analyse") }} :</label>
+        <div id="analysis_type_checkboxes">
+            <label><input type="checkbox" name="analysis_type" value="lang"> {{ _('Détection du langage') }} (Option 1)</label><br>
+            <label><input type="checkbox" name="analysis_type" value="hapax"> Hapax (Option 2)</label><br>
+            <label><input type="checkbox" name="analysis_type" value="ngrams" id="cb_ngrams"> N-Grams (Option 3)</label><br>
+            <label><input type="checkbox" name="analysis_type" value="dependency"> {{ _('Analyse des dépendances') }} (Option 4)</label>
         </div>
+    </div>
         {{ form.csrf_token }}
         <br>
         <div class="relations-input" id="ngram_fields" style="display: none;">
@@ -63,12 +54,9 @@
         <p>{{ _('Traitement en cours...') }}</p>
     </div>
 <script>
-/* MAJ de la zone de glisser-déposer */ 
-$('form input').change(function () {
+$('form input[type=file]').change(function () {
     var nb_files = this.files.length;
     $('form #form_msg').text(nb_files + " fichier(s) selectionné(s)");
-
-    /* Prévisualisation des fichiers chargés (max 3 visibles) */
     if(nb_files > 3){
         var num = nb_files - 3;
         for(i=0; i < 3; i++){
@@ -82,40 +70,35 @@ $('form input').change(function () {
         }
     }
 });
-        function toggleNgramFields() {
-            var analysisType = document.getElementById("analysis_type").value;
-            var ngramFields = document.getElementById("ngram_fields");
-            if (analysisType === "n_gram") {
-                ngramFields.style.display = "block";
-            }
-            else if (analysisType === "hapax_ngrams") {
-                ngramFields.style.display = "block";
-            }
-            else if (analysisType === "lang_ngrams") {
-                ngramFields.style.display = "block";
-            }
-            else if (analysisType === "ngrams_dependency") {
-                ngramFields.style.display = "block";
-            }
-            else if (analysisType === "lang_hapax_ngrams") {
-                ngramFields.style.display = "block";
-            }
-            else if (analysisType === "hapax_ngrams_dependency") {
-                ngramFields.style.display = "block";
-            }
-            else if (analysisType === "lang_hapax_ngrams_dependency") {
-                ngramFields.style.display = "block";
-            }
-             else {
-                ngramFields.style.display = "none";
-            }
+
+function toggleNgramFields() {
+    document.getElementById("ngram_fields").style.display =
+        document.getElementById("cb_ngrams").checked ? "block" : "none";
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+    document.getElementById("cb_ngrams").addEventListener("change", toggleNgramFields);
+    toggleNgramFields();
+
+    document.getElementById("linguistic-form").addEventListener("submit", function(e) {
+        const checked = document.querySelectorAll('input[name="analysis_type"]:checked');
+        if (checked.length === 0) {
+            e.preventDefault();
+            alert("{{ _('Veuillez choisir au moins un type d\'analyse.') }}");
+            return;
         }
-
-        document.addEventListener("DOMContentLoaded", function() {
-            document.getElementById("analysis_type").addEventListener("change", toggleNgramFields);
-            toggleNgramFields(); // Initial call to set visibility based on default selection
-        });
-
+        const token = new Date().getTime().toString();
+        document.getElementById("download_token").value = token;
+        showloader('loader');
+        const poll = setInterval(function() {
+            if (document.cookie.indexOf('download_ready=' + token) !== -1) {
+                clearInterval(poll);
+                document.cookie = 'download_ready=; max-age=0; path=/';
+                document.getElementById("loader").style.display = "none";
+            }
+        }, 1000);
+    });
+});
 </script>
 </div>
 {% endblock %}

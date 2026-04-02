@@ -2945,7 +2945,7 @@ def analyze_combined(filename, result_path, analysis_type, hapaxes_list, detecte
         write_to_file(os.path.join(result_path, output_name_svg), svg)
     
     # Write combined content
-    output_name = filename + f'_{analysis_type}.txt'
+    output_name = filename + f'_{"_".join(analysis_type)}.txt'
     write_to_file(os.path.join(result_path, output_name), content)
 
 
@@ -2963,10 +2963,10 @@ def analyze_linguistic():
         response = {"error": "No selected files"}
         return Response(json.dumps(response), status=400, mimetype='application/json')
 
-    analysis_type = request.form['analysis_type']
+    analysis_types = request.form.getlist('analysis_type')
 
-    n = int(request.form.get('n', 2))  # Default n-gram length to 2 if not provided
-    r = int(request.form.get('r', 5)) 
+    n = int(request.form.get('n', 2))
+    r = int(request.form.get('r', 5))
 
     nlp_eng = spacy.load('en_core_web_sm')
 
@@ -2982,20 +2982,15 @@ def analyze_linguistic():
             detected_languages_str = "\n".join(langues_probabilites)
             filename, file_extension = os.path.splitext(f.filename)
 
-            if analysis_type == 'hapax':
-                analyze_hapax(filename, result_path, hapaxes_list)
-            elif analysis_type == 'n_gram':
-                analyze_ngrams(filename, result_path, input_text, n, r)
-            elif analysis_type == 'dependency':
-                analyze_dependency(filename, result_path, input_text, nlp_eng)
-            else:
-                analyze_combined(filename, result_path, analysis_type, hapaxes_list, detected_languages_str, input_text, n, r, nlp_eng)
-
+            analyze_combined(filename, result_path, analysis_types, hapaxes_list, detected_languages_str, input_text, n, r, nlp_eng)
 
         finally:
             f.close()
 
     response = create_zip_and_response(result_path, rand_name)
+    download_token = request.form.get('download_token', '')
+    if download_token:
+        response.set_cookie('download_ready', download_token, max_age=60)
     return response
 
     return Response(json.dumps({"error": "Une erreur est survenue dans le traitement des fichiers."}), status=500, mimetype='application/json')
