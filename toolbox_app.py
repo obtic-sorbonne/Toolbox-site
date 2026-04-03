@@ -3014,7 +3014,7 @@ def analyze_statistic():
         response = {"error": "No selected files"}
         return Response(json.dumps(response), status=400, mimetype='application/json')
 
-    analysis_type = request.form['analysis_type']
+    analysis_types = request.form.getlist('analysis_type')
     context_window = int(request.form.get('context_window', 2)) 
     target_word = str(request.form.get('target_word'))
 
@@ -3052,12 +3052,7 @@ def analyze_statistic():
 
             filename, file_extension = os.path.splitext(f.filename)
 
-            if analysis_type == 'sentence_length_average':
-                """output_name = filename + '_length.txt'
-                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-                    out.write("Total Words: " + str(total_words) + "\n\nTotal Sentences: " + str(total_sentences) + "\n\nAverage Words per Sentence: " + str(average_words_per_sentence))
-                """
-                # Generate sentence length visualization
+            if 'sla' in analysis_types:
                 fig, ax = plt.subplots()
                 ax.bar(range(1, total_sentences + 1), sentence_lengths, color='blue', alpha=0.7)
                 ax.axhline(average_words_per_sentence, color='red', linestyle='dashed', linewidth=1)
@@ -3065,149 +3060,34 @@ def analyze_statistic():
                 ax.set_ylabel(f'Number of Words  (Total: {str(total_words)})')
                 ax.set_title('Number of Words per Sentence')
                 ax.legend([f'Average Words per Sentence\n({str(average_words_per_sentence_rounded)})', 'Words per Sentence'])
-                
-                # Save visualization to a file
-                vis_name = filename + '_sentence_lengths.png'
-                vis_path = os.path.join(result_path, vis_name)
+                vis_path = os.path.join(result_path, filename + '_sentence_lengths.png')
                 plt.savefig(vis_path, format='png')
                 plt.close()
 
-            elif analysis_type == 'words_frequency':
+            if 'wf' in analysis_types:
                 output_name = filename + '_wordsfrequency.txt'
                 with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
                     out.write("Absolute frequency of words: " + str(abs_frequency) + "\n\nRelative frequency of words: " + str(rel_frequency) + "\n\nTotal number of words:" + str(total_tokens))
-
-                # Generate word cloud
                 wordcloud = WordCloud(width=800, height=400, background_color='white').generate(input_text)
                 plt.figure(figsize=(10, 5))
                 plt.imshow(wordcloud, interpolation='bilinear')
                 plt.axis('off')
-                
-                # Save word cloud to a file
-                wordcloud_name = filename + '_wordcloud.png'
-                wordcloud_path = os.path.join(result_path, wordcloud_name)
-                plt.savefig(wordcloud_path, format='png')
+                plt.savefig(os.path.join(result_path, filename + '_wordcloud.png'), format='png')
                 plt.close()
 
-            elif analysis_type == 'cooccurrences':
+            if 'coocc' in analysis_types:
                 output_name = filename + '_cooccurrences.txt'
                 with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
                     for pair, count in co_occurrences.items():
                         out.write(f"Co-occurrence of '{pair[0]}' & '{pair[1]}' --> {count}\n")
 
-            elif analysis_type == 'sla_wf':
-                output_name = filename + '_sla_wf.txt'
-                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-                    out.write("Absolute frequency of words: " + str(abs_frequency) + "\n\nRelative frequency of words: " + str(rel_frequency) + "\n\nTotal number of words:" + str(total_tokens))
-                    out.write("\n\nTotal Sentences: " + str(total_sentences) + "\n\nAverage Words per Sentence: " + str(average_words_per_sentence_rounded))
-                
-                # Generate word cloud
-                wordcloud = WordCloud(width=800, height=400, background_color='white').generate(input_text)
-                plt.figure(figsize=(10, 5))
-                plt.imshow(wordcloud, interpolation='bilinear')
-                plt.axis('off')
-                
-                # Save word cloud to a file
-                wordcloud_name = filename + '_wordcloud.png'
-                wordcloud_path = os.path.join(result_path, wordcloud_name)
-                plt.savefig(wordcloud_path, format='png')
-                plt.close()
-
-                # Generate sentence length visualization
-                fig, ax = plt.subplots()
-                ax.bar(range(1, total_sentences + 1), sentence_lengths, color='blue', alpha=0.7)
-                ax.axhline(average_words_per_sentence, color='red', linestyle='dashed', linewidth=1)
-                ax.set_xlabel(f'Sentence Number (Total: {str(total_sentences)})')
-                ax.set_ylabel(f'Number of Words  (Total: {str(total_words)})')
-                ax.set_title('Number of Words per Sentence')
-                ax.legend([f'Average Words per Sentence\n({str(average_words_per_sentence_rounded)})', 'Words per Sentence'])
-                
-                # Save visualization to a file
-                vis_name = filename + '_sentence_lengths.png'
-                vis_path = os.path.join(result_path, vis_name)
-                plt.savefig(vis_path, format='png')
-                plt.close()
-        
-            elif analysis_type == 'sla_coocc':
-                output_name = filename + 'sla_coocc.txt'
-                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-                    out.write("Total Words: " + str(total_words) + "\n\nTotal Sentences: " + str(total_sentences) + "\n\nAverage Words per Sentence: " + str(average_words_per_sentence) + "\n\n")
-                    for pair, count in co_occurrences.items():
-                        out.write(f"Co-occurrence of '{pair[0]}' & '{pair[1]}' --> {count}\n")
-
-                # Generate sentence length visualization
-                fig, ax = plt.subplots()
-                ax.bar(range(1, total_sentences + 1), sentence_lengths, color='blue', alpha=0.7)
-                ax.axhline(average_words_per_sentence, color='red', linestyle='dashed', linewidth=1)
-                ax.set_xlabel(f'Sentence Number (Total: {str(total_sentences)})')
-                ax.set_ylabel(f'Number of Words  (Total: {str(total_words)})')
-                ax.set_title('Number of Words per Sentence')
-                ax.legend([f'Average Words per Sentence\n({str(average_words_per_sentence_rounded)})', 'Words per Sentence'])
-                
-                # Save visualization to a file
-                vis_name = filename + '_sentence_lengths.png'
-                vis_path = os.path.join(result_path, vis_name)
-                plt.savefig(vis_path, format='png')
-                plt.close()
-
-            elif analysis_type == 'wf_coocc':
-                output_name = filename + 'wf_coocc.txt'
-                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-                    out.write("Absolute frequency of words: " + str(abs_frequency) + "\n\nRelative frequency of words: " + str(rel_frequency) + "\n\nTotal number of words:" + str(total_tokens) + "\n\n")
-                    for pair, count in co_occurrences.items():
-                        out.write(f"Co-occurrence of '{pair[0]}' & '{pair[1]}' --> {count}\n")
-
-                # Generate word cloud
-                wordcloud = WordCloud(width=800, height=400, background_color='white').generate(input_text)
-                plt.figure(figsize=(10, 5))
-                plt.imshow(wordcloud, interpolation='bilinear')
-                plt.axis('off')
-                
-                # Save word cloud to a file
-                wordcloud_name = filename + '_wordcloud.png'
-                wordcloud_path = os.path.join(result_path, wordcloud_name)
-                plt.savefig(wordcloud_path, format='png')
-                plt.close()
-
-            elif analysis_type == 'sla_wf_coocc':
-                output_name = filename + 'sla_wf_coocc.txt'
-                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-                    out.write("Total Words: " + str(total_words) + "\n\nTotal Sentences: " + str(total_sentences) + "\n\nAverage Words per Sentence: " + str(average_words_per_sentence) + "\n\n")
-                    out.write("Absolute frequency of words: " + str(abs_frequency) + "\n\nRelative frequency of words: " + str(rel_frequency) + "\n\nTotal number of words:" + str(total_tokens) + "\n\n")
-                    for pair, count in co_occurrences.items():
-                        out.write(f"Co-occurrence of '{pair[0]}' & '{pair[1]}' --> {count}\n")
-
-                # Generate word cloud
-                wordcloud = WordCloud(width=800, height=400, background_color='white').generate(input_text)
-                plt.figure(figsize=(10, 5))
-                plt.imshow(wordcloud, interpolation='bilinear')
-                plt.axis('off')
-                
-                # Save word cloud to a file
-                wordcloud_name = filename + '_wordcloud.png'
-                wordcloud_path = os.path.join(result_path, wordcloud_name)
-                plt.savefig(wordcloud_path, format='png')
-                plt.close()
-
-                # Generate sentence length visualization
-                fig, ax = plt.subplots()
-                ax.bar(range(1, total_sentences + 1), sentence_lengths, color='blue', alpha=0.7)
-                ax.axhline(average_words_per_sentence, color='red', linestyle='dashed', linewidth=1)
-                ax.set_xlabel(f'Sentence Number (Total: {str(total_sentences)})')
-                ax.set_ylabel(f'Number of Words  (Total: {str(total_words)})')
-                ax.set_title('Number of Words per Sentence')
-                ax.legend([f'Average Words per Sentence\n({str(average_words_per_sentence_rounded)})', 'Words per Sentence'])
-                
-                # Save visualization to a file
-                vis_name = filename + '_sentence_lengths.png'
-                vis_path = os.path.join(result_path, vis_name)
-                plt.savefig(vis_path, format='png')
-                plt.close()
-
         finally:
             f.close()
 
     response = create_zip_and_response(result_path, rand_name)
+    download_token = request.form.get('download_token', '')
+    if download_token:
+        response.set_cookie('download_ready', download_token, max_age=60)
     return response
 
     return Response(json.dumps({"error": "Une erreur est survenue dans le traitement des fichiers."}), status=500, mimetype='application/json')
