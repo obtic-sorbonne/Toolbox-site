@@ -21,6 +21,7 @@ import time
 import nltk
 import numpy as np
 import pandas as pd
+from charset_normalizer import from_bytes
 # Third-party imports
 import requests
 from flask import (Flask, Response, abort, jsonify, redirect, render_template,
@@ -3488,8 +3489,12 @@ def compare_texts(text1, text2, output_file):
         file.write(html_result)
 
 def read_file(file_path):
-    with open(file_path, 'r') as file:
-        return file.read()
+    with open(file_path, 'rb') as file:
+        raw = file.read()
+    result = from_bytes(raw).best()
+    if result is None:
+        return raw.decode('utf-8', errors='replace')
+    return str(result)
 
 @app.route('/compare', methods=['POST'])
 def compare():
