@@ -39,9 +39,11 @@
             <input type="number" id="r" name="r" min="1" value="5"><br>
         </div>
         <br>
-        <div class="dropzone" style="margin:25px auto;">
-            <input type="file" id="files" name="files" accept="text/plain" multiple required>
+        <div class="dropzone" style="margin:25px auto; height:150px;">
+          <label class="dropzone-label">
             <p id="form_msg">{{ _("Déposer le(s) fichier(s) ou cliquer ici") }}.</p>
+            <input type="file" id="files" name="files" accept="text/plain" multiple required>
+          </label>
         </div>
         <input id="csrf_token" name="csrf_token" type="hidden" value="{{ csrf_token() }}">
         <button style="display:block;margin:auto;margin-top:20px;">{{ _("Lancer l'analyse") }}</button>

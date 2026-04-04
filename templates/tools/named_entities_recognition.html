@@ -59,7 +59,7 @@ input[type="radio"]{
 }
 
 .opt-wrapper .option span{
-  color: grey;
+  color: #111C40;
   margin-left: 5px;
 }
 
@@ -121,11 +121,19 @@ form p{
 
 #xmlparams label{
   font-size: small;
-  color:#8A824C;
+  color:#111C40;
 }
 
 #modeldiv i{
   padding:15px;
+}
+
+fieldset{
+    border: none;
+}
+legend{
+  color:#263e8d;
+  text-align: center;
 }
 
 </style>
@@ -151,7 +159,7 @@ form p{
     <form action="{{ url_for('named_entity_recognition') }}" id="metadata-form" method="post" enctype="multipart/form-data">
       {{ form.csrf_token }}
       <!-- Input format selection -->
-      <p>{{ _("Format de votre corpus") }}</p>
+      <fieldset><legend>{{ _("Format de votre corpus") }}</legend>
       <div class="opt-wrapper">
       <input type="radio" name="input_format" id="option-1" value="txt" checked>
         <label for="option-1" class="option option-1">
@@ -166,6 +174,7 @@ form p{
            <i class="fa-regular fa-file-code"></i><span style="font-size: small;"> XML-TEI</span>
         </label>
       </div>
+    </fieldset>
 
       <div id="xmlparams">
           <p>{{ _("Structure du document XML") }}</p>
@@ -188,7 +197,7 @@ form p{
       </div>
 
       <!-- Select engine -->
-      <p>{{ _("Moteur de REN") }}</p>
+      <fieldset><legend>{{ _("Moteur de REN") }}</legend>
       <div class="opt-wrapper" id="divNerEngine">
         <input type="radio" name="moteur_REN" id="opt-spacy" value="spacy" checked>
         <input type="radio" name="moteur_REN" id="opt-flair" value="flair">
@@ -206,6 +215,7 @@ form p{
              <span>Bert</span>
           </label>
       </div>
+    </fieldset>
       <!-- Select model -->
         <br>
       <div class="relations-input">
@@ -229,10 +239,12 @@ form p{
       {% if erreur != "" %}
         <p>{{ erreur }}</p>
       {% endif %}
-      <div class="dropzone" id="dropzoneEnt">
-        <input type="file" name="entityfiles" accept="text/plain,text/xml" multiple required>
-        <p id="form_msg">{{ _("Déposer le(s) fichier(s) ou cliquer ici.") }}</p>
-      </div>
+      <div class="dropzone" id="dropzoneEnt" style="margin:25px auto; height:150px;">
+          <label class="dropzone-label">
+            <p id="form_msg">{{ _("Déposer le(s) fichier(s) ou cliquer ici") }}.</p>
+            <input type="file" id="entityfiles" name="entityfiles" accept="text/plain" multiple required>
+          </label>
+        </div>
       <input id="csrf_token" name="csrf_token" type="hidden" value="CSRF_TOKEN_STRING">
       <button type="submit" class="centerElem" style="margin-top: 8px;">{{ _('Annoter') }}</button>
     </div>

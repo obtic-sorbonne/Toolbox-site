@@ -55,11 +55,17 @@
 		</div>
 
 		 <div class="container" id="renard_container">
-			<div class="dropzone">
-				<input type="file" id="renard_upload" name="renard_upload" accept="text/plain">
-				<p id="form_msg"><span style="font-size: 2em;color: #c0c0c0;"><i class="fa-solid fa-arrow-up-from-bracket"></i></span><br>{{ _('Déposer le(s) fichier(s) ou cliquer ici.' )}}</p>
-			</div>
+		 	<div class="dropzone" style="margin:25px auto; height:150px;">
+	          <label class="dropzone-label">
+	            <p id="form_msg">{{ _("Déposer le(s) fichier(s) ou cliquer ici") }}.</p>
+	            <input type="file" id="renard_upload" name="renard_upload" accept="text/plain" multiple required>
+	          </label>
+	        </div>
+	        <div class="textarea_w_msg">
+			<span id="error_msg_ark"></span>
+			<label for="renard_txt_input" >Text Input</label>
 			<textarea name="renard_txt_input" id="renard_txt_input" style="width:500px" placeholder="Put your text here"></textarea>
+		</div>
 			<input id="csrf_token" name="csrf_token" type="hidden" value="CSRF_TOKEN_STRING">
 		 </div>
 			<button type="submit" style="display:block;margin:auto;margin-top:15px;">{{ _('Envoyer')}}</button>
@@ -78,9 +84,9 @@
 	{% endif %}
 
 	<div class="bibliography">
-		<h4>{{ _("Références") }}</h4>
+		<h3>{{ _("Références") }}</h3>
 		<ul>
-			<li>{{ _("Documentation de l'outil Renard")}} <a href="https://compnet.github.io/Renard/index.html"  target="_blank"><i class="fa-brands fa-github"></i></a></li>
+			<li>{{ _("Documentation de l'outil")}} <a href="https://compnet.github.io/Renard/index.html" target="_blank" title="GitHub de l'outil Renard">Renard <i class="fa-brands fa-github"></i></a></li>
 			<li>Labatut, V., & Bost, X. (2019). Extraction and analysis of fictional character networks: A survey. <span style="font-style: italic;">ACM Computing Surveys (CSUR)</span>, 52(5), 1-40.</li>
 		</ul>
 	</div>

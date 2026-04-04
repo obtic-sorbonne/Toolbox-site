@@ -37,7 +37,7 @@
         <legend>{{ _("Configuration ATR ") }}: Tesseract</legend>
         <form action="{{ url_for('run_ocr_ner') }}" id="tesseract-form" method="post" enctype="multipart/form-data" onsubmit="showloader('tessloader')">
             {{ form.csrf_token }}
-            <label for="model">{{ _('Modèle') }}</label>
+            <label for="tessmodel">{{ _('Modèle') }}</label>
             <select class="styled-select" name="tessmodel" id="tessmodel">
         <option disabled>--- {{ _('Europe') }} ---</option>
         <option value="ces">{{ _('Tchèque') }} (ces)</option>
@@ -123,10 +123,12 @@
             </select>
             <br />
         </fieldset>
-        <div class="dropzone" style="margin:25px auto;">
-            <input type="file" id="files" name="inputfiles" accept="image/jpeg,image/png,application/pdf,image/tif,image/tiff" multiple required>
-            <p id="form_msg">{{ _("Déposer le(s) fichier(s) ou cliquer ici") }}.</p>
-        </div>
+        <div class="dropzone" style="margin:25px auto; height:150px;">
+             <label class="dropzone-label">
+                  <p id="form_msg">{{ _("Déposer le(s) fichier(s) ou cliquer ici") }}.</p>
+                 <input type="file" id="files" name="inputfiles" accept="image/jpeg,image/png,application/pdf,image/tif,image/tiff" multiple required>
+                </label>
+            </div>
         <input id="csrf_token" name="csrf_token" type="hidden" value="CSRF_TOKEN_STRING">
         <button style="display:block;margin:auto;margin-top:20px;">{{ _('Extraire les entités') }}</button>
     </form>

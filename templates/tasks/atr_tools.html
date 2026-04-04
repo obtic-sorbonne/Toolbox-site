@@ -3,31 +3,31 @@
 
 {% block content %}
   <div class="selection">
-    <div style="text-align: left;"><a href="{{ url_for('corpus_collection')}}" style="color:#f2a800; text-decoration:none;"><< {{ _('Tâche précédente') }}</a></div>
-    <div style="text-align: right;"><a href="{{ url_for('preprocessing')}}" style="color:#f2a800; text-decoration:none;">{{ _('Tâche suivante') }} >></a></div>
+    <div style="text-align: left;"><a href="{{ url_for('corpus_collection')}}" style="color:#263e8d; text-decoration:none;"><< {{ _('Tâche précédente') }}</a></div>
+    <div style="text-align: right;"><a href="{{ url_for('preprocessing')}}" style="color:#263e8d; text-decoration:none;">{{ _('Tâche suivante') }} >></a></div>
     <h2>{{ _('Outils de reconnaissance automatique de texte') }}</h2>
     <p style="text-align: center;">{{ _("Cette page répertorie divers outils qui peuvent être utilisées pour faire de la reconnaissance automatique de textes") }}.</p>
     <div class="container">
-      <div class="box-outil-accueil" onclick="window.location.href='{{ url_for('text_recognition') }}'">
-        <div class="rubrique-icon"><img alt="Tesseract" src="{{url_for('static', filename='img/icons/text_recognition.png')}}"></div>
-        <span class="rubrique-title"><h3>{{ _('Reconnaissance automatique de texte (ATR)') }}</h3></span>
+      <a class="box-outil-accueil" href="{{ url_for('text_recognition') }}">
+        <div class="rubrique-icon"><img alt="" src="{{url_for('static', filename='img/icons/text_recognition.png')}}"></div>
+        <h3 class="rubrique-title">{{ _('Reconnaissance automatique de texte (ATR)') }}</h3>
         <span class="rubrique-text"><p>{{ _('Outil Tesseract pour les documents imprimés') }}</p></span>
-      </div>
-      <div class="box-outil-accueil" onclick="window.location.href='{{ url_for('handwritten_text_recognition') }}'">
-        <div class="rubrique-icon"><img alt="Kraken" src="{{url_for('static', filename='img/icons/handwritten_text_recognition.png')}}"></div>
-        <span class="rubrique-title"><h3>{{ _("Reconnaissance de l'écriture manuscrite (HTR)") }}</h3></span>
+      </a>
+      <a class="box-outil-accueil" href="{{ url_for('handwritten_text_recognition') }}">
+        <div class="rubrique-icon"><img alt="" src="{{url_for('static', filename='img/icons/handwritten_text_recognition.png')}}"></div>
+        <h3 class="rubrique-title">{{ _("Reconnaissance de l'écriture manuscrite (HTR)") }}</h3>
         <span class="rubrique-text"><p>{{ _('Outil Kraken pour les documents manuscrits') }}</p></span>
-      </div>
-      <div class="box-outil-accueil" onclick="window.location.href='{{ url_for('speech_recognition') }}'">
-        <div class="rubrique-icon"><img alt="Speech" src="{{url_for('static', filename='img/icons/speech_recognition.png')}}"></div>
-        <span class="rubrique-title"><h3>{{ _('Reconnaissance automatique de discours (ASR)') }}</h3></span>
+      </a>
+      <a class="box-outil-accueil" href="{{ url_for('speech_recognition') }}">
+        <div class="rubrique-icon"><img alt="" src="{{url_for('static', filename='img/icons/speech_recognition.png')}}"></div>
+        <h3 class="rubrique-title">{{ _('Reconnaissance automatique de discours (ASR)') }}</h3>
         <span class="rubrique-text"><p>{{ _('Outil Whisper pour les fichiers audio et vidéo') }}</p></span>
-      </div>
-      <div class="box-outil-accueil" onclick="window.open('https://obtic-gpu1.mesu.sorbonne-universite.fr/escriptorium/')">
-        <div class="rubrique-icon"><img alt="eScriptorium" src="{{url_for('static', filename='img/escriptorium.png')}}"></div>
-        <span class="rubrique-title"><h3>eScriptorium</h3></span>
+      </a>
+      <a class="box-outil-accueil" title="Lien vers l'instance eScriptorium" href="https://obtic-gpu1.mesu.sorbonne-universite.fr/escriptorium/">
+        <div class="rubrique-icon"><img alt="" src="{{url_for('static', filename='img/escriptorium.png')}}"></div>
+        <h3 class="rubrique-title">eScriptorium</h3>
         <span class="rubrique-text"><p>{{ _("Outil d'ATR pour des documents tapuscrits et manuscrits") }}</p></span>
-      </div>
+      </a>
     </div>
   </div>
 {% endblock %}

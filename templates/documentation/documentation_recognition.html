@@ -8,10 +8,10 @@
 }
 
 .outil strong {
-    color: #f2a800;
+    color: #263e8d;
 }
 
-.outil h4{
+.outil h3{
   font-family: 'Roboto', sans-serif;
   font-size:1.2em;
   margin:28px 0;
@@ -25,7 +25,7 @@
 
 <div class="outil">
     <div class="fil"> </div>
-    <div style="text-align: right;"><a href="{{ url_for('documentation_preprocessing')}}" style="color:#f2a800; text-decoration:none;">{{ _('Documentation suivante') }} >></a></div>
+    <div style="text-align: right;"><a href="{{ url_for('documentation_preprocessing')}}" style="color:#263e8d; text-decoration:none;">{{ _('Documentation suivante') }} >></a></div>
 <div class="tool-box">
         <h2>{{ _("Reconnaissance automatique de texte") }} (ATR)</h2>
         <p>
@@ -40,7 +40,7 @@
         </p>
         <br>
 
-        <h4>{{ _("Les étapes du processus") }}</h4>
+        <h3>{{ _("Les étapes du processus") }}</h3>
         <p>{{ _("La reconnaissance de caractères suit deux grandes étapes ") }}:</p>
         <ol>
             <li>
@@ -52,7 +52,7 @@
         </ol>
         <br>
 
-        <h4>{{ _("Conditions pour une reconnaissance optimale") }}</h4>
+        <h3>{{ _("Conditions pour une reconnaissance optimale") }}</h3>
         <p>
             {{ _("Pour maximiser la qualité de la reconnaissance, il est essentiel que les images répondent à plusieurs critères ") }}:
         </p>
@@ -63,13 +63,13 @@
         </ul>
         <br>
 
-        <h4>{{ _("Performance et limites actuelles") }}</h4>
+        <h3>{{ _("Performance et limites actuelles") }}</h3>
         <p>
             {{ _("Pour les langues utilisant des caractères latins, les logiciels d'OCR modernes atteignent généralement un taux de reconnaissance supérieur à 90") }} %, {{ _("assurant une conversion très fiable des textes imprimés") }}. {{ _("Cependant, les résultats peuvent être altérés par des images de mauvaise qualité ou des écritures manuscrites particulièrement complexes") }}.
         </p>
         <br>
 
-        <h4>{{ _("Adaptabilité avec des outils avancés") }}</h4>
+        <h3>{{ _("Adaptabilité avec des outils avancés") }}</h3>
         <p>
             {{ _("Dans les cas où les images ne remplissent pas parfaitement les critères précédents (par exemple : présence de bruit ou de fond complexe), des outils comme <strong>eScriptorium</strong> offrent une solution performante") }}. {{ _("Cette plateforme, accessible via ") }}<a href="https://obtic-gpu1.mesu.sorbonne-universite.fr:8501/">{{ _("ce lien") }}</a>, {{ _("est capable de gérer des contraintes spécifiques et d'améliorer les résultats de reconnaissance grâce à ses fonctionnalités avancées") }}.
         </p>
@@ -80,7 +80,7 @@
         </p>
         <br>
 
-        <h4>{{ _("Applications de l'ASR") }}</h4>
+        <h3>{{ _("Applications de l'ASR") }}</h3>
         <ul>
             <li>
                 <strong>{{ _("Assistants vocaux et appareils intelligents") }}</strong> : {{ _("L'ASR est au cœur des assistants personnels comme Siri, Alexa ou Google Assistant, permettant une interaction naturelle avec les appareils") }}.
@@ -98,7 +98,7 @@
         <br>
 
 
-        <h4>{{ _("Fonctionnement de l'ASR") }}</h4>
+        <h3>{{ _("Fonctionnement de l'ASR") }}</h3>
         <p>{{ _("L'ASR repose sur plusieurs étapes ") }}:</p>
         <ol>
             <li>
@@ -113,7 +113,7 @@
         </ol>
         <br>
 
-        <h4>{{ _("Défis et innovations") }}</h4>
+        <h3>{{ _("Défis et innovations") }}</h3>
         <ul>
             <li>
                 <strong>{{ _("Variabilité de la parole") }}</strong> : {{ _("Les accents, les intonations et le bruit ambiant compliquent la tâche des systèmes ASR") }}.
@@ -127,7 +127,7 @@
         </ul>
         <br>
 
-        <h4>{{ _("Technologies émergentes") }}</h4>
+        <h3>{{ _("Technologies émergentes") }}</h3>
         <p>
             {{ _("Les modèles d'apprentissage profond, comme ceux basés sur les réseaux neuronaux récurrents (RNN) ou les transformateurs, ont considérablement amélioré la précision des systèmes ASR") }}. {{ _("Des approches comme le modèle 'end-to-end' simplifient les pipelines traditionnels en intégrant toutes les étapes dans un seul réseau") }}.
         </p>

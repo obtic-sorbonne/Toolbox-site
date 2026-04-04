@@ -6,7 +6,7 @@
     <div class="fil"><a href="{{ url_for('information_extraction')}}"><< {{ _('Retour aux tâches') }}</a></div>
     <h2 style="font-family:'Comprehension', serif;">{{ _("Résumé automatique") }}</h2>
     <div class="tool-box">
-        <h4>Summarizer</h4>
+        <h3>Summarizer</h3>
             <div style="min-width:48%">
                 <p>{{ _("L'outil ") }}<a href="https://obtic.sorbonne-universite.fr/summary/" target="_blank">Summarizer</a> {{ _('permet de résumer automatiquement des documents en anglais aux formats texte brut ou XML') }}.</p>
             </div>
@@ -14,7 +14,7 @@
     <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_extraction') }}"  target="_blank">{{ _('Voir la documentation') }}</a></p>
             <br>
             <div style="min-width:48%; display: flex; flex-direction: column; align-items: center; justify-content: center;">
-                <a href="https://obtic.sorbonne-universite.fr/summary/" target="_blank"><img style="width:65%;" src="{{ url_for('static', filename='img/summarizer.png') }}"></a>
+                <a href="https://obtic.sorbonne-universite.fr/summary/" target="_blank"><img style="width:65%;" src="{{ url_for('static', filename='img/summarizer.png') }}" alt="Lien vers l'outil ObTIC de résumé de textes"></a>
             </div>
     </div>
 </div>
