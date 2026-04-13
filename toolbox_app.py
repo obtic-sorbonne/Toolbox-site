@@ -2324,6 +2324,8 @@ def pos_tagging():
         response = {"error": "No files part"}
         return Response(json.dumps(response), status=400, mimetype='application/json')
 
+    from collections import Counter
+
     files = request.files.getlist('files')
     if not files or all(file.filename == '' for file in files):
         response = {"error": "No selected files"}
@@ -2340,11 +2342,16 @@ def pos_tagging():
             nlp = get_nlp(selected_language)
             doc = nlp(input_text)
             filename, file_extension = os.path.splitext(f.filename)
+            pos_counts = Counter(token.pos_ for token in doc)
             
             output_name = filename + '.txt'
             with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
                 for token in doc:
                     out.write(f"Token: {token.text} --> POS: {token.pos_}\n")
+
+                out.write("\n--- Comptage des POS ---\n")
+                for pos, count in sorted(pos_counts.items(), key=lambda x: x[1], reverse=True):
+                    out.write(f"{pos}: {count}\n")
 
         finally:
             f.close()
