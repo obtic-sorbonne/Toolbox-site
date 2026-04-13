@@ -46,7 +46,6 @@
       <div style="margin:15px;margin-bottom:100px;">
         <div id="tess-form">
     <form action="{{ url_for('autocorrect') }}" id="correction-form" method="post" enctype="multipart/form-data">
-        {{ form.csrf_token }}
         <div class="relations-input">
         <label for="selected_language">{{ _('Modèle') }}</label>
         <select name="selected_language" class="sel sel--black-panther">
@@ -78,11 +77,15 @@
             <option value="ko">{{ _('Coréen') }} (ko)</option>
         </select>
       </div>
+        <div class="relations-input">
+                <label><input type="checkbox" name="clean_output" value="yes">Correction invisible</label><br>
+          </div>
         <div class="dropzone" style="margin:25px auto;">
             <input type="file" id="files" name="files" accept="text/plain" multiple required>
             <p id="form_msg">{{ _("Déposer le(s) fichier(s) ou cliquer ici") }}.</p>
         </div>
         <input id="csrf_token" name="csrf_token" type="hidden" value="{{ csrf_token() }}">
+        {{ form.csrf_token }}
         <button style="display:block;margin:auto;margin-top:20px;">{{ _('Corriger') }}</button>
     </form>
   </div>

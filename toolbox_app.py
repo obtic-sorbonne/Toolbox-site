@@ -1188,6 +1188,7 @@ def autocorrect():
 
     for f in files:
         try:
+            clean_output = request.form.get("clean_output") == "yes"
             input_text = f.read().decode('utf-8')
             highlighted_corrected_text = ""
 
@@ -1202,8 +1203,16 @@ def autocorrect():
 
             filename, _ = os.path.splitext(f.filename)
             output_name = filename + '_corrected.txt'
+
+            # Choix du contenu
+            if clean_output:
+                final_text = highlighted_corrected_text.replace("**", "")
+            else:
+                final_text = highlighted_corrected_text
+
+            # Écriture
             with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-                out.write(highlighted_corrected_text)
+                out.write(final_text)
 
         finally:
             f.close()
