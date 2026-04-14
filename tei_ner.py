@@ -82,7 +82,8 @@ LABEL_MAP = {
     "ORG": "orgName",
     "LOC": "placeName",
     "GPE": "placeName",
-    "PLACE": "placeName"
+    "PLACE": "placeName",
+    "MISC": "name"
 }
 
 
