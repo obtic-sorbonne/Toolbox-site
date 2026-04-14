@@ -2855,8 +2855,24 @@ def quotation():
 
 
             patterns = [
-                r'"(.*?)"',           # Double quotes
-                r'«\s*(.*?)\s*»'      # French quotes with optional spaces
+                r'"(.*?)"',  # Double quotes ASCII
+                r"'(.*?)'",  # Single quotes ASCII
+                r"`(.*?)`",  # Backticks
+
+                r'«\s*(.*?)\s*»',  # Guillemets français
+                r'‹\s*(.*?)\s*›',  # Guillemets français (niche)
+                r'»\s*(.*?)\s*«',  # Guillemets inversés
+                r'›\s*(.*?)\s*‹',  # Guillemets inversés (niche)
+
+                r'„\s*(.*?)\s*“',  # Allemand bas-haut
+                r'‚\s*(.*?)\s*‘',  # Allemand bas-haut (variante)
+                r',\s*(.*?)\s*‘',  # Allemand bas-haut (virgule + apostrophe)
+
+                r'“\s*(.*?)\s*”',  # Guillemets anglais typographiques
+                r'”\s*(.*?)\s*”',  # Variante fermante-fermante (cas réel dans ton exemple)
+                r'‘\s*(.*?)\s*’',  # Guillemets simples typographiques
+
+                r'「\s*(.*?)\s*」',  # Guillemets japonais
             ]
             
             quotations = []
