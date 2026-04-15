@@ -1398,27 +1398,67 @@ def normalize_text():
             input_text = f.read().decode('utf-8')
             filename, _ = os.path.splitext(f.filename)
 
+            # --- TOKENISATION (plate, comme à l'origine) ---
             tokens = word_tokenize(input_text)
 
-            need_lemmas = 'lemmas' in normalisation_types
+            # --- FILTRES SUR LES TOKENS ---
+            def apply_token_filters(token_list):
+                # 1) garder uniquement les tokens alphabétiques
+                if 'tokens_alpha' in normalisation_types:
+                    token_list = [t for t in token_list if t.isalpha()]
+
+                # 2) garder tokens alphanumériques
+                if 'tokens_alphanum' in normalisation_types:
+                    token_list = [t for t in token_list if any(c.isalnum() for c in t)]
+
+                # 3) garder tokens avec apostrophe interne
+                if 'tokens_apostrophe' in normalisation_types:
+                    token_list = [t for t in token_list if "'" in t and len(t) > 1]
+
+                return token_list
+
+            tokens = apply_token_filters(tokens)
+
+            # --- LEMMATISATION (plate, sans structure) ---
+            need_lemmas = (
+                'lemmas' in normalisation_types or
+                'lemmas_lower' in normalisation_types
+            )
+
             if need_lemmas:
                 nlp = get_nlp(selected_language)
                 lemmas = [token.lemma_ for token in nlp(input_text)]
+                lemmas = apply_token_filters(lemmas)
             else:
                 lemmas = []
 
-            if 'lowercases' in normalisation_types:
-                tokens = [t.lower() for t in tokens]
-                lemmas = [l.lower() for l in lemmas]
+            # --- CONSTRUCTION DES SECTIONS ---
+            output_sections = []
 
-            parts = []
+            # TOKENS
             if 'tokens' in normalisation_types:
-                parts.append(", ".join(tokens))
-            if need_lemmas:
-                parts.append(", ".join(lemmas))
+                output_sections.append("TOKENS:\n" + ", ".join(tokens))
 
-            output_text = "\n\n".join(parts)
-            output_name = filename + '_' + '_'.join(normalisation_types) + '.txt'
+            # TOKENS LOWER
+            if 'tokens_lower' in normalisation_types:
+                tokens_lower = [t.lower() for t in tokens]
+                output_sections.append("TOKENS (minuscules):\n" + ", ".join(tokens_lower))
+
+            # LEMMAS
+            if 'lemmas' in normalisation_types:
+                clean_lemmas = [l.replace("\n", " ") for l in lemmas]
+                output_sections.append("LEMMES:\n" + ", ".join(clean_lemmas))
+
+
+            # LEMMAS LOWER
+            if 'lemmas_lower' in normalisation_types:    
+                lemmas_lower = [l.lower().replace("\n", " ") for l in lemmas]
+                output_sections.append("LEMMES (minuscules):\n" + ", ".join(lemmas_lower))
+
+            # Assemblage final
+            output_text = "\n\n".join(output_sections)
+
+            output_name = filename + '_' + '_'.join(sorted(normalisation_types)) + '.txt'
 
             with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
                 out.write(output_text)
