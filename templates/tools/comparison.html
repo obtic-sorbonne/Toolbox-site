@@ -7,7 +7,14 @@
     <div class="fil"><a href="{{ url_for('analyses')}}"><< {{ _('Retour aux tâches') }}</a></div>
     <div>
         <h2>{{ _('Comparaison') }}</h2>
-    <p>{{ _("Cet outil permet d'observer les différences qui existent entre deux textes donnés") }}.</p></div>
+    <p>Cet outil permet d'observer les différences qui existent entre deux textes donnés. Le fichier de sortie est un HTML (à ouvrir dans son navigateur pour le visualiser). <br> Il contient tout d'abord quatre métriques :
+    <ul class="item-list" style="margin-left: 3em;">
+    <li><strong>Levenshtein Distance</strong> : Nombre minimum d’opérations d’édition nécessaires pour transformer un texte en un autre (Plus le nombre est grand, plus les textes sont différents au niveau caractère par caractère)</li>
+    <li><strong>Jaccard Index</strong> :  Similarité entre ensembles de tokens (mots), pas entre caractères (Plus le nombre est haut, plus la similarité lexicale est forte).</li>
+    <li><strong>LCS Distance</strong> : La longueur totale de texte moins la longueur de la plus longue sous‑séquence commune (Le nombre correspond à ce qu'il manque pour que les textes soient identiques)</li>
+    <li><strong>Ratcliff-Obershelp Similarity</strong> : Proportion de sous‑séquences correspondantes entre les deux textes (Plus le nombre est haut, plus la similarité globale est forte).</li></ul></p>
+
+    <p style="margin-top: 0.5em;">La visualisation présente ensuite les deux textes côte à côte, avec des éléments surlignés en couleur pour signifier les changements : le jaune pour les substitutions, le rouge pour les suppressions et le vert pour les insertions.</p></div>
     <br>
     <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_analyses') }}"  target="_blank">{{ _('Voir la documentation') }}</a></p>
     <br>

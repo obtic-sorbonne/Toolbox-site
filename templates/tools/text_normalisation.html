@@ -12,7 +12,9 @@
     <ul class="item-list" style="margin-left: 3em;">
         <li><hi style="font-weight: bold;">{{ _('Tokenisation') }} (Option 1)</hi> : {{ _('Découpage du texte en chaque instance séparée par un espace et/ou un signe de ponctuation') }}</li>
         <li><hi style="font-weight: bold;">{{ _('Lemmatisation') }} (Option 2)</hi> : {{ _("Récupération de chaque élément du texte sous sa forme lemmatisé, c'est-à-dire sa forme canonique") }}.</li>
-    </ul></p></div>
+    </ul></p>
+    <p style="margin-top: 0.5em;">Il est possible d'obtenir cette normalisation avec la casse d'origine, ou avec la casse entièrement en minuscules.</p>
+<p style="margin-top: 0.5em;">Le document de sortie contiendra dans son nom de fichier les tâches qui auront été effectué ("tokens", "lemmas", "lowercases")</p></div>
     <br>
     <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_preprocessing') }}"  target="_blank">{{ _('Voir la documentation') }}</a></p>
     <br>

@@ -12,9 +12,11 @@
         <li><strong>{{ _('Minuscules') }}</strong> : {{ _('Mettre tout le texte en minuscules') }}</li>
         <li><strong>{{ _('Ponctuation') }}</strong> : {{ _('Supprimer toute la ponctuation') }}</li>
         <li><strong>{{ _('Mots-vides') }}</strong> : {{ _("Supprimer les mots très courants (stopwords), ex: déterminants, conjonctions, auxiliaires) ") }}</li>
-        <li><strong>{{ _('Supprimer lignes vides/excessives') }}</strong> : {{ _("Enlever les lignes vides ou ne contenant que des caractères spéciaux") }}</li>
-        <li><strong>{{ _('Corriger retours OCR (-)') }}</strong> : {{ _("Joindre les mots coupés par un retour de ligne avec un tiret et supprimer les autres retours") }}</li>
+        <li><strong>{{ _('Lignes vides/excessives') }}</strong> : {{ _("Enlever les lignes vides ou ne contenant que des caractères spéciaux") }}</li>
+        <li><strong>{{ _('Retours OCR (-)') }}</strong> : {{ _("Joindre les mots coupés par un retour de ligne avec un tiret et supprimer les autres retours") }}</li>
+        <li><strong>Sortie correction d'OCR</strong> : enlever les **...** mis dans la sortie de la correction d'erreurs pour signaler que le mot avait été corrigé</li>
     </ul>
+    <p style="margin-top: 1em;">Le document de sortie contiendra dans son nom de fichier les tâches qui auront été effectué ("lowercases", "punctuation", "stopwords", "remove_excessive_lines", "fix_ocr_linebreaks").</p>
 
     <p style="text-align:center;padding:20px">
         <a href="{{ url_for('documentation_preprocessing') }}" target="_blank">{{ _('Voir la documentation') }}</a>

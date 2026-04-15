@@ -79,6 +79,7 @@
       <div class="fil"><a href="{{ url_for('conversion')}}"><< {{ _('Retour aux tâches') }}</a></div>
       <h2>{{ _('Conversion XML-TEI') }}</h2>
       <p>{{ _("L'outil ci-dessous permet de transformer un texte brut en format XML-TEI, un format courant en humanitiés numériques") }} {{ _("qui permet d'encoder les textes, en utilisant des balises prédefinies.") }}</p>
+      <p>Le titre du document, ses informations de publication, sa description bibliographique, ainsi que l'information sur la révision effectué, son auteur et sa date sont obligatoires pour exécuter l'encodage.</p>
 
       <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_conversion') }}" target="_blank">{{ _('Voir la documentation') }}</a> / <a href="{{ url_for('tutorial_conversion') }}" target="_blank">{{ _('Voir le tutoriel') }}</a></p>
 

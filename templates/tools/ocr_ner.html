@@ -19,6 +19,16 @@
   <h2>{{ _("Numérisation et reconnaissance d'entités nommées") }}</h2>
 
   <p>{{ _("L'outil Tesseract permet de numériser des fichiers imprimés") }}. {{ _("L'outil spaCy permet de faire la reconnaissance d'entités nommées") }}.</p>
+  <p>Cet outil ne vise qu'à fournir les entités nommées d'un document directement transcrit sans correction intermédiaire. Le contenu même du texte ne sera pas fourni dans le fichier de sortie, mais seulement les entités nommées. Si plusieurs images ou PDFs sont envoyés, cela sera interprêté comme un tout.</p>
+    <p style="margin-top: 0.5em;">La sortie spaCy sera au format TXT et apparaitra ainsi : <strong>T9 LOC 179 188 Colombine</strong>
+        <ul class="item-list" style="margin-left: 3em;">
+    <li>T9 est l’identifiant interne de l’entité (la 9ᵉ entité trouvée dans le document).</li>
+    <li>LOC — le label attribué par spaCy</li>
+    <li>179 188 — les offsets de caractères dans le texte :
+        <ul class="item-list" style="margin-left: 3em;">
+        <li>179 = position de début</li>
+        <li>188 = position de fin</li></ul></li>
+    <li>Colombine — la chaîne de texte reconnue comme entité.</li></ul></p>
   <br>
   <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_recognition') }}"  target="_blank">{{ _('Voir la documentation') }}</a> (ATR)</p>
   <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_annotation') }}" target="_blank">{{ _("Voir la documentation") }}</a> / <a href="{{ url_for('tutorial_annotation') }}"  target="_blank">{{ _('Voir le tutoriel') }}</a> (NER)</p>
@@ -30,6 +40,13 @@
       <p>{{ _("Formats possibles pour les fichiers d'entrée pour le NER seul :") }} <i class="fa-regular fa-file-lines"></i> TXT.</p>
       <p><i class="fa-solid fa-triangle-exclamation"></i> {{ _("Attention : Assurez-vous que les noms de vos fichiers d'entrée ne soient pas trop longs")}}<br>
       {{ _("et ne contiennent pas de caractères problématiques")}} ([\/:*"&gt;&lt;|])</p>
+      <p style="margin-top: 0.5em;">Les classes d'étiquettes de NER: <ul class="item-list" style="margin-left: 3em;">
+        <li>PER/PERSON — personne</li> 
+        <li>LOC — lieu</li> 
+        <li>ORG/GPE — organisation/entités géopolitiques (pays, villes)</li> 
+        <li>MISC — divers (événements, œuvres, gentilés, etc.)</li> 
+        <li>NORP — nationalités, groupes religieux/politiques</li> 
+        <li>etc.</li></ul></p>
     </div>
   </div>
   <div id="tess-form">
@@ -101,7 +118,7 @@
                 <option value="el_core_news_sm">{{ _('Grec') }} (el)</option>
                 <option value="en_core_web_sm">{{ _('Anglais') }} (en)</option>
                 <option value="es_core_news_sm">{{ _('Espagnol') }} (es)</option>
-                <option value="fr_core_news_sm">{{ _('Français') }} (fr)</option>
+                <option value="fr_core_news_sm" selected>{{ _('Français') }} (fr)</option>
                 <option value="hr_core_news_sm">{{ _('Croate') }} (hr)</option>
                 <option value="it_core_news_sm">{{ _('Italien') }} (it)</option>
                 <option value="nl_core_news_sm">{{ _('Néerlandais') }} (nl)</option>
