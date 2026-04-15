@@ -1225,6 +1225,10 @@ def fix_ocr_linebreaks(text):
 
     return "\n\n".join(paragraphs)
 
+def clean_double_stars(text):
+    while "**" in text:
+        text = text.replace("**", "")
+    return text
 
 loaded_stopwords = {}
 
@@ -1289,24 +1293,41 @@ def removing_elements():
             input_text = f.read().decode('utf-8')
 
             # Step 1: line-level operations on raw text (order matters)
+            if 'clean_double_stars' in removing_types:
+                input_text = clean_double_stars(input_text)
             if 'fix_ocr_linebreaks' in removing_types:
                 input_text = fix_ocr_linebreaks(input_text)
             if 'remove_excessive_lines' in removing_types:
                 input_text = remove_excessive_lines(input_text)
 
-            # Step 2: token-level operations
-            tokens = word_tokenize(input_text)
-            if 'punctuation' in removing_types:
-                tokens = [token for token in keep_accented_only(tokens)]
-            if 'stopwords' in removing_types:
-                stop_words = get_stopwords(selected_language)
-                tokens = [token for token in tokens if token.lower() not in stop_words]
-            if 'lowercases' in removing_types:
-                tokens = [token.lower() for token in tokens]
+            # Step 2 : tokenisation par ligne
+            lines = input_text.splitlines()
+            tokens_per_line = [word_tokenize(line) for line in lines]
 
-            processed_text = " ".join(tokens)
+            # Step 3 : opérations token-level dans l'ordre correct
+            processed_lines = []
+
+            for tokens in tokens_per_line:
+
+                # 1. punctuation
+                if 'punctuation' in removing_types:
+                    tokens = keep_accented_only(tokens)
+
+                # 2. lowercases
+                if 'lowercases' in removing_types:
+                    tokens = [t.lower() for t in tokens]
+
+                # 3. stopwords
+                if 'stopwords' in removing_types:
+                    stop_words = get_stopwords(selected_language)
+                    tokens = [t for t in tokens if t not in stop_words]
+
+                processed_lines.append(" ".join(tokens))
+
+            # Reconstruction avec conservation des lignes
+            processed_text = "\n".join(processed_lines)
             filename, _ = os.path.splitext(f.filename)
-            output_name = f"{filename}_{'_'.join(removing_types)}.txt"
+            output_name = f"{filename}_{'_'.join(sorted(removing_types))}.txt"
             with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
                 out.write(processed_text)
 

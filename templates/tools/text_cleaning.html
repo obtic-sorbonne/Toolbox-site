@@ -9,14 +9,14 @@
     <h2>{{ _('Nettoyage de texte') }}</h2>
     <p>{{ _("Cette page permet de nettoyer un ou plusieurs documents soumis.") }}</p>
     <ul class="item-list" style="margin-left: 3em;">
-        <li><strong>{{ _('Minuscules') }}</strong> : {{ _('Mettre tout le texte en minuscules') }}</li>
-        <li><strong>{{ _('Ponctuation') }}</strong> : {{ _('Supprimer toute la ponctuation') }}</li>
-        <li><strong>{{ _('Mots-vides') }}</strong> : {{ _("Supprimer les mots très courants (stopwords), ex: déterminants, conjonctions, auxiliaires) ") }}</li>
-        <li><strong>{{ _('Lignes vides/excessives') }}</strong> : {{ _("Enlever les lignes vides ou ne contenant que des caractères spéciaux") }}</li>
-        <li><strong>{{ _('Retours OCR (-)') }}</strong> : {{ _("Joindre les mots coupés par un retour de ligne avec un tiret et supprimer les autres retours") }}</li>
-        <li><strong>Sortie correction d'OCR</strong> : enlever les **...** mis dans la sortie de la correction d'erreurs pour signaler que le mot avait été corrigé</li>
+        <li><strong>{{ _('Minuscules') }} (Option 1)</strong> : {{ _('Mettre tout le texte en minuscules') }}</li>
+        <li><strong>{{ _('Ponctuation') }}(Option 2)</strong> : {{ _('Supprimer toute la ponctuation') }}</li>
+        <li><strong>{{ _('Mots-vides') }} (Option 3)</strong> : {{ _("Supprimer les mots très courants (stopwords), ex: déterminants, conjonctions, auxiliaires) ") }}</li>
+        <li><strong>{{ _('Lignes vides/excessives') }} (Option 4)</strong> : {{ _("Enlever les lignes vides ou ne contenant que des caractères spéciaux") }}</li>
+        <li><strong>{{ _('Retours OCR (-)') }} (Option 5)</strong> : {{ _("Joindre les mots coupés par un retour de ligne avec un tiret et supprimer les autres retours") }}</li>
+        <li><strong>Sortie correction d'OCR (Option 6)</strong> : Enlever les **...** mis dans la sortie de la correction d'erreurs pour signaler que le mot avait été corrigé (Si vous cochez la case "Ponctuation", il n'est pas nécessaire de sélectionner celle-ci, les signes étant déjà enlevé avec cette option).</li>
     </ul>
-    <p style="margin-top: 1em;">Le document de sortie contiendra dans son nom de fichier les tâches qui auront été effectué ("lowercases", "punctuation", "stopwords", "remove_excessive_lines", "fix_ocr_linebreaks").</p>
+    <p style="margin-top: 1em;">Le document de sortie contiendra dans son nom de fichier les tâches qui auront été effectué ("lowercases", "punctuation", "stopwords", "remove_excessive_lines", "fix_ocr_linebreaks", "clean_double_stars").</p>
 
     <p style="text-align:center;padding:20px">
         <a href="{{ url_for('documentation_preprocessing') }}" target="_blank">{{ _('Voir la documentation') }}</a>
@@ -25,15 +25,16 @@
     <form action="{{ url_for('removing_elements') }}" id="linguistic-form" method="post" enctype="multipart/form-data">
         <div class="relations-input">
             <label>{{ _('Choisir le(s) type(s) de modification') }} :</label>
-            <div id="removing_type_checkboxes">
-                <label><input type="checkbox" name="removing_type" value="lowercases"> {{ _('Minuscules') }}</label><br>
-                <label><input type="checkbox" name="removing_type" value="punctuation"> {{ _('Ponctuation') }}</label><br>
-                <label><input type="checkbox" name="removing_type" value="stopwords" id="cb_stopwords"> {{ _('Mots-vides') }}</label><br>
-                <label><input type="checkbox" name="removing_type" value="remove_excessive_lines"> {{ _('Supprimer lignes vides/excessives') }}</label><br>
-                <label><input type="checkbox" name="removing_type" value="fix_ocr_linebreaks"> {{ _('Corriger retours OCR (-)') }}</label>
+            <div id="removing_type_checkboxes" style="margin-top: 0.5em;">
+                <label><input type="checkbox" name="removing_type" value="lowercases"> Option 1</label><br>
+                <label><input type="checkbox" name="removing_type" value="punctuation"> Option 2</label><br>
+                <label><input type="checkbox" name="removing_type" value="stopwords" id="cb_stopwords"> Option 3</label><br>
+                <label><input type="checkbox" name="removing_type" value="remove_excessive_lines"> Option 4</label><br>
+                <label><input type="checkbox" name="removing_type" value="fix_ocr_linebreaks"> Option 5</label><br>
+                <label><input type="checkbox" name="removing_type" value="clean_double_stars"> Option 6</label>
             </div>
         </div>
-
+<br>
         <div class="relations-input" id="stopwords_fields" style="display: none;">
             <label for="selected_language">{{ _('Choisissez la langue') }} :</label>
             <select name="selected_language" id="selected_language">
