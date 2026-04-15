@@ -3499,29 +3499,31 @@ def compare():
         file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
         file.save(file_path)
         file_paths.append(file_path)
-    
+
     if len(file_paths) >= 2:
         text1 = read_file(file_paths[0])
         text2 = read_file(file_paths[1])
         rand_name = generate_rand_name('comparison_')
         result_path = create_named_directory(rand_name)
-        
+
         output_file = os.path.join(result_path, 'comparison.html')
         compare_texts(text1, text2, output_file)
 
-        if len(os.listdir(result_path)) > 0:
-            shutil.make_archive(result_path, 'zip', result_path)
-            output_stream = BytesIO()
-            with open(str(result_path) + '.zip', 'rb') as res:
-                content = res.read()
-            output_stream.write(content)
-            response = Response(output_stream.getvalue(), mimetype='application/zip',
-                                headers={"Content-disposition": "attachment; filename=" + rand_name + '.zip'})
-            output_stream.seek(0)
-            output_stream.truncate(0)
-            shutil.rmtree(result_path)
-            os.remove(str(result_path) + '.zip')
-            return response
+        # On lit directement le fichier HTML généré
+        with open(output_file, 'rb') as f:
+            content = f.read()
+
+        # On supprime le dossier temporaire
+        shutil.rmtree(result_path)
+
+        # On renvoie le fichier HTML directement
+        return Response(
+            content,
+            mimetype='text/html',
+            headers={
+                "Content-Disposition": f"attachment; filename={rand_name}.html"
+            }
+        )
 
         return Response(json.dumps({"error": "Une erreur est survenue dans le traitement des fichiers."}), status=500, mimetype='application/json')
     
