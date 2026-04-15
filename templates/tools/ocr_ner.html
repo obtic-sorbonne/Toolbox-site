@@ -29,6 +29,13 @@
         <li>179 = position de début</li>
         <li>188 = position de fin</li></ul></li>
     <li>Colombine — la chaîne de texte reconnue comme entité.</li></ul></p>
+    <p style="margin-top: 0.5em;">Les <strong>classes d'étiquettes du NER</strong> sont les suivantes : <ul class="item-list" style="margin-left: 3em;">
+        <li>PER/PERSON — personne</li> 
+        <li>LOC — lieu</li> 
+        <li>ORG/GPE — organisation/entités géopolitiques (pays, villes)</li> 
+        <li>MISC — divers (événements, œuvres, gentilés, etc.)</li> 
+        <li>NORP — nationalités, groupes religieux/politiques</li> 
+        <li>etc.</li></ul></p>
   <br>
   <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_recognition') }}"  target="_blank">{{ _('Voir la documentation') }}</a> (ATR)</p>
   <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_annotation') }}" target="_blank">{{ _("Voir la documentation") }}</a> / <a href="{{ url_for('tutorial_annotation') }}"  target="_blank">{{ _('Voir le tutoriel') }}</a> (NER)</p>
@@ -40,13 +47,6 @@
       <p>{{ _("Formats possibles pour les fichiers d'entrée pour le NER seul :") }} <i class="fa-regular fa-file-lines"></i> TXT.</p>
       <p><i class="fa-solid fa-triangle-exclamation"></i> {{ _("Attention : Assurez-vous que les noms de vos fichiers d'entrée ne soient pas trop longs")}}<br>
       {{ _("et ne contiennent pas de caractères problématiques")}} ([\/:*"&gt;&lt;|])</p>
-      <p style="margin-top: 0.5em;">Les classes d'étiquettes de NER: <ul class="item-list" style="margin-left: 3em;">
-        <li>PER/PERSON — personne</li> 
-        <li>LOC — lieu</li> 
-        <li>ORG/GPE — organisation/entités géopolitiques (pays, villes)</li> 
-        <li>MISC — divers (événements, œuvres, gentilés, etc.)</li> 
-        <li>NORP — nationalités, groupes religieux/politiques</li> 
-        <li>etc.</li></ul></p>
     </div>
   </div>
   <div id="tess-form">
