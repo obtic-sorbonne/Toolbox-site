@@ -7,6 +7,7 @@
     <div class="fil"><a href="{{ url_for('preprocessing')}}"><< {{ _('Retour aux tâches') }}</a></div>
     <h2>{{ _('Séparation de texte') }}</h2>
     <p>Cette page permet de diviser le(s) texte(s) contenu(s) dans les documents fournis, en phrases ou en lignes (ou les deux).</p>
+    <p style="margin-top: 0.5em;">Le fichier de sortie présentera le texte, selon ce qui a été coché, avec un S (phrase) ou L (ligne) suivi d'un numéro, correspondant à sa place dans le texte, deux points et enfin, la phrase ou ligne correspondante.</p>
     <br>
     <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_preprocessing') }}"  target="_blank">{{ _('Voir la documentation') }}</a></p>
     <br>
@@ -25,11 +26,10 @@
     <form action="{{ url_for('split_text') }}" id="linguistic-form" method="post" enctype="multipart/form-data" onsubmit="showloader('loader')">
         <div class="relations-input">
             <label for="split_type">{{ _('Choisir le type de séparation') }} :</label>
-            <select name="split_type" id="split_type" required>
-                <option value="sentences">{{ _('Phrases') }}</option>
-                <option value="lines">{{ _('Lignes') }}</option>
-                <option value="sentences_lines">{{ _('Phrases + Lignes') }}</option>
-            </select>
+            <div id="split_type_checkboxes">
+                <label><input type="checkbox" name="split_type" value="sentences"> {{ _('Phrases') }}</label><br>
+                <label><input type="checkbox" name="split_type" value="lines"> {{ _('Lignes') }}</label>
+            </div>
         </div>
         {{ form.csrf_token }}
         <div class="dropzone" style="margin:25px auto;">
@@ -65,6 +65,27 @@ $('form input').change(function () {
             $("#form_msg").append('<br/><span class="filename_preview">' + this.files[i].name + '</span>');
         }
     }
+});
+
+document.addEventListener("DOMContentLoaded", function() {
+    document.getElementById("linguistic-form").addEventListener("submit", function(e) {
+        const checked = document.querySelectorAll('input[name="split_type"]:checked');
+        if (checked.length === 0) {
+            e.preventDefault();
+            alert("{{ _('Veuillez choisir au moins un type d\'analyse.') }}");
+            return;
+        }
+        const token = new Date().getTime().toString();
+        document.getElementById("download_token").value = token;
+        showloader('loader');
+        const poll = setInterval(function() {
+            if (document.cookie.indexOf('download_ready=' + token) !== -1) {
+                clearInterval(poll);
+                document.cookie = 'download_ready=; max-age=0; path=/';
+                document.getElementById("loader").style.display = "none";
+            }
+        }, 1000);
+    });
 });
 </script>
 </div>

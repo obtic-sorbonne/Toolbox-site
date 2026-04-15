@@ -1485,7 +1485,7 @@ def split_text():
     if not files or all(file.filename == '' for file in files):
         return Response(json.dumps({"error": "No selected files"}), status=400, mimetype='application/json')
 
-    split_type = request.form['split_type']
+    split_types = request.form.getlist("split_type")
 
     rand_name = generate_rand_name('splittext_')
     result_path = create_named_directory(rand_name)
@@ -1493,21 +1493,37 @@ def split_text():
     for f in files:
         try:
             input_text = f.read().decode('utf-8')
+
+            # Préparation des deux types de découpages
             sentences = [s.strip() for s in sent_tokenize(input_text)]
             f.seek(0)
             lines = [line.decode('utf-8').strip() for line in f.readlines()]
+
             filename, _ = os.path.splitext(f.filename)
 
-            if split_type == 'sentences':
-                output_text = "\n".join(sentences)
-                output_name = filename + '_sentences.txt'
-            elif split_type == 'lines':
-                output_text = "\n".join(lines)
-                output_name = filename + '_lines.txt'
-            elif split_type == 'sentences_lines':
-                output_text = "\n".join(sentences) + "\n\n" + "\n".join(lines)
-                output_name = filename + '_sentences_lines.txt'
+            # Récupération des cases cochées
 
+            parts = []
+            output_name_parts = []
+
+            if "sentences" in split_types:
+                numbered_sentences = [
+                    f"S{i+1} : {s}" for i, s in enumerate(sentences)
+                ]
+                parts.append("SENTENCES:\n" + "\n".join(numbered_sentences))
+                output_name_parts.append("sentences")
+
+            if "lines" in split_types:
+                numbered_lines = [
+                    f"L{i+1} : {l}" for i, l in enumerate(lines)
+                ]
+                parts.append("LINES:\n" + "\n".join(numbered_lines))
+                output_name_parts.append("lines")
+
+            output_text = "\n\n".join(parts)
+            output_name = filename + "_" + "_".join(output_name_parts) + ".txt"
+
+            # Écriture du fichier
             with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
                 out.write(output_text)
 
