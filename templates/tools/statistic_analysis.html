@@ -23,6 +23,7 @@
         <div id="analysis_type_checkboxes">
             <label><input type="checkbox" name="analysis_type" value="sla"> Option 1</label><br>
             <label><input type="checkbox" name="analysis_type" value="wf"> Option 2</label><br>
+            <label><input type="checkbox" name="analysis_type" value="wf_stopwords"  id="cb_stopwords"> Option 2 (sans mots-vides)</label><br>
             <label><input type="checkbox" name="analysis_type" value="coocc" id="cb_coocc"> Option 3</label>
         </div>
     </div>
@@ -34,6 +35,24 @@
             <label for="target_word">{{ _('Mot cible') }} :</label>
             <input type="text" id="target_word" name="target_word" placeholder="Fill it with a single word"><br>
         </div>
+        <br>
+        <div class="relations-input" id="stopwords_fields" style="display: none;">
+            <label for="selected_language">{{ _('Choisissez la langue') }} :</label>
+            <select name="selected_language" id="selected_language">
+                <option value="german">{{ _('Allemand') }} (de)</option>
+                <option value="english">{{ _('Anglais') }} (en)</option>
+                <option value="danish">{{ _('Danois') }} (da)</option>
+                <option value="spanish">{{ _('Espagnol') }} (es)</option>
+                <option value="finnish">{{ _('Finnois') }} (fi)</option>
+                <option value="french" selected>{{ _('Français') }} (fr)</option>
+                <option value="greek">{{ _('Grec') }} (el)</option>
+                <option value="italian">{{ _('Italien') }} (it)</option>
+                <option value="dutch">{{ _('Néerlandais') }} (nl)</option>
+                <option value="portuguese">{{ _('Portugais') }} (pt)</option>
+                <option value="russian">{{ _('Russe') }} (ru)</option>
+            </select>
+        </div>
+        <br>
         <div class="dropzone" style="margin:25px auto;">
             <input type="file" id="files" name="files" accept="text/plain" multiple required>
             <p id="form_msg">{{ _("Déposer le(s) fichier(s) ou cliquer ici") }}.</p>
@@ -67,12 +86,23 @@ $('form input[type=file]').change(function () {
 });
 
 function toggleCooccFields() {
+    const cbCoocc = document.getElementById("cb_coocc");
+    const cbGraph = document.getElementById("cb_stopwords");
+
+    // Affiche la div coocc si cb_coocc est cochée
     document.getElementById("cooccurrences_fields").style.display =
-        document.getElementById("cb_coocc").checked ? "block" : "none";
+        cbCoocc.checked ? "block" : "none";
+
+    // Affiche la div graph si cb_graph est cochée
+    document.getElementById("stopwords_fields").style.display =
+        cbGraph.checked ? "block" : "none";
 }
 
 document.addEventListener("DOMContentLoaded", function() {
     document.getElementById("cb_coocc").addEventListener("change", toggleCooccFields);
+    document.getElementById("cb_stopwords").addEventListener("change", toggleCooccFields);
+
+    // État initial
     toggleCooccFields();
 
     document.getElementById("linguistic-form").addEventListener("submit", function(e) {

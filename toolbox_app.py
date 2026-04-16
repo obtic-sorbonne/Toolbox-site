@@ -3080,6 +3080,7 @@ def analyze_statistic():
     analysis_types = request.form.getlist('analysis_type')
     context_window = int(request.form.get('context_window', 2)) 
     target_word = str(request.form.get('target_word'))
+    selected_language = request.form.get('selected_language')
 
     rand_name = generate_rand_name('statistics_')
     result_path = create_named_directory(rand_name)
@@ -3105,8 +3106,16 @@ def analyze_statistic():
             total_tokens = len(tokens)
             rel_frequency = {word: count / total_tokens for word, count in abs_frequency.items()}
 
+            # Word frequency (without stopwords)
+            stop_words = get_stopwords(selected_language)
+            tokens_no_stop = [t for t in tokens if t.lower() not in stop_words]
+            abs_frequency_no_stop = Counter(tokens_no_stop)
+            total_tokens_no_stop = len(tokens_no_stop)
+            rel_frequency_no_stop = {word: count / total_tokens_no_stop for word, count in abs_frequency_no_stop.items()}
+
+
             # Co-occurrences
-            stop_words = set(stopwords.words('english'))
+            #stop_words = set(stopwords.words('english'))
             context_pairs = [(target_word, tokens[i + j].lower()) for i, word in enumerate(tokens)
                              for j in range(-context_window, context_window + 1)
                              if i + j >= 0 and i + j < len(tokens) and j != 0
@@ -3132,6 +3141,19 @@ def analyze_statistic():
                 with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
                     out.write("Absolute frequency of words: " + str(abs_frequency) + "\n\nRelative frequency of words: " + str(rel_frequency) + "\n\nTotal number of words:" + str(total_tokens))
                 wordcloud = WordCloud(width=800, height=400, background_color='white').generate(input_text)
+                plt.figure(figsize=(10, 5))
+                plt.imshow(wordcloud, interpolation='bilinear')
+                plt.axis('off')
+                plt.savefig(os.path.join(result_path, filename + '_wordcloud.png'), format='png')
+                plt.close()
+
+            if 'wf_stopwords' in analysis_types:
+                output_name = filename + '_wordsfrequency_stopwords.txt'
+                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
+                    out.write("Absolute frequency of words: " + str(abs_frequency_no_stop) + "\n\nRelative frequency of words: " + str(rel_frequency_no_stop) + "\n\nTotal number of words:" + str(total_tokens_no_stop))
+
+                # Wordcloud sans stopwords
+                wordcloud = WordCloud(width=800, height=400, background_color='white').generate(" ".join(tokens_no_stop))
                 plt.figure(figsize=(10, 5))
                 plt.imshow(wordcloud, interpolation='bilinear')
                 plt.axis('off')
