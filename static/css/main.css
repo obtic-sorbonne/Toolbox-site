@@ -661,7 +661,8 @@ display: table;
   padding:10px;
 }
 .outil a{
-  color:#f2a800;
+  color:#182F7A;
+  font-style: italic;
   text-decoration:none;
 }
 
