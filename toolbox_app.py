@@ -1349,29 +1349,29 @@ def get_nlp(language):
     import spacy
     if language not in loaded_nlp_models:
         if language == 'english':
-            loaded_nlp_models[language] = spacy.load('en_core_web_sm')
+            loaded_nlp_models[language] = spacy.load('en_core_web_md')
         elif language == 'french':
-            loaded_nlp_models[language] = spacy.load('fr_core_news_sm')
+            loaded_nlp_models[language] = spacy.load('fr_core_news_md')
         elif language == 'spanish':
-            loaded_nlp_models[language] = spacy.load('es_core_news_sm')
+            loaded_nlp_models[language] = spacy.load('es_core_news_md')
         elif language == 'german':
-            loaded_nlp_models[language] = spacy.load('de_core_news_sm')
+            loaded_nlp_models[language] = spacy.load('de_core_news_md')
         elif language == 'italian':
-            loaded_nlp_models[language] = spacy.load('it_core_news_sm')
+            loaded_nlp_models[language] = spacy.load('it_core_news_md')
         elif language == 'danish':
-            loaded_nlp_models[language] = spacy.load("da_core_news_sm")
+            loaded_nlp_models[language] = spacy.load("da_core_news_md")
         elif language == 'dutch':
-            loaded_nlp_models[language] = spacy.load("nl_core_news_sm")
+            loaded_nlp_models[language] = spacy.load("nl_core_news_md")
         elif language == 'finnish':
-            loaded_nlp_models[language] = spacy.load("fi_core_news_sm")
+            loaded_nlp_models[language] = spacy.load("fi_core_news_md")
         elif language == 'polish':
-            loaded_nlp_models[language] = spacy.load("pl_core_news_sm")
+            loaded_nlp_models[language] = spacy.load("pl_core_news_md")
         elif language == 'portuguese':
-            loaded_nlp_models[language] = spacy.load("pt_core_news_sm")
+            loaded_nlp_models[language] = spacy.load("pt_core_news_md")
         elif language == 'greek':
-            loaded_nlp_models[language] = spacy.load("el_core_news_sm")
+            loaded_nlp_models[language] = spacy.load("el_core_news_md")
         elif language == 'russian':
-            loaded_nlp_models[language] = spacy.load("ru_core_news_sm")
+            loaded_nlp_models[language] = spacy.load("ru_core_news_md")
         else:
             return set()
     return loaded_nlp_models[language]
@@ -2965,10 +2965,10 @@ def analyze_ngrams(filename, result_path, input_text, n, r):
         for n_gram, count in most_frequent_ngrams:
             out.write(f"{n}-gram: {' '.join(n_gram)} --> Count: {count}\n")
 
-def analyze_dependency(filename, result_path, input_text, nlp_eng):
+def analyze_dependency(filename, result_path, input_text, nlp):
     import spacy
     from spacy import displacy
-    doc = nlp_eng(input_text)
+    doc = nlp(input_text)
     syntax_info = "\n".join(
         [f"{token.text} ({token.pos_}) <--{token.dep_} ({spacy.explain(token.dep_)})-- {token.head.text} ({token.head.pos_})"
          for token in doc]
@@ -2982,7 +2982,7 @@ def analyze_dependency(filename, result_path, input_text, nlp_eng):
     output_name_svg = filename + '_syntax.svg'
     write_to_file(os.path.join(result_path, output_name_svg), svg)
 
-def analyze_combined(filename, result_path, analysis_type, hapaxes_list, detected_languages_str, input_text, n, r, nlp_eng):
+def analyze_combined(filename, result_path, analysis_type, hapaxes_list, detected_languages_str, input_text, n, r, nlp):
     import spacy
     from spacy import displacy
     content = ""
@@ -2996,7 +2996,7 @@ def analyze_combined(filename, result_path, analysis_type, hapaxes_list, detecte
             content += f"{n}-gram: {' '.join(n_gram)} --> Count: {count}\n"
         content += "\n\n"
     if 'dependency' in analysis_type:
-        doc = nlp_eng(input_text)
+        doc = nlp(input_text)
         syntax_info = "\n".join(
             [f"{token.text} ({token.pos_}) <--{token.dep_} ({spacy.explain(token.dep_)})-- {token.head.text} ({token.head.pos_})"
              for token in doc]
@@ -3027,11 +3027,11 @@ def analyze_linguistic():
         return Response(json.dumps(response), status=400, mimetype='application/json')
 
     analysis_types = request.form.getlist('analysis_type')
+    selected_language = request.form['selected_language']
+    nlp = get_nlp(selected_language)
 
     n = int(request.form.get('n', 2))
     r = int(request.form.get('r', 5))
-
-    nlp_eng = spacy.load('en_core_web_sm')
 
     rand_name = generate_rand_name('linguistic_')
     result_path = create_named_directory(rand_name)
@@ -3045,7 +3045,7 @@ def analyze_linguistic():
             detected_languages_str = "\n".join(langues_probabilites)
             filename, file_extension = os.path.splitext(f.filename)
 
-            analyze_combined(filename, result_path, analysis_types, hapaxes_list, detected_languages_str, input_text, n, r, nlp_eng)
+            analyze_combined(filename, result_path, analysis_types, hapaxes_list, detected_languages_str, input_text, n, r, nlp)
 
         finally:
             f.close()

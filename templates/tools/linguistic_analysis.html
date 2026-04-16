@@ -27,7 +27,7 @@
             <label><input type="checkbox" name="analysis_type" value="lang"> Option 1</label><br>
             <label><input type="checkbox" name="analysis_type" value="hapax"> Option 2</label><br>
             <label><input type="checkbox" name="analysis_type" value="ngrams" id="cb_ngrams"> Option 3</label><br>
-            <label><input type="checkbox" name="analysis_type" value="dependency"> Option 4</label>
+            <label><input type="checkbox" name="analysis_type" value="dependency" id="cb_langs"> Option 4</label>
         </div>
     </div>
         {{ form.csrf_token }}
@@ -37,6 +37,24 @@
             <input type="number" id="n" name="n" min="1" value="2"><br>
             <label for="r">{{ _('Nombre de n-grams à afficher') }} :</label>
             <input type="number" id="r" name="r" min="1" value="5"><br>
+        </div>
+        <br>
+        <div class="relations-input" id="language_fields" style="display: none;">
+            <label for="selected_language">{{ _('Choisissez la langue') }} :</label>
+                <select name="selected_language" id="selected_language">
+                    <option value="german">{{ _('Allemand') }} (de)</option>
+                    <option value="english">{{ _('Anglais') }} (eng)</option>
+                    <option value="danish">{{ _('Danois') }} (da)</option>
+                    <option value="spanish">{{ _('Espagnol') }} (es)</option>
+                    <option value="finnish">{{ _('Finnois') }} (fi)</option>
+                    <option value="french" selected>{{ _('Français') }} (fr)</option>
+                    <option value="greek">{{ _('Grec') }} (el)</option>
+                    <option value="italian">{{ _('Italien') }} (it)</option>
+                    <option value="dutch">{{ _('Néerlandais') }} (nl)</option>
+                    <option value="polish">{{ _('Polonais') }} (pl)</option>
+                    <option value="portuguese">{{ _('Portugais') }} (pt)</option>
+                    <option value="russian">{{ _('Russe') }} (ru)</option>
+                </select>
         </div>
         <br>
         <div class="dropzone" style="margin:25px auto;">
@@ -72,13 +90,25 @@ $('form input[type=file]').change(function () {
 });
 
 function toggleNgramFields() {
+    const cbCoocc = document.getElementById("cb_ngrams");
+    const cbGraph = document.getElementById("cb_langs");
+
+    // Affiche la div coocc si cb_coocc est cochée
     document.getElementById("ngram_fields").style.display =
-        document.getElementById("cb_ngrams").checked ? "block" : "none";
+        cbCoocc.checked ? "block" : "none";
+
+    // Affiche la div graph si cb_graph est cochée
+    document.getElementById("language_fields").style.display =
+        cbGraph.checked ? "block" : "none";
 }
 
 document.addEventListener("DOMContentLoaded", function() {
     document.getElementById("cb_ngrams").addEventListener("change", toggleNgramFields);
+    document.getElementById("cb_langs").addEventListener("change", toggleNgramFields);
+
+    // État initial
     toggleNgramFields();
+
 
     document.getElementById("linguistic-form").addEventListener("submit", function(e) {
         const checked = document.querySelectorAll('input[name="analysis_type"]:checked');
