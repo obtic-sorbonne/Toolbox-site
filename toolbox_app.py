@@ -3176,7 +3176,7 @@ def analyze_statistic():
     return response
 
     return Response(json.dumps({"error": "Une erreur est survenue dans le traitement des fichiers."}), status=500, mimetype='application/json')
-    
+
 
 #--------------- Analyse de texte --------------------------
 
@@ -3201,187 +3201,180 @@ def analyze_text():
         response = {"error": "No text part"}
         return Response(json.dumps(response), status=400, mimetype='application/json')
 
-    input_text = request.form.get('input_text', '').splitlines()
+    # ---------------------------------------------------------
+    # Récupération et nettoyage de input_text
+    # ---------------------------------------------------------
+    raw_text = request.form.get('input_text', '')
 
-    analysis_type = request.form['analysis_type']
+    # splitlines() = segmentation par lignes du textarea
+    input_text = raw_text.splitlines()
+
+    # On retire les lignes vides
+    input_text = [line.strip() for line in input_text if line.strip()]
+
+    analysis_type = request.form.getlist('analysis_type')
     emotion_type = request.form['emotion_type']
 
 
     rand_name = generate_rand_name('textanalysis_')
     result_path = create_named_directory(rand_name)
 
-    
-    if analysis_type == 'subjectivity_detection':
-        output_name = 'subjectivity_detection.txt'
-        with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
+    # ---------------------------------------------------------
+    # Normalisation de input_text
+    # ---------------------------------------------------------
+    if isinstance(input_text, str):
+        input_text = [input_text]
+
+    # ---------------------------------------------------------
+    # Chargement des modèles UNE SEULE FOIS
+    # ---------------------------------------------------------
+    classifier_subjectivity = get_pipeline(
+        "text-classification",
+        model="GroNLP/mdebertav3-subjectivity-multilingual"
+    )
+
+    classifier_sentiment = get_pipeline(
+        "sentiment-analysis",
+        model="nlptown/bert-base-multilingual-uncased-sentiment"
+    )
+
+    classifier_emotion_1 = get_pipeline(
+        "text-classification",
+        model="bhadresh-savani/distilbert-base-uncased-emotion",
+        return_all_scores=True,
+        top_k=None
+    )
+
+    classifier_emotion_2 = get_pipeline(
+        "text-classification",
+        model="SamLowe/roberta-base-go_emotions",
+        return_all_scores=True,
+        top_k=None
+    )
+
+    # ---------------------------------------------------------
+    # SUBJECTIVITY DETECTION
+    # ---------------------------------------------------------
+    if "subjectivity_detection" in analysis_type:
+        output_name = "subjectivity_detection.txt"
+        with open(os.path.join(result_path, output_name), "w", encoding="utf-8") as out:
             for text in input_text:
-                classifier1 = get_pipeline('text-classification', model='GroNLP/mdebertav3-subjectivity-multilingual')
-                result = classifier1(text)[0]
-                label = "objective" if result['label'] == "LABEL_0" else "subjective"
+                result = classifier_subjectivity(text)[0]
+                label = "objective" if result["label"] == "LABEL_0" else "subjective"
                 out.write(f"The sentence: [{text}] is {label} (Score: {result['score']:.2f})\n\n")
-    elif analysis_type == 'sentiment_analysis':
-        output_name = 'sentiment_analysis.txt'
-        with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
+
+    # ---------------------------------------------------------
+    # SENTIMENT ANALYSIS
+    # ---------------------------------------------------------
+    if "sentiment_analysis" in analysis_type:
+        output_name = "sentiment_analysis.txt"
+        with open(os.path.join(result_path, output_name), "w", encoding="utf-8") as out:
             for text in input_text:
-                classifier2 = get_pipeline("sentiment-analysis", model="nlptown/bert-base-multilingual-uncased-sentiment")
-                results = classifier2(text)
-                star_rating = int(results[0]['label'].split()[0])
-                sentiment = "negative" if star_rating in [1, 2] else "neutral" if star_rating == 3 else "positive"
-                out.write(f"Sentence: {text}\n Star Rating: {star_rating} \n Sentiment: {sentiment} \n Score: {results[0]['score']:.2f}\n\n")
-    elif analysis_type == 'subjectivity_sentiment':
-        output_name = 'subjectivity_sentiment.txt'
-        with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
+                results = classifier_sentiment(text)
+                star_rating = int(results[0]["label"].split()[0])
+                sentiment = (
+                    "negative" if star_rating in [1, 2]
+                    else "neutral" if star_rating == 3
+                    else "positive"
+                )
+                out.write(
+                    f"Sentence: {text}\n"
+                    f"Star Rating: {star_rating}\n"
+                    f"Sentiment: {sentiment}\n"
+                    f"Score: {results[0]['score']:.2f}\n\n"
+                )
+
+    # ---------------------------------------------------------
+    # EMOTION ANALYSIS — ANALYSE 1
+    # ---------------------------------------------------------
+    if "emotion_analysis" in analysis_type and emotion_type == "analyse1":
+
+        output_name = "emotion_analysis.txt"
+        with open(os.path.join(result_path, output_name), "w", encoding="utf-8") as out:
             for text in input_text:
-                classifier1 = get_pipeline('text-classification', model='GroNLP/mdebertav3-subjectivity-multilingual')
-                result = classifier1(text)[0]
-                label = "objective" if result['label'] == "LABEL_0" else "subjective"
-                classifier2 = get_pipeline("sentiment-analysis", model="nlptown/bert-base-multilingual-uncased-sentiment")
-                results = classifier2(text)
-                star_rating = int(results[0]['label'].split()[0])
-                sentiment = "negative" if star_rating in [1, 2] else "neutral" if star_rating == 3 else "positive"
-                out.write(f"The sentence: [{text}] is {label} (Score: {result['score']:.2f})")
-                out.write(f"\nStar Rating: {star_rating} \n Sentiment: {sentiment} \n Score: {results[0]['score']:.2f}\n\n")
-    elif analysis_type == 'subjectivity_sentiment_emotion':
-        output_name = 'subjectivity_sentiment_emotion.txt'
-        with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-            for text in input_text:
-                classifier1 = get_pipeline('text-classification', model='GroNLP/mdebertav3-subjectivity-multilingual')
-                result = classifier1(text)[0]
-                label = "objective" if result['label'] == "LABEL_0" else "subjective"
-                classifier2 = get_pipeline("sentiment-analysis", model="nlptown/bert-base-multilingual-uncased-sentiment")
-                results = classifier2(text)
-                star_rating = int(results[0]['label'].split()[0])
-                sentiment = "negative" if star_rating in [1, 2] else "neutral" if star_rating == 3 else "positive"
-                classifier_distilbert = get_pipeline("text-classification", model='bhadresh-savani/distilbert-base-uncased-emotion', return_all_scores=True, top_k=None)
-                vis1 = classifier_distilbert(text)
-                emotions = [result['label'] for result in vis1[0]]
-                scores = [result['score'] for result in vis1[0]]
-                out.write(f"The sentence: [{text}] is {label} (Score: {result['score']:.2f})")
-                out.write(f"\nStar Rating: {star_rating} \n Sentiment: {sentiment} \n Score: {results[0]['score']:.2f}\n\n")
-                out.write(f"The emotions for the text are : \n")
-                for emotion, score in zip(emotions, scores):
-                    out.write(f"{emotion}: {score:.4f}\n")
+                vis = classifier_emotion_1(text)
+                emotions = [e["label"] for e in vis[0]]
+                scores = [e["score"] for e in vis[0]]
+
+                out.write(f"The emotions for [{text}] are:\n")
+                for emo, score in zip(emotions, scores):
+                    out.write(f"{emo}: {score:.4f}\n")
                 out.write("\n\n")
-    elif analysis_type == 'subjectivity_emotion':
-        output_name = 'subjectivity_emotion.txt'
-        with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
+
+        # Visualisation Sankey
+        text_base = "emotion_viz1_"
+        for i, text in enumerate(input_text):
+            vis = classifier_emotion_1(text)
+            emotions = [e["label"] for e in vis[0]]
+            scores = [e["score"] for e in vis[0]]
+
+            source = [0] * len(emotions)
+            target = list(range(1, len(emotions) + 1))
+            value = scores
+
+            node_colors = [
+                "#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd",
+                "#8c564b", "#e377c2", "#7f7f7f", "#bcbd22", "#17becf"
+            ]
+            node_colors = (node_colors * ((len(emotions) // len(node_colors)) + 1))[:len(emotions) + 1]
+
+            fig = go.Figure(data=[go.Sankey(
+                node=dict(
+                    pad=55,
+                    thickness=55,
+                    line=dict(color="black", width=0.5),
+                    label=["Input Text"] + emotions,
+                    color=node_colors
+                ),
+                link=dict(source=source, target=target, value=value)
+            )])
+
+            fig.update_layout(title_text="Emotion Classification", font_size=15)
+            vis_path = os.path.join(result_path, f"{text_base}{i}.png")
+            fig.write_image(vis_path, format="png")
+
+    # ---------------------------------------------------------
+    # EMOTION ANALYSIS — ANALYSE 2
+    # ---------------------------------------------------------
+    if "emotion_analysis" in analysis_type and emotion_type == "analyse2":
+
+        text_base = "emotion_viz2_"
+
+        for i, text in enumerate(input_text):
+            vis = classifier_emotion_2(text)
+            labels = [e["label"] for e in vis[0]]
+            scores = [e["score"] for e in vis[0]]
+
+            combined = list(zip(labels, scores))
+            random.shuffle(combined)
+            labels, scores = zip(*combined)
+
+            scores = list(scores)
+            scores_closed = scores + [scores[0]]
+
+            angles = [n / float(len(labels)) * 2 * np.pi for n in range(len(labels))]
+            angles_closed = angles + [0]
+
+            fig, ax = plt.subplots(subplot_kw=dict(polar=True))
+            ax.fill(angles_closed, scores_closed, color="blue", alpha=0.5)
+            ax.plot(angles_closed, scores_closed, color="blue", linewidth=1)
+            ax.set_xticks(angles)
+            ax.set_xticklabels(labels)
+            plt.title("Emotion Classification")
+
+            vis_path = os.path.join(result_path, f"{text_base}{i}.png")
+            plt.savefig(vis_path, format="png")
+            plt.close()
+
+    # ---------------------------------------------------------
+    # READABILITY SCORING
+    # ---------------------------------------------------------
+    if "readibility_scoring" in analysis_type:
+        output_name = "readibility_scoring.txt"
+        with open(os.path.join(result_path, output_name), "w", encoding="utf-8") as out:
             for text in input_text:
-                classifier1 = get_pipeline('text-classification', model='GroNLP/mdebertav3-subjectivity-multilingual')
-                result = classifier1(text)[0]
-                label = "objective" if result['label'] == "LABEL_0" else "subjective"
-                classifier_distilbert = get_pipeline("text-classification", model='bhadresh-savani/distilbert-base-uncased-emotion', return_all_scores=True, top_k=None)
-                vis1 = classifier_distilbert(text)
-                emotions = [result['label'] for result in vis1[0]]
-                scores = [result['score'] for result in vis1[0]]
-                out.write(f"The sentence: [{text}] is {label} (Score: {result['score']:.2f})")
-                out.write(f"\nThe emotions for the text are : \n")
-                for emotion, score in zip(emotions, scores):
-                    out.write(f"{emotion}: {score:.4f}\n")
-                out.write("\n\n")
-    elif analysis_type == 'sentiment_emotion':
-        output_name = 'sentiment_emotion.txt'
-        with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-            for text in input_text:
-                classifier2 = get_pipeline("sentiment-analysis", model="nlptown/bert-base-multilingual-uncased-sentiment")
-                results = classifier2(text)
-                star_rating = int(results[0]['label'].split()[0])
-                sentiment = "negative" if star_rating in [1, 2] else "neutral" if star_rating == 3 else "positive"
-                classifier_distilbert = get_pipeline("text-classification", model='bhadresh-savani/distilbert-base-uncased-emotion', return_all_scores=True, top_k=None)
-                vis1 = classifier_distilbert(text)
-                emotions = [result['label'] for result in vis1[0]]
-                scores = [result['score'] for result in vis1[0]]
-                out.write(f"Sentence: {text}\n : {star_rating} \n Sentiment: {sentiment} \n Score: {results[0]['score']:.2f}\n\n")
-                out.write(f"The emotions for the text are : \n")
-                for emotion, score in zip(emotions, scores):
-                    out.write(f"{emotion}: {score:.4f}\n")
-                out.write("\n\n")
-    elif analysis_type == 'emotion_analysis':
-        if emotion_type == "analyse1":
-            output_name = 'emotion_analysis.txt'
-            with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-                for text in input_text:
-                    #Sortie
-                    classifier_distilbert = get_pipeline("text-classification", model='bhadresh-savani/distilbert-base-uncased-emotion', return_all_scores=True, top_k=None)
-                    vis1 = classifier_distilbert(text)
-                    emotions = [result['label'] for result in vis1[0]]
-                    scores = [result['score'] for result in vis1[0]]
-                    out.write(f"The emotions for [{text}] are : \n")
-                    for emotion, score in zip(emotions, scores):
-                        out.write(f"{emotion}: {score:.4f}\n")
-                    out.write("\n\n")
-
-            text_base = "emotion_viz1_"
-            for i, text in enumerate(input_text):
-                #Visualisation
-                source = [0] * len(emotions)
-                target = list(range(1, len(emotions) + 1))
-                value = scores
-                node_colors = ["#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd", "#8c564b", "#e377c2", "#7f7f7f", "#bcbd22", "#17becf", "#bc80bd", "#ccebc5", "#ffed6f", "#8dd3c7", "#fb8072"]
-                fig = go.Figure(data=[go.Sankey(
-                    node=dict(pad=55, thickness=55, line=dict(color="black", width=0.5), label=["Input Text"] + emotions, color=node_colors),
-                    link=dict(source=source, target=target, value=value)
-                )])
-                fig.update_layout(title_text="Emotion Classification", font_size=15)
-                vis1_name = text_base + str(i) + '.png'
-                vis1_path = os.path.join(result_path, vis1_name)
-                fig.write_image(vis1_path, format='png')
-
-        elif emotion_type == "analyse2":
-            #Visualisation2
-            text_base = "emotion_viz2_"  # Chaîne de caractères de base
-            for i, text in enumerate(input_text):  # input_text est une liste de textes à analyser
-                classifier_roberta = get_pipeline("text-classification", model="SamLowe/roberta-base-go_emotions", return_all_scores=True, top_k=None)
-                vis2 = classifier_roberta(text)
-                labels = [emotion['label'] for emotion in vis2[0]]
-                scores = [emotion['score'] for emotion in vis2[0]]
-                combined = list(zip(labels, scores))
-                random.shuffle(combined)
-                labels, scores = zip(*combined)
-                scores = list(scores) + [scores[0]]
-                angles = [n / float(len(labels)) * 2 * np.pi for n in range(len(labels))] + [0]
-                fig, ax = plt.subplots(subplot_kw=dict(polar=True))
-                ax.fill(angles, scores, color='blue', alpha=0.5)
-                ax.plot(angles, scores, color='blue', linewidth=1)
-                ax.set_xticks(angles[:-1])
-                ax.set_xticklabels(labels)
-                plt.title('Emotion Classification')
-                
-                vis2_name = text_base + str(i) + '.png'
-                vis2_path = os.path.join(result_path, vis2_name)
-                plt.savefig(vis2_path, format='png')
-                plt.close()
-
-
-    elif analysis_type == 'readibility_scoring':
-        output_name = 'readibility_scoring.txt'
-        with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-            for text in input_text:
-                flesch_reading_ease = textstat.flesch_reading_ease(text)
-                out.write(f"Flesch Reading Ease Score: {flesch_reading_ease}\n\n")
-
-    elif analysis_type == 'subjectivity_sentiment_emotion_readability':
-        output_name = 'subjectivity_sentiment_emotion_readability.txt'
-        with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-            for text in input_text:
-                classifier1 = get_pipeline('text-classification', model='GroNLP/mdebertav3-subjectivity-multilingual')
-                result = classifier1(text)[0]
-                label = "objective" if result['label'] == "LABEL_0" else "subjective"
-                classifier2 = get_pipeline("sentiment-analysis", model="nlptown/bert-base-multilingual-uncased-sentiment")
-                results = classifier2(text)
-                star_rating = int(results[0]['label'].split()[0])
-                sentiment = "negative" if star_rating in [1, 2] else "neutral" if star_rating == 3 else "positive"
-                classifier_distilbert = get_pipeline("text-classification", model='bhadresh-savani/distilbert-base-uncased-emotion', return_all_scores=True, top_k=None)
-                vis1 = classifier_distilbert(text)
-                emotions = [result['label'] for result in vis1[0]]
-                scores = [result['score'] for result in vis1[0]]
-                flesch_reading_ease = textstat.flesch_reading_ease(text)
-                out.write(f"The sentence: [{text}] is {label} (Score: {result['score']:.2f})")
-                out.write(f"\nStar Rating: {star_rating} \n Sentiment: {sentiment} \n Score: {results[0]['score']:.2f}\n\n")
-                out.write(f"The emotions for the text are : \n")
-                for emotion, score in zip(emotions, scores):
-                    out.write(f"{emotion}: {score:.4f}\n")
-                out.write(f"\nFlesch Reading Ease Score: {flesch_reading_ease}\n\n")
-
+                score = textstat.flesch_reading_ease(text)
+                out.write(f"Flesch Reading Ease Score: {score}\n\n")
 
     response = create_zip_and_response(result_path, rand_name)
     return response

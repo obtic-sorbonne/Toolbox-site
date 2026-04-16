@@ -22,24 +22,20 @@
     <form action="{{ url_for('analyze_text') }}" id="linguistic-form" method="post" enctype="multipart/form-data" onsubmit="showloader('loader')">
         <div class="relations-input">
             <label for="analysis_type">{{ _("Choisir le type d'analyse") }} :</label>
-            <select name="analysis_type" id="analysis_type" required>
-                <option value="subjectivity_detection">Option 1</option>
-                <option value="sentiment_analysis">Option 2</option>
-                <option value="emotion_analysis">Option 3</option>
-                <option value="readibility_scoring">Option 4</option>
-                <option value="subjectivity_sentiment">{{ _('Options 1 et 2') }}</option>
-                <option value="subjectivity_emotion">{{ _('Options 1 et 3') }}</option>
-                <option value="subjectivity_sentiment_emotion">{{ _('Options 1, 2 et 3') }}</option>
-                <option value="subjectivity_sentiment_emotion_readability">{{ _('Options 1, 2, 3 et 4') }}</option>
-            </select>
+            <div id="analysis_type_checkboxes">
+                <label><input type="checkbox" name="analysis_type" value="subjectivity_detection"> Option 1</label><br>
+                <label><input type="checkbox" name="analysis_type" value="sentiment_analysis"> Option 2</label><br>
+                <label><input type="checkbox" name="analysis_type" value="emotion_analysis" id="cb_emotion"> Option 3</label><br>
+                <label><input type="checkbox" name="analysis_type" value="readibility_scoring"> Option 4</label>
+        </div>
         </div>
         <br>
         <div class="relations-input" id="emotion_type" >
             <label for="emotion_type">{{ _("Choisir le type d'analyse") }} :</label>
-            <select name="emotion_type" id="emotion_type" required>
-                <option value="analyse1">{{ _('Score + visualisation') }}</option>
-                <option value="analyse2">{{ _('Visualisation circulaire') }}</option>
-            </select>
+            <div id="emotion_type_radio">
+                <label><input type="radio" name="emotion_type" value="analyse1"> {{ _('Score + visualisation') }}</label><br>
+                <label><input type="radio" name="emotion_type" value="analyse2"> {{ _('Visualisation circulaire') }}</label>
+            </div>
         </div>
         {{ form.csrf_token }}
         <br>
@@ -82,30 +78,36 @@ $('form input').change(function () {
         }
     }
 });
-        function toggleNgramFields() {
-            var analysisType = document.getElementById("analysis_type").value;
-            var emotion_type = document.getElementById("emotion_type");
-            if (analysisType === "emotion_analysis") {
-                emotion_type.style.display = "block";
-            }
-            else if (analysisType === "subjectivity_emotion") {
-                emotion_type.style.display = "block";
-            } 
-            else if (analysisType === "subjectivity_sentiment_emotion") {
-                emotion_type.style.display = "block";
-            }
-            else if (analysisType === "subjectivity_sentiment_emotion_readability") {
-                emotion_type.style.display = "block";
-            }
-            else {
-                emotion_type.style.display = "none";
-            }
-        }
+function togglestopwordFields() {
+    const cbStopwords = document.getElementById("cb_emotion");
+    document.getElementById("emotion_type").style.display = 
+        cbStopwords.checked ? "block" : "none";
+}
 
-        document.addEventListener("DOMContentLoaded", function() {
-            document.getElementById("analysis_type").addEventListener("change", toggleNgramFields);
-            toggleNgramFields(); // Initial call to set visibility based on default selection
-        });
+document.addEventListener("DOMContentLoaded", function() {
+    document.getElementById("cb_emotion").addEventListener("change", togglestopwordFields);
+    togglestopwordFields();
+
+    document.getElementById("linguistic-form").addEventListener("submit", function(e) {
+        const checked = document.querySelectorAll('input[name="analysis_type"]:checked');
+        if (checked.length === 0) {
+            e.preventDefault();
+            alert("{{ _('Veuillez choisir au moins un type de modification.') }}");
+            return;
+        }
+        // Set a unique token, show loader, start polling
+        const token = new Date().getTime().toString();
+        document.getElementById("download_token").value = token;
+        showloader('loader');
+        const poll = setInterval(function() {
+            if (document.cookie.indexOf('download_ready=' + token) !== -1) {
+                clearInterval(poll);
+                document.cookie = 'download_ready=; max-age=0; path=/';
+                document.getElementById("loader").style.display = "none";
+            }
+        }, 1000);
+    });
+});
 
 </script>
 </div>
