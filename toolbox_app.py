@@ -3252,23 +3252,55 @@ def analyze_text():
         top_k=None
     )
 
-    # ---------------------------------------------------------
-    # SUBJECTIVITY DETECTION
-    # ---------------------------------------------------------
+    # Construction dynamique du nom de fichier
+    task_suffixes = []
+
     if "subjectivity_detection" in analysis_type:
-        output_name = "subjectivity_detection.txt"
-        with open(os.path.join(result_path, output_name), "w", encoding="utf-8") as out:
+        task_suffixes.append("subjectivity")
+
+    if "sentiment_analysis" in analysis_type:
+        task_suffixes.append("sentiment")
+
+    if "emotion_analysis" in analysis_type:
+        if emotion_type == "analyse1":
+            task_suffixes.append("emotion1")
+        elif emotion_type == "analyse2":
+            task_suffixes.append("emotion2")
+
+    if "readibility_scoring" in analysis_type:
+        task_suffixes.append("readability")
+
+    def safe_filename(text, max_length=20):
+        text = re.sub(r'[\\/*?:"<>|]', '', text)   # caractères interdits
+        text = re.sub(r'\W+', '_', text)           # remplace tout par _
+        text = text.strip('_')                     # nettoie les bords
+        return text[:max_length]                   # limite la longueur
+
+    def truncate(text, max_len=80):
+        return text if len(text) <= max_len else text[:max_len] + "..."
+
+    # Création du nom final
+    suffix = "_".join(task_suffixes)
+    output_name = f"analysis_{suffix}.txt"
+    output_path = os.path.join(result_path, output_name)
+
+    with open(output_path, "w", encoding="utf-8") as out:
+
+        # ---------------------------------------------------------
+        # SUBJECTIVITY DETECTION
+        # ---------------------------------------------------------
+        if "subjectivity_detection" in analysis_type:
+            out.write("===== SUBJECTIVITY DETECTION =====\n\n")
             for text in input_text:
                 result = classifier_subjectivity(text)[0]
                 label = "objective" if result["label"] == "LABEL_0" else "subjective"
-                out.write(f"The sentence: [{text}] is {label} (Score: {result['score']:.2f})\n\n")
+                out.write(f"[{truncate(text)}] → {label} (Score: {result['score']:.2f})\n\n")
 
-    # ---------------------------------------------------------
-    # SENTIMENT ANALYSIS
-    # ---------------------------------------------------------
-    if "sentiment_analysis" in analysis_type:
-        output_name = "sentiment_analysis.txt"
-        with open(os.path.join(result_path, output_name), "w", encoding="utf-8") as out:
+        # ---------------------------------------------------------
+        # SENTIMENT ANALYSIS
+        # ---------------------------------------------------------
+        if "sentiment_analysis" in analysis_type:
+            out.write("===== SENTIMENT ANALYSIS =====\n\n")
             for text in input_text:
                 results = classifier_sentiment(text)
                 star_rating = int(results[0]["label"].split()[0])
@@ -3278,100 +3310,113 @@ def analyze_text():
                     else "positive"
                 )
                 out.write(
-                    f"Sentence: {text}\n"
+                    f"Sentence: {truncate(text)}\n"
                     f"Star Rating: {star_rating}\n"
                     f"Sentiment: {sentiment}\n"
                     f"Score: {results[0]['score']:.2f}\n\n"
                 )
 
-    # ---------------------------------------------------------
-    # EMOTION ANALYSIS — ANALYSE 1
-    # ---------------------------------------------------------
-    if "emotion_analysis" in analysis_type and emotion_type == "analyse1":
+        # ---------------------------------------------------------
+        # EMOTION ANALYSIS — ANALYSE 1
+        # ---------------------------------------------------------
+        if "emotion_analysis" in analysis_type and emotion_type == "analyse1":
+            out.write("===== EMOTION ANALYSIS (Analyse 1) =====\n\n")
 
-        output_name = "emotion_analysis.txt"
-        with open(os.path.join(result_path, output_name), "w", encoding="utf-8") as out:
-            for text in input_text:
+            text_base = "emotion_viz1_"
+
+            for i, text in enumerate(input_text):
+
+                # Analyse
                 vis = classifier_emotion_1(text)
                 emotions = [e["label"] for e in vis[0]]
                 scores = [e["score"] for e in vis[0]]
 
-                out.write(f"The emotions for [{text}] are:\n")
+                # Écriture dans le fichier texte
+                out.write(f"Emotions for [{truncate(text)}]:\n")
                 for emo, score in zip(emotions, scores):
                     out.write(f"{emo}: {score:.4f}\n")
-                out.write("\n\n")
+                out.write("\n")
 
-        # Visualisation Sankey
-        text_base = "emotion_viz1_"
-        for i, text in enumerate(input_text):
-            vis = classifier_emotion_1(text)
-            emotions = [e["label"] for e in vis[0]]
-            scores = [e["score"] for e in vis[0]]
+                # Visualisation Sankey
+                source = [0] * len(emotions)
+                target = list(range(1, len(emotions) + 1))
+                value = scores
 
-            source = [0] * len(emotions)
-            target = list(range(1, len(emotions) + 1))
-            value = scores
+                node_colors = [
+                    "#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd",
+                    "#8c564b", "#e377c2", "#7f7f7f", "#bcbd22", "#17becf"
+                ]
+                node_colors = (node_colors * ((len(emotions) // len(node_colors)) + 1))[:len(emotions) + 1]
 
-            node_colors = [
-                "#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd",
-                "#8c564b", "#e377c2", "#7f7f7f", "#bcbd22", "#17becf"
-            ]
-            node_colors = (node_colors * ((len(emotions) // len(node_colors)) + 1))[:len(emotions) + 1]
+                fig = go.Figure(data=[go.Sankey(
+                    node=dict(
+                        pad=55,
+                        thickness=55,
+                        line=dict(color="black", width=0.5),
+                        label=["Input Text"] + emotions,
+                        color=node_colors
+                    ),
+                    link=dict(source=source, target=target, value=value)
+                )])
 
-            fig = go.Figure(data=[go.Sankey(
-                node=dict(
-                    pad=55,
-                    thickness=55,
-                    line=dict(color="black", width=0.5),
-                    label=["Input Text"] + emotions,
-                    color=node_colors
-                ),
-                link=dict(source=source, target=target, value=value)
-            )])
+                fig.update_layout(title_text="Emotion Classification", font_size=15)
 
-            fig.update_layout(title_text="Emotion Classification", font_size=15)
-            vis_path = os.path.join(result_path, f"{text_base}{i}.png")
-            fig.write_image(vis_path, format="png")
+                # Nom du fichier basé sur la ligne soumise
+                clean_name = safe_filename(text)
+                vis_filename = f"{text_base}{clean_name}.png"
+                vis_path = os.path.join(result_path, vis_filename)
 
-    # ---------------------------------------------------------
-    # EMOTION ANALYSIS — ANALYSE 2
-    # ---------------------------------------------------------
-    if "emotion_analysis" in analysis_type and emotion_type == "analyse2":
+                fig.write_image(vis_path, format="png")
 
-        text_base = "emotion_viz2_"
+                # Résumé dans le fichier texte
+                out.write(f"- Visualisation générée : {vis_filename}\n\n")
 
-        for i, text in enumerate(input_text):
-            vis = classifier_emotion_2(text)
-            labels = [e["label"] for e in vis[0]]
-            scores = [e["score"] for e in vis[0]]
+        # ---------------------------------------------------------
+        # EMOTION ANALYSIS — ANALYSE 2 (résumé dans le fichier)
+        # ---------------------------------------------------------
+        if "emotion_analysis" in analysis_type and emotion_type == "analyse2":
+            out.write("===== EMOTION ANALYSIS (Analyse 2) =====\n\n")
+            out.write("Visualisations générées pour chaque texte :\n\n")
 
-            combined = list(zip(labels, scores))
-            random.shuffle(combined)
-            labels, scores = zip(*combined)
+            text_base = "emotion_viz2_"
 
-            scores = list(scores)
-            scores_closed = scores + [scores[0]]
+            for i, text in enumerate(input_text):
+                vis = classifier_emotion_2(text)
+                labels = [e["label"] for e in vis[0]]
+                scores = [e["score"] for e in vis[0]]
 
-            angles = [n / float(len(labels)) * 2 * np.pi for n in range(len(labels))]
-            angles_closed = angles + [0]
+                combined = list(zip(labels, scores))
+                random.shuffle(combined)
+                labels, scores = zip(*combined)
 
-            fig, ax = plt.subplots(subplot_kw=dict(polar=True))
-            ax.fill(angles_closed, scores_closed, color="blue", alpha=0.5)
-            ax.plot(angles_closed, scores_closed, color="blue", linewidth=1)
-            ax.set_xticks(angles)
-            ax.set_xticklabels(labels)
-            plt.title("Emotion Classification")
+                scores = list(scores)
+                scores_closed = scores + [scores[0]]
 
-            vis_path = os.path.join(result_path, f"{text_base}{i}.png")
-            plt.savefig(vis_path, format="png")
-            plt.close()
+                angles = [n / float(len(labels)) * 2 * np.pi for n in range(len(labels))]
+                angles_closed = angles + [0]
 
-    # ---------------------------------------------------------
-    # READABILITY SCORING
-    # ---------------------------------------------------------
-    if "readibility_scoring" in analysis_type:
-        output_name = "readibility_scoring.txt"
-        with open(os.path.join(result_path, output_name), "w", encoding="utf-8") as out:
+                fig, ax = plt.subplots(subplot_kw=dict(polar=True))
+                ax.fill(angles_closed, scores_closed, color="blue", alpha=0.5)
+                ax.plot(angles_closed, scores_closed, color="blue", linewidth=1)
+                ax.set_xticks(angles)
+                ax.set_xticklabels(labels)
+                plt.title("Emotion Classification")
+
+                clean_name = safe_filename(text)
+                vis_path = os.path.join(result_path, f"{text_base}{clean_name}.png")
+                plt.savefig(vis_path, format="png")
+                plt.close()
+
+                # Résumé dans le fichier texte
+                out.write(f"- Visualisation générée : {text_base}{clean_name}.png\n")
+
+            out.write("\n")
+
+        # ---------------------------------------------------------
+        # READABILITY SCORING
+        # ---------------------------------------------------------
+        if "readibility_scoring" in analysis_type:
+            out.write("===== READABILITY SCORING =====\n\n")
             for text in input_text:
                 score = textstat.flesch_reading_ease(text)
                 out.write(f"Flesch Reading Ease Score: {score}\n\n")
