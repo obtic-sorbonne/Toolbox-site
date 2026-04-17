@@ -3563,8 +3563,12 @@ def run_renard():
             else:
                 text = request.form['renard_txt_input']
 
-            rand_name = 'renard_graph_' + ''.join(random.choice(string.ascii_lowercase) for _ in range(8)) + '.gexf'
-            result_path = ROOT_FOLDER / os.path.join(app.config['UPLOAD_FOLDER'], rand_name)
+            base_name = 'renard_graph_' + ''.join(random.choice(string.ascii_lowercase) for _ in range(8))
+            gexf_name = base_name + '.gexf'
+            png_name = base_name + '.png'
+
+            gexf_path = ROOT_FOLDER / os.path.join(app.config['UPLOAD_FOLDER'], gexf_name)
+            png_path = ROOT_FOLDER / os.path.join(app.config['UPLOAD_FOLDER'], png_name)
 
             import base64
             from renard.graph_utils import graph_with_names
@@ -3596,18 +3600,19 @@ def run_renard():
             out = pipeline(text)
 
             # Export GEXF graph
-            out.export_graph_to_gexf(result_path)
+            out.export_graph_to_gexf(gexf_path)
 
             # Render graph
             G = graph_with_names(out.characters_graph)
             plot_nx_graph_reasonably(G)
+            plt.savefig(png_path, format='png')
             img = BytesIO()
             plt.savefig(img, format='png')
             img.seek(0)
             plt.clf()
             figdata_png = base64.b64encode(img.getvalue()).decode('ascii')
 
-            return render_template('tools/renard.html', form=form, graph=figdata_png, fname=str(rand_name))
+            return render_template('tools/renard.html', form=form, graph=figdata_png, gexf_file=gexf_name, png_file=png_name)
 
         except Exception as e:
             print(f"Error in pipeline: {str(e)}")
