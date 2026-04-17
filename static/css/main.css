@@ -342,12 +342,12 @@ hr{
 
 
 .presentation a:link, .presentation a:active{
-  color:#f2a800;
+  color:#182F7A;
   text-decoration: dashed;
 }
 
 .presentation a:visited{
-  color:#f2a800;
+  color:#182F7A;
 }
 
 .div-search-form{
@@ -809,7 +809,6 @@ display: table;
 .rubrique p:first-child{
   background-color: rgba(221, 201, 180, .3);
   padding:30px;
-  text-align: justify;
   box-shadow: 2px 2px 2px #ddd;
 }
 .rubrique p:first-child::first-letter {
