@@ -963,79 +963,80 @@ def get_model():
     import whisper
     global model_cache
     if model_cache is None:
-        model_cache = whisper.load_model("base")  # Chargement différé
+        model_cache = whisper.load_model("large-v3-turbo")  # Chargement différé
     return model_cache
 
 @app.route('/automatic_speech_recognition', methods=['POST'])
 def automatic_speech_recognition():
     import subprocess
 
-    if 'files' not in request.files and 'audio_urls' not in request.form and 'video_urls' not in request.form:
-        return Response(json.dumps({"error": "No files part or URLs provided"}), status=400, mimetype='application/json')
+    if 'files' not in request.files:
+        return Response(json.dumps({"error": "No files uploaded"}), status=400, mimetype='application/json')
 
-    audio_urls = request.form.get('audio_urls', '').splitlines()
-    video_urls = request.form.get('video_urls', '').splitlines()
+    uploaded_files = request.files.getlist('files')
     file_type = request.form['file_type']
 
     rand_name = generate_rand_name("asr_")
     result_path = create_named_directory(rand_name, base_dir=UPLOAD_FOLDER)
 
-    model = get_model()  # Appel différé
+    model = get_model()  # Chargement différé
 
     try:
-        if file_type == 'audio_urls':
-            for audio_url in audio_urls:
-                if not audio_url.strip():
+        # --- TRAITEMENT AUDIO ---
+        if file_type == 'audio_files':
+            for f in uploaded_files:
+                if f.filename == "":
                     continue
 
-                url_path = urlparse(audio_url).path
-                file_name = os.path.basename(url_path)
-                output_path = os.path.join(result_path, file_name)
+                safe_name = secure_filename(f.filename)
+                input_path = os.path.join(result_path, safe_name)
+                f.save(input_path)
 
-                try:
-                    subprocess.run(["wget", audio_url, "-O", output_path], check=True)
-                except subprocess.CalledProcessError as e:
-                    print(f"[ERREUR] Échec du téléchargement : {audio_url} — {e}")
+                # Transcription
+                result = model.transcribe(input_path)
+                os.remove(input_path)
+
+                output_name = os.path.splitext(safe_name)[0] + "_transcription.txt"
+                with open(os.path.join(result_path, output_name), "w", encoding="utf-8") as out:
+                    out.write(result["text"])
+
+        # --- TRAITEMENT VIDÉO ---
+        elif file_type == 'video_files':
+            for i, f in enumerate(uploaded_files):
+                if f.filename == "":
                     continue
 
-                if not os.path.isfile(output_path):
-                    print(f"[ERREUR] Fichier non trouvé : {output_path}")
-                    continue
+                safe_name = secure_filename(f.filename)
+                video_path = os.path.join(result_path, safe_name)
+                f.save(video_path)
 
-                result = model.transcribe(output_path)
-                output_name = os.path.splitext(file_name)[0] + '_transcription.txt'
-                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-                    out.write(result['text'])
+                # Extraction audio via ffmpeg
+                audio_path = os.path.join(result_path, f"video_{i}.m4a")
 
-        elif file_type == 'video_urls':
-            for i, video_url in enumerate(video_urls):
-                if not video_url.strip():
-                    continue
-
-                audio_output = os.path.join(result_path, f"video_{i}.m4a")
                 try:
                     subprocess.run([
-                        "yt-dlp",
-                        "-f", "bestaudio",
-                        video_url,
-                        "-o", audio_output
+                        "ffmpeg",
+                        "-i", video_path,
+                        "-vn",
+                        "-acodec", "aac",
+                        "-b:a", "192k",
+                        audio_path,
+                        "-y"
                     ], check=True)
                 except subprocess.CalledProcessError as e:
-                    print(f"[ERREUR] yt-dlp a échoué pour {video_url} — {e}")
+                    print(f"[ERREUR] ffmpeg a échoué pour {safe_name} — {e}")
                     continue
 
-                if not os.path.isfile(audio_output):
-                    print(f"[ERREUR] Fichier audio manquant : {audio_output}")
+                if not os.path.isfile(audio_path):
+                    print(f"[ERREUR] Fichier audio manquant : {audio_path}")
                     continue
 
-                result = model.transcribe(audio_output)
+                # Transcription
+                result = model.transcribe(audio_path)
+
                 output_name = f"video_{i}_transcription.txt"
-                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-                    out.write(result['text'])
-
-        if not os.listdir(result_path):
-            print(f"[DEBUG] Aucun fichier généré dans {result_path}")
-            return Response(json.dumps({"error": "Aucune donnée à archiver"}), status=400, mimetype='application/json')
+                with open(os.path.join(result_path, output_name), "w", encoding="utf-8") as out:
+                    out.write(result["text"])
 
         response = create_zip_and_response(result_path, rand_name)
         return response
