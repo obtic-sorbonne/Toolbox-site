@@ -79,6 +79,7 @@
       <div class="fil"><a href="{{ url_for('conversion')}}"><< {{ _('Retour aux tâches') }}</a></div>
       <h2>{{ _('Conversion XML-TEI') }}</h2>
       <p>{{ _("L'outil ci-dessous permet de transformer un texte brut en format XML-TEI, un format courant en humanitiés numériques") }} {{ _("qui permet d'encoder les textes, en utilisant des balises prédefinies.") }}</p>
+      <p>Le titre du document, ses informations de publication, sa description bibliographique, ainsi que l'information sur la révision effectué, son auteur et sa date sont obligatoires pour exécuter l'encodage.</p>
 
       <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_conversion') }}" target="_blank">{{ _('Voir la documentation') }}</a> / <a href="{{ url_for('tutorial_conversion') }}" target="_blank">{{ _('Voir le tutoriel') }}</a></p>
 
@@ -149,7 +150,7 @@
     <!-- Source -->
     <fieldset>
       <legend>{{ _('Description bibliographique de la source') }} (sourceDesc) <span style="color: red;">*</span></legend>
-      <textarea name="sourceDesc" id="sourceDesc" rows="3" placeholder="Example: The first folio of Shakespeare, prepared by Charlton Hinman (The Norton Facsimile, 1968)"></textarea>
+      <textarea name="sourceDesc" id="sourceDesc" rows="3" placeholder="Example: The first folio of Shakespeare, prepared by Charlton Hinman (The Norton Facsimile, 1968)" required></textarea>
     </fieldset>
 
     <!-- Profil -->
@@ -205,17 +206,14 @@
     <fieldset>
   <legend>{{ _('Corps du texte') }}</legend>
   <label for="divtype"><strong>{{ _("Type de document") }}</strong></label><br>
-  <select name="divtype" id="divtype" required>
-    <option value="text">{{ _("Indéfini") }}</option>
-    <option value="book">{{ _("Livre") }}</option>
-    <option value="letter">{{ _("Lettre") }}</option>
-    <option value="play">{{ _("Pièce de théâtre") }}</option>
-    <option value="poem">{{ _("Poème") }}</option>
-    <option value="report">{{ _("Rapport") }}</option>
-  </select>
-  <div style="font-size: smaller;">
-    <i>{{ _("Choisissez le type correspondant à la structure du texte. Le choix de <b>Poème</b> encodera votre texte avec des balises &lt;l&gt; et &lt;lg&gt;, qui signalent les vers et les couplets. Le choix de <b>Pièce de théâtre</b> encodera votre texte selon les séparations d'actes et de scènes et prendra comme un bloc les &lt;speaker&gt; et leur dialogue") }}. {{ _("Le choix de <b>Livre</b> encodera votre texte selon les chapitres, avec des &lt;div&gt; et les séparations de pages avec des &lt;pb&gt;. Le choix de <b>Lettre</b> encodera votre texte en prenant en compte les éléments tels que des date, salutations, signature, etc, avec notamment un &lt;opener&gt; et &lt;closer&gt;") }}. {{ _("Le choix de de <b>Rapport</b> encodera votre texte en section, avec des &lt;div&gt;, selon les numérotations par lettres, chiffres ou alphabets romans. Enfin, le choix de <b>Indéfini</b> encodera votre texte par paragraphe principalement, avec des &lt;p&gt;") }}.</i>
-  </div>
+            <div id="divtype">
+                <div><input style="width: auto;" type="radio" name="divtype" value="text"> <i>{{ _("Indéfini") }}</i> : Encodage du texte par paragraphe principalement, avec des &lt;p&gt;</div>
+                <div><input style="width: auto;" type="radio" name="divtype" value="book"> <i>{{ _("Livre") }}</i> :  Encodage du texte selon les chapitres, avec des &lt;div&gt; et les séparations de pages avec des &lt;pb&gt;.</div>
+                <div><input style="width: auto;" type="radio" name="divtype" value="letter"> <i>{{ _("Lettre") }}</i> : Encodage du texte en prenant en compte les éléments tels que des date, salutations, signature, etc, avec notamment un &lt;opener&gt; et &lt;closer&gt;</div>
+                <div><input style="width: auto;" type="radio" name="divtype" value="play"> <i>{{ _("Pièce de théâtre") }}</i> : Encodage du texte selon les séparations d'actes et de scènes et prendra comme un bloc les &lt;speaker&gt; et leur dialogue</div>
+                <div><input style="width: auto;" type="radio" name="divtype" value="poem"> <i>{{ _("Poème") }}</i> : Encodage du texte avec des balises &lt;l&gt; et &lt;lg&gt;, qui signalent les vers et les couplets</div>
+                <div><input style="width: auto;" type="radio" name="divtype" value="report"> <i>{{ _("Rapport") }}</i> : Encodage du texte en section, avec des &lt;div&gt;, selon les numérotations par lettres, chiffres ou alphabets romans</div>
+            </div>
 </fieldset>
 
 
@@ -232,15 +230,6 @@
         </div>
           </form>
       </div>
-    <span class="trigger-panel" onclick="openNav()">{{ _('Tâches suivantes')}}  <i class="fa-solid fa-angles-right"></i></span>
-
-<div id="task-panel-ocr" class="sidepanel">
-  <span class="closebtn" onclick="closeNav()">&times;</span>
-  <h3 style="font-family: 'Comprehension', serif;">{{ _('Tâches suivantes')}}</h3>
-  <div class="side-item"><a href="{{ url_for('named_entities_recognition') }}">{{ _('Extraire les entités nommées') }}</a></div>
-  <div class="side-item"><a href="{{ url_for('partofspeech_tagging') }}">{{ _('Étiqueter en parties du discours') }}</a></div>
-  <div class="side-item"><a href="{{ url_for('visualisation_tools') }}">{{ _('Visualisation') }}</a></div>
-</div>
     </div>
     <script type="text/javascript">
         function openNav() {

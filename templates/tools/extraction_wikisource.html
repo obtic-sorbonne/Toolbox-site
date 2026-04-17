@@ -31,6 +31,16 @@
 
     <div>
     <h4>{{ _("A partir d'URL(s)") }}</h4>
+    <div style="font-size: 0.9em;border:1px solid #263e8d; border-radius: 2px;padding:30px;margin-top: 20px;margin-bottom: 20px;">
+      <p>{{ _('Exemple') }} </p>
+    <p style="border-left:1px solid #008CBA;padding:5px;margin:8px">
+          <span style="font-family: 'Courier New', Courier, monospace;">https://fr.wikisource.org/wiki/Rom%C3%A9o_et_Juliette_(trad._Hugo) <i>(Roméo et Juliette, traduction de François-Victor Hugo)</i><br>
+          https://fr.wikisource.org/wiki/Le_Tour_du_monde_en_quatre-vingts_jours/Chapitre_2 <i>(Chap 2 de Le tour du monde en quatre-vingts jours)</i><br>
+          https://fr.wikisource.org/wiki/Les_Trois_Mousquetaires/Chapitre_5 <i>(Chap 5 de Les trois mousquetaires)</i><br>
+          https://fr.wikisource.org/wiki/Orgueil_et_Pr%C3%A9jug%C3%A9_(Paschoud)/3/2 <i>(Chapitre 2 du T3 de Orgueil et Préjugés Trad Paschoud)</i><br>
+          https://fr.wikisource.org/wiki/Les_M%C3%A9tamorphoses_(Ovide,_Nisard)/Livre_4 <i>(Livre Quatrième des Métamorphoses d'Ovide)</i>
+          </span></p>
+  </div>
     <p>{{ _("Copier ici les URLs des textes à collecter") }}. {{ _("Il est possible de collecter un texte intégral à partir d'un sommaire") }} [<a href="https://fr.wikisource.org/wiki/Valserine_et_autres_nouvelles" target="_blank">{{ _("exemple") }}</a>]. {{ _("Dans ce cas, cocher la case Sommaire en face de l'URL indiquée") }}.</p>
     <form id="urlform"  method="POST" action="{{ url_for('corpus_from_url') }}">
       {{ form.csrf_token }}
@@ -43,16 +53,6 @@
     </form>
     </div>
   </div>
- <span class="trigger-panel" onclick="openNav()">{{ _('Tâches suivantes')}}  <i class="fa-solid fa-angles-right"></i></span>
-
-<div id="task-panel-gallica" class="sidepanel">
-  <span class="closebtn" onclick="closeNav()">&times;</span>
-  <h3 style="font-family: 'Comprehension', serif;">{{ _('Tâches suivantes')}}</h3>
-  <div class="side-item"><a href="{{ url_for('named_entities_recognition') }}">{{ _('Extraire les entités nommées') }}</a></div>
-  <div class="side-item"><a href="{{ url_for('partofspeech_tagging') }}">{{ _('Étiqueter en parties du discours') }}</a></div>
-  <div class="side-item"><a href="https://obtic.huma-num.fr/teinte/">Teinte</a></div> 
-  <div class="side-item"><a href="{{ url_for('visualisation_tools') }}">{{ _('Visualisation') }}</a></div> 
-</div>
 
   <script type="text/javascript">
 

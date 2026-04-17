@@ -52,7 +52,6 @@ input[type="radio"]{
   display: none;
 }
 #option-1:checked:checked ~ .option-1,
-#option-2:checked:checked ~ .option-2,
 #option-3:checked:checked ~ .option-3{
   border-color: #263e8d;
   background: #263e8d;
@@ -64,13 +63,11 @@ input[type="radio"]{
 }
 
 #option-1:checked ~ .option-1 span,
-#option-2:checked ~ .option-2 span,
 #option-3:checked ~ .option-3 span{
   color: #fff;
 }
 
 #option-1:checked ~ .option-1 i,
-#option-2:checked ~ .option-2 i,
 #option-3:checked ~ .option-3 i{
   color: #fff;
 }
@@ -132,8 +129,35 @@ form p{
 <div class="outil">
   <div class="fil"><a href="{{ url_for('automatic_annotation')}}"><< {{ _('Retour aux tâches') }}</a></div>
   <h2>{{ _("Reconnaissance d'entités nommées") }}</h2>
-<p>{{ _("Cet outil permet d'identifier les entités nommées d'un corpus en utilisant au choix trois modèles : Spacy, Flair, ou un modèle Bert") }}. {{ _("Le corpus peut être au format texte ou au format XML-TEI") }}. {{ _("Dans ce dernier cas, les entités seront annotées directement dans le texte avec la balise")}} &lt;Entity&gt; {{ _("avec leur type en attribut annotation") }}. {{ _("A noter que ce processus ne conserve pas la structuration et le formatage à l'intérieur des balises parcourues ; tous les formatages à l'extérieur de ces balises sont en revanche restitués") }}.</p>
-<p>{{ _("L'utilisation de cette balise &lt;Entity&gt; rend utilisable le XML en sortie dans la plateforme") }} <a href="https://obtic.huma-num.fr/ariane" target="_blank">Ariane</a>.</p><p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_annotation') }}" target="_blank">{{ _("Voir la documentation") }}</a> / <a href="{{ url_for('tutorial_annotation') }}"  target="_blank">{{ _('Voir le tutoriel') }}</a></p>
+  <p>Cet outil permet d'identifier les entités nommées d'un corpus en utilisant au choix trois moteurs : Spacy, Flair, ou Bert. Les modèles de langue disponibles diffèrent en fonction du moteur choisi. Le corpus peut être au format texte ou au format XML-TEI, et la sortie obtenue différera selon l'un ou l'autre.</p>
+  <p style="margin-top: 0.5em;">Dans le cas d'une annotation NER sur du texte brut, la sortie varie selon que l'on utilise spaCy/Flair ou Bert.<br>
+  La sortie spaCy/Flair sera au format TXT et apparaitra ainsi : <strong>T20  MISC 2091 2099  Waterloo</strong>
+  <ul class="item-list" style="margin-left: 3em;">
+  <li>T20 est l’identifiant interne de l’entité (la 20ᵉ entité trouvée dans le document).</li>
+  <li>MISC — le label attribué par spaCy</li>
+  <li>2091 2099 — les offsets de caractères dans le texte :<ul class="item-list" style="margin-left: 3em;">
+    <li>2091 = position de début</li>
+    <li>2099 = position de fin</li></ul></li>
+  <li>Waterloo — la chaîne de texte reconnue comme entité.</li></ul>
+
+  La sortie Bert sera au format CSV et apparaitra ainsi : <strong>Waterloo,MISC,42,51,0.9497329</strong>
+  <ul class="item-list" style="margin-left: 3em;">
+  <li>Waterloo — la chaîne de texte détectée comme entité.</li>
+  <li>MISC — le label attribué par le modèle BERT NER.</li>
+  <li>42, 51 — les offsets de caractères dans le texte :<ul class="item-list" style="margin-left: 3em;">
+    <li>42 = position de début</li>
+    <li>51 = position de fin</li></ul></li>
+  <li>0.9497329 — la probabilité / confiance du modèle pour cette prédiction (≈ 95 %)</li></ul></p>
+  <p style="margin-top: 0.5em;">Les <strong>classes d'étiquettes du NER</strong> sont les suivantes : <ul class="item-list" style="margin-left: 3em;">
+        <li>PER/PERSON — personne</li> 
+        <li>LOC — lieu</li> 
+        <li>ORG/GPE — organisation/entités géopolitiques (pays, villes)</li> 
+        <li>MISC — divers (événements, œuvres, gentilés, etc.)</li> 
+        <li>NORP — nationalités, groupes religieux/politiques</li> 
+        <li>etc.</li></ul></p>
+  <p style="margin-top: 0.5em;">Dans le cas d'une annotation NER sur un fichier XML-TEI, les entités reconnues seront encodés avec les balises <strong>&lt;persName&gt;</strong> pour PER, <strong>&lt;placeName&gt;</strong> pour LOC, <strong>&lt;orgName&gt;</strong> pour ORG, et <strong>&lt;name&gt;</strong> pour MISC.</p>
+
+<p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_annotation') }}" target="_blank">{{ _("Voir la documentation") }}</a> / <a href="{{ url_for('tutorial_annotation') }}"  target="_blank">{{ _('Voir le tutoriel') }}</a></p>
 <br>
     <div class="infos_outil" style="display: block;margin: 0 auto 15px auto;">
         <input id="show" type=checkbox><label for="show" class="infos_title"><i class="fa-solid fa-circle-info"></i> {{ _("Informations sur l'outil") }}<i class="fa-solid fa-angle-right" style="float:right;margin-top:5px;margin-left:15px;cursor: pointer;"></i></label>
@@ -157,10 +181,6 @@ form p{
         <label for="option-1" class="option option-1">
            <i class="fa-solid fa-file-lines"></i><span style="font-size: small;"> {{ _('Texte') }}</span>
            </label>
-      <input type="radio" name="input_format" id="option-2" value="xml-ariane">
-        <label for="option-2" class="option option-2">
-           <i class="fa-regular fa-file-code"></i><span style="font-size: small;"> XML Ariane</span>
-        </label>
       <input type="radio" name="input_format" id="option-3" value="xml-tei">
         <label for="option-3" class="option option-3">
            <i class="fa-regular fa-file-code"></i><span style="font-size: small;"> XML-TEI</span>

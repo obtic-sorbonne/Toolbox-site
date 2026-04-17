@@ -32,34 +32,27 @@
     <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_recognition') }}"  target="_blank">{{ _('Voir la documentation') }}</a></p>
     <div class="infos_outil" style="display: block;margin: 0 auto 15px auto;">
         <input id="show" type=checkbox><label for="show" class="infos_title"><i class="fa-solid fa-circle-info"></i> {{ _("Informations sur l'outil") }}<i class="fa-solid fa-angle-right" style="float:right;margin-top:5px;margin-left:15px;cursor: pointer;"></i></label>
-        <div class="info_popped"><p><i>Whisper OpenAI</i></p>
-      <p>{{ _("Formats d'entrée :")}} URL <i class="fa-solid fa-file-video"></i> {{ _('vidéo') }} {{ _('ou') }} <i class="fa-solid fa-file-audio"></i> audio</p>
-      <p>{{ _('Formats générés :')}} <i class="fa-solid fa-file-audio"></i> {{ _('Fichier audio') }} {{ _('et') }} <i class="fa-regular fa-file-lines"></i> {{ _('fichier TXT') }}</p>
+        <div class="info_popped"><p><i>Whisper OpenAI, modèle <a href="https://huggingface.co/openai/whisper-large-v3-turbo">large-v3-turbo</a></i></p>
+      <p>{{ _("Formats d'entrée :")}} Fichier(s) <i class="fa-solid fa-file-video"></i> {{ _('vidéo') }} {{ _('ou') }} <i class="fa-solid fa-file-audio"></i> audio</p>
+      <p>{{ _('Formats générés :')}} <i class="fa-regular fa-file-lines"></i> {{ _('Fichier TXT') }}</p>
       </div>
     </div>
     <br>
     <form action="{{ url_for('automatic_speech_recognition') }}" method="POST" enctype="multipart/form-data">
       <div class="relations-input">
             <label for="file_type">{{ _('Choisir le type de document') }} : </label>
-            <select name="file_type" id="file_type" required>
-                <option value="audio_urls">Audio</option>
-                <option value="video_urls">{{ _('Vidéo') }}</option>
-            </select>
+            <div id="file_type_radios" style="margin-top: 0.5em;">
+            <label><input type="radio" name="file_type" value="audio_files"> Audio</label><br>
+            <label><input type="radio" name="file_type" value="video_files"> {{ _('Vidéo') }}</label><br>
+          </div>
         </div>
-        <br>
         <br>
         {{ form.csrf_token }}
-        <div style="display: block; margin: auto; width: max-content;">
-        <div id="audio_urls">
-          <label for="audio_urls" style="font-weight: bold;">{{ _('URLs Audio') }}</label><br>
-          <textarea name="audio_urls" rows="4" cols="50" placeholder="One URL per line"></textarea><br><br>
+        <div class="dropzone" style="margin:25px auto;">
+            <input type="file" id="files" name="files" multiple required>
+            <p id="form_msg">{{ _("Déposer le(s) fichier(s) ou cliquer ici") }}.</p>
         </div>
-      </div>
 
-        <div id="video_urls" style="display: block; margin: auto; width: max-content;">
-          <label for="video_urls" style="font-weight: bold;">{{ _('URLs Vidéo') }}</label><br>
-          <textarea name="video_urls" rows="4" cols="50" placeholder="One URL per line"></textarea><br><br>
-        </div>
         <br>
         <input id="csrf_token" name="csrf_token" type="hidden" value="{{ csrf_token() }}">
         <button type="submit">{{ _('Lancer la reconnaissance') }}</button>
@@ -69,6 +62,23 @@
   </div>
 </div>
 <script type="text/javascript">
+  $('form input[type=file]').change(function () {
+    var nb_files = this.files.length;
+    $('form #form_msg').text(nb_files + " fichier(s) selectionné(s)");
+    if(nb_files > 3){
+        var num = nb_files - 3;
+        for(i=0; i < 3; i++){
+            $("#form_msg").append('<br/><span class="filename_preview">' + this.files[i].name + '</span>');
+        }
+        $("#form_msg").append('<span class="filename_preview"> et ' + num + ' autres.</span>');
+    }
+    else{
+        for(i=0; i < nb_files; i++){
+            $("#form_msg").append('<br/><span class="filename_preview">' + this.files[i].name + '</span>');
+        }
+    }
+});
+
   function toggleNgramFields() {
             var file_type = document.getElementById("file_type").value;
             var audio_urls = document.getElementById("audio_urls");

@@ -12,7 +12,9 @@
     <ul class="item-list" style="margin-left: 3em;">
         <li><hi style="font-weight: bold;">{{ _('Tokenisation') }} (Option 1)</hi> : {{ _('Découpage du texte en chaque instance séparée par un espace et/ou un signe de ponctuation') }}</li>
         <li><hi style="font-weight: bold;">{{ _('Lemmatisation') }} (Option 2)</hi> : {{ _("Récupération de chaque élément du texte sous sa forme lemmatisé, c'est-à-dire sa forme canonique") }}.</li>
-    </ul></p></div>
+    </ul></p>
+    <p style="margin-top: 0.5em;">Il est possible d'obtenir cette normalisation avec la casse d'origine, ou avec la casse entièrement en minuscules.</p>
+<p style="margin-top: 0.5em;">Le document de sortie contiendra dans son nom de fichier les tâches qui auront été effectué ("tokens", "lemmas", "lowercases")</p></div>
     <br>
     <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_preprocessing') }}"  target="_blank">{{ _('Voir la documentation') }}</a></p>
     <br>
@@ -31,9 +33,10 @@
     <div class="relations-input">
         <label>{{ _("Choisir le(s) type(s) d'analyse") }} :</label>
         <div id="normalisation_type_checkboxes">
-            <label><input type="checkbox" name="normalisation_type" value="tokens"> {{ _('Tokenisation') }} (Option 1)</label><br>
-            <label><input type="checkbox" name="normalisation_type" value="lemmas" id="cb_lemmas"> {{ _('Lemmatisation') }} (Option 2)</label><br>
-            <label><input type="checkbox" name="normalisation_type" value="lowercases"> {{ _('Minuscules') }}</label>
+            <label><input type="checkbox" name="normalisation_type" value="tokens"> Option 1 (casse d'origine)</label><br>
+            <label><input type="checkbox" name="normalisation_type" value="tokens_lower"> Option 1 (minuscules)</label><br>
+            <label><input type="checkbox" name="normalisation_type" value="lemmas" id="cb_lemmas"> Option 2 (casse d'origine)</label><br>
+            <label><input type="checkbox" name="normalisation_type" value="lemmas_lower" id="cb_lemmas_lower"> Option 2 (minuscules)</label><br>
         </div>
     </div>
     <br>
@@ -88,15 +91,23 @@ $('form input[type=file]').change(function () {
     }
 });
 
-function togglelemmaFields() {
+function toggleLemmaFields() {
     const cbLemmas = document.getElementById("cb_lemmas");
+    const cbLemmasLower = document.getElementById("cb_lemmas_lower");
+
+    const show = cbLemmas.checked || cbLemmasLower.checked;
+
     document.getElementById("lemma_fields").style.display =
-        cbLemmas.checked ? "block" : "none";
+        show ? "block" : "none";
 }
 
 document.addEventListener("DOMContentLoaded", function() {
-    document.getElementById("cb_lemmas").addEventListener("change", togglelemmaFields);
-    togglelemmaFields();
+    document.getElementById("cb_lemmas").addEventListener("change", toggleLemmaFields);
+    document.getElementById("cb_lemmas_lower").addEventListener("change", toggleLemmaFields);
+
+    // Appel initial pour mettre l'état correct au chargement
+    toggleLemmaFields();
+
 
     document.getElementById("linguistic-form").addEventListener("submit", function(e) {
         const checked = document.querySelectorAll('input[name="normalisation_type"]:checked');

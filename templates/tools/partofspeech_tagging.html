@@ -6,12 +6,25 @@
   <div class="fil"><a href="{{ url_for('automatic_annotation')}}"><< {{ _('Retour aux tâches') }}</a></div>
 
   <h2>{{ _('Étiquetage morphosyntaxique') }}</h2>
-  <p>{{ _("Cette section permet d'annoter la catégorie grammaticale de chaque mot d'un texte avec")}} <a href="https://spacy.io/usage/linguistic-features#pos-tagging" target="_blank">{{ _("l'outil POS tagging de spaCy") }}</a>. <br>{{ _("Le document renvoyé précise le token récupéré et son étiquette morphosyntaxique")}}.</p>
+  <p>{{ _("Cette section permet d'annoter la catégorie grammaticale de chaque mot d'un texte avec")}} <a href="https://spacy.io/usage/linguistic-features#pos-tagging" target="_blank">{{ _("l'outil POS tagging de spaCy") }}</a>. <br>
+  Le document renvoyé précise le token récupéré et son étiquette morphosyntaxique, tel quel : 
+  <ul class="item-list" style="margin-left: 3em;">
+  <li>Token: C’ --> POS: ADJ</li>
+  <li>Token: est --> POS: AUX</li>
+  <li>Token: peut-être --> POS: ADV</li>
+  <li>Token: vrai --> POS: ADJ</li></ul>
+  Le document fournit également, à la fin, le compte total de chacune des étiquettes présentes dans le texte.</p>
+  <p style="margin-top: 0.5em;">Les <strong>classes d'étiquettes du POS</strong> sont les suivantes<br>
+    <hi style="margin-left: 2em;">ADJ {{ _('Adjectif') }} ; ADP Adposition ({{ _('Préposition') }}/Postposition) ; ADV {{ _('Adverbe') }} ; AUX {{ _('Auxiliaire') }} ; CCONJ {{ _('Conjonction de coordination') }} ; DET {{ _('Déterminant') }} ; NOUN {{ _('Mots pour des personnes, lieux, objets') }}, etc. ;</hi> <br> <hi style="margin-left: 2em;">NUM {{ _('Numéro') }} ; PRON {{ _('Pronom') }} ; PROPN {{ _('Nom propre') }} ; PUNCT {{ _('Ponctuation') }} ; SCONJ {{ _('Conjonction de subordination') }} ; VERB {{ _('Mots pour des actions et processus') }} ; X {{ _('Autre') }}</hi></p>
+  <p style="margin-top: 0.5em;">Pour plus de détails sur les liens de POS dans votre texte, vous pouvez accéder à l'outil "Analyse linguistique - Analyse des dépendances"</p>
   <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_annotation') }}" target="_blank">{{ _("Voir la documentation") }}</a></p>
   <div class="infos_outil" style="display: block;margin: 0 auto 15px auto;">
-        <input id="show" type=checkbox><label for="show" class="infos_title"><i class="fa-solid fa-circle-info"></i> {{ _("Informations sur les classes d'étiquettes") }}<i class="fa-solid fa-angle-right" style="float:right;margin-top:5px;margin-left:15px;cursor: pointer;"></i></label></p>
+        <input id="show" type=checkbox><label for="show" class="infos_title"><i class="fa-solid fa-circle-info"></i> {{ _("Informations sur l'outil") }}<i class="fa-solid fa-angle-right" style="float:right;margin-top:5px;margin-left:15px;cursor: pointer;"></i></label></p>
         <div class="info_popped">
-    <p>ADJ {{ _('Adjectif') }} ; ADP Adposition ({{ _('Préposition') }}/Postposition) ;<br>ADV {{ _('Adverbe') }} ; AUX {{ _('Auxiliaire') }} ;<br>CCONJ {{ _('Conjonction de coordination') }} ; DET {{ _('Déterminant') }} ;<br>NOUN {{ _('Mots pour des personnes, lieux, objets') }}, etc. ; NUM {{ _('Numéro') }} ;<br>PRON {{ _('Pronom') }} ; PROPN {{ _('Nom propre') }} ;<br>PUNCT {{ _('Ponctuation') }} ; SCONJ {{ _('Conjonction de subordination') }} ;<br>VERB {{ _('Mots pour des actions et processus') }} ; X {{ _('Autre') }}</p>
+          <p>SpaCy
+      <p>{{ _("Formats d'entrée :")}} <i class="fa-regular fa-file-lines"></i> {{ _('texte brut') }} (.txt) {{ _('ou') }} <i class="fa-regular fa-file-code"></i> {{ _('fichier XML') }} (.xml)</p>
+      <p>{{ _("Formats de sortie :")}} <i class="fa-regular fa-file-lines"></i> {{ _('texte brut') }} (.txt) {{ _('ou') }} <i class="fa-regular fa-file-code"></i> {{ _('fichier XML') }} (.xml)</p>
+      <p>{{ _("Encodage")}} : UTF-8</p>
       <p><i class="fa-solid fa-triangle-exclamation"></i> {{ _("Attention : Assurez-vous que les noms de vos fichiers d'entrée ne soient pas trop longs")}}<br>
       {{ _("et ne contiennent pas de caractères problématiques")}} ([\/:*"&gt;&lt;|])</p>
 </div>

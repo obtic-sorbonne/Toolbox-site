@@ -6,7 +6,26 @@
 <div class="outil">
     <div class="fil"><a href="{{ url_for('information_extraction')}}"><< {{ _('Retour aux tâches') }}</a></div>
     <h2>Topic Modelling</h2>
-    <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_extraction') }}" target="_blank">{{ _("Voir la documentation") }}</a> / <a href="{{ url_for('tutorial_extraction') }}" target="_blank">{{ _("Voir le tutoriel") }}</a></p>
+    <p>Cet outil permet d'identifier, dans un corpus, des groupes de termes représentatifs de ses thèmes, reposant sur la notion de champs sémantiques (ensembles de mots liés par un domaine ou une thématique). Afin que l'analyse puisse se faire efficacement, le texte ne doit pas être trop court.<br>
+
+    Deux méthodes d'extraction sont disponibles :
+    <ul class="item-list" style="margin-left: 3em;">
+    <li><strong>Factorisation par matrices non négatives (NMF)</strong>, qui identifie les thématiques en analysant la fréquence et la répartition des termes dans chaque document.</li>
+    <li><strong>Allocation de Dirichlet latente (LDA)</strong>, qui utilise des hypothèses statistiques pour identifier les probabilités qu'un document contienne plusieurs thématiques, basées sur la répartition des mots.</li></ul>
+    Il est possible d'affiner la sortie, en pratiquant la lemmatisation du corpus avant de commencer la modélisation thématique.</p>
+    <p style="margin-top: 1em;">Le résultat se fera sous forme de tableau sur la page même, qui peut s'exporter par la suite au format CSV.</p>
+        <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_extraction') }}" target="_blank">{{ _("Voir la documentation") }}</a> / <a href="{{ url_for('tutorial_extraction') }}" target="_blank">{{ _("Voir le tutoriel") }}</a></p>
+        <br><div class="infos_outil" style="display: block;margin: 0 auto 15px auto;">
+        <input id="show" type=checkbox><label for="show" class="infos_title"><i class="fa-solid fa-circle-info"></i> {{ _("Informations sur l'outil") }}<i class="fa-solid fa-angle-right" style="float:right;margin-top:5px;margin-left:15px;cursor: pointer;"></i></label>
+        <div class="info_popped">
+      <p>{{ _("Formats d'entrée :")}} <i class="fa-regular fa-file-lines"></i> {{ _('texte brut') }} (.txt)</p>
+      <p>{{ _("Formats de sortie :")}} <i class="fa-solid fa-file-csv"></i> fichier CSV (.csv)</p>
+      <p>{{ _('Encodage') }} : UTF-8</p>
+      <p><i class="fa-solid fa-triangle-exclamation"></i> {{ _("Attention : Assurez-vous que les noms de vos fichiers d'entrée ne soient pas trop longs")}}<br>
+      {{ _("et ne contiennent pas de caractères problématiques")}} ([\/:*"&gt;&lt;|])</p>
+      </div>
+  </div>
+  <br>
         <div class="item">
             <h3>{{ _("Chargement des fichiers") }}</h3>
             <form action="{{ url_for('topic_extraction') }}" method="post" enctype="multipart/form-data" class="drag-drop-form" id="tm_form">
