@@ -11,12 +11,12 @@
     <ul class="item-list" style="margin-left: 3em;">
         <li><strong>{{ _('Minuscules') }} (Option 1)</strong> : {{ _('Mettre tout le texte en minuscules') }}</li>
         <li><strong>{{ _('Ponctuation') }}(Option 2)</strong> : {{ _('Supprimer toute la ponctuation') }}</li>
-        <li><strong>{{ _('Mots-vides') }} (Option 3)</strong> : {{ _("Supprimer les mots très courants (stopwords), ex: déterminants, conjonctions, auxiliaires) ") }}</li>
+        <li><strong>{{ _('Mots-vides') }} (Option 3)</strong> : {{ _("Supprimer les mots très courants (stopwords), ex: déterminants, conjonctions, auxiliaires)") }}</li>
         <li><strong>{{ _('Lignes vides/excessives') }} (Option 4)</strong> : {{ _("Enlever les lignes vides ou ne contenant que des caractères spéciaux") }}</li>
         <li><strong>{{ _('Retours OCR (-)') }} (Option 5)</strong> : {{ _("Joindre les mots coupés par un retour de ligne avec un tiret et supprimer les autres retours") }}</li>
-        <li><strong>Sortie correction d'OCR (Option 6)</strong> : Enlever les **...** mis dans la sortie de la correction d'erreurs pour signaler que le mot avait été corrigé (Si vous cochez la case "Ponctuation", il n'est pas nécessaire de sélectionner celle-ci, les signes étant déjà enlevé avec cette option).</li>
+        <li><strong>{{ _("Sortie correction d'OCR") }} (Option 6)</strong> : {{ _("Enlever les **...** mis dans la sortie de la correction d'erreurs pour signaler que le mot avait été corrigé (Si vous cochez la case 'Ponctuation', il n'est pas nécessaire de sélectionner celle-ci, les signes étant déjà enlevé avec cette option).") }}</li>
     </ul>
-    <p style="margin-top: 1em;">Le document de sortie contiendra dans son nom de fichier les tâches qui auront été effectué ("lowercases", "punctuation", "stopwords", "remove_excessive_lines", "fix_ocr_linebreaks", "clean_double_stars").</p>
+    <p style="margin-top: 1em;">{{ _("Le document de sortie contiendra dans son nom de fichier les tâches qui auront été effectuées ('lowercases', 'punctuation', 'stopwords', 'remove_excessive_lines', 'fix_ocr_linebreaks', 'clean_double_stars').") }}</p>
 
     <p style="text-align:center;padding:20px">
         <a href="{{ url_for('documentation_preprocessing') }}" target="_blank">{{ _('Voir la documentation') }}</a>

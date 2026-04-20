@@ -6,15 +6,15 @@
 <div class="outil">
     <div class="fil"><a href="{{ url_for('information_extraction')}}"><< {{ _('Retour aux tâches') }}</a></div>
     <h2>Quotation extraction</h2>
-    <p>Cet outil permet d'extraire des bouts de texte qui figurent entre guillemets dans les documents founris, et qui représentent donc les mots de quelqu'un d'autre.<br>
-    Plusieurs types de guillemets sont pris en compte :
+    <p>{{ _("Cet outil permet d'extraire des bouts de texte qui figurent entre guillemets dans les documents fournis, et qui représentent donc les mots de quelqu'un d'autre.") }}<br>
+    {{ _("Plusieurs types de guillemets sont pris en compte :") }}
     <ul class="item-list" style="margin-left: 3em;">
-    <li>Guillemets doubles et simples ASCII ('/")</li>
-    <li>Guillemets inversés (backticks) (`)</li>
-    <li>Guillemets français, inversés ou non (»/«)</li>
-    <li>Guillemets allemands („/“/‚/‘)</li>
-    <li>Guillemets anglais (“/”)</li>
-    <li>Guillemets japonais (「/」)</li></ul></p>
+    <li>{{ _("Guillemets doubles et simples") }} ASCII ('/")</li>
+    <li>{{ _("Guillemets inversés (backticks)") }} (`)</li>
+    <li>{{ _("Guillemets français, inversés ou non") }} (»/«)</li>
+    <li>{{ _("Guillemets allemands") }} („/“/‚/‘)</li>
+    <li>{{ _("Guillemets anglais") }} (“/”)</li>
+    <li>{{ _("Guillemets japonais") }} (「/」)</li></ul></p>
     <br>
     <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_extraction') }}" target="_blank">{{ _("Voir la documentation") }}</a></p>
     <br><div class="infos_outil" style="display: block;margin: 0 auto 15px auto;">

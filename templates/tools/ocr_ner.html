@@ -19,22 +19,21 @@
   <h2>{{ _("Numérisation et reconnaissance d'entités nommées") }}</h2>
 
   <p>{{ _("L'outil Tesseract permet de numériser des fichiers imprimés") }}. {{ _("L'outil spaCy permet de faire la reconnaissance d'entités nommées") }}.</p>
-  <p>Cet outil ne vise qu'à fournir les entités nommées d'un document directement transcrit sans correction intermédiaire. Le contenu même du texte ne sera pas fourni dans le fichier de sortie, mais seulement les entités nommées. Si plusieurs images ou PDFs sont envoyés, cela sera interprêté comme un tout.</p>
-    <p style="margin-top: 0.5em;">La sortie spaCy sera au format TXT et apparaitra ainsi : <strong>T9 LOC 179 188 Colombine</strong>
-        <ul class="item-list" style="margin-left: 3em;">
-    <li>T9 est l’identifiant interne de l’entité (la 9ᵉ entité trouvée dans le document).</li>
-    <li>LOC — le label attribué par spaCy</li>
-    <li>179 188 — les offsets de caractères dans le texte :
-        <ul class="item-list" style="margin-left: 3em;">
-        <li>179 = position de début</li>
-        <li>188 = position de fin</li></ul></li>
-    <li>Colombine — la chaîne de texte reconnue comme entité.</li></ul></p>
-    <p style="margin-top: 0.5em;">Les <strong>classes d'étiquettes du NER</strong> sont les suivantes : <ul class="item-list" style="margin-left: 3em;">
-        <li>PER/PERSON — personne</li> 
-        <li>LOC — lieu</li> 
-        <li>ORG/GPE — organisation/entités géopolitiques (pays, villes)</li> 
-        <li>MISC — divers (événements, œuvres, gentilés, etc.)</li> 
-        <li>NORP — nationalités, groupes religieux/politiques</li> 
+  <p>{{ _("Cet outil ne vise qu'à fournir les entités nommées d'un document directement transcrit sans correction intermédiaire. Le contenu même du texte ne sera pas fourni dans le fichier de sortie, mais seulement les entités nommées. Si plusieurs images ou PDFs sont envoyés, cela sera interprété comme un tout.") }}</p>
+    <p style="margin-top: 0.5em;">{{ _("La sortie spaCy/Flair sera au format TXT et apparaitra ainsi :") }} <strong>T20  MISC 2091 2099  Waterloo</strong>
+  <ul class="item-list" style="margin-left: 3em;">
+  <li>{{ _("T20 est l’identifiant interne de l’entité (la 20ᵉ entité trouvée dans le document).") }}</li>
+  <li>{{ _("MISC — le label attribué par spaCy") }}</li>
+  <li>{{ _("2091 2099 — les offsets de caractères dans le texte :") }}<ul class="item-list" style="margin-left: 3em;">
+    <li>{{ _("2091 = position de début") }}</li>
+    <li>{{ _("2099 = position de fin") }}</li></ul></li>
+  <li>{{ _("Waterloo — la chaîne de texte reconnue comme entité.") }}</li></ul></p>
+    <p style="margin-top: 0.5em;">{{ _("Les <strong>classes d'étiquettes du NER</strong> sont les suivantes :") }} <ul class="item-list" style="margin-left: 3em;">
+        <li>PER/PERSON — {{ _("personne") }}</li> 
+        <li>LOC — {{ _("lieu") }}</li> 
+        <li>ORG/GPE — {{ _("organisation/entités géopolitiques (pays, villes)") }}</li> 
+        <li>MISC — {{ _("divers (événements, œuvres, gentilés, etc.)") }}</li> 
+        <li>NORP — {{ _("nationalités, groupes religieux/politiques") }}</li> 
         <li>etc.</li></ul></p>
   <br>
   <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_recognition') }}"  target="_blank">{{ _('Voir la documentation') }}</a> (ATR)</p>

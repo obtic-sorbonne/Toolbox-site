@@ -1295,9 +1295,10 @@ msgstr "Tesseract tool allows you to digitize printed files"
 msgid "L'outil spaCy permet de faire la reconnaissance d'entités nommées"
 msgstr "SpaCy tool allows you to do named entities recognition"
 
+msgid "Cet outil ne vise qu'à fournir les entités nommées d'un document directement transcrit sans correction intermédiaire. Le contenu même du texte ne sera pas fourni dans le fichier de sortie, mais seulement les entités nommées. Si plusieurs images ou PDFs sont envoyés, cela sera interprété comme un tout."
+msgstr "This tool is designed solely to provide the named entities of a directly transcribed document without any intermediate corrections. The text content itself will not be included in the output file, only the named entities. If multiple images or PDFs are submitted, they will be interpreted as a single file."
 
 # tools/partofspeech_tagging.html
-
 msgid "Étiquetage morphosyntaxique"
 msgstr "Part-of-speech tagging"
 
@@ -1307,8 +1308,17 @@ msgstr "This section allows to annotate the grammatical category of each word in
 msgid "l'outil POS tagging de spaCy"
 msgstr "the POS tagging tool from spaCy"
 
-msgid "Le document renvoyé précise le token récupéré et son étiquette morphosyntaxique"
-msgstr "The returned document specifies the retrieved token and its part-of-speech tag"
+msgid "Le document renvoyé précise le token récupéré et son étiquette morphosyntaxique, tel quel :"
+msgstr "The returned document specifies the retrieved token and its morphosyntactic label, exactly as follows:"
+
+msgid "Le document fournit également, à la fin, le compte total de chacune des étiquettes présentes dans le texte."
+msgstr "The document also provides, at the end, the total count of each of the labels present in the text."
+
+msgid "Les <strong>classes d'étiquettes du POS</strong> sont les suivantes :"
+msgstr "The <strong>POS label classes</strong> are as follows:"
+
+msgid "Pour plus de détails sur les liens de POS dans votre texte, vous pouvez accéder à l'outil 'Analyse linguistique - Analyse des dépendances'"
+msgstr "For more details on POS links in your text, you can access the 'Linguistic Analysis - Dependency Analysis' tool."
 
 msgid "Adjectif"
 msgstr "Adjective"
@@ -1359,6 +1369,30 @@ msgstr "Regular expressions"
 msgid "Extraire"
 msgstr "Extract"
 
+msgid "Cet outil permet d'extraire des bouts de texte qui figurent entre guillemets dans les documents fournis, et qui représentent donc les mots de quelqu'un d'autre."
+msgstr "This tool allows you to extract pieces of text found between quotation marks in the provided documents, and which therefore represent someone else's words."
+
+msgid "Plusieurs types de guillemets sont pris en compte :"
+msgstr "Several types of quotation marks are taken into account:"
+
+msgid "Guillemets doubles et simples"
+msgstr "Double and single quotation marks"
+
+msgid "Guillemets inversés (backticks)"
+msgstr "Backticks"
+
+msgid "Guillemets français, inversés ou non"
+msgstr "French quotation marks, inverted or not"
+
+msgid "Guillemets allemands"
+msgstr "German quotation marks"
+
+msgid "Guillemets anglais"
+msgstr "English quotation marks"
+
+msgid "Guillemets japonais"
+msgstr "Japanese quotation marks"
+
 # tools/renard.html
 msgid "fichier GEXF"
 msgstr "GEXF file"
@@ -1389,6 +1423,24 @@ msgstr "for"
 
 msgid "permet d'extraire les entités de personnes d'un texte littéraire et visualiser les réseaux de personnages sous forme de graphes"
 msgstr "allows you to extract person entities from a literary text and visualize character networks in the form of graphs"
+
+msgid "Il est possible de choisir la langue du texte. Trois options seulement sont disponibles actuellement : français, anglais et espagnol."
+msgstr "It is possible to choose the language of the text. Only three options are currently available: French, English and Spanish."
+
+msgid "Il est important de bien choisir le nombre minimal de mentions du personnages, en fonction de la taille du document :"
+msgstr "It is important to correctly choose the minimum number of mentions of the characters, depending on the size of the document:"
+
+msgid "Le minimum est 1, et le maximum est 100."
+msgstr "The minimum is 1, and the maximum is 100."
+
+msgid "Si votre document est assez court, privilégier un nombre entre 1 et 5."
+msgstr "If your document is quite short, prefer a number between 1 and 5."
+
+msgid "Si votre document est de taille moyenne, choisissez entre 10 et 30."
+msgstr "If your document is of medium size, choose between 10 and 30."
+
+msgid "Si votre document est plus long, augmentez le nombre (Vous pouvez tester plusieurs nombres pour obtenir un graphe qui vous semble plus clair)."
+msgstr "If your document is longer, increase the number (You can test several values to obtain a graph that seems clearer to you)."
 
 # tools/semantic_categories.html
 msgid "Catégories sémantiques"
@@ -1486,6 +1538,27 @@ msgstr "Context window"
 msgid "Mot cible"
 msgstr "Target word"
 
+msgid "Mesure calculant le nombre moyen de mots par phrase dans un texte donné, donnant un aperçu de la complexité et de la lisibilité du texte."
+msgstr "Metric calculating the average number of words per sentence in a given text, providing an overview of the text's complexity and readability."
+
+msgid "Le fichier de sortie sera un graphique avec en axe vertical le nombre de mots et en axe horizontal le numéro des phrases, et une ligne en pointillé rouge indiquant le nombre moyen de mots par phrase."
+msgstr "The output file will be a graph with the number of words on the vertical axis and sentence number on the horizontal axis, with a red dotted line indicating the average number of words per sentence."
+
+msgid "Calcul des fréquences absolue (nombre brut d’occurrences d’un mot dans un corpus) et relative (fréquence absolue rapportée à la taille totale du corpus) de chaque mot d'un texte. Pour cette tâche, il est possible de choisir de supprimer les mots-vides, ce qui changera la fréquence relative et le nombre total de mots, mais pourra permettre un nuage de mots plus représentatif."
+msgstr "Calculation of absolute frequency (raw number of occurrences of a word in a corpus) and relative frequency (absolute frequency relative to the total corpus size) of each word in a text. For this task, it is possible to remove stopwords, which will change the relative frequency and total word count, but may allow for a more representative word cloud."
+
+msgid "Le fichier de sortie est double, avec un fichier texte comprenant les fréquences absolues, les fréquences relatives et le nombre total de mots, et un fichier image visualisant la fréquence relative par le biais d'un nuage de mots."
+msgstr "The output consists of two files: a text file containing absolute frequencies, relative frequencies, and total word count, and an image file visualizing relative frequency through a word cloud."
+
+msgid "Fréquence à laquelle deux éléments apparaissent ensemble dans un contexte. Pour exécuter cette tâche, il est important de donner un mot cible, soit l'élément du texte dont on veut évaluer les relations, et une fenêtre de contexte (de 1 à ∞), soit la distance entre le mot cible et ceux dont on veut les relations."
+msgstr "Frequency at which two elements appear together in a context. To run this task, it is important to provide a target word (the element whose relations you want to evaluate) and a context window (from 1 to ∞), i.e., the distance between the target word and the words whose relations are being analyzed."
+
+msgid "Le fichier de sortie sera au format texte et se présentera ainsi <i>Co-occurrence of 'mot cible' & 'mot trouvé' --> Nombre d'occurrences</i>"
+msgstr "The output file will be in text format and will appear as follows: <i>Co-occurrence of 'target word' & 'found word' --> Number of occurrences</i>"
+
+msgid "sans mots-vides"
+msgstr "without stopwords"
+
 # tools/summarizer.html
 msgid "permet de résumer automatiquement des documents en anglais aux formats texte brut ou XML"
 msgstr "allows you to automatically summarize English documents in plain text or XML formats"
@@ -1536,30 +1609,60 @@ msgstr "Score + visualization"
 msgid "Visualisation circulaire"
 msgstr "Circular visualization"
 
+msgid "Cela est donné avec un système d'étoiles (1–2 = négatif ; 3 = neutre ; 4–5 = positif)"
+msgstr "This is given with a star system (1–2 = negative; 3 = neutral; 4–5 = positive)"
+
+msgid "Le calcul se fait sur une échelle de 1 à 100 (90–100 = très facile (niveau enfant) ; 60–70 : facile ; 30–50 : difficile ; 0–30 : très difficile)"
+msgstr "The calculation is done on a scale of 1 to 100 (90–100 = very easy (child level); 60–70: easy; 30–50: difficult; 0–30: very difficult)"
+
 # tools/text_cleaning.html
 msgid "Nettoyage de texte"
 msgstr "Text cleaning"
 
-msgid "Cette page permet de nettoyer, d'une manière ou d'une autre, un ou plusieurs documents soumis"
-msgstr "This page allows cleaning one or more submitted documents in various ways"
+msgid "Cette page permet de nettoyer un ou plusieurs documents soumis."
+msgstr "This page allows you to clean one or more submitted documents."
 
 msgid "Minuscules"
 msgstr "Lowercase"
 
-msgid "Mise en minuscule de tous les caractères dans un texte"
-msgstr "Converting all characters in a text to lowercase"
+msgid "Mettre tout le texte en minuscules"
+msgstr "Convert all text to lowercase"
 
-msgid "Suppression de la ponctuation dans un texte"
-msgstr "Removing punctuation from a text"
+msgid "Ponctuation"
+msgstr "Punctuation"
+
+msgid "Supprimer toute la ponctuation"
+msgstr "Remove all punctuation"
 
 msgid "Mots-vides"
 msgstr "Stopwords"
 
-msgid "Suppression des mots-vides ou <em>stopwords</em>"
-msgstr "Removal of <em>stopwords</em>"
+msgid "Supprimer les mots très courants (stopwords), ex: déterminants, conjonctions, auxiliaires)"
+msgstr "Remove very common words (stopwords), e.g. determiners, conjunctions, auxiliary verbs"
 
-msgid "soit des mots très courants, tels que déterminants, auxiliaires, conjonction"
-msgstr "very common words, such as determiners, auxiliaries, conjunctions, etc."
+msgid "Lignes vides/excessives"
+msgstr "Empty/excessive lines"
+
+msgid "Enlever les lignes vides ou ne contenant que des caractères spéciaux"
+msgstr "Remove empty lines or lines containing only special characters"
+
+msgid "Retours OCR (-)"
+msgstr "OCR line breaks (-)"
+
+msgid "Joindre les mots coupés par un retour de ligne avec un tiret et supprimer les autres retours"
+msgstr "Join words split by line breaks with a hyphen and remove other line breaks"
+
+msgid "Sortie correction d'OCR"
+msgstr "OCR correction output"
+
+msgid "Enlever les **...** mis dans la sortie de la correction d'erreurs pour signaler que le mot avait été corrigé (Si vous cochez la case 'Ponctuation', il n'est pas nécessaire de sélectionner celle-ci, les signes étant déjà enlevé avec cette option)."
+msgstr "Remove the **...** markers in the error correction output used to indicate that a word was corrected (If you select the 'Punctuation' option, it is not necessary to select this one, as those markers are already removed by that option)."
+
+msgid "Le document de sortie contiendra dans son nom de fichier les tâches qui auront été effectuées ('lowercases', 'punctuation', 'stopwords', 'remove_excessive_lines', 'fix_ocr_linebreaks', 'clean_double_stars')."
+msgstr "The output document filename will include the tasks that were applied ('lowercases', 'punctuation', 'stopwords', 'remove_excessive_lines', 'fix_ocr_linebreaks', 'clean_double_stars')."
+
+msgid "Choisir le(s) type(s) de modification"
+msgstr "Choose the type(s) of modification"
 
 # tools/text_normalisation.html
 msgid "Normalisation de texte"
@@ -1579,6 +1682,21 @@ msgstr "Lemmatization"
 
 msgid "Récupération de chaque élément du texte sous sa forme lemmatisé, c'est-à-dire sa forme canonique"
 msgstr "Retrieving each element of the text in its lemmatized form, that is, its canonical form"
+
+msgid "Il est possible d'obtenir cette normalisation avec la casse d'origine, ou avec la casse entièrement en minuscules."
+msgstr "It is possible to achieve this normalization with the original case, or with the case entirely in lowercase."
+
+msgid "Le document de sortie contiendra dans son nom de fichier les tâches qui auront été effectuées ('tokens', 'lemmas', 'lowercases')."
+msgstr "The output document will contain in its file name the tasks that have been performed ('tokens', 'lemmas', 'lowercases')."
+
+msgid "Choisir le(s) type(s) d'analyse"
+msgstr "Choose the type(s) of analysis"
+
+msgid "casse d'origine"
+msgstr "text as is"
+
+msgid "minuscules"
+msgstr "lowercases"
 
 # tools/text_recognition.html
 msgid "L'outil Tesseract"
@@ -1618,6 +1736,12 @@ msgstr "Sentences"
 msgid "Lignes"
 msgstr "Lines"
 
+msgid "Cette page permet de diviser le(s) texte(s) contenu(s) dans les documents fournis, en phrases ou en lignes (ou les deux)."
+msgstr "This page allows you to divide the text(s) contained in the provided documents into sentences or lines (or both)."
+
+msgid "Le fichier de sortie présentera le texte, selon ce qui a été coché, avec un S (phrase) ou L (ligne) suivi d'un numéro, correspondant à sa place dans le texte, deux points et enfin, la phrase ou ligne correspondante."
+msgstr "The output file will present the text, according to what has been checked, with an S (sentence) or L (line) followed by a number, corresponding to its place in the text, two dots and finally, the corresponding sentence or line."
+
 # tools/topic_modelling.html
 msgid "Méthodes de calcul des thématiques :"
 msgstr "Method of topic modelling:"
@@ -1625,6 +1749,23 @@ msgstr "Method of topic modelling:"
 msgid "Le traitement peut être très long."
 msgstr "Processing can be time-consuming"
 
+msgid "Cet outil permet d'identifier, dans un corpus, des groupes de termes représentatifs de ses thèmes, reposant sur la notion de champs sémantiques (ensembles de mots liés par un domaine ou une thématique). Afin que l'analyse puisse se faire efficacement, le texte ne doit pas être trop court."
+msgstr "This tool identifies groups of terms representative of the themes in a corpus, based on the notion of semantic fields (sets of words linked by a domain or topic). For the analysis to be effective, the text must not be too short."
+
+msgid "Deux méthodes d'extraction sont disponibles :"
+msgstr "Two extraction methods are available:"
+
+msgid "<strong>Factorisation par matrices non négatives (NMF)</strong>, qui identifie les thématiques en analysant la fréquence et la répartition des termes dans chaque document."
+msgstr "<strong>Non-negative Matrix Factorization (NMF)</strong>, which identifies topics by analyzing the frequency and distribution of terms in each document."
+
+msgid "<strong>Allocation de Dirichlet latente (LDA)</strong>, qui utilise des hypothèses statistiques pour identifier les probabilités qu'un document contienne plusieurs thématiques, basées sur la répartition des mots."
+msgstr "<strong>Latent Dirichlet Allocation (LDA)</strong>, which uses statistical assumptions to identify the probabilities that a document contains multiple topics, based on word distributions."
+
+msgid "Il est possible d'affiner la sortie, en pratiquant la lemmatisation du corpus avant de commencer la modélisation thématique."
+msgstr "The output can be refined by applying lemmatization to the corpus before starting topic modeling."
+
+msgid "Le résultat se fera sous forme de tableau sur la page même, qui peut s'exporter par la suite au format CSV."
+msgstr "The result will be displayed as a table on the page itself, which can then be exported as a CSV file."
 
 # tutorial/tutorial_annotation.html
 msgid "Tutoriel : Reconnaissance des Entités Nommées"
