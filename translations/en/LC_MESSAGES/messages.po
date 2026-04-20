@@ -205,8 +205,8 @@ msgstr "Named entities"
 msgid "Extraction automatique de mots-clés"
 msgstr "Automatic keyword extraction"
 
-msgid "Analyses linguistiques, lexicales, statistiques, analyses de texte, comparaisons, embeddings"
-msgstr "Linguistic, lexical, statistical analyses, text analyses, comparisons, embeddings"
+msgid "Analyses linguistiques, statistiques, analyses de texte, comparaisons"
+msgstr "Linguistic, statistical analyses, text analyses, comparisons"
 
 msgid "Exploration de corpus"
 msgstr "Corpus exploration"
