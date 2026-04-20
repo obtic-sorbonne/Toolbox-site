@@ -102,6 +102,9 @@ msgstr "Oops, there's a problem"
 msgid "Lien"
 msgstr "Link"
 
+msgid "Site Web"
+msgstr "Website"
+
 msgid "Tâche"
 msgstr "Task"
 
