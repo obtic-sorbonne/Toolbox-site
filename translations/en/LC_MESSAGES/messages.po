@@ -533,9 +533,33 @@ msgstr "Addition limit: 2 files max"
 msgid "Lancer la comparaison"
 msgstr "Launch comparison"
 
+msgid "Cet outil permet d'observer les différences qui existent entre deux textes donnés. Le fichier de sortie est un HTML (à ouvrir dans son navigateur pour le visualiser)"
+msgstr "This tool allows you to observe the differences between two given texts. The output file is an HTML file (to be opened in a web browser for viewing)"
+
+msgid "Il contient tout d'abord quatre métriques "
+msgstr "It first contains four metrics"
+
+msgid "<strong>Levenshtein Distance</strong> : Nombre minimum d’opérations d’édition nécessaires pour transformer un texte en un autre (Plus le nombre est grand, plus les textes sont différents au niveau caractère par caractère)"
+msgstr "<strong>Levenshtein Distance</strong>: Minimum number of edit operations required to transform one text into another (The higher the number, the more different the texts are at the character level)"
+
+msgid "<strong>Jaccard Index</strong> :  Similarité entre ensembles de tokens (mots), pas entre caractères (Plus le nombre est haut, plus la similarité lexicale est forte)"
+msgstr "<strong>Jaccard Index</strong>: Similarity between sets of tokens (words), not characters (The higher the number, the stronger the lexical similarity)"
+
+msgid "<strong>LCS Distance</strong> : La longueur totale de texte moins la longueur de la plus longue sous‑séquence commune (Le nombre correspond à ce qu'il manque pour que les textes soient identiques)"
+msgstr "<strong>LCS Distance</strong>: Total text length minus the length of the longest common subsequence (The number represents what is missing for the texts to be identical)"
+
+msgid "<strong>Ratcliff-Obershelp Similarity</strong> : Proportion de sous‑séquences correspondantes entre les deux textes (Plus le nombre est haut, plus la similarité globale est forte)"
+msgstr "<strong>Ratcliff-Obershelp Similarity</strong>: Proportion of matching subsequences between the two texts (The higher the number, the stronger the overall similarity)"
+
+msgid "La visualisation présente ensuite les deux textes côte à côte, avec des éléments surlignés en couleur pour signifier les changements : le jaune pour les substitutions, le rouge pour les suppressions et le vert pour les insertions"
+msgstr "The visualization then displays the two texts side by side, with elements highlighted in color to indicate changes: yellow for substitutions, red for deletions, and green for insertions"
+
 # tools/conversion_xml.html
 msgid "Convertir en XML-TEI"
 msgstr "Convert to XML-TEI"
+
+msgid "Le titre du document, ses informations de publication, sa description bibliographique, ainsi que l'information sur la révision effectuée, son auteur et sa date sont obligatoires pour exécuter l'encodage."
+msgstr " The document title, its publication information, its bibliographic description, as well as information on the revision carried out, its author and its date are mandatory to perform the encoding."
 
 msgid "Indéfini"
 msgstr "Undefined"
@@ -696,6 +720,24 @@ msgstr "Book"
 msgid "Tous les champs accompagnés d'un * doivent obligatoirement être remplies"
 msgstr "All fields accompanied by a * must be filled in"
 
+msgid "Encodage du texte par paragraphe principalement, avec des &lt;p&gt;"
+msgstr "Text encoding mainly by paragraph, using &lt;p&gt; elements"
+
+msgid "Encodage du texte selon les chapitres, avec des &lt;div&gt; et les séparations de pages avec des &lt;pb&gt;."
+msgstr "Text encoding by chapters, using &lt;div&gt; elements and page breaks with &lt;pb&gt; elements."
+
+msgid "Encodage du texte en prenant en compte les éléments tels que des date, salutations, signature, etc, avec notamment un &lt;opener&gt; et &lt;closer&gt;"
+msgstr "Text encoding taking into account elements such as dates, greetings, signatures, etc., using &lt;opener&gt; and &lt;closer&gt; elements."
+
+msgid "Encodage du texte selon les séparations d'actes et de scènes et prendra comme un bloc les &lt;speaker&gt; et leur dialogue"
+msgstr "Text encoding based on act and scene divisions, grouping speakers (&lt;speaker&gt;) and their dialogue"
+
+msgid "Encodage du texte avec des balises &lt;l&gt; et &lt;lg&gt;, qui signalent les vers et les couplets"
+msgstr "Text encoding using &lt;l&gt; and &lt;lg&gt; tags, marking verses and stanzas"
+
+msgid "Encodage du texte en section, avec des &lt;div&gt;, selon les numérotations par lettres, chiffres ou alphabets romans"
+msgstr "Text encoding in sections using &lt;div&gt;, based on letter, number, or Roman numeral structuring"
+
 # tools/error_correction.html
 msgid "Cet outil permet de faire de la correction orthographique, mais aussi d'aider dans les erreurs de conjugaison, grammaticales, etc"
 msgstr "This tool allows you to correct spelling, but also helps with conjugation errors, grammatical errors, etc"
@@ -711,6 +753,15 @@ msgstr "on noisy corpora"
 
 msgid "Corriger"
 msgstr "Correct"
+
+msgid "Deux types de sortie sont possibles pour l'outil de correction d'erreurs :"
+msgstr "Two types of output are available for the error correction tool:"
+
+msgid "<strong>Case non cochée</strong> : les corrections effectuées par l'outil apparaitront ainsi **correction**, afin de pouvoir observer comment les éléments ont été changés. Il vous sera donc possible de vérifier la correction, manuellement ou en utilisant, par exemple, notre outil 'Comparaison' et de changer si nécessaire. Par la suite, vous pourrez enlever ces marques dans l'outil 'Nettoyage de texte'."
+msgstr "<strong>Unchecked box</strong>: the corrections made by the tool will appear as **correction**, allowing you to observe how elements have been modified. You will be able to review the corrections manually or by using, for example, our 'Comparison' tool and adjust them if necessary. Afterwards, you can remove these markers using the 'Text Cleaning' tool."
+
+msgid "<strong>Case cochée</strong> : les corrections effectuées ne seront pas visibles dans la version de sortie, ce qui permet une utilisation directe du fichier ensuite, avec cependant une correction non vérifiée."
+msgstr "<strong>Checked box</strong>: the corrections made will not be visible in the output version, allowing direct use of the file, although the corrections will not have been verified."
 
 # tools/extraction_gallica.html
 msgid "Les documents consultables dans Gallica sont identifiés selon un système normalisé, ARK (pour"
@@ -757,6 +808,12 @@ msgstr "by indicating the number of the desired first page and the number of pag
 
 msgid "Exemple"
 msgstr "Example"
+
+msgid "Acte III de Roméo et Juliette"
+msgstr "Act III of Romeo and Juliet"
+
+msgid "Une du Temps du 12 novembre 1918"
+msgstr "Front page of Le Temps, November 12, 1918"
 
 msgid "Pour télécharger l'œuvre intégrale, il suffit d'indiquer uniquement l'ARK"
 msgstr "To download the complete work, just indicate the ARK"
@@ -809,6 +866,27 @@ msgstr "Project Gutenberg Query in Progress"
 
 msgid "Extraction de livres sur Project Gutenberg"
 msgstr "Extracting books from Project Gutenberg"
+
+msgid "Métamorphoses d'Ovide - Anglais"
+msgstr "Ovid's Metamorphoses - English"
+
+msgid "Le tour du monde en quatre-vingts jours - Français"
+msgstr "Around the World in Eighty Days - French"
+
+msgid "Le tour du monde en quatre-vingts jours - Anglais"
+msgstr "Around the World in Eighty Days - English"
+
+msgid "Les trois mousquetaires - Français"
+msgstr "The Three Musketeers - French"
+
+msgid "Les trois mousquetaires - Anglais"
+msgstr "The Three Musketeers - English"
+
+msgid "Orgueil et Préjugés - Anglais"
+msgstr "Pride and Prejudice - English"
+
+msgid "Roméo et Juliette - Anglais"
+msgstr "Romeo and Juliet - English"
 
 # tools/extraction_urls.html
 msgid "Récupération d'URLs"
@@ -874,6 +952,21 @@ msgstr "Add URL"
 
 msgid "Collecter corpus"
 msgstr "Collect corpus"
+
+msgid "Roméo et Juliette, traduction de François-Victor Hugo"
+msgstr "Romeo and Juliet, translated by François-Victor Hugo"
+
+msgid "Chapitre 2 de Le tour du monde en quatre-vingts jours"
+msgstr "Chapter 2 of Around the World in Eighty Days"
+
+msgid "Chapitre 5 de Les trois mousquetaires"
+msgstr "Chapter 5 of The Three Musketeers"
+
+msgid "Chapitre 2 du T3 de Orgueil et Préjugés Traduction Paschoud"
+msgstr "Chapter 2 of Volume 3 of Pride and Prejudice (Paschoud translation)"
+
+msgid "Livre Quatrième des Métamorphoses d'Ovide"
+msgstr "Book Four of Ovid's Metamorphoses"
 
 # tools/handwritten_text_recognition.html
 msgid "L'outil Kraken"
@@ -946,6 +1039,24 @@ msgstr "MSS filtering"
 msgid "Télécharger"
 msgstr "Download"
 
+msgid "Cet outil permet d'identifier les termes les plus représentatifs du contenu d'un document ou d'un corpus. Il repose sur KeyBert, qui exploite des modèles basés sur les transformateurs pour encoder le texte et identifier les mots-clés pertinents." 
+msgstr "This tool makes it possible to identify the most representative terms in a document or corpus. It relies on KeyBERT, which uses transformer-based models to encode the text and identify relevant keywords."
+
+msgid "Les mots seront donnés avec un score de similarité entre parenthèses, de 0 (aucune similarité) à 1 (similarité parfaite, quasi impossible en pratique), et où, plus le chiffre est élevé, plus le mot‑clé est considéré comme représentatif du texte."
+msgstr "The words are provided with a similarity score in parentheses, from 0 (no similarity) to 1 (perfect similarity, nearly impossible in practice); the higher the value, the more representative the keyword is considered of the text."
+
+msgid "Afin de diversifier les résultats, deux affinages sont possibles :"
+msgstr "To diversify the results, two refinement options are available:"
+
+msgid "<strong>MMR ou Maximal Marginal Relevance</strong>, qui filtre les mots-clés selon leur diversité. Il sera possible aussi de changer le taux de diversité, élevé = moins de redondances entre les mots-clés ; faible = ciblage des nuances autour des thèmes principaux."
+msgstr "<strong>MMR or Maximal Marginal Relevance</strong>, which filters keywords based on their diversity. It is also possible to adjust the diversity rate: higher = less redundancy between keywords; lower = more focus on nuances around the main themes."
+
+msgid "<strong>MSS ou Maximal Sum Similarity</strong>, qui sélectionne les mots-clés avec la plus faible similarité entre eux, pour éviter les répétitions directes."
+msgstr "<strong>MSS or Maximal Sum Similarity</strong>, which selects keywords with the lowest similarity between them in order to avoid direct repetitions."
+
+msgid "Le résultat se fera sous forme de tableau sur la page même, qui peut s'exporter par la suite au format CSV."
+msgstr "The result will be displayed as a table on the page itself, which can then be exported as a CSV file."
+
 # tools/linguistic_analysis.html
 msgid "Analyse linguistique"
 msgstr "Linguistic analysis"
@@ -986,9 +1097,90 @@ msgstr "Number of n-grams to display"
 msgid "Analyse des dépendances"
 msgstr "Dependency Analysis"
 
+msgid "Le document de sortie contiendra, dans son nom de fichier, les tâches qui auront été effectuées (\"lang\", \"hapax\", \"ngrams\", \"dependency\")."
+msgstr "The output document will include, in its filename, the tasks that have been performed (\"lang\", \"hapax\", \"ngrams\", \"dependency\")."
+
+msgid "Dans le cas de la sélection d''Analyse de dépendances', la sortie contiendra également un fichier SVG (à ouvrir avec votre navigateur), qui permet de visualiser les dépendances qui seront présentes dans le fichier TXT."
+msgstr "If 'Dependency Analysis' is selected, the output will also include an SVG file (to be opened in your browser), allowing you to visualize the dependencies present in the TXT file."
+
 # tools/named_entities_recognition.html
-msgid "Cet outil permet d'identifier les entités nommées d'un corpus en utilisant au choix trois modèles : Spacy, Flair, ou un modèle Bert"
-msgstr "This tool extracts named entities from a corpus by using a choice of three models: Spacy, Flair or a Bert-based model"
+msgid "Cet outil permet d'identifier les entités nommées d'un corpus en utilisant au choix trois moteurs : Spacy, Flair, ou Bert. Les modèles de langue disponibles diffèrent en fonction du moteur choisi. Le corpus peut être au format texte ou au format XML-TEI, et la sortie obtenue différera selon l'un ou l'autre."
+msgstr "This tool allows you to identify named entities in a corpus using one of three engines: spaCy, Flair, or BERT. The available language models vary depending on the selected engine. The corpus can be in plain text or XML-TEI format, and the output will differ accordingly."
+
+msgid "Dans le cas d'une annotation NER sur du texte brut, la sortie varie selon que l'on utilise spaCy/Flair ou Bert."
+msgstr "In the case of NER annotation on raw text, the output varies depending on whether spaCy/Flair or BERT is used."
+
+msgid "La sortie spaCy/Flair sera au format TXT et apparaitra ainsi :"
+msgstr "The spaCy/Flair output will be in TXT format and will appear as follows:"
+
+msgid "T20  MISC 2091 2099  Waterloo"
+msgstr "T20  MISC 2091 2099  Waterloo"
+
+msgid "T20 est l’identifiant interne de l’entité (la 20ᵉ entité trouvée dans le document)."
+msgstr "T20 is the internal identifier of the entity (the 20th entity found in the document)."
+
+msgid "MISC — le label attribué par spaCy"
+msgstr "MISC — the label assigned by spaCy"
+
+msgid "2091 2099 — les offsets de caractères dans le texte :"
+msgstr "2091 2099 — the character offsets in the text:"
+
+msgid "2091 = position de début"
+msgstr "2091 = start position"
+
+msgid "2099 = position de fin"
+msgstr "2099 = end position"
+
+msgid "Waterloo — la chaîne de texte reconnue comme entité."
+msgstr "Waterloo — the text string recognized as an entity."
+
+msgid "La sortie Bert sera au format CSV et apparaitra ainsi :"
+msgstr "The BERT output will be in CSV format and will appear as follows:"
+
+msgid "Waterloo,MISC,42,51,0.9497329"
+msgstr "Waterloo,MISC,42,51,0.9497329"
+
+msgid "Waterloo — la chaîne de texte détectée comme entité."
+msgstr "Waterloo — the text string detected as an entity."
+
+msgid "MISC — le label attribué par le modèle BERT NER."
+msgstr "MISC — the label assigned by the BERT NER model."
+
+msgid "42, 51 — les offsets de caractères dans le texte :"
+msgstr "42, 51 — the character offsets in the text:"
+
+msgid "42 = position de début"
+msgstr "42 = start position"
+
+msgid "51 = position de fin"
+msgstr "51 = end position"
+
+msgid "0.9497329 — la probabilité / confiance du modèle pour cette prédiction"
+msgstr "0.9497329 — the model’s confidence score for this prediction"
+
+msgid "Les <strong>classes d'étiquettes du NER</strong> sont les suivantes :"
+msgstr "The <strong>NER label classes</strong> are as follows:"
+
+msgid "personne"
+msgstr "person"
+
+msgid "lieu"
+msgstr "location"
+
+msgid "organisation/entités géopolitiques (pays, villes)"
+msgstr "organization / geopolitical entities (countries, cities)"
+
+msgid "divers (événements, œuvres, gentilés, etc.)"
+msgstr "miscellaneous (events, works, demonyms, etc.)"
+
+msgid "nationalités, groupes religieux/politiques"
+msgstr "nationalities, religious or political groups"
+
+msgid "etc."
+msgstr "etc."
+
+msgid "Dans le cas d'une annotation NER sur un fichier XML-TEI, les entités reconnues seront encodés avec les balises <strong>&lt;persName&gt;</strong> pour PER, <strong>&lt;placeName&gt;</strong> pour LOC, <strong>&lt;orgName&gt;</strong> pour ORG, et <strong>&lt;name&gt;</strong> pour MISC."
+msgstr "In the case of NER annotation on an XML-TEI file, recognized entities will be encoded using the <strong>&lt;persName&gt;</strong> tag for PER, <strong>&lt;placeName&gt;</strong> for LOC, <strong>&lt;orgName&gt;</strong> for ORG, and <strong>&lt;name&gt;</strong> for MISC."
 
 msgid "Reconnaissance d'entités nommées"
 msgstr "Named entity recognition"
@@ -1026,6 +1218,21 @@ msgstr "Model to use"
 # tools/ocr_map.html
 msgid "Cette chaîne de traitement permet d'extraire les entités nommées de lieu dans un texte (numérisé ou non), puis de récupérer leurs coordonnées géographiques (Geopy) afin de les cartographier"
 msgstr "This pipeline extracts location entities from a text (digitised or not) and retrieves their geographic coordinates with Geopy before mapping them on this page"
+
+msgid "Il est possible d'envoyer deux types de fichiers avec cet outil :"
+msgstr "It is possible to upload two types of files with this tool:"
+
+msgid "<strong>Des images</strong> : une reconnaissance de texte, à partir de Tesseract, sera donc faite dans un premier temps (le texte récupéré à l'issue ne sera cependant pas disponible pour téléchargement), avant de procéder à la reconnaissance d'entités nommées."
+msgstr "<strong>Images</strong>: text recognition using Tesseract will first be performed (the extracted text will not be available for download), before proceeding to named entity recognition."
+
+msgid "<strong>Du texte</strong> : il faudra donc sélectionner l'option 'Pas de reconnaissance de texte' dans la 'Configuration ATR'."
+msgstr "<strong>Text</strong>: you will need to select the 'No text recognition' option in the 'ATR Configuration'."
+
+msgid "Il est possible d'utiliser deux moteurs de NER différent avec cet outil : spaCy et Flair. Chacun contient un certain nombre de modèles de langues dont notamment un modèle multilingue. Il sera possible d'en choisir seulement un des deux, de choisir l'un et l'autre, ou même de choisir le même moteur deux fois mais avec deux modèles différents choisies."
+msgstr "It is possible to use two different NER engines with this tool: spaCy and Flair. Each includes a number of language models, including a multilingual model. You can choose only one of the two, use both, or even select the same engine twice with two different models."
+
+msgid "La sortie sera une visualisation directe sur la carte proposée au bas de la page. Dans le cas où deux modèles auront été sélectionné, la carte pourra offrir de visualiser les lieux en commun entre les deux modèles et les lieux reconnus seulement par l'un ou par l'autre. Il est également possible, en suivant, de télécharger, au format CSV, les informations sur la reconnaissance qui aura été effectuée."
+msgstr "The output will be a direct visualization on the map displayed at the bottom of the page. If two models are selected, the map can show locations shared by both models as well as those recognized by only one or the other. It is also possible to download the recognition results as a CSV file."
 
 msgid "Formats possibles pour les fichiers d'entrée pour le NER seul :"
 msgstr "Possible formats for input files for NER alone:"
@@ -1074,6 +1281,9 @@ msgstr "Map entities"
 
 msgid "Entités de lieu"
 msgstr "Location entities"
+
+msgid "Pas de reconnaissance de texte"
+msgstr "No text recognition"
 
 # tools/ocr_ner.html
 msgid "Numérisation et reconnaissance d'entités nommées"

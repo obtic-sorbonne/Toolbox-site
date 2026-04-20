@@ -8,12 +8,12 @@
 <div class="outil">
     <div class="fil"><a href="{{ url_for('information_extraction')}}"><< {{ _('Retour aux tâches') }}</a></div>
     <h2 style="font-family:'Comprehension', serif;">{{ _('Extraction de mots-clés') }}</h2>
-    <p>Cet outil permet d'identifier les termes les plus représentatifs du contenu d'un document ou d'un corpus. Il repose sur KeyBert, qui exploite des modèles basés sur les transformateurs pour encoder le texte et identifier les mots-clés pertinents. Les mots seront donnés avec un score de similarité entre parenthèses, de 0 (aucune similarité) à 1 (similarité parfaite, quasi impossible en pratique), et où, plus le chiffre est élevé, plus le mot‑clé est considéré comme représentatif du texte.<br>
-    Afin de diversifier les résultats, deux affinages sont possibles :
+    <p>{{ _("Cet outil permet d'identifier les termes les plus représentatifs du contenu d'un document ou d'un corpus. Il repose sur KeyBert, qui exploite des modèles basés sur les transformateurs pour encoder le texte et identifier les mots-clés pertinents.")}} {{ _("Les mots seront donnés avec un score de similarité entre parenthèses, de 0 (aucune similarité) à 1 (similarité parfaite, quasi impossible en pratique), et où, plus le chiffre est élevé, plus le mot‑clé est considéré comme représentatif du texte.")}}<br>
+    {{ _("Afin de diversifier les résultats, deux affinages sont possibles :")}}
     <ul class="item-list" style="margin-left: 3em;">
-        <li><strong>MMR ou Maximal Marginal Relevance</strong>, qui filtre les mots-clés selon leur diversité. Il sera possible aussi de changer le taux de diversité, élevé = moins de redondances entre les mots-clés ; faible = ciblage des nuances autour des thèmes principaux.</li>
-        <li><strong>MSS ou Maximal Sum Similarity</strong>, qui sélectionne les mots-clés avec la plus faible similarité entre eux, pour éviter les répétitions directes.</li></ul></p>
-        <p style="margin-top: 1em;">Le résultat se fera sous forme de tableau sur la page même, qui peut s'exporter par la suite au format CSV.</p>
+        <li>{{ _("<strong>MMR ou Maximal Marginal Relevance</strong>, qui filtre les mots-clés selon leur diversité. Il sera possible aussi de changer le taux de diversité, élevé = moins de redondances entre les mots-clés ; faible = ciblage des nuances autour des thèmes principaux.")}}</li>
+        <li>{{ _("<strong>MSS ou Maximal Sum Similarity</strong>, qui sélectionne les mots-clés avec la plus faible similarité entre eux, pour éviter les répétitions directes.")}}</li></ul></p>
+        <p style="margin-top: 1em;">{{ _("Le résultat se fera sous forme de tableau sur la page même, qui peut s'exporter par la suite au format CSV.")}}</p>
     <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_extraction') }}" target="_blank">{{ _("Voir la documentation") }}</a> / <a href="{{ url_for('tutorial_extraction') }}"  target="_blank">{{ _('Voir le tutoriel') }}</a></p>
     <br><div class="infos_outil" style="display: block;margin: 0 auto 15px auto;">
         <input id="show" type=checkbox><label for="show" class="infos_title"><i class="fa-solid fa-circle-info"></i> {{ _("Informations sur l'outil") }}<i class="fa-solid fa-angle-right" style="float:right;margin-top:5px;margin-left:15px;cursor: pointer;"></i></label>

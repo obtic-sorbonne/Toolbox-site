@@ -14,7 +14,7 @@
         <li><hi style="font-weight: bold;">N-Grams (Option 3)</hi> : {{ _('Détection de séquences contiguës de n éléments (mots, caractères ou symboles)') }} {{ _('dans un texte ou un discours donné') }}</li>
         <li><hi style="font-weight: bold;">{{ _('Analyse des dépendances') }} (Option 4)</hi> : {{ _("Identification des relations entre les mots d'une phrase, en reliant chacun d'eux") }} {{ _('en fonction de sa fonction grammaticale comme sujet, objet, complément ou modificateur') }}</li>
     </ul></p>
-    <p style="margin-top: 0.5em;">Le document de sortie contiendra, dans son nom de fichier, les tâches qui auront été effectué ("lang", "hapax", "ngrams", "dependency"). <br> Dans le cas de la sélection d'"Analyse de dépendances", la sortie contiendra également un fichier SVG (à ouvrir avec votre navigateur), qui permet de visualiser les dépendances qui seront présents dans le fichier TXT.</p></div>
+    <p style="margin-top: 0.5em;">{{ _('Le document de sortie contiendra, dans son nom de fichier, les tâches qui auront été effectuées ("lang", "hapax", "ngrams", "dependency").') }} <br> {{ _("Dans le cas de la sélection d''Analyse de dépendances', la sortie contiendra également un fichier SVG (à ouvrir avec votre navigateur), qui permet de visualiser les dépendances qui seront présentes dans le fichier TXT.") }}</p></div>
     
     <br>
     <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_analyses') }}"  target="_blank">{{ _('Voir la documentation') }}</a></p>

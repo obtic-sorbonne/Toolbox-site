@@ -69,12 +69,12 @@
 
     <h2>Épiméthée (OCR MAP)</h2>
     <p>{{ _("Cette chaîne de traitement permet d'extraire les entités nommées de lieu dans un texte (numérisé ou non), puis de récupérer leurs coordonnées géographiques (Geopy) afin de les cartographier.") }}</p>
-    <p>Il est possible d'envoyer deux types de fichiers avec cet outil :
+    <p>{{ _("Il est possible d'envoyer deux types de fichiers avec cet outil :") }}
     <ul class="item-list" style="margin-left: 3em;">
-    <li><strong>Des images</strong> : une reconnaissance de texte, à partir de Tesseract, sera donc faite dans un premier temps (le texte récupéré à l'issue ne sera cependant pas disponible pour téléchargement), avant de procéder à la reconnaissance d'entitées nommées</li>
-    <li><strong>Du texte</strong> : il faudra donc séléectionner l'option "Pas de reconnaissance de texte" dans la "Configuration ATR"</li></ul></p>
-    <p style="margin-top: 0.5em;">Il est possible d'utiliser deux moteurs de NER différent avec cet outil : spaCy et Flair. Chacun contient un certain nombre de modèles de langues dont notamment un modèle multilingue. Il sera possible d'en choisir seulement un des deux, de choisir l'un et l'autre, ou même de choisir le même moteur deux fois mais avec deux modèles différents choisies. </p>
-    <p style="margin-top: 0.5em;">La sortie sera une visualisation directe sur la carte proposée au bas de la page. Dans le cas où deux modèles auront été sélectionné, la carte pourra offrir de visualiser les lieux en commun entre les deux modèles et les lieux reconnus seulement par l'un ou par l'autre. Il est également possible, en suivant, de télécharger, au format CSV, les informations sur la reconnaissance qui aura été effectuée.</p>
+    <li>{{ _("<strong>Des images</strong> : une reconnaissance de texte, à partir de Tesseract, sera donc faite dans un premier temps (le texte récupéré à l'issue ne sera cependant pas disponible pour téléchargement), avant de procéder à la reconnaissance d'entités nommées.") }}</li>
+    <li>{{ _("<strong>Du texte</strong> : il faudra donc sélectionner l'option 'Pas de reconnaissance de texte' dans la 'Configuration ATR'.") }}</li></ul></p>
+    <p style="margin-top: 0.5em;">{{ _("Il est possible d'utiliser deux moteurs de NER différent avec cet outil : spaCy et Flair. Chacun contient un certain nombre de modèles de langues dont notamment un modèle multilingue. Il sera possible d'en choisir seulement un des deux, de choisir l'un et l'autre, ou même de choisir le même moteur deux fois mais avec deux modèles différents choisies.") }}</p>
+    <p style="margin-top: 0.5em;">{{ _("La sortie sera une visualisation directe sur la carte proposée au bas de la page. Dans le cas où deux modèles auront été sélectionné, la carte pourra offrir de visualiser les lieux en commun entre les deux modèles et les lieux reconnus seulement par l'un ou par l'autre. Il est également possible, en suivant, de télécharger, au format CSV, les informations sur la reconnaissance qui aura été effectuée.") }}</p>
     <br>
 
     <div>
@@ -104,7 +104,7 @@
                         <legend>{{ _("Configuration ATR ") }}: Tesseract</legend>
                         <label for="model">{{ _('Modèle') }}</label>
                         <select class="styled-select" name="tessmodel" id="tessmodel">
-                            <option value="raw_text" selected>Pas de reconnaissance de texte</option>
+                            <option value="raw_text" selected>{{ _('Pas de reconnaissance de texte') }}</option>
                             <option value="fra">{{ _('Français') }} (fra)</option>
                             <option value="eng">{{ _('Anglais') }} (eng)</option>
                             <option value="chi_sim">{{ _('Chinois simplifié') }} (chi_sim)</option>

@@ -129,33 +129,33 @@ form p{
 <div class="outil">
   <div class="fil"><a href="{{ url_for('automatic_annotation')}}"><< {{ _('Retour aux tâches') }}</a></div>
   <h2>{{ _("Reconnaissance d'entités nommées") }}</h2>
-  <p>Cet outil permet d'identifier les entités nommées d'un corpus en utilisant au choix trois moteurs : Spacy, Flair, ou Bert. Les modèles de langue disponibles diffèrent en fonction du moteur choisi. Le corpus peut être au format texte ou au format XML-TEI, et la sortie obtenue différera selon l'un ou l'autre.</p>
-  <p style="margin-top: 0.5em;">Dans le cas d'une annotation NER sur du texte brut, la sortie varie selon que l'on utilise spaCy/Flair ou Bert.<br>
-  La sortie spaCy/Flair sera au format TXT et apparaitra ainsi : <strong>T20  MISC 2091 2099  Waterloo</strong>
+  <p>{{ _("Cet outil permet d'identifier les entités nommées d'un corpus en utilisant au choix trois moteurs : Spacy, Flair, ou Bert. Les modèles de langue disponibles diffèrent en fonction du moteur choisi. Le corpus peut être au format texte ou au format XML-TEI, et la sortie obtenue différera selon l'un ou l'autre.") }}</p>
+  <p style="margin-top: 0.5em;">{{ _("Dans le cas d'une annotation NER sur du texte brut, la sortie varie selon que l'on utilise spaCy/Flair ou Bert.") }}<br>
+  {{ _("La sortie spaCy/Flair sera au format TXT et apparaitra ainsi :") }} <strong>T20  MISC 2091 2099  Waterloo</strong>
   <ul class="item-list" style="margin-left: 3em;">
-  <li>T20 est l’identifiant interne de l’entité (la 20ᵉ entité trouvée dans le document).</li>
-  <li>MISC — le label attribué par spaCy</li>
-  <li>2091 2099 — les offsets de caractères dans le texte :<ul class="item-list" style="margin-left: 3em;">
-    <li>2091 = position de début</li>
-    <li>2099 = position de fin</li></ul></li>
-  <li>Waterloo — la chaîne de texte reconnue comme entité.</li></ul>
+  <li>{{ _("T20 est l’identifiant interne de l’entité (la 20ᵉ entité trouvée dans le document).") }}</li>
+  <li>{{ _("MISC — le label attribué par spaCy") }}</li>
+  <li>{{ _("2091 2099 — les offsets de caractères dans le texte :") }}<ul class="item-list" style="margin-left: 3em;">
+    <li>{{ _("2091 = position de début") }}</li>
+    <li>{{ _("2099 = position de fin") }}</li></ul></li>
+  <li>{{ _("Waterloo — la chaîne de texte reconnue comme entité.") }}</li></ul>
 
-  La sortie Bert sera au format CSV et apparaitra ainsi : <strong>Waterloo,MISC,42,51,0.9497329</strong>
+  {{ _("La sortie Bert sera au format CSV et apparaitra ainsi :") }} <strong>Waterloo,MISC,42,51,0.9497329</strong>
   <ul class="item-list" style="margin-left: 3em;">
-  <li>Waterloo — la chaîne de texte détectée comme entité.</li>
-  <li>MISC — le label attribué par le modèle BERT NER.</li>
-  <li>42, 51 — les offsets de caractères dans le texte :<ul class="item-list" style="margin-left: 3em;">
-    <li>42 = position de début</li>
-    <li>51 = position de fin</li></ul></li>
-  <li>0.9497329 — la probabilité / confiance du modèle pour cette prédiction (≈ 95 %)</li></ul></p>
-  <p style="margin-top: 0.5em;">Les <strong>classes d'étiquettes du NER</strong> sont les suivantes : <ul class="item-list" style="margin-left: 3em;">
-        <li>PER/PERSON — personne</li> 
-        <li>LOC — lieu</li> 
-        <li>ORG/GPE — organisation/entités géopolitiques (pays, villes)</li> 
-        <li>MISC — divers (événements, œuvres, gentilés, etc.)</li> 
-        <li>NORP — nationalités, groupes religieux/politiques</li> 
+  <li>{{ _("Waterloo — la chaîne de texte détectée comme entité.") }}</li>
+  <li>{{ _("MISC — le label attribué par le modèle BERT NER.") }}</li>
+  <li>{{ _("42, 51 — les offsets de caractères dans le texte :") }}<ul class="item-list" style="margin-left: 3em;">
+    <li>{{ _("42 = position de début") }}</li>
+    <li>{{ _("51 = position de fin") }}</li></ul></li>
+  <li>{{ _("0.9497329 — la probabilité / confiance du modèle pour cette prédiction") }} (≈ 95 %)</li></ul></p>
+  <p style="margin-top: 0.5em;">{{ _("Les <strong>classes d'étiquettes du NER</strong> sont les suivantes :") }} <ul class="item-list" style="margin-left: 3em;">
+        <li>PER/PERSON — {{ _("personne") }}</li> 
+        <li>LOC — {{ _("lieu") }}</li> 
+        <li>ORG/GPE — {{ _("organisation/entités géopolitiques (pays, villes)") }}</li> 
+        <li>MISC — {{ _("divers (événements, œuvres, gentilés, etc.)") }}</li> 
+        <li>NORP — {{ _("nationalités, groupes religieux/politiques") }}</li> 
         <li>etc.</li></ul></p>
-  <p style="margin-top: 0.5em;">Dans le cas d'une annotation NER sur un fichier XML-TEI, les entités reconnues seront encodés avec les balises <strong>&lt;persName&gt;</strong> pour PER, <strong>&lt;placeName&gt;</strong> pour LOC, <strong>&lt;orgName&gt;</strong> pour ORG, et <strong>&lt;name&gt;</strong> pour MISC.</p>
+  <p style="margin-top: 0.5em;">{{ _("Dans le cas d'une annotation NER sur un fichier XML-TEI, les entités reconnues seront encodés avec les balises <strong>&lt;persName&gt;</strong> pour PER, <strong>&lt;placeName&gt;</strong> pour LOC, <strong>&lt;orgName&gt;</strong> pour ORG, et <strong>&lt;name&gt;</strong> pour MISC.") }}</p>
 
 <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_annotation') }}" target="_blank">{{ _("Voir la documentation") }}</a> / <a href="{{ url_for('tutorial_annotation') }}"  target="_blank">{{ _('Voir le tutoriel') }}</a></p>
 <br>
