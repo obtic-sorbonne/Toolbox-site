@@ -18,16 +18,6 @@
     <br>
     <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_preprocessing') }}"  target="_blank">{{ _('Voir la documentation') }}</a></p>
     <br>
-    <div class="infos_outil" style="display: block;margin: 0 auto 15px auto;">
-        <input id="show" type=checkbox><label for="show" class="infos_title"><i class="fa-solid fa-circle-info"></i> {{ _("Informations sur l'outil") }}<i class="fa-solid fa-angle-right" style="float:right;margin-top:5px;margin-left:15px;cursor: pointer;"></i></label>
-        <div class="info_popped">
-          <p>Natural Language Toolkit (NLTK) / SpaCy
-      <p>{{ _("Format(s) d'entrée ")}}: <i class="fa-regular fa-file-lines"></i> {{ _('texte brut') }} (.txt)</p>
-      <p>{{ _("Format(s) de sortie ")}}: <i class="fa-regular fa-file-lines"></i> {{ _('texte brut') }} (.txt)</p>
-      <p>{{ _("Encodage")}} : UTF-8</p>
-      </div>
-  </div>
-  <br>
     <form action="{{ url_for('normalize_text') }}" id="linguistic-form" method="post" enctype="multipart/form-data">
     <input type="hidden" name="download_token" id="download_token" value="">
     <div class="relations-input">
