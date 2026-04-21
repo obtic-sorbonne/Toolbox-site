@@ -28,7 +28,6 @@
   </div>
   <br>
         <div class="item">
-            <h3>{{ _("Chargement des fichiers") }}</h3>
             <form action="{{ url_for('keyword_extraction') }}" method="post" enctype="multipart/form-data" class="drag-drop-form" id="kw_form">
                 {{ form.csrf_token }}
                 <div class="form_opt">
@@ -41,14 +40,12 @@
                     <div id="diversity_opt" style="display:none;padding:5px;"><input type="range" name="diversity" min="0" max="10" value="7"><label for="diversity">{{ _("Diversité") }} (MMR)</label></div>
                 </fieldset>
                 </div>
-                <div  style="width: 500px; margin: 0 auto;">
-                <div class="dropzone" id="kw_dropzone">
+                <div class="dropzone" id="kw_dropzone" style="margin:25px auto;">
                 <input type="file" name="keywd-extract" accept="text/plain" multiple required>
                 <p id="form_msg">{{ _("Déposer le(s) fichier(s) ou cliquer ici.") }}</p>
                 </div>
                 <input id="csrf_token" name="csrf_token" type="hidden" value="CSRF_TOKEN_STRING">
-                <button type="submit">{{ _('Envoyer') }}</button>
-            </div>
+                <button style="display:block;margin:auto;margin-top:20px;">{{ _('Extraire les informations') }}</button>
             </form>
             
             <!-- the loader -->

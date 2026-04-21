@@ -1042,6 +1042,9 @@ msgstr "MMR filtering"
 msgid "Filtrage MSS"
 msgstr "MSS filtering"
 
+msgid "Extraire les informations"
+msgstr "Extract information"
+
 msgid "Télécharger"
 msgstr "Download"
 

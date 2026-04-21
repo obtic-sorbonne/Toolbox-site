@@ -27,7 +27,6 @@
   </div>
   <br>
         <div class="item">
-            <h3>{{ _("Chargement des fichiers") }}</h3>
             <form action="{{ url_for('topic_extraction') }}" method="post" enctype="multipart/form-data" class="drag-drop-form" id="tm_form">
                 {{ form.csrf_token }}
                 <div class="form_opt">
@@ -46,14 +45,12 @@
                         <span class="time_alert"><i class="fa-solid fa-triangle-exclamation"></i> {{ _("Le traitement peut être très long.")}}</span>
                 </fieldset>
                 </div>
-                <div  style="width: 500px; margin: 0 auto;">
-                <div class="dropzone">
+                <div class="dropzone" style="margin:25px auto;">
                 <input type="file" name="topic_model" accept="text/plain" multiple required>
                 <p id="form_msg">{{ _("Déposer le(s) fichier(s) ou cliquer ici.")}}</p>
                 </div>
                 <input id="csrf_token" name="csrf_token" type="hidden" value="CSRF_TOKEN_STRING">
-                <button type="submit">{{ _("Envoyer") }}</button>
-            </div>
+                <button style="display:block;margin:auto;margin-top:20px;">{{ _("Extraire les informations") }}</button>
             </form>
         </div>
         <div class="item">
