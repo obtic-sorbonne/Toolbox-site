@@ -19,7 +19,7 @@
         <input id="show" type=checkbox><label for="show" class="infos_title"><i class="fa-solid fa-circle-info"></i> {{ _("Informations sur l'outil") }}<i class="fa-solid fa-angle-right" style="float:right;margin-top:5px;margin-left:15px;cursor: pointer;"></i></label>
         <div class="info_popped">
       <p>{{ _("Format(s) d'entrée ")}}: <i class="fa-regular fa-file-lines"></i> {{ _('texte brut') }} (.txt)</p>
-      <p>{{ _("Format(s) de sortie ")}}: <i class="fa-solid fa-file-csv"></i> fichier CSV (.csv)</p>
+      <p>{{ _("Format(s) de sortie ")}}: <i class="fa-solid fa-file-csv"></i> {{ _('fichier CSV') }} (.csv)</p>
       <p>{{ _('Encodage') }} : UTF-8</p>
       <p><i class="fa-solid fa-triangle-exclamation"></i> {{ _("Attention : Assurez-vous que les noms de vos fichiers d'entrée ne soient pas trop longs")}}<br>
       {{ _("et ne contiennent pas de caractères problématiques")}} ([\/:*"&gt;&lt;|])</p>
@@ -39,7 +39,7 @@
                         <input type="checkbox" name="modelling-method" value="lda" id="lda" checked style="margin-left: 1em;">  <label for="lda">LDA</label>
                     </div>
                         <label class="switch">
-                            <span style="margin-left:72px;cursor: pointer;">Lemmatisation</span>
+                            <span style="margin-left:72px;cursor: pointer;">{{ _("Lemmatisation")}}</span>
                             <input type="checkbox" name="lemma-opt" id="lemma_opt" onchange="optChanged()">
                             <span class="slider round"></span>
                         </label>

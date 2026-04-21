@@ -20,7 +20,7 @@
         <div class="info_popped">
           <p>KeyBERT, modèle <a href="https://huggingface.co/sentence-transformers/distiluse-base-multilingual-cased-v1">distiluse-base-multilingual-cased-v1</a>
       <p>{{ _("Format(s) d'entrée ")}}: <i class="fa-regular fa-file-lines"></i> {{ _('texte brut') }} (.txt)</p>
-      <p>{{ _("Format(s) de sortie ")}}: <i class="fa-solid fa-file-csv"></i> fichier CSV (.csv)</p>
+      <p>{{ _("Format(s) de sortie ")}}: <i class="fa-solid fa-file-csv"></i> {{ _('fichier CSV') }} (.csv)</p>
       <p>{{ _('Encodage') }} : UTF-8</p>
       <p><i class="fa-solid fa-triangle-exclamation"></i> {{ _("Attention : Assurez-vous que les noms de vos fichiers d'entrée ne soient pas trop longs")}}<br>
       {{ _("et ne contiennent pas de caractères problématiques")}} ([\/:*"&gt;&lt;|])</p>
@@ -38,7 +38,7 @@
                     <input type="checkbox" name="extraction-method" value="mmr" id="mmr" style="margin-left: 1em;">  <label for="mmr">MMR</label>
                     <input type="checkbox" name="extraction-method" value="mss" id="mss" style="margin-left: 1em;">  <label for="mss">MSS</label>
 
-                    <div id="diversity_opt" style="display:none;padding:5px;"><input type="range" name="diversity" min="0" max="10" value="7"><label for="diversity">{{ _("Diversité (MMR)") }}</label></div>
+                    <div id="diversity_opt" style="display:none;padding:5px;"><input type="range" name="diversity" min="0" max="10" value="7"><label for="diversity">{{ _("Diversité") }} (MMR)</label></div>
                 </fieldset>
                 </div>
                 <div  style="width: 500px; margin: 0 auto;">

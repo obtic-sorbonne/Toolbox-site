@@ -21,7 +21,7 @@
     <br>
     <form action="{{ url_for('analyze_text') }}" id="linguistic-form" method="post" enctype="multipart/form-data" onsubmit="showloader('loader')">
         <div class="relations-input">
-            <label for="analysis_type">{{ _("Choisir le type d'analyse") }} :</label>
+            <label for="analysis_type">{{ _("Choisir le(s) type(s) d'analyse") }} :</label>
             <div id="analysis_type_checkboxes">
                 <label><input type="checkbox" name="analysis_type" value="subjectivity_detection"> Option 1</label><br>
                 <label><input type="checkbox" name="analysis_type" value="sentiment_analysis"> Option 2</label><br>
@@ -31,7 +31,7 @@
         </div>
         <br>
         <div class="relations-input" id="emotion_type" >
-            <label for="emotion_type">{{ _("Choisir le type d'analyse") }} :</label>
+            <label for="emotion_type">{{ _("Choisir le type de sortie") }} :</label>
             <div id="emotion_type_radio">
                 <label><input type="radio" name="emotion_type" value="analyse1"> {{ _('Score + visualisation') }}</label><br>
                 <label><input type="radio" name="emotion_type" value="analyse2"> {{ _('Visualisation circulaire') }}</label>
