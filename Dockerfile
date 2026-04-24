@@ -58,8 +58,37 @@ COPY environment.yml ./
 # The --yes flag ensures non-interactive installation
 RUN conda env create -f environment.yml && \
     conda clean -afy
+
+RUN conda install -n toolbox_env -c conda-forge openai-whisper llvmlite numba -y && \
+    conda clean -afy
+
+RUN rm -rf \
+        /opt/conda/envs/toolbox_env/lib/python3.11/site-packages/torch* \
+        /opt/conda/envs/toolbox_env/lib/python3.11/site-packages/functorch \
+        /opt/conda/envs/toolbox_env/include/torch \
+        /opt/conda/envs/toolbox_env/include/ATen \
+        /opt/conda/envs/toolbox_env/include/c10 \
+        /opt/conda/envs/toolbox_env/share/cmake/Torch \
+        /opt/conda/envs/toolbox_env/share/cmake/ATen \
+        /opt/conda/envs/toolbox_env/share/cmake/Caffe2 && \
+    /opt/conda/envs/toolbox_env/bin/pip install torch==2.6.0 \
+        --index-url https://download.pytorch.org/whl/cu118
     
-RUN conda run -n toolbox_env pip install gunicorn kraken
+RUN conda run -n toolbox_env pip install gunicorn && \
+    conda run -n toolbox_env pip install kraken --no-deps && \
+    conda run -n toolbox_env pip install \
+        jsonschema \
+        "python-bidi~=0.6.6" \
+        platformdirs \
+        iso639-lang \
+        torchmetrics \
+        "torchvision==0.21.0" \
+        lightning \
+        "scikit-image~=0.25.2" \
+        "scikit-learn~=1.7.2" \
+        "scipy~=1.15.3" \
+        "shapely~=2.1.2" \
+        htrmopo
 
 # Add toolbox_env binaries to PATH globally
 ENV PATH=/opt/conda/envs/toolbox_env/bin:$PATH
