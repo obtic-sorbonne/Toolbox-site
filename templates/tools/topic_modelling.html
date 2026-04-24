@@ -6,9 +6,27 @@
 <div class="outil">
     <div class="fil"><a href="{{ url_for('information_extraction')}}"><< {{ _('Retour aux tâches') }}</a></div>
     <h2>Topic Modelling</h2>
-    <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_extraction') }}" target="_blank">{{ _("Voir la documentation") }}</a> / <a href="{{ url_for('tutorial_extraction') }}" target="_blank">{{ _("Voir le tutoriel") }}</a></p>
+    <p>{{ _("Cet outil permet d'identifier, dans un corpus, des groupes de termes représentatifs de ses thèmes, reposant sur la notion de champs sémantiques (ensembles de mots liés par un domaine ou une thématique). Afin que l'analyse puisse se faire efficacement, le texte ne doit pas être trop court.") }}<br>
+
+    {{ _("Deux méthodes d'extraction sont disponibles :") }}
+    <ul class="item-list" style="margin-left: 3em;">
+    <li>{{ _("<strong>Factorisation par matrices non négatives (NMF)</strong>, qui identifie les thématiques en analysant la fréquence et la répartition des termes dans chaque document.") }}</li>
+    <li>{{ _("<strong>Allocation de Dirichlet latente (LDA)</strong>, qui utilise des hypothèses statistiques pour identifier les probabilités qu'un document contienne plusieurs thématiques, basées sur la répartition des mots.") }}</li></ul>
+    {{ _("Il est possible d'affiner la sortie, en pratiquant la lemmatisation du corpus avant de commencer la modélisation thématique.") }}</p>
+    <p style="margin-top: 1em;">{{ _("Le résultat se fera sous forme de tableau sur la page même, qui peut s'exporter par la suite au format CSV.") }}</p>
+        <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_extraction') }}" target="_blank">{{ _("Voir la documentation") }}</a> / <a href="{{ url_for('tutorial_extraction') }}" target="_blank">{{ _("Voir le tutoriel") }}</a></p>
+        <br><div class="infos_outil" style="display: block;margin: 0 auto 15px auto;">
+        <input id="show" type=checkbox><label for="show" class="infos_title"><i class="fa-solid fa-circle-info"></i> {{ _("Informations sur l'outil") }}<i class="fa-solid fa-angle-right" style="float:right;margin-top:5px;margin-left:15px;cursor: pointer;"></i></label>
+        <div class="info_popped">
+      <p>{{ _("Format(s) d'entrée ")}}: <i class="fa-regular fa-file-lines"></i> {{ _('texte brut') }} (.txt)</p>
+      <p>{{ _("Format(s) de sortie ")}}: <i class="fa-solid fa-file-csv"></i> {{ _('fichier CSV') }} (.csv)</p>
+      <p>{{ _('Encodage') }} : UTF-8</p>
+      <p><i class="fa-solid fa-triangle-exclamation"></i> {{ _("Attention : Assurez-vous que les noms de vos fichiers d'entrée ne soient pas trop longs")}}<br>
+      {{ _("et ne contiennent pas de caractères problématiques")}} ([\/:*"&gt;&lt;|])</p>
+      </div>
+  </div>
+  <br>
         <div class="item">
-            <h3>{{ _("Chargement des fichiers") }}</h3>
             <form action="{{ url_for('topic_extraction') }}" method="post" enctype="multipart/form-data" class="drag-drop-form" id="tm_form">
                 {{ form.csrf_token }}
                 <div class="form_opt">
@@ -20,21 +38,19 @@
                         <input type="checkbox" name="modelling-method" value="lda" id="lda" checked style="margin-left: 1em;">  <label for="lda">LDA</label>
                     </div>
                         <label class="switch">
-                            <span style="margin-left:72px;cursor: pointer;">Lemmatisation</span>
+                            <span style="margin-left:72px;cursor: pointer;">{{ _("Lemmatisation")}}</span>
                             <input type="checkbox" name="lemma-opt" id="lemma_opt" onchange="optChanged()">
                             <span class="slider round"></span>
                         </label>
                         <span class="time_alert"><i class="fa-solid fa-triangle-exclamation"></i> {{ _("Le traitement peut être très long.")}}</span>
                 </fieldset>
                 </div>
-                <div  style="width: 500px; margin: 0 auto;">
-                <div class="dropzone">
+                <div class="dropzone" style="margin:25px auto;">
                 <input type="file" name="topic_model" accept="text/plain" multiple required>
                 <p id="form_msg">{{ _("Déposer le(s) fichier(s) ou cliquer ici.")}}</p>
                 </div>
                 <input id="csrf_token" name="csrf_token" type="hidden" value="CSRF_TOKEN_STRING">
-                <button type="submit">{{ _("Envoyer") }}</button>
-            </div>
+                <button style="display:block;margin:auto;margin-top:20px;">{{ _("Extraire les informations") }}</button>
             </form>
         </div>
         <div class="item">

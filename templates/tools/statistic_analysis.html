@@ -8,11 +8,10 @@
     <div>
         <h2>{{ _('Analyse statistique') }}</h2>
     <p>{{ _("Cette page permet d'opérer divers types d'analyses statistiques sur un ou plusieurs documents soumis") }}.<br>
-        <br>
     <ul class="item-list" style="margin-left: 3em;">
-        <li><hi style="font-weight: bold;">{{ _('Longueur moyenne des phrases') }} (Option 1)</hi> : {{ _('Mesure calculant le nombre moyen de mots par phrase dans un texte donné') }}, {{ _('donnant un aperçu de la complexité et de la lisibilité du texte') }}</li>
-        <li><hi style="font-weight: bold;">{{ _('Fréquence de mots') }} (Option 2)</hi> : {{ _("Calcul des fréquences absolue et relative de chaque mot d'un texte") }}</li>
-        <li><hi style="font-weight: bold;">{{ _('Co-occurrences') }} (Option 3)</hi> : {{ _('Fréquence à laquelle deux éléments apparaissent ensemble dans un contexte') }}</li>
+        <li><hi style="font-weight: bold;">{{ _('Longueur moyenne des phrases') }} (Option 1)</hi> : {{ _("Mesure calculant le nombre moyen de mots par phrase dans un texte donné, donnant un aperçu de la complexité et de la lisibilité du texte.") }} <br> {{ _("Le fichier de sortie sera un graphique avec en axe vertical le nombre de mots et en axe horizontal le numéro des phrases, et une ligne en pointillé rouge indiquant le nombre moyen de mots par phrase.") }}</li>
+        <li><hi style="font-weight: bold;">{{ _('Fréquence de mots') }} (Option 2)</hi> : {{ _("Calcul des fréquences absolue (nombre brut d’occurrences d’un mot dans un corpus) et relative (fréquence absolue rapportée à la taille totale du corpus) de chaque mot d'un texte. Pour cette tâche, il est possible de choisir de supprimer les mots-vides, ce qui changera la fréquence relative et le nombre total de mots, mais pourra permettre un nuage de mots plus représentatif.") }} <br> {{ _("Le fichier de sortie est double, avec un fichier texte comprenant les fréquences absolues, les fréquences relatives et le nombre total de mots, et un fichier image visualisant la fréquence relative par le biais d'un nuage de mots.") }}</li>
+        <li><hi style="font-weight: bold;">{{ _('Co-occurrences') }} (Option 3)</hi> : {{ _("Fréquence à laquelle deux éléments apparaissent ensemble dans un contexte. Pour exécuter cette tâche, il est important de donner un mot cible, soit l'élément du texte dont on veut évaluer les relations, et une fenêtre de contexte (de 1 à ∞), soit la distance entre le mot cible et ceux dont on veut les relations.") }} <br> {{ _("Le fichier de sortie sera au format texte et se présentera ainsi <i>Co-occurrence of 'mot cible' & 'mot trouvé' --> Nombre d'occurrences</i>") }}</li>
     </ul></p></div>
     <br>
     <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_analyses') }}"  target="_blank">{{ _('Voir la documentation') }}</a></p>
@@ -22,9 +21,10 @@
     <div class="relations-input">
         <label>{{ _("Choisir le(s) type(s) d'analyse") }} :</label>
         <div id="analysis_type_checkboxes">
-            <label><input type="checkbox" name="analysis_type" value="sla"> {{ _('Longueur moyenne des phrases') }} (Option 1)</label><br>
-            <label><input type="checkbox" name="analysis_type" value="wf"> {{ _('Fréquence de mots') }} (Option 2)</label><br>
-            <label><input type="checkbox" name="analysis_type" value="coocc" id="cb_coocc"> {{ _('Co-occurrences') }} (Option 3)</label>
+            <label><input type="checkbox" name="analysis_type" value="sla"> Option 1</label><br>
+            <label><input type="checkbox" name="analysis_type" value="wf"> Option 2</label><br>
+            <label><input type="checkbox" name="analysis_type" value="wf_stopwords"  id="cb_stopwords"> Option 2 ({{ _('sans mots-vides') }})</label><br>
+            <label><input type="checkbox" name="analysis_type" value="coocc" id="cb_coocc"> Option 3</label>
         </div>
     </div>
         {{ form.csrf_token }}
@@ -35,6 +35,24 @@
             <label for="target_word">{{ _('Mot cible') }} :</label>
             <input type="text" id="target_word" name="target_word" placeholder="Fill it with a single word"><br>
         </div>
+        <br>
+        <div class="relations-input" id="stopwords_fields" style="display: none;">
+            <label for="selected_language">{{ _('Choisissez la langue') }} :</label>
+            <select name="selected_language" id="selected_language">
+                <option value="german">{{ _('Allemand') }} (de)</option>
+                <option value="english">{{ _('Anglais') }} (en)</option>
+                <option value="danish">{{ _('Danois') }} (da)</option>
+                <option value="spanish">{{ _('Espagnol') }} (es)</option>
+                <option value="finnish">{{ _('Finnois') }} (fi)</option>
+                <option value="french" selected>{{ _('Français') }} (fr)</option>
+                <option value="greek">{{ _('Grec') }} (el)</option>
+                <option value="italian">{{ _('Italien') }} (it)</option>
+                <option value="dutch">{{ _('Néerlandais') }} (nl)</option>
+                <option value="portuguese">{{ _('Portugais') }} (pt)</option>
+                <option value="russian">{{ _('Russe') }} (ru)</option>
+            </select>
+        </div>
+        <br>
         <div class="dropzone" style="margin:25px auto;">
             <input type="file" id="files" name="files" accept="text/plain" multiple required>
             <p id="form_msg">{{ _("Déposer le(s) fichier(s) ou cliquer ici") }}.</p>
@@ -68,12 +86,23 @@ $('form input[type=file]').change(function () {
 });
 
 function toggleCooccFields() {
+    const cbCoocc = document.getElementById("cb_coocc");
+    const cbGraph = document.getElementById("cb_stopwords");
+
+    // Affiche la div coocc si cb_coocc est cochée
     document.getElementById("cooccurrences_fields").style.display =
-        document.getElementById("cb_coocc").checked ? "block" : "none";
+        cbCoocc.checked ? "block" : "none";
+
+    // Affiche la div graph si cb_graph est cochée
+    document.getElementById("stopwords_fields").style.display =
+        cbGraph.checked ? "block" : "none";
 }
 
 document.addEventListener("DOMContentLoaded", function() {
     document.getElementById("cb_coocc").addEventListener("change", toggleCooccFields);
+    document.getElementById("cb_stopwords").addEventListener("change", toggleCooccFields);
+
+    // État initial
     toggleCooccFields();
 
     document.getElementById("linguistic-form").addEventListener("submit", function(e) {

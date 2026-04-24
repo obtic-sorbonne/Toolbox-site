@@ -439,11 +439,6 @@ def extraction_urls():
     form = FlaskForm()
     return render_template('tools/extraction_urls.html', form=form)
 
-@app.route('/extraction_googlebooks')
-def extraction_googlebooks():
-    form = FlaskForm()
-    return render_template('tools/extraction_googlebooks.html', form=form)
-
 @app.route('/ocr_ner')
 def ocr_ner():
     form = FlaskForm()
@@ -835,48 +830,6 @@ def extract_gutenberg():
 
     return Response(json.dumps({"error": "Une erreur est survenue dans le traitement des fichiers."}), status=500, mimetype='application/json')
 
-#---------------- Google Books ------------------------
-
-@app.route('/download_google_books', methods=['POST'])
-def download_google_books():
-    if 'files' not in request.form:
-        return Response(json.dumps({"error": "Queries not specified"}), status=400, mimetype='application/json')
-    
-    input_text = request.form.get('files', '').strip()
-    if not input_text:
-        return Response(json.dumps({"error": "No queries provided"}), status=400, mimetype='application/json')
-    
-    queries = input_text.splitlines()
-    rand_name = generate_rand_name('google_books_')
-    result_path = create_named_directory(rand_name)
-    
-    for query in queries:
-        try:
-            url = f"https://www.googleapis.com/books/v1/volumes?q=intitle:{query}"
-            response = requests.get(url)
-            data = response.json()
-            
-            for item in data.get('items', []):
-                access_info = item['accessInfo']
-                if access_info.get('publicDomain', False) and access_info['pdf'].get('isAvailable', False):
-                    pdf_link = access_info['pdf'].get('downloadLink')
-                    if pdf_link:
-                        pdf_response = requests.get(pdf_link)
-                        if pdf_response.status_code == 200:
-                            filename = os.path.join(result_path, f"{query.replace(' ', '_')}.pdf")
-                            with open(filename, 'wb') as f:
-                                f.write(pdf_response.content)
-                        break
-        except Exception as e:
-            error_filename = os.path.join(result_path, f"error_{query.replace(' ', '_')}.txt")
-            with open(error_filename, 'w', encoding='utf-8') as file:
-                file.write(f"Error downloading book: {str(e)}")
-    
-    response = create_zip_and_response(result_path, rand_name)
-    return response
-
-    return Response(json.dumps({"error": "Une erreur est survenue dans le traitement des fichiers."}), status=500, mimetype='application/json')
-
 
 #---------------- URL EXTRACTION ------------------------
 
@@ -1010,79 +963,80 @@ def get_model():
     import whisper
     global model_cache
     if model_cache is None:
-        model_cache = whisper.load_model("base")  # Chargement différé
+        model_cache = whisper.load_model("large-v3-turbo")  # Chargement différé
     return model_cache
 
 @app.route('/automatic_speech_recognition', methods=['POST'])
 def automatic_speech_recognition():
     import subprocess
 
-    if 'files' not in request.files and 'audio_urls' not in request.form and 'video_urls' not in request.form:
-        return Response(json.dumps({"error": "No files part or URLs provided"}), status=400, mimetype='application/json')
+    if 'files' not in request.files:
+        return Response(json.dumps({"error": "No files uploaded"}), status=400, mimetype='application/json')
 
-    audio_urls = request.form.get('audio_urls', '').splitlines()
-    video_urls = request.form.get('video_urls', '').splitlines()
+    uploaded_files = request.files.getlist('files')
     file_type = request.form['file_type']
 
     rand_name = generate_rand_name("asr_")
     result_path = create_named_directory(rand_name, base_dir=UPLOAD_FOLDER)
 
-    model = get_model()  # Appel différé
+    model = get_model()  # Chargement différé
 
     try:
-        if file_type == 'audio_urls':
-            for audio_url in audio_urls:
-                if not audio_url.strip():
+        # --- TRAITEMENT AUDIO ---
+        if file_type == 'audio_files':
+            for f in uploaded_files:
+                if f.filename == "":
                     continue
 
-                url_path = urlparse(audio_url).path
-                file_name = os.path.basename(url_path)
-                output_path = os.path.join(result_path, file_name)
+                safe_name = secure_filename(f.filename)
+                input_path = os.path.join(result_path, safe_name)
+                f.save(input_path)
 
-                try:
-                    subprocess.run(["wget", audio_url, "-O", output_path], check=True)
-                except subprocess.CalledProcessError as e:
-                    print(f"[ERREUR] Échec du téléchargement : {audio_url} — {e}")
+                # Transcription
+                result = model.transcribe(input_path)
+                os.remove(input_path)
+
+                output_name = os.path.splitext(safe_name)[0] + "_transcription.txt"
+                with open(os.path.join(result_path, output_name), "w", encoding="utf-8") as out:
+                    out.write(result["text"])
+
+        # --- TRAITEMENT VIDÉO ---
+        elif file_type == 'video_files':
+            for i, f in enumerate(uploaded_files):
+                if f.filename == "":
                     continue
 
-                if not os.path.isfile(output_path):
-                    print(f"[ERREUR] Fichier non trouvé : {output_path}")
-                    continue
+                safe_name = secure_filename(f.filename)
+                video_path = os.path.join(result_path, safe_name)
+                f.save(video_path)
 
-                result = model.transcribe(output_path)
-                output_name = os.path.splitext(file_name)[0] + '_transcription.txt'
-                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-                    out.write(result['text'])
+                # Extraction audio via ffmpeg
+                audio_path = os.path.join(result_path, f"video_{i}.m4a")
 
-        elif file_type == 'video_urls':
-            for i, video_url in enumerate(video_urls):
-                if not video_url.strip():
-                    continue
-
-                audio_output = os.path.join(result_path, f"video_{i}.m4a")
                 try:
                     subprocess.run([
-                        "yt-dlp",
-                        "-f", "bestaudio",
-                        video_url,
-                        "-o", audio_output
+                        "ffmpeg",
+                        "-i", video_path,
+                        "-vn",
+                        "-acodec", "aac",
+                        "-b:a", "192k",
+                        audio_path,
+                        "-y"
                     ], check=True)
                 except subprocess.CalledProcessError as e:
-                    print(f"[ERREUR] yt-dlp a échoué pour {video_url} — {e}")
+                    print(f"[ERREUR] ffmpeg a échoué pour {safe_name} — {e}")
                     continue
 
-                if not os.path.isfile(audio_output):
-                    print(f"[ERREUR] Fichier audio manquant : {audio_output}")
+                if not os.path.isfile(audio_path):
+                    print(f"[ERREUR] Fichier audio manquant : {audio_path}")
                     continue
 
-                result = model.transcribe(audio_output)
+                # Transcription
+                result = model.transcribe(audio_path)
+
                 output_name = f"video_{i}_transcription.txt"
-                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-                    out.write(result['text'])
-
-        if not os.listdir(result_path):
-            print(f"[DEBUG] Aucun fichier généré dans {result_path}")
-            return Response(json.dumps({"error": "Aucune donnée à archiver"}), status=400, mimetype='application/json')
+                with open(os.path.join(result_path, output_name), "w", encoding="utf-8") as out:
+                    out.write(result["text"])
 
         response = create_zip_and_response(result_path, rand_name)
         return response
@@ -1188,6 +1142,7 @@ def autocorrect():
 
     for f in files:
         try:
+            clean_output = request.form.get("clean_output") == "yes"
             input_text = f.read().decode('utf-8')
             highlighted_corrected_text = ""
 
@@ -1202,8 +1157,16 @@ def autocorrect():
 
             filename, _ = os.path.splitext(f.filename)
             output_name = filename + '_corrected.txt'
+
+            # Choix du contenu
+            if clean_output:
+                final_text = highlighted_corrected_text.replace("**", "")
+            else:
+                final_text = highlighted_corrected_text
+
+            # Écriture
             with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-                out.write(highlighted_corrected_text)
+                out.write(final_text)
 
         finally:
             f.close()
@@ -1263,6 +1226,10 @@ def fix_ocr_linebreaks(text):
 
     return "\n\n".join(paragraphs)
 
+def clean_double_stars(text):
+    while "**" in text:
+        text = text.replace("**", "")
+    return text
 
 loaded_stopwords = {}
 
@@ -1327,24 +1294,41 @@ def removing_elements():
             input_text = f.read().decode('utf-8')
 
             # Step 1: line-level operations on raw text (order matters)
+            if 'clean_double_stars' in removing_types:
+                input_text = clean_double_stars(input_text)
             if 'fix_ocr_linebreaks' in removing_types:
                 input_text = fix_ocr_linebreaks(input_text)
             if 'remove_excessive_lines' in removing_types:
                 input_text = remove_excessive_lines(input_text)
 
-            # Step 2: token-level operations
-            tokens = word_tokenize(input_text)
-            if 'punctuation' in removing_types:
-                tokens = [token for token in keep_accented_only(tokens)]
-            if 'stopwords' in removing_types:
-                stop_words = get_stopwords(selected_language)
-                tokens = [token for token in tokens if token.lower() not in stop_words]
-            if 'lowercases' in removing_types:
-                tokens = [token.lower() for token in tokens]
+            # Step 2 : tokenisation par ligne
+            lines = input_text.splitlines()
+            tokens_per_line = [word_tokenize(line) for line in lines]
 
-            processed_text = " ".join(tokens)
+            # Step 3 : opérations token-level dans l'ordre correct
+            processed_lines = []
+
+            for tokens in tokens_per_line:
+
+                # 1. punctuation
+                if 'punctuation' in removing_types:
+                    tokens = keep_accented_only(tokens)
+
+                # 2. lowercases
+                if 'lowercases' in removing_types:
+                    tokens = [t.lower() for t in tokens]
+
+                # 3. stopwords
+                if 'stopwords' in removing_types:
+                    stop_words = get_stopwords(selected_language)
+                    tokens = [t for t in tokens if t not in stop_words]
+
+                processed_lines.append(" ".join(tokens))
+
+            # Reconstruction avec conservation des lignes
+            processed_text = "\n".join(processed_lines)
             filename, _ = os.path.splitext(f.filename)
-            output_name = f"{filename}_{'_'.join(removing_types)}.txt"
+            output_name = f"{filename}_{'_'.join(sorted(removing_types))}.txt"
             with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
                 out.write(processed_text)
 
@@ -1366,29 +1350,29 @@ def get_nlp(language):
     import spacy
     if language not in loaded_nlp_models:
         if language == 'english':
-            loaded_nlp_models[language] = spacy.load('en_core_web_sm')
+            loaded_nlp_models[language] = spacy.load('en_core_web_md')
         elif language == 'french':
-            loaded_nlp_models[language] = spacy.load('fr_core_news_sm')
+            loaded_nlp_models[language] = spacy.load('fr_core_news_md')
         elif language == 'spanish':
-            loaded_nlp_models[language] = spacy.load('es_core_news_sm')
+            loaded_nlp_models[language] = spacy.load('es_core_news_md')
         elif language == 'german':
-            loaded_nlp_models[language] = spacy.load('de_core_news_sm')
+            loaded_nlp_models[language] = spacy.load('de_core_news_md')
         elif language == 'italian':
-            loaded_nlp_models[language] = spacy.load('it_core_news_sm')
+            loaded_nlp_models[language] = spacy.load('it_core_news_md')
         elif language == 'danish':
-            loaded_nlp_models[language] = spacy.load("da_core_news_sm")
+            loaded_nlp_models[language] = spacy.load("da_core_news_md")
         elif language == 'dutch':
-            loaded_nlp_models[language] = spacy.load("nl_core_news_sm")
+            loaded_nlp_models[language] = spacy.load("nl_core_news_md")
         elif language == 'finnish':
-            loaded_nlp_models[language] = spacy.load("fi_core_news_sm")
+            loaded_nlp_models[language] = spacy.load("fi_core_news_md")
         elif language == 'polish':
-            loaded_nlp_models[language] = spacy.load("pl_core_news_sm")
+            loaded_nlp_models[language] = spacy.load("pl_core_news_md")
         elif language == 'portuguese':
-            loaded_nlp_models[language] = spacy.load("pt_core_news_sm")
+            loaded_nlp_models[language] = spacy.load("pt_core_news_md")
         elif language == 'greek':
-            loaded_nlp_models[language] = spacy.load("el_core_news_sm")
+            loaded_nlp_models[language] = spacy.load("el_core_news_md")
         elif language == 'russian':
-            loaded_nlp_models[language] = spacy.load("ru_core_news_sm")
+            loaded_nlp_models[language] = spacy.load("ru_core_news_md")
         else:
             return set()
     return loaded_nlp_models[language]
@@ -1415,27 +1399,67 @@ def normalize_text():
             input_text = f.read().decode('utf-8')
             filename, _ = os.path.splitext(f.filename)
 
+            # --- TOKENISATION (plate, comme à l'origine) ---
             tokens = word_tokenize(input_text)
 
-            need_lemmas = 'lemmas' in normalisation_types
+            # --- FILTRES SUR LES TOKENS ---
+            def apply_token_filters(token_list):
+                # 1) garder uniquement les tokens alphabétiques
+                if 'tokens_alpha' in normalisation_types:
+                    token_list = [t for t in token_list if t.isalpha()]
+
+                # 2) garder tokens alphanumériques
+                if 'tokens_alphanum' in normalisation_types:
+                    token_list = [t for t in token_list if any(c.isalnum() for c in t)]
+
+                # 3) garder tokens avec apostrophe interne
+                if 'tokens_apostrophe' in normalisation_types:
+                    token_list = [t for t in token_list if "'" in t and len(t) > 1]
+
+                return token_list
+
+            tokens = apply_token_filters(tokens)
+
+            # --- LEMMATISATION (plate, sans structure) ---
+            need_lemmas = (
+                'lemmas' in normalisation_types or
+                'lemmas_lower' in normalisation_types
+            )
+
             if need_lemmas:
                 nlp = get_nlp(selected_language)
                 lemmas = [token.lemma_ for token in nlp(input_text)]
+                lemmas = apply_token_filters(lemmas)
             else:
                 lemmas = []
 
-            if 'lowercases' in normalisation_types:
-                tokens = [t.lower() for t in tokens]
-                lemmas = [l.lower() for l in lemmas]
+            # --- CONSTRUCTION DES SECTIONS ---
+            output_sections = []
 
-            parts = []
+            # TOKENS
             if 'tokens' in normalisation_types:
-                parts.append(", ".join(tokens))
-            if need_lemmas:
-                parts.append(", ".join(lemmas))
+                output_sections.append("TOKENS:\n" + ", ".join(tokens))
 
-            output_text = "\n\n".join(parts)
-            output_name = filename + '_' + '_'.join(normalisation_types) + '.txt'
+            # TOKENS LOWER
+            if 'tokens_lower' in normalisation_types:
+                tokens_lower = [t.lower() for t in tokens]
+                output_sections.append("TOKENS (minuscules):\n" + ", ".join(tokens_lower))
+
+            # LEMMAS
+            if 'lemmas' in normalisation_types:
+                clean_lemmas = [l.replace("\n", " ") for l in lemmas]
+                output_sections.append("LEMMES:\n" + ", ".join(clean_lemmas))
+
+
+            # LEMMAS LOWER
+            if 'lemmas_lower' in normalisation_types:    
+                lemmas_lower = [l.lower().replace("\n", " ") for l in lemmas]
+                output_sections.append("LEMMES (minuscules):\n" + ", ".join(lemmas_lower))
+
+            # Assemblage final
+            output_text = "\n\n".join(output_sections)
+
+            output_name = filename + '_' + '_'.join(sorted(normalisation_types)) + '.txt'
 
             with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
                 out.write(output_text)
@@ -1462,7 +1486,7 @@ def split_text():
     if not files or all(file.filename == '' for file in files):
         return Response(json.dumps({"error": "No selected files"}), status=400, mimetype='application/json')
 
-    split_type = request.form['split_type']
+    split_types = request.form.getlist("split_type")
 
     rand_name = generate_rand_name('splittext_')
     result_path = create_named_directory(rand_name)
@@ -1470,21 +1494,37 @@ def split_text():
     for f in files:
         try:
             input_text = f.read().decode('utf-8')
+
+            # Préparation des deux types de découpages
             sentences = [s.strip() for s in sent_tokenize(input_text)]
             f.seek(0)
             lines = [line.decode('utf-8').strip() for line in f.readlines()]
+
             filename, _ = os.path.splitext(f.filename)
 
-            if split_type == 'sentences':
-                output_text = "\n".join(sentences)
-                output_name = filename + '_sentences.txt'
-            elif split_type == 'lines':
-                output_text = "\n".join(lines)
-                output_name = filename + '_lines.txt'
-            elif split_type == 'sentences_lines':
-                output_text = "\n".join(sentences) + "\n\n" + "\n".join(lines)
-                output_name = filename + '_sentences_lines.txt'
+            # Récupération des cases cochées
 
+            parts = []
+            output_name_parts = []
+
+            if "sentences" in split_types:
+                numbered_sentences = [
+                    f"S{i+1} : {s}" for i, s in enumerate(sentences)
+                ]
+                parts.append("SENTENCES:\n" + "\n".join(numbered_sentences))
+                output_name_parts.append("sentences")
+
+            if "lines" in split_types:
+                numbered_lines = [
+                    f"L{i+1} : {l}" for i, l in enumerate(lines)
+                ]
+                parts.append("LINES:\n" + "\n".join(numbered_lines))
+                output_name_parts.append("lines")
+
+            output_text = "\n\n".join(parts)
+            output_name = filename + "_" + "_".join(output_name_parts) + ".txt"
+
+            # Écriture du fichier
             with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
                 out.write(output_text)
 
@@ -2324,6 +2364,8 @@ def pos_tagging():
         response = {"error": "No files part"}
         return Response(json.dumps(response), status=400, mimetype='application/json')
 
+    from collections import Counter
+
     files = request.files.getlist('files')
     if not files or all(file.filename == '' for file in files):
         response = {"error": "No selected files"}
@@ -2340,11 +2382,16 @@ def pos_tagging():
             nlp = get_nlp(selected_language)
             doc = nlp(input_text)
             filename, file_extension = os.path.splitext(f.filename)
+            pos_counts = Counter(token.pos_ for token in doc)
             
             output_name = filename + '.txt'
             with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
                 for token in doc:
                     out.write(f"Token: {token.text} --> POS: {token.pos_}\n")
+
+                out.write("\n--- Comptage des POS ---\n")
+                for pos, count in sorted(pos_counts.items(), key=lambda x: x[1], reverse=True):
+                    out.write(f"{pos}: {count}\n")
 
         finally:
             f.close()
@@ -2839,8 +2886,24 @@ def quotation():
 
 
             patterns = [
-                r'"(.*?)"',           # Double quotes
-                r'«\s*(.*?)\s*»'      # French quotes with optional spaces
+                r'"(.*?)"',  # Double quotes ASCII
+                r"'(.*?)'",  # Single quotes ASCII
+                r"`(.*?)`",  # Backticks
+
+                r'«\s*(.*?)\s*»',  # Guillemets français
+                r'‹\s*(.*?)\s*›',  # Guillemets français (niche)
+                r'»\s*(.*?)\s*«',  # Guillemets inversés
+                r'›\s*(.*?)\s*‹',  # Guillemets inversés (niche)
+
+                r'„\s*(.*?)\s*“',  # Allemand bas-haut
+                r'‚\s*(.*?)\s*‘',  # Allemand bas-haut (variante)
+                r',\s*(.*?)\s*‘',  # Allemand bas-haut (virgule + apostrophe)
+
+                r'“\s*(.*?)\s*”',  # Guillemets anglais typographiques
+                r'”\s*(.*?)\s*”',  # Variante fermante-fermante (cas réel dans ton exemple)
+                r'‘\s*(.*?)\s*’',  # Guillemets simples typographiques
+
+                r'「\s*(.*?)\s*」',  # Guillemets japonais
             ]
             
             quotations = []
@@ -2903,10 +2966,10 @@ def analyze_ngrams(filename, result_path, input_text, n, r):
         for n_gram, count in most_frequent_ngrams:
             out.write(f"{n}-gram: {' '.join(n_gram)} --> Count: {count}\n")
 
-def analyze_dependency(filename, result_path, input_text, nlp_eng):
+def analyze_dependency(filename, result_path, input_text, nlp):
     import spacy
     from spacy import displacy
-    doc = nlp_eng(input_text)
+    doc = nlp(input_text)
     syntax_info = "\n".join(
         [f"{token.text} ({token.pos_}) <--{token.dep_} ({spacy.explain(token.dep_)})-- {token.head.text} ({token.head.pos_})"
          for token in doc]
@@ -2920,7 +2983,7 @@ def analyze_dependency(filename, result_path, input_text, nlp_eng):
     output_name_svg = filename + '_syntax.svg'
     write_to_file(os.path.join(result_path, output_name_svg), svg)
 
-def analyze_combined(filename, result_path, analysis_type, hapaxes_list, detected_languages_str, input_text, n, r, nlp_eng):
+def analyze_combined(filename, result_path, analysis_type, hapaxes_list, detected_languages_str, input_text, n, r, nlp):
     import spacy
     from spacy import displacy
     content = ""
@@ -2934,7 +2997,7 @@ def analyze_combined(filename, result_path, analysis_type, hapaxes_list, detecte
             content += f"{n}-gram: {' '.join(n_gram)} --> Count: {count}\n"
         content += "\n\n"
     if 'dependency' in analysis_type:
-        doc = nlp_eng(input_text)
+        doc = nlp(input_text)
         syntax_info = "\n".join(
             [f"{token.text} ({token.pos_}) <--{token.dep_} ({spacy.explain(token.dep_)})-- {token.head.text} ({token.head.pos_})"
              for token in doc]
@@ -2965,11 +3028,11 @@ def analyze_linguistic():
         return Response(json.dumps(response), status=400, mimetype='application/json')
 
     analysis_types = request.form.getlist('analysis_type')
+    selected_language = request.form['selected_language']
+    nlp = get_nlp(selected_language)
 
     n = int(request.form.get('n', 2))
     r = int(request.form.get('r', 5))
-
-    nlp_eng = spacy.load('en_core_web_sm')
 
     rand_name = generate_rand_name('linguistic_')
     result_path = create_named_directory(rand_name)
@@ -2983,7 +3046,7 @@ def analyze_linguistic():
             detected_languages_str = "\n".join(langues_probabilites)
             filename, file_extension = os.path.splitext(f.filename)
 
-            analyze_combined(filename, result_path, analysis_types, hapaxes_list, detected_languages_str, input_text, n, r, nlp_eng)
+            analyze_combined(filename, result_path, analysis_types, hapaxes_list, detected_languages_str, input_text, n, r, nlp)
 
         finally:
             f.close()
@@ -3018,6 +3081,7 @@ def analyze_statistic():
     analysis_types = request.form.getlist('analysis_type')
     context_window = int(request.form.get('context_window', 2)) 
     target_word = str(request.form.get('target_word'))
+    selected_language = request.form.get('selected_language')
 
     rand_name = generate_rand_name('statistics_')
     result_path = create_named_directory(rand_name)
@@ -3043,8 +3107,16 @@ def analyze_statistic():
             total_tokens = len(tokens)
             rel_frequency = {word: count / total_tokens for word, count in abs_frequency.items()}
 
+            # Word frequency (without stopwords)
+            stop_words = get_stopwords(selected_language)
+            tokens_no_stop = [t for t in tokens if t.lower() not in stop_words]
+            abs_frequency_no_stop = Counter(tokens_no_stop)
+            total_tokens_no_stop = len(tokens_no_stop)
+            rel_frequency_no_stop = {word: count / total_tokens_no_stop for word, count in abs_frequency_no_stop.items()}
+
+
             # Co-occurrences
-            stop_words = set(stopwords.words('english'))
+            #stop_words = set(stopwords.words('english'))
             context_pairs = [(target_word, tokens[i + j].lower()) for i, word in enumerate(tokens)
                              for j in range(-context_window, context_window + 1)
                              if i + j >= 0 and i + j < len(tokens) and j != 0
@@ -3076,6 +3148,19 @@ def analyze_statistic():
                 plt.savefig(os.path.join(result_path, filename + '_wordcloud.png'), format='png')
                 plt.close()
 
+            if 'wf_stopwords' in analysis_types:
+                output_name = filename + '_wordsfrequency_stopwords.txt'
+                with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
+                    out.write("Absolute frequency of words: " + str(abs_frequency_no_stop) + "\n\nRelative frequency of words: " + str(rel_frequency_no_stop) + "\n\nTotal number of words:" + str(total_tokens_no_stop))
+
+                # Wordcloud sans stopwords
+                wordcloud = WordCloud(width=800, height=400, background_color='white').generate(" ".join(tokens_no_stop))
+                plt.figure(figsize=(10, 5))
+                plt.imshow(wordcloud, interpolation='bilinear')
+                plt.axis('off')
+                plt.savefig(os.path.join(result_path, filename + '_wordcloud.png'), format='png')
+                plt.close()
+
             if 'coocc' in analysis_types:
                 output_name = filename + '_cooccurrences.txt'
                 with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
@@ -3092,140 +3177,6 @@ def analyze_statistic():
     return response
 
     return Response(json.dumps({"error": "Une erreur est survenue dans le traitement des fichiers."}), status=500, mimetype='application/json')
-
-#--------------- Analyse lexicale --------------------------
-
-@app.route('/analyze_lexicale', methods=['POST'])
-def analyze_lexicale():
-    import matplotlib.pyplot as plt
-    from nltk.tokenize import word_tokenize
-
-    if 'files' not in request.files:
-        return Response(json.dumps({"error": "No files part"}), status=400, mimetype='application/json')
-
-    files = request.files.getlist('files')
-    if not files or all(file.filename == '' for file in files):
-        return Response(json.dumps({"error": "No selected files"}), status=400, mimetype='application/json')
-
-    # Get analysis parameters with proper error handling
-    analysis_type = request.form.get('analysis_type')
-    if not analysis_type:
-        return Response(json.dumps({"error": "Analysis type not specified"}), status=400, mimetype='application/json')
-
-    # Initialize parameters with proper error handling
-    analyzed_words = []
-
-    # Only get parameters needed for the specific analysis type
-    if analysis_type == 'lexical_dispersion':
-        words_to_analyze = request.form.get('words_to_analyze')
-        if not words_to_analyze:
-            return Response(json.dumps({"error": "Words to analyze not specified"}), status=400, mimetype='application/json')
-        analyzed_words = words_to_analyze.split(';')
-
-    # Create result directory with error handling
-    try:
-        rand_name = generate_rand_name('lexicale_')
-        result_path = create_named_directory(rand_name)
-    except Exception as e:
-        return Response(json.dumps({"error": f"Failed to create result directory: {str(e)}"}), 
-                       status=500, mimetype='application/json')
-
-    try:
-        for f in files:
-            input_text = f.read().decode('utf-8')
-            tokens = word_tokenize(input_text)
-            unique_words = set(tokens)
-            number_unique_words = len(unique_words)
-            total_number_words = len(tokens)
-            TTR = number_unique_words / total_number_words if total_number_words > 0 else 0
-            filename, _ = os.path.splitext(f.filename)
-
-            if analysis_type == 'lexical_dispersion':
-                plt.figure(figsize=(10, 6))
-                Text(tokens).dispersion_plot(analyzed_words)
-                plt.xlabel('Word Offset')
-                plt.ylabel('Frequency')
-                plt.title('Lexical Dispersion Plot')
-                plt.tight_layout()
-                vis_path = os.path.join(result_path, f'{filename}_dispersion_plot.png')
-                plt.savefig(vis_path, format='png')
-                plt.close()
-
-            elif analysis_type == 'lexical_diversity':
-                # Create visualization
-                plt.figure(figsize=(10, 6))
-                plt.bar(['Total Words', 'Unique Words'], 
-                       [total_number_words, number_unique_words], 
-                       color=['blue', 'green'])
-                plt.ylabel('Count')
-                plt.title('Total Words vs Unique Words')
-                plt.text(0.5, max(total_number_words, number_unique_words)/2, 
-                        f'Type-Token Ratio (TTR): {round(TTR, 2)}', 
-                        horizontalalignment='center', 
-                        verticalalignment='center', 
-                        fontsize=12, 
-                        color='black')
-                plt.savefig(os.path.join(result_path, f'{filename}_words_comparison.png'))
-                plt.close()
-
-            elif analysis_type == 'dispersion_diversity':
-                plt.figure(figsize=(10, 6))
-                Text(tokens).dispersion_plot(analyzed_words)
-                plt.xlabel('Word Offset')
-                plt.ylabel('Frequency')
-                plt.title('Lexical Dispersion Plot')
-                plt.tight_layout()
-                vis_path = os.path.join(result_path, f'{filename}_dispersion_plot.png')
-                plt.savefig(vis_path, format='png')
-                plt.close()
-
-                plt.figure(figsize=(10, 6))
-                plt.bar(['Total Words', 'Unique Words'], 
-                       [total_number_words, number_unique_words], 
-                       color=['blue', 'green'])
-                plt.ylabel('Count')
-                plt.title('Total Words vs Unique Words')
-                plt.text(0.5, max(total_number_words, number_unique_words)/2, 
-                        f'Type-Token Ratio (TTR): {round(TTR, 2)}', 
-                        horizontalalignment='center', 
-                        verticalalignment='center', 
-                        fontsize=12, 
-                        color='black')
-                plt.savefig(os.path.join(result_path, f'{filename}_words_comparison.png'))
-                plt.close()
-
-    except Exception as e:
-        shutil.rmtree(result_path, ignore_errors=True)
-        return Response(json.dumps({"error": f"Analysis failed: {str(e)}"}), 
-                       status=500, mimetype='application/json')
-
-    # Create and return zip file
-    try:
-        if not os.listdir(result_path):
-            shutil.rmtree(result_path)
-            return Response(json.dumps({"error": "No output files were generated"}), 
-                          status=500, mimetype='application/json')
-
-        zip_path = f"{result_path}.zip"
-        shutil.make_archive(result_path, 'zip', result_path)
-        
-        with open(zip_path, 'rb') as zip_file:
-            response = Response(zip_file.read(), 
-                              mimetype='application/zip',
-                              headers={"Content-disposition": f"attachment; filename={rand_name}.zip"})
-        
-        # Cleanup
-        shutil.rmtree(result_path)
-        os.remove(zip_path)
-        
-        return response
-
-    except Exception as e:
-        shutil.rmtree(result_path, ignore_errors=True)
-        if os.path.exists(f"{result_path}.zip"):
-            os.remove(f"{result_path}.zip")
-        return Response(json.dumps({"error": f"Failed to create zip file: {str(e)}"}), 
-                       status=500, mimetype='application/json')
 
 
 #--------------- Analyse de texte --------------------------
@@ -3251,187 +3202,225 @@ def analyze_text():
         response = {"error": "No text part"}
         return Response(json.dumps(response), status=400, mimetype='application/json')
 
-    input_text = request.form.get('input_text', '').splitlines()
+    # ---------------------------------------------------------
+    # Récupération et nettoyage de input_text
+    # ---------------------------------------------------------
+    raw_text = request.form.get('input_text', '')
 
-    analysis_type = request.form['analysis_type']
+    # splitlines() = segmentation par lignes du textarea
+    input_text = raw_text.splitlines()
+
+    # On retire les lignes vides
+    input_text = [line.strip() for line in input_text if line.strip()]
+
+    analysis_type = request.form.getlist('analysis_type')
     emotion_type = request.form['emotion_type']
 
 
     rand_name = generate_rand_name('textanalysis_')
     result_path = create_named_directory(rand_name)
 
-    
-    if analysis_type == 'subjectivity_detection':
-        output_name = 'subjectivity_detection.txt'
-        with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-            for text in input_text:
-                classifier1 = get_pipeline('text-classification', model='GroNLP/mdebertav3-subjectivity-multilingual')
-                result = classifier1(text)[0]
-                label = "objective" if result['label'] == "LABEL_0" else "subjective"
-                out.write(f"The sentence: [{text}] is {label} (Score: {result['score']:.2f})\n\n")
-    elif analysis_type == 'sentiment_analysis':
-        output_name = 'sentiment_analysis.txt'
-        with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-            for text in input_text:
-                classifier2 = get_pipeline("sentiment-analysis", model="nlptown/bert-base-multilingual-uncased-sentiment")
-                results = classifier2(text)
-                star_rating = int(results[0]['label'].split()[0])
-                sentiment = "negative" if star_rating in [1, 2] else "neutral" if star_rating == 3 else "positive"
-                out.write(f"Sentence: {text}\n Star Rating: {star_rating} \n Sentiment: {sentiment} \n Score: {results[0]['score']:.2f}\n\n")
-    elif analysis_type == 'subjectivity_sentiment':
-        output_name = 'subjectivity_sentiment.txt'
-        with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-            for text in input_text:
-                classifier1 = get_pipeline('text-classification', model='GroNLP/mdebertav3-subjectivity-multilingual')
-                result = classifier1(text)[0]
-                label = "objective" if result['label'] == "LABEL_0" else "subjective"
-                classifier2 = get_pipeline("sentiment-analysis", model="nlptown/bert-base-multilingual-uncased-sentiment")
-                results = classifier2(text)
-                star_rating = int(results[0]['label'].split()[0])
-                sentiment = "negative" if star_rating in [1, 2] else "neutral" if star_rating == 3 else "positive"
-                out.write(f"The sentence: [{text}] is {label} (Score: {result['score']:.2f})")
-                out.write(f"\nStar Rating: {star_rating} \n Sentiment: {sentiment} \n Score: {results[0]['score']:.2f}\n\n")
-    elif analysis_type == 'subjectivity_sentiment_emotion':
-        output_name = 'subjectivity_sentiment_emotion.txt'
-        with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-            for text in input_text:
-                classifier1 = get_pipeline('text-classification', model='GroNLP/mdebertav3-subjectivity-multilingual')
-                result = classifier1(text)[0]
-                label = "objective" if result['label'] == "LABEL_0" else "subjective"
-                classifier2 = get_pipeline("sentiment-analysis", model="nlptown/bert-base-multilingual-uncased-sentiment")
-                results = classifier2(text)
-                star_rating = int(results[0]['label'].split()[0])
-                sentiment = "negative" if star_rating in [1, 2] else "neutral" if star_rating == 3 else "positive"
-                classifier_distilbert = get_pipeline("text-classification", model='bhadresh-savani/distilbert-base-uncased-emotion', return_all_scores=True, top_k=None)
-                vis1 = classifier_distilbert(text)
-                emotions = [result['label'] for result in vis1[0]]
-                scores = [result['score'] for result in vis1[0]]
-                out.write(f"The sentence: [{text}] is {label} (Score: {result['score']:.2f})")
-                out.write(f"\nStar Rating: {star_rating} \n Sentiment: {sentiment} \n Score: {results[0]['score']:.2f}\n\n")
-                out.write(f"The emotions for the text are : \n")
-                for emotion, score in zip(emotions, scores):
-                    out.write(f"{emotion}: {score:.4f}\n")
-                out.write("\n\n")
-    elif analysis_type == 'subjectivity_emotion':
-        output_name = 'subjectivity_emotion.txt'
-        with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-            for text in input_text:
-                classifier1 = get_pipeline('text-classification', model='GroNLP/mdebertav3-subjectivity-multilingual')
-                result = classifier1(text)[0]
-                label = "objective" if result['label'] == "LABEL_0" else "subjective"
-                classifier_distilbert = get_pipeline("text-classification", model='bhadresh-savani/distilbert-base-uncased-emotion', return_all_scores=True, top_k=None)
-                vis1 = classifier_distilbert(text)
-                emotions = [result['label'] for result in vis1[0]]
-                scores = [result['score'] for result in vis1[0]]
-                out.write(f"The sentence: [{text}] is {label} (Score: {result['score']:.2f})")
-                out.write(f"\nThe emotions for the text are : \n")
-                for emotion, score in zip(emotions, scores):
-                    out.write(f"{emotion}: {score:.4f}\n")
-                out.write("\n\n")
-    elif analysis_type == 'sentiment_emotion':
-        output_name = 'sentiment_emotion.txt'
-        with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-            for text in input_text:
-                classifier2 = get_pipeline("sentiment-analysis", model="nlptown/bert-base-multilingual-uncased-sentiment")
-                results = classifier2(text)
-                star_rating = int(results[0]['label'].split()[0])
-                sentiment = "negative" if star_rating in [1, 2] else "neutral" if star_rating == 3 else "positive"
-                classifier_distilbert = get_pipeline("text-classification", model='bhadresh-savani/distilbert-base-uncased-emotion', return_all_scores=True, top_k=None)
-                vis1 = classifier_distilbert(text)
-                emotions = [result['label'] for result in vis1[0]]
-                scores = [result['score'] for result in vis1[0]]
-                out.write(f"Sentence: {text}\n : {star_rating} \n Sentiment: {sentiment} \n Score: {results[0]['score']:.2f}\n\n")
-                out.write(f"The emotions for the text are : \n")
-                for emotion, score in zip(emotions, scores):
-                    out.write(f"{emotion}: {score:.4f}\n")
-                out.write("\n\n")
-    elif analysis_type == 'emotion_analysis':
+    # ---------------------------------------------------------
+    # Normalisation de input_text
+    # ---------------------------------------------------------
+    if isinstance(input_text, str):
+        input_text = [input_text]
+
+    # ---------------------------------------------------------
+    # Chargement des modèles UNE SEULE FOIS
+    # ---------------------------------------------------------
+    classifier_subjectivity = get_pipeline(
+        "text-classification",
+        model="GroNLP/mdebertav3-subjectivity-multilingual"
+    )
+
+    classifier_sentiment = get_pipeline(
+        "sentiment-analysis",
+        model="nlptown/bert-base-multilingual-uncased-sentiment"
+    )
+
+    classifier_emotion_1 = get_pipeline(
+        "text-classification",
+        model="bhadresh-savani/distilbert-base-uncased-emotion",
+        return_all_scores=True,
+        top_k=None
+    )
+
+    classifier_emotion_2 = get_pipeline(
+        "text-classification",
+        model="SamLowe/roberta-base-go_emotions",
+        return_all_scores=True,
+        top_k=None
+    )
+
+    # Construction dynamique du nom de fichier
+    task_suffixes = []
+
+    if "subjectivity_detection" in analysis_type:
+        task_suffixes.append("subjectivity")
+
+    if "sentiment_analysis" in analysis_type:
+        task_suffixes.append("sentiment")
+
+    if "emotion_analysis" in analysis_type:
         if emotion_type == "analyse1":
-            output_name = 'emotion_analysis.txt'
-            with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-                for text in input_text:
-                    #Sortie
-                    classifier_distilbert = get_pipeline("text-classification", model='bhadresh-savani/distilbert-base-uncased-emotion', return_all_scores=True, top_k=None)
-                    vis1 = classifier_distilbert(text)
-                    emotions = [result['label'] for result in vis1[0]]
-                    scores = [result['score'] for result in vis1[0]]
-                    out.write(f"The emotions for [{text}] are : \n")
-                    for emotion, score in zip(emotions, scores):
-                        out.write(f"{emotion}: {score:.4f}\n")
-                    out.write("\n\n")
+            task_suffixes.append("emotion1")
+        elif emotion_type == "analyse2":
+            task_suffixes.append("emotion2")
+
+    if "readibility_scoring" in analysis_type:
+        task_suffixes.append("readability")
+
+    def safe_filename(text, max_length=20):
+        text = re.sub(r'[\\/*?:"<>|]', '', text)   # caractères interdits
+        text = re.sub(r'\W+', '_', text)           # remplace tout par _
+        text = text.strip('_')                     # nettoie les bords
+        return text[:max_length]                   # limite la longueur
+
+    def truncate(text, max_len=80):
+        return text if len(text) <= max_len else text[:max_len] + "..."
+
+    # Création du nom final
+    suffix = "_".join(task_suffixes)
+    output_name = f"analysis_{suffix}.txt"
+    output_path = os.path.join(result_path, output_name)
+
+    with open(output_path, "w", encoding="utf-8") as out:
+
+        # ---------------------------------------------------------
+        # SUBJECTIVITY DETECTION
+        # ---------------------------------------------------------
+        if "subjectivity_detection" in analysis_type:
+            out.write("===== SUBJECTIVITY DETECTION =====\n\n")
+            for text in input_text:
+                result = classifier_subjectivity(text)[0]
+                label = "objective" if result["label"] == "LABEL_0" else "subjective"
+                out.write(f"[{truncate(text)}] → {label} (Score: {result['score']:.2f})\n\n")
+
+        # ---------------------------------------------------------
+        # SENTIMENT ANALYSIS
+        # ---------------------------------------------------------
+        if "sentiment_analysis" in analysis_type:
+            out.write("===== SENTIMENT ANALYSIS =====\n\n")
+            for text in input_text:
+                results = classifier_sentiment(text)
+                star_rating = int(results[0]["label"].split()[0])
+                sentiment = (
+                    "negative" if star_rating in [1, 2]
+                    else "neutral" if star_rating == 3
+                    else "positive"
+                )
+                out.write(
+                    f"Sentence: {truncate(text)}\n"
+                    f"Star Rating: {star_rating}\n"
+                    f"Sentiment: {sentiment}\n"
+                    f"Score: {results[0]['score']:.2f}\n\n"
+                )
+
+        # ---------------------------------------------------------
+        # EMOTION ANALYSIS — ANALYSE 1
+        # ---------------------------------------------------------
+        if "emotion_analysis" in analysis_type and emotion_type == "analyse1":
+            out.write("===== EMOTION ANALYSIS (Analyse 1) =====\n\n")
 
             text_base = "emotion_viz1_"
+
             for i, text in enumerate(input_text):
-                #Visualisation
+
+                # Analyse
+                vis = classifier_emotion_1(text)
+                emotions = [e["label"] for e in vis[0]]
+                scores = [e["score"] for e in vis[0]]
+
+                # Écriture dans le fichier texte
+                out.write(f"Emotions for [{truncate(text)}]:\n")
+                for emo, score in zip(emotions, scores):
+                    out.write(f"{emo}: {score:.4f}\n")
+                out.write("\n")
+
+                # Visualisation Sankey
                 source = [0] * len(emotions)
                 target = list(range(1, len(emotions) + 1))
                 value = scores
-                node_colors = ["#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd", "#8c564b", "#e377c2", "#7f7f7f", "#bcbd22", "#17becf", "#bc80bd", "#ccebc5", "#ffed6f", "#8dd3c7", "#fb8072"]
+
+                node_colors = [
+                    "#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd",
+                    "#8c564b", "#e377c2", "#7f7f7f", "#bcbd22", "#17becf"
+                ]
+                node_colors = (node_colors * ((len(emotions) // len(node_colors)) + 1))[:len(emotions) + 1]
+
                 fig = go.Figure(data=[go.Sankey(
-                    node=dict(pad=55, thickness=55, line=dict(color="black", width=0.5), label=["Input Text"] + emotions, color=node_colors),
+                    node=dict(
+                        pad=55,
+                        thickness=55,
+                        line=dict(color="black", width=0.5),
+                        label=["Input Text"] + emotions,
+                        color=node_colors
+                    ),
                     link=dict(source=source, target=target, value=value)
                 )])
-                fig.update_layout(title_text="Emotion Classification", font_size=15)
-                vis1_name = text_base + str(i) + '.png'
-                vis1_path = os.path.join(result_path, vis1_name)
-                fig.write_image(vis1_path, format='png')
 
-        elif emotion_type == "analyse2":
-            #Visualisation2
-            text_base = "emotion_viz2_"  # Chaîne de caractères de base
-            for i, text in enumerate(input_text):  # input_text est une liste de textes à analyser
-                classifier_roberta = get_pipeline("text-classification", model="SamLowe/roberta-base-go_emotions", return_all_scores=True, top_k=None)
-                vis2 = classifier_roberta(text)
-                labels = [emotion['label'] for emotion in vis2[0]]
-                scores = [emotion['score'] for emotion in vis2[0]]
+                fig.update_layout(title_text="Emotion Classification", font_size=15)
+
+                # Nom du fichier basé sur la ligne soumise
+                clean_name = safe_filename(text)
+                vis_filename = f"{text_base}{clean_name}.png"
+                vis_path = os.path.join(result_path, vis_filename)
+
+                fig.write_image(vis_path, format="png")
+
+                # Résumé dans le fichier texte
+                out.write(f"- Visualisation générée : {vis_filename}\n\n")
+
+        # ---------------------------------------------------------
+        # EMOTION ANALYSIS — ANALYSE 2 (résumé dans le fichier)
+        # ---------------------------------------------------------
+        if "emotion_analysis" in analysis_type and emotion_type == "analyse2":
+            out.write("===== EMOTION ANALYSIS (Analyse 2) =====\n\n")
+            out.write("Visualisations générées pour chaque texte :\n\n")
+
+            text_base = "emotion_viz2_"
+
+            for i, text in enumerate(input_text):
+                vis = classifier_emotion_2(text)
+                labels = [e["label"] for e in vis[0]]
+                scores = [e["score"] for e in vis[0]]
+
                 combined = list(zip(labels, scores))
                 random.shuffle(combined)
                 labels, scores = zip(*combined)
-                scores = list(scores) + [scores[0]]
-                angles = [n / float(len(labels)) * 2 * np.pi for n in range(len(labels))] + [0]
+
+                scores = list(scores)
+                scores_closed = scores + [scores[0]]
+
+                angles = [n / float(len(labels)) * 2 * np.pi for n in range(len(labels))]
+                angles_closed = angles + [0]
+
                 fig, ax = plt.subplots(subplot_kw=dict(polar=True))
-                ax.fill(angles, scores, color='blue', alpha=0.5)
-                ax.plot(angles, scores, color='blue', linewidth=1)
-                ax.set_xticks(angles[:-1])
+                ax.fill(angles_closed, scores_closed, color="blue", alpha=0.5)
+                ax.plot(angles_closed, scores_closed, color="blue", linewidth=1)
+                ax.set_xticks(angles)
                 ax.set_xticklabels(labels)
-                plt.title('Emotion Classification')
-                
-                vis2_name = text_base + str(i) + '.png'
-                vis2_path = os.path.join(result_path, vis2_name)
-                plt.savefig(vis2_path, format='png')
+                plt.title("Emotion Classification")
+
+                clean_name = safe_filename(text)
+                vis_path = os.path.join(result_path, f"{text_base}{clean_name}.png")
+                plt.savefig(vis_path, format="png")
                 plt.close()
 
+                # Résumé dans le fichier texte
+                out.write(f"- Visualisation générée : {text_base}{clean_name}.png\n")
 
-    elif analysis_type == 'readibility_scoring':
-        output_name = 'readibility_scoring.txt'
-        with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
+            out.write("\n")
+
+        # ---------------------------------------------------------
+        # READABILITY SCORING
+        # ---------------------------------------------------------
+        if "readibility_scoring" in analysis_type:
+            out.write("===== READABILITY SCORING =====\n\n")
             for text in input_text:
-                flesch_reading_ease = textstat.flesch_reading_ease(text)
-                out.write(f"Flesch Reading Ease Score: {flesch_reading_ease}\n\n")
-
-    elif analysis_type == 'subjectivity_sentiment_emotion_readability':
-        output_name = 'subjectivity_sentiment_emotion_readability.txt'
-        with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-            for text in input_text:
-                classifier1 = get_pipeline('text-classification', model='GroNLP/mdebertav3-subjectivity-multilingual')
-                result = classifier1(text)[0]
-                label = "objective" if result['label'] == "LABEL_0" else "subjective"
-                classifier2 = get_pipeline("sentiment-analysis", model="nlptown/bert-base-multilingual-uncased-sentiment")
-                results = classifier2(text)
-                star_rating = int(results[0]['label'].split()[0])
-                sentiment = "negative" if star_rating in [1, 2] else "neutral" if star_rating == 3 else "positive"
-                classifier_distilbert = get_pipeline("text-classification", model='bhadresh-savani/distilbert-base-uncased-emotion', return_all_scores=True, top_k=None)
-                vis1 = classifier_distilbert(text)
-                emotions = [result['label'] for result in vis1[0]]
-                scores = [result['score'] for result in vis1[0]]
-                flesch_reading_ease = textstat.flesch_reading_ease(text)
-                out.write(f"The sentence: [{text}] is {label} (Score: {result['score']:.2f})")
-                out.write(f"\nStar Rating: {star_rating} \n Sentiment: {sentiment} \n Score: {results[0]['score']:.2f}\n\n")
-                out.write(f"The emotions for the text are : \n")
-                for emotion, score in zip(emotions, scores):
-                    out.write(f"{emotion}: {score:.4f}\n")
-                out.write(f"\nFlesch Reading Ease Score: {flesch_reading_ease}\n\n")
-
+                score = textstat.flesch_reading_ease(text)
+                out.write(f"Flesch Reading Ease Score: {score}\n\n")
 
     response = create_zip_and_response(result_path, rand_name)
     return response
@@ -3514,155 +3503,36 @@ def compare():
         file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
         file.save(file_path)
         file_paths.append(file_path)
-    
+
     if len(file_paths) >= 2:
         text1 = read_file(file_paths[0])
         text2 = read_file(file_paths[1])
         rand_name = generate_rand_name('comparison_')
         result_path = create_named_directory(rand_name)
-        
+
         output_file = os.path.join(result_path, 'comparison.html')
         compare_texts(text1, text2, output_file)
 
-        if len(os.listdir(result_path)) > 0:
-            shutil.make_archive(result_path, 'zip', result_path)
-            output_stream = BytesIO()
-            with open(str(result_path) + '.zip', 'rb') as res:
-                content = res.read()
-            output_stream.write(content)
-            response = Response(output_stream.getvalue(), mimetype='application/zip',
-                                headers={"Content-disposition": "attachment; filename=" + rand_name + '.zip'})
-            output_stream.seek(0)
-            output_stream.truncate(0)
-            shutil.rmtree(result_path)
-            os.remove(str(result_path) + '.zip')
-            return response
+        # On lit directement le fichier HTML généré
+        with open(output_file, 'rb') as f:
+            content = f.read()
+
+        # On supprime le dossier temporaire
+        shutil.rmtree(result_path)
+
+        # On renvoie le fichier HTML directement
+        return Response(
+            content,
+            mimetype='text/html',
+            headers={
+                "Content-Disposition": f"attachment; filename={rand_name}.html"
+            }
+        )
 
         return Response(json.dumps({"error": "Une erreur est survenue dans le traitement des fichiers."}), status=500, mimetype='application/json')
     
     else:
         return jsonify({"error": "Please upload at least two text files"}), 400
-
-
-#--------------- Embeddings --------------------------
-model_glove_cache = None # Cache pour le modèle
-
-def get_glove_model():
-    import gensim.downloader as api
-    global model_glove_cache
-    if model_glove_cache is None:
-        model_glove_cache = api.load("glove-wiki-gigaword-100")  # Chargement unique
-    return model_glove_cache
-
-
-@app.route('/embedding_tool', methods=['POST'])
-def embedding_tool():
-    import matplotlib.pyplot as plt
-    from sklearn.decomposition import PCA
-    from sklearn.cluster import KMeans
-
-    analysis_type = request.form['analysis_type']
-    inputText = str(request.form.get('inputText'))
-    input1 = str(request.form.get('input1'))
-    input2 = str(request.form.get('input2'))
-    input3 = str(request.form.get('input3'))
-    words_list = str(request.form.get('words_list'))
-    analyzed_words = words_list.split(';')
-
-    model_glove = get_glove_model()
-
-    rand_name = generate_rand_name('embedding_')
-    result_path = create_named_directory(rand_name)
-
-    try:
-        if analysis_type == 'similarity':
-            similar_words = model_glove.most_similar(inputText, topn=5)
-            output_name = 'similarity.txt'
-            with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-                for term, similarity in similar_words:
-                    out.write(f"{term}: {similarity:.4f}\n")
-        elif analysis_type == 'relations':
-            result = model_glove.most_similar(positive=[input1, input2], negative=[input3], topn=1)
-            output_name = 'relations.txt'
-            with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-                out.write(f"'{input1}' is to '{input2}' as '{input3}' is to '{result[0][0]}'")
-        elif analysis_type == 'clustering':
-            word_vectors = [model_glove[word] for word in analyzed_words]
-            kmeans = KMeans(n_clusters=3, random_state=0).fit(word_vectors)
-            clusters = kmeans.labels_
-
-            #Sortie
-            output_name = 'clustering.txt'
-            with open(os.path.join(result_path, output_name), 'w', encoding='utf-8') as out:
-                for word, cluster in zip(analyzed_words, clusters):
-                    out.write(f"{word} is in cluster {cluster}\n")
-
-            #Visualisation
-            pca = PCA(n_components=2)
-            word_vecs_2d = pca.fit_transform(word_vectors)
-            plt.figure(figsize=(5, 5))
-            for i, word in enumerate(analyzed_words):
-                plt.scatter(word_vecs_2d[i, 0], word_vecs_2d[i, 1])
-                plt.annotate(word, xy=(word_vecs_2d[i, 0], word_vecs_2d[i, 1]), xytext=(5, 2),
-                             textcoords='offset points', ha='right', va='bottom')
-            cluster_name = 'clustering.png'
-            cluster_path = os.path.join(result_path, cluster_name)
-            plt.savefig(cluster_path, format='png')
-            plt.close()
-
-    except Exception as e:
-        response = {"error": str(e)}
-        return Response(json.dumps(response), status=500, mimetype='application/json')
-
-    response = create_zip_and_response(result_path, rand_name)
-    return response
-
-    return Response(json.dumps({"error": "Une erreur est survenue dans le traitement des fichiers."}), status=500, mimetype='application/json')
-
-
-#--------------- Relations lexicales --------------------------
-@app.route('/lexical_relationships', methods=['POST'])
-def lexical_relationships():
-    if 'word' not in request.form or not request.form['word'].strip():
-        response = {"error": "Le champ 'word' est manquant ou vide."}
-        return Response(json.dumps(response), status=400, mimetype='application/json')
-
-    try:
-        word = request.form.get('word')
-        language_choice = request.form.get('language_choice')
-
-        from nltk.corpus import wordnet as wn
-
-        synonyms, antonyms, hyponyms, hypernyms, meronyms, holonyms = set(), set(), set(), set(), set(), set()
-
-        for syn in wn.synsets(word, lang=language_choice):
-            for lemma in syn.lemmas(lang=language_choice):
-                synonyms.add(lemma.name())
-                if lemma.antonyms():
-                    antonyms.add(lemma.antonyms()[0].name())
-
-            hyponyms.update(lemma.name() for hypo in syn.hyponyms() for lemma in hypo.lemmas(lang=language_choice))
-            hypernyms.update(lemma.name() for hyper in syn.hypernyms() for lemma in hyper.lemmas(lang=language_choice))
-            meronyms.update(lemma.name() for part in syn.part_meronyms() for lemma in part.lemmas(lang=language_choice))
-            holonyms.update(lemma.name() for whole in syn.part_holonyms() for lemma in whole.lemmas(lang=language_choice))
-
-        relationships_html = f"""
-        <h3>Voici les relations lexicales de "{word}"</h3>
-            <ul class="custom-list">
-                <li><strong>Synonymes</strong> : {', '.join(s.replace('_', ' ') for s in sorted(synonyms)) or 'None'}</li>
-                <li><strong>Antonymes</strong> : {', '.join(s.replace('_', ' ') for s in sorted(antonyms)) or 'None'}</li>
-                <li><strong>Hyponymes</strong> : {', '.join(s.replace('_', ' ') for s in sorted(hyponyms)) or 'None'}</li>
-                <li><strong>Hyperonymes</strong> : {', '.join(s.replace('_', ' ') for s in sorted(hypernyms)) or 'None'}</li>
-                <li><strong>Méronymes</strong> : {', '.join(s.replace('_', ' ') for s in sorted(meronyms)) or 'None'}</li>
-                <li><strong>Holonymes</strong> : {', '.join(s.replace('_', ' ') for s in sorted(holonyms)) or 'None'}</li>
-        </ul>
-        """
-        return render_template("tools/lexical_relationship.html", word=word, relationships_html=relationships_html, msg="")
-
-    except Exception as e:
-        response = {"error": f"Erreur lors de l'analyse : {str(e)}"}
-        return Response(json.dumps(response), status=500, mimetype='application/json')
-
 
 #---------------------------------------------------------
 # Visualisation
@@ -3693,8 +3563,12 @@ def run_renard():
             else:
                 text = request.form['renard_txt_input']
 
-            rand_name = 'renard_graph_' + ''.join(random.choice(string.ascii_lowercase) for _ in range(8)) + '.gexf'
-            result_path = ROOT_FOLDER / os.path.join(app.config['UPLOAD_FOLDER'], rand_name)
+            base_name = 'renard_graph_' + ''.join(random.choice(string.ascii_lowercase) for _ in range(8))
+            gexf_name = base_name + '.gexf'
+            png_name = base_name + '.png'
+
+            gexf_path = ROOT_FOLDER / os.path.join(app.config['UPLOAD_FOLDER'], gexf_name)
+            png_path = ROOT_FOLDER / os.path.join(app.config['UPLOAD_FOLDER'], png_name)
 
             import base64
             from renard.graph_utils import graph_with_names
@@ -3726,18 +3600,19 @@ def run_renard():
             out = pipeline(text)
 
             # Export GEXF graph
-            out.export_graph_to_gexf(result_path)
+            out.export_graph_to_gexf(gexf_path)
 
             # Render graph
             G = graph_with_names(out.characters_graph)
             plot_nx_graph_reasonably(G)
+            plt.savefig(png_path, format='png')
             img = BytesIO()
             plt.savefig(img, format='png')
             img.seek(0)
             plt.clf()
             figdata_png = base64.b64encode(img.getvalue()).decode('ascii')
 
-            return render_template('tools/renard.html', form=form, graph=figdata_png, fname=str(rand_name))
+            return render_template('tools/renard.html', form=form, graph=figdata_png, gexf_file=gexf_name, png_file=png_name)
 
         except Exception as e:
             print(f"Error in pipeline: {str(e)}")

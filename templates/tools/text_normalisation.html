@@ -12,28 +12,21 @@
     <ul class="item-list" style="margin-left: 3em;">
         <li><hi style="font-weight: bold;">{{ _('Tokenisation') }} (Option 1)</hi> : {{ _('Découpage du texte en chaque instance séparée par un espace et/ou un signe de ponctuation') }}</li>
         <li><hi style="font-weight: bold;">{{ _('Lemmatisation') }} (Option 2)</hi> : {{ _("Récupération de chaque élément du texte sous sa forme lemmatisé, c'est-à-dire sa forme canonique") }}.</li>
-    </ul></p></div>
+    </ul></p>
+    <p style="margin-top: 0.5em;">{{ _("Il est possible d'obtenir cette normalisation avec la casse d'origine, ou avec la casse entièrement en minuscules.") }}</p>
+<p style="margin-top: 0.5em;">{{ _("Le document de sortie contiendra dans son nom de fichier les tâches qui auront été effectuées ('tokens', 'lemmas', 'lowercases').") }}</p></div>
     <br>
     <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_preprocessing') }}"  target="_blank">{{ _('Voir la documentation') }}</a></p>
     <br>
-    <div class="infos_outil" style="display: block;margin: 0 auto 15px auto;">
-        <input id="show" type=checkbox><label for="show" class="infos_title"><i class="fa-solid fa-circle-info"></i> {{ _("Informations sur l'outil") }}<i class="fa-solid fa-angle-right" style="float:right;margin-top:5px;margin-left:15px;cursor: pointer;"></i></label>
-        <div class="info_popped">
-          <p>Natural Language Toolkit (NLTK) / SpaCy
-      <p>{{ _("Formats d'entrée :")}} <i class="fa-regular fa-file-lines"></i> {{ _('texte brut') }} (.txt)</p>
-      <p>{{ _("Formats de sortie :")}} <i class="fa-regular fa-file-lines"></i> {{ _('texte brut') }} (.txt)</p>
-      <p>{{ _("Encodage")}} : UTF-8</p>
-      </div>
-  </div>
-  <br>
     <form action="{{ url_for('normalize_text') }}" id="linguistic-form" method="post" enctype="multipart/form-data">
     <input type="hidden" name="download_token" id="download_token" value="">
     <div class="relations-input">
         <label>{{ _("Choisir le(s) type(s) d'analyse") }} :</label>
         <div id="normalisation_type_checkboxes">
-            <label><input type="checkbox" name="normalisation_type" value="tokens"> {{ _('Tokenisation') }} (Option 1)</label><br>
-            <label><input type="checkbox" name="normalisation_type" value="lemmas" id="cb_lemmas"> {{ _('Lemmatisation') }} (Option 2)</label><br>
-            <label><input type="checkbox" name="normalisation_type" value="lowercases"> {{ _('Minuscules') }}</label>
+            <label><input type="checkbox" name="normalisation_type" value="tokens"> Option 1 ({{ _("casse d'origine") }})</label><br>
+            <label><input type="checkbox" name="normalisation_type" value="tokens_lower"> Option 1 ({{ _("minuscules") }})</label><br>
+            <label><input type="checkbox" name="normalisation_type" value="lemmas" id="cb_lemmas"> Option 2 ({{ _("casse d'origine") }})</label><br>
+            <label><input type="checkbox" name="normalisation_type" value="lemmas_lower" id="cb_lemmas_lower"> Option 2 ({{ _("minuscules") }})</label><br>
         </div>
     </div>
     <br>
@@ -88,15 +81,23 @@ $('form input[type=file]').change(function () {
     }
 });
 
-function togglelemmaFields() {
+function toggleLemmaFields() {
     const cbLemmas = document.getElementById("cb_lemmas");
+    const cbLemmasLower = document.getElementById("cb_lemmas_lower");
+
+    const show = cbLemmas.checked || cbLemmasLower.checked;
+
     document.getElementById("lemma_fields").style.display =
-        cbLemmas.checked ? "block" : "none";
+        show ? "block" : "none";
 }
 
 document.addEventListener("DOMContentLoaded", function() {
-    document.getElementById("cb_lemmas").addEventListener("change", togglelemmaFields);
-    togglelemmaFields();
+    document.getElementById("cb_lemmas").addEventListener("change", toggleLemmaFields);
+    document.getElementById("cb_lemmas_lower").addEventListener("change", toggleLemmaFields);
+
+    // Appel initial pour mettre l'état correct au chargement
+    toggleLemmaFields();
+
 
     document.getElementById("linguistic-form").addEventListener("submit", function(e) {
         const checked = document.querySelectorAll('input[name="normalisation_type"]:checked');

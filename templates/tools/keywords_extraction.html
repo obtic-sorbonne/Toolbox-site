@@ -8,18 +8,26 @@
 <div class="outil">
     <div class="fil"><a href="{{ url_for('information_extraction')}}"><< {{ _('Retour aux tâches') }}</a></div>
     <h2 style="font-family:'Comprehension', serif;">{{ _('Extraction de mots-clés') }}</h2>
-
-    
-    {% if error %}
-        <div class="alert alert-danger">
-            {{ error }}
-        </div>
-    {% endif %}
-
-
+    <p>{{ _("Cet outil permet d'identifier les termes les plus représentatifs du contenu d'un document ou d'un corpus. Il repose sur KeyBert, qui exploite des modèles basés sur les transformateurs pour encoder le texte et identifier les mots-clés pertinents.")}} {{ _("Les mots seront donnés avec un score de similarité entre parenthèses, de 0 (aucune similarité) à 1 (similarité parfaite, quasi impossible en pratique), et où, plus le chiffre est élevé, plus le mot‑clé est considéré comme représentatif du texte.")}}<br>
+    {{ _("Afin de diversifier les résultats, deux affinages sont possibles :")}}
+    <ul class="item-list" style="margin-left: 3em;">
+        <li>{{ _("<strong>MMR ou Maximal Marginal Relevance</strong>, qui filtre les mots-clés selon leur diversité. Il sera possible aussi de changer le taux de diversité, élevé = moins de redondances entre les mots-clés ; faible = ciblage des nuances autour des thèmes principaux.")}}</li>
+        <li>{{ _("<strong>MSS ou Maximal Sum Similarity</strong>, qui sélectionne les mots-clés avec la plus faible similarité entre eux, pour éviter les répétitions directes.")}}</li></ul></p>
+        <p style="margin-top: 1em;">{{ _("Le résultat se fera sous forme de tableau sur la page même, qui peut s'exporter par la suite au format CSV.")}}</p>
     <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_extraction') }}" target="_blank">{{ _("Voir la documentation") }}</a> / <a href="{{ url_for('tutorial_extraction') }}"  target="_blank">{{ _('Voir le tutoriel') }}</a></p>
+    <br><div class="infos_outil" style="display: block;margin: 0 auto 15px auto;">
+        <input id="show" type=checkbox><label for="show" class="infos_title"><i class="fa-solid fa-circle-info"></i> {{ _("Informations sur l'outil") }}<i class="fa-solid fa-angle-right" style="float:right;margin-top:5px;margin-left:15px;cursor: pointer;"></i></label>
+        <div class="info_popped">
+          <p>KeyBERT, modèle <a href="https://huggingface.co/sentence-transformers/distiluse-base-multilingual-cased-v1">distiluse-base-multilingual-cased-v1</a>
+      <p>{{ _("Format(s) d'entrée ")}}: <i class="fa-regular fa-file-lines"></i> {{ _('texte brut') }} (.txt)</p>
+      <p>{{ _("Format(s) de sortie ")}}: <i class="fa-solid fa-file-csv"></i> {{ _('fichier CSV') }} (.csv)</p>
+      <p>{{ _('Encodage') }} : UTF-8</p>
+      <p><i class="fa-solid fa-triangle-exclamation"></i> {{ _("Attention : Assurez-vous que les noms de vos fichiers d'entrée ne soient pas trop longs")}}<br>
+      {{ _("et ne contiennent pas de caractères problématiques")}} ([\/:*"&gt;&lt;|])</p>
+      </div>
+  </div>
+  <br>
         <div class="item">
-            <h3>{{ _("Chargement des fichiers") }}</h3>
             <form action="{{ url_for('keyword_extraction') }}" method="post" enctype="multipart/form-data" class="drag-drop-form" id="kw_form">
                 {{ form.csrf_token }}
                 <div class="form_opt">
@@ -29,17 +37,15 @@
                     <input type="checkbox" name="extraction-method" value="mmr" id="mmr" style="margin-left: 1em;">  <label for="mmr">MMR</label>
                     <input type="checkbox" name="extraction-method" value="mss" id="mss" style="margin-left: 1em;">  <label for="mss">MSS</label>
 
-                    <div id="diversity_opt" style="display:none;padding:5px;"><input type="range" name="diversity" min="0" max="10" value="7"><label for="diversity">{{ _("Diversité (MMR)") }}</label></div>
+                    <div id="diversity_opt" style="display:none;padding:5px;"><input type="range" name="diversity" min="0" max="10" value="7"><label for="diversity">{{ _("Diversité") }} (MMR)</label></div>
                 </fieldset>
                 </div>
-                <div  style="width: 500px; margin: 0 auto;">
-                <div class="dropzone" id="kw_dropzone">
+                <div class="dropzone" id="kw_dropzone" style="margin:25px auto;">
                 <input type="file" name="keywd-extract" accept="text/plain" multiple required>
                 <p id="form_msg">{{ _("Déposer le(s) fichier(s) ou cliquer ici.") }}</p>
                 </div>
                 <input id="csrf_token" name="csrf_token" type="hidden" value="CSRF_TOKEN_STRING">
-                <button type="submit">{{ _('Envoyer') }}</button>
-            </div>
+                <button style="display:block;margin:auto;margin-top:20px;">{{ _('Extraire les informations') }}</button>
             </form>
             
             <!-- the loader -->

@@ -25,11 +25,18 @@
 	<div class="fil"><a href="{{ url_for('visualisation_tools')}}"><< {{ _('Retour aux tâches') }}</a></div>
 	<h2>Renard</h2>
 	<p>{{ _("L'outil") }} <a href="https://compnet.github.io/Renard/introduction.html" target="_blank">Renard <i class="fa-solid fa-arrow-up-right-from-square"></i></a> ({{ _('pour') }} <span style="font-style:italic">Relationships Extraction from NARrative Documents</span>) {{ _ ("permet d'extraire les entités de personnes d'un texte littéraire et visualiser les réseaux de personnages sous forme de graphes") }}.</p>
+	<p>{{ _("Il est possible de choisir la langue du texte. Trois options seulement sont disponibles actuellement : français, anglais et espagnol.") }}<br>
+	{{ _("Il est important de bien choisir le nombre minimal de mentions du personnages, en fonction de la taille du document :") }}
+    <ul class="item-list" style="margin-left: 3em;">
+	<li>{{ _("Le minimum est 1, et le maximum est 100.") }}</li>
+	<li>{{ _("Si votre document est assez court, privilégier un nombre entre 1 et 5.") }}</li>
+	<li>{{ _("Si votre document est de taille moyenne, choisissez entre 10 et 30.") }}</li>
+	<li>{{ _("Si votre document est plus long, augmentez le nombre (Vous pouvez tester plusieurs nombres pour obtenir un graphe qui vous semble plus clair).") }}</li></ul></p><br>
 	<div class="infos_outil" style="display: block;margin: 0 auto 15px auto;">
         <input id="show" type=checkbox><label for="show" class="infos_title"><i class="fa-solid fa-circle-info"></i> {{ _("Informations sur l'outil") }}<i class="fa-solid fa-angle-right" style="float:right;margin-top:5px;margin-left:15px;cursor: pointer;"></i></label></p>
         <div class="info_popped">
 		<p>Renard v.0.6.5</p>
-		<p>{{ _("Format d'entrée :")}} <i class="fa-regular fa-file-lines"></i> {{ _('fichier TXT') }}</p>
+		<p>{{ _("Format(s) d'entrée ")}}: <i class="fa-regular fa-file-lines"></i> {{ _('fichier TXT') }}</p>
 		<p>{{ _('Formats générés :')}} <li style="text-decoration: none; margin-left: 20px;"><i class="fa-regular fa-image"></i> {{ _('graphe PNG') }}</li> 
 			<li style="text-decoration: none; margin-left: 20px;"><i class="fa-solid fa-file-code"></i> {{ _('fichier GEXF') }}</li></ul></p>
 		<p>{{ _('Limite de taille ')}}: 150 Mo</p>
@@ -47,11 +54,10 @@
 			<select name="toollang" id="toollang" class="styled-select">
 				<option value="fra" selected="true">{{ _('Français') }}</option>
 				<option value="eng">{{ _('Anglais') }}</option>
-				<option value="spa">{{ _('Espagnol') }}</option>
 			</select>
 			<br>
 			<label for="min_appearances"><i class="fa-regular fa-user"></i> {{ _('Nombre minimal de mentions du personnage') }}</label>
-			<input type="number" id="min_appearances" name="min_appearances" min="1" max="50" value="10"></fieldset>
+			<input type="number" id="min_appearances" name="min_appearances" min="1" max="100" value="10"></fieldset>
 		</div>
 
 		 <div class="container" id="renard_container">
@@ -68,14 +74,24 @@
 	</div>
 
 	{% if graph != "" %}
-	<div id="renard_visu">
-		<img style="display:block;margin:auto" src="data:image/png;base64, {{graph}}" alt="graphe" height="650px"/>
-	</div>
-	{% endif %}
+		<div id="renard_visu">
+		    <img style="display:block;margin:auto" src="data:image/png;base64, {{ graph }}" alt="graphe" height="650px"/>
+		</div>
+		{% endif %}
 
-	{% if fname != "" %}
-	<button style="display:block;margin:20px auto;" onclick="window.location.href='{{ url_for('get_file', filename=fname) }}';">{{ _('Télécharger le graphe')}}</button>
-	{% endif %}
+		{% if gexf_file %}
+		<button style="display:block;margin:20px auto;"
+		        onclick="window.location.href='{{ url_for('get_file', filename=gexf_file) }}';">
+		    {{ _('Télécharger le graphe (.gexf)') }}
+		</button>
+		{% endif %}
+
+		{% if png_file %}
+		<button style="display:block;margin:20px auto;"
+		        onclick="window.location.href='{{ url_for('get_file', filename=png_file) }}';">
+		    {{ _('Télécharger l’image (.png)') }}
+		</button>
+		{% endif %}
 
 	<div class="bibliography">
 		<h4>{{ _("Références") }}</h4>

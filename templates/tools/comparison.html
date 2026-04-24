@@ -7,14 +7,21 @@
     <div class="fil"><a href="{{ url_for('analyses')}}"><< {{ _('Retour aux tâches') }}</a></div>
     <div>
         <h2>{{ _('Comparaison') }}</h2>
-    <p>{{ _("Cet outil permet d'observer les différences qui existent entre deux textes donnés") }}.</p></div>
+    <p>{{ _("Cet outil permet d'observer les différences qui existent entre deux textes donnés. Le fichier de sortie est un HTML (à ouvrir dans son navigateur pour le visualiser)") }}. <br> {{ _("Il contient tout d'abord quatre métriques ") }}:
+    <ul class="item-list" style="margin-left: 3em;">
+    <li>{{ _("<strong>Levenshtein Distance</strong> : Nombre minimum d’opérations d’édition nécessaires pour transformer un texte en un autre (Plus le nombre est grand, plus les textes sont différents au niveau caractère par caractère)") }}</li>
+    <li>{{ _("<strong>Jaccard Index</strong> :  Similarité entre ensembles de tokens (mots), pas entre caractères (Plus le nombre est haut, plus la similarité lexicale est forte)") }}.</li>
+    <li>{{ _("<strong>LCS Distance</strong> : La longueur totale de texte moins la longueur de la plus longue sous‑séquence commune (Le nombre correspond à ce qu'il manque pour que les textes soient identiques)") }}</li>
+    <li>{{ _("<strong>Ratcliff-Obershelp Similarity</strong> : Proportion de sous‑séquences correspondantes entre les deux textes (Plus le nombre est haut, plus la similarité globale est forte)") }}.</li></ul></p>
+
+    <p style="margin-top: 0.5em;">{{ _("La visualisation présente ensuite les deux textes côte à côte, avec des éléments surlignés en couleur pour signifier les changements : le jaune pour les substitutions, le rouge pour les suppressions et le vert pour les insertions") }}.</p></div>
     <br>
     <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_analyses') }}"  target="_blank">{{ _('Voir la documentation') }}</a></p>
     <br>
     <div class="infos_outil" style="display: block;margin: 0 auto 15px auto;">
         <input id="show" type=checkbox><label for="show" class="infos_title"><i class="fa-solid fa-circle-info"></i> {{ _("Informations sur l'outil") }}<i class="fa-solid fa-angle-right" style="float:right;margin-top:5px;margin-left:15px;cursor: pointer;"></i></label>
         <div class="info_popped"><p>Textdistance, Difflib</p>
-      <p>{{ _("Formats d'entrée :")}} <i class="fa-regular fa-file-lines"></i> {{ _('fichier texte') }} (.txt)</p>
+      <p>{{ _("Format(s) d'entrée ")}}: <i class="fa-regular fa-file-lines"></i> {{ _('fichier texte') }} (.txt)</p>
       <p>{{ _('Format généré :')}} <i class="fa-solid fa-file-code"></i> {{ _('fichier') }} HTML</p>
       <p>{{ _("Limite d'ajout : 2 fichiers max") }}</p>
       <p><i class="fa-solid fa-triangle-exclamation"></i> {{ _("Attention : Assurez-vous que les noms de vos fichiers d'entrée ne soient pas trop longs")}}<br>

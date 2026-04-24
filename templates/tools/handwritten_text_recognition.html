@@ -39,7 +39,7 @@
     <div class="infos_outil" style="display: block;margin: 0 auto 15px auto;">
         <input id="show" type=checkbox><label for="show" class="infos_title"><i class="fa-solid fa-circle-info"></i> {{ _("Informations sur l'outil") }}<i class="fa-solid fa-angle-right" style="float:right;margin-top:5px;margin-left:15px;cursor: pointer;"></i></label></p>
         <div class="info_popped"><p>Kraken version 5.3.0</p>
-      <p>{{ _("Formats d'entrée :")}} <i class="fa-regular fa-image"></i> PNG, JPG, TIFF, PDF</p>
+      <p>{{ _("Format(s) d'entrée ")}}:<i class="fa-regular fa-image"></i> PNG, JPG, TIFF, PDF</p>
       <p>{{ _('Format généré :')}} <i class="fa-regular fa-file-lines"></i> {{ _('fichier TXT') }}</p>
       <p>{{ _('Limite de taille ')}}: 150 Mo</p>
       <p><i class="fa-solid fa-triangle-exclamation"></i> {{ _("Attention : Assurez-vous que les noms de vos fichiers d'entrée ne soient pas trop longs")}}<br>
@@ -78,7 +78,7 @@
         <p id="form_msg">{{ _('Déposer le(s) fichier(s) ou cliquer ici.' )}}</p>
       </div>
       <input id="csrf_token" name="csrf_token" type="hidden" value="CSRF_TOKEN_STRING">
-      <button>{{ _('Numériser') }}</button>
+      <button>{{ _('Reconnaissance de texte') }}</button>
     </form>
     </div>
     <!-- Loader -->
@@ -89,16 +89,6 @@
 	  </div>
 	  <!--end div loader-->
   </div><!-- end div tool-box-->
-</div>
-
-<span class="trigger-panel" onclick="openNav()">{{ _('Tâches suivantes')}}  <i class="fa-solid fa-angles-right"></i></span>
-
-<div id="task-panel-ocr" class="sidepanel">
-  <span class="closebtn" onclick="closeNav()">&times;</span>
-  <h3 style="font-family: 'Comprehension', serif;">{{ _('Tâches suivantes')}}</h3>
-  <div class="side-item"><a href="{{ url_for('conversion_xml') }}">{{ _('Convertir en XML-TEI') }}</a></div>
-  <div class="side-item"><a href="{{ url_for('named_entities_recognition') }}">{{ _('Extraire les entités nommées') }}</a></div>
-  <div class="side-item"><a href="{{ url_for('partofspeech_tagging') }}">{{ _('Étiqueter en parties du discours') }}</a></div>
 </div>
 
 <script>

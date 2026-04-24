@@ -6,15 +6,23 @@
 <div class="outil">
     <div class="fil"><a href="{{ url_for('information_extraction')}}"><< {{ _('Retour aux tâches') }}</a></div>
     <h2>Quotation extraction</h2>
-    <p>{{ _("Récupération, dans un ou des documents soumis, d'extraits de texte") }}, {{ _("généralement entre guillemets, qui représentent les mots de quelqu'un d'autre") }}.</p>
+    <p>{{ _("Cet outil permet d'extraire des bouts de texte qui figurent entre guillemets dans les documents fournis, et qui représentent donc les mots de quelqu'un d'autre.") }}<br>
+    {{ _("Plusieurs types de guillemets sont pris en compte :") }}
+    <ul class="item-list" style="margin-left: 3em;">
+    <li>{{ _("Guillemets doubles et simples") }} ASCII ('/")</li>
+    <li>{{ _("Guillemets inversés (backticks)") }} (`)</li>
+    <li>{{ _("Guillemets français, inversés ou non") }} (»/«)</li>
+    <li>{{ _("Guillemets allemands") }} („/“/‚/‘)</li>
+    <li>{{ _("Guillemets anglais") }} (“/”)</li>
+    <li>{{ _("Guillemets japonais") }} (「/」)</li></ul></p>
     <br>
     <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_extraction') }}" target="_blank">{{ _("Voir la documentation") }}</a></p>
     <br><div class="infos_outil" style="display: block;margin: 0 auto 15px auto;">
         <input id="show" type=checkbox><label for="show" class="infos_title"><i class="fa-solid fa-circle-info"></i> {{ _("Informations sur l'outil") }}<i class="fa-solid fa-angle-right" style="float:right;margin-top:5px;margin-left:15px;cursor: pointer;"></i></label>
         <div class="info_popped">
           <p>{{ _('Expressions régulières') }} (Regex)
-      <p>{{ _("Formats d'entrée :")}} <i class="fa-regular fa-file-lines"></i> {{ _('texte brut') }} (.txt)</p>
-      <p>{{ _("Formats de sortie :")}} <i class="fa-regular fa-file-lines"></i> {{ _('texte brut') }} (.txt)</p>
+      <p>{{ _("Format(s) d'entrée ")}}: <i class="fa-regular fa-file-lines"></i> {{ _('texte brut') }} (.txt)</p>
+      <p>{{ _("Format(s) de sortie ")}}: <i class="fa-regular fa-file-lines"></i> {{ _('texte brut') }} (.txt)</p>
       <p>{{ _('Encodage') }} : UTF-8</p>
       <p><i class="fa-solid fa-triangle-exclamation"></i> {{ _("Attention : Assurez-vous que les noms de vos fichiers d'entrée ne soient pas trop longs")}}<br>
       {{ _("et ne contiennent pas de caractères problématiques")}} ([\/:*"&gt;&lt;|])</p>

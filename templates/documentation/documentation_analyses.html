@@ -8,7 +8,7 @@
 }
 
 .outil strong {
-    color: #f2a800;
+    color: #182F7A;
 }
 
 .outil h4 {
@@ -25,7 +25,7 @@
 <div class="outil">
     <div class="fil"> </div>
     
-	<div style="text-align: left;"><a href="{{ url_for('documentation_extraction')}}" style="color:#f2a800; text-decoration:none;"><< {{ _('Documentation précédente') }}</a></div>
+	<div style="text-align: left;"><a href="{{ url_for('documentation_extraction')}}" style="color:#182F7A; text-decoration:none;"><< {{ _('Documentation précédente') }}</a></div>
     <div class="tool-box">
     <h2>{{ _("Introduction à l'analyse linguistique") }}</h2>
     <p>
@@ -184,107 +184,9 @@
         {{ _("Les cooccurrences permettent d'explorer les liens implicites dans un texte, contribuant à des analyses plus riches et détaillées") }}.
     </p>
     <br>
-    <h4>Embeddings {{ _("(Représentations vectorielles)") }}</h4>
-    <p>
-        {{ _("Les <strong>embeddings</strong> représentent les mots sous forme de vecteurs dans un espace sémantique multidimensionnel, capturant leurs significations et relations contextuelles") }}. {{ _("Cette méthode s'appuie sur la distribution des mots voisins dans les textes") }}.
-    </p>
-    <br>
-    <h5>{{ _("Concepts clés ") }}:</h5>
-    <ul>
-        <li>{{ _("<strong>Sémantique vectorielle</strong> : Chaque mot est positionné dans un espace où les vecteurs proches représentent des mots sémantiquement similaires") }}.</li>
-        <li><strong>Static embeddings</strong> : {{ _("Modèles comme Word2Vec ou GloVe, où chaque mot a une seule représentation vectorielle") }}.</li>
-        <li><strong>Dynamic embeddings</strong> : {{ _("Modèles modernes (ex. BERT) qui tiennent compte du contexte d'apparition des mots") }}.</li>
-    </ul>
-    <br>
-    <h5>{{ _("Visualisation ") }}:</h5>
-    <p>
-        {{ _("Pour des vecteurs de haute dimension, on peut visualiser les similarités en listant les mots les plus proches en termes de cosinus vectoriel (ex. : 'frog' → 'frogs', 'toad', 'lizard')") }}.
-    </p>
-    <br>
-    <h5>Applications :</h5>
-    <ul>
-        <li>{{ _("<strong>Traduction automatique</strong> : Maintenir la cohérence sémantique entre langues") }}.</li>
-        <li>{{ _("<strong>Analyse thématique</strong> : Grouper des mots liés par le sens") }}.</li>
-        <li>{{ _("<strong>Recherche documentaire</strong> : Trouver des termes similaires ou des concepts apparentés") }}.</li>
-    </ul>
-    <br>
     <h4>Conclusion</h4>
     <p>
         {{ _("Les analyses statistiques en linguistique, qu'elles portent sur la longueur des phrases, les fréquences, les cooccurrences ou les représentations vectorielles, permettent d'explorer les textes de manière rigoureuse et approfondie") }}. {{ _("En combinant ces méthodes, il devient possible de mieux comprendre la structure et le contenu des données textuelles, tout en fournissant des bases solides pour des applications avancées comme la traduction automatique, l'analyse de sentiments ou encore la recherche d'information") }}.
-    </p>
-<hr>
-    <h2>{{ _("Introduction aux analyses lexicales") }}</h2>
-    <p>
-        {{ _("Les analyses lexicales constituent un ensemble de méthodes utilisées pour étudier le vocabulaire d'un texte ou d'un corpus, en mettant en lumière sa structure, ses caractéristiques et ses spécificités") }}. {{ _("Elles jouent un rôle essentiel dans les disciplines comme la linguistique, le traitement automatique du langage naturel (NLP) ou encore les études littéraires") }}. {{ _("Ces analyses permettent de comprendre la richesse lexicale, les relations entre les termes, ainsi que les particularités qui émergent dans un document") }}.
-    </p>
-    <br>
-    <h4>{{ _("Dispersion lexicale") }}</h4>
-    <p>
-        {{ _("La <strong>dispersion lexicale</strong> analyse la répartition des termes au sein d'un texte ou d'un corpus. Elle examine dans quelle mesure un mot spécifique est uniformément distribué ou concentré dans certaines parties du document") }}.
-    </p>
-    <br>
-    <h5>Applications :</h5>
-    <ul>
-        <li>{{ _("<strong>Études thématiques</strong> : Identifier les sections d'un texte où un mot-clé est particulièrement récurrent, indiquant des passages thématiques importants") }}.</li>
-        <li>{{ _("<strong>Analyse de style</strong> : Étudier si la répartition des mots varie selon les auteurs ou les genres littéraires") }}.</li>
-    </ul>
-    <br>
-    <h5>{{ _("Outils ") }}:</h5>
-    <p>
-        {{ _("Les graphiques de dispersion sont souvent utilisés pour visualiser la répartition des mots, facilitant l'identification de motifs ou de regroupements") }}.
-    </p>
-    <br>
-    <h4>{{ _("Diversité lexicale") }}</h4>
-    <p>
-        {{ _("La <strong>diversité lexicale</strong> mesure la richesse du vocabulaire employé dans un texte. Elle évalue la proportion de mots uniques (ou types) par rapport au nombre total de mots (ou tokens)") }}. {{ _("Des métriques comme le Type-Token Ratio (TTR) sont couramment utilisées") }}.
-    </p>
-    <br>
-    <h5>Applications :</h5>
-    <ul>
-        <li>{{ _("<strong>Analyse de style d'auteur</strong> : Déterminer si un auteur emploie un vocabulaire varié ou répétitif") }}.</li>
-        <li>{{ _("<strong>Études comparatives</strong> : Évaluer la richesse lexicale entre différents textes ou traductions d'une même œuvre") }}.</li>
-    </ul>
-    <br>
-    <h5>{{ _("Limites ") }}:</h5>
-    <p>
-        {{ _("La diversité lexicale peut être influencée par la longueur du texte ; des méthodes comme l'indice de Herdan ou la mesure de Guiraud compensent cette limitation") }}.
-    </p>
-    <br>
-    <h4>{{ _("Relations lexicales") }}</h4>
-    <p>
-        {{ _("Les <strong>relations lexicales</strong> explorent les liens entre différents termes au sein d'un texte") }}. {{ _("Ces relations peuvent inclure des relations synonymiques, antonymiques, hypernymiques (relation 'is-a'), ou encore des cooccurrences contextuelles") }}.
-    </p>
-    <br>
-    <h5>Applications :</h5>
-    <ul>
-        <li>{{ _("<strong>Cartographie sémantique</strong> : Créer des réseaux de termes pour visualiser les relations entre les mots") }}.</li>
-        <li>{{ _("<strong>Extraction d'information</strong> : Identifier des associations importantes entre concepts, comme 'maladie' et 'traitement' dans un texte médical") }}.</li>
-    </ul>
-    <br>
-    <h5>{{ _("Outils ") }}:</h5>
-    <p>
-        {{ _("Des techniques comme la matrice de cooccurrence ou les graphes de relations permettent de visualiser et d'exploiter ces liens") }}.
-    </p>
-    <br>
-    <h4>{{ _("Spécificités lexicales") }}</h4>
-    <p>
-        {{ _("Les <strong>spécificités lexicales</strong> identifient les termes qui apparaissent de manière notable dans un corpus donné, comparé à un corpus de référence") }}. {{ _("Ces mots-clés spécifiques peuvent signaler les particularités d'un texte ou d'un domaine") }}.
-    </p>
-    <br>
-    <h5>Applications :</h5>
-    <ul>
-        <li>{{ _("<strong>Analyse de discours</strong> : Mettre en évidence les spécificités lexicales propres à un genre ou un auteur") }}.</li>
-        <li>{{ _("<strong>Études comparatives</strong> : Identifier les termes caractéristiques d'un corpus (ex. vocabulaire politique vs vocabulaire scientifique)") }}.</li>
-    </ul>
-    <br>
-    <h5>{{ _("Méthodes ") }}:</h5>
-    <p>
-        {{ _("Les tests statistiques (comme le test de spécificité de Lebart) sont souvent employés pour quantifier et interpréter ces spécificités") }}.
-    </p>
-    <br>
-    <h4>Conclusion</h4>
-    <p>
-        {{ _("Les analyses lexicales offrent des perspectives riches et variées pour explorer la structure et le contenu d'un texte ou d'un corpus") }}. {{ _("Que ce soit pour comprendre la distribution des mots, mesurer la diversité lexicale, explorer leurs relations ou identifier leurs spécificités, ces analyses permettent d'approfondir la compréhension et la caractérisation des données textuelles") }}. {{ _("Elles sont particulièrement utiles dans les domaines académiques, professionnels et technologiques, où la maîtrise du langage joue un rôle central") }}.
     </p>
 <hr>
     <h2>{{ _("Introduction aux analyses de texte") }}</h2>
