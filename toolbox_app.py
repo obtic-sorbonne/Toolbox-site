@@ -2887,7 +2887,6 @@ def quotation():
 
             patterns = [
                 r'"(.*?)"',  # Double quotes ASCII
-                r"'(.*?)'",  # Single quotes ASCII
                 r"`(.*?)`",  # Backticks
 
                 r'«\s*(.*?)\s*»',  # Guillemets français

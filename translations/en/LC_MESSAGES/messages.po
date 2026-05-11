@@ -1387,8 +1387,8 @@ msgstr "This tool allows you to extract pieces of text found between quotation m
 msgid "Plusieurs types de guillemets sont pris en compte :"
 msgstr "Several types of quotation marks are taken into account:"
 
-msgid "Guillemets doubles et simples"
-msgstr "Double and single quotation marks"
+msgid "Guillemets doubles"
+msgstr "Double quotation marks"
 
 msgid "Guillemets inversés (backticks)"
 msgstr "Backticks"
