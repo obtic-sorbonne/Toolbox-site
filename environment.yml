@@ -46,7 +46,7 @@ dependencies:
       - kaleido==0.2.1
 
       # Autres outils
-      - renard-pipeline==0.6.5
+      - renard-pipeline==0.7.1
       - newspaper3k==0.2.8
       - textstat==0.7.4
       - textdistance==4.6.3
