@@ -9,7 +9,7 @@ RUN mkdir -p /pandore_app/uploads \
    && mkdir -p /pandore_app/temp \
    && mkdir -p /pandore_app/certificates
 
-# Install system dependencies + Tesseract languages available in Ubuntu 22.04
+# Install system dependencies
 RUN apt-get update && apt-get install -y \
     wget \
     net-tools \
@@ -51,16 +51,6 @@ RUN apt-get update && apt-get install -y \
 # Copy Tesseract data
 RUN cp -r /usr/share/tesseract-ocr/4.00/tessdata/* /pandore_app/static/models/tessdata/ \
    && chmod -R 755 /pandore_app/static/models/tessdata
-
-# Add extra Tesseract models not available in Ubuntu 22.04
-RUN wget https://github.com/tesseract-ocr/tessdata_best/raw/main/yid.traineddata -O /pandore_app/static/models/tessdata/yid.traineddata && \
-    wget https://github.com/tesseract-ocr/tessdata_best/raw/main/frk.traineddata -O /pandore_app/static/models/tessdata/frk.traineddata && \
-    wget https://github.com/tesseract-ocr/tessdata_best/raw/main/grc.traineddata -O /pandore_app/static/models/tessdata/grc.traineddata && \
-    wget https://github.com/tesseract-ocr/tessdata_best/raw/main/ita_old.traineddata -O /pandore_app/static/models/tessdata/ita_old.traineddata && \
-    wget https://github.com/tesseract-ocr/tessdata_best/raw/main/chi_sim_vert.traineddata -O /pandore_app/static/models/tessdata/chi_sim_vert.traineddata && \
-    wget https://github.com/tesseract-ocr/tessdata_best/raw/main/chi_tra_vert.traineddata -O /pandore_app/static/models/tessdata/chi_tra_vert.traineddata && \
-    wget https://github.com/tesseract-ocr/tessdata_best/raw/main/jpn_vert.traineddata -O /pandore_app/static/models/tessdata/jpn_vert.traineddata && \
-    wget https://github.com/tesseract-ocr/tessdata_best/raw/main/kor_vert.traineddata -O /pandore_app/static/models/tessdata/kor_vert.traineddata
 
 # Set Tesseract path
 ENV TESSDATA_PREFIX=/pandore_app/static/models/tessdata
@@ -139,7 +129,7 @@ RUN conda run -n toolbox_env python -m spacy download fr_core_news_lg && \
     conda run -n toolbox_env python -m spacy download pl_core_news_md && \
     conda run -n toolbox_env python -m spacy download pt_core_news_md && \
     conda run -n toolbox_env python -m spacy download el_core_news_md && \
-    conda run -n toolbox_env python -m spacy download ru_core_news_md && \
+    conda run -n toolbox_env python -m spacy download ru_core_news_md
 
 # Activate the environment for subsequent commands
 SHELL ["conda", "run", "-n", "toolbox_env", "/bin/bash", "-c"]
