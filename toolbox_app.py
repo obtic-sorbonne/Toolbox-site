@@ -853,7 +853,7 @@ def extract_urls():
             article = Article(url)
             article.download()
             article.parse()
-            text_content = article.text[:1000]
+            text_content = article.text[:5000]
             
             filename = os.path.join(result_path, f"{url.replace('https://', '').replace('http://', '').replace('/', '_')}.txt")
             with open(filename, 'w', encoding='utf-8') as file:
