@@ -24,7 +24,9 @@ dependencies:
       - langdetect==1.0.9
       - sentencepiece==0.2.0
       - wordfreq
-
+      - transformers==4.25.1
+      - tokenizers==0.13.3
+      
       # Data & traitement HTML
       - numpy==1.26.4
       - pandas==2.2.3
