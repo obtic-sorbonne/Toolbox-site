@@ -43,6 +43,7 @@ dependencies:
       - networkx==3.4.2
       - plotly==6.0.0
       - wordcloud==1.9.4
+      - kaleido==0.2.1
 
       # Autres outils
       - renard-pipeline==0.6.5

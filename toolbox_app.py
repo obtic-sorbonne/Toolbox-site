@@ -3213,7 +3213,14 @@ def analyze_text():
     input_text = [line.strip() for line in input_text if line.strip()]
 
     analysis_type = request.form.getlist('analysis_type')
-    emotion_type = request.form['emotion_type']
+
+    emotion_type = None
+
+    if "emotion_analysis" in analysis_type:
+        emotion_type = request.form.get('emotion_type')
+
+        if not emotion_type:
+            return "emotion_type manquant", 400
 
 
     rand_name = generate_rand_name('textanalysis_')

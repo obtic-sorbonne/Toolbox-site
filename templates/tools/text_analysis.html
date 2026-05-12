@@ -35,11 +35,11 @@
         </div>
         </div>
         <br>
-        <div class="relations-input" id="emotion_type" >
-            <label for="emotion_type">{{ _("Choisir le type de sortie") }} :</label>
+        <div class="relations-input" id="emotion_type_container" style="display:none;">
+            <label>{{ _("Choisir le type de sortie") }} :</label>
             <div id="emotion_type_radio">
-                <label><input type="radio" name="emotion_type" value="analyse1"> {{ _('Score + visualisation') }}</label><br>
-                <label><input type="radio" name="emotion_type" value="analyse2"> {{ _('Visualisation circulaire') }}</label>
+                <label><input type="radio" name="emotion_type" value="analyse1" disabled> {{ _('Score + visualisation') }}</label><br>
+                <label><input type="radio" name="emotion_type" value="analyse2" disabled> {{ _('Visualisation circulaire') }}</label>
             </div>
         </div>
         {{ form.csrf_token }}
@@ -83,15 +83,25 @@ $('form input').change(function () {
         }
     }
 });
-function togglestopwordFields() {
-    const cbStopwords = document.getElementById("cb_emotion");
-    document.getElementById("emotion_type").style.display = 
-        cbStopwords.checked ? "block" : "none";
+
+function toggleEmotionFields() {
+    const cb = document.getElementById("cb_emotion");
+    const container = document.getElementById("emotion_type_container");
+    const radios = document.querySelectorAll('input[name="emotion_type"]');
+
+    const show = cb.checked;
+
+    container.style.display = show ? "block" : "none";
+
+    radios.forEach(r => {
+        r.disabled = !show;
+        if (!show) r.checked = false;
+    });
 }
 
 document.addEventListener("DOMContentLoaded", function() {
-    document.getElementById("cb_emotion").addEventListener("change", togglestopwordFields);
-    togglestopwordFields();
+    document.getElementById("cb_emotion").addEventListener("change", toggleEmotionFields);
+    toggleEmotionFields();
 
     document.getElementById("linguistic-form").addEventListener("submit", function(e) {
         const checked = document.querySelectorAll('input[name="analysis_type"]:checked');
