@@ -3157,7 +3157,7 @@ def analyze_statistic():
                 plt.figure(figsize=(10, 5))
                 plt.imshow(wordcloud, interpolation='bilinear')
                 plt.axis('off')
-                plt.savefig(os.path.join(result_path, filename + '_wordcloud.png'), format='png')
+                plt.savefig(os.path.join(result_path, filename + '_wordcloud_nostopwords.png'), format='png')
                 plt.close()
 
             if 'coocc' in analysis_types:
