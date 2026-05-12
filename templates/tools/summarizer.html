@@ -2,6 +2,11 @@
 {% block header %} {{ super() }} {% endblock %}
 
 {% block content %}
+<style>
+    a {
+  color:#182F7A; 
+  text-decoration:none;
+}</style>
 <div class="outil">
     <div class="fil"><a href="{{ url_for('information_extraction')}}"><< {{ _('Retour aux tâches') }}</a></div>
     <h2 style="font-family:'Comprehension', serif;">{{ _("Résumé automatique") }}</h2>
