@@ -97,39 +97,20 @@ RUN rm -rf \
         --index-url https://download.pytorch.org/whl/cu118
     
 RUN conda run -n toolbox_env pip install gunicorn && \
-    conda run -n toolbox_env pip install kraken --no-deps && \
+    conda run -n toolbox_env pip install kraken==7.0 && \
     conda run -n toolbox_env pip install \
-        keybert \
         jsonschema \
         "python-bidi~=0.6.6" \
         platformdirs \
         iso639-lang \
-        torchmetrics \
         "torchvision==0.21.0" \
-        lightning \
         "scikit-image~=0.25.2" \
-        "scikit-learn~=1.7.2" \
         "scipy~=1.15.3" \
         "shapely~=2.1.2" \
         htrmopo
 
 # Add toolbox_env binaries to PATH globally
 ENV PATH=/opt/conda/envs/toolbox_env/bin:$PATH
-
-# Install spaCy French model inside toolbox_env
-RUN conda run -n toolbox_env python -m spacy download fr_core_news_lg && \
-    conda run -n toolbox_env python -m spacy download en_core_web_md && \
-    conda run -n toolbox_env python -m spacy download fr_core_news_md && \
-    conda run -n toolbox_env python -m spacy download es_core_news_md && \
-    conda run -n toolbox_env python -m spacy download de_core_news_md && \
-    conda run -n toolbox_env python -m spacy download it_core_news_md && \
-    conda run -n toolbox_env python -m spacy download da_core_news_md && \
-    conda run -n toolbox_env python -m spacy download nl_core_news_md && \
-    conda run -n toolbox_env python -m spacy download fi_core_news_md && \
-    conda run -n toolbox_env python -m spacy download pl_core_news_md && \
-    conda run -n toolbox_env python -m spacy download pt_core_news_md && \
-    conda run -n toolbox_env python -m spacy download el_core_news_md && \
-    conda run -n toolbox_env python -m spacy download ru_core_news_md
 
 # Activate the environment for subsequent commands
 SHELL ["conda", "run", "-n", "toolbox_env", "/bin/bash", "-c"]
