@@ -25,22 +25,17 @@
   #add_model{
     cursor:pointer;
   }
-
-  a {
-  color:#182F7A; 
-  text-decoration:none;
-}
 </style>
 
 <link rel="stylesheet" href="{{ url_for('static', filename= 'css/elements.css') }}">
 <div class="outil">
-  <div class="fil"><a href="{{ url_for('atr_tools')}}"><< {{ _('Retour aux tâches') }}</a></div>
+  <div class="fil"><a href="{{ url_for('atr_tools')}}" style="color:#182F7A; text-decoration:none;"><< {{ _('Retour aux tâches') }}</a></div>
 <h2>{{ _('Reconnaissance automatique de texte (ATR)') }}</h2>
 
 <div class="tool-box">
     <h4>Tesseract OCR</h4>
-    <p>{{ _ ("L'outil Tesseract") }} <a href="https://tesseract-ocr.github.io/tessdoc/" target="_blank"><i class="fa-solid fa-arrow-up-right-from-square"></i></a> {{ _('permet de numériser des imprimés')}}. {{ _('Les modèles préentraînés') }} <a href="https://github.com/tesseract-ocr/tessdata" target="_blank"> ({{ _('liste ici')}} <i class="fa-solid fa-arrow-up-right-from-square"></i>)</a> {{ _("disponibles avec l'outil couvrent un large éventail de polices et sont disponibles pour de très nombreuses langues")}}. {{ _("Pour les textes bilingues, il est possible d'utiliser conjointement deux modèles. Les modèles pour le chinois proviennent d'un")}} <a href="https://github.com/gumblex/tessdata_chi" target="_blank">{{ _("projet externe")}}</a>.</p>
-    <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_recognition') }}"  target="_blank">{{ _('Voir la documentation') }}</a></p>
+    <p>{{ _ ("L'outil Tesseract") }} <a href="https://tesseract-ocr.github.io/tessdoc/" target="_blank" style="color:#182F7A; text-decoration:none;"><i class="fa-solid fa-arrow-up-right-from-square"></i></a> {{ _('permet de numériser des imprimés')}}. {{ _('Les modèles préentraînés') }} <a href="https://github.com/tesseract-ocr/tessdata" target="_blank" style="color:#182F7A; text-decoration:none;"> ({{ _('liste ici')}} <i class="fa-solid fa-arrow-up-right-from-square"></i>)</a> {{ _("disponibles avec l'outil couvrent un large éventail de polices et sont disponibles pour de très nombreuses langues")}}. {{ _("Pour les textes bilingues, il est possible d'utiliser conjointement deux modèles. Les modèles pour le chinois proviennent d'un")}} <a href="https://github.com/gumblex/tessdata_chi" target="_blank" style="color:#182F7A; text-decoration:none;">{{ _("projet externe")}}</a>.</p>
+    <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_recognition') }}"  target="_blank" style="color:#182F7A; text-decoration:none;">{{ _('Voir la documentation') }}</a></p>
     <div class="infos_outil" style="display: block;margin: 0 auto 15px auto;">
         <input id="show" type=checkbox><label for="show" class="infos_title"><i class="fa-solid fa-circle-info"></i> {{ _("Informations sur l'outil") }}<i class="fa-solid fa-angle-right" style="float:right;margin-top:5px;margin-left:15px;cursor: pointer;"></i></label></p>
         <div class="info_popped"><p>Tesseract version 4.0.0</p>

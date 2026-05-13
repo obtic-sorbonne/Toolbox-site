@@ -124,14 +124,9 @@ form p{
 #modeldiv i{
   padding:15px;
 }
-
-a {
-  color:#182F7A; 
-  text-decoration:none;
-}
 </style>
 <div class="outil">
-  <div class="fil"><a href="{{ url_for('automatic_annotation')}}"><< {{ _('Retour aux tâches') }}</a></div>
+  <div class="fil"><a href="{{ url_for('automatic_annotation')}}" style="color:#182F7A; text-decoration:none;"><< {{ _('Retour aux tâches') }}</a></div>
   <h2>{{ _("Reconnaissance d'entités nommées") }}</h2>
   <p>{{ _("Cet outil permet d'identifier les entités nommées d'un corpus en utilisant au choix trois moteurs : Spacy, Flair, ou Bert. Les modèles de langue disponibles diffèrent en fonction du moteur choisi. Le corpus peut être au format texte ou au format XML-TEI, et la sortie obtenue différera selon l'un ou l'autre.") }}</p>
   <p style="margin-top: 0.5em;">{{ _("Dans le cas d'une annotation NER sur du texte brut, la sortie varie selon que l'on utilise spaCy/Flair ou Bert.") }}<br>
@@ -161,7 +156,7 @@ a {
         <li>etc.</li></ul></p>
   <p style="margin-top: 0.5em;">{{ _("Dans le cas d'une annotation NER sur un fichier XML-TEI, les entités reconnues seront encodés avec les balises <strong>&lt;persName&gt;</strong> pour PER, <strong>&lt;placeName&gt;</strong> pour LOC, <strong>&lt;orgName&gt;</strong> pour ORG, et <strong>&lt;name&gt;</strong> pour MISC.") }}</p>
 
-<p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_annotation') }}" target="_blank">{{ _("Voir la documentation") }}</a> / <a href="{{ url_for('tutorial_annotation') }}"  target="_blank">{{ _('Voir le tutoriel') }}</a></p>
+<p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_annotation') }}" target="_blank" style="color:#182F7A; text-decoration:none;">{{ _("Voir la documentation") }}</a> / <a href="{{ url_for('tutorial_annotation') }}"  target="_blank" style="color:#182F7A; text-decoration:none;">{{ _('Voir le tutoriel') }}</a></p>
 <br>
     <div class="infos_outil" style="display: block;margin: 0 auto 15px auto;">
         <input id="show" type=checkbox><label for="show" class="infos_title"><i class="fa-solid fa-circle-info"></i> {{ _("Informations sur l'outil") }}<i class="fa-solid fa-angle-right" style="float:right;margin-top:5px;margin-left:15px;cursor: pointer;"></i></label>

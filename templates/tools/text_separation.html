@@ -2,20 +2,14 @@
 {% block header %} {{ super() }} {% endblock %}
 
 {% block content %}
-<style>
-    a {
-  color:#182F7A; 
-  text-decoration:none;
-}
-</style>
 <link rel="stylesheet" href="{{ url_for('static', filename= 'css/elements.css') }}">
 <div class="outil">
-    <div class="fil"><a href="{{ url_for('preprocessing')}}"><< {{ _('Retour aux tâches') }}</a></div>
+    <div class="fil"><a href="{{ url_for('preprocessing')}}" style="color:#182F7A; text-decoration:none;"><< {{ _('Retour aux tâches') }}</a></div>
     <h2>{{ _('Séparation de texte') }}</h2>
     <p>{{ _("Cette page permet de diviser le(s) texte(s) contenu(s) dans les documents fournis, en phrases ou en lignes (ou les deux).") }}</p>
     <p style="margin-top: 0.5em;">{{ _("Le fichier de sortie présentera le texte, selon ce qui a été coché, avec un S (phrase) ou L (ligne) suivi d'un numéro, correspondant à sa place dans le texte, deux points et enfin, la phrase ou ligne correspondante.") }}</p>
     <br>
-    <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_preprocessing') }}"  target="_blank">{{ _('Voir la documentation') }}</a></p>
+    <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_preprocessing') }}"  target="_blank" style="color:#182F7A; text-decoration:none;">{{ _('Voir la documentation') }}</a></p>
     <br>
     <div class="infos_outil" style="display: block;margin: 0 auto 15px auto;">
         <input id="show" type=checkbox><label for="show" class="infos_title"><i class="fa-solid fa-circle-info"></i> {{ _("Informations sur l'outil") }}<i class="fa-solid fa-angle-right" style="float:right;margin-top:5px;margin-left:15px;cursor: pointer;"></i></label>

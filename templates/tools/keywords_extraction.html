@@ -2,17 +2,11 @@
 {% block header %} {{ super() }} {% endblock %}
 
 {% block content %}
-<style>
-    a {
-  color:#182F7A; 
-  text-decoration:none;
-}
-</style>
 <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
 
 <div class="outil">
-    <div class="fil"><a href="{{ url_for('information_extraction')}}"><< {{ _('Retour aux tâches') }}</a></div>
+    <div class="fil"><a href="{{ url_for('information_extraction')}}" style="color:#182F7A; text-decoration:none;"><< {{ _('Retour aux tâches') }}</a></div>
     <h2 style="font-family:'Comprehension', serif;">{{ _('Extraction de mots-clés') }}</h2>
     <p>{{ _("Cet outil permet d'identifier les termes les plus représentatifs du contenu d'un document ou d'un corpus. Il repose sur KeyBert, qui exploite des modèles basés sur les transformateurs pour encoder le texte et identifier les mots-clés pertinents.")}} {{ _("Les mots seront donnés avec un score de similarité entre parenthèses, de 0 (aucune similarité) à 1 (similarité parfaite, quasi impossible en pratique), et où, plus le chiffre est élevé, plus le mot‑clé est considéré comme représentatif du texte.")}}<br>
     {{ _("Afin de diversifier les résultats, deux affinages sont possibles :")}}
@@ -20,11 +14,11 @@
         <li>{{ _("<strong>MMR ou Maximal Marginal Relevance</strong>, qui filtre les mots-clés selon leur diversité. Il sera possible aussi de changer le taux de diversité, élevé = moins de redondances entre les mots-clés ; faible = ciblage des nuances autour des thèmes principaux.")}}</li>
         <li>{{ _("<strong>MSS ou Maximal Sum Similarity</strong>, qui sélectionne les mots-clés avec la plus faible similarité entre eux, pour éviter les répétitions directes.")}}</li></ul></p>
         <p style="margin-top: 1em;">{{ _("Le résultat se fera sous forme de tableau sur la page même, qui peut s'exporter par la suite au format CSV.")}}</p>
-    <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_extraction') }}" target="_blank">{{ _("Voir la documentation") }}</a> / <a href="{{ url_for('tutorial_extraction') }}"  target="_blank">{{ _('Voir le tutoriel') }}</a></p>
+    <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_extraction') }}" target="_blank" style="color:#182F7A; text-decoration:none;">{{ _("Voir la documentation") }}</a> / <a href="{{ url_for('tutorial_extraction') }}"  target="_blank" style="color:#182F7A; text-decoration:none;">{{ _('Voir le tutoriel') }}</a></p>
     <br><div class="infos_outil" style="display: block;margin: 0 auto 15px auto;">
         <input id="show" type=checkbox><label for="show" class="infos_title"><i class="fa-solid fa-circle-info"></i> {{ _("Informations sur l'outil") }}<i class="fa-solid fa-angle-right" style="float:right;margin-top:5px;margin-left:15px;cursor: pointer;"></i></label>
         <div class="info_popped">
-          <p>KeyBERT, modèle <a href="https://huggingface.co/sentence-transformers/distiluse-base-multilingual-cased-v1">distiluse-base-multilingual-cased-v1</a>
+          <p>KeyBERT, modèle <a href="https://huggingface.co/sentence-transformers/distiluse-base-multilingual-cased-v1" style="color:#182F7A; text-decoration:none;">distiluse-base-multilingual-cased-v1</a>
       <p>{{ _("Format(s) d'entrée ")}}: <i class="fa-regular fa-file-lines"></i> {{ _('texte brut') }} (.txt)</p>
       <p>{{ _("Format(s) de sortie ")}}: <i class="fa-solid fa-file-csv"></i> {{ _('fichier CSV') }} (.csv)</p>
       <p>{{ _('Encodage') }} : UTF-8</p>

@@ -54,10 +54,6 @@
             cursor: pointer;
         }
 
-        a {
-  color:#182F7A; 
-  text-decoration:none;
-}
     </style>
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nestablejs@latest/dist/nestable.css">
@@ -70,7 +66,7 @@
 
 
     <div class="outil">
-    <div class="fil"><a href="{{ url_for('pipelines') }}"><< {{ _('Retour aux tâches') }}</a></div>
+    <div class="fil"><a href="{{ url_for('pipelines') }}" style="color:#182F7A; text-decoration:none;"><< {{ _('Retour aux tâches') }}</a></div>
 
     <h2>Épiméthée (OCR MAP)</h2>
     <p>{{ _("Cette chaîne de traitement permet d'extraire les entités nommées de lieu dans un texte (numérisé ou non), puis de récupérer leurs coordonnées géographiques (Geopy) afin de les cartographier.") }}</p>

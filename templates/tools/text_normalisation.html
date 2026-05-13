@@ -2,14 +2,9 @@
 {% block header %} {{ super() }} {% endblock %}
 
 {% block content %}
-<style>
-    a {
-  color:#182F7A; 
-  text-decoration:none;
-}</style>
 <link rel="stylesheet" href="{{ url_for('static', filename= 'css/elements.css') }}">
 <div class="outil">
-    <div class="fil"><a href="{{ url_for('preprocessing')}}"><< {{ _('Retour aux tâches') }}</a></div>
+    <div class="fil"><a href="{{ url_for('preprocessing')}}" style="color:#182F7A; text-decoration:none;"><< {{ _('Retour aux tâches') }}</a></div>
     <div>
     <h2>{{ _('Normalisation de texte') }}</h2>
     <p>{{ _('Cette page permet de transformer, de diverses manières, un ou plusieurs documents soumis') }}.<br>
@@ -21,7 +16,7 @@
     <p style="margin-top: 0.5em;">{{ _("Il est possible d'obtenir cette normalisation avec la casse d'origine, ou avec la casse entièrement en minuscules.") }}</p>
 <p style="margin-top: 0.5em;">{{ _("Le document de sortie contiendra dans son nom de fichier les tâches qui auront été effectuées ('tokens', 'lemmas', 'lowercases').") }}</p></div>
     <br>
-    <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_preprocessing') }}"  target="_blank">{{ _('Voir la documentation') }}</a></p>
+    <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_preprocessing') }}"  target="_blank" style="color:#182F7A; text-decoration:none;">{{ _('Voir la documentation') }}</a></p>
     <br>
     <form action="{{ url_for('normalize_text') }}" id="linguistic-form" method="post" enctype="multipart/form-data">
     <input type="hidden" name="download_token" id="download_token" value="">

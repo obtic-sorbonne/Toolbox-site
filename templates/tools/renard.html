@@ -20,15 +20,11 @@
 	#parameters fieldset legend{
 		color:#8A824C;
 	}
-	a {
-  color:#182F7A; 
-  text-decoration:none;
-}
 </style>
 <div class="outil">
-	<div class="fil"><a href="{{ url_for('visualisation_tools')}}"><< {{ _('Retour aux tâches') }}</a></div>
+	<div class="fil"><a href="{{ url_for('visualisation_tools')}}" style="color:#182F7A; text-decoration:none;"><< {{ _('Retour aux tâches') }}</a></div>
 	<h2>Renard</h2>
-	<p>{{ _("L'outil") }} <a href="https://compnet.github.io/Renard/introduction.html" target="_blank">Renard <i class="fa-solid fa-arrow-up-right-from-square"></i></a> ({{ _('pour') }} <span style="font-style:italic">Relationships Extraction from NARrative Documents</span>) {{ _ ("permet d'extraire les entités de personnes d'un texte littéraire et visualiser les réseaux de personnages sous forme de graphes") }}.</p>
+	<p>{{ _("L'outil") }} <a href="https://compnet.github.io/Renard/introduction.html" target="_blank" style="color:#182F7A; text-decoration:none;">Renard <i class="fa-solid fa-arrow-up-right-from-square"></i></a> ({{ _('pour') }} <span style="font-style:italic">Relationships Extraction from NARrative Documents</span>) {{ _ ("permet d'extraire les entités de personnes d'un texte littéraire et visualiser les réseaux de personnages sous forme de graphes") }}.</p>
 	<p>{{ _("Il est possible de choisir la langue du texte. Trois options seulement sont disponibles actuellement : français, anglais et espagnol.") }}<br>
 	{{ _("Il est important de bien choisir le nombre minimal de mentions du personnages, en fonction de la taille du document :") }}
     <ul class="item-list" style="margin-left: 3em;">
@@ -100,7 +96,7 @@
 	<div class="bibliography">
 		<h4>{{ _("Références") }}</h4>
 		<ul>
-			<li>{{ _("Documentation de l'outil Renard")}} <a href="https://compnet.github.io/Renard/index.html"  target="_blank"><i class="fa-brands fa-github"></i></a></li>
+			<li>{{ _("Documentation de l'outil Renard")}} <a href="https://compnet.github.io/Renard/index.html"  target="_blank" style="color:#182F7A; text-decoration:none;"><i class="fa-brands fa-github"></i></a></li>
 			<li>Labatut, V., & Bost, X. (2019). Extraction and analysis of fictional character networks: A survey. <span style="font-style: italic;">ACM Computing Surveys (CSUR)</span>, 52(5), 1-40.</li>
 		</ul>
 	</div>

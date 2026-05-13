@@ -2,14 +2,9 @@
 {% block header %} {{ super() }} {% endblock %}
 
 {% block content %}
-<style>
-    a {
-  color:#182F7A; 
-  text-decoration:none;
-}</style>
 <link rel="stylesheet" href="{{ url_for('static', filename='css/elements.css') }}">
 <div class="outil">
-    <div class="fil"><a href="{{ url_for('preprocessing')}}"><< {{ _('Retour aux tâches') }}</a></div>
+    <div class="fil"><a href="{{ url_for('preprocessing')}}" style="color:#182F7A; text-decoration:none;"><< {{ _('Retour aux tâches') }}</a></div>
 
     <h2>{{ _('Nettoyage de texte') }}</h2>
     <p>{{ _("Cette page permet de nettoyer un ou plusieurs documents soumis.") }}</p>
@@ -24,7 +19,7 @@
     <p style="margin-top: 1em;">{{ _("Le document de sortie contiendra dans son nom de fichier les tâches qui auront été effectuées ('lowercases', 'punctuation', 'stopwords', 'remove_excessive_lines', 'fix_ocr_linebreaks', 'clean_double_stars').") }}</p>
 
     <p style="text-align:center;padding:20px">
-        <a href="{{ url_for('documentation_preprocessing') }}" target="_blank">{{ _('Voir la documentation') }}</a>
+        <a href="{{ url_for('documentation_preprocessing') }}" target="_blank" style="color:#182F7A; text-decoration:none;">{{ _('Voir la documentation') }}</a>
     </p>
 
     <form action="{{ url_for('removing_elements') }}" id="linguistic-form" method="post" enctype="multipart/form-data">

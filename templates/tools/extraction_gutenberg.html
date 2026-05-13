@@ -97,15 +97,10 @@ input[type="radio"]{
   color: #fff;
 }
 
-a {
-  color:#182F7A; 
-  text-decoration:none;
-}
-
 </style>
 
 <div class="outil">
-	<div class="fil"><a href="{{ url_for('corpus_collection')}}"><< {{ _('Retour aux tâches') }}</a></div>
+	<div class="fil"><a href="{{ url_for('corpus_collection')}}" style="color:#182F7A; text-decoration:none;"><< {{ _('Retour aux tâches') }}</a></div>
 <h2>Project Gutenberg</h2>
 <p>{{ _("Les oeuvres présentes sur le site Project Gutenberg sont identifiés selon un système d'ID. Ce module permet d'") }}<em>{{ _('extraire des oeuvres du catalogue Project Gutenberg') }}</em> {{ _('à partir de leur ID, soit au') }} <em>{{ _('format HTML') }}</em>, {{ _('soit au') }} <em>{{ _('format texte') }}</em>, {{ _("soit au") }} <em>{{ _('format ePUB') }}</em>, {{ _('lorsque cela est disponible') }}.</p>
 

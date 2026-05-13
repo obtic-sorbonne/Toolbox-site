@@ -25,22 +25,17 @@
   #add_model{
     cursor:pointer;
   }
-  
-  a {
-  color:#182F7A; 
-  text-decoration:none;
-}
 </style>
 
 <link rel="stylesheet" href="{{ url_for('static', filename= 'css/elements.css') }}">
 <div class="outil">
-  <div class="fil"><a href="{{ url_for('atr_tools')}}"><< {{ _('Retour aux tâches') }}</a></div>
+  <div class="fil"><a href="{{ url_for('atr_tools')}}" style="color:#182F7A; text-decoration:none;"><< {{ _('Retour aux tâches') }}</a></div>
 <h2>{{ _("Reconnaissance de l'écriture manuscrite (HTR)") }}</h2>
 
 <div class="tool-box">
     <h4>Kraken HTR</h4>
-    <p>{{ _ ("L'outil Kraken") }} <a href="https://kraken.re/" target="_blank"><i class="fa-solid fa-arrow-up-right-from-square"></i></a> {{ _('permet de numériser des documents manuscrits')}}. {{ _('Les modèles disponibles') }} <a href="https://zenodo.org/communities/ocr_models/" target="_blank"> ({{ _('liste ici')}} <i class="fa-solid fa-arrow-up-right-from-square"></i>)</a> {{ _("offrent une variété d'options au regard de la structure de la mise en plage et du type d'écriture manuscrite")}}.</p>
-    <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_recognition') }}"  target="_blank">{{ _('Voir la documentation') }}</a></p>
+    <p>{{ _ ("L'outil Kraken") }} <a href="https://kraken.re/" target="_blank" style="color:#182F7A; text-decoration:none;"><i class="fa-solid fa-arrow-up-right-from-square"></i></a> {{ _('permet de numériser des documents manuscrits')}}. {{ _('Les modèles disponibles') }} <a href="https://zenodo.org/communities/ocr_models/" style="color:#182F7A; text-decoration:none;" target="_blank"> ({{ _('liste ici')}} <i class="fa-solid fa-arrow-up-right-from-square"></i>)</a> {{ _("offrent une variété d'options au regard de la structure de la mise en plage et du type d'écriture manuscrite")}}.</p>
+    <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_recognition') }}"  target="_blank" style="color:#182F7A; text-decoration:none;">{{ _('Voir la documentation') }}</a></p>
     <div class="infos_outil" style="display: block;margin: 0 auto 15px auto;">
         <input id="show" type=checkbox><label for="show" class="infos_title"><i class="fa-solid fa-circle-info"></i> {{ _("Informations sur l'outil") }}<i class="fa-solid fa-angle-right" style="float:right;margin-top:5px;margin-left:15px;cursor: pointer;"></i></label></p>
         <div class="info_popped"><p>Kraken version 5.3.0</p>
