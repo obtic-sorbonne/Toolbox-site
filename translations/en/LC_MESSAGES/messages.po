@@ -901,8 +901,8 @@ msgstr "URL Retrieval"
 msgid "Utilisation d'outils de scraping Web pour extraire des informations de sites Web accessibles au public"
 msgstr "Using web scraping tools to extract information from publicly accessible websites"
 
-msgid "Cela permettra de récupérer les 1000 premiers caractères des pages Wikipédia française et anglaise de Paris"
-msgstr "This will retrieve the first 1000 characters of the French and English Wikipedia pages for Paris"
+msgid "Cela permettra de récupérer les 5000 premiers caractères des pages Wikipédia française et anglaise de Paris"
+msgstr "This will retrieve the first 5000 characters of the French and English Wikipedia pages for Paris"
 
 msgid "Extraction de texte"
 msgstr "Text extraction"
@@ -1387,8 +1387,8 @@ msgstr "This tool allows you to extract pieces of text found between quotation m
 msgid "Plusieurs types de guillemets sont pris en compte :"
 msgstr "Several types of quotation marks are taken into account:"
 
-msgid "Guillemets doubles et simples"
-msgstr "Double and single quotation marks"
+msgid "Guillemets doubles"
+msgstr "Double quotation marks"
 
 msgid "Guillemets inversés (backticks)"
 msgstr "Backticks"

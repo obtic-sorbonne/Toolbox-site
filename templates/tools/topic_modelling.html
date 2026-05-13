@@ -4,7 +4,7 @@
 {% block content %}
 <link rel="stylesheet" href="{{ url_for('static', filename= 'css/elements.css') }}">
 <div class="outil">
-    <div class="fil"><a href="{{ url_for('information_extraction')}}"><< {{ _('Retour aux tâches') }}</a></div>
+    <div class="fil"><a href="{{ url_for('information_extraction')}}" style="color:#182F7A; text-decoration:none;"><< {{ _('Retour aux tâches') }}</a></div>
     <h2>Topic Modelling</h2>
     <p>{{ _("Cet outil permet d'identifier, dans un corpus, des groupes de termes représentatifs de ses thèmes, reposant sur la notion de champs sémantiques (ensembles de mots liés par un domaine ou une thématique). Afin que l'analyse puisse se faire efficacement, le texte ne doit pas être trop court.") }}<br>
 
@@ -14,7 +14,7 @@
     <li>{{ _("<strong>Allocation de Dirichlet latente (LDA)</strong>, qui utilise des hypothèses statistiques pour identifier les probabilités qu'un document contienne plusieurs thématiques, basées sur la répartition des mots.") }}</li></ul>
     {{ _("Il est possible d'affiner la sortie, en pratiquant la lemmatisation du corpus avant de commencer la modélisation thématique.") }}</p>
     <p style="margin-top: 1em;">{{ _("Le résultat se fera sous forme de tableau sur la page même, qui peut s'exporter par la suite au format CSV.") }}</p>
-        <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_extraction') }}" target="_blank">{{ _("Voir la documentation") }}</a> / <a href="{{ url_for('tutorial_extraction') }}" target="_blank">{{ _("Voir le tutoriel") }}</a></p>
+        <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_extraction') }}" target="_blank" style="color:#182F7A; text-decoration:none;">{{ _("Voir la documentation") }}</a> / <a href="{{ url_for('tutorial_extraction') }}" target="_blank" style="color:#182F7A; text-decoration:none;">{{ _("Voir le tutoriel") }}</a></p>
         <br><div class="infos_outil" style="display: block;margin: 0 auto 15px auto;">
         <input id="show" type=checkbox><label for="show" class="infos_title"><i class="fa-solid fa-circle-info"></i> {{ _("Informations sur l'outil") }}<i class="fa-solid fa-angle-right" style="float:right;margin-top:5px;margin-left:15px;cursor: pointer;"></i></label>
         <div class="info_popped">

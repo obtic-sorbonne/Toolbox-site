@@ -4,9 +4,9 @@
 {% block content %}
 <!-- CREATION CORPUS -->
   <div class="outil">
-    <div class="fil"><a href="{{ url_for('corpus_collection')}}"><< {{ _('Retour aux tâches') }}</a></div>
+    <div class="fil"><a href="{{ url_for('corpus_collection')}}" style="color:#182F7A; text-decoration:none;"><< {{ _('Retour aux tâches') }}</a></div>
     <h2>{{ _('Extraction Wikisource') }}</h2>
-    <p>{{ _('La plateforme collaborative') }} <a href="https://fr.wikisource.org/wiki/Wikisource:Accueil" target="_blank">Wikisource</a> {{ _('contient de très nombreux textes littéraires libres de droits') }}.
+    <p>{{ _('La plateforme collaborative') }} <a href="https://fr.wikisource.org/wiki/Wikisource:Accueil" target="_blank" style="color:#182F7A; text-decoration:none;">Wikisource</a> {{ _('contient de très nombreux textes littéraires libres de droits') }}.
       {{ _("L'outil ci-dessous permet de constituer un corpus à partir de ces textes, en renseignant leur URL") }}.
       <!--Plusieurs modes d'utilisation sont possibles :
       <ul style="margin-left:20px;">
@@ -41,7 +41,7 @@
           https://fr.wikisource.org/wiki/Les_M%C3%A9tamorphoses_(Ovide,_Nisard)/Livre_4 <i>({{ _("Livre Quatrième des Métamorphoses d'Ovide") }})</i>
           </span></p>
   </div>
-    <p>{{ _("Copier ici les URLs des textes à collecter") }}. {{ _("Il est possible de collecter un texte intégral à partir d'un sommaire") }} [<a href="https://fr.wikisource.org/wiki/Valserine_et_autres_nouvelles" target="_blank">{{ _("exemple") }}</a>]. {{ _("Dans ce cas, cocher la case Sommaire en face de l'URL indiquée") }}.</p>
+    <p>{{ _("Copier ici les URLs des textes à collecter") }}. {{ _("Il est possible de collecter un texte intégral à partir d'un sommaire") }} [<a href="https://fr.wikisource.org/wiki/Valserine_et_autres_nouvelles" target="_blank" style="color:#182F7A; text-decoration:none;">{{ _("exemple") }}</a>]. {{ _("Dans ce cas, cocher la case Sommaire en face de l'URL indiquée") }}.</p>
     <form id="urlform"  method="POST" action="{{ url_for('corpus_from_url') }}">
       {{ form.csrf_token }}
       <input type="hidden" value="1" id="nb_inputs">

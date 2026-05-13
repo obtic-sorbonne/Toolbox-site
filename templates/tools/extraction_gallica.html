@@ -96,10 +96,10 @@ input[type="radio"]{
 </style>
 
 <div class="outil">
-	<div class="fil"><a href="{{ url_for('corpus_collection')}}"><< {{ _('Retour aux tâches') }}</a></div>
+	<div class="fil"><a href="{{ url_for('corpus_collection')}}" style="color:#182F7A; text-decoration:none;"><< {{ _('Retour aux tâches') }}</a></div>
 <h2>API Gallica</h2>
 <p>{{ _('Les documents consultables dans Gallica sont identifiés selon un système normalisé, ARK (pour') }} <span style="font-style:italic">Archival Resource Key</span>) 
-	{{ _('qui permet de garantir la pérennité des URL (voir la') }} <a href="https://www.bnf.fr/fr/lidentifiant-ark-archival-resource-key#bnf-ark-qu-est-ce-que-c-est-" target="_blank">{{ _('notice sur ARK') }} <i class="fa-solid fa-arrow-up-right-from-square"></i></a> {{ _("sur le site de la BnF). Ce module permet d'") }}<em>{{ _('extraire des documents du catalogue Gallica') }}</em> {{ _('à partir de leur ARK, soit au') }} <em>{{ _('format IIIF') }}</em>, {{ _('soit au') }} <em>{{ _('format texte') }}</em> {{ _('lorsque celui-ci est disponible') }}.</p>
+	{{ _('qui permet de garantir la pérennité des URL (voir la') }} <a href="https://www.bnf.fr/fr/lidentifiant-ark-archival-resource-key#bnf-ark-qu-est-ce-que-c-est-" target="_blank" style="color:#182F7A; text-decoration:none;">{{ _('notice sur ARK') }} <i class="fa-solid fa-arrow-up-right-from-square"></i></a> {{ _("sur le site de la BnF). Ce module permet d'") }}<em>{{ _('extraire des documents du catalogue Gallica') }}</em> {{ _('à partir de leur ARK, soit au') }} <em>{{ _('format IIIF') }}</em>, {{ _('soit au') }} <em>{{ _('format texte') }}</em> {{ _('lorsque celui-ci est disponible') }}.</p>
 
 <div style="font-size: 0.9em;border:1px solid #263e8d; border-radius: 2px;padding:30px;margin-top: 20px;margin-bottom: 20px;">
 	<p class="how" style="margin-top:0">{{ _('Comment ça marche ') }}?</p>

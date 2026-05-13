@@ -4,7 +4,7 @@
 {% block content %}
 <link rel="stylesheet" href="{{ url_for('static', filename= 'css/elements.css') }}">
 <div class="outil">
-    <div class="fil"><a href="{{ url_for('analyses')}}"><< {{ _('Retour aux tâches') }}</a></div>
+    <div class="fil"><a href="{{ url_for('analyses')}}" style="color:#182F7A; text-decoration:none;"><< {{ _('Retour aux tâches') }}</a></div>
     <div>
     <h2>{{ _('Analyse linguistique') }}</h2>
     <p>{{ _("Cette page permet d'opérer divers types d'analyse linguistique sur un ou plusieurs documents soumis") }}.<br>
@@ -17,7 +17,7 @@
     <p style="margin-top: 0.5em;">{{ _('Le document de sortie contiendra, dans son nom de fichier, les tâches qui auront été effectuées ("lang", "hapax", "ngrams", "dependency").') }} <br> {{ _("Dans le cas de la sélection d''Analyse de dépendances', la sortie contiendra également un fichier SVG (à ouvrir avec votre navigateur), qui permet de visualiser les dépendances qui seront présentes dans le fichier TXT.") }}</p></div>
     
     <br>
-    <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_analyses') }}"  target="_blank">{{ _('Voir la documentation') }}</a></p>
+    <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_analyses') }}"  target="_blank" style="color:#182F7A; text-decoration:none;">{{ _('Voir la documentation') }}</a></p>
     <br>
     <form action="{{ url_for('analyze_linguistic') }}" id="linguistic-form" method="post" enctype="multipart/form-data">
     <input type="hidden" name="download_token" id="download_token" value="">

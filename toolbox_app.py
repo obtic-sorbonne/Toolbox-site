@@ -853,7 +853,7 @@ def extract_urls():
             article = Article(url)
             article.download()
             article.parse()
-            text_content = article.text[:1000]
+            text_content = article.text[:5000]
             
             filename = os.path.join(result_path, f"{url.replace('https://', '').replace('http://', '').replace('/', '_')}.txt")
             with open(filename, 'w', encoding='utf-8') as file:
@@ -2887,7 +2887,6 @@ def quotation():
 
             patterns = [
                 r'"(.*?)"',  # Double quotes ASCII
-                r"'(.*?)'",  # Single quotes ASCII
                 r"`(.*?)`",  # Backticks
 
                 r'«\s*(.*?)\s*»',  # Guillemets français
@@ -3158,7 +3157,7 @@ def analyze_statistic():
                 plt.figure(figsize=(10, 5))
                 plt.imshow(wordcloud, interpolation='bilinear')
                 plt.axis('off')
-                plt.savefig(os.path.join(result_path, filename + '_wordcloud.png'), format='png')
+                plt.savefig(os.path.join(result_path, filename + '_wordcloud_nostopwords.png'), format='png')
                 plt.close()
 
             if 'coocc' in analysis_types:
@@ -3214,7 +3213,14 @@ def analyze_text():
     input_text = [line.strip() for line in input_text if line.strip()]
 
     analysis_type = request.form.getlist('analysis_type')
-    emotion_type = request.form['emotion_type']
+
+    emotion_type = None
+
+    if "emotion_analysis" in analysis_type:
+        emotion_type = request.form.get('emotion_type')
+
+        if not emotion_type:
+            return "emotion_type manquant", 400
 
 
     rand_name = generate_rand_name('textanalysis_')

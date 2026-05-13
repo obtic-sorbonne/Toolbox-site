@@ -4,7 +4,7 @@
 {% block content %}
 <link rel="stylesheet" href="{{ url_for('static', filename= 'css/elements.css') }}">
 <div class="outil">
-    <div class="fil"><a href="{{ url_for('analyses')}}"><< {{ _('Retour aux tâches') }}</a></div>
+    <div class="fil"><a href="{{ url_for('analyses')}}" style="color:#182F7A; text-decoration:none;"><< {{ _('Retour aux tâches') }}</a></div>
     <div>
         <h2>{{ _('Analyse statistique') }}</h2>
     <p>{{ _("Cette page permet d'opérer divers types d'analyses statistiques sur un ou plusieurs documents soumis") }}.<br>
@@ -14,7 +14,7 @@
         <li><hi style="font-weight: bold;">{{ _('Co-occurrences') }} (Option 3)</hi> : {{ _("Fréquence à laquelle deux éléments apparaissent ensemble dans un contexte. Pour exécuter cette tâche, il est important de donner un mot cible, soit l'élément du texte dont on veut évaluer les relations, et une fenêtre de contexte (de 1 à ∞), soit la distance entre le mot cible et ceux dont on veut les relations.") }} <br> {{ _("Le fichier de sortie sera au format texte et se présentera ainsi <i>Co-occurrence of 'mot cible' & 'mot trouvé' --> Nombre d'occurrences</i>") }}</li>
     </ul></p></div>
     <br>
-    <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_analyses') }}"  target="_blank">{{ _('Voir la documentation') }}</a></p>
+    <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_analyses') }}"  target="_blank" style="color:#182F7A; text-decoration:none;">{{ _('Voir la documentation') }}</a></p>
     <br>
     <form action="{{ url_for('analyze_statistic') }}" id="linguistic-form" method="post" enctype="multipart/form-data">
     <input type="hidden" name="download_token" id="download_token" value="">

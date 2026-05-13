@@ -25,18 +25,17 @@
 		font-weight: 500;
 		color:#2B3A67;
 	}
-
 </style>
 
 <div class="outil">
-	<div class="fil"><a href="{{ url_for('corpus_collection')}}"><< {{ _('Retour aux tâches') }}</a></div>
+	<div class="fil"><a href="{{ url_for('corpus_collection')}}" style="color:#182F7A; text-decoration:none;"><< {{ _('Retour aux tâches') }}</a></div>
 <h2>{{ _("Récupération d'URLs") }}</h2>
 <p>{{ _("Utilisation d'outils de scraping Web pour extraire des informations de sites Web accessibles au public") }}.</p>
 
 <div style="font-size: 0.9em;border:1px solid #263e8d; border-radius: 2px;padding:30px;margin-top: 20px;margin-bottom: 20px;">
 	<p class="how" style="margin-top:0">{{ _('Comment ça marche ') }}?</p>
 	<p style="border-left:1px solid #008CBA;padding:5px;margin:8px">{{ _('Exemple') }} :<br><span style="font-family: 'Courier New', Courier, monospace;">https://fr.wikipedia.org/wiki/Paris<br>https://en.wikipedia.org/wiki/Paris</span></p>
-	<p>{{ _("Cela permettra de récupérer les 1000 premiers caractères des pages Wikipédia française et anglaise de Paris") }}.</p>
+	<p>{{ _("Cela permettra de récupérer les 5000 premiers caractères des pages Wikipédia française et anglaise de Paris") }}.</p>
 </div>
 
 <h3>{{ _('Extraction de texte') }}</h3>

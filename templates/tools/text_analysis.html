@@ -4,7 +4,7 @@
 {% block content %}
 <link rel="stylesheet" href="{{ url_for('static', filename= 'css/elements.css') }}">
 <div class="outil">
-    <div class="fil"><a href="{{ url_for('analyses')}}"><< {{ _('Retour aux tâches') }}</a></div>
+    <div class="fil"><a href="{{ url_for('analyses')}}" style="color:#182F7A; text-decoration:none;"><< {{ _('Retour aux tâches') }}</a></div>
     <div>
         <h2>{{ _('Analyse de texte') }}</h2>
     <p>{{ _("Cette page permet d'opérer divers types d'analyses textuelles sur un ou plusieurs documents soumis") }}.<br>
@@ -17,7 +17,7 @@
     </ul></p></div>
     
     <br>
-    <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_analyses') }}"  target="_blank">{{ _('Voir la documentation') }}</a></p>
+    <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_analyses') }}"  target="_blank" style="color:#182F7A; text-decoration:none;">{{ _('Voir la documentation') }}</a></p>
     <br>
     <form action="{{ url_for('analyze_text') }}" id="linguistic-form" method="post" enctype="multipart/form-data" onsubmit="showloader('loader')">
         <div class="relations-input">
@@ -30,11 +30,11 @@
         </div>
         </div>
         <br>
-        <div class="relations-input" id="emotion_type" >
-            <label for="emotion_type">{{ _("Choisir le type de sortie") }} :</label>
+        <div class="relations-input" id="emotion_type_container" style="display:none;">
+            <label>{{ _("Choisir le type de sortie") }} :</label>
             <div id="emotion_type_radio">
-                <label><input type="radio" name="emotion_type" value="analyse1"> {{ _('Score + visualisation') }}</label><br>
-                <label><input type="radio" name="emotion_type" value="analyse2"> {{ _('Visualisation circulaire') }}</label>
+                <label><input type="radio" name="emotion_type" value="analyse1" disabled> {{ _('Score + visualisation') }}</label><br>
+                <label><input type="radio" name="emotion_type" value="analyse2" disabled> {{ _('Visualisation circulaire') }}</label>
             </div>
         </div>
         {{ form.csrf_token }}
@@ -78,15 +78,25 @@ $('form input').change(function () {
         }
     }
 });
-function togglestopwordFields() {
-    const cbStopwords = document.getElementById("cb_emotion");
-    document.getElementById("emotion_type").style.display = 
-        cbStopwords.checked ? "block" : "none";
+
+function toggleEmotionFields() {
+    const cb = document.getElementById("cb_emotion");
+    const container = document.getElementById("emotion_type_container");
+    const radios = document.querySelectorAll('input[name="emotion_type"]');
+
+    const show = cb.checked;
+
+    container.style.display = show ? "block" : "none";
+
+    radios.forEach(r => {
+        r.disabled = !show;
+        if (!show) r.checked = false;
+    });
 }
 
 document.addEventListener("DOMContentLoaded", function() {
-    document.getElementById("cb_emotion").addEventListener("change", togglestopwordFields);
-    togglestopwordFields();
+    document.getElementById("cb_emotion").addEventListener("change", toggleEmotionFields);
+    toggleEmotionFields();
 
     document.getElementById("linguistic-form").addEventListener("submit", function(e) {
         const checked = document.querySelectorAll('input[name="analysis_type"]:checked');

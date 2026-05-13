@@ -70,18 +70,16 @@
   p[style*="margin-top:20px"] {
     flex: 1 1 100%;
   }
-
-
 </style>
 
 
     <div class="outil" id="t3">
-      <div class="fil"><a href="{{ url_for('conversion')}}"><< {{ _('Retour aux tâches') }}</a></div>
+      <div class="fil"><a href="{{ url_for('conversion')}}" style="color:#182F7A; text-decoration:none;"><< {{ _('Retour aux tâches') }}</a></div>
       <h2>{{ _('Conversion XML-TEI') }}</h2>
       <p>{{ _("L'outil ci-dessous permet de transformer un texte brut en format XML-TEI, un format courant en humanitiés numériques") }} {{ _("qui permet d'encoder les textes, en utilisant des balises prédefinies.") }}</p>
       <p>{{ _("Le titre du document, ses informations de publication, sa description bibliographique, ainsi que l'information sur la révision effectuée, son auteur et sa date sont obligatoires pour exécuter l'encodage.") }}</p>
 
-      <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_conversion') }}" target="_blank">{{ _('Voir la documentation') }}</a> / <a href="{{ url_for('tutorial_conversion') }}" target="_blank">{{ _('Voir le tutoriel') }}</a></p>
+      <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_conversion') }}" target="_blank" style="color:#182F7A; text-decoration:none;">{{ _('Voir la documentation') }}</a> / <a href="{{ url_for('tutorial_conversion') }}" target="_blank" style="color:#182F7A; text-decoration:none;">{{ _('Voir le tutoriel') }}</a></p>
 
       <div class="infos_outil" style="display: block;margin: 0 auto 15px auto;">
           <input id="show" type="checkbox"><label for="show" class="infos_title" style="font-weight: normal;"><i class="fa-solid fa-circle-info"></i> {{ _("Informations sur l'outil") }}<i class="fa-solid fa-angle-right" style="float:right;margin-top:5px;margin-left:15px;cursor: pointer;"></i></label>

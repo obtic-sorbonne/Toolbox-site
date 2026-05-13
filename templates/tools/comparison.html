@@ -4,7 +4,7 @@
 {% block content %}
 <link rel="stylesheet" href="{{ url_for('static', filename= 'css/elements.css') }}">
 <div class="outil">
-    <div class="fil"><a href="{{ url_for('analyses')}}"><< {{ _('Retour aux tâches') }}</a></div>
+    <div class="fil"><a href="{{ url_for('analyses')}}" style="color:#182F7A; text-decoration:none;"><< {{ _('Retour aux tâches') }}</a></div>
     <div>
         <h2>{{ _('Comparaison') }}</h2>
     <p>{{ _("Cet outil permet d'observer les différences qui existent entre deux textes donnés. Le fichier de sortie est un HTML (à ouvrir dans son navigateur pour le visualiser)") }}. <br> {{ _("Il contient tout d'abord quatre métriques ") }}:
@@ -16,7 +16,7 @@
 
     <p style="margin-top: 0.5em;">{{ _("La visualisation présente ensuite les deux textes côte à côte, avec des éléments surlignés en couleur pour signifier les changements : le jaune pour les substitutions, le rouge pour les suppressions et le vert pour les insertions") }}.</p></div>
     <br>
-    <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_analyses') }}"  target="_blank">{{ _('Voir la documentation') }}</a></p>
+    <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_analyses') }}"  target="_blank" style="color:#182F7A; text-decoration:none;">{{ _('Voir la documentation') }}</a></p>
     <br>
     <div class="infos_outil" style="display: block;margin: 0 auto 15px auto;">
         <input id="show" type=checkbox><label for="show" class="infos_title"><i class="fa-solid fa-circle-info"></i> {{ _("Informations sur l'outil") }}<i class="fa-solid fa-angle-right" style="float:right;margin-top:5px;margin-left:15px;cursor: pointer;"></i></label>

@@ -28,7 +28,7 @@
 </style>
 <!-- CREATION CORPUS -->
   <div class="outil">
-    <div class="fil"><a href="{{ url_for('preprocessing')}}"><< {{ _('Retour aux tâches') }}</a></div>
+    <div class="fil"><a href="{{ url_for('preprocessing')}}" style="color:#182F7A; text-decoration:none;"><< {{ _('Retour aux tâches') }}</a></div>
       <h2>{{ _("Correction d'erreurs") }}</h2>
       <p>{{ _("Cet outil permet de faire de la correction orthographique, mais aussi d'aider dans les erreurs de conjugaison, grammaticales, etc") }}.</p>
       <p>{{ _("Deux types de sortie sont possibles pour l'outil de correction d'erreurs :") }}
@@ -36,7 +36,7 @@
       <li>{{ _("<strong>Case non cochée</strong> : les corrections effectuées par l'outil apparaitront ainsi **correction**, afin de pouvoir observer comment les éléments ont été changés. Il vous sera donc possible de vérifier la correction, manuellement ou en utilisant, par exemple, notre outil 'Comparaison' et de changer si nécessaire. Par la suite, vous pourrez enlever ces marques dans l'outil 'Nettoyage de texte'.") }}</li>
       <li>{{ _("<strong>Case cochée</strong> : les corrections effectuées ne seront pas visibles dans la version de sortie, ce qui permet une utilisation directe du fichier ensuite, avec cependant une correction non vérifiée.") }}</li></p>
       <br>
-      <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_preprocessing') }}"  target="_blank">{{ _('Voir la documentation') }}</a></p>
+      <p style="text-align: center;padding:20px"><a href="{{ url_for('documentation_preprocessing') }}"  target="_blank" style="color:#182F7A; text-decoration:none;">{{ _('Voir la documentation') }}</a></p>
       <div class="infos_outil" style="display: block;margin: 0 auto 15px auto;">
         <input id="show" type=checkbox><label for="show" class="infos_title"><i class="fa-solid fa-circle-info"></i> {{ _("Informations sur l'outil") }}<i class="fa-solid fa-angle-right" style="float:right;margin-top:5px;margin-left:15px;cursor: pointer;"></i></label>
         <div class="info_popped">
@@ -54,15 +54,15 @@
         <div class="relations-input">
         <label for="selected_language">{{ _('Modèle') }}</label>
         <select name="selected_language" class="sel sel--black-panther">
-            <option disabled>--- {{ _('Europe') }} ---</option>
-            <option value="cs">{{ _('Tchèque') }} (cs)</option>
-            <option value="da">{{ _('Danois') }} (da)</option>
+            <!-- <option disabled>--- {{ _('Europe') }} ---</option>  -->
+            <!-- <option value="cs">{{ _('Tchèque') }} (cs)</option> -->
+            <!-- <option value="da">{{ _('Danois') }} (da)</option> -->
             <option value="de">{{ _('Allemand') }} (de)</option>
-            <option value="el">{{ _('Grec') }} (el)</option>
+            <!-- <option value="el">{{ _('Grec') }} (el)</option> -->
             <option value="en">{{ _('Anglais') }} (en)</option>
             <option value="fr" selected>{{ _('Français') }} (fr)</option>
-            <option value="hr">{{ _('Croate') }} (hr)</option>
-            <option value="hu">{{ _('Hongrois') }} (hu)</option>
+            <!-- <option value="hr">{{ _('Croate') }} (hr)</option> -->
+            <!-- <option value="hu">{{ _('Hongrois') }} (hu)</option> -->
             <option value="it">{{ _('Italien') }} (it)</option>
             <option value="nl">{{ _('Néerlandais') }} (nl)</option>
             <option value="pl">{{ _('Polonais') }} (pl)</option>
@@ -70,7 +70,7 @@
             <option value="ru">{{ _('Russe') }} (ru)</option>
             <option value="es">{{ _('Espagnol') }} (es)</option>
             <option value="sv">{{ _('Suédois') }} (sv)</option>
-            <option disabled>--- {{ _('Moyen-Orient et Asie centrale') }} ---</option>
+            <!-- <option disabled>--- {{ _('Moyen-Orient et Asie centrale') }} ---</option>
             <option value="ar">{{ _('Arabe') }} (ar)</option>
             <option value="tr">{{ _('Turc') }} (tr)</option>
             <option disabled>--- {{ _('Asie du Sud et Sud-Est') }} ---</option>
@@ -79,7 +79,7 @@
             <option value="zh-CN">{{ _('Chinois simplifié') }} (zh-CN)</option>
             <option value="zh-TW">{{ _('Chinois traditionnel') }} (zh-TW)</option>
             <option value="ja">{{ _('Japonais') }} (ja)</option>
-            <option value="ko">{{ _('Coréen') }} (ko)</option>
+            <option value="ko">{{ _('Coréen') }} (ko)</option> -->
         </select>
       </div>
         <div style="margin: 2em;">

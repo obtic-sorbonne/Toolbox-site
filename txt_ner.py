@@ -4,6 +4,18 @@
 
 """
 
+import torch
+
+_original_torch_load = torch.load
+
+def patched_torch_load(*args, **kwargs):
+
+    kwargs.setdefault("weights_only", False)
+
+    return _original_torch_load(*args, **kwargs)
+
+torch.load = patched_torch_load
+
 import pathlib
 import functools
 from io import BytesIO
